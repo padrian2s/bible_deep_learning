@@ -684,15 +684,15 @@ body {
     bottom: 20px;
     right: 20px;
     z-index: 1001;
-    background: var(--bg-card);
-    border: 2px solid var(--primary);
-    color: var(--text-primary);
-    width: 50px;
-    height: 50px;
+    background: var(--primary);
+    border: none;
+    color: white;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 1.4rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     transition: all 0.3s ease;
 }
 
@@ -860,6 +860,9 @@ body {
     padding: 15px;
     border-top: 1px solid var(--border);
     margin-top: 10px;
+    position: sticky;
+    bottom: 0;
+    background: var(--bg-card);
 }
 
 .theme-switcher-label {
@@ -881,7 +884,8 @@ body {
     padding: 10px 8px;
     border: 2px solid var(--border);
     border-radius: 10px;
-    background: var(--bg-dark);
+    background: var(--bg-card);
+    color: var(--text-primary);
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
