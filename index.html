@@ -10,6 +10,28 @@
     <!-- Mobile Menu Toggle -->
     <button class="menu-toggle" onclick="toggleNav()">☰</button>
 
+    <!-- Mobile Theme Toggle -->
+    <button class="mobile-theme-toggle" onclick="toggleMobileTheme()">🎨</button>
+    <div class="mobile-theme-popup" id="mobileThemePopup">
+        <div class="theme-options">
+            <button class="theme-btn active" data-theme="midnight" onclick="setTheme('midnight'); closeMobileTheme();">
+                <span class="theme-btn-icon">🌙</span>
+                <span class="theme-btn-name">Midnight</span>
+                <div class="theme-preview"><span></span><span></span></div>
+            </button>
+            <button class="theme-btn" data-theme="sepia" onclick="setTheme('sepia'); closeMobileTheme();">
+                <span class="theme-btn-icon">📜</span>
+                <span class="theme-btn-name">Sepia</span>
+                <div class="theme-preview"><span></span><span></span></div>
+            </button>
+            <button class="theme-btn" data-theme="ocean" onclick="setTheme('ocean'); closeMobileTheme();">
+                <span class="theme-btn-icon">🌊</span>
+                <span class="theme-btn-name">Ocean</span>
+                <div class="theme-preview"><span></span><span></span></div>
+            </button>
+        </div>
+    </div>
+
     <!-- Progress Bar -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
@@ -904,6 +926,28 @@
                     <div class="nav-item"><a href="#page-515" class="nav-link">Pag. 515 - Figura 13.3</a></div>
                     <div class="nav-item"><a href="#page-516" class="nav-link">Pag. 516 - Concluzie Cap. 13</a></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Theme Switcher -->
+        <div class="theme-switcher">
+            <span class="theme-switcher-label">🎨 Tema culori</span>
+            <div class="theme-options">
+                <button class="theme-btn active" data-theme="midnight" onclick="setTheme('midnight')">
+                    <span class="theme-btn-icon">🌙</span>
+                    <span class="theme-btn-name">Midnight</span>
+                    <div class="theme-preview"><span></span><span></span></div>
+                </button>
+                <button class="theme-btn" data-theme="sepia" onclick="setTheme('sepia')">
+                    <span class="theme-btn-icon">📜</span>
+                    <span class="theme-btn-name">Sepia</span>
+                    <div class="theme-preview"><span></span><span></span></div>
+                </button>
+                <button class="theme-btn" data-theme="ocean" onclick="setTheme('ocean')">
+                    <span class="theme-btn-icon">🌊</span>
+                    <span class="theme-btn-name">Ocean</span>
+                    <div class="theme-preview"><span></span><span></span></div>
+                </button>
             </div>
         </div>
     </nav>

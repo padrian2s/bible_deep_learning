@@ -76,6 +76,50 @@ const PageLoader = {
 };
 
 // ==========================================
+// THEME SWITCHER
+// ==========================================
+
+function setTheme(themeName) {
+    // Set theme on document
+    document.documentElement.setAttribute('data-theme', themeName);
+
+    // Update active button
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.theme === themeName) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Save to localStorage
+    localStorage.setItem('preferred-theme', themeName);
+}
+
+function loadSavedTheme() {
+    const savedTheme = localStorage.getItem('preferred-theme') || 'midnight';
+    setTheme(savedTheme);
+}
+
+function toggleMobileTheme() {
+    const popup = document.getElementById('mobileThemePopup');
+    popup.classList.toggle('open');
+}
+
+function closeMobileTheme() {
+    const popup = document.getElementById('mobileThemePopup');
+    popup.classList.remove('open');
+}
+
+// Close mobile theme popup when clicking outside
+document.addEventListener('click', (e) => {
+    const popup = document.getElementById('mobileThemePopup');
+    const toggleBtn = document.querySelector('.mobile-theme-toggle');
+    if (popup && !popup.contains(e.target) && !toggleBtn.contains(e.target)) {
+        popup.classList.remove('open');
+    }
+});
+
+// ==========================================
 // NAVIGATION
 // ==========================================
 
@@ -426,6 +470,7 @@ document.addEventListener('click', (e) => {
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadSavedTheme();
     initSmoothScroll();
     initActiveNavigation();
 

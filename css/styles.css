@@ -7,19 +7,73 @@
     box-sizing: border-box;
 }
 
-:root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --secondary: #7c3aed;
-    --accent: #06b6d4;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --bg-dark: #0f172a;
-    --bg-card: #1e293b;
-    --bg-lighter: #334155;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --border: #475569;
+/* Theme: Midnight (Default) - Soft blue, easy on eyes */
+:root, [data-theme="midnight"] {
+    --primary: #6b8cce;
+    --primary-dark: #5a7ab8;
+    --primary-rgb: 107, 140, 206;
+    --secondary: #9b8ac4;
+    --secondary-rgb: 155, 138, 196;
+    --accent: #7cb5b5;
+    --accent-rgb: 124, 181, 181;
+    --success: #7dab8e;
+    --success-rgb: 125, 171, 142;
+    --warning: #c9a66b;
+    --warning-rgb: 201, 166, 107;
+    --bg-dark: #1a1d24;
+    --bg-card: #242830;
+    --bg-lighter: #2e333d;
+    --text-primary: #d4d7dd;
+    --text-secondary: #8b909a;
+    --border: #3d424d;
+    --theme-name: "Midnight";
+    --theme-icon: "🌙";
+}
+
+/* Theme: Sepia - Warm paper tones, comfortable reading */
+[data-theme="sepia"] {
+    --primary: #a67c52;
+    --primary-dark: #8b6544;
+    --primary-rgb: 166, 124, 82;
+    --secondary: #917860;
+    --secondary-rgb: 145, 120, 96;
+    --accent: #7a9e7e;
+    --accent-rgb: 122, 158, 126;
+    --success: #7a9e7e;
+    --success-rgb: 122, 158, 126;
+    --warning: #c4956a;
+    --warning-rgb: 196, 149, 106;
+    --bg-dark: #2b2520;
+    --bg-card: #36302a;
+    --bg-lighter: #443d35;
+    --text-primary: #d5cec4;
+    --text-secondary: #a39a8e;
+    --border: #524a40;
+    --theme-name: "Sepia";
+    --theme-icon: "📜";
+}
+
+/* Theme: Ocean - Soft teal, calming */
+[data-theme="ocean"] {
+    --primary: #5e9ea0;
+    --primary-dark: #4d8587;
+    --primary-rgb: 94, 158, 160;
+    --secondary: #7b98a6;
+    --secondary-rgb: 123, 152, 166;
+    --accent: #8fb5a2;
+    --accent-rgb: 143, 181, 162;
+    --success: #8fb5a2;
+    --success-rgb: 143, 181, 162;
+    --warning: #c9b07a;
+    --warning-rgb: 201, 176, 122;
+    --bg-dark: #1c2426;
+    --bg-card: #252e31;
+    --bg-lighter: #30393d;
+    --text-primary: #cdd5d6;
+    --text-secondary: #8a9496;
+    --border: #3d474a;
+    --theme-name: "Ocean";
+    --theme-icon: "🌊";
 }
 
 body {
@@ -623,6 +677,71 @@ body {
     font-size: 1.5rem;
 }
 
+/* Mobile Theme Toggle Button */
+.mobile-theme-toggle {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    color: var(--text-primary);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.mobile-theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.4);
+}
+
+/* Mobile Theme Popup */
+.mobile-theme-popup {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 1002;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    min-width: 200px;
+}
+
+.mobile-theme-popup.open {
+    display: block;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-theme-popup .theme-options {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mobile-theme-popup .theme-btn {
+    flex-direction: row;
+    padding: 12px 15px;
+    gap: 12px;
+}
+
+.mobile-theme-popup .theme-preview {
+    margin-top: 0;
+    margin-left: auto;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .nav-sidebar {
@@ -643,6 +762,16 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .mobile-theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .theme-switcher {
+        display: none;
     }
 
     .progress-container {
@@ -724,6 +853,102 @@ body {
 /* Pages Container */
 #pages-container {
     min-height: 200px;
+}
+
+/* Theme Switcher */
+.theme-switcher {
+    padding: 15px;
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+}
+
+.theme-switcher-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.theme-options {
+    display: flex;
+    gap: 8px;
+}
+
+.theme-btn {
+    flex: 1;
+    padding: 10px 8px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.theme-btn:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.theme-btn.active {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.2), rgba(var(--secondary-rgb), 0.2));
+    box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.3);
+}
+
+.theme-btn-icon {
+    font-size: 1.2rem;
+}
+
+.theme-btn-name {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.theme-btn.active .theme-btn-name {
+    color: var(--text-primary);
+}
+
+/* Theme color previews */
+.theme-btn[data-theme="midnight"] {
+    --preview-1: #6b8cce;
+    --preview-2: #9b8ac4;
+}
+
+.theme-btn[data-theme="sepia"] {
+    --preview-1: #a67c52;
+    --preview-2: #917860;
+}
+
+.theme-btn[data-theme="ocean"] {
+    --preview-1: #5e9ea0;
+    --preview-2: #7b98a6;
+}
+
+.theme-preview {
+    display: flex;
+    gap: 3px;
+    margin-top: 4px;
+}
+
+.theme-preview span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.theme-preview span:first-child {
+    background: var(--preview-1);
+}
+
+.theme-preview span:last-child {
+    background: var(--preview-2);
 }
 
 /* Accent Boxes - Gradient glow variants */
