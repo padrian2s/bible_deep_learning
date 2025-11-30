@@ -1,0 +1,227 @@
+<section class="page-section" id="page-435">
+    <div class="page-header">
+        <div class="page-number">435</div>
+        <div class="page-title">
+            <h3>Attention Mechanism si Concluzia Capitolului</h3>
+            <span>De la Memory Networks la Transformers</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-435.jpg"
+             alt="Pagina 435" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Attention = Memory Addressing</h4>
+                <p>Mecanismul de adresare a memoriei din NTM este <strong>identic</strong> cu <strong>mecanismul de atentie</strong> introdus pentru traducere automata (Bahdanau et al., 2015)! Aceasta conexiune a dus la Transformers si revolutia moderna in NLP.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Evolutia Attention</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 15px;">
+                                    <span style="font-size: 1.5rem;">2013</span>
+                                    <div>
+                                        <strong>Graves - Handwriting Generation</strong>
+                                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 3px;">Prima atentie pentru secvente (forward only)</p>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 15px;">
+                                    <span style="font-size: 1.5rem;">2014</span>
+                                    <div>
+                                        <strong>Graves - Neural Turing Machines</strong>
+                                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 3px;">Soft attention pentru memorie externa</p>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 15px;">
+                                    <span style="font-size: 1.5rem;">2015</span>
+                                    <div>
+                                        <strong>Bahdanau - Attention for Translation</strong>
+                                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 3px;">Atentie poate sari la orice pozitie in input!</p>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 15px; border: 2px solid var(--accent);">
+                                    <span style="font-size: 1.5rem;">2017</span>
+                                    <div>
+                                        <strong style="color: var(--accent);">Vaswani - Transformer</strong>
+                                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 3px;">"Attention Is All You Need" - elimina RNN complet!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Insight crucial:</h5>
+                                <p>Memory networks si attention pentru traducere sunt <strong>acelasi mecanism</strong> - citire ponderata dintr-un set de vectori bazata pe relevanta!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Diferente in Attention Behavior</h4>
+                <p>In handwriting generation (Graves 2013), atentia se misca doar <strong>inainte</strong> in secventa. In traducere si memory networks, atentia poate <strong>sari</strong> la orice pozitie - focus-ul la pasul t poate fi complet diferit de pasul t-1.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Tipuri de Attention Movement</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Monotonic Attention</strong>
+                                    <div style="font-family: monospace; margin: 10px 0; font-size: 0.85rem; text-align: center;">
+                                        a<sub>1</sub> → a<sub>2</sub> → a<sub>3</sub> → a<sub>4</sub> → ...
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Handwriting: atentia avanseaza mereu (scrii litera cu litera)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Free Attention</strong>
+                                    <div style="font-family: monospace; margin: 10px 0; font-size: 0.85rem; text-align: center;">
+                                        a<sub>5</sub> → a<sub>1</sub> → a<sub>8</sub> → a<sub>3</sub> → ...
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Translation: atentia sare liber (reordonare cuvinte)</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                In Transformer, <strong>self-attention</strong> permite fiecarei pozitii sa atenda la toate celelalte simultan - paralelizare masiva!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Concluzia Capitolului 10</h4>
+                <p><strong>Recurrent neural networks</strong> extind deep learning la date <strong>secventiale</strong>. Sunt ultima unealta majora din toolbox-ul deep learning. Urmatoarele capitole vor discuta cum sa alegem si sa aplicam aceste unelte la probleme reale!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Recapitulare Chapter 10</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 10px 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong>10.1-10.2:</strong> <span style="color: var(--text-secondary);">Unfolding graphs, parameter sharing</span>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 10px 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong>10.3-10.5:</strong> <span style="color: var(--text-secondary);">Arhitecturi RNN, Encoder-Decoder, Bidirectional</span>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 10px 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong>10.6-10.7:</strong> <span style="color: var(--text-secondary);">Recursive nets, Long-term dependencies problem</span>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 10px 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong>10.8-10.10:</strong> <span style="color: var(--text-secondary);">Echo State, Leaky Units, LSTM, GRU</span>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 10px 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong>10.11-10.12:</strong> <span style="color: var(--text-secondary);">Gradient clipping, Explicit Memory, NTM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ce urmeaza?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Toolbox-ul Deep Learning e complet!</h5>
+                                <p>Acum avem: feedforward nets, CNNs, RNNs, attention. Urmatoarele capitole: aplicatii practice, regularizare avansata, generative models.</p>
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <strong>Modern Update (post-2017):</strong>
+                                <p style="color: var(--text-secondary); margin-top: 8px; font-size: 0.9rem;">
+                                    Transformers au inlocuit RNN-urile in multe aplicatii (NLP, vision), dar conceptele din acest capitol (attention, memory, gating) raman fundamentale!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Key Takeaways - Chapter 10</h4>
+                <p>Cele mai importante concepte pentru practica: <strong>LSTM/GRU</strong> pentru secvente, <strong>attention</strong> pentru aliniament si focus, <strong>gradient clipping</strong> pentru stabilitate, <strong>bidirectional</strong> pentru context complet.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cheat Sheet Practic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre># Chapter 10 in PyTorch - tot ce trebuie sa stii
+
+import torch.nn as nn
+
+# 1. Basic LSTM pentru secvente
+lstm = nn.LSTM(input_size=128, hidden_size=256,
+               num_layers=2, bidirectional=True,
+               dropout=0.3, batch_first=True)
+
+# 2. GRU - mai simplu, comparabil performance
+gru = nn.GRU(input_size=128, hidden_size=256,
+             num_layers=2, batch_first=True)
+
+# 3. Gradient clipping - ALWAYS use!
+torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
+
+# 4. Attention pentru Seq2Seq
+class Attention(nn.Module):
+    def __init__(self, hidden_size):
+        super().__init__()
+        self.attn = nn.Linear(hidden_size * 2, hidden_size)
+        self.v = nn.Linear(hidden_size, 1, bias=False)
+
+    def forward(self, hidden, encoder_outputs):
+        # hidden: [batch, hidden]
+        # encoder_outputs: [batch, seq_len, hidden]
+        seq_len = encoder_outputs.size(1)
+        hidden = hidden.unsqueeze(1).repeat(1, seq_len, 1)
+        energy = torch.tanh(self.attn(
+            torch.cat([hidden, encoder_outputs], dim=2)))
+        attention = F.softmax(self.v(energy).squeeze(2), dim=1)
+        context = torch.bmm(attention.unsqueeze(1), encoder_outputs)
+        return context, attention
+
+# 5. Transformer - the modern way
+transformer = nn.Transformer(d_model=512, nhead=8,
+                             num_encoder_layers=6,
+                             num_decoder_layers=6)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

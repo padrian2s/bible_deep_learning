@@ -1,0 +1,130 @@
+<section class="page-section" id="page-139">
+    <div class="page-header">
+        <div class="page-number">139</div>
+        <div class="page-title">
+            <h3>Point Estimator si Function Estimation</h3>
+            <span>Capitolul 5 - Sectiunea 5.4.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-139.jpg"
+             alt="Pagina 139" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Point Estimator (Statistica)</h4>
+                <p>Un <strong>point estimator</strong> sau <strong>statistica</strong> este orice functie a datelor. Formal, daca avem m puncte de date i.i.d.:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    θ̂<sub>m</sub> = g(x<sup>(1)</sup>, ..., x<sup>(m)</sup>)
+                </div>
+                <p>Definitia nu cere ca g sa returneze o valoare apropiata de θ adevarat. Flexibilitatea permite designerului sa aleaga orice estimator. Un estimator <strong>bun</strong> este unul al carui output este apropiat de θ adevarat care a generat datele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Perspectiva Frequentist</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>In perspectiva <strong>frequentist</strong>:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>θ adevarat este <strong>fix</strong> dar necunoscut</li>
+                                    <li>θ̂ este o <strong>variabila aleatoare</strong> (depinde de datele random)</li>
+                                    <li>Datele sunt trase dintr-un proces aleator</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Function Estimation</h4>
+                <p>Uneori suntem interesati de <strong>function estimation</strong> (function approximation). Vrem sa prezicem y dat fiind x. Presupunem ca exista o functie f(x) care descrie relatia aproximativa, cu y = f(x) + ε. In function estimation, estimam <strong>functia</strong> f̂. Este la fel ca estimarea parametrilor; estimatorul de functii f̂ este un point estimator in spatiul functiilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Function Estimation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Functia adevarata (necunoscuta)
+def f_true(x):
+    return 2*x + 1
+
+# Date observate
+np.random.seed(42)
+X = np.random.uniform(0, 10, 20).reshape(-1, 1)
+y = f_true(X.flatten()) + np.random.randn(20) * 0.5
+
+# Estimam f cu regresie liniara
+model = LinearRegression()
+model.fit(X, y)
+
+# f_hat este estimatul nostru al functiei f
+def f_hat(x):
+    return model.predict(np.array([[x]]))[0]
+
+print("Functia adevarata: f(x) = 2x + 1")
+print(f"Functia estimata:  f̂(x) = {model.coef_[0]:.2f}x + {model.intercept_:.2f}")
+print()
+print("Comparatie:")
+for x in [0, 5, 10]:
+    print(f"  x={x}: f(x)={f_true(x):.1f}, f̂(x)={f_hat(x):.1f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.4.2 Bias</h4>
+                <p><strong>Bias-ul</strong> unui estimator este definit ca:</p>
+                <div class="formula" style="text-align: center; font-size: 1.4rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    bias(θ̂<sub>m</sub>) = E[θ̂<sub>m</sub>] - θ
+                </div>
+                <p>unde expectatia E este peste datele (vazute ca esantioane dintr-o variabila aleatoare), iar θ este valoarea adevarata care defineste distributia generatoare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Bias Intuitiv</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; text-align: center;">
+                                <div style="background: var(--success); padding: 20px; border-radius: 8px;">
+                                    <strong>Unbiased (bias = 0)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">E[θ̂] = θ</p>
+                                    <p style="font-size: 0.9rem;">Media estimatelor = valoarea adevarata</p>
+                                </div>
+                                <div style="background: var(--warning); padding: 20px; border-radius: 8px;">
+                                    <strong>Biased (bias ≠ 0)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">E[θ̂] ≠ θ</p>
+                                    <p style="font-size: 0.9rem;">Estimatele sunt sistematic deplasate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

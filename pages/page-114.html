@@ -1,0 +1,135 @@
+<section class="page-section" id="page-114">
+    <div class="page-header">
+        <div class="page-number">114</div>
+        <div class="page-title">
+            <h3>Algoritmi de Invatare si Task-ul</h3>
+            <span>Capitolul 5 - Sectiunea 5.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-114.jpg"
+             alt="Pagina 114" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.1 Learning Algorithms - Definitia lui Mitchell</h4>
+                <p>Un algoritm de machine learning este un algoritm care poate invata din date. Dar ce inseamna "a invata"? Mitchell (1997) ofera definitia: <em>"Un program invata din experienta E in raport cu o clasa de task-uri T si o masura de performanta P, daca performanta sa la task-urile din T, masurata prin P, se imbunatateste cu experienta E."</em> Aceasta carte ofera descrieri intuitive ale task-urilor, masurilor de performanta si experientelor care pot fi folosite pentru a construi algoritmi ML.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: T, P, E in practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Exemplu concret: Clasificare de imagini
+
+# T (Task): Clasificarea imaginilor in categorii
+task = "Clasificare: imagine -> eticheta (pisica/caine)"
+
+# P (Performance): Acuratetea pe date de test
+def performance(predictions, true_labels):
+    correct = sum(p == t for p, t in zip(predictions, true_labels))
+    return correct / len(true_labels)
+
+# E (Experience): Dataset de antrenament
+experience = {
+    'images': ['img1.jpg', 'img2.jpg', ...],
+    'labels': ['pisica', 'caine', ...]
+}
+
+# INVATARE = imbunatatirea lui P prin E
+from sklearn.neural_network import MLPClassifier
+
+model = MLPClassifier()
+
+# Inainte de invatare
+accuracy_before = 0.5  # Random guessing
+
+# Dupa invatare din experienta
+model.fit(experience['images'], experience['labels'])
+accuracy_after = 0.95  # Performanta imbunatatita!
+
+print(f"Performanta s-a imbunatatit: {accuracy_before} -> {accuracy_after}")
+print("=> Modelul a INVATAT!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta: Tom Mitchell</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-item">
+                                <strong>Mitchell (1997)</strong> - "Machine Learning" - Una dintre primele carti fundamentale in domeniu. Definitia lui Mitchell este folosita pe scara larga pentru a formaliza ce inseamna "invatare" pentru un algoritm.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.1.1 The Task, T</h4>
+                <p>Machine learning ne permite sa rezolvam task-uri prea dificile pentru a fi rezolvate cu programe fixe scrise de oameni. Din punct de vedere stiintific si filosofic, ML este interesant pentru ca dezvoltarea intelegerii noastre implica dezvoltarea principiilor care stau la baza inteligentei. In aceasta definitie, <strong>procesul de invatare nu este task-ul in sine</strong>. Task-ul este abilitatea pe care vrem sa o dobandim. De exemplu, daca vrem ca un robot sa mearga, mersul este task-ul - invatarea este mijlocul de a obtine aceasta abilitate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Task vs Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; gap: 20px; align-items: center; justify-content: center;">
+                                <div style="background: var(--primary); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong>TASK</strong>
+                                    <p style="font-size: 0.9rem;">Ce vrem sa faca</p>
+                                    <p style="font-size: 1.5rem;">🎯</p>
+                                </div>
+                                <div style="font-size: 2rem;">≠</div>
+                                <div style="background: var(--secondary); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong>LEARNING</strong>
+                                    <p style="font-size: 0.9rem;">Cum dobandeste abilitatea</p>
+                                    <p style="font-size: 1.5rem;">📚</p>
+                                </div>
+                            </div>
+                            <p style="text-align: center; margin-top: 15px; color: var(--text-secondary);">Invatarea este PROCESUL, Task-ul este SCOPUL</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemple si Features</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Reprezentarea datelor in ML</h5>
+                                <p>Task-urile ML sunt descrise in termeni de cum sistemul proceseaza un <strong>exemplu</strong>. Un exemplu este o colectie de <strong>features</strong> (caracteristici) masurate cantitativ din obiectul sau evenimentul procesat.</p>
+                                <div class="formula" style="margin-top: 15px; text-align: center;">
+                                    <p>Reprezentam un exemplu ca vector:</p>
+                                    <p style="font-size: 1.3rem;">x ∈ ℝⁿ</p>
+                                    <p style="color: var(--text-secondary);">unde fiecare x<sub>i</sub> este o caracteristica</p>
+                                </div>
+                                <p style="margin-top: 10px;"><strong>Exemplu:</strong> Pentru o imagine, features pot fi valorile pixelilor.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

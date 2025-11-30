@@ -1,0 +1,144 @@
+<section class="page-section" id="page-202">
+    <div class="page-header">
+        <div class="page-number">202</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2.3-4 Overparametrization si Alte Tipuri de Output</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-202.jpg"
+             alt="Pagina 202" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Overparametrizarea Softmax</h4>
+                <p>Argumentul z pentru softmax poate fi produs in mai multe moduri. Cel mai comun este ca un strat anterior sa outputeze fiecare element de z: z = Wᵀh + b. Desi simpla, aceasta abordare supraparametrizeaza distributia. Constrangerea ca cele n outputuri sa sumeze la 1 inseamna ca doar n-1 parametri sunt necesari.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>n vs n-1 Parametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Versiunea standard (overparametrized)
+# 3 clase → 3 logits
+z_over = torch.tensor([2.0, 1.0, 0.5])
+print(F.softmax(z_over, dim=0))
+
+# Versiunea restricted (n-1 parametri)
+# 3 clase → 2 logits, al 3-lea fixat la 0
+z_restrict = torch.tensor([2.0, 1.0, 0.0])  # z_n = 0
+print(F.softmax(z_restrict, dim=0))
+
+# Sunt ECHIVALENTE matematic!
+# softmax([a, b, c]) = softmax([a-c, b-c, 0])
+
+# De ce folosim totusi versiunea overparametrized?
+# - Implementare mai simpla
+# - Dinamica de invatare usor diferita
+# - In practica, functioneaza la fel de bine
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">Similar, sigmoid pentru clasificare binara: putem folosi 1 logit (σ(z)) sau 2 logits cu softmax. Rezultatul e identic!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Softmax ca "Winner-Take-All"</h4>
+                <p>Din perspectiva neuro-stiintifica, este interesant sa gandim softmax ca un mod de a crea competitie intre unitatile care participa: output-urile softmax sumeaza intotdeauna la 1, deci o crestere in valoarea unei unitati corespunde necesar cu o scadere in valoarea altora. La extreme, devine o forma de "winner-take-all" - un output ≈ 1, restul ≈ 0.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analogie: Inhibitie Laterala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;">Softmax seamana cu inhibitia laterala din cortex - neuronii vecini se suprima reciproc:</p>
+                                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem; opacity: 0.3;">○</div>
+                                        <div style="font-size: 0.8rem;">0.05</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem; opacity: 0.3;">○</div>
+                                        <div style="font-size: 0.8rem;">0.02</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2.5rem; color: var(--success);">●</div>
+                                        <div style="font-size: 0.8rem; color: var(--success);">0.85</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem; opacity: 0.3;">○</div>
+                                        <div style="font-size: 0.8rem;">0.05</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem; opacity: 0.3;">○</div>
+                                        <div style="font-size: 0.8rem;">0.03</div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center; color: var(--accent);">"Castigatorul ia tot" - o clasa dominanta, restul suprimate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.2.2.4 Alte Tipuri de Output</h4>
+                <p>Unitatile linear, sigmoid si softmax descrise mai sus sunt cele mai comune. Retelele neuronale pot fi generalizate la aproape orice tip de strat de output dorit. Principiul maximum likelihood ofera un ghid pentru design: daca vrem sa outputam parametrii unei distributii, derivam loss-ul din log-likelihood-ul negativ al acelei distributii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Output-uri Specializate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📊</span>
+                                    <div><strong>Gaussian cu varianta invatata</strong> - outputeaza si media si varianta pentru regresie heteroscedastica</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🎯</span>
+                                    <div><strong>Mixture of Gaussians</strong> - pentru distributii multimodale (ex: predictia pozitiei)</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📈</span>
+                                    <div><strong>Beta distribution</strong> - pentru output-uri in (0, 1) continue</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🔢</span>
+                                    <div><strong>Poisson</strong> - pentru count data (numere intregi non-negative)</div>
+                                </li>
+                            </ul>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">Principiul e acelasi: defineste distributia, deriveaza -log p(y|x) ca loss!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

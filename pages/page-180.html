@@ -1,0 +1,114 @@
+<section class="page-section" id="page-180">
+    <div class="page-header">
+        <div class="page-number">180</div>
+        <div class="page-title">
+            <h3>Face Manifold - Figura 5.13</h3>
+            <span>Capitolul 5 - QMUL Multiview Face Dataset</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-180.jpg"
+             alt="Pagina 180" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.13: QMUL Multiview Face Dataset</h4>
+                <p>Training examples din <strong>QMUL Multiview Face Dataset</strong> (Gong et al. 2000). Subiectii au fost rugati sa se miste astfel incat sa acopere un <strong>manifold bi-dimensional</strong> corespunzand celor doua unghiuri de rotatie ale capului. Am vrea ca algoritmii de learning sa poata <strong>descoperi si disentangle</strong> astfel de coordonate de manifold. Figura 20.6 ilustreaza un astfel de feat!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: 2D Face Manifold</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Structura Manifold-ului</h5>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-top: 15px;">
+                                    <p><strong>Dimensiunea imaginii:</strong> ~10,000+ pixeli (high-dimensional)</p>
+                                    <p style="margin-top: 10px;"><strong>Dimensiunea manifold-ului:</strong> 2 (doua unghiuri de rotatie)</p>
+                                    <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                            <strong>Axa 1:</strong>
+                                            <p style="font-size: 0.9rem;">Rotatie stanga-dreapta</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                            <strong>Axa 2:</strong>
+                                            <p style="font-size: 0.9rem;">Rotatie sus-jos</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; color: var(--text-secondary);">Imaginile din grid sunt aranjate dupa cele doua coordonate de manifold - subiectul priveste in directii diferite.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta Dataset</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-item">
+                                <strong>Gong et al. (2000)</strong> - QMUL Multiview Face Dataset. Un dataset controlat pentru studiul variatiilor de pose in recunoasterea faciala.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Scopul Manifold Learning</h4>
+                <p>Scopul algoritmilor de <strong>manifold learning</strong> este sa descopere automat aceste coordonate naturale din date, fara supervizare explicita. In loc sa reprezentam o imagine ca un vector de pixeli, vrem sa o reprezentam ca <strong>pozitia pe manifold</strong> - de exemplu, prin cele doua unghiuri de rotatie. Aceasta reprezentare este mult mai compacta si mai utila pentru downstream tasks!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Disentanglement Goal</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Ce vrem sa obtinem din manifold learning:
+
+# INPUT: Imagine de fata (ex: 100x100 = 10,000 pixeli)
+# image_vector = [p1, p2, ..., p10000]
+
+# OUTPUT DORIT: Coordonate de manifold
+# manifold_coords = [angle_horizontal, angle_vertical]
+#                 = [30°, -15°]
+
+print("Reprezentare Pixel Space:")
+print("  Dimensiuni: 10,000")
+print("  Greu de interpretat")
+print("  Redundant (multi pixeli se schimba impreuna)")
+print()
+
+print("Reprezentare Manifold:")
+print("  Dimensiuni: 2")
+print("  Interpretabil (unghiuri de rotatie)")
+print("  Disentangled (fiecare dim = un factor)")
+print()
+
+print("=> Deep learning poate invata aceasta")
+print("   transformare automat din date!")
+print()
+print("Figura 20.6 va arata cum autoencoders")
+print("reusesc sa disentangle acesti factori.")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

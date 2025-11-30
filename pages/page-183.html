@@ -1,0 +1,168 @@
+<section class="page-section" id="page-183">
+    <div class="page-header">
+        <div class="page-number">183</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Introducere</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-183.jpg"
+             alt="Pagina 183" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce sunt Retelele Feedforward Profunde?</h4>
+                <p>Retelele feedforward profunde, numite si perceptroni multistrat (MLP), reprezinta modelele de deep learning esentiale. Scopul lor este sa aproximeze o functie f*. De exemplu, un clasificator y = f*(x) mapeaza inputul x la o categorie y. Reteaua feedforward defineste o mapare y = f(x; θ) si invata parametrii θ pentru cea mai buna aproximare a functiei tinta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Arhitectura MLP de Baza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+class SimpleMLP(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super().__init__()
+        # f(x) = f³(f²(f¹(x)))
+        self.layer1 = nn.Linear(input_size, hidden_size)   # f¹
+        self.layer2 = nn.Linear(hidden_size, hidden_size)  # f²
+        self.layer3 = nn.Linear(hidden_size, output_size)  # f³
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        x = self.relu(self.layer1(x))  # Primul strat
+        x = self.relu(self.layer2(x))  # Al doilea strat
+        x = self.layer3(x)              # Stratul de output
+        return x
+
+# Adancimea = numarul de straturi
+# Latimea = numarul de unitati per strat
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Flux de Date Feedforward</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 20px; padding: 20px; background: var(--bg-lighter); border-radius: 12px;">
+                                <div style="text-align: center;">
+                                    <div style="width: 60px; height: 60px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">x</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Input</div>
+                                </div>
+                                <div style="font-size: 2rem; color: var(--accent);">→</div>
+                                <div style="text-align: center;">
+                                    <div style="width: 60px; height: 60px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">f¹</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Layer 1</div>
+                                </div>
+                                <div style="font-size: 2rem; color: var(--accent);">→</div>
+                                <div style="text-align: center;">
+                                    <div style="width: 60px; height: 60px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">f²</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Layer 2</div>
+                                </div>
+                                <div style="font-size: 2rem; color: var(--accent);">→</div>
+                                <div style="text-align: center;">
+                                    <div style="width: 60px; height: 60px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">y</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Output</div>
+                                </div>
+                            </div>
+                            <p style="text-align: center; margin-top: 15px; color: var(--text-secondary);">f(x) = f³(f²(f¹(x))) - Informatia curge doar inainte, fara bucle de feedback</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce "Feedforward"?</h4>
+                <p>Se numesc feedforward deoarece informatia curge de la input x, prin calculele intermediare folosite pentru a defini f, si in final la output y. Nu exista conexiuni de feedback in care output-urile modelului sa fie alimentate inapoi in model. Cand retelele includ conexiuni de feedback, se numesc retele neuronale recurente (RNN).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Comparatie: Feedforward vs Recurent</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong style="color: var(--primary);">Feedforward (MLP)</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                        <li>Flux unidirectional</li>
+                                        <li>Nu are memorie</li>
+                                        <li>Inputuri de dimensiune fixa</li>
+                                        <li>Clasificare, regresie</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Recurent (RNN)</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                        <li>Conexiuni de feedback</li>
+                                        <li>Memorie interna</li>
+                                        <li>Secvente de lungime variabila</li>
+                                        <li>Text, audio, time series</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Importanta Practica a MLP-urilor</h4>
+                <p>Retelele feedforward sunt extrem de importante pentru practicieni. Ele formeaza baza multor aplicatii comerciale importante. De exemplu, retelele convolutionale folosite pentru recunoasterea obiectelor din fotografii sunt un tip specializat de retea feedforward. Feedforward sunt si o piatra de temelie conceptuala catre retelele recurente, care alimenteaza multe aplicatii de procesare a limbajului natural.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii in Industrie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>🖼️</span>
+                                    <div><strong>Computer Vision</strong> - CNN pentru recunoastere de imagini (ImageNet, detectie obiecte)</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🗣️</span>
+                                    <div><strong>Speech Recognition</strong> - Modele acustice pentru recunoastere vocala</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🎯</span>
+                                    <div><strong>Recommendation Systems</strong> - Netflix, YouTube, Amazon - predictie preferinte</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>💊</span>
+                                    <div><strong>Drug Discovery</strong> - Predictia proprietatilor moleculare</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

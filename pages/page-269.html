@@ -1,0 +1,91 @@
+<section class="page-section" id="page-269">
+    <div class="page-header">
+        <div class="page-number">269</div>
+        <div class="page-title">
+            <h3>7.9-7.10 CNNs si Sparse Representations</h3>
+            <span>Convolutii si Reprezentari Sparse</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-269.jpg"
+             alt="Pagina 269" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutional Neural Networks - Exemplul Perfect</h4>
+                <p>Cea mai populara si extensiva utilizare a parameter sharing apare in <strong>CNNs</strong> pentru computer vision. Imaginile naturale au proprietati statistice invariante la translatie - o poza cu o pisica ramane o poza cu o pisica daca o translatezi cu un pixel. CNN-urile exploateaza aceasta proprietate partajand parametri intre locatii spatiale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Cum functioneaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Aceleasi weights (filtru) sunt aplicate la toate locatiile din imagine. Detectorul de pisici functioneaza identic indiferent daca pisica apare in coltul stanga-sus sau centru.</p>
+                            </div>
+                            <p style="margin-top: 15px;">Aceasta permite:</p>
+                            <ul>
+                                <li>Reducere dramatica a numarului de parametri unici</li>
+                                <li>Cresterea marimii retelei fara cresterea datelor de antrenament</li>
+                                <li>Incorporarea cunostintelor de domeniu direct in arhitectura</li>
+                            </ul>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">CNNs vor fi discutate in detaliu in Capitolul 9.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>7.10 Sparse Representations</h4>
+                <p>Weight decay pune o penalizare pe <em>parametri</em>. O alta strategie: punem o penalizare pe <em>activarile</em> unitatilor din retea, incurajandu-le sa fie <strong>sparse</strong>. Aceasta impune indirect o penalizare complicata pe parametri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Parametri Sparsi vs Reprezentari Sparse</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Parametri Sparsi</strong>
+                                    <p style="margin-top: 10px; font-size: 0.9rem;">Multi parametri = 0</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Modelul are putine conexiuni active</p>
+                                    <div style="font-family: monospace; font-size: 0.8rem; margin-top: 10px;">
+                                        W = [0.5, 0, 0, 0.3, 0, 0, 0.1]
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Reprezentari Sparse</strong>
+                                    <p style="margin-top: 10px; font-size: 0.9rem;">Multe activari = 0</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Pentru un input, putine neuroni sunt activi</p>
+                                    <div style="font-family: monospace; font-size: 0.8rem; margin-top: 10px;">
+                                        h = [0, 0, 2.1, 0, 0, 0.8, 0]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu: y = Ax vs y = Bh</h4>
+                <p>Consideram regresia liniara y = Ax. Avem doua optiuni pentru a obtine y din x: folosim o matrice A <em>sparsa</em> (multi coef. = 0), sau folosim y = Bh unde h este o <em>reprezentare sparsa</em> a lui x (h = f(x) cu multi h_i = 0).</p>
+            </div>
+        </div>
+
+    </div>
+</section>

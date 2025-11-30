@@ -1,0 +1,105 @@
+<section class="page-section" id="page-419">
+    <div class="page-header">
+        <div class="page-number">419</div>
+        <div class="page-title">
+            <h3>10.8 Echo State Networks</h3>
+            <span>Reservoir Computing</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-419.jpg"
+             alt="Pagina 419" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Echo State Networks (ESN)</h4>
+                <p>O abordare radicala: <strong>nu antrenam</strong> greutatile recurente W sau input U! Le setam random si antrenam <strong>doar output-ul</strong> V. Ideea: reservoir-ul (unitatile ascunse) captureaza istoria, iar noi invatam doar cum sa o interpretam.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Cum functioneaza ESN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Fixed (Random):</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                        <li>U: input → hidden</li>
+                                        <li>W: hidden → hidden</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Trained:</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                        <li>V: hidden → output</li>
+                                        <li>(Doar linear regression!)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Terminologie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong>Echo State Networks</strong> - Jaeger, 2003 (continuous values)
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong>Liquid State Machines</strong> - Maass et al., 2002 (spiking neurons)
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong>Reservoir Computing</strong> - Termen general (Lukosevicius & Jaeger, 2009)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce functioneaza?</h4>
+                <p>ESN-urile sunt similare cu <strong>kernel machines</strong>: mapeaza o secventa de lungime arbitrara la un vector fix (starea h<sup>(t)</sup>). Daca reservoir-ul e suficient de mare si bine configurat, h<sup>(t)</sup> contine informatii utile despre istorie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Avantaje ESN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 10px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong>Antrenare rapida:</strong> Doar linear regression (convex!)
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 10px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong>No vanishing gradients:</strong> Nu facem backprop prin W
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 10px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong>Limitare:</strong> Expresivitate mai mica decat RNN antrenat complet
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

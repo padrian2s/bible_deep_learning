@@ -1,0 +1,115 @@
+<section class="page-section" id="page-136">
+    <div class="page-header">
+        <div class="page-number">136</div>
+        <div class="page-title">
+            <h3>Validation Set si Data Splitting</h3>
+            <span>Capitolul 5 - Selectia Hiperparametrilor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-136.jpg"
+             alt="Pagina 136" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce nu putem invata hiperparametri pe Training Set?</h4>
+                <p>Uneori o setare este aleasa ca hiperparameter pentru ca este dificil de optimizat. Dar mai frecvent, setarile care controleaza capacity NU ar trebui invatate pe training set - ar alege intotdeauna capacity maxima, rezultand in overfitting (vezi Figura 5.3). De exemplu, putem intotdeauna potrivi training set mai bine cu λ = 0 decat cu λ > 0.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Problema</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Dilema Hiperparametrilor</h5>
+                                <p>Daca alegem hiperparametri pe training set:</p>
+                                <p style="margin-top: 10px;">→ λ = 0, grad = maxim → OVERFIT garantat!</p>
+                                <p style="margin-top: 10px;">Avem nevoie de date SEPARATE pentru selectia hiperparametrilor.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Validation Set</h4>
+                <p>Pentru a rezolva aceasta problema, avem nevoie de un <strong>validation set</strong> - exemple pe care algoritmul NU le observa. Test set-ul masurand generalization error dupa antrenament, dar exemplele din test NU trebuie folosite pentru alegeri despre model (inclusiv hiperparametri). De aceea construim validation set-ul din datele de <strong>antrenament</strong>. Impartim datele de training in doua subseturi disjuncte: unul pentru invatarea parametrilor, altul pentru estimarea generalization error (validation).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Train/Val/Test Split</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+# Dataset original
+X = np.random.randn(1000, 10)
+y = np.random.randint(0, 2, 1000)
+
+# Prima impartire: train+val vs test
+X_trainval, X_test, y_trainval, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# A doua impartire: train vs val
+X_train, X_val, y_train, y_val = train_test_split(
+    X_trainval, y_trainval, test_size=0.25, random_state=42
+)
+
+print("Data Splitting Strategy:")
+print("=" * 40)
+print(f"Total:      {len(X):4d} exemple (100%)")
+print(f"Training:   {len(X_train):4d} exemple (60%)")
+print(f"Validation: {len(X_val):4d} exemple (20%)")
+print(f"Test:       {len(X_test):4d} exemple (20%)")
+print()
+print("Workflow:")
+print("1. Antreneaza pe Training (invata parametri)")
+print("2. Evalueaza pe Validation (alege hiperparametri)")
+print("3. Repeta 1-2 pana gasesti hiperparametri buni")
+print("4. Evalueaza FINAL pe Test (doar o data!)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Proportii Tipice si Benchmark Staleness</h4>
+                <p>Tipic, folosim aproximativ <strong>80% din datele de training</strong> pentru antrenament si <strong>20% pentru validation</strong>. Deoarece validation set este folosit pentru a "antrena" hiperparametrii, validation error va subestima generalization error (desi cu mai putin decat training error). Dupa ce toate hiperparametrii sunt fixati, estimam final pe test set. In practica, cand acelasi test set e folosit ani de zile de comunitate pentru a bate state-of-the-art, benchmark-urile devin "stale" si nu mai reflecta performanta reala.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Benchmark Staleness</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Daca comunitatea optimizeaza pe acelasi test set ani de zile, evaluarile devin optimiste. Comunitatea tinde sa treaca la benchmark-uri noi si mai mari.</p>
+                                <p style="margin-top: 10px;">Ex: MNIST → CIFAR → ImageNet → ...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

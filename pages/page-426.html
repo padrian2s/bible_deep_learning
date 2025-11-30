@@ -1,0 +1,92 @@
+<section class="page-section" id="page-426">
+    <div class="page-header">
+        <div class="page-number">426</div>
+        <div class="page-title">
+            <h3>LSTM - State Update si Output</h3>
+            <span>Ecuatiile 10.41-10.44</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-426.jpg"
+             alt="Pagina 426" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>State Update - Ecuatia 10.41</h4>
+                <p>Starea celulei s<sup>(t)</sup> se actualizeaza prin: (1) pastrarea unei fractii f din starea anterioara, (2) adaugarea unei fractii g din noul input (dupa activare). Aceasta e ecuatia centrala a LSTM!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile Complete LSTM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--accent); margin-bottom: 10px;"><strong>State Update:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    s<sub>i</sub><sup>(t)</sup> = f<sub>i</sub><sup>(t)</sup>·s<sub>i</sub><sup>(t-1)</sup> + g<sub>i</sub><sup>(t)</sup>·σ(b<sub>i</sub> + Σ U<sub>i,j</sub>x<sub>j</sub><sup>(t)</sup> + Σ W<sub>i,j</sub>h<sub>j</sub><sup>(t-1)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.41)</span>
+                                </div>
+                                <p style="color: var(--success); margin: 15px 0 10px 0;"><strong>Input Gate:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    g<sub>i</sub><sup>(t)</sup> = σ(b<sub>i</sub><sup>g</sup> + Σ U<sub>i,j</sub><sup>g</sup>x<sub>j</sub><sup>(t)</sup> + Σ W<sub>i,j</sub><sup>g</sup>h<sub>j</sub><sup>(t-1)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.42)</span>
+                                </div>
+                                <p style="color: var(--warning); margin: 15px 0 10px 0;"><strong>Output:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    h<sub>i</sub><sup>(t)</sup> = tanh(s<sub>i</sub><sup>(t)</sup>) · q<sub>i</sub><sup>(t)</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.43)</span>
+                                </div>
+                                <p style="color: var(--primary); margin: 15px 0 10px 0;"><strong>Output Gate:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    q<sub>i</sub><sup>(t)</sup> = σ(b<sub>i</sub><sup>o</sup> + Σ U<sub>i,j</sub><sup>o</sup>x<sub>j</sub><sup>(t)</sup> + Σ W<sub>i,j</sub><sup>o</sup>h<sub>j</sub><sup>(t-1)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.44)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: LSTM Cell in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>class LSTMCell(nn.Module):
+    def __init__(self, input_size, hidden_size):
+        super().__init__()
+        # 4 gates: i, f, g, o (input, forget, cell, output)
+        self.gates = nn.Linear(input_size + hidden_size, 4 * hidden_size)
+
+    def forward(self, x, states):
+        h_prev, c_prev = states
+        combined = torch.cat([x, h_prev], dim=1)
+        gates = self.gates(combined)
+
+        i, f, g, o = gates.chunk(4, dim=1)
+        i = torch.sigmoid(i)  # input gate
+        f = torch.sigmoid(f)  # forget gate
+        g = torch.tanh(g)     # cell input
+        o = torch.sigmoid(o)  # output gate
+
+        c = f * c_prev + i * g    # new cell state
+        h = o * torch.tanh(c)     # new hidden state
+
+        return h, c</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,75 @@
+<section class="page-section" id="page-502">
+    <div class="page-header">
+        <div class="page-number">502</div>
+        <div class="page-title">
+            <h3>Partea III: Deep Learning Research</h3>
+            <span>Introducere - Provocarile Unsupervised Learning</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-502.jpg"
+             alt="Pagina 502" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Introducere in Partea III</h4>
+                <p>Aceasta parte a cartii descrie abordarile mai ambitioase si avansate ale deep learning. In partile anterioare, am aratat cum sa rezolvam probleme <strong>supervised learning</strong> - cum sa invatam maparea de la un vector la altul, cu suficiente exemple.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Dincolo de Supervised Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                Nu toate problemele pot fi rezolvate cu supervised learning. Putem dori sa:
+                                <ul style="margin-top: 10px;">
+                                    <li><strong>Generam</strong> exemple noi</li>
+                                    <li>Determinam cat de <strong>probabil</strong> e un punct</li>
+                                    <li>Gestionam <strong>valori lipsa</strong></li>
+                                    <li>Folosim exemple <strong>nelabelate</strong> sau din task-uri inrudite</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Provocarile Unsupervised Learning</h4>
+                <p>Multi algoritmi deep learning au fost proiectati pentru a rezolva probleme <strong>unsupervised learning</strong>, dar niciunul nu a rezolvat cu adevarat problema in acelasi mod in care deep learning a rezolvat (in mare masura) supervised learning pentru o varietate larga de task-uri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Doua Provocari Centrale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">1. Statistical Challenge</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Numarul de configuratii creste exponential cu numarul de dimensiuni. Exemplele devin rapid mult mai putine decat configuratiile posibile.</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">2. Computational Challenge</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Multi algoritmi pentru modele probabilistice high-dimensional implica computatii intractabile care cresc exponential.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

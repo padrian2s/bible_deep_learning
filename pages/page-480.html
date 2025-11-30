@@ -1,0 +1,119 @@
+<section class="page-section" id="page-480">
+    <div class="page-header">
+        <div class="page-number">480</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Word Embeddings (Figura 12.3) si 12.4.3 High-Dimensional Outputs</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-480.jpg"
+             alt="Pagina 480" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 12.3: Vizualizarea Word Embeddings</h4>
+                <p>Aceasta figura arata vizualizari 2D ale word embeddings obtinute dintr-un model de traducere automata neuronal. Cuvintele semantic similare au vectori de embedding apropiati: <strong>tarile</strong> apar grupate in stanga, iar <strong>anii</strong> apar grupati in dreapta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Clustering Semantic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                    <h5 style="color: var(--accent); margin-bottom: 15px;">Cluster: Tari 🌍</h5>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                        <span style="background: var(--accent); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">France</span>
+                                        <span style="background: var(--accent); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">China</span>
+                                        <span style="background: var(--accent); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">Russia</span>
+                                        <span style="background: var(--accent); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">Germany</span>
+                                        <span style="background: var(--accent); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">Japan</span>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                    <h5 style="color: var(--success); margin-bottom: 15px;">Cluster: Ani 📅</h5>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                        <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">1995</span>
+                                        <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">2002</span>
+                                        <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">2006</span>
+                                        <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">2007</span>
+                                        <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark); font-size: 0.8rem;">2008</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">In realitate, embeddings au dimensiuni mult mai mari (50-300+) si captureaza multe tipuri de similaritate simultan.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Embedding Visualizations</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bahdanau et al. (2015)</strong> - Vizualizari din modele de traducere neurala</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Mnih & Hinton (2007)</strong> - Embeddings cu variabile latente multiple</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.3 High-Dimensional Outputs</h4>
+                <p>In multe aplicatii NLP, dorim ca modelele sa produca <strong>cuvinte</strong> (nu caractere) ca unitate fundamentala de output. Pentru vocabulare mari, poate fi foarte costisitor computational sa reprezentam o distributie de output peste vocabular - matricea de weights a transformarii afine are dimensiunea |V|!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Costul Softmax</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <h5 style="color: var(--warning); margin-bottom: 15px;">Problema</h5>
+                                <div class="formula">
+                                    aᵢ = bᵢ + Σⱼ Wᵢⱼhⱼ  pentru i ∈ {1, ..., |V|}
+                                </div>
+                                <div class="formula" style="margin-top: 10px;">
+                                    ŷᵢ = exp(aᵢ) / Σᵢ' exp(aᵢ')
+                                </div>
+                                <p style="color: var(--text-secondary); margin-top: 15px;">Daca h are nₕ elemente si |V| e in zeci de mii, operatia de mai sus este <strong>O(|V| × nₕ)</strong> - costisitoare!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De ce nu putem evita softmax complet?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema normalizarii:</strong> Deoarece softmax normalizeaza peste toate |V| outputs, trebuie sa calculam inmultirea matriceala completa - nu putem calcula doar dot product-ul pentru cuvantul corect. Costul apare atat la training cat si la test time.
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Exista loss functions speciale care permit calcul eficient al gradientului (Vincent et al., 2015), dar softmax standard ramane problematic.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,119 @@
+<section class="page-section" id="page-483">
+    <div class="page-header">
+        <div class="page-number">483</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Figura 12.4 - Hierarchical Softmax Tree</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-483.jpg"
+             alt="Pagina 483" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 12.4: Ierarhia de Categorii de Cuvinte</h4>
+                <p>Aceasta figura ilustreaza o ierarhie simpla de categorii de cuvinte cu 8 cuvinte w₀, ..., w₇ organizate intr-un arbore cu trei niveluri. Frunzele arborelui reprezinta cuvintele specifice, iar nodurile interne reprezinta grupuri de cuvinte. Orice nod poate fi indexat prin secventa de decizii binare (0=stanga, 1=dreapta) de la radacina.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura Arborelui</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <div style="text-align: center;">
+                                    <p style="color: var(--text-secondary); margin-bottom: 15px;">Super-class (0) contine clasele (0,0) si (0,1)</p>
+                                    <p style="color: var(--text-secondary); margin-bottom: 15px;">Super-class (1) contine clasele (1,0) si (1,1)</p>
+                                </div>
+                                <table style="width: 100%; border-collapse: collapse; color: var(--text-secondary); margin-top: 15px;">
+                                    <tr style="border-bottom: 1px solid var(--bg-dark);">
+                                        <th style="padding: 8px; text-align: left;">Cuvant</th>
+                                        <th style="padding: 8px; text-align: left;">Cod Binar</th>
+                                        <th style="padding: 8px; text-align: left;">Cale</th>
+                                    </tr>
+                                    <tr><td style="padding: 8px;">w₀</td><td style="padding: 8px;">(0,0,0)</td><td style="padding: 8px;">stanga → stanga → stanga</td></tr>
+                                    <tr><td style="padding: 8px;">w₁</td><td style="padding: 8px;">(0,0,1)</td><td style="padding: 8px;">stanga → stanga → dreapta</td></tr>
+                                    <tr><td style="padding: 8px;">w₄</td><td style="padding: 8px;">(1,0,0)</td><td style="padding: 8px;">dreapta → stanga → stanga</td></tr>
+                                    <tr><td style="padding: 8px;">w₇</td><td style="padding: 8px;">(1,1,1)</td><td style="padding: 8px;">dreapta → dreapta → dreapta</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Calculul P(w₄)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                P(y = w₄) = P(b₀ = 1, b₁ = 0, b₂ = 0)
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Folosind chain rule:</p>
+                            <div class="formula" style="margin-top: 10px;">
+                                = P(b₀ = 1) × P(b₁ = 0 | b₀ = 1) × P(b₂ = 0 | b₀ = 1, b₁ = 0)
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Complexitate:</strong> Daca arborele este suficient de echilibrat, adancimea maxima (numarul de decizii binare) este O(log |V|). Alegerea unui cuvant din |V| posibile necesita doar O(log |V|) operatii!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Decizii Binare pentru Probabilitati</h4>
+                <p>Fie bᵢ(y) decizia binara i-a cand traversam arborele spre valoarea y. Probabilitatea de a esantiona un output y se descompune intr-un produs de probabilitati conditionale, cu fiecare nod indexat de prefixul acestor biti.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare: Logistic la fiecare nod</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# La fiecare nod intern, un clasificator logistic
+# decide directia: stanga (0) sau dreapta (1)
+
+def compute_word_probability(h, word, tree, classifiers):
+    """
+    h: hidden state (context representation)
+    word: target word
+    tree: binary tree structure
+    classifiers: logistic classifiers for each node
+    """
+    path = tree.get_path(word)  # [(node, direction), ...]
+    log_prob = 0.0
+
+    for node, direction in path:
+        # Probabilitatea de a merge in dreapta
+        p_right = sigmoid(classifiers[node](h))
+
+        if direction == 1:  # dreapta
+            log_prob += torch.log(p_right)
+        else:  # stanga
+            log_prob += torch.log(1 - p_right)
+
+    return torch.exp(log_prob)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

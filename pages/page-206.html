@@ -1,0 +1,143 @@
+<section class="page-section" id="page-206">
+    <div class="page-header">
+        <div class="page-number">206</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.3 Unitati Ascunse (Hidden Units)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-206.jpg"
+             alt="Pagina 206" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.4: Sample-uri dintr-un Mixture Density Network</h4>
+                <p>Aceasta figura arata sample-uri dintr-o retea neuronala cu un strat de output mixture density. Inputul x este esantionat dintr-o distributie uniforma si output-ul y este esantionat din p_model(y | x). Reteaua neuronala poate invata mapari neliniare de la input la parametrii distributiei de output, inclusiv probabilitatile componentelor, mediile si variantele fiecarei componente.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii ale MDN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>✍️</span>
+                                    <div><strong>Handwriting Synthesis</strong> - Graves (2013) - Generarea de text scris de mana, predictia traiectoriei stiloului</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🗣️</span>
+                                    <div><strong>Speech Synthesis</strong> - WaveNet, Tacotron - Generarea de audio realistic</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🤖</span>
+                                    <div><strong>Robotic Control</strong> - Predictia pozitiei viitoare cu incertitudine</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📍</span>
+                                    <div><strong>Trajectory Prediction</strong> - Predictia miscarilor pietonilor/vehiculelor</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sectiunea 6.3: Introducere in Unitatile Ascunse</h4>
+                <p>Pana acum ne-am concentrat pe alegerile de design comune majoritatii modelelor de machine learning parametrice antrenate cu optimizare bazata pe gradient. Acum ne indreptam atentia catre o problema unica retelelor feedforward neuronale: cum sa alegem tipul de unitate ascunsa de folosit in straturile ascunse ale modelului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Output Units vs Hidden Units</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Output Units (6.2.2)</strong>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">Determinate de task:</p>
+                                    <ul style="font-size: 0.85rem; color: var(--text-secondary);">
+                                        <li>Regresie → Linear</li>
+                                        <li>Clasificare binara → Sigmoid</li>
+                                        <li>Multi-clasa → Softmax</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Hidden Units (6.3)</strong>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">Design choice:</p>
+                                    <ul style="font-size: 0.85rem; color: var(--text-secondary);">
+                                        <li>ReLU (default modern)</li>
+                                        <li>Sigmoid/Tanh (istoric)</li>
+                                        <li>Leaky ReLU, ELU, etc.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ReLU: Alegerea Implicita Excelenta</h4>
+                <p>Unitatile liniare rectificate sunt o alegere implicita excelenta de unitate ascunsa. Multe alte tipuri de unitati ascunse sunt disponibile. Poate fi dificil sa determini cand sa folosesti care tip (desi ReLU sunt de obicei o alegere acceptabila). Procesul de design consta in incercare si eroare, antrenand o retea cu un tip de unitate ascunsa si evaluand performanta pe validation set.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Functii de Activare Comune</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Hidden unit types disponibile in PyTorch:
+
+# 1. ReLU (default recomandat)
+nn.ReLU()
+
+# 2. Leaky ReLU (evita "dying ReLU")
+nn.LeakyReLU(negative_slope=0.01)
+
+# 3. ELU (smooth pentru valori negative)
+nn.ELU(alpha=1.0)
+
+# 4. GELU (folosit in Transformers)
+nn.GELU()
+
+# 5. Sigmoid (rar pentru hidden, ok pentru gates)
+nn.Sigmoid()
+
+# 6. Tanh (output in [-1, 1])
+nn.Tanh()
+
+# 7. Softplus (smooth ReLU)
+nn.Softplus()
+
+# 8. Swish/SiLU (self-gated)
+nn.SiLU()  # x * sigmoid(x)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

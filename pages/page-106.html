@@ -1,0 +1,171 @@
+<section class="page-section" id="page-106">
+    <div class="page-header">
+        <div class="page-number">106</div>
+        <div class="page-title">
+            <h3>Figura 4.6: Gradient Descent pe Suprafete Rau Conditionate</h3>
+            <span>Capitolul 4 - Problema Zigzag-ului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-106.jpg"
+             alt="Pagina 106" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 4.6: GD nu Exploateaza Informatia Hessianului</h4>
+                <p>Figura arata gradient descent pe o functie patratica cu <strong>numar de conditionare 5</strong> (directia de maxima curbura are de 5 ori mai multa curbura decat directia de minima curbura). Suprafata arata ca un <strong>canion alungit</strong>. Gradient descent pierde timp coborand repetat peretii canionului (liniile rosii zigzag), in loc sa mearga direct spre minim pe fundul canionului. Problema: pasul trebuie sa fie mic pentru a nu depasi peretele, dar asta face progresul foarte lent de-a lungul canionului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Zigzag pe Suprafata Alungita</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Functie patratica cu conditionare 5
+# f(x) = 0.5 * x^T A x, unde A are eigenvalues 5 si 1
+# Rotim pentru a nu fi aliniata cu axele
+theta = np.pi/4
+R = np.array([[np.cos(theta), -np.sin(theta)],
+              [np.sin(theta), np.cos(theta)]])
+D = np.diag([5, 1])  # Eigenvalues
+A = R @ D @ R.T      # Matricea Hessian
+
+def f(x):
+    return 0.5 * x @ A @ x
+
+def grad_f(x):
+    return A @ x
+
+# Gradient descent
+x = np.array([20.0, 20.0])
+lr = 0.15  # Learning rate
+trajectory = [x.copy()]
+
+for _ in range(50):
+    x = x - lr * grad_f(x)
+    trajectory.append(x.copy())
+
+trajectory = np.array(trajectory)
+print(f"Conditionare: {5/1} = 5")
+print(f"Start: {trajectory[0]}")
+print(f"Dupa 10 pasi: {trajectory[10]}, |x|={np.linalg.norm(trajectory[10]):.2f}")
+print(f"Dupa 30 pasi: {trajectory[30]}, |x|={np.linalg.norm(trajectory[30]):.2f}")
+print(f"Dupa 50 pasi: {trajectory[50]}, |x|={np.linalg.norm(trajectory[50]):.4f}")
+
+# Numaram schimbarile de directie (zigzag)
+changes = 0
+for i in range(1, len(trajectory)-1):
+    d1 = trajectory[i] - trajectory[i-1]
+    d2 = trajectory[i+1] - trajectory[i]
+    if np.dot(d1, d2) < 0:  # Directii opuse
+        changes += 1
+print(f"\nNumar de zigzag-uri: {changes}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Traiectoria Zigzag</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <svg viewBox="0 0 300 200" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;">
+                                    <!-- Elipse pentru contururi -->
+                                    <ellipse cx="150" cy="100" rx="130" ry="40" fill="none" stroke="var(--bg-lighter)" stroke-width="1" transform="rotate(-30, 150, 100)"/>
+                                    <ellipse cx="150" cy="100" rx="90" ry="28" fill="none" stroke="var(--bg-lighter)" stroke-width="1" transform="rotate(-30, 150, 100)"/>
+                                    <ellipse cx="150" cy="100" rx="50" ry="16" fill="none" stroke="var(--bg-lighter)" stroke-width="1" transform="rotate(-30, 150, 100)"/>
+                                    <ellipse cx="150" cy="100" rx="15" ry="5" fill="none" stroke="var(--bg-lighter)" stroke-width="1" transform="rotate(-30, 150, 100)"/>
+                                    <!-- Traiectoria zigzag -->
+                                    <path d="M 260,40 L 230,90 L 250,70 L 220,110 L 240,95 L 210,120 L 225,110 L 195,125 L 208,118 L 180,128 L 190,122 L 165,128 L 175,124 L 155,126 L 162,124 L 150,125" fill="none" stroke="#ff4444" stroke-width="2"/>
+                                    <!-- Puncte start si end -->
+                                    <circle cx="260" cy="40" r="5" fill="var(--warning)"/>
+                                    <text x="265" y="35" fill="var(--warning)" font-size="10">start</text>
+                                    <circle cx="150" cy="100" r="5" fill="var(--success)"/>
+                                    <text x="155" y="95" fill="var(--success)" font-size="10">minim</text>
+                                </svg>
+                                <p style="text-align: center; margin-top: 15px;">GD zigzagheaza pe peretii "canionului" in loc sa mearga direct!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Gradient Descent Zigzagheaza?</h4>
+                <p>Gradientul indica directia celei mai rapide descresteri <strong>locale</strong>, dar aceasta nu este neaparat directia optima pentru a ajunge la minim. Pe suprafete alungite (numar de conditionare mare), directia de cel mai abrupt descent este perpendiculara pe axa lunga a canionului. GD tot coboara si urca peretii canionului, facand progres lent de-a lungul fundului. Hessianul ar putea prezice ca directia abrupt nu este o cautare promitoare, dar GD standard nu foloseste aceasta informatie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Comparatie Conditionare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def gd_iterations_to_converge(condition_number, tol=1e-6):
+    """Numara iteratiile GD pentru convergenta"""
+    A = np.diag([condition_number, 1])
+    x = np.array([1.0, 1.0])
+    lr = 2 / (condition_number + 1)  # Learning rate optim
+
+    for i in range(10000):
+        if np.linalg.norm(x) < tol:
+            return i
+        x = x - lr * A @ x
+    return 10000  # Nu a convergent
+
+print("Iteratii GD pana la convergenta:")
+print("Conditionare | Iteratii")
+print("-" * 28)
+for kappa in [1, 2, 5, 10, 50, 100]:
+    iters = gd_iterations_to_converge(kappa)
+    print(f"{kappa:11d} | {iters:8d}")
+print("\n→ Conditionare mai mare = MULT mai multe iteratii!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Solutii pentru Zigzag</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Metode care Rezolva Problema</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Momentum:</strong> Acumuleaza "viteza" si netezeste traiectoria</li>
+                                    <li><strong>Adam/RMSprop:</strong> Scaleaza learning rate-ul diferit pentru fiecare parametru</li>
+                                    <li><strong>Metoda Newton:</strong> Foloseste Hessianul pentru directie optima (dar e costisitoare)</li>
+                                    <li><strong>Preconditionare:</strong> Transforma problema pentru conditionare mai buna</li>
+                                </ul>
+                            </div>
+                            <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center;">
+                                <strong>Regula de aur:</strong> Conditionare slaba a Hessianului = Optimizare lenta si dificila
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

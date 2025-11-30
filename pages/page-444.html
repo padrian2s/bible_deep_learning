@@ -1,0 +1,227 @@
+<section class="page-section" id="page-444">
+    <div class="page-header">
+        <div class="page-number">444</div>
+        <div class="page-title">
+            <h3>Learning Rate: Cel Mai Important Hiperparametru</h3>
+            <span>Sectiunea 11.4.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-444.jpg"
+             alt="Pagina 444" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Learning Rate: Prioritatea #1</h4>
+                <p><strong>Learning rate</strong> este probabil cel mai important hiperparametru. Daca ai timp sa tunezi doar un singur hiperparametru, tuneaza learning rate-ul. El controleaza capacitatea efectiva a modelului intr-un mod mai complex decat alti hiperparametri - capacitatea este maxima cand learning rate-ul este <em>corect</em> pentru problema de optimizare, nu cand e foarte mare sau foarte mic.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Curba LR pentru Training Error</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 20px; border-radius: 10px;">
+                                <div style="color: #4ecdc4; font-weight: bold; margin-bottom: 15px; text-align: center;">Training Error vs Learning Rate (Figura 11.1)</div>
+                                <div style="height: 150px; display: flex; align-items: flex-end; justify-content: space-around; border-bottom: 2px solid #444; border-left: 2px solid #444; padding: 10px; position: relative;">
+                                    <div style="position: absolute; left: -50px; top: 50%; transform: rotate(-90deg); color: #888; font-size: 0.8em;">Training Error</div>
+
+                                    <!-- Learning rate curve - U-shaped but asymmetric -->
+                                    <div style="width: 8%; height: 90%; background: #ff6b6b; border-radius: 3px;"></div>
+                                    <div style="width: 8%; height: 70%; background: #ffd93d; border-radius: 3px;"></div>
+                                    <div style="width: 8%; height: 50%; background: #4ecdc4; border-radius: 3px;"></div>
+                                    <div style="width: 8%; height: 30%; background: #4ecdc4; border-radius: 3px;"></div>
+                                    <div style="width: 8%; height: 20%; background: #4caf50; border-radius: 3px;"></div>
+                                    <div style="width: 8%; height: 25%; background: #4ecdc4; border-radius: 3px;"></div>
+                                    <div style="width: 8%; height: 80%; background: #ff6b6b; border-radius: 3px;"></div>
+                                    <div style="width: 8%; height: 130%; background: #ff6b6b; border-radius: 3px;"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 10px; color: #666; font-size: 0.75em; padding: 0 10px;">
+                                    <span>10⁻⁴</span>
+                                    <span>10⁻³</span>
+                                    <span>10⁻²</span>
+                                    <span>10⁻¹</span>
+                                    <span style="color: #4caf50;">Optimal</span>
+                                    <span>2x opt</span>
+                                    <span>Diverge!</span>
+                                    <span></span>
+                                </div>
+                                <div style="text-align: center; color: #888; font-size: 0.85em; margin-top: 5px;">Learning Rate (log scale)</div>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                                <div style="background: #4d1b1b; padding: 10px; border-radius: 8px;">
+                                    <div style="color: #ff6b6b; font-weight: bold;">LR Prea Mic</div>
+                                    <div style="color: #a0a0a0; font-size: 0.85em;">Training lent, poate ramane blocat</div>
+                                </div>
+                                <div style="background: #4d1b1b; padding: 10px; border-radius: 8px;">
+                                    <div style="color: #ff6b6b; font-weight: bold;">LR Prea Mare</div>
+                                    <div style="color: #a0a0a0; font-size: 0.85em;">Oscileaza sau diverge complet!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Learning Rate Finder</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Learning Rate Finder (tehnica populara)
+
+def lr_finder(model, train_loader, start_lr=1e-7, end_lr=10, num_iter=100):
+    """
+    Tehnica pentru gasirea learning rate-ului optim:
+    1. Incepe cu LR foarte mic
+    2. Creste exponential LR la fiecare batch
+    3. Ploteaza loss vs LR
+    4. Alege LR unde loss scade cel mai rapid
+    """
+    import torch
+    import numpy as np
+
+    lrs = np.logspace(np.log10(start_lr), np.log10(end_lr), num_iter)
+    losses = []
+
+    optimizer = torch.optim.SGD(model.parameters(), lr=start_lr)
+
+    for i, (data, target) in enumerate(train_loader):
+        if i >= num_iter:
+            break
+
+        # Set current learning rate
+        for param_group in optimizer.param_groups:
+            param_group['lr'] = lrs[i]
+
+        # Forward pass
+        output = model(data)
+        loss = criterion(output, target)
+
+        # Backward pass
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        losses.append(loss.item())
+
+        # Stop daca loss explodeaza
+        if loss.item() > 4 * min(losses):
+            break
+
+    # Regula: alege LR ~10x mai mic decat unde loss e minim
+    # sau unde derivata loss/lr e cea mai negativa
+
+    return lrs[:len(losses)], losses
+
+# REZULTAT TIPIC:
+# - LR 1e-5 to 1e-3: loss scade incet
+# - LR 1e-3 to 1e-1: loss scade rapid  <- ZONA BUNA
+# - LR > 1e-1: loss creste/oscileaza   <- PREA MARE
+
+# Alege LR din zona de scadere rapida (ex: 3e-2)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Complicatii ale Learning Rate-ului</h4>
+                <p>Cand LR este prea mare, gradient descent poate <strong>creste eroarea de training</strong> in loc s-o scada! In cazul idealizat (quadratic), aceasta se intampla cand LR e cel putin de 2x valoarea optima. Cand LR e prea mic, training-ul nu doar ca e lent, dar poate ramane <strong>blocat cu eroare ridicata</strong>. Acest efect e slab inteles si nu s-ar intampla pentru loss convex - implica interactiuni complexe cu loss landscape-ul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: LR Scheduling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>LeCun et al. (1998a)</strong> - Analiza teoretica a learning rate optim pentru cazul quadratic
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Practica moderna:</strong> Learning rate warmup + decay (cosine, step, etc.)
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Adaptive optimizers:</strong> Adam, AdaGrad - ajusteaza LR per-parametru automat
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 10px;">
+                                <strong>Sfat practic:</strong> Pentru alte hiperparametri decat LR, monitorizeaza AMBELE erori (train si test). Daca train error > target: underfit. Daca gap mare: overfit.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Diagnosticarea Bazata pe Erori</h4>
+                <p>Tuning-ul altor parametri decat learning rate necesita monitorizarea <strong>ambelor</strong> erori: training si test. Daca eroarea pe training set este mai mare decat target-ul, nu ai alta optiune decat sa <strong>cresti capacitatea</strong> - adauga layere, unitati, sau schimba arhitectura. Daca eroarea pe test set e prea mare dar cea de training e OK, poti fie <strong>creste datele</strong> (reduce gap-ul), fie <strong>reduce capacitatea</strong> prin regularizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Diagnostic Flowchart</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #ffd93d; font-weight: bold;">Train Error > Target?</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-around;">
+                                    <div style="text-align: center;">
+                                        <div style="color: #4caf50;">DA</div>
+                                        <div style="background: #1b4d1b; padding: 10px; border-radius: 8px; margin-top: 5px;">
+                                            <div style="color: #4caf50; font-weight: bold;">UNDERFIT</div>
+                                            <div style="color: #a0a0a0; font-size: 0.8em;">Creste capacitatea</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="color: #ff6b6b;">NU</div>
+                                        <div style="color: #888; margin-top: 5px;">↓</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #ffd93d; font-weight: bold;">Test Error > Target?</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-around;">
+                                    <div style="text-align: center;">
+                                        <div style="color: #4caf50;">DA</div>
+                                        <div style="background: #4d4d1b; padding: 10px; border-radius: 8px; margin-top: 5px;">
+                                            <div style="color: #ffd93d; font-weight: bold;">OVERFIT</div>
+                                            <div style="color: #a0a0a0; font-size: 0.8em;">Regularizeaza sau mai multe date</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="color: #ff6b6b;">NU</div>
+                                        <div style="background: #1b4d1b; padding: 10px; border-radius: 8px; margin-top: 5px;">
+                                            <div style="color: #4caf50; font-weight: bold;">SUCCES!</div>
+                                            <div style="color: #a0a0a0; font-size: 0.8em;">Model gata</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,94 @@
+<section class="page-section" id="page-266">
+    <div class="page-header">
+        <div class="page-number">266</div>
+        <div class="page-title">
+            <h3>7.8 Figura 7.4 - Early Stopping vs L²</h3>
+            <span>Comparatie Geometrica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-266.jpg"
+             alt="Pagina 266" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 7.4: Ilustratie Geometrica</h4>
+                <p><strong>Stanga:</strong> Early stopping - linia punctata arata traiectoria SGD din origine. In loc sa ajunga la w* (minimul costului), ne oprim mai devreme la ŵ. <strong>Dreapta:</strong> L² regularization - cercurile punctate sunt contururile penalizarii L². Minimul total e deplasat de la w* spre origine, la ŵ.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Echivalenta Vizuala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">Early Stopping</strong>
+                                    <p style="margin-top: 10px;">Traiectorie trunchiata</p>
+                                    <div style="font-size: 2rem; margin: 10px 0;">0 → → ŵ ⊘ w*</div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Nu ajungem la minim, ne oprim pe drum</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">L² Regularization</strong>
+                                    <p style="margin-top: 10px;">Minim deplasat</p>
+                                    <div style="font-size: 2rem; margin: 10px 0;">0 ← ŵ ← w*</div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Minimul e "tras" spre origine</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p>Ambele metode produc un ŵ intre origine si w* - rezultate similare prin mecanisme diferite!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Analiza cu Valori Proprii</h4>
+                <p>Folosind descompunerea H = QΛQ⊤ si iterand gradient descent, dupa τ pasi, in spatiul vectorilor proprii:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    Q⊤(w⁽τ⁾ - w*) = (I - εΛ)Q⊤(w⁽τ⁻¹⁾ - w*)
+                </div>
+                <p>Cu w⁽⁰⁾ = 0, componenta i dupa τ iteratii:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    [Q⊤w⁽τ⁾]ᵢ = [1 - (1-ελᵢ)^τ] · [Q⊤w*]ᵢ
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie cu L² Formula</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Early Stopping (τ iteratii)</strong>
+                                    <div class="formula" style="margin-top: 10px;">Factor: 1 - (1-ελᵢ)^τ</div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>L² Regularization (α)</strong>
+                                    <div class="formula" style="margin-top: 10px;">Factor: λᵢ/(λᵢ+α)</div>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px;">Daca ελᵢ << 1 si τ e ales astfel incat (1-ελᵢ)^τ ≈ α/(λᵢ+α), cele doua metode sunt echivalente!</p>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p><strong>Conexiune:</strong> τε ≈ 1/α (numarul de pasi × learning rate ≈ inversul weight decay)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

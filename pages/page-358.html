@@ -1,0 +1,124 @@
+<section class="page-section" id="page-358">
+    <div class="page-header">
+        <div class="page-number">358</div>
+        <div class="page-title">
+            <h3>Figura 9.8: Max Pooling si Invarianta</h3>
+            <span>Demonstratie Vizuala</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-358.jpg"
+             alt="Pagina 358" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cum Max Pooling Creeaza Invarianta</h4>
+                <p>Figura 9.8 demonstreaza cum max pooling introduce invarianta la translatii. In partea de sus, vedem output-ul detector stage (valorile 0.1, 1.0, 0.2, 0.1) si rezultatul pooling (1.0, 1.0, 1.0, 0.2). In partea de jos, inputul a fost deplasat cu un pixel - valorile detector stage s-au schimbat (0.3, 0.1, 1.0, 0.2), dar outputul pooling ramane similar!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Invarianta in Actiune</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Inainte de Translatie</strong>
+                                    <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: center; margin-top: 15px;">
+                                        <div>
+                                            <div style="font-size: 0.8rem; margin-bottom: 5px;">Detector Stage:</div>
+                                            <div style="display: flex; gap: 5px;">
+                                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px;">0.1</div>
+                                                <div style="background: var(--success); padding: 10px; border-radius: 4px; font-weight: bold;">1.0</div>
+                                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px;">0.2</div>
+                                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px;">0.1</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 1.5rem;">→</div>
+                                        <div>
+                                            <div style="font-size: 0.8rem; margin-bottom: 5px;">Pooling Stage (max, width=3):</div>
+                                            <div style="display: flex; gap: 5px;">
+                                                <div style="background: var(--accent); padding: 10px; border-radius: 4px; font-weight: bold;">1.0</div>
+                                                <div style="background: var(--accent); padding: 10px; border-radius: 4px; font-weight: bold;">1.0</div>
+                                                <div style="background: var(--accent); padding: 10px; border-radius: 4px; font-weight: bold;">1.0</div>
+                                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px;">0.2</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Dupa Translatie (+1 pixel)</strong>
+                                    <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: center; margin-top: 15px;">
+                                        <div>
+                                            <div style="font-size: 0.8rem; margin-bottom: 5px;">Detector Stage:</div>
+                                            <div style="display: flex; gap: 5px;">
+                                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px;">0.3</div>
+                                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px;">0.1</div>
+                                                <div style="background: var(--success); padding: 10px; border-radius: 4px; font-weight: bold;">1.0</div>
+                                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px;">0.2</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 1.5rem;">→</div>
+                                        <div>
+                                            <div style="font-size: 0.8rem; margin-bottom: 5px;">Pooling Stage:</div>
+                                            <div style="display: flex; gap: 5px;">
+                                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px;">0.3</div>
+                                                <div style="background: var(--accent); padding: 10px; border-radius: 4px; font-weight: bold;">1.0</div>
+                                                <div style="background: var(--accent); padding: 10px; border-radius: 4px; font-weight: bold;">1.0</div>
+                                                <div style="background: var(--accent); padding: 10px; border-radius: 4px; font-weight: bold;">1.0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Observatie:</strong> Valorile maxime (1.0) apar in pozitii similare in pooling stage, chiar daca pozitia exacta in detector stage s-a schimbat!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Invarianta Aproximativa, nu Perfecta</h4>
+                <p>Max pooling ofera invarianta doar pentru translatii mai mici decat dimensiunea regiunii de pooling. Daca mutam inputul cu mai mult de pool_size pixeli, outputul se va schimba. De aceea, CNN-urile moderne folosesc de obicei pooling mic (2x2) dar multe straturi - invarianta se acumuleaza gradual pe masura ce informatia urca in retea.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Limitarile Invariantei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; display: flex; gap: 10px; align-items: center;">
+                                    <span style="color: var(--success); font-size: 1.5rem;">✓</span>
+                                    <span>Translatii mici (&lt; pool_size) → Invarianta buna</span>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; display: flex; gap: 10px; align-items: center;">
+                                    <span style="color: var(--warning); font-size: 1.5rem;">⚠</span>
+                                    <span>Translatii mari → Outputul se schimba</span>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; display: flex; gap: 10px; align-items: center;">
+                                    <span style="color: var(--warning); font-size: 1.5rem;">⚠</span>
+                                    <span>Rotatii, scalari → NU sunt invariante (fara augmentare)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

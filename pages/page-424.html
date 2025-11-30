@@ -1,0 +1,75 @@
+<section class="page-section" id="page-424">
+    <div class="page-header">
+        <div class="page-number">424</div>
+        <div class="page-title">
+            <h3>Figura 10.16 - LSTM Cell</h3>
+            <span>Arhitectura Celulei LSTM</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-424.jpg"
+             alt="Pagina 424" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Diagrama LSTM - Componentele Cheie</h4>
+                <p>Figura 10.16 arata o celula LSTM. Elementele esentiale: <strong>state unit</strong> (s) cu self-loop controlat de gates, <strong>input gate</strong> (g), <strong>forget gate</strong> (f), <strong>output gate</strong> (q). Toate gate-urile sunt sigmoid (valori in [0,1]).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Anatomia LSTM Cell</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Forget Gate (f)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Decide cat din starea anterioara sa pastram (0=uita, 1=pastreaza)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Input Gate (g)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Decide cat din noul input sa adaugam la stare</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Cell State (s)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">"Memoria" celulei - poate pastra info pe termen lung</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Output Gate (q)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Decide cat din stare sa expunem ca output</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Flux de Date</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
+                                <p>input, h<sup>(t-1)</sup></p>
+                                <p>↓ ↓ ↓ ↓</p>
+                                <p style="color: var(--text-secondary);">[σ] [σ] [σ] [tanh]</p>
+                                <p>f &nbsp;&nbsp; g &nbsp;&nbsp; q &nbsp;&nbsp; input</p>
+                                <p>↓ &nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓</p>
+                                <p>s<sup>(t)</sup> = f·s<sup>(t-1)</sup> + g·input</p>
+                                <p>↓</p>
+                                <p>h<sup>(t)</sup> = q · tanh(s<sup>(t)</sup>)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,129 @@
+<section class="page-section" id="page-300">
+    <div class="page-header">
+        <div class="page-number">300</div>
+        <div class="page-title">
+            <h3>8.2.3 Plateaus, Saddle Points si Regiuni Plate</h3>
+            <span>Puncte Critice Non-convexe</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-300.jpg"
+             alt="Pagina 300" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Saddle Points: Adevarata Problema</h4>
+                <p>Pentru functii non-convexe de dimensiuni mari, <strong>saddle points</strong> (puncte de sa) sunt mult mai comune decat minimele locale! Un saddle point are gradient zero, dar nu e nici minim nici maxim - unele directii duc in jos, altele in sus. E ca un punct de trecere pe o creasta montana.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Saddle Point</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                <p style="color: var(--accent); font-size: 1.2rem;">Saddle Point = "Punct de Sa"</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <p style="color: var(--success);">Directie 1: ↓</p>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Costul scade (eigenvalue pozitiv)</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <p style="color: var(--warning);">Directie 2: ↑</p>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Costul creste (eigenvalue negativ)</p>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); margin-top: 15px; font-size: 0.9rem;">Hessian-ul are si eigenvalues pozitive si negative!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Definitie Formala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <ul style="line-height: 1.8;">
+                                    <li><strong>Minim local:</strong> Toate eigenvalues ale H sunt pozitive</li>
+                                    <li><strong>Maxim local:</strong> Toate eigenvalues ale H sunt negative</li>
+                                    <li><strong>Saddle point:</strong> H are mix de eigenvalues pozitive si negative</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Analogia cu Coin Flipping</h4>
+                <p>Gandeste-te la fiecare directie ca la un coin flip: fie duce in sus (heads), fie in jos (tails). Un minim necesita ca <strong>toate</strong> directiile sa duca in sus - toate coin-urile sa cada pe heads. In dimensiuni mari, asta e exponential de improbabil!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Probabilitatea in Functie de Dimensiune</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Low-D (n mic):</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Minime locale comune</li>
+                                        <li>Saddle points rare</li>
+                                        <li>P(minim) = 2<sup>-n</sup> inca rezonabil</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">High-D (n mare):</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Minime locale rare</li>
+                                        <li>Saddle points dominante</li>
+                                        <li>P(minim) = 2<sup>-1000000</sup> ≈ 0</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Proprietate Interesanta: Cost vs Tip Punct Critic</h4>
+                <p>Pentru multe clase de functii aleatoare, eigenvalues-urile Hessianului devin mai probabil pozitive in regiuni cu cost mic. Asta inseamna: minimele locale tind sa aiba cost mic, iar saddle points cu cost ridicat sunt mai comune decat minimele cu cost ridicat!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta: Dauphin et al. 2014</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-success">
+                                <p><strong>Veste buna:</strong> Daca ajungem la un punct cu cost mic, e mai probabil sa fie un minim local bun decat un saddle point! Punctele critice cu cost ridicat sunt de obicei saddle points de care putem scapa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

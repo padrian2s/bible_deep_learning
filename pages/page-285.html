@@ -1,0 +1,94 @@
+<section class="page-section" id="page-285">
+    <div class="page-header">
+        <div class="page-number">285</div>
+        <div class="page-title">
+            <h3>7.13-7.14 Virtual Adversarial + Tangent Distance</h3>
+            <span>Semi-Supervised si Metode Manifold</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-285.jpg"
+             alt="Pagina 285" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Virtual Adversarial Examples</h4>
+                <p>Adversarial examples pot fi folosite si pentru semi-supervised learning! <strong>Virtual adversarial examples</strong> (Miyato et al., 2015) sunt generate pentru puncte x care nu au etichete. Folosim predictia curenta a modelului ŷ ca "pseudo-label" si generam x' care schimba aceasta predictie. Antrenam modelul sa dea acelasi output pentru x si x'.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Intuitie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Fortam clasificatorul sa fie <strong>local constant</strong> pe manifold-ul unde se afla datele. Presupunerea: clase diferite sunt pe manifold-uri diferite, deci perturbatii mici nu ar trebui sa schimbe clasa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>7.14 Tangent Distance, Tangent Prop, Manifold Tangent Classifier</h4>
+                <p>Multe algoritmi ML depasesc "blestemul dimensionalitatii" presupunand ca datele stau pe un <strong>manifold de dimensiune joasa</strong> (vezi sectiunea 5.11.3). Acest insight poate fi folosit direct pentru regularizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Tangent Distance</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p><strong>Tangent Distance</strong> (Simard et al., 1993, 1998) este un algoritm nearest-neighbor non-parametric. In loc de distanta Euclidiana generica, foloseste o distanta derivata din cunoasterea manifold-urilor.</p>
+                            <ul style="margin-top: 10px;">
+                                <li>Presupunere: exemple din aceeasi clasa sunt pe acelasi manifold</li>
+                                <li>Clasificatorul trebuie sa fie invariant la miscari de-a lungul manifold-ului</li>
+                                <li>Masuram distanta intre manifold-uri (sau planele tangente la manifold)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tangent Prop</h4>
+                <p><strong>Tangent Prop</strong> (Simard et al., 1992) antreneaza un classifier neural cu o penalizare extra care face output-ul f(x) sa fie local invariant la factori de variatie cunoscuti. Invarianta locala se obtine prin cerinta ca ∇<sub>x</sub>f(x) sa fie ortogonala pe vectorii tangenti cunoscuti v<sup>(i)</sup>:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    Ω(f) = Σᵢ ((∇<sub>x</sub>f(x))⊤ v<sup>(i)</sup>)²
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Invarianta la Translatie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Pentru imagini, daca stim ca clasificarea nu ar trebui sa se schimbe la translatii mici:</p>
+                            <ul style="margin-top: 10px;">
+                                <li>v<sup>(1)</sup> = directia translatiei orizontale</li>
+                                <li>v<sup>(2)</sup> = directia translatiei verticale</li>
+                                <li>Penalizarea forteaza ∂f/∂v<sup>(i)</sup> ≈ 0</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,154 @@
+        <section class="page-section" id="page-68">
+            <div class="page-header">
+                <div class="page-number">68</div>
+                <div class="page-title">
+                    <h3>Capitolul 3: Probabilitati si Teoria Informatiei</h3>
+                    <span>Introducere</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-068.jpg"
+                     alt="Pagina 68" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce avem nevoie de Probabilitati in Machine Learning?</h4>
+                        <p>Teoria probabilitatilor este un cadru matematic pentru reprezentarea afirmatiilor incerte. Ne ofera o modalitate de a cuantifica incertitudinea si axiome pentru a deriva noi afirmatii incerte. In inteligenta artificiala, folosim probabilitatile in doua moduri majore: pentru a proiecta algoritmi care calculeaza expresii derivate din distributii de probabilitate, si pentru a analiza teoretic comportamentul sistemelor AI propuse.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Certitudine vs Incertitudine</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                            <strong style="color: var(--accent);">Programare Clasica</strong>
+                                            <div class="code-block" style="margin-top: 10px;">
+if temperatura > 100:
+    print("Apa fierbe")
+else:
+    print("Apa nu fierbe")
+                                            </div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">Deterministic - acelasi input produce mereu acelasi output</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                            <strong style="color: var(--success);">Machine Learning</strong>
+                                            <div class="code-block" style="margin-top: 10px;">
+P(spam | email) = 0.87
+P(nu_spam | email) = 0.13
+# Decizia: probabil spam
+                                            </div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">Probabilistic - exprimam gradul de incredere in predictie</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Resurse recomandate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>📖</span>
+                                            <div><strong>Probability Theory: The Logic of Science</strong> - E.T. Jaynes (2003) - Cartea recomandata de autori pentru fundamente solide</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🎥</span>
+                                            <div><strong>3Blue1Brown - Probability</strong> - Vizualizari intuitive pentru conceptele de probabilitate</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📖</span>
+                                            <div><strong>Pattern Recognition and ML</strong> - Bishop (2006) - Cap. 1-2 pentru probabilitati in context ML</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Cele doua utilizari ale probabilitatilor in AI</h4>
+                        <p>Prima utilizare: legile probabilitatilor ne spun cum ar trebui sa rationeze sistemele AI, asa ca proiectam algoritmi care calculeaza sau aproximeaza expresii derivate din teoria probabilitatilor. A doua utilizare: putem folosi probabilitatile si statistica pentru a analiza teoretic comportamentul sistemelor AI propuse.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Cele doua roluri</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: linear-gradient(135deg, var(--bg-lighter), var(--bg-dark)); padding: 20px; border-radius: 12px; text-align: center;">
+                                            <div style="font-size: 2.5rem; margin-bottom: 10px;">🧮</div>
+                                            <strong style="color: var(--primary); font-size: 1.1rem;">Design de Algoritmi</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Calculam predictii, actualizam credinte, estimam parametri folosind formulele probabilistice</p>
+                                            <div style="margin-top: 10px; padding: 10px; background: var(--bg-dark); border-radius: 6px;">
+                                                <code style="color: var(--accent);">P(θ|date) ∝ P(date|θ)P(θ)</code>
+                                            </div>
+                                        </div>
+                                        <div style="background: linear-gradient(135deg, var(--bg-lighter), var(--bg-dark)); padding: 20px; border-radius: 12px; text-align: center;">
+                                            <div style="font-size: 2.5rem; margin-bottom: 10px;">📊</div>
+                                            <strong style="color: var(--secondary); font-size: 1.1rem;">Analiza Teoretica</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Demonstram garantii de convergenta, calculam complexitatea, analizam generalizarea</p>
+                                            <div style="margin-top: 10px; padding: 10px; background: var(--bg-dark); border-radius: 6px;">
+                                                <code style="color: var(--secondary);">E[eroare_test] ≤ ...</code>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Exemple practice</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# 1. Design: Clasificare probabilistica
+def classify_probabilistic(x, model):
+    # Output: probabilitati pentru fiecare clasa
+    probs = model.predict_proba(x)
+    return probs  # [0.87, 0.13] - nu doar "spam"
+
+# 2. Analiza: Estimare eroare prin bootstrapping
+def analyze_model_uncertainty(model, X, y, n_bootstrap=1000):
+    scores = []
+    for _ in range(n_bootstrap):
+        idx = np.random.choice(len(X), len(X), replace=True)
+        score = model.score(X[idx], y[idx])
+        scores.append(score)
+
+    return {
+        'mean': np.mean(scores),
+        'std': np.std(scores),  # Incertitudinea estimarii
+        'ci_95': np.percentile(scores, [2.5, 97.5])
+    }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

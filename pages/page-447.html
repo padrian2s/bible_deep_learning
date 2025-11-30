@@ -1,0 +1,186 @@
+<section class="page-section" id="page-447">
+    <div class="page-header">
+        <div class="page-number">447</div>
+        <div class="page-title">
+            <h3>Optimizare Automata a Hiperparametrilor</h3>
+            <span>Sectiunile 11.4.2-11.4.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-447.jpg"
+             alt="Pagina 447" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>11.4.2 Algoritmi Automatici de Optimizare HP</h4>
+                <p>Algoritmul ideal de invatare ar lua doar un dataset si ar produce o functie, fara tuning manual. Popularitatea algoritmilor precum <strong>logistic regression</strong> si <strong>SVM</strong> vine partial din faptul ca necesita putini hiperparametri tunati. Retelele neuronale pot functiona cu 1-2 HP tunati, dar beneficiaza semnificativ de tuning-ul a <strong>40+ hiperparametri</strong>. Pentru multi, algoritmii automatici sunt singura optiune practica.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Manual vs Automat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #1b3d4d, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #03dac6; font-weight: bold; margin-bottom: 10px;">Tuning Manual</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.9em; margin: 0; padding-left: 20px;">
+                                        <li>Necesita intelegere profunda</li>
+                                        <li>Functioneaza cu experienta</li>
+                                        <li>Bun cand ai starting points</li>
+                                        <li>Cost computational mic</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b4d, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #bb86fc; font-weight: bold; margin-bottom: 10px;">Tuning Automat</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.9em; margin: 0; padding-left: 20px;">
+                                        <li>Nu necesita expertiza</li>
+                                        <li>Exploreaza sistematic</li>
+                                        <li>Bun pentru probleme noi</li>
+                                        <li>Cost computational MARE</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>HP Optimization = Meta-Optimization:</strong> Cautam hiperparametrii care optimizeaza eroarea de validare, sub constrangeri de timp/memorie.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>11.4.3 Grid Search</h4>
+                <p>Cand ai <strong>3 sau mai putini hiperparametri</strong>, practica comuna este <strong>grid search</strong>. Pentru fiecare hiperparametru, selectezi un set finit de valori de explorat. Algoritmul antreneaza apoi un model pentru <strong>fiecare combinatie</strong> din produsul cartezian al acestor seturi. Experimentul cu cea mai buna eroare de validare este ales.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Grid Search Implementation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.model_selection import GridSearchCV
+from sklearn.neural_network import MLPClassifier
+import itertools
+
+# METODA 1: Sklearn GridSearchCV
+param_grid = {
+    'hidden_layer_sizes': [(64,), (128,), (256,)],
+    'learning_rate_init': [0.001, 0.01, 0.1],
+    'alpha': [0.0001, 0.001, 0.01]  # L2 regularization
+}
+
+# Total experimente: 3 * 3 * 3 = 27
+mlp = MLPClassifier(max_iter=500)
+grid_search = GridSearchCV(mlp, param_grid, cv=5, scoring='accuracy')
+# grid_search.fit(X_train, y_train)
+
+print(f"Total combinations: {3*3*3}")
+
+# METODA 2: Manual (pentru mai mult control)
+def manual_grid_search(X_train, y_train, X_val, y_val):
+    learning_rates = [0.1, 0.01, 0.001, 0.0001, 0.00001]
+    hidden_units = [50, 100, 200, 500, 1000, 2000]
+
+    best_score = 0
+    best_params = None
+
+    # NOTA: Valorile sunt pe scala LOGARITMICA
+    for lr in learning_rates:
+        for units in hidden_units:
+            model = train_model(lr=lr, units=units)
+            score = evaluate(model, X_val, y_val)
+
+            if score > best_score:
+                best_score = score
+                best_params = {'lr': lr, 'units': units}
+
+    return best_params
+
+# PROBLEMA: Cost creste EXPONENTIAL cu numarul de HP
+# 5 HP x 5 valori fiecare = 5^5 = 3125 experimente!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Tips: Alegerea Valorilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Scala logaritmica:</strong> Learning rate: {0.1, 0.01, 0.001, 0.0001, 0.00001}
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Scala liniara/log:</strong> Hidden units: {50, 100, 200, 500, 1000, 2000}
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Iterativ:</strong> Daca best value e la margine, extinde grid-ul in acea directie
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Zoom in:</strong> Dupa un grid grosier, fa un grid fin in jurul best value
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Limitarile Grid Search</h4>
+                <p>Problema evidenta cu grid search este ca <strong>costul creste exponential</strong> cu numarul de hiperparametri. Daca avem <em>m</em> hiperparametri, fiecare cu <em>n</em> valori, numarul de experimente este O(n<sup>m</sup>). Chiar daca experimentele pot rula in paralel, costul exponential face grid search <strong>impracticabil</strong> pentru mai mult de 3-4 hiperparametri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Explozie Combinatoriala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+                                <div style="background: #1b4d1b; padding: 15px; border-radius: 8px;">
+                                    <div style="color: #4caf50; font-weight: bold;">2 HP</div>
+                                    <div style="font-size: 1.5em; color: white;">25</div>
+                                    <div style="color: #a0a0a0; font-size: 0.8em;">5² = OK</div>
+                                </div>
+                                <div style="background: #4d4d1b; padding: 15px; border-radius: 8px;">
+                                    <div style="color: #ffd93d; font-weight: bold;">3 HP</div>
+                                    <div style="font-size: 1.5em; color: white;">125</div>
+                                    <div style="color: #a0a0a0; font-size: 0.8em;">5³ = Acceptabil</div>
+                                </div>
+                                <div style="background: #4d2d1b; padding: 15px; border-radius: 8px;">
+                                    <div style="color: #ff9800; font-weight: bold;">4 HP</div>
+                                    <div style="font-size: 1.5em; color: white;">625</div>
+                                    <div style="color: #a0a0a0; font-size: 0.8em;">5⁴ = Scump</div>
+                                </div>
+                                <div style="background: #4d1b1b; padding: 15px; border-radius: 8px;">
+                                    <div style="color: #f44336; font-weight: bold;">5 HP</div>
+                                    <div style="font-size: 1.5em; color: white;">3125</div>
+                                    <div style="color: #a0a0a0; font-size: 0.8em;">5⁵ = Impracticabil!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

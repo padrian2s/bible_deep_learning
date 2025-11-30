@@ -1,0 +1,98 @@
+<section class="page-section" id="page-170">
+    <div class="page-header">
+        <div class="page-number">170</div>
+        <div class="page-title">
+            <h3>Challenges Motivating Deep Learning</h3>
+            <span>Capitolul 5 - Sectiunea 5.11</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-170.jpg"
+             alt="Pagina 170" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmii Speciali</h4>
+                <p>In unele cazuri, functia cost poate fi o functie pe care <strong>nu o putem evalua efectiv</strong> (pentru motive computationale). In aceste cazuri, putem inca sa o minimizam aproximativ cu optimizare numerica iterativa atata timp cat avem o cale de a-i <strong>aproxima gradientii</strong>. Majoritatea algoritmilor ML folosesc aceasta reteta, desi uneori nu e imediat evident - unele modele precum decision trees sau k-means necesita <strong>optimizers speciali</strong> pentru ca functiile lor cost au regiuni plate care le fac inadecvate pentru gradient descent.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.11 Challenges Motivating Deep Learning</h4>
+                <p>Algoritmii simpli de ML descrisi in acest capitol functioneaza foarte bine pe o varietate larga de probleme importante. Totusi, <strong>nu au reusit</strong> sa rezolve problemele centrale in AI, cum ar fi recunoasterea vorbirii sau recunoasterea obiectelor. Dezvoltarea deep learning a fost motivata partial de esecul algoritmilor traditionali de a generaliza bine pe astfel de task-uri AI.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Limitarile ML Traditional</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce avem nevoie de Deep Learning?</h5>
+                                <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Problema 1:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Generalizarea la exemple noi devine exponential mai dificila in high dimensions</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Problema 2:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Mecanismele de generalizare traditionale sunt insuficiente pentru functii complicate</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Problema 3:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">High-dimensional spaces impun costuri computationale ridicate</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center; color: var(--success);">Deep learning a fost proiectat sa depaseasca aceste obstacole!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.11.1 The Curse of Dimensionality</h4>
+                <p>Multe probleme de ML devin extrem de dificile cand <strong>numarul de dimensiuni</strong> din date este mare. Acest fenomen este cunoscut ca <strong>curse of dimensionality</strong>. De interes particular este faptul ca numarul de <strong>configuratii distincte posibile</strong> ale unui set de variabile creste <strong>exponential</strong> pe masura ce numarul de variabile creste.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Curse of Dimensionality</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Cate "regiuni" avem pentru diferite dimensiuni?
+# Daca discretizam fiecare dimensiune in 10 bins:
+
+bins_per_dim = 10
+
+for d in [1, 2, 3, 5, 10, 20, 100]:
+    n_regions = bins_per_dim ** d
+    print(f"d={d:3d} dim: {n_regions:>30,.0f} regiuni")
+
+print()
+print("=> Cu 100 de dimensiuni si 10 bins/dim:")
+print("   avem 10^100 regiuni posibile!")
+print()
+print("   Cate exemple ai nevoie pentru a")
+print("   acoperi toate regiunile? IMPOSIBIL!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

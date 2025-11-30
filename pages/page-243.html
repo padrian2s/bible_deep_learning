@@ -1,0 +1,130 @@
+<section class="page-section" id="page-243">
+    <div class="page-header">
+        <div class="page-number">243</div>
+        <div class="page-title">
+            <h3>Capitolul 7: Regularizare pentru Deep Learning</h3>
+            <span>Introducere</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-243.jpg"
+             alt="Pagina 243" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Centrala: Generalizarea</h4>
+                <p>O problema fundamentala in machine learning este cum sa facem un algoritm sa performeze bine nu doar pe datele de antrenament, ci si pe inputuri noi. Multe strategii sunt concepute explicit pentru a reduce eroarea de test, posibil cu costul cresterii erorii de antrenament. Aceste strategii sunt cunoscute colectiv ca <strong>regularizare</strong>. Dezvoltarea unor strategii de regularizare mai eficiente a fost una dintre principalele directii de cercetare in domeniu.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Overfitting vs Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Fara Regularizare (Overfitting)</strong>
+                                    <div class="code-block" style="margin-top: 10px;">
+# Model prea complex
+Train Error: 0.01%
+Test Error:  25.3%
+# Memoreaza datele de train
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Cu Regularizare</strong>
+                                    <div class="code-block" style="margin-top: 10px;">
+# Model regularizat
+Train Error: 2.5%
+Test Error:  3.1%
+# Generalizeaza bine
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Regularizarea face un trade-off: acceptam o eroare de antrenament putin mai mare pentru o eroare de test semnificativ mai mica.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context: Capitolul 5</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Capitolul 5 a introdus conceptele de baza: generalizare, underfitting, overfitting, bias, varianta si regularizare. Daca nu esti familiarizat cu aceste notiuni, reciteste acel capitol inainte de a continua.</p>
+                            </div>
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Sectiunea 5.2.2</strong> - Definitia regularizarii ca "orice modificare a algoritmului de invatare menita sa reduca eroarea de generalizare dar nu eroarea de antrenament"</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce este Regularizarea?</h4>
+                <p>Regularizarea reprezinta orice modificare facuta unui algoritm de invatare care este menita sa reduca eroarea de generalizare dar nu si eroarea de antrenament. Exista multe strategii de regularizare: unele adauga constrangeri pe valorile parametrilor, altele adauga termeni extra in functia obiectiv (penalizari soft), iar alte forme (metode ensemble) combina mai multe ipoteze pentru a explica datele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Tipuri de Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">🔒</div>
+                                    <strong style="color: var(--primary);">Constrangeri</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Limite pe valori parametri</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">⚖️</div>
+                                    <strong style="color: var(--accent);">Penalizari</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Termeni extra in cost</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">🎭</div>
+                                    <strong style="color: var(--success);">Ensemble</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Combinatii de modele</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce functioneaza?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>In contextul deep learning, majoritatea strategiilor de regularizare se bazeaza pe <strong>regularizarea estimatorilor</strong>. Un regularizator eficient face un trade-off profitabil: reduce varianta semnificativ fara a creste prea mult bias-ul.</p>
+                            <div class="formula" style="margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                Eroare Generalizare = Bias² + Varianta + Zgomot Ireductibil
+                            </div>
+                            <p style="color: var(--text-secondary);">Scopul este sa mutam modelul din regimul de overfitting (varianta mare) in regimul optim.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

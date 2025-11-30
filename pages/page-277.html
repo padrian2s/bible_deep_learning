@@ -1,0 +1,77 @@
+<section class="page-section" id="page-277">
+    <div class="page-header">
+        <div class="page-number">277</div>
+        <div class="page-title">
+            <h3>7.12 Inferenta cu Dropout</h3>
+            <span>Predictia Ensemble-ului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-277.jpg"
+             alt="Pagina 277" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Inferentei</h4>
+                <p>Pentru a face o predictie, un ensemble bagged trebuie sa acumuleze voturile tuturor membrilor. In cazul dropout-ului, fiecare sub-model definit de masca μ produce o distributie p(y|x, μ). Media aritmetica peste toate mastile:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    Σ<sub>μ</sub> p(μ) p(y|x, μ)
+                </div>
+                <p>Aceasta suma are un numar <strong>exponential</strong> de termeni - intractabila de evaluat direct!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Solutia Naiva: Sampling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Putem aproxima prin sampling: samplem 10-20 de masti random, facem forward pass prin fiecare, mediem predictiile. Functioneaza, dar necesita ~10-20x mai mult timp la inferenta.</p>
+                            <div class="code-block" style="margin-top: 15px;">
+# Inferenta cu sampling (lent)
+def inference_sampling(model, x, n_samples=20):
+    model.train()  # Activeaza dropout
+    preds = []
+    for _ in range(n_samples):
+        preds.append(model(x))
+    return torch.stack(preds).mean(dim=0)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Media Geometrica ca Aproximare</h4>
+                <p>O abordare mai buna: in loc de media aritmetica, folosim <strong>media geometrica</strong> peste toate mastile. Media geometrica a mai multor distributii de probabilitate nu e garantat sa fie o distributie valida, dar o putem renormaliza:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    p̃<sub>ensemble</sub>(y|x) = <sup>d</sup>√(∏<sub>μ</sub> p(y|x, μ))
+                </div>
+                <p>Warde-Farley et al. (2014) au aratat ca media geometrica functioneaza comparabil cu media aritmetica pentru deep networks.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce media geometrica?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Media geometrica a mai multor distributii softmax poate fi calculata <strong>exact</strong> cu un singur forward pass! Aceasta este cheia eficientei dropout la inferenta.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

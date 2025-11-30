@@ -1,0 +1,154 @@
+<section class="page-section" id="page-448">
+    <div class="page-header">
+        <div class="page-number">448</div>
+        <div class="page-title">
+            <h3>Figura 11.2: Grid vs Random Search</h3>
+            <span>Sectiunea 11.4.3-11.4.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-448.jpg"
+             alt="Pagina 448" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 11.2: De Ce Random Search Bate Grid Search</h4>
+                <p>Aceasta figura ilustreaza intuitia cheie din lucrarea lui <strong>Bergstra and Bengio (2012)</strong>. Cand doar unii hiperparametri au un efect semnificativ asupra performantei (curba verde), grid search iroseste compute testand aceleasi valori ale hiperparametrului important de mai multe ori. Random search testeaza o valoare <strong>unica</strong> pentru hiperparametrul important la aproape fiecare experiment.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Grid vs Random</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <!-- Grid Search -->
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ff6b6b; font-weight: bold; text-align: center; margin-bottom: 10px;">GRID SEARCH</div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 10px; background: #111; border-radius: 5px;">
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%; margin: auto;"></div>
+                                    </div>
+                                    <div style="color: #a0a0a0; font-size: 0.85em; margin-top: 10px; text-align: center;">9 experimente → doar 3 valori unice pe axa X</div>
+                                </div>
+                                <!-- Random Search -->
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4caf50; font-weight: bold; text-align: center; margin-bottom: 10px;">RANDOM SEARCH</div>
+                                    <div style="position: relative; padding: 10px; background: #111; border-radius: 5px; height: 80px;">
+                                        <div style="position: absolute; left: 10%; top: 20%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 25%; top: 60%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 40%; top: 30%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 55%; top: 70%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 70%; top: 15%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 85%; top: 50%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 15%; top: 80%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 60%; top: 40%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 35%; top: 55%; width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                    </div>
+                                    <div style="color: #a0a0a0; font-size: 0.85em; margin-top: 10px; text-align: center;">9 experimente → ~9 valori unice pe axa X!</div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Insight cheie:</strong> Daca doar axa X (un hiperparametru) conteaza, grid search testeaza doar 3 valori in 9 experimente. Random search testeaza ~9 valori diferite!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Eficienta Superioara a Random Search</h4>
+                <p>Bergstra and Bengio (2012) au demonstrat ca random search reduce eroarea de validare <strong>mult mai rapid</strong> decat grid search, in termeni de numarul de experimente rulate. Motivul: in practica, nu toti hiperparametrii au acelasi impact. Daca din 10 HP doar 2 conteaza cu adevarat, random search va explora mult mai bine spatiul acelor 2 HP importanti.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Random Search</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import uniform, loguniform
+import numpy as np
+
+# Random Search cu distributii continue
+param_distributions = {
+    # Log-uniform pentru learning rate
+    'learning_rate_init': loguniform(1e-5, 1e-1),
+
+    # Uniform pentru dropout
+    'alpha': loguniform(1e-5, 1e-2),
+
+    # Discrete choices
+    'hidden_layer_sizes': [(64,), (128,), (256,), (512,)],
+}
+
+# Ruleaza N experimente random
+random_search = RandomizedSearchCV(
+    MLPClassifier(max_iter=500),
+    param_distributions,
+    n_iter=50,      # 50 experimente (nu combinatii complete!)
+    cv=5,
+    random_state=42
+)
+
+# AVANTAJE:
+# 1. Cost fix (n_iter), nu exponential
+# 2. Exploreaza valori continue, nu doar discrete
+# 3. Fiecare experiment testeaza combinatie unica
+# 4. Mai eficient cand doar unii HP conteaza
+
+# DISTRIBUTII RECOMANDATE:
+"""
+Learning rate: loguniform(1e-5, 1e-1)
+Weight decay:  loguniform(1e-6, 1e-2)
+Dropout:       uniform(0, 0.5)
+Hidden units:  [64, 128, 256, 512, 1024]
+Num layers:    [1, 2, 3, 4, 5]
+"""
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Bergstra & Bengio</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Bergstra & Bengio (2012)</strong> - "Random Search for Hyper-Parameter Optimization" - Paper fundamental
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Concluzia:</strong> Random search e mai eficient pentru majoritatea problemelor practice
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Recomandat:</strong> Foloseste random search ca default, grid search doar pentru 2-3 HP
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

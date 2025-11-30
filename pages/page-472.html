@@ -1,0 +1,130 @@
+<section class="page-section" id="page-472">
+    <div class="page-header">
+        <div class="page-number">472</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Comparatie GCN vs LCN - Figura 12.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-472.jpg"
+             alt="Pagina 472" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 12.2: Comparatie GCN vs LCN</h4>
+                <p>Aceasta figura ilustreaza diferenta vizuala intre Global si Local Contrast Normalization. GCN plaseaza toate imaginile aproximativ pe aceeasi scala, reducand povara algoritmului de invatare. LCN modifica imaginea mult mai mult, eliminand regiunile de intensitate constanta si permitand modelului sa se concentreze pe <strong>muchii</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: GCN vs LCN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px;">
+                                <div style="text-align: center;">
+                                    <div style="background: linear-gradient(135deg, #444 0%, #888 50%, #444 100%); height: 100px; border-radius: 8px;"></div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;"><strong>Input Image</strong></p>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">Original cu gradient</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="background: linear-gradient(135deg, #555 0%, #777 50%, #555 100%); height: 100px; border-radius: 8px;"></div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;"><strong>GCN</strong></p>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">Contrast global normalizat</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="background: var(--bg-lighter); height: 100px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <div style="width: 60%; height: 2px; background: var(--accent);"></div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;"><strong>LCN</strong></p>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">Doar muchiile raman</p>
+                                </div>
+                            </div>
+                            <div class="key-concept">
+                                <strong>Observatie:</strong> Regiunile de textura fina (ex: casele din al doilea rand al Figurii 12.2) pot pierde detalii datorita bandwidth-ului kernel-ului de normalizare. Trade-off intre evidentierea muchiilor si pastrarea texturii fine.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Implementare Eficienta a LCN</h4>
+                <p>LCN poate fi implementata eficient folosind <strong>separable convolution</strong> (vezi sectiunea 9.8) pentru a calcula feature maps ale mediilor si deviatiilor standard locale, apoi scadere si impartire element-wise pe feature maps diferite.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: LCN Eficienta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+class LocalContrastNorm(torch.nn.Module):
+    def __init__(self, kernel_size=9, eps=1e-5):
+        super().__init__()
+        self.kernel_size = kernel_size
+        self.eps = eps
+
+        # Kernel pentru calculul mediei (box filter)
+        k = kernel_size
+        kernel = torch.ones(1, 1, k, k) / (k * k)
+        self.register_buffer('kernel', kernel)
+
+    def forward(self, x):
+        # x: (batch, channels, H, W)
+        b, c, h, w = x.shape
+
+        # Calculeaza media locala (separable conv mai eficienta)
+        x_pad = F.pad(x, [self.kernel_size//2]*4, mode='reflect')
+        local_mean = F.conv2d(
+            x_pad.view(b*c, 1, h+self.kernel_size-1, w+self.kernel_size-1),
+            self.kernel
+        ).view(b, c, h, w)
+
+        # Calculeaza varianta locala
+        x_sq_pad = F.pad(x**2, [self.kernel_size//2]*4, mode='reflect')
+        local_sq_mean = F.conv2d(
+            x_sq_pad.view(b*c, 1, h+self.kernel_size-1, w+self.kernel_size-1),
+            self.kernel
+        ).view(b, c, h, w)
+
+        local_std = torch.sqrt(local_sq_mean - local_mean**2 + self.eps)
+
+        return (x - local_mean) / local_std
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>LCN ca Hidden Layer</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>LCN nu e doar preprocessing!</strong> Deoarece este o operatie diferentiabila, LCN poate fi aplicata si la layer-urile ascunse ale unei retele, nu doar ca preprocessing pe input.
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Ca si cu GCN, de obicei trebuie sa regularizam LCN pentru a evita impartirea la zero. Ferestrele mici sunt mai probabil sa contina valori aproape identice, deci regularizarea e si mai importanta pentru LCN.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

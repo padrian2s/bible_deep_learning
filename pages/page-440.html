@@ -1,0 +1,284 @@
+<section class="page-section" id="page-440">
+    <div class="page-header">
+        <div class="page-number">440</div>
+        <div class="page-title">
+            <h3>Modele Baseline Implicite</h3>
+            <span>Sectiunea 11.2 - Default Baseline Models</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-440.jpg"
+             alt="Pagina 440" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Stabilirea unui Sistem End-to-End Rapid</h4>
+                <p>Dupa alegerea metricilor si obiectivelor, urmatorul pas este sa stabilesti un sistem <strong>end-to-end functional cat mai repede</strong>. Aceasta sectiune ofera recomandari pentru algoritmii de pornire in diferite situatii. Retine: cercetarea in deep learning progreseaza rapid, deci algoritmii "default" se vor schimba!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Alegerea Modelului Initial</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Ghid pentru alegerea modelului baseline
+
+def choose_baseline_model(problem_type, data_structure, data_size):
+    """
+    Recomandari bazate pe tipul problemei si structura datelor
+    """
+
+    # PROBLEMA SIMPLA? Incepe FARA deep learning!
+    if data_size < 10000 or problem_type == "tabular":
+        return {
+            "model": "Logistic Regression / Random Forest / XGBoost",
+            "rationale": "Problema poate fi rezolvata cu modele simple",
+            "next_step": "Daca nu functioneaza, incearca deep learning"
+        }
+
+    # DATE STRUCTURATE (FIXED-SIZE VECTORS)
+    if data_structure == "fixed_vectors":
+        return {
+            "model": "Feedforward Network (MLP)",
+            "layers": "2-3 hidden layers",
+            "activation": "ReLU / LeakyReLU / PReLU / Maxout",
+            "optimizer": "SGD + momentum sau Adam"
+        }
+
+    # IMAGINI (STRUCTURA TOPOLOGICA)
+    if data_structure == "images":
+        return {
+            "model": "Convolutional Neural Network (CNN)",
+            "architecture": "Start: ResNet, EfficientNet",
+            "pretrained": True,  # Transfer learning!
+            "activation": "ReLU family"
+        }
+
+    # SECVENTE (TEXT, TIME SERIES)
+    if data_structure == "sequences":
+        return {
+            "model": "Transformer sau LSTM/GRU",
+            "modern_choice": "Transformer (attention)",
+            "legacy_choice": "LSTM/GRU pentru secvente simple",
+            "for_text": "Start cu pretrained: BERT, GPT"
+        }
+
+    return "Analizeaza structura datelor mai in detaliu"
+
+# Exemplu utilizare:
+print(choose_baseline_model(
+    problem_type="classification",
+    data_structure="images",
+    data_size=50000
+))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Arbore de Decizie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #ffd93d; font-weight: bold;">Problema e "AI-complete"?</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">(object recognition, speech, translation)</div>
+                                </div>
+                                <div style="display: flex; justify-content: center; gap: 50px;">
+                                    <div style="text-align: center;">
+                                        <div style="color: #4caf50;">DA ↓</div>
+                                        <div style="background: #1b4d1b; padding: 10px; border-radius: 8px; color: #4caf50;">Deep Learning</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="color: #ff6b6b;">NU ↓</div>
+                                        <div style="background: #4d1b1b; padding: 10px; border-radius: 8px; color: #ff6b6b;">Logistic Reg / RF</div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 15px; background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4ecdc4; font-weight: bold; margin-bottom: 10px;">Structura Datelor → Arhitectura</div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                                        <div style="background: #2d2d44; padding: 10px; border-radius: 5px; text-align: center;">
+                                            <div style="color: #bb86fc;">Vectori</div>
+                                            <div style="color: white; font-size: 0.9em;">→ MLP</div>
+                                        </div>
+                                        <div style="background: #2d2d44; padding: 10px; border-radius: 5px; text-align: center;">
+                                            <div style="color: #bb86fc;">Imagini</div>
+                                            <div style="color: white; font-size: 0.9em;">→ CNN</div>
+                                        </div>
+                                        <div style="background: #2d2d44; padding: 10px; border-radius: 5px; text-align: center;">
+                                            <div style="color: #bb86fc;">Secvente</div>
+                                            <div style="color: white; font-size: 0.9em;">→ LSTM/Transformer</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Recomandari pentru Optimizare</h4>
+                <p>O alegere rezonabila pentru optimizator este <strong>SGD cu momentum</strong> cu un learning rate descrescator (platouri, exponential, sau scadere la fiecare 2-10 epoci). O alternativa foarte buna este <strong>Adam</strong>. <strong>Batch normalization</strong> poate avea un efect dramatic asupra performantei, mai ales pentru retele convolutionale cu neliniaritati sigmoide.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Setup Optimizare Standard</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# MODEL BASELINE TIPIC
+class BaselineModel(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(input_size, hidden_size),
+            nn.BatchNorm1d(hidden_size),  # Batch Norm!
+            nn.ReLU(),                     # ReLU activation
+            nn.Dropout(0.5),               # Regularizare
+            nn.Linear(hidden_size, hidden_size),
+            nn.BatchNorm1d(hidden_size),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(hidden_size, output_size)
+        )
+
+    def forward(self, x):
+        return self.layers(x)
+
+model = BaselineModel(784, 256, 10)
+
+# OPTIUNEA 1: SGD cu Momentum + LR Scheduling
+optimizer = optim.SGD(
+    model.parameters(),
+    lr=0.1,           # Start mai mare
+    momentum=0.9,     # Momentum standard
+    weight_decay=1e-4 # L2 regularization
+)
+scheduler = optim.lr_scheduler.StepLR(
+    optimizer,
+    step_size=30,     # Scade LR la fiecare 30 epoci
+    gamma=0.1         # Factor de scadere
+)
+
+# OPTIUNEA 2: Adam (mai simplu, functioneaza bine)
+optimizer = optim.Adam(
+    model.parameters(),
+    lr=0.001,         # LR tipic pentru Adam
+    weight_decay=1e-4
+)
+
+# Training loop standard
+for epoch in range(100):
+    # ... training code ...
+    scheduler.step()  # Update learning rate
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regularizare de la Inceput</h4>
+                <p>Daca setul de antrenare nu contine zeci de milioane de exemple, ar trebui sa incluzi <strong>regularizare de la inceput</strong>. <strong>Early stopping</strong> ar trebui folosit aproape universal. <strong>Dropout</strong> este un regularizator excelent, usor de implementat si compatibil cu multe modele. <strong>Batch normalization</strong> reduce uneori si eroarea de generalizare, permitand omiterea dropout-ului datorita noise-ului din estimarea statisticilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Checklist Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="font-size: 1.5em;">✅</div>
+                                    <div>
+                                        <div style="color: #4caf50; font-weight: bold;">Early Stopping</div>
+                                        <div style="color: #a0a0a0; font-size: 0.9em;">Foloseste MEREU! Zero cost, previne overfitting</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="font-size: 1.5em;">✅</div>
+                                    <div>
+                                        <div style="color: #4caf50; font-weight: bold;">Dropout (p=0.5)</div>
+                                        <div style="color: #a0a0a0; font-size: 0.9em;">Simplu, eficient, compatible cu orice arhitectura</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="font-size: 1.5em;">✅</div>
+                                    <div>
+                                        <div style="color: #4caf50; font-weight: bold;">Batch Normalization</div>
+                                        <div style="color: #a0a0a0; font-size: 0.9em;">Stabilizeaza training, reduce nevoia de dropout</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d4d1b, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="font-size: 1.5em;">⚠️</div>
+                                    <div>
+                                        <div style="color: #ffd93d; font-weight: bold;">Weight Decay (L2)</div>
+                                        <div style="color: #a0a0a0; font-size: 0.9em;">Optional, mai ales daca ai deja dropout</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d4d1b, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="font-size: 1.5em;">⚠️</div>
+                                    <div>
+                                        <div style="color: #ffd93d; font-weight: bold;">Data Augmentation</div>
+                                        <div style="color: #a0a0a0; font-size: 0.9em;">Excelent pentru imagini, adauga daca e aplicabil</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Regularizare Moderna</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Dropout (2014):</strong> Srivastava et al. - Tehnica dominanta de regularizare
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Batch Norm (2015):</strong> Ioffe & Szegedy - Accelereaza si stabilizeaza training
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Label Smoothing:</strong> Tehnica complementara pentru clasificare
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Mixup / CutMix:</strong> Data augmentation moderne foarte eficiente
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

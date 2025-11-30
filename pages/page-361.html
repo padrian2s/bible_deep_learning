@@ -1,0 +1,129 @@
+<section class="page-section" id="page-361">
+    <div class="page-header">
+        <div class="page-number">361</div>
+        <div class="page-title">
+            <h3>Figura 9.11: Arhitecturi CNN pentru Clasificare</h3>
+            <span>Trei Variante Comune</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-361.jpg"
+             alt="Pagina 361" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trei Stiluri de Arhitecturi CNN</h4>
+                <p>Figura 9.11 prezinta trei moduri diferite de a construi un CNN pentru clasificare de imagini. Toate pornesc de la o imagine 256x256x3 si produc 1000 probabilitati de clase. Diferenta principala este in cum trec de la feature maps 2D la vectorul final pentru clasificare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cele 3 Arhitecturi</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <!-- Arhitectura 1: Clasica -->
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Clasica (AlexNet-style)</strong>
+                                    <div style="margin-top: 10px; font-size: 0.8rem;">
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Conv+ReLU: 256x256x64</div>
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Pool: 64x64x64</div>
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Conv+ReLU: 64x64x64</div>
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Pool: 16x16x64</div>
+                                        <div style="background: var(--warning); padding: 5px; margin: 3px 0; border-radius: 4px;">Flatten: 16,384</div>
+                                        <div style="background: var(--primary); padding: 5px; margin: 3px 0; border-radius: 4px;">FC: 1,000</div>
+                                        <div style="background: var(--accent); padding: 5px; margin: 3px 0; border-radius: 4px;">Softmax</div>
+                                    </div>
+                                </div>
+                                <!-- Arhitectura 2: Variable size -->
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Dimensiune Variabila</strong>
+                                    <div style="margin-top: 10px; font-size: 0.8rem;">
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Conv+ReLU: HxWx64</div>
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Pool stride 4</div>
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Conv+ReLU</div>
+                                        <div style="background: var(--warning); padding: 5px; margin: 3px 0; border-radius: 4px;">Pool to 3x3x64 = 576</div>
+                                        <div style="background: var(--primary); padding: 5px; margin: 3px 0; border-radius: 4px;">FC: 1,000</div>
+                                        <div style="background: var(--accent); padding: 5px; margin: 3px 0; border-radius: 4px;">Softmax</div>
+                                    </div>
+                                    <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary);">Accepta orice dimensiune input</p>
+                                </div>
+                                <!-- Arhitectura 3: Fully Convolutional -->
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Fully Convolutional</strong>
+                                    <div style="margin-top: 10px; font-size: 0.8rem;">
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Conv+ReLU: 256x256x64</div>
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Pool stride 4</div>
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Conv+ReLU</div>
+                                        <div style="background: var(--bg-dark); padding: 5px; margin: 3px 0; border-radius: 4px;">Pool stride 4</div>
+                                        <div style="background: var(--success); padding: 5px; margin: 3px 0; border-radius: 4px;">Conv: 16x16x1000</div>
+                                        <div style="background: var(--warning); padding: 5px; margin: 3px 0; border-radius: 4px;">Global Avg Pool: 1x1x1000</div>
+                                        <div style="background: var(--accent); padding: 5px; margin: 3px 0; border-radius: 4px;">Softmax</div>
+                                    </div>
+                                    <p style="font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary);">FARA layere FC!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Fully Convolutional Networks (FCN)</h4>
+                <p>Arhitectura din dreapta (Fully Convolutional) este deosebit de interesanta: nu are NICIUN layer fully connected! Ultimul layer convolutional produce o feature map cu 1000 canale (cate unul per clasa). Global Average Pooling reduce fiecare canal la o singura valoare. Aceasta arhitectura: (1) are mult mai putini parametri, (2) poate fi aplicata pe imagini de orice dimensiune, (3) produce harti de probabilitate per-pixel (utile pentru segmentare).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: FCN in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+class FullyConvolutionalNet(nn.Module):
+    """Arhitectura #3 - fara FC layers"""
+    def __init__(self, num_classes=1000):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, 3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(4, 4),
+            nn.Conv2d(64, 64, 3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(4, 4),
+        )
+        # "FC layer" implementat ca Conv 1x1
+        self.classifier = nn.Conv2d(64, num_classes, 1)
+        # Global Average Pooling
+        self.gap = nn.AdaptiveAvgPool2d(1)
+
+    def forward(self, x):
+        x = self.features(x)      # [B, 64, H/16, W/16]
+        x = self.classifier(x)    # [B, 1000, H/16, W/16]
+        x = self.gap(x)           # [B, 1000, 1, 1]
+        return x.squeeze(-1).squeeze(-1)  # [B, 1000]
+
+# Avantaj: functioneaza pe orice dimensiune!
+model = FullyConvolutionalNet()
+out_256 = model(torch.randn(1, 3, 256, 256))  # [1, 1000]
+out_512 = model(torch.randn(1, 3, 512, 512))  # [1, 1000]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

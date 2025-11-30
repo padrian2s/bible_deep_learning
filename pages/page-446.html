@@ -1,0 +1,161 @@
+<section class="page-section" id="page-446">
+    <div class="page-header">
+        <div class="page-number">446</div>
+        <div class="page-title">
+            <h3>Tabelul 11.1: Efectele Hiperparametrilor</h3>
+            <span>Sectiunea 11.4.1 - Ghid Complet</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-446.jpg"
+             alt="Pagina 446" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tabelul 11.1: Ghid Complet pentru Hiperparametri</h4>
+                <p>Acest tabel sumarizeaza cum diferiti hiperparametri afecteaza <strong>capacitatea efectiva</strong> a modelului. Intelegerea acestor relatii este esentiala pentru tuning-ul manual eficient. Fiecare hiperparametru are si <strong>efecte secundare</strong> (caveats) importante de luat in considerare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tabelul Complet</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.85em;">
+                                    <tr style="background: #2d2d44;">
+                                        <th style="padding: 10px; border: 1px solid #444; color: #4ecdc4;">Hiperparametru</th>
+                                        <th style="padding: 10px; border: 1px solid #444; color: #4ecdc4;">Creste Capacitatea?</th>
+                                        <th style="padding: 10px; border: 1px solid #444; color: #4ecdc4;">Motivul</th>
+                                        <th style="padding: 10px; border: 1px solid #444; color: #ffd93d;">Atentie!</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #bb86fc;">Num Hidden Units ↑</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #4caf50;">DA ↑</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #a0a0a0;">Mai multi neuroni = mai multa capacitate reprezentationala</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #ffd93d;">Creste timp si memorie pentru TOATE operatiile</td>
+                                    </tr>
+                                    <tr style="background: #1a1a2e;">
+                                        <td style="padding: 8px; border: 1px solid #444; color: #bb86fc;">Learning Rate</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #03dac6;">Curba U</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #a0a0a0;">LR gresit (mare sau mic) = capacitate efectiva mica din cauza esecului optimizarii</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #ffd93d;">Cel mai important HP!</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #bb86fc;">Conv Kernel Width ↑</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #4caf50;">DA ↑</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #a0a0a0;">Kernele mai late = mai multi parametri</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #ffd93d;">Output mai mic (scade capacitate daca nu folosesti padding!)</td>
+                                    </tr>
+                                    <tr style="background: #1a1a2e;">
+                                        <td style="padding: 8px; border: 1px solid #444; color: #bb86fc;">Implicit Zero Padding ↑</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #4caf50;">DA ↑</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #a0a0a0;">Pastreaza dimensiunea reprezentarii</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #ffd93d;">Creste timp si memorie</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #bb86fc;">Weight Decay ↓</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #4caf50;">DA ↑</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #a0a0a0;">Mai putina penalizare = parametri liberi sa creasca</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #ffd93d;">Nu poate fi negativ - limita la capacitate maxima</td>
+                                    </tr>
+                                    <tr style="background: #1a1a2e;">
+                                        <td style="padding: 8px; border: 1px solid #444; color: #bb86fc;">Dropout Rate ↓</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #4caf50;">DA ↑</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #a0a0a0;">Mai putini neuroni "stinsi" = unitatile pot "conspira" mai mult</td>
+                                        <td style="padding: 8px; border: 1px solid #444; color: #ffd93d;">Dropdown 0 = risc maxim de overfitting</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Aplicarea Tabelului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Folosirea Tabelului 11.1 pentru debugging
+
+def diagnose_and_adjust(train_error, test_error, target):
+    """
+    Aplica Tabelul 11.1 pentru ajustari
+    """
+    gap = test_error - train_error
+
+    if train_error > target:
+        # UNDERFITTING - creste capacitatea
+        return {
+            "diagnostic": "UNDERFITTING",
+            "actions": [
+                "Creste num_hidden_units",
+                "Adauga layere",
+                "Scade weight_decay",
+                "Scade dropout_rate",
+                "Verifica learning_rate (poate e prea mic/mare)",
+            ]
+        }
+
+    if test_error > target and gap > 0.05:
+        # OVERFITTING - scade capacitatea efectiva
+        return {
+            "diagnostic": "OVERFITTING",
+            "actions": [
+                "Creste weight_decay",
+                "Creste dropout_rate",
+                "Scade num_hidden_units (daca e necesar)",
+                "Early stopping mai agresiv",
+                "Data augmentation",
+                "SAU: aduna mai multe date!"
+            ]
+        }
+
+    return {"diagnostic": "OK", "actions": ["Model gata!"]}
+
+# Exemplu:
+result = diagnose_and_adjust(
+    train_error=0.02,
+    test_error=0.15,
+    target=0.08
+)
+print(result)
+# -> OVERFITTING, actions: creste regularizare
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Observatii Importante din Tabel</h4>
+                <p>Cateva observatii cheie: (1) <strong>Learning rate</strong> este special - nu creste monoton capacitatea, ci are un optim. (2) <strong>Weight decay</strong> si <strong>dropout</strong> pot doar <em>scadea</em> capacitatea - pentru a o creste trebuie sa modifici arhitectura. (3) Kernel width pentru convolutii are un efect paradoxal - creste parametrii dar poate scadea capacitatea daca nu folosesti padding.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Best Practices</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Strategia recomandata:</strong> Incepe cu un model suficient de mare sa fit-uieze datele (train error mic), apoi adauga regularizare pentru a reduce gap-ul. Este mai usor sa regularizezi un model prea mare decat sa gasesti arhitectura perfecta.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

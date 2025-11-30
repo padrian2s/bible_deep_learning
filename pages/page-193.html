@@ -1,0 +1,141 @@
+<section class="page-section" id="page-193">
+    <div class="page-header">
+        <div class="page-number">193</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.1 Functii de Cost</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-193.jpg"
+             alt="Pagina 193" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Functii de Cost pentru Retele Neuronale</h4>
+                <p>Un aspect important al designului unei retele neuronale profunde este alegerea functiei de cost. Din fericire, functiile de cost pentru retele neuronale sunt mai mult sau mai putin aceleasi ca pentru alte modele parametrice, cum ar fi modelele liniare. In majoritatea cazurilor, modelul nostru defineste o distributie p(y | x; θ) si aplicam principiul maximum likelihood.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Functii de Cost Comune</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# 1. Cross-Entropy (clasificare)
+ce_loss = nn.CrossEntropyLoss()
+
+# 2. Binary Cross-Entropy (clasificare binara)
+bce_loss = nn.BCEWithLogitsLoss()
+
+# 3. MSE (regresie)
+mse_loss = nn.MSELoss()
+
+# 4. L1 Loss / MAE (regresie robusta)
+l1_loss = nn.L1Loss()
+
+# 5. Negative Log-Likelihood
+nll_loss = nn.NLLLoss()
+
+# Alegerea depinde de task:
+# - Clasificare multi-clasa → CrossEntropyLoss
+# - Clasificare binara → BCEWithLogitsLoss
+# - Regresie → MSELoss sau L1Loss
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.2.1.1 Distributii Conditionale cu Maximum Likelihood</h4>
+                <p>Majoritatea retelelor neuronale moderne sunt antrenate folosind maximum likelihood. Aceasta inseamna ca functia de cost este pur si simplu log-likelihood-ul negativ, descrisa echivalent ca cross-entropy intre datele de antrenare si distributia modelului. Functia de cost este: J(θ) = -E[log p_model(y | x)].</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Maximum Likelihood</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div class="formula" style="text-align: center; font-size: 1.2rem; margin-bottom: 20px;">
+                                    J(θ) = -E<sub>x,y~p_data</sub> [log p<sub>model</sub>(y | x)]
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--primary);">Ce inseamna:</strong>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Maximizam probabilitatea pe care modelul o atribuie datelor reale. Echivalent, minimizam "surpriza" modelului cand vede datele.</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">De ce functioneaza:</strong>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Modelul este fortat sa atribuie probabilitate mare exactelor valori y din date, pentru fiecare x corespunzator.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cost Function + Regularizare</h4>
+                <p>Functia de cost totala folosita pentru a antrena o retea neuronala va combina adesea una din functiile de cost primare cu un termen de regularizare. Am vazut deja exemple simple de regularizare aplicate modelelor liniare (sectiunea 5.2.2). Abordarea weight decay este direct aplicabila retelelor profunde si este una din cele mai populare strategii de regularizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare: Cost + Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Cost total = Cost primar + λ * Regularizare
+# J_total(θ) = J(θ) + λ * Ω(θ)
+
+# L2 Regularization (Weight Decay)
+model = nn.Linear(10, 5)
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=0.001,
+    weight_decay=1e-4  # λ pentru L2
+)
+
+# Sau manual:
+def total_loss(pred, target, model, lambda_reg=1e-4):
+    # Cost primar
+    ce_loss = nn.CrossEntropyLoss()(pred, target)
+
+    # L2 regularization pe ponderi
+    l2_reg = sum(p.pow(2).sum() for p in model.parameters())
+
+    return ce_loss + lambda_reg * l2_reg
+
+# Formula: J_total = -log p(y|x) + λ||θ||²
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

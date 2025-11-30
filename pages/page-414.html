@@ -1,0 +1,85 @@
+<section class="page-section" id="page-414">
+    <div class="page-header">
+        <div class="page-number">414</div>
+        <div class="page-title">
+            <h3>Figura 10.13 - 3 Moduri de Deep RNN</h3>
+            <span>Arhitecturi Deep Recurrent</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-414.jpg"
+             alt="Pagina 414" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trei Strategii pentru Deep RNN</h4>
+                <p>Figura 10.13 prezinta trei moduri de a face un RNN "deep". Fiecare are trade-off-uri diferite in ceea ce priveste capacitatea reprezentationala vs. dificultatea de optimizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>(a) Stacked Hidden Layers</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <strong style="color: var(--accent);">Ideea:</strong> Multiple straturi de stari ascunse stacked vertical
+                                <div style="font-family: monospace; margin: 10px 0; text-align: center;">
+                                    x → h<sup>(1)</sup> → h<sup>(2)</sup> → ... → h<sup>(L)</sup> → y
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                                    Fiecare layer h<sup>(l)</sup> are propria recurenta. Cel mai comun in practica!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>(b) Deep Transitions (MLP)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <strong style="color: var(--success);">Ideea:</strong> MLP-uri adanci pentru input→hidden, hidden→hidden, hidden→output
+                                <div style="font-family: monospace; margin: 10px 0; text-align: center;">
+                                    h<sup>(t)</sup> = MLP(h<sup>(t-1)</sup>, x<sup>(t)</sup>)
+                                </div>
+                                <p style="color: var(--warning); font-size: 0.9rem;">
+                                    Problema: Lungeste calea gradientilor intre timesteps!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>(c) Skip Connections</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <strong style="color: var(--warning);">Ideea:</strong> Adauga skip connections pentru a scurta calea gradientilor
+                                <div style="font-family: monospace; margin: 10px 0; text-align: center;">
+                                    Similar cu ResNet dar pentru RNN!
+                                </div>
+                                <p style="color: var(--success); font-size: 0.9rem;">
+                                    Mitiga problema lungimii caii din varianta (b)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

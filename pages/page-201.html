@@ -1,0 +1,153 @@
+<section class="page-section" id="page-201">
+    <div class="page-header">
+        <div class="page-number">201</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2.3 Stabilitate Numerica a Softmax</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-201.jpg"
+             alt="Pagina 201" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema: Overflow/Underflow Numeric</h4>
+                <p>Softmax raspunde la diferentele dintre inputurile sale, nu la valorile absolute. Observam ca output-ul softmax este invariant la adaugarea aceleiasi constante la toate inputurile: softmax(z) = softmax(z + c). Aceasta proprietate poate fi folosita pentru a deriva o varianta numeric stabila a softmax.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Softmax Numeric Stabil</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def softmax_unstable(z):
+    """Versiune INSTABILA - poate da overflow/NaN"""
+    return np.exp(z) / np.sum(np.exp(z))
+
+def softmax_stable(z):
+    """Versiune STABILA - scade max(z)"""
+    z_shifted = z - np.max(z)  # acum max = 0
+    return np.exp(z_shifted) / np.sum(np.exp(z_shifted))
+
+# Test cu valori mari
+z = np.array([1000, 1001, 1002])
+
+# Unstable: exp(1000) = inf!
+try:
+    print(softmax_unstable(z))  # [nan, nan, nan]
+except:
+    print("Overflow!")
+
+# Stable: exp(0), exp(1), exp(2) - ok!
+print(softmax_stable(z))  # [0.09, 0.245, 0.665]
+
+# De ce functioneaza:
+# softmax(z - max(z)) = softmax(z)
+# dar exp(z - max(z)) are valori <= 1
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Saturarea Softmax</h4>
+                <p>Un output softmax(z)ᵢ satureaza la 1 cand inputul corespunzator este maxim (zᵢ = maxₖ zₖ) si zᵢ este mult mai mare decat toate celelalte inputuri. Satureaza la 0 cand zᵢ nu este maximal si maximul este mult mai mare. Aceasta este o generalizare a modului in care unitatile sigmoid satureaza.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Saturare Softmax</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn.functional as F
+import torch
+
+# Diferente mici → distributie "soft"
+z_soft = torch.tensor([1.0, 1.1, 0.9])
+print(F.softmax(z_soft, dim=0))
+# [0.33, 0.36, 0.31] - similar pentru toate
+
+# Diferente mari → distributie "hard" (saturata)
+z_hard = torch.tensor([1.0, 10.0, 0.9])
+print(F.softmax(z_hard, dim=0))
+# [0.0001, 0.9999, 0.0001] - aproape one-hot!
+
+# "Temperature" control:
+# softmax(z / T) - T mic = mai hard, T mare = mai soft
+T = 0.1  # temperatura mica
+print(F.softmax(z_soft / T, dim=0))
+# [0.27, 0.73, 0.00] - mult mai "peaky"
+
+T = 10.0  # temperatura mare
+print(F.softmax(z_soft / T, dim=0))
+# [0.33, 0.33, 0.33] - aproape uniform
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Cross-Entropy functioneaza cu Softmax Saturat</h4>
+                <p>Multe functii de cost care nu folosesc log pentru a anula exp din softmax esueaza cand softmax satureaza. In particular, squared error este o functie de cost slaba pentru unitatile softmax si poate esua sa antreneze modelul sa-si schimbe output-ul, chiar cand face predictii foarte gresite cu mare incredere.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Regula de Aur: Potriveste Loss cu Output</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Regula:</strong> Foloseste Cross-Entropy (log-likelihood) cu sigmoid/softmax outputs, nu MSE! Log-ul din cross-entropy anuleaza exp-ul din activari, pastrand gradientul util pentru invatare.
+                            </div>
+                            <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9rem;">
+                                <tr style="background: var(--primary);">
+                                    <th style="padding: 10px;">Output Unit</th>
+                                    <th style="padding: 10px;">Loss Corect</th>
+                                    <th style="padding: 10px;">Loss Gresit</th>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 10px;">Linear</td>
+                                    <td style="padding: 10px; color: var(--success);">MSE</td>
+                                    <td style="padding: 10px;">-</td>
+                                </tr>
+                                <tr style="background: var(--bg-dark);">
+                                    <td style="padding: 10px;">Sigmoid</td>
+                                    <td style="padding: 10px; color: var(--success);">BCE</td>
+                                    <td style="padding: 10px; color: var(--warning);">MSE</td>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 10px;">Softmax</td>
+                                    <td style="padding: 10px; color: var(--success);">Cross-Entropy</td>
+                                    <td style="padding: 10px; color: var(--warning);">MSE</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

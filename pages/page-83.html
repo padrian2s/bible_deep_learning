@@ -1,0 +1,180 @@
+        <section class="page-section" id="page-83">
+            <div class="page-header">
+                <div class="page-number">83</div>
+                <div class="page-title">
+                    <h3>GMM Vizualizare si Functia Softplus</h3>
+                    <span>Saturatie sigmoid si alternative</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-083.jpg"
+                     alt="Pagina 83" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Vizualizare GMM: Tipuri de Covarianta</h4>
+                        <p>Figura 3.2 arata esantioane dintr-un GMM cu 3 componente. Prima componenta are covarianta <strong>izotropa</strong> (cerc - varianta egala in toate directiile). A doua are covarianta <strong>diagonala</strong> (elipsa aliniata cu axele - variante diferite pe fiecare axa). A treia are <strong>covarianta completa</strong> (elipsa rotita - poate modela orice orientare). Alegerea tipului de covarianta afecteaza expresivitatea si numarul de parametri.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Tipuri de covarianta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--accent);">Izotropa</strong>
+                                            <div style="width: 50px; height: 50px; border: 3px solid var(--accent); border-radius: 50%; margin: 15px auto;"></div>
+                                            <p style="font-size: 0.75rem; color: var(--text-secondary);">Σ = σ²I</p>
+                                            <p style="font-size: 0.75rem; color: var(--text-secondary);">1 parametru</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--secondary);">Diagonala</strong>
+                                            <div style="width: 70px; height: 35px; border: 3px solid var(--secondary); border-radius: 50%; margin: 15px auto;"></div>
+                                            <p style="font-size: 0.75rem; color: var(--text-secondary);">Σ diagonal</p>
+                                            <p style="font-size: 0.75rem; color: var(--text-secondary);">d parametri</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">Completa</strong>
+                                            <div style="width: 60px; height: 30px; border: 3px solid var(--warning); border-radius: 50%; margin: 15px auto; transform: rotate(-30deg);"></div>
+                                            <p style="font-size: 0.75rem; color: var(--text-secondary);">Σ full</p>
+                                            <p style="font-size: 0.75rem; color: var(--text-secondary);">d(d+1)/2 param</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Saturatia Sigmoid-ului</h4>
+                        <p>Sigmoid-ul <strong>satureaza</strong> cand argumentul este foarte pozitiv sau foarte negativ - functia devine aproape plata si insensibila la schimbari mici ale input-ului. Aceasta este o problema pentru gradient-based learning: gradientul devine foarte mic ("vanishing gradient"). De aceea ReLU a inlocuit sigmoid-ul in hidden layers!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Saturatie si gradient</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def sigmoid_gradient(x):
+    s = sigmoid(x)
+    return s * (1 - s)
+
+# Demonstratie saturatie
+print("Saturatia sigmoid:")
+for x in [-10, -5, 0, 5, 10]:
+    print(f"  x={x:+3d}: σ(x)={sigmoid(x):.6f}, σ'(x)={sigmoid_gradient(x):.6f}")
+
+# La x=10, gradientul e ~0.00005 - aproape 0!
+# La x=0, gradientul e 0.25 - maxim
+
+# De aceea: ReLU nu satureaza pentru x > 0
+def relu(x):
+    return np.maximum(0, x)
+
+def relu_gradient(x):
+    return (x > 0).astype(float)
+
+print("\nReLU vs Sigmoid gradient la x=10:")
+print(f"  σ'(10) = {sigmoid_gradient(10):.6f}")
+print(f"  ReLU'(10) = {relu_gradient(10):.1f}")  # = 1 (constant!)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Functia Softplus</h4>
+                        <p>O alta functie frecvent intalnita este <strong>softplus</strong>: ζ(x) = log(1 + exp(x)). Range-ul este (0, ∞), perfect pentru a produce parametrul σ sau β al unei distributii normale. Numele vine de la faptul ca este o versiune "netezita" a functiei x⁺ = max(0, x) (ReLU). Pentru x mare, softplus(x) ≈ x. Pentru x foarte negativ, softplus(x) ≈ 0.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Softplus vs ReLU</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                        ζ(x) = log(1 + eˣ) ≈ smooth version of max(0, x)
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                        <svg width="280" height="100" viewBox="0 0 280 100" style="max-width: 100%; display: block; margin: 0 auto;">
+                                            <!-- ReLU (dashed) -->
+                                            <path d="M 20 80 L 140 80 L 260 10" stroke="var(--warning)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                                            <!-- Softplus (solid) -->
+                                            <path d="M 20 79 Q 80 78 120 70 Q 140 60 160 45 Q 200 20 260 10" stroke="var(--accent)" stroke-width="2" fill="none"/>
+                                            <line x1="140" y1="10" x2="140" y2="90" stroke="var(--text-secondary)" stroke-width="1" stroke-dasharray="3,3"/>
+                                            <text x="140" y="98" fill="var(--text-secondary)" font-size="10" text-anchor="middle">0</text>
+                                            <text x="260" y="25" fill="var(--warning)" font-size="9">ReLU</text>
+                                            <text x="180" y="55" fill="var(--accent)" font-size="9">softplus</text>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Softplus</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def softplus(x):
+    """log(1 + exp(x)) - numerically stable version"""
+    return np.where(x > 20, x, np.log1p(np.exp(x)))
+
+def relu(x):
+    return np.maximum(0, x)
+
+# Comparatie
+print("Softplus vs ReLU:")
+for x in [-5, -1, 0, 1, 5, 20]:
+    sp = softplus(x)
+    r = relu(x)
+    print(f"  x={x:+3d}: softplus={sp:.4f}, ReLU={r:.1f}, diff={abs(sp-r):.4f}")
+
+# Softplus e diferentiabil peste tot (inclusiv la 0)
+# ReLU are derivata nedefinita la 0
+
+# Proprietate importanta:
+# d/dx softplus(x) = sigmoid(x)
+print("\nDerivata softplus = sigmoid:")
+x = 2.0
+numerical_deriv = (softplus(x + 0.001) - softplus(x)) / 0.001
+sigmoid_x = 1 / (1 + np.exp(-x))
+print(f"  Numerical: {numerical_deriv:.4f}")
+print(f"  Sigmoid:   {sigmoid_x:.4f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

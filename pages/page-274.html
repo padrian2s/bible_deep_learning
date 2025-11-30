@@ -1,0 +1,125 @@
+<section class="page-section" id="page-274">
+    <div class="page-header">
+        <div class="page-number">274</div>
+        <div class="page-title">
+            <h3>7.12 Antrenarea cu Dropout</h3>
+            <span>Training cu Masti Binare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-274.jpg"
+             alt="Pagina 274" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Procedura de Training</h4>
+                <p>Pentru a antrena cu dropout, folosim un algoritm bazat pe minibatch (SGD). La fiecare iteratie, pentru fiecare exemplu din minibatch, samplem random o <strong>masca binara μ</strong> care se aplica pe toate unitatile de input si hidden. Fiecare unitate este inclusa independent cu o probabilitate fixa (hiperparametru).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Dropout Training</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class DropoutLayer(nn.Module):
+    def __init__(self, p=0.5):
+        super().__init__()
+        self.p = p  # Probabilitate de DROP (nu pastrare)
+
+    def forward(self, x):
+        if self.training:
+            # Generam masca binara
+            mask = (torch.rand_like(x) > self.p).float()
+            # Aplicam si scalam pentru a pastra media
+            return x * mask / (1 - self.p)
+        return x
+
+# Utilizare standard
+model = nn.Sequential(
+    nn.Linear(784, 256),
+    nn.ReLU(),
+    nn.Dropout(p=0.5),  # 50% din unitati sunt dropped
+    nn.Linear(256, 10)
+)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Valori Tipice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Input units</strong>
+                                    <p style="margin-top: 10px;">P(inclus) = 0.8</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Dropout rate = 0.2</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Hidden units</strong>
+                                    <p style="margin-top: 10px;">P(inclus) = 0.5</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Dropout rate = 0.5</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Dropout vs Bagging: Diferente Cheie</h4>
+                <p>Training-ul cu dropout minimizeaza E<sub>μ</sub>[J(θ, μ)] - expectatia loss-ului peste toate mastile posibile. Estimam gradientul prin sampling. Diferente fata de bagging:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie Detaliata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Bagging</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Modele independente</li>
+                                        <li>Fiecare model antrenat pana la convergenta</li>
+                                        <li>k modele separate in memorie</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Dropout</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Modele partajeaza parametri</li>
+                                        <li>Fiecare sub-retea: 1 pas de training</li>
+                                        <li>Un singur set de parametri</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p>Parameter sharing permite reprezentarea unui numar exponential de modele cu memorie O(n), nu O(k·n).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

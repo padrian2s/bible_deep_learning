@@ -1,0 +1,121 @@
+<section class="page-section" id="page-478">
+    <div class="page-header">
+        <div class="page-number">478</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>n-grams: Curse of Dimensionality si Class-Based Models</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-478.jpg"
+             alt="Pagina 478" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Back-off Methods</h4>
+                <p><strong>Back-off methods</strong> cauta n-grame de ordin mai mic daca frecventa contextului xₜ₋₁, ..., xₜ₋ₙ₊₁ este prea mica pentru a folosi modelul de ordin mai mare. Mai formal, estimeaza distributia peste xₜ folosind contexte xₜ₋ₙ₊ₖ, ..., xₜ₋₁ pentru k crescator pana cand se gaseste o estimare fiabila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Smoothing Techniques</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Chen & Goodman (1999)</strong> - Review si comparatie empirica a tehnicilor de smoothing</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Idee de baza:</strong> Redistribuim masa de probabilitate de la tuple observate la cele similare dar neobservate. Putem justifica aceasta ca inferenta Bayesiana cu prior uniform sau Dirichlet.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Curse of Dimensionality in n-grams</h4>
+                <p>Modelele n-gram clasice sunt deosebit de vulnerabile la <strong>curse of dimensionality</strong>. Exista |V|ⁿ n-grame posibile si |V| este adesea foarte mare. Chiar cu un set de antrenament masiv si n modest, majoritatea n-gramelor nu vor aparea niciodata. Modelul n-gram este practic un predictor non-parametric local (similar k-nearest neighbors).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Spatiul n-gram</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <h5 style="color: var(--accent); margin-bottom: 15px;">Exemplu: Vocabular de 50,000 cuvinte</h5>
+                                <div style="display: grid; gap: 10px;">
+                                    <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg-dark); border-radius: 4px;">
+                                        <span style="color: var(--text-secondary);">Bigrams (n=2):</span>
+                                        <span style="color: var(--warning);">2.5 × 10⁹ posibile</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg-dark); border-radius: 4px;">
+                                        <span style="color: var(--text-secondary);">Trigrams (n=3):</span>
+                                        <span style="color: var(--accent);">1.25 × 10¹⁴ posibile</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--bg-dark); border-radius: 4px;">
+                                        <span style="color: var(--text-secondary);">Training corpus:</span>
+                                        <span style="color: var(--success);">~10⁹ tokens (maxim)</span>
+                                    </div>
+                                </div>
+                                <p style="color: var(--warning); margin-top: 15px;">Majoritatea trigramelor nu vor fi vazute niciodata in training!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Problema: One-Hot Space</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema pentru language models:</strong> In spatiul one-hot, oricare doua cuvinte diferite au aceeasi distanta Euclidiana (√2). Nu putem folosi informatii de la "vecini" - doar exemplele care repeta literal acelasi context sunt utile!
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Pentru a depasi aceste probleme, un language model trebuie sa poata partaja cunostinte intre un cuvant si alte cuvinte semantic similare.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Class-Based Language Models</h4>
+                <p>Pentru a imbunatati eficienta statistica a modelelor n-gram, <strong>class-based language models</strong> introduc notiunea de categorii de cuvinte si partajeaza forta statistica intre cuvintele din aceeasi categorie. Un algoritm de clustering partitioneaza cuvintele in clase bazat pe frecventele de co-occurrence.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Class-Based Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Brown et al. (1992)</strong> - Brown clustering</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Ney & Kneser (1993)</strong> - Class-based n-gram models</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Niesler et al. (1998)</strong> - Variante si extensii</div></li>
+                            </ul>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Desi clasele de cuvinte permit generalizare intre secvente in care un cuvant e inlocuit cu altul din aceeasi clasa, se pierde multa informatie in aceasta reprezentare.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

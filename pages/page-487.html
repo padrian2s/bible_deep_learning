@@ -1,0 +1,128 @@
+<section class="page-section" id="page-487">
+    <div class="page-header">
+        <div class="page-number">487</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4.4 Combinarea Neural LM cu n-grams</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-487.jpg"
+             alt="Pagina 487" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ranking Loss - Formula</h4>
+                <p>Ranking loss propus de Collobert & Weston (2008a) este:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Formula Ranking Loss</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                L = Σᵢ max(0, 1 - aᵧ + aᵢ)
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <p style="color: var(--text-secondary);">Gradientul este zero pentru termenul i daca scorul cuvantului observat aᵧ este mai mare decat scorul cuvantului negativ aᵢ cu o margine de 1.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.4 Combinarea Neural LM cu n-grams</h4>
+                <p>Un avantaj major al modelelor n-gram fata de retelele neurale este ca n-gram models pot atinge <strong>capacitate mare</strong> (prin stocarea frecventelor multor tuple) necesitand <strong>foarte putina computatie</strong> per exemplu - doar lookup-uri in hash tables sau arbori. Dublarea parametrilor unei retele neurale de obicei dubleaza si computatia.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Trade-off Capacity vs Compute</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">n-gram Model</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Capacitate mare (stocheaza tuple)</li>
+                                        <li>Computatie minima (lookup)</li>
+                                        <li>Capacitate ~ independenta de compute</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Neural LM</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Generalizare buna</li>
+                                        <li>Computatie ~ proportionala cu params</li>
+                                        <li>Embedding layers: exceptie</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Ensemble NLM + n-gram</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Ensemble: Neural LM + n-gram
+# Bengio et al. (2001, 2003)
+
+def ensemble_prediction(context, neural_lm, ngram_model, alpha=0.5):
+    """
+    Combina predictiile celor doua modele.
+    alpha: weight pentru neural LM (1-alpha pentru n-gram)
+    """
+    p_neural = neural_lm.predict(context)  # distributie
+    p_ngram = ngram_model.predict(context)  # distributie
+
+    # Combinare simpla: weighted average
+    return alpha * p_neural + (1 - alpha) * p_ngram
+
+# Sau: antrenam joint (Mikolov et al., 2011b)
+# Neural net + maximum entropy model
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Ensemble Methods</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bengio et al. (2001, 2003)</strong> - Primul ensemble NLM + n-gram</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Mikolov et al. (2011a)</strong> - Ensemble de multiple modele (nu doar 2)</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Mikolov et al. (2011b)</strong> - Joint training cu maximum entropy model</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Avantaj ensemble:</strong> Reduce test error daca membrii ensemble-ului fac greseli independente. Weights pot fi uniform sau alese pe validation set.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

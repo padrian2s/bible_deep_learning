@@ -1,0 +1,80 @@
+<section class="page-section" id="page-399">
+    <div class="page-header">
+        <div class="page-number">399</div>
+        <div class="page-title">
+            <h3>Open-Loop Problem & 10.2.2 Computing Gradients</h3>
+            <span>Solutii pentru Teacher Forcing si BPTT</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-399.jpg"
+             alt="Pagina 399" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Open-Loop Mode</h4>
+                <p>Dezavantajul Teacher Forcing: la test time, modelul ruleaza in <strong>open-loop mode</strong> - isi foloseste propriile output-uri ca input. Daca input-urile din antrenare (ground truth) sunt foarte diferite de cele din test (predictii), modelul poate esua spectaculos.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Solutii la Open-Loop Problem</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">1. Free-Running Training</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Antreneaza cu BPTT si predictii proprii, nu doar teacher forcing</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">2. Curriculum Learning (Bengio et al., 2015)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Incepe cu teacher forcing, treci gradual la predictii proprii</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">3. Scheduled Sampling</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">La fiecare pas, alege random intre ground truth si predictie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>10.2.2 Computing the Gradient in RNN</h4>
+                <p>Calculul gradientilor in RNN este simplu conceptual: aplicam <strong>backpropagation generalizat</strong> pe graful desfasurat. Nu e nevoie de algoritmi speciali - BPTT este doar backprop pe un graf feedforward foarte adanc (in timp).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Nodurile Grafului Computational</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Noduri in graf (din Eq 10.8, 10.12):</h5>
+                                <p>Parametri: <strong>U, V, W, b, c</strong></p>
+                                <p>Secvente: <strong>x<sup>(t)</sup>, h<sup>(t)</sup>, o<sup>(t)</sup>, L<sup>(t)</sup></strong> pentru fiecare t</p>
+                            </div>
+                            <div style="margin-top: 15px; font-family: monospace; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p>Pentru fiecare nod N, calculam:</p>
+                                <p style="color: var(--accent); margin-top: 10px;">∇<sub>N</sub>L = gradient bazat pe descendenti</p>
+                                <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Incepem de la final (L) si mergem inapoi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

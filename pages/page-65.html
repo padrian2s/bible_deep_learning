@@ -1,0 +1,101 @@
+        <section class="page-section" id="page-65">
+            <div class="page-header">
+                <div class="page-number">65</div>
+                <div class="page-title">
+                    <h3>Gasirea Matricei D Optime</h3>
+                    <span>Optimizare pe toate punctele</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-065.jpg"
+                     alt="Pagina 65" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Alegerea lui D - Minimizarea Erorii Totale</h4>
+                        <p>Am gasit ca f(x) = Dᵀx si g(c) = Dc. Acum trebuie sa gasim D optim care minimizeaza eroarea de reconstructie pe TOATE punctele din dataset simultan!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Problema de optimizare pentru D</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        D* = argmin_D Σᵢ ||x⁽ⁱ⁾ - DDᵀx⁽ⁱ⁾||₂²
+                                    </div>
+                                    <p style="color: var(--text-secondary); margin: 15px 0;">
+                                        Constrangere: DᵀD = Iₗ (coloane ortonormale)
+                                    </p>
+                                    <div class="key-concept">
+                                        <h5>📊 Forma matriciala</h5>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                            Fie X matricea cu toate punctele ca randuri (m×n). Problema devine:
+                                        </p>
+                                        <div class="formula" style="margin-top: 10px;">
+                                            D* = argmin_D ||X - XDDᵀ||²_F
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Cazul l = 1: Prima Componenta Principala</h4>
+                        <p>Sa incepem simplu cu l = 1 (compresia la o singura dimensiune). D devine un vector d, iar problema e sa gasim <strong>directia</strong> care pastreaza cea mai multa varianta.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Derivarea pentru l = 1</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <p style="color: var(--text-secondary);">Minimizam eroarea de reconstructie:</p>
+                                            <div class="formula" style="font-size: 0.9rem;">Σᵢ ||x⁽ⁱ⁾ - ddᵀx⁽ⁱ⁾||₂²</div>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <p style="color: var(--text-secondary);">Echivalent cu maximizarea variantei proiectate:</p>
+                                            <div class="formula" style="font-size: 0.9rem;">d* = argmax_d dᵀXᵀXd s.t. dᵀd = 1</div>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--accent); margin-top: 15px;">
+                                        Aceasta e o problema de eigenvalue! d* este eigenvectorul lui XᵀX cu cea mai mare eigenvalue.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Conexiunea cu covarianta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🔗 XᵀX si matricea de covarianta</h5>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                            Daca X are date centrate (medie 0), atunci XᵀX/m ≈ matricea de covarianta. Eigenvectorii cu cele mai mari eigenvalues sunt directiile de varianta maxima!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

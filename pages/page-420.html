@@ -1,0 +1,91 @@
+<section class="page-section" id="page-420">
+    <div class="page-header">
+        <div class="page-number">420</div>
+        <div class="page-title">
+            <h3>Spectral Radius si Contractii</h3>
+            <span>Stabilitatea ESN si RNN</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-420.jpg"
+             alt="Pagina 420" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Spectral Radius - Conceptul Cheie</h4>
+                <p><strong>Spectral radius</strong> ρ(J) este cel mai mare modul al eigenvalorilor Jacobianului J = ∂h<sup>(t+1)</sup>/∂h<sup>(t)</sup>. Controleaza daca perturbatiile cresc sau scad in timp. ESN-urile seteaza ρ ≈ 1 pentru "edge of stability".</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Efectul Spectral Radius</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">ρ < 1</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Contractiv - perturbatiile dispar</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">ρ ≈ 1</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Edge of chaos - optim!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">ρ > 1</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Instabil - perturbatiile explodeaza</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Contractii si Memoria</h4>
+                <p>Daca mapping-ul h<sup>(t)</sup> → h<sup>(t+1)</sup> este <strong>contractiv</strong> (ρ < 1), reteaua "uita" exponential trecutul. E bine pentru stabilitate dar rau pentru memoria pe termen lung. Tanh satureaza si produce contractie naturala.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Rol Nonlinearitatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p><strong>Linear RNN (fara tanh):</strong></p>
+                                <p style="color: var(--text-secondary); margin: 10px 0;">Comportament determinat complet de eigenvalues - ori explodeaza, ori dispare</p>
+                                <p><strong>Nonlinear RNN (cu tanh):</strong></p>
+                                <p style="color: var(--text-secondary); margin-top: 10px;">Tanh "comprima" valorile in [-1, 1], prevenind explozia. Dar deriva tanh-ului dispare in saturatie → vanishing!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>ESN Modern</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Recent: ESN ca Initializare</h5>
+                                <p>Sutskever et al. (2012, 2013) au aratat ca initializarea cu spectral radius ≈ 1.2 ajuta chiar si pentru RNN antrenat complet!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

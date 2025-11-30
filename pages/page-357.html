@@ -1,0 +1,160 @@
+<section class="page-section" id="page-357">
+    <div class="page-header">
+        <div class="page-number">357</div>
+        <div class="page-title">
+            <h3>9.3 Pooling - Detalii</h3>
+            <span>Invarianta si Tipuri de Pooling</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-357.jpg"
+             alt="Pagina 357" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Invarianta la Translatii prin Pooling</h4>
+                <p>Pooling-ul face reprezentarea <strong>aproximativ invarianta</strong> la translatii mici. Daca mutam inputul putin, valorile pooled raman (aproape) aceleasi. Aceasta e utila cand ne pasa DACA exista o caracteristica, nu exact UNDE. De exemplu, pentru detectia fetelor: vrem sa stim daca exista un ochi in partea stanga, nu coordonatele exacte ale ochiului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Invarianta Max Pooling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Activare originala - "5" detectat la pozitia 2
+activare1 = torch.tensor([[[[0.1, 0.2, 1.0, 0.3]]]])
+
+# Activare translatata - "5" mutat la pozitia 3
+activare2 = torch.tensor([[[[0.1, 0.2, 0.3, 1.0]]]])
+
+# Max pooling cu kernel=2, stride=1
+pool1 = F.max_pool2d(activare1, kernel_size=2, stride=1)
+pool2 = F.max_pool2d(activare2, kernel_size=2, stride=1)
+
+print("Original:", activare1.squeeze().numpy())
+print("Pooled:  ", pool1.squeeze().numpy())  # [0.2, 1.0, 1.0]
+
+print("\nTranslatat:", activare2.squeeze().numpy())
+print("Pooled:    ", pool2.squeeze().numpy())  # [0.2, 0.3, 1.0]
+
+# Pozitia 2 in pooled are aceeasi valoare (1.0) in ambele cazuri!
+# Invarianta la translatia de 1 pixel
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tipuri de Pooling</h4>
+                <p>Exista mai multe variante de pooling, fiecare cu proprietati diferite: <strong>Max Pooling</strong> (cel mai comun - raporteaza maximul), <strong>Average Pooling</strong> (media valorilor), <strong>L2 Pooling</strong> (norma L2), si <strong>Weighted Average</strong> (medie ponderata bazata pe distanta de centru). Max pooling este preferat pentru ca pastreaza cea mai puternica activare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie Tipuri de Pooling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Max Pooling</strong>
+                                    <div class="formula" style="margin: 10px 0;">max(x₁, x₂, ..., xₙ)</div>
+                                    <p style="font-size: 0.85rem;">Pastreaza cea mai puternica activare. Ideal pentru detectie de caracteristici.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Average Pooling</strong>
+                                    <div class="formula" style="margin: 10px 0;">(x₁ + x₂ + ... + xₙ) / n</div>
+                                    <p style="font-size: 0.85rem;">Mai "smooth". Folosit des ca ultimul layer (Global Average Pooling).</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">L2 Pooling</strong>
+                                    <div class="formula" style="margin: 10px 0;">sqrt(x₁² + x₂² + ... + xₙ²)</div>
+                                    <p style="font-size: 0.85rem;">Sensibil la magnitudinea totala a activarilor.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Global Pooling</strong>
+                                    <div class="formula" style="margin: 10px 0;">pool(intreaga feature map)</div>
+                                    <p style="font-size: 0.85rem;">Reduce fiecare canal la o singura valoare. Elimina dimensiunea spatiala.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Comparatie in Cod</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Feature map 4x4
+x = torch.tensor([[[[1., 2., 3., 4.],
+                    [5., 6., 7., 8.],
+                    [9., 10., 11., 12.],
+                    [0., 1., 2., 3.]]]])
+
+# Max Pooling 2x2
+max_pool = F.max_pool2d(x, 2)
+print("Max Pool:\n", max_pool.squeeze())
+# [[6, 8], [10, 12]]
+
+# Average Pooling 2x2
+avg_pool = F.avg_pool2d(x, 2)
+print("Avg Pool:\n", avg_pool.squeeze())
+# [[3.5, 5.5], [5.0, 7.0]]
+
+# Global Average Pooling
+gap = F.adaptive_avg_pool2d(x, 1)
+print("Global Avg Pool:", gap.item())  # 5.125
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Pooling pentru Inputuri de Dimensiuni Variabile</h4>
+                <p>Pooling-ul rezolva problema inputurilor de dimensiuni diferite. Daca vrem sa clasificam imagini de orice dimensiune, putem folosi pooling-ul final pentru a produce un numar fix de statistici sumative. De exemplu, Global Average Pooling produce un vector de lungime egala cu numarul de canale, indiferent de dimensiunea spatiala a imaginii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemplu: Clasificare Multi-rezolutie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema:</strong> Vrem sa clasificam imagini de 224x224, 512x512, 1024x1024 - toate cu aceeasi retea.<br><br>
+                                <strong>Solutie:</strong> Dupa convolutii, aplicam <code>AdaptiveAvgPool2d((1, 1))</code> care reduce orice dimensiune spatiala la 1x1. Apoi flattening-ul produce mereu acelasi numar de features pentru clasificatorul fully connected final.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

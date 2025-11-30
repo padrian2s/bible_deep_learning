@@ -1,0 +1,102 @@
+<section class="page-section" id="page-312">
+    <div class="page-header">
+        <div class="page-number">312</div>
+        <div class="page-title">
+            <h3>Figura 8.5: Momentum vs Gradient Descent</h3>
+            <span>Vizualizarea Efectului Momentum</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-312.jpg"
+             alt="Pagina 312" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 8.5: Momentum in Actiune</h4>
+                <p>Aceasta figura arata o functie de cost cu forma de <strong>canion ingust</strong> - curbura foarte diferita pe cele doua axe. Linia rosie arata traiectoria cu momentum. Sagetile indica directia pe care o ar lua gradient descent simplu la fiecare punct.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretarea Figurii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Contururile eliptice:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Functie quadratica cu Hessian slab conditionat. Directia "ingusta" are curbura mare, directia "larga" are curbura mica.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Sagetile negre:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Directia gradientului la fiecare punct. Observa ca pointeaza cam perpendicular pe canion!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Linia rosie (momentum):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Taie direct prin canion! Momentum anuleaza oscilatiile si accelereaza pe directia corecta.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Gradient Descent Simplu E Lent</h4>
+                <p>Fara momentum, gradient descent ar oscila inainte-inapoi perpendicular pe canion, facand progres foarte lent de-a lungul canalului. Momentum "mediaza" aceste oscilatii si pastreaza viteza pe directia utila!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie: GD vs Momentum</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Gradient Descent:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">Zig-zag continuu. Sute de iteratii pentru a traversa canionul.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Cu Momentum:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">Traiectorie directa. Oscilatiile se anuleaza, viteza pe canal creste.</p>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px; font-size: 0.9rem;">Compara cu Figura 4.6 care arata comportamentul gradient descent fara momentum.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce Rezolva Momentum</h4>
+                <p>Momentum abordeaza doua probleme principale: (1) <strong>ill-conditioning</strong> - curburii foarte diferite pe directii diferite, si (2) <strong>varianta mare</strong> in gradientul stochastic. Ambele cauzeaza oscilatii pe care momentum le anuleaza.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Limitari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Momentum nu rezolva toate problemele - nu ajuta cu saddle points sau minime locale. Dar pentru suprafete slab conditionate, accelerarea poate fi dramatica!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

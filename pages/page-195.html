@@ -1,0 +1,138 @@
+<section class="page-section" id="page-195">
+    <div class="page-header">
+        <div class="page-number">195</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.1.2 Invatarea Statisticilor Conditionale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-195.jpg"
+             alt="Pagina 195" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Predictia Statisticilor vs Distributii Complete</h4>
+                <p>In loc sa invatam o distributie completa de probabilitate p(y | x; θ), adesea vrem sa invatam doar o statistica conditionala a lui y dat fiind x. De exemplu, putem avea un predictor f(x; θ) care vrem sa prezica media lui y. Daca folosim o retea neuronala suficient de puternica, putem gandi reteaua ca fiind capabila sa reprezinte orice functie f dintr-o clasa larga.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Functii vs Functionale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong style="color: var(--primary);">Functie</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Mapeaza numere la numere<br/>f: R → R</p>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Ex: f(x) = x²</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">Functional</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Mapeaza functii la numere<br/>J: (R → R) → R</p>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Ex: J[f] = ∫f(x)dx</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Perspectiva:</strong> Functia de cost J poate fi vazuta ca un functional - primeste o functie f si returneaza un numar (costul). Antrenarea gaseste functia f* care minimizeaza acest functional.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Calculus of Variations: Ce Functie Minimizeaza Costul?</h4>
+                <p>Putem proiecta functionalul de cost astfel incat minimul sau sa apara la o functie specifica pe care o dorim. Rezolvarea unei probleme de optimizare cu privire la o functie necesita un instrument matematic numit calcul variational. Rezultatul cheie: minimizarea MSE produce functia care prezice media lui y pentru fiecare x.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>MSE → Predictie a Mediei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <p>Problema de optimizare:</p>
+                                <p style="margin-top: 10px; text-align: center;">f* = argmin<sub>f</sub> E<sub>x,y</sub>[||y - f(x)||²]</p>
+                                <p style="margin-top: 15px;">Solutia (din calcul variational):</p>
+                                <p style="margin-top: 10px; text-align: center; color: var(--success);">f*(x) = E<sub>y~p(y|x)</sub>[y]</p>
+                            </div>
+                            <div class="code-block">
+# Interpretare practica:
+# Daca antrenam o retea cu MSE loss,
+# reteaua va invata sa prezica MEDIA lui y
+# pentru fiecare input x
+
+import torch
+import torch.nn as nn
+
+# Date cu zgomot
+X = torch.randn(1000, 1)
+# y = 2x + noise, deci E[y|x] = 2x
+y = 2 * X + torch.randn(1000, 1) * 0.5
+
+model = nn.Linear(1, 1)
+optimizer = torch.optim.Adam(model.parameters())
+loss_fn = nn.MSELoss()
+
+for _ in range(1000):
+    optimizer.zero_grad()
+    loss = loss_fn(model(X), y)
+    loss.backward()
+    optimizer.step()
+
+# model.weight ≈ 2, model.bias ≈ 0
+# Reteaua a invatat media conditionala E[y|x] = 2x
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alte Statistici: MAE → Mediana</h4>
+                <p>Diferite functii de cost produc statistici diferite. Un al doilea rezultat derivat folosind calculul variational este ca minimizarea mean absolute error (MAE) produce o functie care prezice mediana lui y pentru fiecare x. Aceasta este mai robusta la outlieri decat media.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>MSE vs MAE: Media vs Mediana</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">MSE (L2 Loss)</strong>
+                                    <div class="formula" style="margin: 10px 0;">J = E[||y - f(x)||²]</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Produce: <strong>Media</strong> E[y|x]</p>
+                                    <p style="color: var(--warning); font-size: 0.85rem; margin-top: 5px;">Sensibil la outlieri!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">MAE (L1 Loss)</strong>
+                                    <div class="formula" style="margin: 10px 0;">J = E[|y - f(x)|]</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Produce: <strong>Mediana</strong> de y|x</p>
+                                    <p style="color: var(--success); font-size: 0.85rem; margin-top: 5px;">Robust la outlieri!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,74 @@
+<section class="page-section" id="page-428">
+    <div class="page-header">
+        <div class="page-number">428</div>
+        <div class="page-title">
+            <h3>10.11 Optimization for Long-Term Dependencies</h3>
+            <span>Tehnici de Optimizare pentru RNN</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-428.jpg"
+             alt="Pagina 428" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Metode de Ordinul 2</h4>
+                <p>O observatie interesanta (Martens & Sutskever, 2011): daca derivatele de ordinul 1 dispar, si cele de ordinul 2 dispar la aceeasi rata. Metodele de ordin 2 (Hessian) ar putea ajuta, dar au costuri computationale mari si probleme cu saddle points.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Abordari si Rezultate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong>Martens & Sutskever, 2011:</strong>
+                                    <span style="color: var(--text-secondary);"> Rezultate bune cu metode second-order</span>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong>Sutskever et al., 2013:</strong>
+                                    <span style="color: var(--text-secondary);"> Nesterov momentum + initializare atenta functioneaza la fel de bine!</span>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Concluzia practica:</h5>
+                                <p>E mai usor sa proiectam modele usor de optimizat (LSTM) decat sa inventam algoritmi de optimizare mai buni.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>10.11.1 Clipping Gradients</h4>
+                <p>Problema exploding gradients poate fi atacata direct: <strong>clipping</strong>. Cand norma gradientului depaseste un prag, il redimensionam. Simplu dar eficient - folosit in aproape toate implementarile RNN practice!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Landscape-ul RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>"Cliffs" in Loss Landscape</h5>
+                                <p>Functia de cost a RNN-urilor are regiuni plate separate de "stanci" abrupte (cliffs). Un pas normal de gradient poate sari de pe o stanca si ajunge departe!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

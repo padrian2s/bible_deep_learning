@@ -1,0 +1,81 @@
+<section class="page-section" id="page-331">
+    <div class="page-header">
+        <div class="page-number">331</div>
+        <div class="page-title">
+            <h3>8.6.3 BFGS</h3>
+            <span>Broyden-Fletcher-Goldfarb-Shanno</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-331.jpg"
+             alt="Pagina 331" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>BFGS: Quasi-Newton Method</h4>
+                <p><strong>BFGS</strong> (Broyden-Fletcher-Goldfarb-Shanno) e o metoda quasi-Newton: nu calculeaza Hessianul exact, ci il <strong>aproximeaza iterativ</strong>. Construieste o aproximare M a inversului Hessian-ului H⁻¹, actualizand-o cu fiecare pas.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ideia BFGS</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ol style="color: var(--text-secondary); line-height: 1.8;">
+                                <li>Incepem cu M<sub>0</sub> = I (identitatea)</li>
+                                <li>La fiecare pas, actualizam M cu informatia din gradient</li>
+                                <li>Directia de descent: ρ<sub>t</sub> = M<sub>t</sub>g<sub>t</sub></li>
+                                <li>Facem line search in directia ρ<sub>t</sub></li>
+                                <li>Actualizam M bazat pe schimbarea in gradient</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Update BFGS</h4>
+                <p>Update-ul lui M incorporeaza informatie de ordin 2 din diferenta gradientilor. Dupa t pasi, M devine o aproximare din ce in ce mai buna a H⁻¹. Nu necesita calculul explicit al H!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>BFGS vs Conjugate Gradients</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">BFGS:</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                        <li>Stocheaza M (O(n²))</li>
+                                        <li>Line search mai iertator</li>
+                                        <li>Update low-rank la M</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Conjugate Gradients:</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                        <li>Nu stocheaza matrice</li>
+                                        <li>Line search exact necesar</li>
+                                        <li>Reset periodic</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

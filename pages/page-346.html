@@ -1,0 +1,166 @@
+<section class="page-section" id="page-346">
+    <div class="page-header">
+        <div class="page-number">346</div>
+        <div class="page-title">
+            <h3>9.1 Operatia de Convolutie</h3>
+            <span>Definitie si Motivatie</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-346.jpg"
+             alt="Pagina 346" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Definitia Formala a Convolutiei</h4>
+                <p>In forma sa cea mai generala, convolutia este o operatie pe doua functii cu valori reale. Sa presupunem ca urmarim pozitia unei nave spatiale cu un senzor laser. Senzorul ne da x(t), pozitia la momentul t. Pentru a obtine o estimare mai putin zgomotoasa, calculam o medie ponderata cu functia de ponderare w(a), unde a este varsta masuratoarei. Formula convolutiei continue este: <span class="formula">s(t) = ∫ x(a)w(t-a)da = (x * w)(t)</span></p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Medie Mobila Ponderata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Pozitia "reala" + zgomot
+t = np.linspace(0, 10, 100)
+pozitie_reala = np.sin(t)
+zgomot = np.random.normal(0, 0.3, 100)
+masuratori = pozitie_reala + zgomot
+
+# Kernel de mediere (ponderare exponentiala)
+kernel_size = 5
+kernel = np.exp(-np.arange(kernel_size))  # mai multa greutate pe recent
+kernel = kernel / kernel.sum()  # normalizare
+
+# Convolutie = filtrare
+pozitie_filtrata = np.convolve(masuratori, kernel, mode='same')
+
+print("Kernel (ponderi):", kernel.round(2))
+# [0.58, 0.21, 0.08, 0.03, 0.01] - recent conteaza mai mult!
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                    <div style="color: var(--warning);">📊 Masuratori brute</div>
+                                    <small>Zgomotoase, greu de interpretat</small>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                    <div style="color: var(--success);">📈 Dupa convolutie</div>
+                                    <small>Netede, pastreaza tendinta</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Terminologie CNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 50%; font-size: 1.2rem;">x</div>
+                                    <div>
+                                        <strong>Input</strong>
+                                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">Prima functie - datele de intrare (imagine, semnal)</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <div style="background: var(--accent); padding: 10px; border-radius: 50%; font-size: 1.2rem;">w</div>
+                                    <div>
+                                        <strong>Kernel (Filtru)</strong>
+                                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">A doua functie - parametrii invatati de retea</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <div style="background: var(--success); padding: 10px; border-radius: 50%; font-size: 1.2rem;">s</div>
+                                    <div>
+                                        <strong>Feature Map (Output)</strong>
+                                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">Rezultatul - caracteristici detectate</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutia Discreta</h4>
+                <p>In practica, lucram cu date discrete (pixeli, esantioane). Formula devine o suma in loc de integrala: <span class="formula">s(t) = (x * w)(t) = Σₐ x(a)w(t-a)</span>. Indicele de timp t ia doar valori intregi, iar sumarea se face peste toate valorile valide ale lui a.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Convolutie Discreta Pas cu Pas</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Input: [1, 2, 3, 4, 5]
+# Kernel: [1, 0, -1]
+
+# Pas 1: Aliniem kernelul la pozitia 1
+#   [1, 2, 3, 4, 5]
+#   [1, 0,-1]
+#   output[0] = 1*1 + 2*0 + 3*(-1) = -2
+
+# Pas 2: Mutam kernelul cu 1 pozitie
+#   [1, 2, 3, 4, 5]
+#      [1, 0,-1]
+#   output[1] = 2*1 + 3*0 + 4*(-1) = -2
+
+# Pas 3:
+#   [1, 2, 3, 4, 5]
+#         [1, 0,-1]
+#   output[2] = 3*1 + 4*0 + 5*(-1) = -2
+
+# Rezultat: [-2, -2, -2]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Kernel Sliding</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="font-family: monospace; background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <div style="margin-bottom: 10px; color: var(--accent);">Input: [■ ■ ■ ■ ■ ■ ■ ■]</div>
+                                <div style="margin-bottom: 5px;">
+                                    <span style="color: var(--success);">[K K K]</span>→ output[0]
+                                </div>
+                                <div style="margin-bottom: 5px;">
+                                    <span style="opacity: 0.3;">■</span> <span style="color: var(--success);">[K K K]</span>→ output[1]
+                                </div>
+                                <div style="margin-bottom: 5px;">
+                                    <span style="opacity: 0.3;">■ ■</span> <span style="color: var(--success);">[K K K]</span>→ output[2]
+                                </div>
+                                <div style="color: var(--text-secondary); margin-top: 10px;">... si asa mai departe</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

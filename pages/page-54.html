@@ -1,0 +1,110 @@
+        <section class="page-section" id="page-54">
+            <div class="page-header">
+                <div class="page-number">54</div>
+                <div class="page-title">
+                    <h3>Norme</h3>
+                    <span>Sectiunea 2.5 - Masurarea Vectorilor</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-054.jpg"
+                     alt="Pagina 54" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.5 Norme - Cat de "Mare" e un Vector?</h4>
+                        <p>O <strong>norma</strong> masoara "dimensiunea" sau "lungimea" unui vector - distanta de la origine la punctul reprezentat de vector. In ML, normele sunt esentiale pentru loss functions, regularizare, si normalizarea datelor!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Formula generala: Lᵖ norm</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        ||x||ₚ = (Σᵢ |xᵢ|ᵖ)^(1/p)
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <h5>📝 Proprietatile unei norme</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                                            <li>f(x) = 0 ⇔ x = 0 (doar vectorul zero are norma zero)</li>
+                                            <li>f(x+y) ≤ f(x) + f(y) (inegalitatea triunghiului)</li>
+                                            <li>f(αx) = |α|f(x) (scalare)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Norma L² (Euclidiana)</h4>
+                        <p>Cea mai folosita norma! Cu p=2, obtinem <strong>distanta euclidiana</strong> - linia dreapta de la origine la punct. Este atat de comuna incat se noteaza simplu ||x|| fara subscript.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare L² norm</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        ||x||₂ = √(x₁² + x₂² + ... + xₙ²) = √(xᵀx)
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; margin-top: 15px; text-align: center;">
+                                        <p style="color: var(--text-secondary);">Pentru x = [3, 4]:</p>
+                                        <div class="formula">||x||₂ = √(3² + 4²) = √(9 + 16) = √25 = 5</div>
+                                        <p style="color: var(--accent); font-size: 0.9rem; margin-top: 10px;">
+                                            Teorema lui Pitagora in actiune!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Aplicatie: MSE Loss</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 15px;">Mean Squared Error foloseste norma L² patratica:</p>
+                                    <div class="formula">
+                                        MSE = (1/n) · ||y - ŷ||₂²
+                                    </div>
+                                    <div class="code-block" style="margin-top: 15px;">
+                                        <code>
+import numpy as np<br><br>
+y_true = np.array([1.0, 2.0, 3.0])<br>
+y_pred = np.array([1.1, 2.2, 2.8])<br><br>
+# Calculul MSE cu norma L2<br>
+error = y_true - y_pred<br>
+mse = np.mean(error ** 2)  # echivalent cu:<br>
+mse_norm = (np.linalg.norm(error) ** 2) / len(error)<br><br>
+print(f"MSE: {mse:.4f}")  # 0.0300
+                                        </code>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <h5>💡 De ce ||x||₂² in loc de ||x||₂?</h5>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                            Patratul elimina radicalul → derivatele sunt mai simple → optimizarea e mai rapida!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

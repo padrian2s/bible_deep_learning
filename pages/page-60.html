@@ -1,0 +1,146 @@
+        <section class="page-section" id="page-60">
+            <div class="page-header">
+                <div class="page-number">60</div>
+                <div class="page-title">
+                    <h3>SVD si Pseudoinversa</h3>
+                    <span>Sectiunea 2.9 - Moore-Penrose</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-060.jpg"
+                     alt="Pagina 60" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Formula SVD: A = UDVᵀ</h4>
+                        <p>Pentru o matrice A de dimensiune m×n: <strong>U</strong> (m×m) si <strong>V</strong> (n×n) sunt ortogonale, <strong>D</strong> (m×n) e diagonala cu <strong>singular values</strong> σᵢ pe diagonala. Singular values sunt mereu ≥ 0!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Componentele SVD</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">A = U D Vᵀ</div>
+                                    <div style="display: grid; gap: 15px; margin-top: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--primary);">U (m×m)</strong> - Left singular vectors
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Eigenvectorii lui AAᵀ (spatiul output)</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">D (m×n)</strong> - Singular values σᵢ
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">σᵢ = √(eigenvalues lui AᵀA) - mereu pozitive!</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">Vᵀ (n×n)</strong> - Right singular vectors
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Eigenvectorii lui AᵀA (spatiul input)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: SVD in NumPy</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+                                        <code>
+import numpy as np<br><br>
+# Matrice non-patrata 3x2<br>
+A = np.array([[1, 2],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3, 4],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[5, 6]])<br><br>
+# SVD decomposition<br>
+U, S, Vt = np.linalg.svd(A)<br><br>
+print("U shape:", U.shape)   # (3, 3)<br>
+print("S (singular values):", S)  # [9.52, 0.51]<br>
+print("Vt shape:", Vt.shape) # (2, 2)<br><br>
+# Reconstruieste A din SVD<br>
+D = np.zeros((3, 2))<br>
+D[:2, :2] = np.diag(S)<br>
+A_reconstructed = U @ D @ Vt<br>
+print(np.allclose(A, A_reconstructed))  # True!
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.9 Moore-Penrose Pseudoinverse (A⁺)</h4>
+                        <p>Ce facem daca A nu e patratica si nu are inversa? Folosim <strong>pseudoinversa</strong> A⁺! Pentru matrici m×n, A⁺ e n×m si rezolva Ax = y in sens "cel mai bun" (minimizeaza ||Ax - y||₂).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Formula pseudoinversei</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">A⁺ = V D⁺ Uᵀ</div>
+                                    <p style="color: var(--text-secondary); margin: 15px 0;">
+                                        unde D⁺ se obtine din D inversand elementele non-zero de pe diagonala si apoi transpunand.
+                                    </p>
+                                    <div class="key-concept">
+                                        <h5>📐 Cand folosim pseudoinversa?</h5>
+                                        <div style="display: grid; gap: 10px; margin-top: 10px;">
+                                            <div style="background: var(--bg-lighter); padding: 10px; border-radius: 6px;">
+                                                <strong style="color: var(--warning);">m > n (overdetermined)</strong>
+                                                <span style="color: var(--text-secondary); font-size: 0.85rem;"> → A⁺ gaseste solutia least squares</span>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 10px; border-radius: 6px;">
+                                                <strong style="color: var(--accent);">m < n (underdetermined)</strong>
+                                                <span style="color: var(--text-secondary); font-size: 0.85rem;"> → A⁺ gaseste solutia cu norma minima</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Aplicatie: Regresia Liniara</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                                        Regresia liniara rezolva Xw = y unde X are mai multe randuri decat coloane:
+                                    </p>
+                                    <div class="formula">w = X⁺y = (XᵀX)⁻¹Xᵀy</div>
+                                    <div class="code-block" style="margin-top: 15px;">
+                                        <code>
+import numpy as np<br><br>
+X = np.random.randn(100, 5)  # 100 samples, 5 features<br>
+y = np.random.randn(100)<br><br>
+# Metoda 1: Pseudoinversa directa<br>
+w1 = np.linalg.pinv(X) @ y<br><br>
+# Metoda 2: lstsq (mai stabila numeric)<br>
+w2 = np.linalg.lstsq(X, y, rcond=None)[0]<br><br>
+# Ambele dau acelasi rezultat!<br>
+print(np.allclose(w1, w2))  # True
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

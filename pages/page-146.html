@@ -1,0 +1,81 @@
+<section class="page-section" id="page-146">
+    <div class="page-header">
+        <div class="page-number">146</div>
+        <div class="page-title">
+            <h3>Consistenta si Maximum Likelihood</h3>
+            <span>Capitolul 5 - Sectiunea 5.5</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-146.jpg"
+             alt="Pagina 146" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Unbiased ≠ Consistent</h4>
+                <p>Consistenta asigura ca bias-ul indus de estimator scade pe masura ce numarul de exemple creste. Dar: <strong>asymptotically unbiased NU implica consistent</strong>! De exemplu, pentru media μ a unei distributii normale N(x; μ, σ²), am putea folosi primul esantion x<sup>(1)</sup> ca estimator: θ̂ = x<sup>(1)</sup>. Acest estimator este <strong>unbiased</strong> (E[θ̂<sub>m</sub>] = θ pentru orice m), dar NU este <strong>consistent</strong> - nu converge la θ pe masura ce m creste.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Unbiased vs Consistent</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Unbiased</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">E[θ̂] = θ</p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Media estimatelor = θ adevarat</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Consistent</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">θ̂<sub>m</sub> → θ cand m → ∞</p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Estimatul converge la θ</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; text-align: center; color: var(--warning);">Un estimator poate fi unbiased dar inconsistent (ex: θ̂ = x<sup>(1)</sup>)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.5 Maximum Likelihood Estimation</h4>
+                <p>Am vazut definitii de estimatori si proprietatile lor. Dar de unde vin acesti estimatori? In loc sa ghicim functii care ar fi estimatori buni si apoi sa analizam bias si variance, am vrea sa avem un <strong>principiu</strong> din care sa derivam estimatori specifici pentru diferite modele. Cel mai comun astfel de principiu este <strong>maximum likelihood</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Motivatia MLE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>MLE ofera o <strong>reteta generala</strong> pentru a construi estimatori buni pentru orice model parametric, fara a ghici.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Definitia Maximum Likelihood Estimator</h4>
+                <p>Consideram m exemple X = {x<sup>(1)</sup>, ..., x<sup>(m)</sup>} extrase independent din distributia necunoscuta p<sub>data</sub>(x). Fie p<sub>model</sub>(x; θ) o familie parametrica de distributii. Estimatorul <strong>maximum likelihood</strong> pentru θ este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    θ<sub>ML</sub> = argmax<sub>θ</sub> p<sub>model</sub>(X; θ) = argmax<sub>θ</sub> ∏ᵢ p<sub>model</sub>(x<sup>(i)</sup>; θ)
+                </div>
+                <p>Alegem θ care face datele observate CAT MAI PROBABILE sub model.</p>
+            </div>
+        </div>
+    </div>
+</section>

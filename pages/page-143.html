@@ -1,0 +1,100 @@
+<section class="page-section" id="page-143">
+    <div class="page-header">
+        <div class="page-number">143</div>
+        <div class="page-title">
+            <h3>Standard Error si Confidence Intervals</h3>
+            <span>Capitolul 5 - Incertitudinea Estimarii</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-143.jpg"
+             alt="Pagina 143" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Standard Error of the Mean</h4>
+                <p>Varianta sau standard error-ul unui estimator ofera o masura a cat de mult ne asteptam ca estimatul sa varieze daca am re-esantiona datele. Standard error-ul mediei este dat de:</p>
+                <div class="formula" style="text-align: center; font-size: 1.4rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    SE(μ̂<sub>m</sub>) = √(Var[(1/m)Σᵢ x<sup>(i)</sup>]) = σ / √m
+                </div>
+                <p>unde σ² este varianta adevarata a esantioanelor. In practica, σ se estimeaza din date. Standard error scade cu √m - cu mai multe date, estimatul devine mai precis.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Standard Error</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+sigma_true = 2.0
+
+print("Standard Error scade cu √m:")
+print("-" * 40)
+
+for m in [10, 100, 1000, 10000]:
+    se = sigma_true / np.sqrt(m)
+    print(f"m = {m:5d}: SE = σ/√m = {sigma_true}/{np.sqrt(m):.1f} = {se:.4f}")
+
+print()
+print("=> Cu 100x mai multe date, SE scade 10x!")
+print("   (√100 = 10)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>95% Confidence Interval</h4>
+                <p>Standard error-ul mediei este foarte util in experimente ML. Folosind teorema limitei centrale (datele sunt aproximativ normal distribuite), putem calcula probabilitatea ca valoarea adevarata se afla intr-un interval. <strong>95% confidence interval</strong> centrat pe media μ̂<sub>m</sub> este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    (μ̂<sub>m</sub> - 1.96·SE(μ̂<sub>m</sub>), μ̂<sub>m</sub> + 1.96·SE(μ̂<sub>m</sub>))
+                </div>
+                <p>In ML, e comun sa spunem ca algoritmul A e mai bun decat B daca upper bound-ul CI pentru A este sub lower bound-ul CI pentru B.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Confidence Interval</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Experiment: estimam eroarea unui model
+np.random.seed(42)
+
+# Erori pe 100 de exemple de test
+errors = np.random.normal(0.15, 0.05, 100)  # mean=0.15, std=0.05
+
+mean_error = np.mean(errors)
+se = np.std(errors) / np.sqrt(len(errors))
+
+ci_lower = mean_error - 1.96 * se
+ci_upper = mean_error + 1.96 * se
+
+print(f"Mean error: {mean_error:.4f}")
+print(f"Standard Error: {se:.4f}")
+print(f"95% CI: ({ci_lower:.4f}, {ci_upper:.4f})")
+print()
+print("Interpretare: Suntem 95% convinsi ca")
+print(f"eroarea adevarata e intre {ci_lower:.4f} si {ci_upper:.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

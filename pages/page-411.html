@@ -1,0 +1,121 @@
+<section class="page-section" id="page-411">
+    <div class="page-header">
+        <div class="page-number">411</div>
+        <div class="page-title">
+            <h3>10.4 Encoder-Decoder / Seq2Seq</h3>
+            <span>Arhitectura Sequence-to-Sequence</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-411.jpg"
+             alt="Pagina 411" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.12 - Encoder-Decoder Architecture</h4>
+                <p>Cum mappam o secventa de lungime n<sub>x</sub> la o secventa de lungime n<sub>y</sub> <strong>diferita</strong>? Solutia: <strong>Encoder-Decoder</strong> (sau Seq2Seq). Un RNN (encoder) citeste input-ul si produce un vector C. Alt RNN (decoder) foloseste C pentru a genera output-ul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Seq2Seq</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center;">
+                                    <div style="text-align: center;">
+                                        <strong style="color: var(--accent);">ENCODER</strong>
+                                        <div style="font-family: monospace; margin-top: 10px;">
+                                            x<sup>(1)</sup> → x<sup>(2)</sup> → ... → x<sup>(n<sub>x</sub>)</sup><br>
+                                            ↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                                            h<sup>(1)</sup> → h<sup>(2)</sup> → ... → h<sup>(n<sub>x</sub>)</sup>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--warning); color: var(--bg-dark); padding: 15px; border-radius: 50%; font-weight: bold;">
+                                            C
+                                        </div>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Context</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <strong style="color: var(--success);">DECODER</strong>
+                                        <div style="font-family: monospace; margin-top: 10px;">
+                                            s<sup>(1)</sup> → s<sup>(2)</sup> → ... → s<sup>(n<sub>y</sub>)</sup><br>
+                                            ↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                                            y<sup>(1)</sup>&nbsp;&nbsp;&nbsp;y<sup>(2)</sup>&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;y<sup>(n<sub>y</sub>)</sup>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">
+                                <strong>C</strong> = h<sup>(n<sub>x</sub>)</sup> = starea finala a encoder-ului, "rezumatul" input-ului
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Originile Seq2Seq</h4>
+                <p>Arhitectura a fost propusa independent de <strong>Cho et al. (2014)</strong> si <strong>Sutskever et al. (2014)</strong>. Ambele echipe au obtinut rezultate state-of-the-art in traducere automata. Ideea e simpla dar puternica!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Seq2Seq</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>🌐</span><div><strong>Machine Translation</strong> - "Hello" → "Bonjour"</div></li>
+                                <li class="reference-item"><span>🗣️</span><div><strong>Speech Recognition</strong> - Audio → Text</div></li>
+                                <li class="reference-item"><span>❓</span><div><strong>Question Answering</strong> - Intrebare → Raspuns</div></li>
+                                <li class="reference-item"><span>📝</span><div><strong>Summarization</strong> - Document lung → Rezumat</div></li>
+                                <li class="reference-item"><span>💬</span><div><strong>Chatbots</strong> - Input user → Raspuns bot</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Seq2Seq Simplu</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>class Seq2Seq(nn.Module):
+    def __init__(self, encoder, decoder):
+        super().__init__()
+        self.encoder = encoder
+        self.decoder = decoder
+
+    def forward(self, src, trg):
+        # Encode: x -> C
+        _, context = self.encoder(src)
+
+        # Decode: C -> y
+        outputs, _ = self.decoder(trg, context)
+        return outputs
+
+# Training: teacher forcing in decoder
+# Inference: autoregressive generation</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

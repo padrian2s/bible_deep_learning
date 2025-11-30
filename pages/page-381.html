@@ -1,0 +1,134 @@
+<section class="page-section" id="page-381">
+    <div class="page-header">
+        <div class="page-number">381</div>
+        <div class="page-title">
+            <h3>9.10 Grandmother Cells</h3>
+            <span>Neuroni de Nivel Inalt si IT Cortex</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-381.jpg"
+             alt="Pagina 381" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Grandmother Cells</h4>
+                <p>Pe masura ce trecem prin straturile anatomice ale creierului, gasim celule care raspund la concepte specifice si sunt invariante la multe transformari. Acestea au fost numite <strong>"grandmother cells"</strong> - ideea ca ai un neuron care se activeaza cand vezi bunica ta, indiferent daca e in stanga/dreapta imaginii, close-up sau de la distanta, luminata sau in umbra!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Neuronul "Halle Berry"</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Descoperire Reala (Quiroga et al., 2005):</strong><br><br>
+                                Cercetatorii au testat daca neuroni individuali raspund la fotografii cu persoane celebre. Au gasit <em>"neuronul Halle Berry"</em> - un neuron care se activeaza cand persoana vede:
+                                <ul style="margin-top: 10px;">
+                                    <li>O fotografie cu Halle Berry</li>
+                                    <li>Un desen cu Halle Berry</li>
+                                    <li>Chiar si textul "Halle Berry"!</li>
+                                </ul>
+                                <p style="margin-top: 10px;">Acesti neuroni se afla in <strong>lobul temporal medial</strong> si sunt mai generali decat CNN-urile - nu ar generaliza automat la citirea numelui.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cortexul Inferotemporal (IT)</h4>
+                <p>Cel mai apropiat analog al ultimului layer de features dintr-un CNN este <strong>cortexul inferotemporal (IT)</strong>. Cand privim un obiect, informatia curge: Retina → LGN → V1 → V2 → V4 → IT. Aceasta se intampla in primele ~100ms (feedforward). CNN-urile pot prezice firing rates din IT si performeaza similar cu oamenii in task-uri de recunoastere cu timp limitat!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ierarhia Vizuala: Creier vs CNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Creier (Ventral Stream)</strong>
+                                    <div style="margin-top: 10px; font-size: 0.9rem;">
+                                        <div style="padding: 5px; background: var(--bg-dark); margin: 3px 0; border-radius: 4px;">V1: Bare, margini</div>
+                                        <div style="text-align: center;">↓</div>
+                                        <div style="padding: 5px; background: var(--bg-dark); margin: 3px 0; border-radius: 4px;">V2: Contururi</div>
+                                        <div style="text-align: center;">↓</div>
+                                        <div style="padding: 5px; background: var(--bg-dark); margin: 3px 0; border-radius: 4px;">V4: Forme simple</div>
+                                        <div style="text-align: center;">↓</div>
+                                        <div style="padding: 5px; background: var(--primary); margin: 3px 0; border-radius: 4px;">IT: Obiecte, fete</div>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">CNN (ex: VGG)</strong>
+                                    <div style="margin-top: 10px; font-size: 0.9rem;">
+                                        <div style="padding: 5px; background: var(--bg-dark); margin: 3px 0; border-radius: 4px;">Conv1: Gabor-like</div>
+                                        <div style="text-align: center;">↓</div>
+                                        <div style="padding: 5px; background: var(--bg-dark); margin: 3px 0; border-radius: 4px;">Conv2-3: Texturi</div>
+                                        <div style="text-align: center;">↓</div>
+                                        <div style="padding: 5px; background: var(--bg-dark); margin: 3px 0; border-radius: 4px;">Conv4-5: Parti obiecte</div>
+                                        <div style="text-align: center;">↓</div>
+                                        <div style="padding: 5px; background: var(--accent); margin: 3px 0; border-radius: 4px;">FC: Clase semantice</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Diferente CNN vs Sistemul Vizual</h4>
+                <p>Exista multe diferente intre CNN-uri si sistemul vizual mamiferelor. Una importanta: ochiul uman are rezolutie foarte scazuta, cu exceptia unei zone mici numite <strong>fovea</strong>. Fovea observa doar o zona de marimea unui thumbnail la distanta bratului! Creierul "coseste" mai multe priviri pentru a crea iluzia unei scene complete.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Fovea si Procesarea Vizuala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div>
+                                        <strong style="color: var(--warning);">Ochiul Uman</strong>
+                                        <ul style="font-size: 0.85rem; margin-top: 8px;">
+                                            <li>Fovea: ~2° din campul vizual</li>
+                                            <li>Rezolutie inalta DOAR in fovea</li>
+                                            <li>Periferia: blurred, low-res</li>
+                                            <li>3-4 saccade/secunda</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <strong style="color: var(--success);">CNN Standard</strong>
+                                        <ul style="font-size: 0.85rem; margin-top: 8px;">
+                                            <li>Input: imagine completa</li>
+                                            <li>Rezolutie uniforma</li>
+                                            <li>Proceseaza tot simultan</li>
+                                            <li>Fara miscare activa</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

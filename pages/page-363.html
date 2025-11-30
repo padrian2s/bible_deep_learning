@@ -1,0 +1,146 @@
+<section class="page-section" id="page-363">
+    <div class="page-header">
+        <div class="page-number">363</div>
+        <div class="page-title">
+            <h3>9.5 Variante ale Convolutiei</h3>
+            <span>Formula Multi-canal si Stride</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-363.jpg"
+             alt="Pagina 363" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Convolutiei Multi-canal</h4>
+                <p>Pentru convolutie multi-canal, avem un kernel 4D: <span class="formula">K[i,j,k,l]</span> reprezinta conexiunea dintre unitatea din canalul de output i si unitatea din canalul de input j, cu offset-ul spatial (k, l). Formula completa: <span class="formula">Z[i,j,k] = Σ_l,m,n V[l, j+m-1, k+n-1] × K[i,l,m,n]</span></p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Convolutie Multi-canal Manual</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def conv2d_multichannel(V, K):
+    """
+    V: Input [C_in, H, W]
+    K: Kernel [C_out, C_in, Kh, Kw]
+    Returns: Output [C_out, H_out, W_out]
+    """
+    C_out, C_in, Kh, Kw = K.shape
+    _, H, W = V.shape
+    H_out, W_out = H - Kh + 1, W - Kw + 1
+
+    Z = np.zeros((C_out, H_out, W_out))
+
+    for i in range(C_out):           # Pentru fiecare canal output
+        for j in range(H_out):       # Pentru fiecare pozitie
+            for k in range(W_out):
+                # Suma peste toate canalele input
+                for l in range(C_in):
+                    # Suma peste kernel spatial
+                    for m in range(Kh):
+                        for n in range(Kw):
+                            Z[i,j,k] += V[l, j+m, k+n] * K[i,l,m,n]
+    return Z
+
+# Exemplu: RGB (3 canale) -> 64 filtre
+V = np.random.randn(3, 32, 32)    # Input RGB 32x32
+K = np.random.randn(64, 3, 3, 3)  # 64 filtre 3x3
+Z = conv2d_multichannel(V, K)     # Output: [64, 30, 30]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Stride (Pasul) Convolutiei</h4>
+                <p><strong>Stride</strong> defineste cat de mult "sare" kernelul intre pozitii consecutive. Stride=1 (default) aplica kernelul la fiecare pozitie. Stride=2 sare cate un pixel, reducand dimensiunea output-ului la jumatate. Strided convolution este o alternativa la pooling pentru downsampling - uneori preferata in arhitecturile moderne.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Stride 1 vs 2</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Stride = 1</strong>
+                                    <div style="margin-top: 10px; font-family: monospace; font-size: 0.9rem;">
+                                        <div>Input: [■ ■ ■ ■ ■ ■]</div>
+                                        <div style="color: var(--accent);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[K K K] pos 0</div>
+                                        <div style="color: var(--accent);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[K K K] pos 1</div>
+                                        <div style="color: var(--accent);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[K K K] pos 2</div>
+                                        <div style="color: var(--accent);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[K K K] pos 3</div>
+                                        <div style="margin-top: 10px;">Output: 4 pozitii</div>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Stride = 2</strong>
+                                    <div style="margin-top: 10px; font-family: monospace; font-size: 0.9rem;">
+                                        <div>Input: [■ ■ ■ ■ ■ ■]</div>
+                                        <div style="color: var(--success);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[K K K] pos 0</div>
+                                        <div style="color: var(--text-secondary);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skip</div>
+                                        <div style="color: var(--success);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[K K K] pos 1</div>
+                                        <div style="margin-top: 10px;">Output: 2 pozitii</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Formula dimensiune output:</strong> O = floor((I - K) / S) + 1
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Strided Convolution</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Input: 32x32
+x = torch.randn(1, 3, 32, 32)
+
+# Stride 1 (default)
+conv_s1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=0)
+out_s1 = conv_s1(x)
+print("Stride 1:", out_s1.shape)  # [1, 64, 30, 30]
+
+# Stride 2 - downsampling 2x
+conv_s2 = nn.Conv2d(3, 64, kernel_size=3, stride=2, padding=0)
+out_s2 = conv_s2(x)
+print("Stride 2:", out_s2.shape)  # [1, 64, 15, 15]
+
+# Stride 2 cu padding - pastreaza half-size exact
+conv_s2p = nn.Conv2d(3, 64, kernel_size=3, stride=2, padding=1)
+out_s2p = conv_s2p(x)
+print("Stride 2 + pad:", out_s2p.shape)  # [1, 64, 16, 16]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

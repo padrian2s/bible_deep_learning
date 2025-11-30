@@ -1,0 +1,156 @@
+<section class="page-section" id="page-218">
+    <div class="page-header">
+        <div class="page-number">218</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Figura 6.7: Adancime vs Parametri</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-218.jpg"
+             alt="Pagina 218" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.7: Modelele Profunde Performeaza Mai Bine</h4>
+                <p>Aceasta figura demonstreaza ca modelele mai profunde tind sa performeze mai bine, si nu doar pentru ca modelul este mai mare. Experimentul (Goodfellow et al., 2014d) arata ca cresterea numarului de parametri in straturile convolutionale FARA cresterea adancimii nu este la fel de eficienta pentru performanta pe test set.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analiza Graficului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--primary); margin-bottom: 15px;">Cele 3 Curbe:</h5>
+                                <div style="display: grid; gap: 15px;">
+                                    <div style="background: linear-gradient(90deg, rgba(52, 152, 219, 0.2) 0%, var(--bg-dark) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(52, 152, 219, 0.1);">
+                                        <strong style="color: #3498db;">3 conv layers (albastru)</strong>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">Retea shallow convolutionala. Imbunatatire lenta, satureaza la ~93.5%</p>
+                                    </div>
+                                    <div style="background: linear-gradient(90deg, rgba(39, 174, 96, 0.2) 0%, var(--bg-dark) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(39, 174, 96, 0.1);">
+                                        <strong style="color: #27ae60;">3 fully connected (verde)</strong>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">Retea dense shallow. OVERFIT dupa ~20M parametri!</p>
+                                    </div>
+                                    <div style="background: linear-gradient(90deg, rgba(231, 76, 60, 0.2) 0%, var(--bg-dark) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(231, 76, 60, 0.1);">
+                                        <strong style="color: #e74c3c;">11 conv layers (rosu)</strong>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">Retea profunda. Continua sa se imbunatateasca pana la ~96%!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Observatia Cheie: Overfitting vs Depth</h4>
+                <p>Observam ca modelele shallow fac overfitting in acest context la aproximativ 20 milioane de parametri, in timp ce cele profunde pot beneficia de peste 60 de milioane. Aceasta sugereaza ca folosirea unui model profund exprima o preferinta utila asupra spatiului de functii pe care modelul le poate invata.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De ce Adancimea Ajuta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Model Shallow (3 straturi, MULTI parametri)
+shallow = nn.Sequential(
+    nn.Linear(784, 10000),  # Strat FOARTE lat
+    nn.ReLU(),
+    nn.Linear(10000, 10000),
+    nn.ReLU(),
+    nn.Linear(10000, 10)
+)
+# ~200M parametri, dar OVERFITTING!
+
+# Model Deep (11 straturi, parametri distribuiti)
+deep = nn.Sequential(
+    nn.Linear(784, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 500), nn.ReLU(),
+    nn.Linear(500, 10)
+)
+# ~3M parametri, dar GENERALIZEAZA MAI BINE!
+
+# De ce?
+# - Deep: invata reprezentari ierarhice
+# - Shallow: trebuie sa memoreze patternuri
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea: Compunerea Functiilor Simple</h4>
+                <p>Acest lucru sugereaza ca folosirea unui model profund exprima credinta ca functia pe care vrem sa o invatam consta din multe functii mai simple compuse impreuna. Aceasta poate rezulta fie in invatarea unei reprezentari compuse din reprezentari tot mai simple (margini → forme → parti → obiecte), fie in invatarea unui program cu pasi secventiali dependenti.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Analogie: Recunoastere Vizuala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;"><strong>Ierarhia reprezentarilor in viziune:</strong></p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                    <div style="text-align: center; flex: 1; min-width: 80px;">
+                                        <div style="font-size: 1.5rem;">📷</div>
+                                        <p style="font-size: 0.8rem;">Pixeli</p>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center; flex: 1; min-width: 80px;">
+                                        <div style="font-size: 1.5rem;">📐</div>
+                                        <p style="font-size: 0.8rem;">Margini</p>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center; flex: 1; min-width: 80px;">
+                                        <div style="font-size: 1.5rem;">🔷</div>
+                                        <p style="font-size: 0.8rem;">Forme</p>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center; flex: 1; min-width: 80px;">
+                                        <div style="font-size: 1.5rem;">👁️</div>
+                                        <p style="font-size: 0.8rem;">Parti</p>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center; flex: 1; min-width: 80px;">
+                                        <div style="font-size: 1.5rem;">😊</div>
+                                        <p style="font-size: 0.8rem;">Fata</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">Fiecare strat al retelei profunde poate invata unul din aceste nivele de abstractizare!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

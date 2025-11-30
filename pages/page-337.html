@@ -1,0 +1,88 @@
+<section class="page-section" id="page-337">
+    <div class="page-header">
+        <div class="page-number">337</div>
+        <div class="page-title">
+            <h3>8.7.4 Supervised Pretraining</h3>
+            <span>Antrenare Greedy Layer-by-Layer</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-337.jpg"
+             alt="Pagina 337" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Pretraining: Rezolva Probleme Usor Intai</h4>
+                <p>Uneori, antrenarea directa a unui model complex e prea dificila. Solutia: <strong>pretraining</strong> - antrenam mai intai pe probleme mai simple, apoi folosim solutia ca punct de start pentru problema completa. E o forma de <strong>transfer learning</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Tipuri de Pretraining</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Greedy Layer-wise:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Antrenam layer 1, apoi layer 1+2, apoi 1+2+3...</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Task Transfer:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Antrenam pe ImageNet, apoi fine-tune pe task-ul nostru</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Unsupervised Pretraining:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Antrenam autoencoder/LM, apoi fine-tune supervised</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Greedy Supervised Pretraining</h4>
+                <p>Bengio et al. (2007) au propus: antrenam un model shallow (1 hidden layer) pe task-ul final, apoi adaugam al doilea layer si re-antrenam, etc. Fiecare layer adaugat e initializat random, restul sunt "pretrained".</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Procesul Pas cu Pas</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ol style="color: var(--text-secondary); line-height: 2;">
+                                <li>Antrenam: x → h₁ → y (1 hidden layer)</li>
+                                <li>Fixam W₁, adaugam h₂: x → h₁ → h₂ → y</li>
+                                <li>Fine-tune toate layerele impreuna</li>
+                                <li>Repetam pentru layere aditionale</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Variante Moderne</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Simonyan & Zisserman (2015) folosesc o varianta: pretreneaza primele si ultimele 4 layere ale VGG, apoi initializeaza layerele din mijloc random si antreneaza tot. Yu et al. (2010) folosesc output-urile modelelor pretrained ca features aditionale.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

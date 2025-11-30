@@ -1,0 +1,66 @@
+<section class="page-section" id="page-514">
+    <div class="page-header">
+        <div class="page-number">514</div>
+        <div class="page-title">
+            <h3>Figura 13.2 si Manifold Intro</h3>
+            <span>Sparse Coding pe MNIST</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-514.jpg"
+             alt="Pagina 514" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 13.2: Sparse Coding pe MNIST</h4>
+                <p>Figura arata samples si weights invatate de un spike-and-slab sparse coding model pe MNIST. <strong>Stanga:</strong> samples generate (nu seamana cu cifre reale). <strong>Dreapta:</strong> weights - penstrokes si parti de cifre.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De Ce Samples Slabe?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Modelul a invatat features utile (penstrokes), dar prior-ul factorial pe h nu captureaza <strong>care combinatii de features sunt valide</strong>.</p>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p>Problema: selectie aleatoare de features produce imagini invalide. Solutia: modele mai deep care impun distributii mai complexe pe codul latent.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>13.5 Manifold Interpretation of PCA</h4>
+                <p>Linear factor models (inclusiv PCA si factor analysis) pot fi interpretate ca <strong>invatare de manifold</strong>. PCA invata un manifold liniar (hiperplan) care captureaza cea mai mare varianta din date.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>PCA ca Manifold</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Probabilistic PCA defineste:</p>
+                            <div class="formula" style="margin-top: 10px;">
+                                h = f(x) = W<sup>T</sup>(x - mu) (encoder)<br><br>
+                                x̂ = g(h) = b + Vh (decoder)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Encoder-ul proiecteaza x pe un spatiu de dimensiune mai mica. Decoder-ul reconstruieste x pe manifold-ul liniar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

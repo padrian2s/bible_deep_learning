@@ -1,0 +1,98 @@
+<section class="page-section" id="page-168">
+    <div class="page-header">
+        <div class="page-number">168</div>
+        <div class="page-title">
+            <h3>SGD si Building ML Algorithms</h3>
+            <span>Capitolul 5 - Sectiunile 5.9 si 5.10</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-168.jpg"
+             alt="Pagina 168" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Proprietatile SGD</h4>
+                <p>Gradient descent in general a fost adesea considerat lent sau nesigur. Aplicarea gradient descent la <strong>optimizare non-convexa</strong> era considerata foolhardy. Astazi stim ca modelele ML din Partea II functioneaza foarte bine cand sunt antrenate cu gradient descent - poate sa nu fie garantat sa ajunga la un <strong>minimum local</strong> intr-un timp rezonabil, dar adesea gaseste o valoare destul de scazuta a functiei cost pentru a fi utila.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>SGD in Deep Learning</h4>
+                <p>SGD are multe utilizari importante in afara deep learning. Este principala metoda de a antrena <strong>modele liniare mari</strong> pe dataset-uri foarte mari. Pentru un model size fix, costul per SGD update <strong>nu depinde de training set size m</strong>. In practica, adesea folosim un model mai mare cand training set-ul creste, dar nu suntem fortati. Numarul de update-uri pentru convergenta creste de obicei cu training set size. Totusi, pe masura ce m → ∞, modelul va converge la cel mai bun test error posibil <strong>inainte</strong> ca SGD sa fi sample-at fiecare exemplu. Costul asimptotic de a antrena un model cu SGD este <strong>O(1) ca functie de m</strong>!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: SGD Scalability</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce SGD scaleaza</h5>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                    <p><strong>Fiecare pas:</strong> O(m') unde m' = batch size (constant!)</p>
+                                    <p style="margin-top: 10px;"><strong>Numarul de pasi:</strong> Creste cu m, DAR...</p>
+                                    <p style="margin-top: 10px;"><strong>Convergenta:</strong> Ajunge la best test error inainte de a vedea toate exemplele!</p>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center; color: var(--success);">Costul antrenarii: O(1) in functie de m (asimptotic)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Deep Learning vs Kernel Methods</h4>
+                <p>Inainte de aparitia deep learning, principala metoda de a invata modele nonliniare era sa folosesti <strong>kernel trick</strong> cu un model liniar. Multe algoritmi kernel necesita construirea unei matrice m × m G<sub>i,j</sub> = k(x<sup>(i)</sup>, x<sup>(j)</sup>). Construirea matricei are cost <strong>O(m²)</strong>, ceea ce este clar de nedorit pentru dataset-uri cu miliarde de exemple. In academia (incepand din 2006), deep learning a devenit interesant initial pentru ca putea <strong>generaliza mai bine</strong> decat algoritmii competitori pe dataset-uri de dimensiuni medii (zeci de mii de exemple). Apoi a captat atentia industriei pentru ca oferea un mod scalabil de a antrena modele nonliniare pe date mari.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.10 Building a Machine Learning Algorithm</h4>
+                <p>Aproape toate algoritmii deep learning pot fi descrisi ca instante ale unei <strong>retete simple</strong>: combina o specificare a unui <strong>dataset</strong>, o <strong>functie cost</strong>, o <strong>procedura de optimizare</strong> si un <strong>model</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Recipe ML Algorithm</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Cele 4 Componente</h5>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--primary);">1. Dataset</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">X, y (sau doar X)</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--secondary);">2. Cost Function</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">J(θ) - ce optimizam</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--accent);">3. Optimization</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">SGD, Adam, etc.</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">4. Model</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">Neural net, linear, etc.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

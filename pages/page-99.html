@@ -1,0 +1,247 @@
+<section class="page-section" id="page-99">
+    <div class="page-header">
+        <div class="page-number">99</div>
+        <div class="page-title">
+            <h3>Puncte Saddle si Gradient</h3>
+            <span>Capitolul 4 - Derivate Partiale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-099.jpg"
+             alt="Pagina 99" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 4.2: Tipurile de Puncte Critice</h4>
+                <p>Un punct critic este un punct cu panta zero. In 1D, avem trei tipuri: (1) <strong>Minim local</strong> - punctul este mai jos decat vecinii, (2) <strong>Maxim local</strong> - punctul este mai sus decat vecinii, (3) <strong>Punct saddle</strong> (punct sa) - punctul are vecini atat mai inalti cat si mai jos. In dimensiuni mai mari, punctele saddle sunt extrem de frecvente si reprezinta o provocare majora pentru optimizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Punct Saddle 2D</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Functie saddle clasica: f(x,y) = x² - y²
+def f_saddle(x, y):
+    return x**2 - y**2
+
+def grad_saddle(x, y):
+    return np.array([2*x, -2*y])
+
+# La origine (0,0) avem punct saddle
+x, y = 0.0, 0.0
+print(f"La (0, 0):")
+print(f"  f(0,0) = {f_saddle(x, y)}")
+print(f"  grad = {grad_saddle(x, y)}")
+print(f"  → Grad = 0, dar nu e nici min nici max!")
+
+# Verificam directiile
+print("\nValori in jurul originii:")
+for dx, dy in [(0.1, 0), (-0.1, 0), (0, 0.1), (0, -0.1)]:
+    val = f_saddle(dx, dy)
+    tip = "mai mare" if val > 0 else "mai mic"
+    print(f"  f({dx:.1f}, {dy:.1f}) = {val:.2f} ({tip})")
+                            </div>
+                            <p style="margin-top: 15px; color: var(--warning);">Pe directia x: minim. Pe directia y: maxim!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Saddle Point</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <svg viewBox="0 0 80 60" style="width: 60px; height: 45px;">
+                                        <path d="M 10,50 Q 40,10 70,50" fill="none" stroke="var(--success)" stroke-width="3"/>
+                                        <circle cx="40" cy="30" r="5" fill="var(--success)"/>
+                                    </svg>
+                                    <p style="margin-top: 10px;"><strong>Minim</strong></p>
+                                    <p style="font-size: 0.8rem;">∀ directii: ↑</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <svg viewBox="0 0 80 60" style="width: 60px; height: 45px;">
+                                        <path d="M 10,10 Q 40,50 70,10" fill="none" stroke="#ff6464" stroke-width="3"/>
+                                        <circle cx="40" cy="30" r="5" fill="#ff6464"/>
+                                    </svg>
+                                    <p style="margin-top: 10px;"><strong>Maxim</strong></p>
+                                    <p style="font-size: 0.8rem;">∀ directii: ↓</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <svg viewBox="0 0 80 60" style="width: 60px; height: 45px;">
+                                        <path d="M 10,30 Q 25,50 40,30 Q 55,10 70,30" fill="none" stroke="var(--warning)" stroke-width="3"/>
+                                        <circle cx="40" cy="30" r="5" fill="var(--warning)"/>
+                                    </svg>
+                                    <p style="margin-top: 10px;"><strong>Saddle</strong></p>
+                                    <p style="font-size: 0.8rem;">unele ↑, altele ↓</p>
+                                </div>
+                            </div>
+                            <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                <p>In n dimensiuni: un punct saddle are k directii "in sus" si (n-k) directii "in jos"</p>
+                                <p style="color: var(--warning); margin-top: 10px;">Pentru n mare, aproape toate punctele critice sunt saddle points!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Minim Global si Dificultatea in Practica</h4>
+                <p>Un punct care obtine valoarea absolut cea mai mica este un <strong>minim global</strong>. In deep learning, optimizam functii care pot avea multe minime locale, multe puncte saddle, si regiuni plate (plateau). De aceea ne multumim sa gasim o valoare a lui f care este "suficient de mica", nu neaparat minimul global. Tehnicile moderne (SGD, Adam, etc.) sunt surprinzator de eficiente la navigarea acestor peisaje complexe.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce Saddle Points sunt Problema</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Statistica Punctelor Critice</h5>
+                                <p>Pentru o functie aleatoare in n dimensiuni:</p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Probabilitatea ca un punct critic sa fie minim local: ~2⁻ⁿ</li>
+                                    <li>Pentru n = 1000 parametri: P(minim) ≈ 0</li>
+                                    <li>Aproape toate punctele critice sunt saddle points!</li>
+                                </ul>
+                            </div>
+                            <div class="reference-list" style="margin-top: 15px;">
+                                <div class="reference-item">
+                                    <strong>Dauphin et al., 2014:</strong> "Identifying and attacking the saddle point problem"
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Choromanska et al., 2015:</strong> Loss surfaces, mode connectivity in neural networks
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivate Partiale si Gradientul</h4>
+                <p>Adesea minimizam functii cu inputuri multiple: f: ℝⁿ → ℝ. Pentru ca "minimizare" sa aiba sens, trebuie sa existe un singur output (scalar). <strong>Derivata partiala</strong> ∂f/∂xᵢ masoara cum se schimba f cand doar variabila xᵢ creste, celelalte ramanand constante. <strong>Gradientul</strong> este vectorul tuturor derivatelor partiale: ∇ₓf(x). Elementul i al gradientului este derivata partiala ∂f/∂xᵢ.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Gradientul in NumPy</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# f(x, y) = x² + 2y²
+def f(x, y):
+    return x**2 + 2*y**2
+
+def gradient(x, y):
+    """∇f = [∂f/∂x, ∂f/∂y] = [2x, 4y]"""
+    return np.array([2*x, 4*y])
+
+# Gradientul la diferite puncte
+points = [(1, 1), (2, 0), (0, 3), (-1, -1)]
+print("Gradientul pentru f(x,y) = x² + 2y²:")
+print("-" * 45)
+for x, y in points:
+    grad = gradient(x, y)
+    norm = np.linalg.norm(grad)
+    print(f"({x:2d}, {y:2d}): f={f(x,y):5.1f}, "
+          f"∇f=[{grad[0]:4.1f}, {grad[1]:4.1f}], "
+          f"|∇f|={norm:.2f}")
+
+# Gradientul indica directia celei mai rapide cresteri!
+# Deci -gradient indica directia celei mai rapide descresteri
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Notatii pentru Gradient</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Derivata partiala</strong>
+                                    <p style="font-family: monospace; margin-top: 10px;">∂f/∂xᵢ sau ∂ᵢf sau fₓᵢ</p>
+                                </div>
+                                <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Gradient (vector)</strong>
+                                    <p style="font-family: monospace; margin-top: 10px;">∇ₓf sau grad f sau ∇f</p>
+                                </div>
+                            </div>
+                            <div class="formula" style="background: var(--primary); padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center;">
+                                <strong>Gradientul la un punct</strong>
+                                <p style="margin-top: 10px; font-size: 1.1rem;">∇f(x) = [∂f/∂x₁, ∂f/∂x₂, ..., ∂f/∂xₙ]ᵀ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Gradient ca Directie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <svg viewBox="0 0 300 200" style="width: 100%; max-width: 300px; display: block; margin: 0 auto;">
+                                    <!-- Contururi eliptice -->
+                                    <ellipse cx="150" cy="100" rx="120" ry="60" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                    <ellipse cx="150" cy="100" rx="80" ry="40" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                    <ellipse cx="150" cy="100" rx="40" ry="20" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                    <!-- Centru (minim) -->
+                                    <circle cx="150" cy="100" r="5" fill="var(--success)"/>
+                                    <text x="155" y="115" fill="var(--success)" font-size="10">minim</text>
+                                    <!-- Punct si gradient -->
+                                    <circle cx="220" cy="70" r="6" fill="var(--warning)"/>
+                                    <!-- Sageata gradient (spre exterior = crestere) -->
+                                    <line x1="220" y1="70" x2="260" y2="50" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)"/>
+                                    <text x="265" y="55" fill="var(--accent)" font-size="10">∇f</text>
+                                    <!-- Sageata -gradient (spre minim = descrestere) -->
+                                    <line x1="220" y1="70" x2="180" y2="90" stroke="var(--success)" stroke-width="2" marker-end="url(#arrow2)"/>
+                                    <text x="165" y="95" fill="var(--success)" font-size="10">-∇f</text>
+                                    <defs>
+                                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                            <path d="M0,0 L0,6 L9,3 z" fill="var(--accent)"/>
+                                        </marker>
+                                        <marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                            <path d="M0,0 L0,6 L9,3 z" fill="var(--success)"/>
+                                        </marker>
+                                    </defs>
+                                </svg>
+                                <p style="text-align: center; margin-top: 15px;">∇f indica cea mai rapida <span style="color: var(--accent);">crestere</span></p>
+                                <p style="text-align: center;">-∇f indica cea mai rapida <span style="color: var(--success);">descrestere</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

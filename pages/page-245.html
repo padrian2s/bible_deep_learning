@@ -1,0 +1,121 @@
+<section class="page-section" id="page-245">
+    <div class="page-header">
+        <div class="page-number">245</div>
+        <div class="page-title">
+            <h3>7.1 Penalizari pe Norma Parametrilor</h3>
+            <span>Parameter Norm Penalties</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-245.jpg"
+             alt="Pagina 245" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Functia Obiectiv Regularizata</h4>
+                <p>Regularizarea a fost folosita cu decenii inainte de deep learning. Pentru modele liniare (regresie liniara, logistica), adaugam o penalizare pe norma parametrilor la functia obiectiv J. Functia obiectiv regularizata este:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center; font-size: 1.1rem;">
+                    J̃(θ; X, y) = J(θ; X, y) + αΩ(θ)
+                </div>
+                <p>Unde α ∈ [0, ∞) este hiperparametrul care controleaza contributia penalizarii Ω relativ la obiectivul standard J. α = 0 inseamna fara regularizare, valori mai mari = mai multa regularizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Implementare Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Functia obiectiv standard
+loss_fn = nn.CrossEntropyLoss()
+loss = loss_fn(predictions, targets)
+
+# Adaugam penalizare L2 pe parametri
+alpha = 0.001  # Forta regularizarii
+l2_penalty = 0
+
+for param in model.parameters():
+    l2_penalty += torch.norm(param, 2) ** 2
+
+# Functia obiectiv regularizata
+regularized_loss = loss + alpha * l2_penalty
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Nota: Weights vs Biases</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Important:</strong> De obicei regularizam doar <em>weights</em> (w), nu si biases. De ce?</p>
+                            </div>
+                            <ul style="margin-top: 15px;">
+                                <li><strong>Weights</strong> - controleaza interactiunea intre variabile, necesita multe date pentru a fi estimate corect</li>
+                                <li><strong>Biases</strong> - controleaza doar o singura variabila, nu introduc multa varianta</li>
+                                <li>Regularizarea bias-urilor poate introduce underfitting semnificativ</li>
+                            </ul>
+                            <div class="code-block" style="margin-top: 15px;">
+# In PyTorch - regularizam doar weights
+for name, param in model.named_parameters():
+    if 'weight' in name:  # Nu 'bias'
+        l2_penalty += torch.norm(param, 2) ** 2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alpha Diferit per Layer?</h4>
+                <p>In retele neurale, uneori dorim sa folosim coeficienti α diferiti pentru fiecare layer. Cautarea corecta a mai multor hiperparametri poate fi costisitoare, asa ca de multe ori folosim acelasi weight decay pentru toate layerele pentru a reduce spatiul de cautare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Trade-off: Simplitate vs Optim</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Un singur α pentru tot</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Simplu de tunat</li>
+                                        <li>Mai putini hiperparametri</li>
+                                        <li>Suficient in practica</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">α diferit per layer</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Potential mai optim</li>
+                                        <li>Cautare costisitoare</li>
+                                        <li>Rareori necesar</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,138 @@
+<section class="page-section" id="page-210">
+    <div class="page-header">
+        <div class="page-number">210</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.3.2 Sigmoid si Tangenta Hiperbolica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-210.jpg"
+             alt="Pagina 210" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Istoricul: Inainte de ReLU</h4>
+                <p>Inainte de introducerea unitatilor liniare rectificate, majoritatea retelelor neuronale foloseau functia de activare sigmoid logistica g(z) = σ(z) sau functia tangenta hiperbolica g(z) = tanh(z). Aceste functii de activare sunt strans legate deoarece tanh(z) = 2σ(2z) - 1.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Sigmoid vs Tanh</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import numpy as np
+
+# Sigmoid: σ(z) = 1 / (1 + exp(-z))
+# Output: (0, 1)
+sigmoid = torch.sigmoid
+
+# Tanh: tanh(z) = (exp(z) - exp(-z)) / (exp(z) + exp(-z))
+# Output: (-1, 1)
+tanh = torch.tanh
+
+# Relatia dintre ele:
+# tanh(z) = 2σ(2z) - 1
+z = torch.tensor([0.0, 1.0, -1.0])
+print(torch.tanh(z))
+print(2 * torch.sigmoid(2 * z) - 1)  # Identic!
+
+# Diferente cheie:
+#   Sigmoid: output in (0, 1), σ(0) = 0.5
+#   Tanh: output in (-1, 1), tanh(0) = 0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Saturarii</h4>
+                <p>Am vazut deja unitatile sigmoid ca output units pentru clasificare binara. Spre deosebire de unitatile liniare pe portiuni, unitatile sigmoidale satureaza pe majoritatea domeniului lor - satureaza la o valoare mare cand z este foarte pozitiv, satureaza la o valoare mica cand z este foarte negativ, si sunt puternic sensibile la inputul lor doar cand z este aproape de 0. Saturarea larga face invatarea bazata pe gradient foarte dificila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Zona de Saturare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+                                    <div style="color: var(--warning);">
+                                        <strong>Saturare</strong>
+                                        <p style="font-size: 0.8rem;">z << 0</p>
+                                        <p style="font-size: 0.8rem;">σ(z) ≈ 0</p>
+                                        <p style="font-size: 0.8rem;">∂σ/∂z ≈ 0</p>
+                                    </div>
+                                    <div style="color: var(--success);">
+                                        <strong>Zona Activa</strong>
+                                        <p style="font-size: 0.8rem;">z ≈ 0</p>
+                                        <p style="font-size: 0.8rem;">σ(z) ≈ 0.5</p>
+                                        <p style="font-size: 0.8rem;">∂σ/∂z maxim</p>
+                                    </div>
+                                    <div style="color: var(--warning);">
+                                        <strong>Saturare</strong>
+                                        <p style="font-size: 0.8rem;">z >> 0</p>
+                                        <p style="font-size: 0.8rem;">σ(z) ≈ 1</p>
+                                        <p style="font-size: 0.8rem;">∂σ/∂z ≈ 0</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; color: var(--accent);">Gradient ≈ 0 in zonele de saturare = invatare blocata!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tanh vs Sigmoid pentru Hidden Layers</h4>
+                <p>Cand o functie de activare sigmoidala trebuie folosita, tangenta hiperbolica performeaza de obicei mai bine decat sigmoid-ul logistic. Seamana mai mult cu functia identitate in sensul ca tanh(0) = 0 in timp ce σ(0) = 1/2. Deoarece tanh este similar cu identitatea pentru activari mici, antrenarea unei retele y = wᵀtanh(Uᵀtanh(Vᵀx)) seamana cu antrenarea unui model liniar cand activarile raman mici.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cand sa folosesti Sigmoid/Tanh</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>🔄</span>
+                                    <div><strong>RNN/LSTM Gates</strong> - Sigmoid pentru "forget gate", "input gate" - output in [0,1] reprezinta "cat sa pastram"</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🎲</span>
+                                    <div><strong>Probabilistic Models</strong> - Unele modele probabilistice necesita output bounded</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🏛️</span>
+                                    <div><strong>Legacy Architectures</strong> - Retele pre-antrenate care folosesc tanh/sigmoid</div>
+                                </li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Regula moderna:</strong> Foloseste ReLU pentru hidden layers, sigmoid/tanh doar unde e necesar (gates, outputs probabilistice).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

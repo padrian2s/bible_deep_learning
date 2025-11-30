@@ -1,0 +1,129 @@
+<section class="page-section" id="page-378">
+    <div class="page-header">
+        <div class="page-number">378</div>
+        <div class="page-title">
+            <h3>9.9 Features Random sau Nesupervizate</h3>
+            <span>Alternative la Antrenarea Supervizata</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-378.jpg"
+             alt="Pagina 378" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Antrenarea Supervizata e Scumpa</h4>
+                <p>Antrenarea completa a unui CNN necesita forward si backward pass prin intreaga retea la fiecare pas de gradient - computational costisitor! Alternative: (1) Foloseste kerneluri <strong>aleatoare</strong>, (2) Proiecteaza kerneluri manual (ex: Gabor filters), (3) Invata kerneluri <strong>nesupervizat</strong> (k-means pe patches de imagine).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Trei Abordari pentru Features</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 10px;">🎲</div>
+                                    <strong style="color: var(--primary);">Random</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 10px;">Initializare aleatoare, antrenezi doar clasificatorul final</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 10px;">✏️</div>
+                                    <strong style="color: var(--accent);">Hand-designed</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 10px;">Gabor, Sobel, etc. Bazate pe cunostinte despre viziune</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 10px;">🔮</div>
+                                    <strong style="color: var(--success);">Unsupervised</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 10px;">K-means, autoencoders, sparse coding pe patches</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Random Features Surprinzator de Bune!</h4>
+                <p>Un rezultat surprinzator: chiar si cu kerneluri <strong>complet aleatoare</strong> (neinvatate!), convolutia urmata de pooling produce features destul de utile! Aceasta se datoreaza faptului ca pooling-ul peste regiuni spatiale produce automat invarianta la translatii si selectivitate la frecventa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Random Convolutional Features</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class RandomCNN(nn.Module):
+    """CNN cu kerneluri aleatoare - antrenam doar clasificatorul"""
+    def __init__(self, num_classes=10):
+        super().__init__()
+        # Kerneluri FIXE (random, neinvatate)
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, 5, padding=2),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(64, 128, 5, padding=2),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.AdaptiveAvgPool2d(1)
+        )
+        # Inghetam ponderile convolutiilor
+        for param in self.features.parameters():
+            param.requires_grad = False
+
+        # Doar clasificatorul se antreneaza
+        self.classifier = nn.Linear(128, num_classes)
+
+    def forward(self, x):
+        x = self.features(x).flatten(1)
+        return self.classifier(x)
+
+# Surprinzator: pe CIFAR-10, aceasta poate atinge ~60-70% accuracy!
+# (vs ~95% cu CNN complet antrenat)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>K-means pentru Kerneluri</h4>
+                <p>O abordare nesupervizata populara (Coates et al. 2011): (1) Extrage patches mici aleatorii din imagini, (2) Aplica k-means clustering, (3) Foloseste centroizii ca kerneluri convolutionale. Rezultat: kerneluri care captureaza pattern-uri frecvente din date, fara etichete!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Era Pre-Deep Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Context istoric (2007-2013):</strong><br><br>
+                                Inainte de GPU-uri rapide si dataset-uri mari, antrenarea end-to-end a CNN-urilor era foarte lenta. Tehnicile nesupervizate permiteau extragerea de features fara backprop complet. Azi, cu GPU-uri moderne si transfer learning (ImageNet pretraining), aceste tehnici sunt mai rar folosite.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

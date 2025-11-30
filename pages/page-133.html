@@ -1,0 +1,111 @@
+<section class="page-section" id="page-133">
+    <div class="page-header">
+        <div class="page-number">133</div>
+        <div class="page-title">
+            <h3>Regularizare - Introducere</h3>
+            <span>Capitolul 5 - Sectiunea 5.2.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-133.jpg"
+             alt="Pagina 133" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Implicatiile No Free Lunch pentru ML</h4>
+                <p>No Free Lunch se aplica doar cand mediem peste TOATE distributiile de date posibile. Daca facem asumptii despre tipurile de distributii pe care le intalnim in aplicatii reale, putem proiecta algoritmi care performeaza bine pe acele distributii. Scopul cercetarii ML nu este sa gasim un algoritm universal, ci sa intelegem ce tipuri de distributii sunt relevante pentru "lumea reala" si ce algoritmi functioneaza bine pe ele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Mesajul Practic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Nu cautam algoritmul "cel mai bun" - cautam algoritmul potrivit pentru problema noastra specifica!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.2.2 Regularization</h4>
+                <p>No Free Lunch implica ca trebuie sa proiectam algoritmi ML pentru task-uri specifice, incorporand preferinte in algoritm. Pana acum, singura metoda discutata de control al capacity a fost adaugarea/eliminarea functiilor din hypothesis space. Dar comportamentul algoritmului depinde nu doar de CATE functii sunt permise, ci si de IDENTITATEA lor specifica - o functie liniara e mai utila pentru probleme liniare decat pentru sin(x).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Doua Moduri de Control</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>1. Dimensiunea Hypothesis Space</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Gradul polinomului, nr. neuroni, etc.</p>
+                                    <p style="color: var(--text-secondary);">CATE functii putem alege</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>2. Preferinte intre Functii</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Regularization, priors, constraints</p>
+                                    <p style="color: var(--text-secondary);">CE functii preferam</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Preferinte pentru Solutii</h4>
+                <p>Putem da algoritmului o <strong>preferinta</strong> pentru anumite solutii din hypothesis space. Ambele functii sunt eligibile, dar una e preferata. Solutia nepreferata va fi aleasa doar daca potriveste datele semnificativ mai bine. De exemplu, putem modifica criteriul pentru regresia liniara sa includa <strong>weight decay</strong> - o preferinta pentru weights mai mici:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Preferinta pentru Simplitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Doua solutii posibile pentru aceleasi date
+import numpy as np
+
+# Solutie 1: weights mari
+w1 = np.array([100, -99, 50, -49])
+# Solutie 2: weights mici
+w2 = np.array([1, 0, 0.5, 0])
+
+# Ambele dau predictii similare pe training data
+# Dar care e mai probabil sa generalizeze?
+
+print("Solutie 1 (weights mari):", w1)
+print("  Norma: ||w||² =", np.sum(w1**2))
+print()
+print("Solutie 2 (weights mici):", w2)
+print("  Norma: ||w||² =", np.sum(w2**2))
+print()
+print("Intuition: Weights mici = model mai 'smooth'")
+print("          Mai putin sensibil la perturbatii")
+print("=> Preferam solutia 2!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

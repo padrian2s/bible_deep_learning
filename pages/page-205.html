@@ -1,0 +1,140 @@
+<section class="page-section" id="page-205">
+    <div class="page-header">
+        <div class="page-number">205</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2.4 Output-uri MDN: Mixing, Medii, Covarianțe</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-205.jpg"
+             alt="Pagina 205" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>1. Coeficienti de Mixing p(c = i | x)</h4>
+                <p>Componentele mixture formeaza o distributie multinoulli peste cele n componente diferite asociate cu variabila latenta c. Acestea pot fi obtinute de obicei printr-un softmax peste un vector n-dimensional, pentru a garanta ca output-urile sunt pozitive si sumeaza la 1.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare Mixing Coefficients</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn.functional as F
+
+# Raw output din retea (n componente)
+raw_pi = model.pi_head(h)  # shape: [batch, n_components]
+
+# Softmax garanteaza:
+# 1. Toate valorile in (0, 1)
+# 2. Suma = 1
+pi = F.softmax(raw_pi, dim=-1)
+
+# Exemplu cu 3 componente:
+# raw_pi = [2.0, 1.0, 0.5]
+# pi = softmax([2.0, 1.0, 0.5])
+#    = [0.54, 0.28, 0.18]
+# Suma: 0.54 + 0.28 + 0.18 = 1.0 ✓
+
+# Interpretare: componenta 1 contribuie 54%,
+# componenta 2 contribuie 28%, etc.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>2. Medii μ⁽ⁱ⁾(x)</h4>
+                <p>Mediile indica centrul sau media asociata cu a i-a componenta Gaussian si sunt neconstranise (de obicei fara neliniaritate pentru aceste unitati de output). Daca y este un vector d-dimensional, reteaua trebuie sa outputeze o matrice n × d continand toate n vectori d-dimensionali. Invatarea mediilor cu maximum likelihood este usor mai complicata decat a invata mediile unei distributii cu un singur mod output.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Responsabilitate partiala in Mixtures</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema cu mixtures:</strong> Nu stim care componenta a generat fiecare observatie. In practica, expresia pentru negative log-likelihood pondereaza natural contributia fiecarui exemplu la loss cu probabilitatea ca acea componenta sa fi produs exemplul.
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# In training, fiecare componenta primeste
+# "responsabilitate" pentru fiecare punct
+
+def mdn_loss(y, pi, mu, sigma):
+    """
+    Negative log-likelihood pentru MDN
+    """
+    # Calculeaza probabilitatea sub fiecare Gaussian
+    # N(y; mu_i, sigma_i²)
+    gaussian_probs = gaussian_pdf(y, mu, sigma)
+
+    # Pondereaza cu mixing coefficients
+    weighted = pi * gaussian_probs  # [batch, n_comp]
+
+    # Suma peste componente
+    mixture_prob = weighted.sum(dim=-1)  # [batch]
+
+    # Negative log-likelihood
+    return -torch.log(mixture_prob + 1e-8).mean()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>3. Covarianțe Σ⁽ⁱ⁾(x)</h4>
+                <p>Covariantele specifica matricea de covarianta pentru fiecare componenta i. Ca si cand invatam o singura componenta Gaussian, folosim de obicei o matrice diagonala pentru a evita calculul determinantilor. Gradient descent poate fi instabil numeric daca varianta devine foarte mica. O solutie este gradient clipping.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Stabilizare numerica pentru MDN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+
+# Problema: varianta poate deveni foarte mica
+# → gradiente explodeaza (1/σ² → ∞)
+
+# Solutie 1: Clipping pe sigma
+sigma = torch.clamp(raw_sigma, min=0.01, max=10.0)
+
+# Solutie 2: ELU + constant pentru log-sigma
+log_sigma = elu(raw_log_sigma) + 1  # >= 1-ε
+sigma = torch.exp(log_sigma)
+
+# Solutie 3: Softplus cu floor
+sigma = F.softplus(raw_sigma) + 0.01
+
+# Solutie 4: Gradient clipping
+torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">MDN sunt folosite in generative models pentru speech, handwriting, si robotic control.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

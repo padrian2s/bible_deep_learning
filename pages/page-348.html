@@ -1,0 +1,183 @@
+<section class="page-section" id="page-348">
+    <div class="page-header">
+        <div class="page-number">348</div>
+        <div class="page-title">
+            <h3>9.1 Operatia de Convolutie</h3>
+            <span>Cross-Correlation si Matrici Toeplitz</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-348.jpg"
+             alt="Pagina 348" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cross-Correlation in Bibliotecile de ML</h4>
+                <p>Multe biblioteci de ML implementeaza de fapt <strong>cross-correlation</strong>, care este identica cu convolutia dar FARA rasturnarea kernelului: <span class="formula">S(i,j) = (I * K)(i,j) = Σₘ Σₙ I(i+m, j+n)K(m,n)</span>. In contextul ML, algoritmul de invatare va ajusta valorile kernelului indiferent de conventie, deci rezultatul final este echivalent.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Diferenta in Cod</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+import numpy as np
+
+# Input 4x4
+x = torch.tensor([[
+    [1., 2., 3., 4.],
+    [5., 6., 7., 8.],
+    [9., 10., 11., 12.],
+    [13., 14., 15., 16.]
+]]).unsqueeze(0)  # Shape: [1, 1, 4, 4]
+
+# Kernel 2x2
+kernel = torch.tensor([[
+    [1., 2.],
+    [3., 4.]
+]]).unsqueeze(0)  # Shape: [1, 1, 2, 2]
+
+# PyTorch face CROSS-CORRELATION (nu convolutie matematica)
+output = F.conv2d(x, kernel)
+print("Output shape:", output.shape)  # [1, 1, 3, 3]
+
+# Output[0,0] = 1*1 + 2*2 + 5*3 + 6*4 = 44
+# (fara flip!)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce nu conteaza in practica?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Raspuns:</strong> Kernelul este INVATAT de retea! Daca matematica "corecta" ar folosi kernel [1,2,3], iar biblioteca foloseste cross-correlation, reteaua va invata pur si simplu [3,2,1]. Rezultatul final e identic.
+                            </div>
+                            <p style="margin-top: 15px;">Singura situatie cand conteaza este daca vrem sa folosim kerneluri predefinite (ex: filtru Sobel) - atunci trebuie sa verificam conventia bibliotecii.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutia ca Inmultire de Matrice: Matrici Toeplitz</h4>
+                <p>Convolutia discreta poate fi vazuta ca o inmultire cu o matrice speciala. Pentru convolutie 1D, matricea rezultata este o <strong>matrice Toeplitz</strong> - fiecare rand este deplasat cu un element fata de randul anterior. Pentru 2D, avem o <strong>matrice bloc circulant dubla</strong>. Aceasta reprezentare ajuta la intelegerea teoretica, dar implementarile eficiente folosesc direct formula de convolutie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Matrice Toeplitz</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy.linalg import toeplitz
+
+# Kernel [a, b, c]
+# Convolutie cu input [x1, x2, x3, x4, x5]
+
+# Matricea Toeplitz echivalenta (valid padding):
+# [c b a 0 0]   [x1]   [ax1 + bx2 + cx3]
+# [0 c b a 0] * [x2] = [ax2 + bx3 + cx4]
+# [0 0 c b a]   [x3]   [ax3 + bx4 + cx5]
+#               [x4]
+#               [x5]
+
+# Observatie: fiecare rand e acelasi kernel deplasat!
+kernel = np.array([1, 0, -1])
+# Prima coloana si primul rand definesc matricea Toeplitz
+col = np.array([kernel[2], 0, 0])
+row = np.array([kernel[2], kernel[1], kernel[0], 0, 0])
+T = toeplitz(col, row)
+print("Matrice Toeplitz:\n", T)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura Matricei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="font-family: monospace; background: var(--bg-dark); padding: 15px; border-radius: 8px; overflow-x: auto;">
+                                <div style="color: var(--accent); margin-bottom: 10px;">Matrice Toeplitz pentru kernel [k₀, k₁, k₂]:</div>
+                                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; max-width: 300px;">
+                                    <div style="background: var(--success); padding: 8px; text-align: center;">k₂</div>
+                                    <div style="background: var(--warning); padding: 8px; text-align: center;">k₁</div>
+                                    <div style="background: var(--primary); padding: 8px; text-align: center;">k₀</div>
+                                    <div style="background: var(--bg-lighter); padding: 8px; text-align: center;">0</div>
+                                    <div style="background: var(--bg-lighter); padding: 8px; text-align: center;">0</div>
+
+                                    <div style="background: var(--bg-lighter); padding: 8px; text-align: center;">0</div>
+                                    <div style="background: var(--success); padding: 8px; text-align: center;">k₂</div>
+                                    <div style="background: var(--warning); padding: 8px; text-align: center;">k₁</div>
+                                    <div style="background: var(--primary); padding: 8px; text-align: center;">k₀</div>
+                                    <div style="background: var(--bg-lighter); padding: 8px; text-align: center;">0</div>
+
+                                    <div style="background: var(--bg-lighter); padding: 8px; text-align: center;">0</div>
+                                    <div style="background: var(--bg-lighter); padding: 8px; text-align: center;">0</div>
+                                    <div style="background: var(--success); padding: 8px; text-align: center;">k₂</div>
+                                    <div style="background: var(--warning); padding: 8px; text-align: center;">k₁</div>
+                                    <div style="background: var(--primary); padding: 8px; text-align: center;">k₀</div>
+                                </div>
+                                <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.85rem;">Acelasi pattern diagonal = SPARSE + STRUCTURED = eficient!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce e importanta reprezentarea matriceala?</h4>
+                <p>Matricea convolutiei este foarte <strong>sparse</strong> (multe zerouri) si <strong>structurata</strong> (valori repetate). Orice retea neurala care lucreaza cu inmultire de matrice poate folosi convolutia fara modificari - structura speciala aduce doar eficienta computationala si mai putini parametri de invatat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Avantajele Structurii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Sparsitate</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">Majoritatea elementelor sunt 0 → mai putine calcule</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">Partajare Parametri</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">Aceleasi valori apar repetat → mai putini parametri de stocat</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,117 @@
+<section class="page-section" id="page-247">
+    <div class="page-header">
+        <div class="page-number">247</div>
+        <div class="page-title">
+            <h3>7.1.1 Analiza Matematica L²</h3>
+            <span>Efectul Weight Decay asupra Solutiei</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-247.jpg"
+             alt="Pagina 247" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aproximare Patratica a Functiei Obiectiv</h4>
+                <p>Pentru a intelege efectul weight decay, facem o aproximare patratica a functiei obiectiv in jurul minimului w* (solutia fara regularizare). Daca H este matricea Hessian (derivatele de ordin 2):</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    Ĵ(θ) = J(w*) + ½(w - w*)⊤H(w - w*)
+                </div>
+                <p>Minimul functiei regularizate ŵ satisface:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    ŵ = (H + αI)⁻¹Hw*
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Derivarea pas cu pas</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ol style="line-height: 2;">
+                                <li><strong>Gradientul J̃:</strong> ∇<sub>w</sub>Ĵ(w) = H(w - w*)</li>
+                                <li><strong>Adaugam regularizare:</strong> ∇<sub>w</sub>J̃ = αw + H(w - w*)</li>
+                                <li><strong>Setam = 0:</strong> αŵ + H(ŵ - w*) = 0</li>
+                                <li><strong>Rearanjam:</strong> (H + αI)ŵ = Hw*</li>
+                                <li><strong>Rezolvam:</strong> ŵ = (H + αI)⁻¹Hw*</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea prin Valori Proprii</h4>
+                <p>Deoarece H este simetrica si pozitiv semidefinita, o putem descompune: H = QΛQ⊤, unde Q contine vectorii proprii si Λ valorile proprii. Solutia regularizata devine:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    ŵ = Q(Λ + αI)⁻¹ΛQ⊤w*
+                </div>
+                <p>Componenta w* de-a lungul vectorului propriu i este scalata cu factorul <strong>λᵢ/(λᵢ + α)</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ce inseamna asta intuitiv?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">λᵢ >> α (valoare proprie mare)</strong>
+                                    <p style="margin-top: 10px; font-size: 0.9rem;">Factor ≈ λᵢ/λᵢ = 1</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Componenta ramane aproape neschimbata - directie importanta pentru cost</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">λᵢ << α (valoare proprie mica)</strong>
+                                    <p style="margin-top: 10px; font-size: 0.9rem;">Factor ≈ λᵢ/α ≈ 0</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Componenta este "stearsa" - directie neimportanta pentru cost</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p><strong>Intuitie:</strong> Weight decay pastreaza directiile importante (curbura mare in cost) si elimina directiile neimportante (curbura mica - pot varia mult fara a afecta cost-ul).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Vizualizare Scalare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Valori proprii ale Hessianului
+eigenvalues = np.array([10, 1, 0.1, 0.01])
+alpha = 0.5  # weight decay
+
+# Factori de scalare
+scaling_factors = eigenvalues / (eigenvalues + alpha)
+# [0.952, 0.667, 0.167, 0.020]
+
+# Interpretare:
+# λ=10:  pastreaza 95.2% din componenta
+# λ=1:   pastreaza 66.7% din componenta
+# λ=0.1: pastreaza 16.7% din componenta
+# λ=0.01: pastreaza doar 2% din componenta
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

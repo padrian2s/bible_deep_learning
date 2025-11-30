@@ -1,0 +1,112 @@
+<section class="page-section" id="page-263">
+    <div class="page-header">
+        <div class="page-number">263</div>
+        <div class="page-title">
+            <h3>7.8 Beneficiile Early Stopping</h3>
+            <span>De ce este atat de popular</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-263.jpg"
+             alt="Pagina 263" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cost Computational Minim</h4>
+                <p>Costul principal: rularea evaluarii pe validation set periodic. Ideal, aceasta se face in paralel pe o masina/GPU separata. Daca nu e posibil, putem: (1) folosi un validation set mai mic, sau (2) evalua mai rar si obtine o rezolutie mai joasa pentru numarul optim de pasi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Evaluare in Background</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Evaluare periodica eficienta
+eval_every = 500  # steps, nu epochs
+
+for step in range(max_steps):
+    train_step(model)
+
+    if step % eval_every == 0:
+        # Mut modelul pe CPU/alta GPU pentru evaluare
+        val_loss = evaluate_async(model, val_loader)
+        check_early_stopping(val_loss, step)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Costul Memoriei: Salvarea Parametrilor</h4>
+                <p>Trebuie sa pastram o copie a celor mai buni parametri. Costul e de obicei neglijabil: stocam in RAM/disk (mai lent) in timp ce antrenam pe GPU. Parametrii "best" sunt scrisi rar si niciodata cititi in timpul training-ului, deci nu afecteaza viteza.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Checkpoint Best Model</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# PyTorch - salvare checkpoint
+if val_loss < best_val_loss:
+    torch.save({
+        'epoch': epoch,
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'val_loss': val_loss,
+    }, 'best_model.pt')
+
+# La final - incarcare
+checkpoint = torch.load('best_model.pt')
+model.load_state_dict(checkpoint['model_state_dict'])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Early Stopping = Regularizare "Neobstructiva"</h4>
+                <p>Early stopping e o forma de regularizare care nu necesita schimbari in procedura de training, functia obiectiv sau valorile permise ale parametrilor. E usor de folosit fara a afecta dinamica invatarii. Spre deosebire de weight decay unde prea mult poate bloca reteaua in minime locale proaste cu weights foarte mici.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Combinatii cu alte regularizari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Early stopping poate fi folosit <strong>singur</strong> sau <strong>impreuna</strong> cu alte strategii de regularizare. Chiar cu weight decay/dropout, rareori best generalization apare exact la minimul functiei obiectiv de training.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema: Datele de Validation Nu Sunt Folosite</h4>
+                <p>Early stopping necesita un validation set, deci acele date nu sunt folosite pentru training. Pentru a exploata aceste date extra, putem face training suplimentar dupa ce early stopping a terminat, folosind toate datele. Doua strategii principale...</p>
+            </div>
+        </div>
+
+    </div>
+</section>

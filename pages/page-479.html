@@ -1,0 +1,129 @@
+<section class="page-section" id="page-479">
+    <div class="page-header">
+        <div class="page-number">479</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4.2 Neural Language Models</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-479.jpg"
+             alt="Pagina 479" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.2 Neural Language Models (NLM)</h4>
+                <p><strong>Neural language models</strong> sunt o clasa de modele de limbaj proiectate pentru a depasi curse of dimensionality folosind o <strong>reprezentare distribuita</strong> a cuvintelor. Spre deosebire de modelele class-based, NLM-urile pot recunoaste ca doua cuvinte sunt similare fara a pierde capacitatea de a le distinge.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Reprezentari Distribuite</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">One-Hot (Traditional)</strong>
+                                    <div style="font-family: monospace; font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                                        dog: [0,0,1,0,0,0,...]<br>
+                                        cat: [0,1,0,0,0,0,...]<br>
+                                        <span style="color: var(--warning);">Distanta: √2 (mereu!)</span>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Embedding (Neural)</strong>
+                                    <div style="font-family: monospace; font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                                        dog: [0.2, 0.8, -0.1]<br>
+                                        cat: [0.3, 0.7, -0.2]<br>
+                                        <span style="color: var(--success);">Distanta: 0.17 (apropiate!)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Daca "dog" si "cat" au reprezentari similare, propozitiile cu "cat" pot informa predictiile pentru propozitii cu "dog"!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Neural LM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class NeuralLanguageModel(nn.Module):
+    def __init__(self, vocab_size, embed_dim, hidden_dim, context_len):
+        super().__init__()
+        # Fiecare cuvant -> vector dens
+        self.embedding = nn.Embedding(vocab_size, embed_dim)
+
+        # Concatenam embedding-urile contextului
+        self.fc1 = nn.Linear(context_len * embed_dim, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, vocab_size)
+
+    def forward(self, context):
+        # context: (batch, context_len) - word indices
+        embeds = self.embedding(context)  # (batch, context_len, embed_dim)
+        embeds = embeds.view(embeds.size(0), -1)  # flatten
+        h = torch.tanh(self.fc1(embeds))
+        logits = self.fc2(h)
+        return logits  # distributie peste vocabular
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Neural LM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bengio et al. (2001)</strong> - Primul neural language model cu word embeddings</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Key Insight:</strong> Reprezentarea distribuita permite modelului sa trateze cuvinte cu features comune in mod similar. Curse of dimensionality necesita un numar exponential de propozitii, dar modelul relationeaza fiecare propozitie de training la un numar exponential de propozitii similare.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Word Embeddings</h4>
+                <p>Numim aceste reprezentari de cuvinte <strong>word embeddings</strong>. Vedem simbolurile raw ca puncte intr-un spatiu de dimensiune egala cu vocabularul. Reprezentarile word embedding <strong>embed</strong> aceste puncte intr-un spatiu de dimensiune mai mica. In spatiul original, distanta dintre oricare doua cuvinte este √2. In spatiul de embedding, cuvintele semantic similare sunt apropiate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce sunt speciale embeddings pentru NLP?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Observatie:</strong> Retelele neurale in alte domenii (ex: computer vision) produc si ele "embeddings" - activarile layer-elor ascunse sunt o reprezentare distribuita a input-ului. Dar pentru NLP, schimbarea este mai dramatica deoarece input-ul original (text) nu este in mod natural intr-un spatiu vectorial continuu!
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Figura 12.3 arata cum cuvinte semantic similare (tari, ani) ajung aproape in spatiul de embedding 2D.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

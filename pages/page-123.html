@@ -1,0 +1,123 @@
+<section class="page-section" id="page-123">
+    <div class="page-header">
+        <div class="page-number">123</div>
+        <div class="page-title">
+            <h3>Mean Squared Error si Optimizarea Regresiei</h3>
+            <span>Capitolul 5 - Regresia Liniara</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-123.jpg"
+             alt="Pagina 123" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea Weights-urilor</h4>
+                <p>Daca o feature primeste un weight pozitiv, cresterea valorii acelei feature creste predictia ŷ. Daca primeste un weight negativ, cresterea feature-ului scade predictia. Daca magnitude-ul weight-ului este mare, feature-ul are un efect puternic. Daca weight-ul este zero, feature-ul nu afecteaza predictia. Avem deci task-ul T definit: prezicerea lui y din x prin ŷ = w<sup>T</sup>x. Urmeaza sa definim masura de performanta P.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Impactul Weights</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
+                                <div style="background: var(--success); padding: 15px; border-radius: 8px;">
+                                    <strong>w > 0</strong>
+                                    <p>↑ feature → ↑ ŷ</p>
+                                </div>
+                                <div style="background: var(--warning); padding: 15px; border-radius: 8px;">
+                                    <strong>w = 0</strong>
+                                    <p>feature ignorat</p>
+                                </div>
+                                <div style="background: #ff6464; padding: 15px; border-radius: 8px;">
+                                    <strong>w < 0</strong>
+                                    <p>↑ feature → ↓ ŷ</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Mean Squared Error (MSE)</h4>
+                <p>Pentru a evalua performanta modelului, calculam <strong>mean squared error</strong> pe test set. Daca ŷ<sup>(test)</sup> sunt predictiile modelului pe test set, MSE este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    MSE<sub>test</sub> = (1/m) Σᵢ (ŷᵢ<sup>(test)</sup> - yᵢ<sup>(test)</sup>)²
+                </div>
+                <p>Eroarea scade la 0 cand predictiile se potrivesc perfect cu target-urile. Putem scrie si ca norma L2 la patrat: MSE = (1/m)||ŷ - y||²₂</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Calculul MSE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Predictii si valori reale
+y_pred = np.array([2.5, 3.0, 4.2, 5.1])
+y_true = np.array([2.3, 3.5, 4.0, 5.0])
+
+# Calcul MSE pas cu pas
+errors = y_pred - y_true
+squared_errors = errors ** 2
+mse = np.mean(squared_errors)
+
+print("Predictii (ŷ):     ", y_pred)
+print("Valori reale (y):  ", y_true)
+print("Erori (ŷ - y):     ", errors)
+print("Erori² (ŷ - y)²:   ", squared_errors)
+print(f"\nMSE = mean(erori²) = {mse:.4f}")
+
+# Echivalent cu norma L2
+mse_norm = (1/len(y_true)) * np.linalg.norm(y_pred - y_true)**2
+print(f"MSE = (1/m)||ŷ-y||² = {mse_norm:.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Optimizarea: Minimizarea MSE</h4>
+                <p>Pentru a face un algoritm ML, trebuie sa proiectam un algoritm care imbunatateste weights w astfel incat reduce MSE<sub>test</sub>. Un mod intuitiv (justificat in sectiunea 5.5.1) este sa minimizam MSE pe training set. Setam gradientul la zero:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    <p>∇<sub>w</sub>MSE<sub>train</sub> = 0</p>
+                    <p style="margin-top: 10px;">∇<sub>w</sub>(1/m)||X<sup>(train)</sup>w - y<sup>(train)</sup>||²₂ = 0</p>
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce minimizam pe train, nu test?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Paradoxul ML</h5>
+                                <p>Vrem sa minimizam eroarea pe <strong>test</strong>, dar in practica nu avem acces la test set in timpul antrenarii!</p>
+                                <p style="margin-top: 10px;">Solutia: Minimizam pe train si <strong>speram</strong> ca generalizeaza la test. Aceasta speranta este justificata teoretic sub anumite conditii (sectiunea 5.5.1).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

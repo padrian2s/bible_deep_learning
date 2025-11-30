@@ -1,0 +1,123 @@
+<section class="page-section" id="page-471">
+    <div class="page-header">
+        <div class="page-number">471</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Local Contrast Normalization (LCN)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-471.jpg"
+             alt="Pagina 471" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Limitarile GCN</h4>
+                <p>Global contrast normalization va esua adesea sa evidentieze caracteristicile imaginii pe care le dorim, cum ar fi muchiile si colturile. Daca avem o scena cu o zona mare intunecata si una luminoasa (ex: piata cu umbra unei cladiri), GCN va asigura diferenta de luminozitate dar <strong>nu va evidentia muchiile din zonele de intensitate constanta</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Figura 12.1 - Efectul GCN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="width: 80px; height: 80px; margin: 0 auto; background: var(--bg-dark); border-radius: 50%; position: relative; overflow: hidden;">
+                                        <div style="position: absolute; top: 20%; left: 20%; width: 20px; height: 20px; background: var(--accent); border-radius: 50%; opacity: 0.7;"></div>
+                                        <div style="position: absolute; top: 50%; left: 60%; width: 15px; height: 15px; background: var(--warning); border-radius: 50%; opacity: 0.5;"></div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">Raw Input</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.7rem;">Norma variabila</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="width: 80px; height: 80px; margin: 0 auto; border: 3px solid var(--accent); border-radius: 50%;"></div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">GCN λ=0</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.7rem;">Sfera perfecta</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="width: 80px; height: 80px; margin: 0 auto; border: 3px dashed var(--success); border-radius: 50%; position: relative;">
+                                        <div style="position: absolute; top: 40%; left: 40%; width: 20%; height: 20%; border: 2px solid var(--warning); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">GCN λ>0</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.7rem;">Regularizat</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">GCN cu λ > 0 trage exemplele spre sfera dar nu elimina complet variatia in norma.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Local Contrast Normalization (LCN)</h4>
+                <p><strong>LCN</strong> normalizeaza contrastul pe fiecare fereastra mica, in loc de pe intreaga imagine. Aceasta permite modelului sa se concentreze pe muchii, in loc de regiuni de intensitate constanta. Este o motivatie pentru LCN - vedem Figura 12.2 pentru comparatie intre GCN si LCN.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: LCN Implementation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy.ndimage import uniform_filter
+
+def local_contrast_normalization(image, kernel_size=9):
+    """
+    Local Contrast Normalization.
+    Pentru fiecare pixel, scade media locala si
+    imparte la deviatia standard locala.
+    """
+    # Media locala (convolutie cu kernel de 1s)
+    local_mean = uniform_filter(image, size=kernel_size)
+
+    # Varianta locala
+    local_sq_mean = uniform_filter(image**2, size=kernel_size)
+    local_std = np.sqrt(local_sq_mean - local_mean**2)
+
+    # Normalizare
+    eps = 1e-8  # evita div by zero
+    normalized = (image - local_mean) / np.maximum(local_std, eps)
+
+    return normalized
+
+# Alternativ: weighted mean/std cu kernel Gaussian
+# pentru tranzitii mai smooth
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Variante de LCN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Pinto et al. (2008)</strong> - Media si std literala din fereastra rectangulara</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Sermanet et al. (2012)</strong> - Weighted mean/std cu Gaussian kernel, canale procesate separat sau impreuna</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>LCN ca Layer:</strong> LCN este o operatie diferentiabila si poate fi folosita ca un layer de nonlinearitate in retea, nu doar ca preprocessing!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

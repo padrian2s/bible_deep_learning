@@ -1,0 +1,89 @@
+<section class="page-section" id="page-276">
+    <div class="page-header">
+        <div class="page-number">276</div>
+        <div class="page-title">
+            <h3>7.12 Figura 7.7 - Forward Pass cu Dropout</h3>
+            <span>Propagarea cu Masti</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-276.jpg"
+             alt="Pagina 276" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 7.7: Forward Propagation cu Dropout</h4>
+                <p><strong>Sus:</strong> Reteaua feedforward originala cu 2 inputuri, 2 hidden units, 1 output. <strong>Jos:</strong> Forward propagation cu dropout. Samplem un vector μ cu o intrare pentru fiecare unitate de input si hidden. Intrarile μ sunt binare, sample-ate independent. Fiecare unitate este inmultita cu masca sa μ, apoi propagarea continua normal.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Forward Pass Detaliat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def forward_with_dropout(x, W1, b1, W2, b2, p_input=0.8, p_hidden=0.5):
+    """Forward pass cu dropout explicit"""
+
+    # Masca pentru input (pastreaza cu prob 0.8)
+    mu_x = (torch.rand_like(x) < p_input).float()
+    x_masked = x * mu_x
+
+    # Layer 1
+    h = torch.relu(W1 @ x_masked + b1)
+
+    # Masca pentru hidden (pastreaza cu prob 0.5)
+    mu_h = (torch.rand(h.shape) < p_hidden).float()
+    h_masked = h * mu_h
+
+    # Layer 2 (output - fara dropout)
+    y = W2 @ h_masked + b2
+
+    return y
+
+# Echivalent cu selectia aleatorie a unei sub-retele
+# si forward pass prin ea
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Multiplicare Element-wise cu μ</h4>
+                <p>In notatie matematica, daca x̃ᵢ = xᵢ · μxᵢ si h̃ᵢ = hᵢ · μhᵢ, atunci forward pass-ul selecteaza efectiv una din sub-retelele din Figura 7.6 si ruleaza forward propagation prin ea.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                <div style="margin-bottom: 10px;">
+                                    <span style="padding: 5px 10px; background: var(--bg-dark); border-radius: 4px;">x = [0.5, 0.8]</span>
+                                    <span style="margin: 0 10px;">×</span>
+                                    <span style="padding: 5px 10px; background: var(--primary); color: white; border-radius: 4px;">μ = [1, 0]</span>
+                                    <span style="margin: 0 10px;">=</span>
+                                    <span style="padding: 5px 10px; background: var(--success); color: white; border-radius: 4px;">x̃ = [0.5, 0]</span>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">x₂ este "eliminat" - contribuția sa devine 0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

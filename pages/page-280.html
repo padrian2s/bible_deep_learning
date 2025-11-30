@@ -1,0 +1,95 @@
+<section class="page-section" id="page-280">
+    <div class="page-header">
+        <div class="page-number">280</div>
+        <div class="page-title">
+            <h3>7.12 Avantajele si Costul Dropout</h3>
+            <span>Cand sa folosesti Dropout</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-280.jpg"
+             alt="Pagina 280" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Dropout vs Alte Regularizari</h4>
+                <p>Srivastava et al. (2014) au aratat ca dropout e mai eficient decat alte regularizari standard (weight decay, filter norm constraints, sparse activity). Dropout poate fi combinat cu alte forme de regularizare pentru imbunatatiri suplimentare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Avantaje Dropout</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">1. Computational Ieftin</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">O(n) - doar generare numere random si multiplicare</p>
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">2. Universal</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Functioneaza cu orice model antrenat cu SGD (feedforward, RNN, RBM, etc.)</p>
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <strong style="color: var(--success);">3. Nu restrictioneaza arhitectura</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Alte regularizari impun constrangeri; dropout nu</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Costul Real: Model Mai Mare</h4>
+                <p>Desi cost per-step e mic, dropout reduce <em>capacitatea efectiva</em> a modelului. Pentru a compensa, trebuie sa marim modelul si sa antrenam mai mult. Rezultat: timp total de training mult mai mare si model mai mare in memorie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Trade-off Practic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Foloseste Dropout cand:</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Date limitate</li>
+                                        <li>Model complex</li>
+                                        <li>Overfitting evident</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Poate fi inutil cand:</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Dataset foarte mare</li>
+                                        <li>Costul computational conteaza</li>
+                                        <li>Sub 5000 exemple (BNN mai bun)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Dropout e Echivalent cu L² pentru Modele Liniare</h4>
+                <p>Wager et al. (2013) au demonstrat ca pentru regresie liniara, dropout e echivalent cu L² weight decay, dar cu un coeficient diferit pentru fiecare feature bazat pe varianta acestuia. Aceasta echivalenta nu se pastreaza pentru modele deep.</p>
+            </div>
+        </div>
+
+    </div>
+</section>

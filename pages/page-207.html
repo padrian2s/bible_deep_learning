@@ -1,0 +1,127 @@
+<section class="page-section" id="page-207">
+    <div class="page-header">
+        <div class="page-number">207</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.3 Non-Diferentiabilitate si Structura Hidden Units</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-207.jpg"
+             alt="Pagina 207" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ReLU: Non-Diferentiabila dar Functioneaza</h4>
+                <p>Unele dintre unitatile ascunse incluse in lista nu sunt de fapt diferentiabile in toate punctele de input. De exemplu, functia liniara rectificata g(z) = max{0, z} nu este diferentiabila la z = 0. Aceasta poate parea ca invalideaza g pentru utilizare cu algoritmi de invatare bazati pe gradient. In practica, gradient descent totusi functioneaza suficient de bine pentru aceste modele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce Non-Diferentiabilitatea nu conteaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Motive practice pentru care functioneaza:</strong>
+                            </div>
+                            <ul style="margin-top: 15px; color: var(--text-secondary);">
+                                <li style="margin-bottom: 10px;"><strong>Nu ajungem la minime exacte:</strong> Algoritmii de antrenare nu ajung de obicei la un punct unde gradientul este 0. In schimb, doar reduc functia de cost semnificativ.</li>
+                                <li style="margin-bottom: 10px;"><strong>Punctele non-diferentiabile sunt rare:</strong> Unitatile care nu sunt diferentiabile sunt de obicei non-diferentiabile doar intr-un numar mic de puncte. Probabilitatea ca exact z=0 este ~0.</li>
+                                <li style="margin-bottom: 10px;"><strong>Implementarile software returneaza o derivata:</strong> Cand g(0) este cerut, software-ul returneaza de obicei derivata din stanga (0) sau din dreapta (1), nu o eroare.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivate din Stanga si din Dreapta</h4>
+                <p>In general, o functie g(z) are o derivata din stanga definita de panta functiei imediat la stanga lui z si o derivata din dreapta definita de panta imediat la dreapta lui z. O functie este diferentiabila la z doar daca ambele derivate sunt definite si egale. Pentru g(z) = max{0, z}, derivata din stanga la z = 0 este 0 si derivata din dreapta este 1.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+
+# PyTorch defineste derivata ReLU la 0 ca fiind 0
+x = torch.tensor([0.0], requires_grad=True)
+y = torch.relu(x)
+y.backward()
+print(x.grad)  # tensor([0.])
+
+# Pentru valori pozitive: derivata = 1
+x = torch.tensor([2.0], requires_grad=True)
+y = torch.relu(x)
+y.backward()
+print(x.grad)  # tensor([1.])
+
+# Pentru valori negative: derivata = 0
+x = torch.tensor([-2.0], requires_grad=True)
+y = torch.relu(x)
+y.backward()
+print(x.grad)  # tensor([0.])
+
+# Subgradient: orice valoare in [0, 1] ar fi valida la 0
+# PyTorch alege 0 pentru consistenta
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Structura Generala a Hidden Units</h4>
+                <p>Daca nu se indica altfel, majoritatea unitatilor ascunse pot fi descrise ca acceptand un vector de inputuri x, calculand o transformare afina z = Wᵀx + b, si apoi aplicand o functie neliniara element-wise g(z). Majoritatea unitatilor ascunse se disting intre ele doar prin alegerea formei functiei de activare g(z).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Structura: Liniar + Neliniar</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+                                    <div style="background: var(--bg-dark); padding: 15px 25px; border-radius: 8px;">
+                                        <strong style="color: var(--primary);">x</strong>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Input</div>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="background: var(--bg-dark); padding: 15px 25px; border-radius: 8px;">
+                                        <strong style="color: var(--accent);">z = Wx + b</strong>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Transformare afina</div>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="background: var(--bg-dark); padding: 15px 25px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">h = g(z)</strong>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Activare neliniara</div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 20px; color: var(--text-secondary); font-size: 0.9rem;">Tipul unitatii ascunse = alegerea lui g(·)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

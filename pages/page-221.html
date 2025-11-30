@@ -1,0 +1,196 @@
+<section class="page-section" id="page-221">
+    <div class="page-header">
+        <div class="page-number">221</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Figura 6.8: Exemple de Grafuri Computationale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-221.jpg"
+             alt="Pagina 221" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.8(a): Multiplicare Simpla z = xy</h4>
+                <p>Cel mai simplu graf computational - doua variabile de input x si y, o operatie de multiplicare (×), si variabila de output z. Acest graf are doar 3 noduri si demonstreaza structura de baza a unui graf computational.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Backprop pentru z = xy</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+
+# z = x * y
+x = torch.tensor(3.0, requires_grad=True)
+y = torch.tensor(4.0, requires_grad=True)
+
+z = x * y  # Forward: z = 12
+
+# Backward pass
+z.backward()
+
+# Derivate partiale:
+# ∂z/∂x = y = 4
+# ∂z/∂y = x = 3
+
+print(f"z = {z.item()}")
+print(f"∂z/∂x = {x.grad.item()}")  # 4
+print(f"∂z/∂y = {y.grad.item()}")  # 3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.8(b): Regresie Logistica ŷ = σ(x⊤w + b)</h4>
+                <p>Graf pentru predictia regresiei logistice. Arata cum operatiile dot product, adunare si sigmoid se compun. Variabilele intermediare u⁽¹⁾ si u⁽²⁾ nu au neaparat nume in expresia algebrica, dar le denumim u⁽ⁱ⁾ in graf pentru claritate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Fluxul Computatiei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;"><strong>Secventa de operatii:</strong></p>
+                                <div style="font-family: monospace; font-size: 0.95rem;">
+                                    <p>1. u⁽¹⁾ = x⊤w &nbsp;&nbsp;&nbsp; (dot product)</p>
+                                    <p>2. u⁽²⁾ = u⁽¹⁾ + b &nbsp; (adunare bias)</p>
+                                    <p>3. ŷ = σ(u⁽²⁾) &nbsp;&nbsp;&nbsp;&nbsp; (sigmoid)</p>
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+import torch.nn.functional as F
+
+# Inputuri
+x = torch.randn(10)
+w = torch.randn(10, requires_grad=True)
+b = torch.randn(1, requires_grad=True)
+
+# Forward pass (construieste graful)
+u1 = torch.dot(x, w)    # u⁽¹⁾ = x⊤w
+u2 = u1 + b             # u⁽²⁾ = u⁽¹⁾ + b
+y_hat = torch.sigmoid(u2)  # ŷ = σ(u⁽²⁾)
+
+# Backward - calculeaza ∂ŷ/∂w si ∂ŷ/∂b
+y_hat.backward()
+print(f"∂ŷ/∂w shape: {w.grad.shape}")  # (10,)
+print(f"∂ŷ/∂b shape: {b.grad.shape}")  # (1,)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.8(c): Strat ReLU H = max{0, XW + b}</h4>
+                <p>Graful computational pentru calcularea matricii de activari H cu unitati liniare rectificate. Arata operatiile matmul (inmultire matriceala), adunare si relu aplicate pe un minibatch de inputuri X.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare Strat ReLU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Minibatch de inputuri
+X = torch.randn(32, 100)  # 32 samples, 100 features
+W = torch.randn(100, 50, requires_grad=True)
+b = torch.randn(50, requires_grad=True)
+
+# Forward: H = max{0, XW + b}
+U1 = X @ W           # matmul: (32,100) x (100,50) = (32,50)
+U2 = U1 + b          # broadcast add: (32,50) + (50,) = (32,50)
+H = F.relu(U2)       # relu element-wise: (32,50)
+
+print(f"H shape: {H.shape}")  # torch.Size([32, 50])
+
+# In PyTorch, acest intreg strat este:
+layer = torch.nn.Linear(100, 50)
+H_pytorch = F.relu(layer(X))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.8(d): Regresie Liniara cu Weight Decay</h4>
+                <p>Exemplu unde o variabila (w) este folosita de MAI MULTE operatii. Weights w sunt folosite atat pentru predictie ŷ cat si pentru termenul de regularizare λΣwᵢ². Aceasta arata ca grafurile computationale pot avea structuri mai complexe decat simple lanturi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Variabile cu Multiple Utilizari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Cand o variabila are multiple utilizari:</strong>
+                                <p style="margin-top: 10px;">Gradientul total se obtine prin SUMA gradientilor din fiecare cale!</p>
+                                <div class="formula" style="margin-top: 10px;">
+                                    ∂L/∂w = ∂L_pred/∂w + ∂L_reg/∂w
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+
+x = torch.randn(10)
+y_true = torch.randn(1)
+w = torch.randn(10, requires_grad=True)
+lambda_reg = 0.01
+
+# w este folosit in DOUA locuri:
+# 1. Pentru predictie
+y_pred = torch.dot(x, w)
+loss_pred = (y_pred - y_true)**2
+
+# 2. Pentru regularizare
+loss_reg = lambda_reg * torch.sum(w**2)
+
+# Loss total
+loss = loss_pred + loss_reg
+
+# Backward combina ambele cai
+loss.backward()
+
+# Gradientul final: suma din ambele utilizari
+print(f"Total gradient: {w.grad}")
+# = 2*(y_pred-y_true)*x + 2*lambda_reg*w
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capitolul 10 - Progress Tracker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #00d4ff;
+            font-size: 2rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .progress-overview {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .progress-bar-container {
+            background: #333;
+            border-radius: 10px;
+            height: 30px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .stat-box {
+            background: rgba(0,212,255,0.1);
+            border: 1px solid rgba(0,212,255,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        .stat-label { color: #888; font-size: 0.9rem; }
+        .chunks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .chunk-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(90deg, rgba(68, 68, 68, 0.3) 0%, transparent 10%);
+        }
+        .chunk-card.completed { background: linear-gradient(90deg, rgba(0, 255, 136, 0.3) 0%, transparent 10%); box-shadow: 0 0 15px rgba(0, 255, 136, 0.1); }
+        .chunk-card.in-progress { background: linear-gradient(90deg, rgba(255, 170, 0, 0.3) 0%, transparent 10%); box-shadow: 0 0 15px rgba(255, 170, 0, 0.1); }
+        .chunk-card.pending { background: linear-gradient(90deg, rgba(102, 102, 102, 0.3) 0%, transparent 10%); }
+        .chunk-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .chunk-title { font-weight: bold; font-size: 1.1rem; }
+        .chunk-status {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        .completed .chunk-status { background: #00ff8833; color: #00ff88; }
+        .in-progress .chunk-status { background: #ffaa0033; color: #ffaa00; }
+        .pending .chunk-status { background: #66666633; color: #888; }
+        .page-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .page-badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            background: #333;
+            color: #888;
+        }
+        .page-badge.done { background: #00ff8833; color: #00ff88; }
+        .page-badge.current { background: #ffaa0033; color: #ffaa00; }
+        .section-title {
+            font-size: 1.3rem;
+            color: #00d4ff;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .toc-list {
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .toc-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+        }
+        .toc-item:last-child { border-bottom: none; }
+        .toc-pages { color: #00d4ff; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Capitolul 10: Sequence Modeling</h1>
+        <p class="subtitle">Recurrent and Recursive Nets - Retele Neuronale Recurente</p>
+
+        <div class="progress-overview">
+            <h3>Progres General</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBar" style="width: 0%">0%</div>
+            </div>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="completedPages">0</div>
+                    <div class="stat-label">Pagini Complete</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="totalPages">48</div>
+                    <div class="stat-label">Total Pagini</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="chunksComplete">0/10</div>
+                    <div class="stat-label">Chunk-uri</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="percentComplete">0%</div>
+                    <div class="stat-label">Completat</div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="section-title">Cuprins Capitol 10</h3>
+        <div class="toc-list">
+            <div class="toc-item">
+                <span>10.1 Unfolding Computational Graphs</span>
+                <span class="toc-pages">Pag. 388-392</span>
+            </div>
+            <div class="toc-item">
+                <span>10.2 Recurrent Neural Networks</span>
+                <span class="toc-pages">Pag. 393-404</span>
+            </div>
+            <div class="toc-item">
+                <span>10.3 Bidirectional RNNs</span>
+                <span class="toc-pages">Pag. 405-406</span>
+            </div>
+            <div class="toc-item">
+                <span>10.4 Encoder-Decoder / Seq2Seq</span>
+                <span class="toc-pages">Pag. 407-408</span>
+            </div>
+            <div class="toc-item">
+                <span>10.5 Deep Recurrent Networks</span>
+                <span class="toc-pages">Pag. 409-410</span>
+            </div>
+            <div class="toc-item">
+                <span>10.6 Recursive Neural Networks</span>
+                <span class="toc-pages">Pag. 411-412</span>
+            </div>
+            <div class="toc-item">
+                <span>10.7 Challenge of Long-Term Dependencies</span>
+                <span class="toc-pages">Pag. 413-416</span>
+            </div>
+            <div class="toc-item">
+                <span>10.8 Echo State Networks</span>
+                <span class="toc-pages">Pag. 417-418</span>
+            </div>
+            <div class="toc-item">
+                <span>10.9 Leaky Units & Skip Connections</span>
+                <span class="toc-pages">Pag. 419-420</span>
+            </div>
+            <div class="toc-item">
+                <span>10.10 LSTM & Gated RNNs</span>
+                <span class="toc-pages">Pag. 421-426</span>
+            </div>
+            <div class="toc-item">
+                <span>10.11 Optimization for Long-Term Dependencies</span>
+                <span class="toc-pages">Pag. 427-429</span>
+            </div>
+            <div class="toc-item">
+                <span>10.12 Explicit Memory</span>
+                <span class="toc-pages">Pag. 430-435</span>
+            </div>
+        </div>
+
+        <h3 class="section-title">Progres pe Chunk-uri</h3>
+        <div class="chunks-grid">
+            <!-- Chunk 1 -->
+            <div class="chunk-card pending" id="chunk1">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 1: Intro & Unfolding</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="388">388</span>
+                    <span class="page-badge" data-page="389">389</span>
+                    <span class="page-badge" data-page="390">390</span>
+                    <span class="page-badge" data-page="391">391</span>
+                    <span class="page-badge" data-page="392">392</span>
+                </div>
+            </div>
+
+            <!-- Chunk 2 -->
+            <div class="chunk-card pending" id="chunk2">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 2: RNN Basics</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="393">393</span>
+                    <span class="page-badge" data-page="394">394</span>
+                    <span class="page-badge" data-page="395">395</span>
+                    <span class="page-badge" data-page="396">396</span>
+                    <span class="page-badge" data-page="397">397</span>
+                </div>
+            </div>
+
+            <!-- Chunk 3 -->
+            <div class="chunk-card pending" id="chunk3">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 3: RNN Variants</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="398">398</span>
+                    <span class="page-badge" data-page="399">399</span>
+                    <span class="page-badge" data-page="400">400</span>
+                    <span class="page-badge" data-page="401">401</span>
+                    <span class="page-badge" data-page="402">402</span>
+                </div>
+            </div>
+
+            <!-- Chunk 4 -->
+            <div class="chunk-card pending" id="chunk4">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 4: BPTT & Bidirectional</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="403">403</span>
+                    <span class="page-badge" data-page="404">404</span>
+                    <span class="page-badge" data-page="405">405</span>
+                    <span class="page-badge" data-page="406">406</span>
+                    <span class="page-badge" data-page="407">407</span>
+                </div>
+            </div>
+
+            <!-- Chunk 5 -->
+            <div class="chunk-card pending" id="chunk5">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 5: Seq2Seq & Deep RNNs</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="408">408</span>
+                    <span class="page-badge" data-page="409">409</span>
+                    <span class="page-badge" data-page="410">410</span>
+                    <span class="page-badge" data-page="411">411</span>
+                    <span class="page-badge" data-page="412">412</span>
+                </div>
+            </div>
+
+            <!-- Chunk 6 -->
+            <div class="chunk-card pending" id="chunk6">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 6: Long-Term Dependencies</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="413">413</span>
+                    <span class="page-badge" data-page="414">414</span>
+                    <span class="page-badge" data-page="415">415</span>
+                    <span class="page-badge" data-page="416">416</span>
+                    <span class="page-badge" data-page="417">417</span>
+                </div>
+            </div>
+
+            <!-- Chunk 7 -->
+            <div class="chunk-card pending" id="chunk7">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 7: Echo State & Leaky</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="418">418</span>
+                    <span class="page-badge" data-page="419">419</span>
+                    <span class="page-badge" data-page="420">420</span>
+                    <span class="page-badge" data-page="421">421</span>
+                    <span class="page-badge" data-page="422">422</span>
+                </div>
+            </div>
+
+            <!-- Chunk 8 -->
+            <div class="chunk-card pending" id="chunk8">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 8: LSTM & GRU</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="423">423</span>
+                    <span class="page-badge" data-page="424">424</span>
+                    <span class="page-badge" data-page="425">425</span>
+                    <span class="page-badge" data-page="426">426</span>
+                    <span class="page-badge" data-page="427">427</span>
+                </div>
+            </div>
+
+            <!-- Chunk 9 -->
+            <div class="chunk-card pending" id="chunk9">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 9: Optimization</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="428">428</span>
+                    <span class="page-badge" data-page="429">429</span>
+                    <span class="page-badge" data-page="430">430</span>
+                    <span class="page-badge" data-page="431">431</span>
+                    <span class="page-badge" data-page="432">432</span>
+                </div>
+            </div>
+
+            <!-- Chunk 10 -->
+            <div class="chunk-card pending" id="chunk10">
+                <div class="chunk-header">
+                    <span class="chunk-title">Chunk 10: Explicit Memory</span>
+                    <span class="chunk-status">Pending</span>
+                </div>
+                <div class="page-list">
+                    <span class="page-badge" data-page="433">433</span>
+                    <span class="page-badge" data-page="434">434</span>
+                    <span class="page-badge" data-page="435">435</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pages completed - UPDATE THIS AS YOU PROGRESS
+        const completedPages = [388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435];
+
+        // Update UI based on completed pages
+        function updateProgress() {
+            const total = 48;
+            const done = completedPages.length;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressBar').textContent = percent + '%';
+            document.getElementById('completedPages').textContent = done;
+            document.getElementById('percentComplete').textContent = percent + '%';
+
+            // Update page badges
+            completedPages.forEach(page => {
+                const badge = document.querySelector(`[data-page="${page}"]`);
+                if (badge) badge.classList.add('done');
+            });
+
+            // Update chunk status
+            const chunks = [
+                { id: 'chunk1', pages: [388, 389, 390, 391, 392] },
+                { id: 'chunk2', pages: [393, 394, 395, 396, 397] },
+                { id: 'chunk3', pages: [398, 399, 400, 401, 402] },
+                { id: 'chunk4', pages: [403, 404, 405, 406, 407] },
+                { id: 'chunk5', pages: [408, 409, 410, 411, 412] },
+                { id: 'chunk6', pages: [413, 414, 415, 416, 417] },
+                { id: 'chunk7', pages: [418, 419, 420, 421, 422] },
+                { id: 'chunk8', pages: [423, 424, 425, 426, 427] },
+                { id: 'chunk9', pages: [428, 429, 430, 431, 432] },
+                { id: 'chunk10', pages: [433, 434, 435] }
+            ];
+
+            let chunksComplete = 0;
+            chunks.forEach(chunk => {
+                const card = document.getElementById(chunk.id);
+                const allDone = chunk.pages.every(p => completedPages.includes(p));
+                const someDone = chunk.pages.some(p => completedPages.includes(p));
+
+                card.classList.remove('completed', 'in-progress', 'pending');
+                if (allDone) {
+                    card.classList.add('completed');
+                    card.querySelector('.chunk-status').textContent = 'Complet';
+                    chunksComplete++;
+                } else if (someDone) {
+                    card.classList.add('in-progress');
+                    card.querySelector('.chunk-status').textContent = 'In Progress';
+                } else {
+                    card.classList.add('pending');
+                    card.querySelector('.chunk-status').textContent = 'Pending';
+                }
+            });
+
+            document.getElementById('chunksComplete').textContent = chunksComplete + '/10';
+        }
+
+        updateProgress();
+    </script>
+</body>
+</html>

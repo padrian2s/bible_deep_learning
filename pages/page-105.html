@@ -1,0 +1,193 @@
+<section class="page-section" id="page-105">
+    <div class="page-header">
+        <div class="page-number">105</div>
+        <div class="page-title">
+            <h3>Figura 4.5: Punct Saddle 3D</h3>
+            <span>Capitolul 4 - Vizualizare Saddle Point</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-105.jpg"
+             alt="Pagina 105" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 4.5: Punct Saddle cu Curbura Mixta</h4>
+                <p>Figura ilustreaza un punct saddle clasic pentru functia <strong>f(x) = x₁² - x₂²</strong>. De-a lungul axei x₁, functia se curbeaza in sus (curbura pozitiva, valoare proprie pozitiva) - aceasta directie este un eigenvector cu eigenvalue pozitiv. De-a lungul axei x₂, functia se curbeaza in jos (curbura negativa, valoare proprie negativa) - aceasta directie este un eigenvector cu eigenvalue negativ. Forma de "sa" (saddle) vine de la aceasta combinatie de curburi opuse.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Saddle Point f(x,y) = x² - y²</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def f(x, y):
+    return x**2 - y**2
+
+def grad_f(x, y):
+    return np.array([2*x, -2*y])
+
+def hessian_f():
+    return np.array([[2, 0], [0, -2]])
+
+# Analiza la origine (punct saddle)
+H = hessian_f()
+eigvals, eigvecs = np.linalg.eig(H)
+
+print("Functia: f(x,y) = x² - y²")
+print(f"\nHessian H:\n{H}")
+print(f"\nValori proprii: {eigvals}")
+print(f"Vectori proprii:\n{eigvecs}")
+
+# Verificam ca este punct saddle
+print("\n--- Clasificare ---")
+print(f"λ₁ = {eigvals[0]:+.0f} > 0 → curbura pozitiva pe directia x")
+print(f"λ₂ = {eigvals[1]:+.0f} < 0 → curbura negativa pe directia y")
+print("→ PUNCT SADDLE (eigenvalues de semne opuse)")
+
+# Comportament in jurul originii
+print("\n--- Valori in jurul originii ---")
+for dx, dy in [(1,0), (-1,0), (0,1), (0,-1), (1,1), (-1,-1)]:
+    val = f(dx*0.5, dy*0.5)
+    print(f"f({dx*0.5:+.1f}, {dy*0.5:+.1f}) = {val:+.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce se numeste "Saddle Point"?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Etimologie</h5>
+                                <p>Numele vine de la forma unei <strong>sei de cal</strong> (saddle in engleza). Daca te uiti la o sa:</p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Pe directia spate-fata (coloana calului) - curba in sus</li>
+                                    <li>Pe directia stanga-dreapta (picioarele calaretului) - curba in jos</li>
+                                </ul>
+                                <p style="margin-top: 10px;">Exact ca functia f(x,y) = x² - y² la origine!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Sectiuni prin Saddle</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Sectiune pe axa x₁ (y=0)</strong>
+                                    <svg viewBox="0 0 100 60" style="width: 100%; max-width: 120px; margin: 10px auto; display: block;">
+                                        <path d="M 10,50 Q 50,10 90,50" fill="none" stroke="var(--success)" stroke-width="3"/>
+                                        <circle cx="50" cy="30" r="4" fill="var(--warning)"/>
+                                    </svg>
+                                    <p style="font-size: 0.85rem;">f(x,0) = x² → parabola in sus</p>
+                                    <p style="font-size: 0.85rem;">Punct de MINIM pe aceasta directie</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: #ff6464;">Sectiune pe axa x₂ (x=0)</strong>
+                                    <svg viewBox="0 0 100 60" style="width: 100%; max-width: 120px; margin: 10px auto; display: block;">
+                                        <path d="M 10,10 Q 50,50 90,10" fill="none" stroke="#ff6464" stroke-width="3"/>
+                                        <circle cx="50" cy="30" r="4" fill="var(--warning)"/>
+                                    </svg>
+                                    <p style="font-size: 0.85rem;">f(0,y) = -y² → parabola in jos</p>
+                                    <p style="font-size: 0.85rem;">Punct de MAXIM pe aceasta directie</p>
+                                </div>
+                            </div>
+                            <p style="text-align: center; margin-top: 15px; color: var(--warning);">La origine: minim pe o directie, maxim pe alta = SADDLE POINT</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Saddle Points in Dimensiuni Mari</h4>
+                <p>In mai mult de o dimensiune, nu este necesar sa avem o valoare proprie de zero pentru a avea un punct saddle. Este suficient sa avem atat valori proprii pozitive cat si negative. Putem gandi un punct saddle ca fiind simultan un <strong>maxim local pe o sectiune transversala</strong> si un <strong>minim local pe o alta sectiune transversala</strong>. In spatii cu dimensiuni mari, aproape toate punctele critice sunt saddle points!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Saddle in 3D</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Saddle point in 3 dimensiuni
+# f(x,y,z) = x² + y² - z² (2 directii pozitive, 1 negativa)
+H = np.array([
+    [2, 0, 0],
+    [0, 2, 0],
+    [0, 0, -2]
+])
+
+eigvals = np.linalg.eigvals(H)
+print("f(x,y,z) = x² + y² - z²")
+print(f"Eigenvalues: {eigvals}")
+print(f"Pozitive: {sum(eigvals > 0)}, Negative: {sum(eigvals < 0)}")
+print("→ Saddle point (index = 1)")
+
+# Alt exemplu: mai multe negative
+H2 = np.array([
+    [2, 0, 0],
+    [0, -2, 0],
+    [0, 0, -2]
+])
+eigvals2 = np.linalg.eigvals(H2)
+print(f"\nf = x² - y² - z²: eigenvalues = {eigvals2}")
+print(f"Pozitive: {sum(eigvals2 > 0)}, Negative: {sum(eigvals2 < 0)}")
+print("→ Saddle point (index = 2)")
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Indexul unui Saddle Point</h5>
+                                <p>Numarul de eigenvalues negative se numeste "index". Un minim are index 0, un maxim are index n.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Implicatii pentru Deep Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Problema:</strong> Retelele neuronale au milioane de parametri (dimensiuni). Probabilitatea de a avea un minim local adevarat (toate eigenvalues pozitive) este practic zero!
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Vestea buna:</strong> SGD si momentum ajuta la "evadarea" din punctele saddle prin zgomot si inertie.
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Research:</strong> S-a demonstrat ca minimele locale din deep learning tind sa aiba valori de loss similare cu minimul global.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,119 @@
+<section class="page-section" id="page-214">
+    <div class="page-header">
+        <div class="page-number">214</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.4.1 Shallow vs Deep: Complexitate Exponentiala</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-214.jpg"
+             alt="Pagina 214" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cate Unitati sunt Necesare?</h4>
+                <p>Teorema aproximarii universale spune ca exista o retea suficient de mare pentru a atinge orice grad de acuratete, dar nu spune cat de mare trebuie sa fie. Barron (1993) ofera anumite limite pe dimensiunea unei retele single-layer necesare. Din pacate, in cel mai rau caz, poate fi necesar un numar exponential de unitati ascunse (posibil una per configuratie de input).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Exemplu: Functii Binare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Complexitatea in cazul cel mai rau:</strong>
+                                <p style="margin-top: 10px;">Pentru vectori binari v ∈ {0, 1}ⁿ, exista 2^(2^n) functii binare posibile. Alegerea unei astfel de functii necesita 2ⁿ biti, deci O(2ⁿ) grade de libertate.</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# Exemplu: n=10 input bits
+# Numar de configuratii posibile: 2^10 = 1024
+# O retea shallow ar putea necesita 1024 neuroni
+# pentru a memora fiecare configuratie!
+
+# Cu n=20: 2^20 = 1,048,576 neuroni
+# Cu n=30: 2^30 = 1+ miliard neuroni
+
+# EXPONENTIAL in numarul de inputuri!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Deep vs Shallow: Avantajul Adancimii</h4>
+                <p>Pe scurt, o retea feedforward cu un singur strat este suficienta pentru a reprezenta orice functie, dar stratul poate fi infezabil de mare si poate esua sa invete si sa generalizeze corect. In multe circumstante, folosirea modelelor mai profunde poate reduce numarul de unitati necesare si poate reduce eroarea de generalizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Shallow necesita Exponential mai multi Neuroni</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Rezultate teoretice (Hastad, 1986; Montufar, 2014):
+#
+# Exista familii de functii care pot fi reprezentate
+# eficient cu adancime d, dar care necesita un numar
+# EXPONENTIAL de unitati cu adancime < d
+
+# Exemplu intuitiv: paritatea a n biti
+# XOR generalizat: y = x1 ⊕ x2 ⊕ ... ⊕ xn
+#
+# Cu depth log(n): O(n) neuroni
+# Cu depth 1: O(2^n) neuroni!
+
+# Rezultat Montufar et al. (2014):
+# Retele ReLU cu depth l si width n pot reprezenta
+# functii cu O((n/d)^(d*(l-1)) * n^d) regiuni liniare
+#
+# EXPONENTIAL in adancime l!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Rezultate pentru Retele cu ReLU</h4>
+                <p>Aceste rezultate au fost initial demonstrate pentru modele care nu seamana cu retelele neuronale continue, diferentiabile folosite pentru machine learning. Leshno et al. (1993) au demonstrat ca retele shallow cu o familie larga de functii de activare non-polinomiale, inclusiv ReLU, au proprietati de aproximare universala. Dar aceste rezultate nu adreseaza problemele de adancime sau eficienta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Concluzia Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--success); margin-bottom: 15px;">De ce folosim retele DEEP:</h5>
+                                <ul style="color: var(--text-secondary);">
+                                    <li style="margin-bottom: 10px;"><strong>Eficienta parametrica:</strong> Reprezentam aceleasi functii cu mai putini parametri</li>
+                                    <li style="margin-bottom: 10px;"><strong>Generalizare mai buna:</strong> Mai putini parametri = mai putin overfitting</li>
+                                    <li style="margin-bottom: 10px;"><strong>Reprezentari ierarhice:</strong> Invata caracteristici de la simplu la complex</li>
+                                    <li><strong>Dovezi empirice:</strong> Retelele adanci performeaza mai bine in practica</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

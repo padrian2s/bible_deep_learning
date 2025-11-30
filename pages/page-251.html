@@ -1,0 +1,117 @@
+<section class="page-section" id="page-251">
+    <div class="page-header">
+        <div class="page-number">251</div>
+        <div class="page-title">
+            <h3>7.1.2 L¹ Sparsity si LASSO</h3>
+            <span>Feature Selection si Interpretare Bayesiana</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-251.jpg"
+             alt="Pagina 251" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>L¹ produce Solutii Sparse - L² nu!</h4>
+                <p>Comparand cu ecuatia pentru L² (ŵᵢ = Hᵢᵢ/(Hᵢᵢ+α) · wᵢ*), vedem diferenta critica: daca wᵢ* era nenul, ŵᵢ ramane nenul la L². Dar la L¹, parametrii pot deveni <strong>exact zero</strong>. Aceasta proprietate se numeste <strong>sparsitate</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>L¹ ca Feature Selection</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Sparsitatea indusa de L¹ a fost folosita extensiv ca mecanism de <strong>feature selection</strong>. In particular, algoritmul LASSO (Least Absolute Shrinkage and Selection Operator) combina o penalizare L¹ cu un model liniar si cost MSE.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>LASSO</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Tibshirani, 1995</p>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Selecteaza automat features importante facand restul weights = 0</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Beneficiu</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Model interpretabil - poti vedea exact care features conteaza</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: LASSO in sklearn</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.linear_model import Lasso, Ridge
+import numpy as np
+
+# Date cu 100 features
+X = np.random.randn(1000, 100)
+# Doar 10 features sunt relevante
+true_weights = np.zeros(100)
+true_weights[:10] = np.random.randn(10)
+y = X @ true_weights + 0.1 * np.random.randn(1000)
+
+# LASSO - va gasi features relevante
+lasso = Lasso(alpha=0.1).fit(X, y)
+print(f"Weights nenule: {np.sum(lasso.coef_ != 0)}")  # ~10
+
+# Ridge - toate weights raman nenule
+ridge = Ridge(alpha=0.1).fit(X, y)
+print(f"Weights nenule: {np.sum(ridge.coef_ != 0)}")  # 100
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea Bayesiana: Prior Laplace</h4>
+                <p>Am vazut ca L² corespunde unui prior Gaussian pe weights (inferenta MAP). Pentru L¹, penalizarea α·Σ|wᵢ| corespunde log-prior-ului pentru o <strong>distributie Laplace</strong> (sau dublu-exponentiala) izotropa:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    log p(w) = Σᵢ log Laplace(wᵢ; 0, 1/α) = -α||w||₁ + const
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Gaussian vs Laplace Prior</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-top: 4px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Gaussian Prior → L²</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">p(w) ∝ exp(-w²/2σ²)</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Weights mici dar nenule</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Cozi subtiri (weights extreme rare)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-top: 4px solid var(--accent);">
+                                    <strong style="color: var(--accent);">Laplace Prior → L¹</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">p(w) ∝ exp(-|w|/b)</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Multi weights = 0 (spike la origine)</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Cozi mai groase</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

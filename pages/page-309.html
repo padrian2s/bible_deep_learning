@@ -1,0 +1,111 @@
+<section class="page-section" id="page-309">
+    <div class="page-header">
+        <div class="page-number">309</div>
+        <div class="page-title">
+            <h3>8.3 Algoritmi de Baza</h3>
+            <span>8.3.1 Stochastic Gradient Descent</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-309.jpg"
+             alt="Pagina 309" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.3 Algoritmi de Baza</h4>
+                <p>Dupa ce am discutat provocarile optimizarii, e timpul pentru <strong>solutii practice</strong>! Incepem cu cel mai folosit algoritm din machine learning: <strong>Stochastic Gradient Descent (SGD)</strong>. E simplu, eficient si functioneaza surprinzator de bine!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Istoric</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">SGD a fost introdus in sectiunile 4.3, 5.9 si 8.1.3. Aici il analizam mai in detaliu si introducem variantele sale populare.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 8.1: SGD Standard</h4>
+                <p>SGD este simplu: (1) samplez un minibatch, (2) calculeaza gradientul mediu pe minibatch, (3) fa un pas in directia opusa gradientului. Repeta pana la convergenta sau early stopping.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudo-cod SGD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 8.1: SGD
+# Require: learning rate ε, initial params θ
+
+while not converged:
+    # 1. Sample minibatch
+    X_batch, y_batch = sample_minibatch(m)
+
+    # 2. Compute gradient estimate
+    g = (1/m) * sum(∇θ L(f(x; θ), y)
+                    for x, y in zip(X_batch, y_batch))
+
+    # 3. Update parameters
+    θ = θ - ε * g
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De Ce Functioneaza?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Chiar daca gradientul estimat e zgomotos, <strong>in medie</strong> pointeaza in directia corecta. Cu suficienti pasi, efectele zgomotului se anuleaza si ajungem la o solutie buna!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Learning Rate: Parametrul Crucial</h4>
+                <p>Cel mai important hiperparametru al SGD e <strong>learning rate ε</strong>. Prea mare → divergenta. Prea mic → convergenta foarte lenta. In practica, ε trebuie ajustat ("decay") pe parcursul antrenarii!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De Ce E Nevoie de Decay?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">SGD introduce zgomot din sampling. Acest zgomot <strong>nu dispare</strong> chiar la minim! Daca ε ramane constant, parametrii vor "oscila" in jurul minimului. Solutia: scade ε spre 0 pe parcurs.</p>
+                            <div class="formula" style="margin-top: 15px;">
+                                Conditie suficienta: Σ<sub>k</sub> ε<sub>k</sub> = ∞ si Σ<sub>k</sub> ε<sub>k</sub>² < ∞
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">Prima conditie: facem destui pasi sa ajungem oriunde. A doua: pasii scad suficient de repede pentru convergenta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

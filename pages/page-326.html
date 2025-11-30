@@ -1,0 +1,99 @@
+<section class="page-section" id="page-326">
+    <div class="page-header">
+        <div class="page-number">326</div>
+        <div class="page-title">
+            <h3>Algoritmul 8.7: Adam Complet</h3>
+            <span>Algoritmul Adam in Detaliu</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-326.jpg"
+             alt="Pagina 326" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 8.7: Adam Pas cu Pas</h4>
+                <p>Adam mentine doua variabile: <strong>s</strong> (estimarea momentului 1 - media gradientilor) si <strong>r</strong> (estimarea momentului 2 - media patratelor gradientilor). Ambele sunt corectate pentru bias in primele iteratii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudo-cod Adam Complet</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 8.7: Adam
+# ε = 0.001, ρ₁ = 0.9, ρ₂ = 0.999, δ = 1e-8
+s = 0  # First moment (mean)
+r = 0  # Second moment (variance)
+t = 0  # Timestep
+
+while not converged:
+    t = t + 1
+    g = compute_gradient()
+
+    # Update biased moments
+    s = ρ₁ * s + (1 - ρ₁) * g
+    r = ρ₂ * r + (1 - ρ₂) * g ⊙ g
+
+    # Bias correction
+    ŝ = s / (1 - ρ₁ᵗ)
+    r̂ = r / (1 - ρ₂ᵗ)
+
+    # Update parameters
+    Δθ = -ε * ŝ / (√r̂ + δ)
+    θ = θ + Δθ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De Ce Bias Correction?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">La t=1, s = 0.1·g (daca ρ₁=0.9). Dar vrem s ≈ g! Corectia imparte la (1-0.9¹) = 0.1, deci ŝ = s/0.1 = g. Perfect!</p>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Pe masura ce t creste, (1-ρᵗ) → 1, deci corectia devine neglijabila.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Newton: Expansiune Taylor de Ordin 2</h4>
+                <p>Newton's method aproximeaza J(θ) cu o functie quadratica si sare la minimul ei. Formula se obtine din expansiunea Taylor: J(θ) ≈ J(θ₀) + (θ-θ₀)ᵀg + ½(θ-θ₀)ᵀH(θ-θ₀). Minimul e la θ* = θ₀ - H⁻¹g.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Derivarea Formulei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                J(θ) ≈ J(θ₀) + gᵀ(θ-θ₀) + ½(θ-θ₀)ᵀH(θ-θ₀)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Derivand fata de θ si egaland cu zero:</p>
+                            <div class="formula" style="margin-top: 10px;">
+                                ∇J = g + H(θ-θ₀) = 0 ⟹ θ* = θ₀ - H⁻¹g
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

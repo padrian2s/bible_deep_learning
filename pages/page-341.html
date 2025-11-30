@@ -1,0 +1,97 @@
+<section class="page-section" id="page-341">
+    <div class="page-header">
+        <div class="page-number">341</div>
+        <div class="page-title">
+            <h3>8.7.5 Designing Models to Aid Optimization</h3>
+            <span>Arhitecturi Usor de Optimizat</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-341.jpg"
+             alt="Pagina 341" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Design-ul Modelului Conteaza</h4>
+                <p>Cea mai buna strategie nu e intotdeauna imbunatatirea algoritmului de optimizare - <strong>design-ul modelului</strong> poate face optimizarea mult mai usoara. Multe inovatii din ultimii 30 de ani au venit din schimbarea arhitecturii, nu a optimizatorului!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Principiul Cheie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><em>"It is more important to choose a model family that is easy to optimize than to use a powerful optimization algorithm."</em></p>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">SGD cu momentum (din anii 1980) ramane algoritmul dominant pentru retelele neurale moderne - inovatiile au venit din design-ul modelului.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Functii de Activare Liniare</h4>
+                <p>Retelele moderne folosesc transformari care sunt <strong>diferentiabile aproape peste tot</strong> si au <strong>slope semnificativ</strong>. LSTM, ReLU, maxout au proprietati mult mai bune pentru gradient flow decat sigmoid-urile vechi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De Ce Activari Liniare?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Gradientul curge prin multe layere daca Jacobianul are valori singulare rezonabile. Functiile liniare (pe portiuni) au aceasta proprietate!</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Sigmoid/Tanh</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Satureaza → gradient ≈ 0 → vanishing</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">ReLU/Maxout</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Liniare pe regiuni → gradient = 1 → flow bun</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Skip Connections si Auxiliary Heads</h4>
+                <p><strong>Skip connections</strong> (ResNet, Highway Networks) reduc lungimea drumului de la parametri la output. <strong>Auxiliary heads</strong> (GoogLeNet) adauga outputs intermediare pentru a furniza gradient direct layerelor inferioare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong>ResNet:</strong> Skip connections permit antrenarea retelelor cu 1000+ layere</li>
+                                <li><strong>GoogLeNet:</strong> Auxiliary classifiers la layerele intermediare</li>
+                                <li><strong>DenseNet:</strong> Fiecare layer conectat la toate layerele anterioare</li>
+                                <li><strong>Highway Networks:</strong> Skip connections cu gating learnable</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

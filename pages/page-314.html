@@ -1,0 +1,103 @@
+<section class="page-section" id="page-314">
+    <div class="page-header">
+        <div class="page-number">314</div>
+        <div class="page-title">
+            <h3>Frecare Viscoasa si Interpretarea Fizica</h3>
+            <span>De Ce Functioneaza Momentum</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-314.jpg"
+             alt="Pagina 314" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul ca Simulare Fizica</h4>
+                <p>Momentum simuleaza o particula sub legile lui Newton, folosind <strong>metoda lui Euler</strong> pentru a rezolva ecuatiile diferentiale. Facem pasi mici in directia indicata de gradient (forta) si acumulam viteza.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analogia: Puc de Hockey</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Imagineaza-ti particula ca un puc de hockey pe gheata:</p>
+                                <ul style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                    <li>Pe o panta abrupta, aduna viteza si continua in acea directie</li>
+                                    <li>Cand urca in sus, inca se misca din inertie</li>
+                                    <li>Fara frecare, ar oscila la nesfarsit intre cele doua parti ale vaii</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Frecare Viscoasa (-v)?</h4>
+                <p>Trebuie o forta de frecare pentru a opri particula la minim. Forta proportionala cu <strong>-v(t)</strong> (frecare viscoasa, ca prin sirop) e perfecta: suficient de puternica sa opreasca particula, dar suficient de slaba sa nu o opreasca prematur cand gradientul e mic.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie: Tipuri de Frecare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Frecare Turbulenta (~v²):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Prea slaba la viteze mici. Particula nu se opreste niciodata complet!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Frecare Uscata (constanta):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Prea puternica. Poate opri particula inainte sa ajunga la minim.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Frecare Viscoasa (~v):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Perfect! Permite miscare continua, dar convergenta finala.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Hiperparametrul α si Frecarea</h4>
+                <p>Hiperparametrul α controleaza cat de repede scade viteza in absenta fortei (gradientului). Cu α aproape de 1, frecarea e slaba - particula "goneste" mult inainte sa incetineasca. Cu α mic, frecarea e puternica - comportament mai aproape de gradient descent.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Trade-off: α</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>α mare (0.99):</strong> Accelerare rapida, dar poate "depasi" minimul<br>
+                                <strong>α mic (0.5):</strong> Mai stabil, dar mai putin accelerare<br>
+                                <strong>Valoare tipica: α = 0.9</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,143 @@
+<section class="page-section" id="page-196">
+    <div class="page-header">
+        <div class="page-number">196</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2 Unitati de Output</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-196.jpg"
+             alt="Pagina 196" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alegerea Unitatilor de Output</h4>
+                <p>Alegerea functiei de cost este strans legata de alegerea unitatii de output. De cele mai multe ori, folosim cross-entropy intre distributia datelor si distributia modelului. Alegerea modului de reprezentare a output-ului determina apoi forma functiei cross-entropy. Orice tip de unitate de retea neuronala poate fi folosita ca output sau ascunsa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ghid: Alegerea Output Units</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                <tr style="background: var(--primary);">
+                                    <th style="padding: 12px;">Task</th>
+                                    <th style="padding: 12px;">Output Unit</th>
+                                    <th style="padding: 12px;">Distributie</th>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 12px;">Regresie (y ∈ R)</td>
+                                    <td style="padding: 12px;">Linear</td>
+                                    <td style="padding: 12px;">Gaussian</td>
+                                </tr>
+                                <tr style="background: var(--bg-dark);">
+                                    <td style="padding: 12px;">Clasificare binara</td>
+                                    <td style="padding: 12px;">Sigmoid</td>
+                                    <td style="padding: 12px;">Bernoulli</td>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 12px;">Clasificare multi-clasa</td>
+                                    <td style="padding: 12px;">Softmax</td>
+                                    <td style="padding: 12px;">Categorical</td>
+                                </tr>
+                                <tr style="background: var(--bg-dark);">
+                                    <td style="padding: 12px;">Multi-label</td>
+                                    <td style="padding: 12px;">Multiple Sigmoid</td>
+                                    <td style="padding: 12px;">Multiple Bernoulli</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.2.2.1 Unitati Liniare pentru Output Gaussian</h4>
+                <p>Un tip simplu de unitate de output este bazat pe o transformare afina fara neliniaritate. Acestea se numesc unitati liniare. Dat fiind caracteristicile h, un strat de unitati liniare produce un vector y = Wᵀh + b. Straturile de output liniar sunt adesea folosite pentru a produce media unei distributii conditionale Gaussiene: p(y | x) = N(y; y_hat, I).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare: Linear Output</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+class RegressionNetwork(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super().__init__()
+        self.hidden = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU()
+        )
+        # Output liniar - fara activare!
+        self.output = nn.Linear(hidden_dim, output_dim)
+
+    def forward(self, x):
+        h = self.hidden(x)
+        # y_hat = Wh + b (liniar)
+        return self.output(h)
+
+# Pentru regresie, output liniar + MSE loss
+model = RegressionNetwork(10, 64, 1)
+criterion = nn.MSELoss()
+
+# Modelul prezice media lui y
+# p(y | x) = N(y; model(x), σ²I)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantajul Unitatilor Liniare</h4>
+                <p>Deoarece unitatile liniare nu satureaza, ele pun putine dificultati algoritmilor de optimizare bazati pe gradient si pot fi folosite cu o varietate larga de algoritmi de optimizare. Nu exista risc de "vanishing gradient" din cauza unitatilor de output in cazul regresiei.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Linear vs Sigmoid Output</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Linear Output</strong>
+                                    <div style="font-size: 2rem; margin: 10px 0;">↗</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Range: (-∞, +∞)<br/>Gradient: constant<br/>Nu satureaza</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Sigmoid Output</strong>
+                                    <div style="font-size: 2rem; margin: 10px 0;">∿</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Range: (0, 1)<br/>Gradient: variabil<br/>Satureaza la extreme</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">Foloseste linear pentru regresie, sigmoid/softmax pentru clasificare!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

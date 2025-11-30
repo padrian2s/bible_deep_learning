@@ -1,0 +1,121 @@
+        <section class="page-section" id="page-40">
+            <div class="page-header">
+                <div class="page-number">40</div>
+                <div class="page-title">
+                    <h3>Aplicatii si Viitorul</h3>
+                    <span>Reinforcement Learning si Infrastructura</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-040.jpg"
+                     alt="Pagina 40" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Sequence-to-Sequence Learning</h4>
+                        <p>Retelele neurale pot invata sa produca secvente de caractere din imagini (OCR) sau sa traduca intre limbi. <strong>Neural Turing Machines</strong> (Graves, 2014) pot chiar invata sa sorteze liste!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemple seq2seq</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">Traducere:</strong>
+                                            <span style="color: var(--text-secondary);"> "Hello world" → "Salut lume"</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">OCR:</strong>
+                                            <span style="color: var(--text-secondary);"> [imagine text] → "text scris"</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">Captioning:</strong>
+                                            <span style="color: var(--text-secondary);"> [imagine] → "O pisica sta pe canapea"</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Reinforcement Learning</h4>
+                        <p><strong>Reinforcement Learning</strong> permite agentilor sa invete prin incercare si eroare. DeepMind a combinat DL cu RL pentru a crea agenti care joaca jocuri Atari la nivel suprauman!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Succese RL + DL</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🎮</div>
+                                            <strong>Atari Games</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">DeepMind 2015</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">♟️</div>
+                                            <strong>AlphaGo</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">DeepMind 2016</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🤖</div>
+                                            <strong>Robotica</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Boston Dynamics</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🎯</div>
+                                            <strong>AlphaStar</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">StarCraft II 2019</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Companii si Infrastructura</h4>
+                        <p>Deep learning e folosit de giganti tech: Google, Microsoft, Facebook, IBM, Baidu, Apple, Adobe, Netflix, NVIDIA. Framework-uri: <strong>TensorFlow, PyTorch, Theano, Caffe</strong>.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Ecosistemul DL</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🛠️ Framework-uri populare (2024)</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px;">
+                                            <li><strong>PyTorch</strong> - Cercetare, flexibilitate (Meta)</li>
+                                            <li><strong>TensorFlow</strong> - Productie, scalare (Google)</li>
+                                            <li><strong>JAX</strong> - Performanta, cercetare (Google)</li>
+                                            <li><strong>Hugging Face</strong> - NLP, modele pretrained</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

@@ -1,0 +1,139 @@
+<section class="page-section" id="page-237">
+    <div class="page-header">
+        <div class="page-number">237</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5.9 Automatic Differentiation si NP-Completeness</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-237.jpg"
+             alt="Pagina 237" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Automatic Differentiation</h4>
+                <p>Algoritmul de back-propagation descris aici este doar o abordare la automatic differentiation. Este un caz special al unei clase mai largi de tehnici numite reverse mode accumulation. Alte abordari evalueaza subexpresiile regulii lantului in ordini diferite. In general, determinarea ordinii de evaluare care rezulta in cel mai mic cost computational este o problema dificila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>NP-Completeness</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Gasirea ordinii optime este NP-completa!</strong>
+                                <p style="margin-top: 10px;">(Naumann, 2008) - in sensul ca poate necesita simplificarea expresiilor algebrice in forma lor cea mai putin costisitoare.</p>
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <p style="font-size: 0.9rem;">Implementari precum Theano si TensorFlow folosesc euristici bazate pe matching de patternuri de simplificare cunoscute pentru a imbunatati iterativ graful.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu: Simplificarea Softmax + Cross-Entropy</h4>
+                <p>De exemplu, presupunem ca avem variabile p₁,...,pₙ reprezentand probabilitati si variabile z₁,...,zₙ reprezentand log probabilitati nenormalizate. Definim qᵢ = exp(zᵢ)/Σⱼexp(zⱼ) si construim un cross-entropy loss J = -Σᵢpᵢlog qᵢ. Un matematician observa ca derivata lui J fata de zᵢ ia o forma foarte simpla: qᵢ - pᵢ.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatia 6.57: Softmax</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Softmax (Ecuatia 6.57):</strong>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.2rem; text-align: center;">
+                                    qᵢ = exp(zᵢ) / Σⱼ exp(zⱼ)
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+import torch.nn.functional as F
+
+# Backprop NAIV pentru softmax + CE:
+z = torch.randn(10, requires_grad=True)
+p = torch.zeros(10)
+p[3] = 1.0  # Target: clasa 3
+
+# Calculam pas cu pas
+q = F.softmax(z, dim=0)  # exp(z)/sum(exp(z))
+loss = -torch.sum(p * torch.log(q))
+loss.backward()
+
+print(f"Gradient naiv: {z.grad}")
+
+# Gradient SIMPLIFICAT (identic!):
+z2 = z.detach().clone().requires_grad_(True)
+q2 = F.softmax(z2, dim=0)
+grad_simplified = q2 - p  # q_i - p_i
+
+print(f"Gradient simplificat: {grad_simplified}")
+
+# IDENTICE! Dar simplificat e mai stabil numeric
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Complexitatea Calculului Gradientului</h4>
+                <p>Cand forward graph G are un singur nod de output si fiecare derivata partiala ∂u⁽ⁱ⁾/∂u⁽ʲ⁾ poate fi calculata cu o cantitate constanta de computatie, backprop garanteaza ca numarul de computatii pentru gradient este de acelasi ordin ca numarul de computatii pentru forward: O(# muchii). Aceasta se poate vedea din Algoritmul 6.2 deoarece fiecare derivata partiala trebuie calculata doar o singura data.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Jacobian si Scalare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--primary); margin-bottom: 15px;">Pentru calcul de Jacobian:</h5>
+                                <p style="font-size: 0.9rem; margin-bottom: 15px;">Daca avem k outputuri scalare (sau tensor cu k elemente), calculul Jacobianului poate necesita k ori mai multe calcule.</p>
+                                <div style="font-family: monospace; font-size: 0.9rem; background: var(--bg-dark); padding: 10px; border-radius: 4px;">
+                                    Jacobian J ∈ R^(k×n)<br>
+                                    Cost = O(k × # edges)
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+
+# Calcul Jacobian complet:
+x = torch.randn(3, requires_grad=True)
+y = torch.stack([x[0]*x[1], x[1]*x[2], x[0]*x[2]])
+
+# Jacobian: dy/dx (3x3)
+jacobian = torch.autograd.functional.jacobian(
+    lambda x: torch.stack([x[0]*x[1], x[1]*x[2], x[0]*x[2]]),
+    x
+)
+print(f"Jacobian shape: {jacobian.shape}")  # (3, 3)
+
+# Necesita 3 backward passes (unul per output)
+# sau tehnici specializate (vmap in JAX)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

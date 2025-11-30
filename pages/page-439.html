@@ -1,0 +1,256 @@
+<section class="page-section" id="page-439">
+    <div class="page-header">
+        <div class="page-number">439</div>
+        <div class="page-title">
+            <h3>F-Score si Coverage</h3>
+            <span>Sectiunea 11.1 - Performance Metrics (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-439.jpg"
+             alt="Pagina 439" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>F-Score: Combinarea Precision si Recall</h4>
+                <p>In multe cazuri, dorim sa sumarizam performanta clasificatorului cu un singur numar in loc de o curba. Pentru aceasta, putem converti precision <em>p</em> si recall <em>r</em> intr-un <strong>F-score</strong>:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3em; margin: 15px 0;">
+                    F = 2pr / (p + r)
+                </div>
+                <p>O alta optiune este sa raportam <strong>aria de sub curba PR</strong> (AUC-PR).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: F-Score Calculation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# F-Score: Media Armonica a Precision si Recall
+
+def f_score(precision, recall, beta=1):
+    """
+    F-score general cu parametru beta
+
+    beta < 1: favorizeaza precision
+    beta = 1: F1 standard (echilibru)
+    beta > 1: favorizeaza recall
+    """
+    if precision + recall == 0:
+        return 0
+    return (1 + beta**2) * (precision * recall) / (beta**2 * precision + recall)
+
+# Exemple
+p, r = 0.8, 0.6
+print(f"Precision: {p}, Recall: {r}")
+print(f"F1-Score: {f_score(p, r, beta=1):.3f}")
+
+# De ce media ARMONICA si nu aritmetica?
+# Media aritmetica: (0.8 + 0.6) / 2 = 0.7
+# Media armonica: 2 * 0.8 * 0.6 / (0.8 + 0.6) = 0.685
+
+# Media armonica penalizeaza valorile mici mai mult!
+# Exemplu extrem:
+p_bad, r_bad = 1.0, 0.01  # Recall foarte mic
+print(f"\nPrecision: {p_bad}, Recall: {r_bad}")
+print(f"Media aritmetica: {(p_bad + r_bad)/2:.3f}")  # = 0.505 (pare OK)
+print(f"F1-Score: {f_score(p_bad, r_bad):.3f}")      # = 0.02 (reflecta realitatea)
+
+# F-beta pentru diferite prioritati:
+print(f"\nF0.5 (favorizeaza precision): {f_score(0.8, 0.6, beta=0.5):.3f}")
+print(f"F1 (echilibru): {f_score(0.8, 0.6, beta=1):.3f}")
+print(f"F2 (favorizeaza recall): {f_score(0.8, 0.6, beta=2):.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: De Ce Media Armonica?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 20px; border-radius: 10px;">
+                                <div style="color: #4ecdc4; font-weight: bold; margin-bottom: 15px; font-size: 1.1em;">Comparatie: Medii pentru P=1.0, R=0.01</div>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                    <div style="background: #4d3d1b; padding: 15px; border-radius: 8px; text-align: center;">
+                                        <div style="color: #ffd93d; font-weight: bold;">Media Aritmetica</div>
+                                        <div style="font-size: 2em; color: white; margin: 10px 0;">0.505</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Pare acceptabil... dar e inselator!</div>
+                                    </div>
+                                    <div style="background: #1b4d1b; padding: 15px; border-radius: 8px; text-align: center;">
+                                        <div style="color: #4caf50; font-weight: bold;">Media Armonica (F1)</div>
+                                        <div style="font-size: 2em; color: white; margin: 10px 0;">0.02</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Reflecta ca recall e dezastruos!</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 15px; color: #a0a0a0; font-size: 0.9em; text-align: center;">
+                                    Media armonica = penalizeaza dezechilibrul = forteaza ambele metrici sa fie bune
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Coverage: Cand Sistemul Poate Refuza</h4>
+                <p>In unele aplicatii, sistemul ML poate <strong>refuza sa ia o decizie</strong> cand nu e suficient de confident - o situatie utila cand o decizie gresita poate fi daunatoare si un operator uman poate prelua. Exemplul Street View: daca modelul crede ca e mai putin probabil decat un om sa obtina transcrierea corecta, e mai bine sa lase un om sa transcrie. <strong>Coverage</strong> = fractia de exemple pentru care sistemul produce un raspuns.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Trade-off Accuracy vs Coverage</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Coverage vs Accuracy Trade-off
+
+import numpy as np
+
+class ConfidentClassifier:
+    """
+    Clasificator care poate refuza sa raspunda
+    cand nu e suficient de confident
+    """
+    def __init__(self, model, confidence_threshold=0.8):
+        self.model = model
+        self.threshold = confidence_threshold
+
+    def predict_with_coverage(self, X):
+        # Obtine probabilitati
+        probs = self.model.predict_proba(X)
+        max_probs = np.max(probs, axis=1)
+
+        # Decide pentru care exemple raspundem
+        confident_mask = max_probs >= self.threshold
+
+        predictions = np.where(
+            confident_mask,
+            np.argmax(probs, axis=1),
+            -1  # -1 = refuz, trimite la human
+        )
+
+        coverage = confident_mask.mean()
+        return predictions, coverage
+
+# Exemplu Street View:
+"""
+Target: Human-level transcription accuracy (98%)
+        cu 95% coverage
+
+Rezultat proiect:
+- Accuracy pe cazuri acoperite: 98%
+- Coverage: 95%
+- 5% din imagini -> operatori umani
+
+Trade-off:
+- Coverage 100%, Accuracy ~92%  (procesam tot automat)
+- Coverage 95%, Accuracy 98%    (target atins!)
+- Coverage 80%, Accuracy 99.5%  (prea conservator)
+"""
+
+# Putem obtine 100% accuracy cu 0% coverage
+# (refuzam tot si trimitem la humans)
+# Sau 0% accuracy teoretic cu 100% coverage
+# (ghicim random pe tot)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Accuracy-Coverage Curve</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 20px; border-radius: 10px;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 150px; border-bottom: 2px solid #444; border-left: 2px solid #444; padding: 10px; position: relative;">
+                                    <div style="position: absolute; left: -45px; top: 50%; transform: rotate(-90deg); color: #888; font-size: 0.85em;">Accuracy</div>
+                                    <div style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); color: #888; font-size: 0.85em;">Coverage</div>
+
+                                    <!-- Points on curve -->
+                                    <div style="width: 15%; height: 100%; display: flex; align-items: flex-start;">
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                    </div>
+                                    <div style="width: 15%; height: 96%; display: flex; align-items: flex-start;">
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                    </div>
+                                    <div style="width: 15%; height: 90%; display: flex; align-items: flex-start;">
+                                        <div style="width: 25px; height: 25px; background: #ff6b6b; border-radius: 50%; border: 3px solid #ffd93d;"></div>
+                                    </div>
+                                    <div style="width: 15%; height: 80%; display: flex; align-items: flex-start;">
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                    </div>
+                                    <div style="width: 15%; height: 65%; display: flex; align-items: flex-start;">
+                                        <div style="width: 20px; height: 20px; background: #4ecdc4; border-radius: 50%;"></div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px; color: #666; font-size: 0.8em;">
+                                    <span>20%</span>
+                                    <span>40%</span>
+                                    <span style="color: #ffd93d;">95% (target)</span>
+                                    <span>80%</span>
+                                    <span>100%</span>
+                                </div>
+                                <div style="margin-top: 15px; text-align: center; color: #a0a0a0; font-size: 0.9em;">
+                                    <span style="color: #ff6b6b;">●</span> Target Street View: 98% accuracy @ 95% coverage
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alte Metrici Posibile</h4>
+                <p>Multe alte metrici sunt posibile in functie de aplicatie: <strong>click-through rates</strong>, <strong>satisfactia utilizatorilor</strong> (surveys), <strong>latenta</strong>, <strong>memoria</strong> folosita, etc. Fiecare domeniu specializat are propriile criterii. Cel mai important este sa <strong>determini din start</strong> ce metrica vrei sa imbunatatesti si apoi sa te concentrezi pe ea. Fara obiective clare, e dificil sa stii daca faci progres.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Metrici pe Domenii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>NLP:</strong> BLEU (traducere), ROUGE (sumarizare), Perplexity (language models)
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Computer Vision:</strong> mAP (object detection), IoU (segmentation), FID (generare)
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Recommender Systems:</strong> NDCG, Hit Rate, Precision@K, Recall@K
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Speech:</strong> WER (Word Error Rate), MOS (Mean Opinion Score)
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Production ML:</strong> Latency P99, Throughput, Memory footprint, Model size
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

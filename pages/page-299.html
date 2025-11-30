@@ -1,0 +1,122 @@
+<section class="page-section" id="page-299">
+    <div class="page-header">
+        <div class="page-number">299</div>
+        <div class="page-title">
+            <h3>Model Identifiability si Minime Echivalente</h3>
+            <span>Weight Space Symmetry</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-299.jpg"
+             alt="Pagina 299" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Weight Space Symmetry Explicat</h4>
+                <p>Retelele neurale au problema <strong>model identifiability</strong>: nu putem identifica unic parametrii din date. Daca putem interschimba neuronii dintr-un layer si obtinem acelasi model, atunci avem n!<sup>m</sup> configuratii echivalente pentru m layere cu n neuroni fiecare!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Schimbarea Unitatilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Luam layer 1 si:</p>
+                                <ol style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                    <li>Schimbam vectorul de weights pentru unitatea i cu cel pentru unitatea j</li>
+                                    <li>Facem acelasi lucru pentru weights-urile de iesire</li>
+                                </ol>
+                                <p style="color: var(--success); margin-top: 10px;"><strong>Rezultat:</strong> Model identic functional, dar parametri diferiti!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Scale Invariance in ReLU/Maxout</h4>
+                <p>Pentru retele cu ReLU sau maxout, exista si alta sursa de non-identifiability: putem scala weights-urile de intrare cu α si cele de iesire cu 1/α - modelul ramane identic! Asta inseamna ca fiecare minim local se afla pe o <strong>hiperbola</strong> de minime echivalente.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Formula: Scale Invariance</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                ReLU(α · x) = α · ReLU(x) pentru α > 0
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Deci daca:</p>
+                            <ul style="color: var(--text-secondary); margin-top: 10px;">
+                                <li>w<sub>in</sub> → α · w<sub>in</sub></li>
+                                <li>w<sub>out</sub> → (1/α) · w<sub>out</sub></li>
+                            </ul>
+                            <p style="color: var(--success); margin-top: 10px;">Output-ul final ramane identic!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Nota: Weight Decay</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-warning">
+                                <p>Daca functia de cost include <strong>weight decay</strong> (care depinde de weights, nu de output), atunci scale invariance dispare - diferite puncte de pe hiperbola au costuri diferite.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Minimele Locale cu Cost Ridicat: O Problema Reala?</h4>
+                <p>Minimele echivalente din non-identifiability nu sunt o problema - au acelasi cost. Dar pot exista minime locale cu cost <strong>semnificativ mai mare</strong> decat minimul global? Studii pe retele mici (fara hidden layers) au aratat ca da - ele exista. Dar cat de comune sunt pentru retele mari?</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Studii pe Retele Mici</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Sontag & Sussman (1989)</strong> - Minime locale in retele fara hidden layers</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Brady et al. (1989)</strong> - Studiu teoretic</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Gori & Tesi (1992)</strong> - Minime locale cu cost ridicat</div>
+                                </li>
+                            </ul>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Ramane o intrebare deschisa daca aceste minime sunt comune in retelele mari folosite in practica.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

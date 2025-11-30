@@ -1,0 +1,176 @@
+        <section class="page-section" id="page-85">
+            <div class="page-header">
+                <div class="page-number">85</div>
+                <div class="page-title">
+                    <h3>Proprietati Sigmoid/Softplus si Regula lui Bayes</h3>
+                    <span>3.11 Bayes' Rule</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-085.jpg"
+                     alt="Pagina 85" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Proprietati Importante de Memorat</h4>
+                        <p>Urmatoarele proprietati ale sigmoid si softplus sunt atat de utile incat merita memorate. Derivata sigmoid-ului: σ'(x) = σ(x)(1-σ(x)). Simetria: 1 - σ(x) = σ(-x). Conexiunea cu softplus: log σ(x) = -ζ(-x). Derivata softplus: ζ'(x) = σ(x). Inversa sigmoid (<strong>logit</strong>): σ⁻¹(x) = log(x/(1-x)).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Proprietati cheie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                            <div class="formula">σ'(x) = σ(x)(1 - σ(x))</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Derivata - maxim 0.25 la x=0</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(124, 58, 237, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);">
+                                            <div class="formula">1 - σ(x) = σ(-x)</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Simetrie - sigmoid e antisimetric in jurul (0, 0.5)</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                            <div class="formula">ζ'(x) = σ(x)</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Derivata softplus = sigmoid</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                            <div class="formula">σ⁻¹(p) = log(p / (1-p)) = logit(p)</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Inversa sigmoid - converteste prob inapoi in logits</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Verificare proprietati</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def sigmoid(x): return 1 / (1 + np.exp(-x))
+def softplus(x): return np.log1p(np.exp(x))
+def logit(p): return np.log(p / (1 - p))
+
+x = 2.0
+print("Verificare proprietati:")
+
+# 1. Derivata sigmoid
+deriv_numerical = (sigmoid(x + 1e-5) - sigmoid(x)) / 1e-5
+deriv_formula = sigmoid(x) * (1 - sigmoid(x))
+print(f"σ'(x): numeric={deriv_numerical:.6f}, formula={deriv_formula:.6f}")
+
+# 2. Simetrie
+print(f"1 - σ(x) = {1 - sigmoid(x):.6f}")
+print(f"σ(-x) = {sigmoid(-x):.6f}")
+
+# 3. Derivata softplus = sigmoid
+deriv_sp = (softplus(x + 1e-5) - softplus(x)) / 1e-5
+print(f"ζ'(x) = {deriv_sp:.6f}, σ(x) = {sigmoid(x):.6f}")
+
+# 4. Logit e inversa sigmoid
+p = 0.8
+print(f"\nσ(logit({p})) = {sigmoid(logit(p)):.6f}")  # = 0.8
+print(f"logit(σ({x})) = {logit(sigmoid(x)):.6f}")    # = 2.0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.11 Regula lui Bayes</h4>
+                        <p>Adesea stim P(y|x) si vrem sa aflam P(x|y). <strong>Regula lui Bayes</strong> ne permite exact asta: P(x|y) = P(x)P(y|x) / P(y). Numitorul P(y) poate fi calculat ca P(y) = Σₓ P(y|x)P(x). Formula e numita dupa Reverend Thomas Bayes, desi versiunea generala a fost descoperita independent de Laplace.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Regula lui Bayes</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.3rem; margin-bottom: 20px; padding: 20px; background: var(--bg-lighter); border-radius: 8px;">
+                                        P(x | y) = P(x) × P(y | x) / P(y)
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">P(x)</strong> - Prior
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Ce credem despre x INAINTE de a vedea y</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">P(y|x)</strong> - Likelihood
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Cat de probabil e y dat fiind x</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">P(x|y)</strong> - Posterior
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Ce credem despre x DUPA ce vedem y</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--text-secondary);">P(y)</strong> - Evidence
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Factor de normalizare</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Exemplu Bayes</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+# Exemplu clasic: Test medical
+# x: are boala (1) sau nu (0)
+# y: test pozitiv (1) sau negativ (0)
+
+# Prior: P(boala) = 0.001 (1 din 1000 are boala)
+p_boala = 0.001
+p_sanatos = 1 - p_boala
+
+# Likelihood: Acuratatea testului
+p_pozitiv_given_boala = 0.99    # Sensibilitate
+p_pozitiv_given_sanatos = 0.05  # Rata fals pozitiv
+
+# Vrem: P(boala | test_pozitiv) - daca testul e pozitiv, care e prob sa ai boala?
+
+# Evidence: P(test_pozitiv)
+p_pozitiv = (p_pozitiv_given_boala * p_boala +
+             p_pozitiv_given_sanatos * p_sanatos)
+
+# Bayes!
+p_boala_given_pozitiv = (p_boala * p_pozitiv_given_boala) / p_pozitiv
+
+print("Test medical cu Bayes:")
+print(f"  Prior P(boala) = {p_boala:.3f}")
+print(f"  Sensibilitate = {p_pozitiv_given_boala:.2f}")
+print(f"  Fals pozitiv = {p_pozitiv_given_sanatos:.2f}")
+print(f"\n  P(test+) = {p_pozitiv:.4f}")
+print(f"  P(boala | test+) = {p_boala_given_pozitiv:.3f}")
+print(f"\n  Doar ~2% sansa de boala chiar cu test pozitiv!")
+print("  (pentru ca boala e foarte rara)")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

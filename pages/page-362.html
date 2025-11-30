@@ -1,0 +1,142 @@
+<section class="page-section" id="page-362">
+    <div class="page-header">
+        <div class="page-number">362</div>
+        <div class="page-title">
+            <h3>9.5 Variante ale Convolutiei de Baza</h3>
+            <span>Underfitting si Convolutii Multi-canal</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-362.jpg"
+             alt="Pagina 362" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand Convolutia poate cauza Underfitting</h4>
+                <p>Convolutia si pooling-ul impun <strong>presupuneri puternice</strong> despre date: caracteristicile locale sunt suficiente si invarianta la translatii e dorita. Daca aceste presupuneri nu sunt adevarate pentru problema ta, CNN-ul poate underfit! Exemple: (1) sarcini care necesita informatie din locatii indepartate, (2) date unde pozitia exacta conteaza foarte mult.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cand NU e bun CNN-ul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong>Relatii spatiale globale</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Ex: "Este obiectul A la stanga obiectului B?" - necesita compararea locatiilor indepartate</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong>Date fara structura grila</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Ex: grafuri sociale, molecule - mai bune GNN (Graph Neural Networks)</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong>Invarianta nedorita</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Ex: citirea numerelor de inmatriculare - pozitia exacta a cifrelor conteaza!</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Solutie:</strong> Arhitecturi hibride (CNN + Attention), sau modele complet diferite (Transformers pentru NLP, GNN pentru grafuri).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Permutation Invariance Benchmark</h4>
+                <p>O observatie importanta: CNN-urile ar trebui comparate doar cu alte modele convolutionale! Exista benchmark-uri speciale pentru modele "permutation invariant" care nu stiu nimic despre structura spatiala si trebuie sa o invete din date. CNN-urile au un avantaj "nedrept" pe aceste benchmark-uri pentru ca stiu deja ca pixelii vecini sunt corelati.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Experiment: MNIST Shuffled</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# MNIST normal: 28x28 imagini de cifre
+# CNN poate folosi structura 2D -> ~99% accuracy
+
+# MNIST Shuffled: pixelii sunt amestecati (consistent)
+# Aceeasi permutare pentru toate imaginile
+# CNN nu mai poate folosi vecinatatea -> ~95% accuracy
+# MLP: ~97% accuracy (nu ii pasa de pozitie)
+
+# Concluzie: CNN e bun DOAR cand structura spatiala
+# din datele tale se potriveste cu presupunerile CNN-ului
+
+import numpy as np
+
+def shuffle_pixels(images, seed=42):
+    """Amesteca pixelii consistent pentru toate imaginile"""
+    np.random.seed(seed)
+    perm = np.random.permutation(28*28)
+
+    # Flatten, permute, reshape
+    flat = images.reshape(-1, 28*28)
+    shuffled = flat[:, perm]
+    return shuffled.reshape(-1, 28, 28)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutia Multi-canal in Practica</h4>
+                <p>In retelele neurale reale, inputul si outputul convolutiei sunt <strong>tensori 3D</strong> (sau 4D cu batch). O imagine color este un tensor 3D cu 3 canale (R, G, B). Outputul primului layer convolutional are de obicei 32-64 canale. Fiecare canal reprezinta un tip diferit de caracteristica detectata.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Dimensiuni Tensor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;">
+                                <div style="text-align: center;">
+                                    <div style="background: var(--primary); padding: 20px; border-radius: 8px;">
+                                        <strong>Input</strong><br>
+                                        <span style="font-size: 1.2rem;">[B, C_in, H, W]</span><br>
+                                        <small>[32, 3, 224, 224]</small>
+                                    </div>
+                                </div>
+                                <div style="font-size: 2rem;">→</div>
+                                <div style="text-align: center;">
+                                    <div style="background: var(--accent); padding: 20px; border-radius: 8px;">
+                                        <strong>Kernel</strong><br>
+                                        <span style="font-size: 1.2rem;">[C_out, C_in, K, K]</span><br>
+                                        <small>[64, 3, 3, 3]</small>
+                                    </div>
+                                </div>
+                                <div style="font-size: 2rem;">→</div>
+                                <div style="text-align: center;">
+                                    <div style="background: var(--success); padding: 20px; border-radius: 8px;">
+                                        <strong>Output</strong><br>
+                                        <span style="font-size: 1.2rem;">[B, C_out, H', W']</span><br>
+                                        <small>[32, 64, 224, 224]</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

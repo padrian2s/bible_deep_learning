@@ -1,0 +1,234 @@
+        <section class="page-section" id="page-76">
+            <div class="page-header">
+                <div class="page-number">76</div>
+                <div class="page-title">
+                    <h3>3.8 Varianta si Covarianta</h3>
+                    <span>Masuri de dispersie si relatie</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-076.jpg"
+                     alt="Pagina 76" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Liniaritatea Sperantei</h4>
+                        <p>Speranta are o proprietate cruciala: este <strong>liniara</strong>. Adica: 𝔼[αf(x) + βg(x)] = α𝔼[f(x)] + β𝔼[g(x)], unde α si β sunt constante (nu depind de x). Aceasta proprietate simplifica enorm calculele si e folosita constant in derivarea algoritmilor ML.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Liniaritatea sperantei</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Demonstratie liniaritate
+np.random.seed(42)
+samples = np.random.normal(0, 1, 10000)
+
+alpha, beta = 3, 2
+f_x = samples  # f(x) = x
+g_x = samples**2  # g(x) = x²
+
+# E[αf + βg] = αE[f] + βE[g]
+lhs = np.mean(alpha * f_x + beta * g_x)
+rhs = alpha * np.mean(f_x) + beta * np.mean(g_x)
+
+print(f"E[{alpha}x + {beta}x²]:")
+print(f"  Direct: {lhs:.4f}")
+print(f"  Liniar: {rhs:.4f}")
+print(f"  Diferenta: {abs(lhs - rhs):.6f}")
+
+# Aplicatie: E[loss] pentru batch
+# E[1/n * Σ loss_i] = 1/n * Σ E[loss_i]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Varianta</h4>
+                        <p><strong>Varianta</strong> masoara cat de mult variaza valorile unei functii f(x) fata de speranta lor: Var(f(x)) = 𝔼[(f(x) - 𝔼[f(x)])²]. O varianta mica inseamna ca valorile sunt grupate strans in jurul mediei. Radacina patrata a variantei se numeste <strong>deviatia standard</strong> si are aceleasi unitati ca variabila originala.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Varianta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.2rem; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        Var(f(x)) = 𝔼[(f(x) - 𝔼[f(x)])²]
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--success);">Varianta Mica</strong>
+                                            <div style="margin: 15px 0; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                                <div style="width: 80%; height: 40px; background: linear-gradient(90deg, transparent 35%, var(--success) 45%, var(--success) 55%, transparent 65%); border-radius: 20px;"></div>
+                                            </div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Valori concentrate</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">Varianta Mare</strong>
+                                            <div style="margin: 15px 0; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                                <div style="width: 80%; height: 20px; background: linear-gradient(90deg, var(--warning) 0%, var(--warning) 100%); border-radius: 10px; opacity: 0.6;"></div>
+                                            </div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Valori imprastiate</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Varianta si deviatie standard</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Varianta pentru zar
+values = np.array([1, 2, 3, 4, 5, 6])
+probs = np.ones(6) / 6
+
+mean = np.sum(probs * values)  # E[X]
+variance = np.sum(probs * (values - mean)**2)  # Var(X)
+std_dev = np.sqrt(variance)
+
+print(f"Zar: E[X] = {mean:.2f}")
+print(f"     Var(X) = {variance:.4f}")
+print(f"     Std(X) = {std_dev:.4f}")
+
+# Formula alternativa: Var(X) = E[X²] - E[X]²
+e_x_squared = np.sum(probs * values**2)
+var_alt = e_x_squared - mean**2
+print(f"     Var(X) via formula alternativa = {var_alt:.4f}")
+
+# In ML: Varianta gradientilor afecteaza stabilitatea
+# Batch size mai mare → varianta estimarii gradientului mai mica
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Covarianta</h4>
+                        <p><strong>Covarianta</strong> masoara cat de mult doua variabile variaza IMPREUNA: Cov(f(x), g(y)) = 𝔼[(f(x) - 𝔼[f(x)]) × (g(y) - 𝔼[g(y)])]. Covarianta pozitiva: cand una creste, cealalta tinde sa creasca. Covarianta negativa: una creste, cealalta scade. Zero: nu exista relatie LINIARA (dar pot exista relatii neliniare!).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Covarianta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        Cov(f(x), g(y)) = 𝔼[(f(x) - 𝔼[f(x)])(g(y) - 𝔼[g(y)])]
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--success);">Cov > 0</strong>
+                                            <div style="font-size: 2rem; margin: 10px 0;">↗</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Cresc impreuna</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">Cov < 0</strong>
+                                            <div style="font-size: 2rem; margin: 10px 0;">↘</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Una creste, alta scade</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--text-secondary);">Cov ≈ 0</strong>
+                                            <div style="font-size: 2rem; margin: 10px 0;">•••</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Nicio relatie liniara</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Covarianta si corelatie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+np.random.seed(42)
+
+# Exemplu: Ore studiate vs Nota
+ore = np.random.uniform(1, 10, 100)
+nota = 2 * ore + np.random.normal(0, 2, 100)  # Relatie liniara + zgomot
+
+cov = np.cov(ore, nota)[0, 1]
+print(f"Cov(ore, nota) = {cov:.2f}")  # Pozitiv!
+
+# Corelatie = covarianta normalizata (intre -1 si 1)
+corr = np.corrcoef(ore, nota)[0, 1]
+print(f"Corr(ore, nota) = {corr:.2f}")  # ~0.95
+
+# ATENTIE: Cov=0 nu inseamna independenta!
+x = np.random.uniform(-1, 1, 1000)
+y = x**2  # Relatie perfecta, dar neliniara!
+
+cov_xy = np.cov(x, y)[0, 1]
+print(f"\nx si x²:")
+print(f"  Cov(x, x²) = {cov_xy:.4f}")  # ~0
+print(f"  Dar x determina complet y!")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Covarianta vs Independenta</h4>
+                        <p>Variabile <strong>independente</strong> au covarianta zero. DAR covarianta zero NU implica independenta! Covarianta masoara doar dependenta <em>liniara</em>. Doua variabile pot fi complet dependente (una o determina pe cealalta) dar sa aiba covarianta zero daca relatia e neliniara. Independenta este o conditie MAI puternica.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Exemplul clasic</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Exemplu din carte:</strong>
+                                        <p style="margin-top: 10px;">Fie x ~ Uniform(-1, 1) si s o variabila care ia 1 sau -1 cu probabilitate 1/2 fiecare. Definim y = sx.</p>
+                                        <p style="margin-top: 10px;">x si y sunt clar dependente (y depinde direct de x), dar Cov(x, y) = 0!</p>
+                                        <p style="margin-top: 10px; color: var(--warning);">Lectie: Nu te baza doar pe covarianta/corelatie pentru a detecta dependente in date!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

@@ -1,0 +1,219 @@
+<section class="page-section" id="page-454">
+    <div class="page-header">
+        <div class="page-number">454</div>
+        <div class="page-title">
+            <h3>Diferente Finite si Complex Step</h3>
+            <span>Sectiunea 11.5 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-454.jpg"
+             alt="Pagina 454" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula de Diferente Finite</h4>
+                <p>Derivata poate fi aproximata folosind diferente finite:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; font-size: 1.2em;">
+                    f'(x) = lim<sub>ε→0</sub> [f(x + ε) - f(x)] / ε ≈ [f(x + ε) - f(x)] / ε
+                </div>
+                <p>Putem imbunatati acuratetea folosind <strong>centered difference</strong>:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; font-size: 1.2em;">
+                    f'(x) ≈ [f(x + ε/2) - f(x - ε/2)] / ε
+                </div>
+                <p>Perturbatia ε trebuie aleasa suficient de mare sa nu fie rotunjita de precizia finita a numerelor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Comparatie Metode</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def f(x):
+    """Functie de test: f(x) = x^3"""
+    return x ** 3
+
+def f_prime_exact(x):
+    """Derivata exacta: f'(x) = 3x^2"""
+    return 3 * x ** 2
+
+x = 2.0
+epsilon = 1e-5
+
+# Metoda 1: Forward difference (formula simpla)
+forward_diff = (f(x + epsilon) - f(x)) / epsilon
+
+# Metoda 2: Centered difference (mai precisa)
+centered_diff = (f(x + epsilon/2) - f(x - epsilon/2)) / epsilon
+
+# Valoare exacta
+exact = f_prime_exact(x)
+
+print(f"Exact:           {exact:.10f}")
+print(f"Forward diff:    {forward_diff:.10f}  (error: {abs(forward_diff - exact):.2e})")
+print(f"Centered diff:   {centered_diff:.10f}  (error: {abs(centered_diff - exact):.2e})")
+
+# OUTPUT TIPIC:
+# Exact:           12.0000000000
+# Forward diff:    12.0000600001  (error: 6.00e-05)
+# Centered diff:   12.0000000000  (error: 8.33e-11)
+
+# Centered difference e ~O(ε^2) vs O(ε) pentru forward!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Testarea Jacobienilor cu Proiectii Random</h4>
+                <p>Pentru functii vectoriale g: R<sup>m</sup> → R<sup>n</sup>, diferentierea finita permite evaluarea unei singure derivate partiale pe apel. Pentru a testa tot Jacobianul, am avea nevoie de <em>mn</em> evaluari. O alternativa eficienta: testam functia f(x) = <strong>u</strong><sup>T</sup>g(<strong>v</strong>x) unde <strong>u</strong> si <strong>v</strong> sunt vectori aleatori. Aceasta reduce testul la un scalar, mentinand in acelasi timp sensibilitate la erori in Jacobian.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Random Projection Test</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def jacobian_test_random_projection(g, x, epsilon=1e-5, n_tests=10):
+    """
+    Testeaza Jacobianul prin proiectii random
+
+    In loc sa testam fiecare element al Jacobianului,
+    testam f(x) = u^T g(v*x) cu u, v random
+    """
+    m = len(x)
+    n = len(g(x))
+
+    for test_i in range(n_tests):
+        # Vectori random pentru proiectie
+        u = np.random.randn(n)
+        v = np.random.randn(m)
+
+        # Functia scalara de testat
+        def f_scalar(t):
+            return np.dot(u, g(v * t))
+
+        # f'(1) ar trebui sa fie u^T * J * v
+        # unde J este Jacobianul lui g evaluat la x = v
+
+        # Calculeaza prin diferente finite
+        t = 1.0
+        numerical_deriv = (f_scalar(t + epsilon) - f_scalar(t - epsilon)) / (2 * epsilon)
+
+        # Calculeaza prin backprop (presupunand ca avem acces)
+        # backprop_deriv = compute_backprop_derivative(g, x, u, v)
+
+        # Compara...
+        print(f"Test {test_i}: numerical = {numerical_deriv:.6f}")
+
+    # Daca toate testele trec, e foarte probabil ca Jacobianul e corect
+    # (cu probabilitate 1 pentru erori care nu sunt ortogonale pe u si v)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Metoda Complex Step</h4>
+                <p>O metoda eleganta pentru calculul numeric al derivatei foloseste <strong>numere complexe</strong>:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0;">
+                    f(x + iε) = f(x) + iεf'(x) + O(ε²)
+                </div>
+                <div class="formula" style="text-align: center; margin: 15px 0;">
+                    f'(x) ≈ imag(f(x + iε)) / ε
+                </div>
+                <p>Avantajul: nu exista eroare de anulare (cancellation error) ca la diferentele finite reale, permitand folosirea de ε extrem de mici (10<sup>-150</sup>)!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Complex Step Derivative</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def complex_step_derivative(f, x, epsilon=1e-150):
+    """
+    Calculeaza derivata folosind complex step method
+
+    Mult mai precis decat diferente finite pentru epsilon mic!
+    """
+    # Evalueaza f la x + i*epsilon
+    f_complex = f(x + 1j * epsilon)
+
+    # Derivata = partea imaginara / epsilon
+    derivative = np.imag(f_complex) / epsilon
+
+    return derivative
+
+# Test
+def f(x):
+    return x ** 3 + np.sin(x)
+
+def f_prime_exact(x):
+    return 3 * x ** 2 + np.cos(x)
+
+x = 2.0
+
+# Comparatie
+exact = f_prime_exact(x)
+complex_step = complex_step_derivative(f, x, epsilon=1e-150)
+centered_diff = (f(x + 1e-5) - f(x - 1e-5)) / (2e-5)
+
+print(f"Exact:        {exact:.15f}")
+print(f"Complex step: {complex_step:.15f} (error: {abs(complex_step - exact):.2e})")
+print(f"Centered:     {centered_diff:.15f} (error: {abs(centered_diff - exact):.2e})")
+
+# Complex step da eroare de ordinul 10^-16 (machine precision)!
+# vs 10^-10 pentru centered differences
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Squire & Trapp (1998)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Squire & Trapp (1998)</strong> - Introducerea metodei complex step pentru derivate numerice
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Avantaj:</strong> i = √(-1), deci nu exista anulare ca la x+ε vs x-ε
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Limitare:</strong> Functia trebuie sa suporte argumente complexe
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

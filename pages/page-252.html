@@ -1,0 +1,75 @@
+<section class="page-section" id="page-252">
+    <div class="page-header">
+        <div class="page-number">252</div>
+        <div class="page-title">
+            <h3>7.2 Norm Penalties as Constrained Optimization</h3>
+            <span>Penalizari vs Constrangeri Explicite</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-252.jpg"
+             alt="Pagina 252" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conexiunea cu Optimizare Constrangerilor</h4>
+                <p>Putem privi regularizarea cu penalizari ca o forma de optimizare cu constrangeri. Din sectiunea 4.4, stim ca putem construi o functie Lagrangiana generalizata pentru a minimiza o functie supusa constrangerilor. Daca vrem sa constrangem Ω(θ) ≤ k:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    L(θ, α; X, y) = J(θ; X, y) + α(Ω(θ) - k)
+                </div>
+                <p>Solutia problemei constransite este:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    θ* = argmin<sub>θ</sub> max<sub>α,α≥0</sub> L(θ, α)
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Dualitatea Penalizare-Constrangere</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Fixand α* si rezolvand pentru θ obtinem exact problema de training regularizata J̃. Deci putem interpreta o penalizare pe norma parametrilor ca <strong>impunand o constrangere</strong> pe weights.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>L² Penalty</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">= Constrangere ||w||₂ ≤ k</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Weights in bila L²</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>L¹ Penalty</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">= Constrangere ||w||₁ ≤ k</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Weights in bila L¹ (diamant)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Relatia k vs α</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>De obicei nu stim exact marimea regiunii de constrangere k care corespunde unui α dat - depinde de forma lui J. Dar putem controla indirect:</p>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>α mai mare</strong> → regiune mai mica (k mai mic)</li>
+                                <li><strong>α mai mic</strong> → regiune mai mare (k mai mare)</li>
+                            </ul>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">In practica, ajustam α pe baza performantei pe validation set, nu calculam k explicit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

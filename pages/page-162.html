@@ -1,0 +1,135 @@
+<section class="page-section" id="page-162">
+    <div class="page-header">
+        <div class="page-number">162</div>
+        <div class="page-title">
+            <h3>Reprezentari si PCA</h3>
+            <span>Capitolul 5 - Sectiunea 5.8.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-162.jpg"
+             alt="Pagina 162" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Reprezentarile "Bune"</h4>
+                <p>Un task clasic de unsupervised learning este sa gasesti cea mai "buna" <strong>reprezentare</strong> a datelor. "Best" poate insemna lucruri diferite, dar in general cautam o reprezentare care pastreaza cat mai multa informatie despre x in timp ce respecta o penalitate sau constrangere care o face <strong>mai simpla</strong> sau <strong>mai accesibila</strong> decat x insasi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tipuri de Reprezentari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Trei Criterii pentru Reprezentari Simple</h5>
+                                <div style="display: grid; gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--primary);">1. Low-Dimensional</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">Comprima cat mai multa informatie in reprezentare mai mica</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: PCA, Autoencoders</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--secondary);">2. Sparse</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">Majoritatrea entries sunt zerouri pentru majoritatea inputurilor</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: Sparse coding (Barlow 1989; Olshausen and Field 1996)</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--accent);">3. Independent</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">Disentangle sursele de variatie - dimensiunile reprezentarii sunt statistic independente</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: ICA (Hinton and Ghahramani 1997)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte Reprezentari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Barlow (1989)</strong> - Unsupervised learning
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Olshausen and Field (1996)</strong> - Emergence of simple-cell receptive field properties by learning a sparse code for natural images
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Hinton and Ghahramani (1997)</strong> - Generative models for discovering sparse distributed representations
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Reprezentari si Compression</h4>
+                <p>Aceste trei criterii <strong>nu sunt mutual exclusive</strong>. Reprezentarile low-dimensional produc adesea elemente cu dependente mai slabe decat datele high-dimensional originale. Asta pentru ca o cale de a reduce dimensionalitatea este sa gasesti si sa elimini redundantele. Identificand mai multa redundanta, algoritmul de reducere a dimensionalitatii poate obtine mai multa compresie fara a pierde informatii.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.8.1 Principal Components Analysis</h4>
+                <p>In sectiunea 2.12 am vazut ca <strong>PCA</strong> ofera un mod de a comprima datele. Putem vedea PCA si ca un algoritm de unsupervised learning care invata o reprezentare a datelor. Aceasta reprezentare se bazeaza pe doua din criteriile pentru reprezentari simple descrise mai sus. PCA invata o reprezentare <strong>lower-dimensional</strong> si reprezentarea are elemente cu dependente mai slabe unele de altele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: PCA ca Representation Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.decomposition import PCA
+
+np.random.seed(42)
+
+# Date corelate in 5D
+n = 200
+t = np.random.randn(n)
+X = np.column_stack([
+    t + 0.1*np.random.randn(n),      # x1 ≈ t
+    2*t + 0.1*np.random.randn(n),    # x2 ≈ 2t
+    -t + 0.1*np.random.randn(n),     # x3 ≈ -t
+    np.random.randn(n),               # x4 = noise
+    np.random.randn(n)                # x5 = noise
+])
+
+print("Date originale:")
+print(f"  Shape: {X.shape}")
+print(f"  Corelatii: x1-x2={np.corrcoef(X[:,0], X[:,1])[0,1]:.2f}")
+
+# PCA
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X)
+
+print(f"\nDupa PCA (5D -> 2D):")
+print(f"  Shape: {X_pca.shape}")
+print(f"  Variance explained: {sum(pca.explained_variance_ratio_):.1%}")
+print(f"  PC1-PC2 correlation: {np.corrcoef(X_pca[:,0], X_pca[:,1])[0,1]:.4f}")
+
+print("\n=> PCA: lower-dim + decorrelated!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

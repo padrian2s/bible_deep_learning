@@ -1,0 +1,116 @@
+        <section class="page-section" id="page-59">
+            <div class="page-header">
+                <div class="page-number">59</div>
+                <div class="page-title">
+                    <h3>Matrici Pozitiv Definite si SVD</h3>
+                    <span>Sectiunea 2.8</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-059.jpg"
+                     alt="Pagina 59" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Matrici Pozitiv Definite si Semidefinite</h4>
+                        <p>O matrice simetrica este <strong>pozitiv definita</strong> daca TOATE eigenvalues sunt pozitive (λᵢ > 0). Este <strong>pozitiv semidefinita</strong> daca λᵢ ≥ 0. Garanteaza ca xᵀAx ≥ 0 pentru orice x!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Clasificare dupa eigenvalues</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: var(--success); padding: 15px; border-radius: 8px; color: white;">
+                                            <strong>Pozitiv Definita:</strong> λᵢ > 0 pentru toti i
+                                            <p style="font-size: 0.85rem; opacity: 0.9;">xᵀAx > 0 pentru orice x ≠ 0</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border: 2px solid var(--success);">
+                                            <strong style="color: var(--success);">Pozitiv Semidefinita:</strong> λᵢ ≥ 0 pentru toti i
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">xᵀAx ≥ 0 pentru orice x</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border: 2px solid var(--warning);">
+                                            <strong style="color: var(--warning);">Negativ Definita:</strong> λᵢ < 0 pentru toti i
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">xᵀAx < 0 pentru orice x ≠ 0</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border: 2px solid var(--accent);">
+                                            <strong style="color: var(--accent);">Indefinita:</strong> unele λᵢ > 0, altele < 0
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Punct sa (saddle point) in optimizare</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Aplicatie: Hessian in optimizare</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🎯 Hessian si puncte critice</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                                            <li>H pozitiv definita → <strong>minim local</strong> (gradient descent converge)</li>
+                                            <li>H negativ definita → <strong>maxim local</strong></li>
+                                            <li>H indefinita → <strong>saddle point</strong> (problema in DL!)</li>
+                                        </ul>
+                                    </div>
+                                    <p style="color: var(--warning); font-size: 0.9rem; margin-top: 15px;">
+                                        ⚠️ In retele neurale adanci, majoritatea punctelor critice sunt saddle points, nu minime locale!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.8 Singular Value Decomposition (SVD)</h4>
+                        <p><strong>SVD</strong> este generalizarea eigendecomposition pentru ORICE matrice (chiar si non-patratice!). Orice matrice A poate fi scrisa ca A = UDVᵀ. Este cea mai importanta descompunere din algebra liniara aplicata!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>SVD vs Eigendecomposition</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">Eigendecomposition</strong>
+                                            <div class="formula" style="margin: 10px 0;">A = V Λ V⁻¹</div>
+                                            <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 15px;">
+                                                <li>Doar matrici patratice</li>
+                                                <li>Poate avea valori complexe</li>
+                                                <li>V poate sa nu fie ortogonala</li>
+                                            </ul>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border: 2px solid var(--success);">
+                                            <strong style="color: var(--success);">SVD</strong>
+                                            <div class="formula" style="margin: 10px 0;">A = U D Vᵀ</div>
+                                            <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 15px;">
+                                                <li>ORICE matrice (m×n)</li>
+                                                <li>Mereu valori reale pozitive</li>
+                                                <li>U si V sunt ortogonale!</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

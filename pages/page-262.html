@@ -1,0 +1,110 @@
+<section class="page-section" id="page-262">
+    <div class="page-header">
+        <div class="page-number">262</div>
+        <div class="page-title">
+            <h3>7.8 Algorithm 7.1 - Early Stopping</h3>
+            <span>Pseudocod Formal</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-262.jpg"
+             alt="Pagina 262" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algorithm 7.1: Early Stopping Formal</h4>
+                <p>Algoritmul determina cat timp sa antrenam. Este o meta-strategie generala care functioneaza cu diverse algoritmi de training si metrici pe validation set. Parametrii cheie: <strong>n</strong> (pasi intre evaluari) si <strong>p</strong> (patience - cate evaluari fara imbunatatire inainte de oprire).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudocod Complet</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 7.1: Early Stopping
+def early_stopping(train_fn, val_fn, theta_0, n, p):
+    """
+    n = pasi intre evaluari
+    p = patience (evaluari fara imbunatatire)
+    """
+    theta = theta_0      # parametri curenti
+    i = 0                # numar total de pasi
+    j = 0                # pasi de la ultima imbunatatire
+    v = float('inf')     # best validation error
+    theta_star = theta   # best parameters
+    i_star = i           # best step
+
+    while j < p:
+        # Antreneaza n pasi
+        theta = train_fn(theta, n_steps=n)
+        i = i + n
+
+        # Evalueaza pe validation
+        v_new = val_fn(theta)
+
+        if v_new < v:
+            j = 0              # reset patience
+            theta_star = theta # salveaza parametri
+            i_star = i         # salveaza step
+            v = v_new          # update best
+        else:
+            j = j + 1          # increment patience counter
+
+    return theta_star, i_star
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Early Stopping = Hyperparameter Selection Eficient</h4>
+                <p>O modalitate de a gandi early stopping: numarul de pasi de training este doar un alt hiperparametru. Figura 7.3 arata ca acest hiperparametru are o curba U-shaped pe validation set. Diferenta: in loc de "guess and check", early stopping gaseste automat valoarea optima intr-o singura rulare!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie cu alte hyperparametere</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Hyperparametri Normali</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">learning rate, weight decay, etc.</p>
+                                    <ul style="font-size: 0.85rem; margin-top: 10px;">
+                                        <li>Setezi valoare</li>
+                                        <li>Rulezi tot training-ul</li>
+                                        <li>Evaluezi</li>
+                                        <li>Repeta cu alta valoare</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Training Steps (Early Stop)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">"hiperparametru special"</p>
+                                    <ul style="font-size: 0.85rem; margin-top: 10px;">
+                                        <li>O singura rulare</li>
+                                        <li>Evalueaza periodic</li>
+                                        <li>Alege automat best</li>
+                                        <li>Zero overhead extra</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

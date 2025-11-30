@@ -1,0 +1,91 @@
+<section class="page-section" id="page-481">
+    <div class="page-header">
+        <div class="page-number">481</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4.3.1 Use of a Short List</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-481.jpg"
+             alt="Pagina 481" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.3.1 Use of a Short List</h4>
+                <p>Primele neural language models au abordat costul ridicat al softmax-ului prin <strong>limitarea vocabularului</strong> la 10,000-20,000 cuvinte. O abordare mai rafinata imparte vocabularul V intr-o <strong>shortlist</strong> L de cuvinte frecvente (tratate de reteaua neurala) si o <strong>tail</strong> T = V \ L de cuvinte rare (tratate de un model n-gram).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Shortlist + Tail</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                                <div style="background: var(--success); padding: 20px; border-radius: 8px; color: var(--bg-dark);">
+                                    <strong>Shortlist L</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Top 10,000-20,000 cuvinte frecvente</p>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">→ Neural Language Model</p>
+                                    <p style="font-size: 0.8rem;">→ ~95% din tokens</p>
+                                </div>
+                                <div style="background: var(--warning); padding: 20px; border-radius: 8px; color: var(--bg-dark);">
+                                    <strong>Tail T</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Restul vocabularului</p>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">→ n-gram model</p>
+                                    <p style="font-size: 0.8rem;">→ ~5% din tokens</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Combinarea Predictiilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                P(y = i | C) = 1ᵢ∈L × P(y = i | C, i ∈ L) × (1 - P(i ∈ T | C))
+                                <br><br>+ 1ᵢ∈T × P(y = i | C, i ∈ T) × P(i ∈ T | C)
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <p style="color: var(--text-secondary);">Unde:</p>
+                                <ul style="color: var(--text-secondary); font-size: 0.9rem;">
+                                    <li><strong>P(y = i | C, i ∈ L)</strong> - din neural language model</li>
+                                    <li><strong>P(y = i | C, i ∈ T)</strong> - din n-gram model</li>
+                                    <li><strong>P(i ∈ T | C)</strong> - output sigmoid suplimentar din NLM</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Shortlist Approach</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bengio et al. (2001, 2003)</strong> - Primele NLM cu vocabular limitat</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Schwenk & Gauvain (2002); Schwenk (2007)</strong> - Shortlist + tail approach</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Dezavantaj:</strong> Potentialul avantaj de generalizare al NLM este limitat la cele mai frecvente cuvinte - tocmai acolo unde e mai putin necesar! Aceasta a stimulat explorarea altor metode.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

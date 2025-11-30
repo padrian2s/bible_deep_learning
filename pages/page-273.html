@@ -1,0 +1,71 @@
+<section class="page-section" id="page-273">
+    <div class="page-header">
+        <div class="page-number">273</div>
+        <div class="page-title">
+            <h3>7.11-7.12 Boosting si Introducere in Dropout</h3>
+            <span>Ensemble Methods si Dropout</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-273.jpg"
+             alt="Pagina 273" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Model Averaging - Puterea Ensemble-urilor</h4>
+                <p>Model averaging este o metoda extrem de puternica si de incredere pentru reducerea erorii de generalizare. Utilizarea sa este de obicei descurajata in benchmark-uri pentru ca orice algoritm ML poate beneficia de la model averaging, crescand costul computational. ML contests sunt de obicei castigate de metode cu tens de modele (ex: Netflix Prize - Koren, 2009).</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Boosting - Alta Abordare Ensemble</h4>
+                <p>Nu toate metodele ensemble construiesc modele independente. <strong>Boosting</strong> (Freund & Schapire, 1996) construieste un ensemble cu capacitate mai mare decat modelele individuale, adaugand iterativ modele care se concentreaza pe exemplele pe care ensemble-ul curent le clasifică gresit. A fost aplicat pentru neural networks (Schwenk & Bengio, 1998).</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>7.12 Dropout - Ensemble Ieftin</h4>
+                <p><strong>Dropout</strong> (Srivastava et al., 2014) ofera o metoda computational ieftina dar puternica de regularizare. Poate fi gandit ca o metoda de a face bagging practic pentru ensemble-uri foarte mari de retele neurale. Bagging implica antrenarea mai multor modele si evaluarea tuturor pe fiecare exemplu - impracticabil pentru retele mari.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ideea Geniala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Dropout antreneaza un ensemble de TOATE sub-retelele care pot fi formate prin eliminarea unitatilor non-output din reteaua de baza. In loc de k modele separate, avem 2ⁿ sub-retele (unde n = numar de unitati)!</p>
+                            </div>
+                            <p style="margin-top: 15px;">Szegedy et al. (2014) au folosit 6 retele pentru a castiga ILSVRC. Mai mult de 5-10 modele devine rapid impracticabil. Dropout permite miliarde de "modele" virtual.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cum functioneaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Eliminam o unitate din retea inmultind output-ul ei cu zero. In retelele moderne (cu transformari afine si neliniaritati), aceasta e o operatie triviala.</p>
+                            <div class="code-block" style="margin-top: 15px;">
+# Eliminare unitate = inmultire cu 0
+h = relu(W @ x + b)
+h = h * mask  # mask[i] = 0 elimina unitatea i
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

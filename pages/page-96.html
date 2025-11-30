@@ -1,0 +1,244 @@
+<section class="page-section" id="page-96">
+    <div class="page-header">
+        <div class="page-number">96</div>
+        <div class="page-title">
+            <h3>Overflow si Softmax Stabil</h3>
+            <span>Capitolul 4 - Stabilitate Numerica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-096.jpg"
+             alt="Pagina 96" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Overflow - Problema Numerelor Mari</h4>
+                <p><strong>Overflow</strong> apare cand numere cu magnitudine foarte mare sunt aproximate ca ∞ sau -∞. Aritmetica ulterioara va transforma aceste valori infinite in valori NaN (not-a-number). O functie care trebuie stabilizata impotriva underflow si overflow este <strong>softmax</strong>, folosita frecvent pentru a prezice probabilitatile asociate cu o distributie multinoulli.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Overflow in Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Overflow simplu
+x = 1e200
+y = 1e200
+print(f"1e200 * 1e200 = {x * y}")  # inf
+
+# Overflow cu exp()
+print(f"\nexp(100) = {np.exp(100):.2e}")
+print(f"exp(500) = {np.exp(500):.2e}")
+print(f"exp(1000) = {np.exp(1000)}")  # inf!
+
+# Operatii cu inf
+print(f"\ninf + 1 = {np.inf + 1}")
+print(f"inf - inf = {np.inf - np.inf}")  # nan!
+print(f"inf / inf = {np.inf / np.inf}")  # nan!
+                            </div>
+                            <p style="margin-top: 15px; color: var(--warning);">exp(x) creste foarte rapid - exp(710) ≈ overflow in float64!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Limite Float64</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div class="key-concept">
+                                    <h5>Cel mai mare numar</h5>
+                                    <p style="font-family: monospace;">~1.8 × 10³⁰⁸</p>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">exp(709.78) ≈ max float64</p>
+                                </div>
+                                <div class="key-concept">
+                                    <h5>Cel mai mic pozitiv</h5>
+                                    <p style="font-family: monospace;">~2.2 × 10⁻³⁰⁸</p>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">exp(-745) ≈ underflow</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Functia Softmax</h4>
+                <p>Functia softmax transforma un vector de numere reale intr-o distributie de probabilitate. Este definita ca:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0;">
+                    softmax(x)ᵢ = exp(xᵢ) / Σⱼ exp(xⱼ)
+                </div>
+                <p>Analitic, daca toate xᵢ sunt egale cu o constanta c, toate output-urile ar trebui sa fie 1/n. Numeric insa, daca c este foarte negativ, exp(c) va fi underflow (→0), iar daca c este foarte pozitiv, exp(c) va fi overflow (→∞).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Softmax Instabil</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def softmax_naive(x):
+    """Softmax naiv - INSTABIL!"""
+    exp_x = np.exp(x)
+    return exp_x / exp_x.sum()
+
+# Valori normale - functioneaza
+x_normal = np.array([1.0, 2.0, 3.0])
+print("Normal:", softmax_naive(x_normal))
+
+# Valori mari - OVERFLOW!
+x_large = np.array([1000.0, 1001.0, 1002.0])
+print("Valori mari:", softmax_naive(x_large))
+
+# Valori foarte negative - UNDERFLOW!
+x_neg = np.array([-1000.0, -999.0, -998.0])
+print("Valori negative:", softmax_naive(x_neg))
+                            </div>
+                            <p style="margin-top: 15px; color: var(--warning);">Rezultatul pentru valori mari: [nan, nan, nan]!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Softmax</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+                                    <div style="text-align: center;">
+                                        <p style="color: var(--text-secondary);">Input</p>
+                                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                                            <span style="background: var(--primary); padding: 8px 15px; border-radius: 4px;">x₁ = 2.0</span>
+                                            <span style="background: var(--primary); padding: 8px 15px; border-radius: 4px;">x₂ = 1.0</span>
+                                            <span style="background: var(--primary); padding: 8px 15px; border-radius: 4px;">x₃ = 0.1</span>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 2rem;">→</div>
+                                    <div style="text-align: center;">
+                                        <p style="color: var(--text-secondary);">exp(x)</p>
+                                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                                            <span style="background: var(--secondary); padding: 8px 15px; border-radius: 4px;">7.39</span>
+                                            <span style="background: var(--secondary); padding: 8px 15px; border-radius: 4px;">2.72</span>
+                                            <span style="background: var(--secondary); padding: 8px 15px; border-radius: 4px;">1.11</span>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 2rem;">→</div>
+                                    <div style="text-align: center;">
+                                        <p style="color: var(--text-secondary);">Probabilitati</p>
+                                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                                            <span style="background: var(--success); padding: 8px 15px; border-radius: 4px;">0.66</span>
+                                            <span style="background: var(--success); padding: 8px 15px; border-radius: 4px;">0.24</span>
+                                            <span style="background: var(--success); padding: 8px 15px; border-radius: 4px;">0.10</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; color: var(--accent);">Suma = 1.0 (distributie valida)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trucul de Stabilizare Softmax</h4>
+                <p>Solutia eleganta: in loc de softmax(x), calculam <strong>softmax(z)</strong> unde <strong>z = x - max(x)</strong>. Scazand max din fiecare element, cel mai mare argument devine 0. Acest lucru: (1) elimina overflow-ul deoarece exp(0) = 1, si (2) garanteaza ca cel putin un termen in numitor este 1, evitand impartirea la zero. Matematic, rezultatul este identic deoarece softmax este invariant la adunarea unei constante!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Softmax Stabil</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def softmax_stable(x):
+    """Softmax stabil numeric"""
+    z = x - np.max(x)  # Trucul magic!
+    exp_z = np.exp(z)
+    return exp_z / exp_z.sum()
+
+# Acum functioneaza pentru orice valori!
+x_large = np.array([1000.0, 1001.0, 1002.0])
+print("Valori mari:", softmax_stable(x_large))
+# Output: [0.09, 0.24, 0.67] - corect!
+
+x_neg = np.array([-1000.0, -999.0, -998.0])
+print("Valori negative:", softmax_stable(x_neg))
+# Output: [0.09, 0.24, 0.67] - identic!
+
+# Demonstratie: invarianta la constante
+x = np.array([1.0, 2.0, 3.0])
+print("\nOriginal:", softmax_stable(x))
+print("+ 1000:", softmax_stable(x + 1000))
+print("- 1000:", softmax_stable(x - 1000))
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>De ce functioneaza?</h5>
+                                <p>softmax(x + c)ᵢ = exp(xᵢ + c) / Σ exp(xⱼ + c) = exp(xᵢ)·exp(c) / exp(c)·Σ exp(xⱼ) = softmax(x)ᵢ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Log-Softmax si Cross-Entropy</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Pentru log softmax avem o problema similara: daca calculam log(softmax(x)) naiv, am putea obtine log(0) = -∞. Solutia:</p>
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                                log_softmax(x)ᵢ = xᵢ - max(x) - log(Σ exp(xⱼ - max(x)))
+                            </div>
+                            <div class="code-block">
+def log_softmax_stable(x):
+    z = x - np.max(x)
+    return z - np.log(np.sum(np.exp(z)))
+
+# PyTorch face asta automat!
+import torch
+x = torch.tensor([1000.0, 1001.0, 1002.0])
+print(torch.nn.functional.log_softmax(x, dim=0))
+                            </div>
+                            <div class="reference-list" style="margin-top: 15px;">
+                                <div class="reference-item">
+                                    <strong>Theano:</strong> Framework care detecteaza si stabilizeaza automat expresii numerice
+                                </div>
+                                <div class="reference-item">
+                                    <strong>PyTorch/JAX:</strong> Folosesc implementari stabile pentru softmax/log_softmax
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

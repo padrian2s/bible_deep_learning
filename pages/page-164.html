@@ -1,0 +1,109 @@
+<section class="page-section" id="page-164">
+    <div class="page-header">
+        <div class="page-number">164</div>
+        <div class="page-title">
+            <h3>PCA prin SVD</h3>
+            <span>Capitolul 5 - Sectiunea 5.8.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-164.jpg"
+             alt="Pagina 164" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>PCA prin Eigenvectors si SVD</h4>
+                <p>In sectiunea 2.12 am vazut ca principal components sunt date de eigenvectors ai lui X<sup>T</sup>X. Aceasta poate fi exprimata:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    X<sup>T</sup>X = WΛW<sup>T</sup>
+                </div>
+                <p>Principal components pot fi obtinute si prin <strong>Singular Value Decomposition</strong>. Ele sunt right singular vectors ai lui X. Fie W right singular vectors din X = UΣW<sup>T</sup>. Putem recupera ecuatia de eigenvectors:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    X<sup>T</sup>X = (UΣW<sup>T</sup>)<sup>T</sup> UΣW<sup>T</sup> = WΣ²W<sup>T</sup>
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: PCA via SVD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+np.random.seed(42)
+
+# Date
+X = np.random.randn(100, 5)
+X_centered = X - X.mean(axis=0)
+
+# Metoda 1: Eigendecomposition de X^T X
+cov = X_centered.T @ X_centered / (len(X)-1)
+eigenvalues, eigenvectors = np.linalg.eigh(cov)
+# Sorteaza descrescator
+idx = eigenvalues.argsort()[::-1]
+W_eig = eigenvectors[:, idx]
+
+# Metoda 2: SVD
+U, S, Vt = np.linalg.svd(X_centered, full_matrices=False)
+W_svd = Vt.T  # right singular vectors
+
+print("Principal components (first 2):")
+print("\nEigendecomposition:")
+print(W_eig[:, :2].round(3))
+print("\nSVD:")
+print(W_svd[:, :2].round(3))
+
+# Pot diferi prin semn (ambele sunt valide!)
+print("\n=> Rezultate echivalente (pana la semn)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Demonstratia Decorelarii</h4>
+                <p>SVD ne ajuta sa demonstram ca PCA produce o Var[z] diagonala. Folosind SVD-ul lui X, putem exprima varianta lui x:</p>
+                <div class="formula" style="text-align: center; font-size: 1.1rem; margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                    Var[x] = (1/(m-1)) X<sup>T</sup>X = (1/(m-1)) WΣ²W<sup>T</sup>
+                </div>
+                <p>Daca luam z = x<sup>T</sup>W, atunci varianta lui z este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.1rem; margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                    Var[z] = (1/(m-1)) Z<sup>T</sup>Z = (1/(m-1)) W<sup>T</sup>WΣ²W<sup>T</sup>W = (1/(m-1)) Σ²
+                </div>
+                <p>Folosim faptul ca W<sup>T</sup>W = I (din definitia SVD - W este ortogonal). Σ² este <strong>diagonala</strong>, deci z este decorelat!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: De ce functioneaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Fluxul Demonstratiei</h5>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                    <p style="margin: 5px 0;">1. <strong>SVD:</strong> X = UΣW<sup>T</sup></p>
+                                    <p style="margin: 5px 0;">2. <strong>Covariance:</strong> X<sup>T</sup>X = WΣ²W<sup>T</sup></p>
+                                    <p style="margin: 5px 0;">3. <strong>Transformare:</strong> z = x<sup>T</sup>W</p>
+                                    <p style="margin: 5px 0;">4. <strong>Var[z]:</strong> = (1/(m-1))W<sup>T</sup>X<sup>T</sup>XW</p>
+                                    <p style="margin: 5px 0;">5. <strong>Simplificare:</strong> = (1/(m-1))Σ² (diagonala!)</p>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center; color: var(--success);">Proprietatea cheie: W<sup>T</sup>W = I (ortogonalitate)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

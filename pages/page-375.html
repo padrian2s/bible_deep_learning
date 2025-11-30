@@ -1,0 +1,128 @@
+<section class="page-section" id="page-375">
+    <div class="page-header">
+        <div class="page-number">375</div>
+        <div class="page-title">
+            <h3>9.7 Tipuri de Date</h3>
+            <span>Date pentru Retele Convolutionale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-375.jpg"
+             alt="Pagina 375" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Post-procesarea Predictiilor de Segmentare</h4>
+                <p>Dupa ce CNN-ul produce predictii per-pixel, putem aplica tehnici de post-procesare pentru a le rafina. O abordare comuna: presupunem ca grupuri mari de pixeli vecini au aceeasi eticheta. <strong>Conditional Random Fields (CRF)</strong> sunt modele grafice care descriu relatiile probabilistice intre pixeli vecini si pot fi antrenate end-to-end cu CNN-ul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Post-procesare pentru Segmentare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">CRF (Conditional Random Field)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Modeleaza relatiile spatiale intre pixeli. Netezeste predictiile mentinand marginile clare.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Test-Time Augmentation</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Aplica reteaua pe versiuni flipped/rotite ale imaginii, mediaza predictiile.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Multi-Scale Inference</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Ruleaza reteaua la multiple rezolutii, combina rezultatele.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce Tipuri de Date pot folosi CNN-uri?</h4>
+                <p>Datele pentru CNN au de obicei mai multe <strong>canale</strong>, fiecare reprezentand o masurare diferita la aceeasi locatie spatiala sau temporala. Exemple: canalele R,G,B ale unei imagini, frecventele audio la un moment dat, sau informatii despre articulatiile unui schelet 3D. Dimensionalitatea datelor poate fi 1D, 2D sau 3D.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura Datelor CNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; padding: 20px; background: var(--bg-lighter); border-radius: 12px;">
+                                <div style="display: inline-block; background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <div style="display: flex; gap: 5px;">
+                                        <div style="background: #ff6b6b; width: 60px; height: 60px; border-radius: 4px;"></div>
+                                        <div style="background: #4ecdc4; width: 60px; height: 60px; border-radius: 4px;"></div>
+                                        <div style="background: #45b7d1; width: 60px; height: 60px; border-radius: 4px;"></div>
+                                    </div>
+                                    <div style="margin-top: 10px; font-size: 0.8rem;">R &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B</div>
+                                </div>
+                                <div style="margin-top: 15px;">
+                                    <strong>Tensor: [Batch, Channels, Height, Width]</strong><br>
+                                    <span style="color: var(--text-secondary);">Ex: [32, 3, 224, 224] pentru batch de 32 imagini RGB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>CNN pentru Video</h4>
+                <p>CNN-urile pot fi aplicate si pe date video (3D: timp + 2D spatial). Convolutia 3D aplica kerneluri care se misca si prin timp, capturand miscare si schimbari temporale. Alternativ, se pot folosi arhitecturi hibride CNN+RNN sau CNN cu attention temporal.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Conv3D pentru Video</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Video: [batch, channels, time, height, width]
+video = torch.randn(4, 3, 16, 112, 112)  # 16 frames, 112x112
+
+# Conv3D: kernel se misca in timp + spatiu
+conv3d = nn.Conv3d(
+    in_channels=3,
+    out_channels=64,
+    kernel_size=(3, 3, 3),  # (time, height, width)
+    padding=(1, 1, 1)
+)
+
+output = conv3d(video)
+print("Output shape:", output.shape)
+# [4, 64, 16, 112, 112]
+
+# Aplicatii:
+# - Recunoastere actiuni (action recognition)
+# - Detectie obiecte in video
+# - Segmentare video
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

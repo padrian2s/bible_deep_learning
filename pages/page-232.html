@@ -1,0 +1,165 @@
+<section class="page-section" id="page-232">
+    <div class="page-header">
+        <div class="page-number">232</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Algoritmul 6.5: Scheletul Backprop</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-232.jpg"
+             alt="Pagina 232" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 6.5: Scheletul Exterior al Backprop</h4>
+                <p>Scheletul exterior al algoritmului de back-propagation. Aceasta parte face setup si cleanup simplu. Cea mai mare parte a muncii importante se intampla in subrutina build_grad din Algoritmul 6.6. Algoritmul primeste T (setul tinta de variabile ale caror gradienti trebuie calculati), G (graful computational), si z (variabila de diferentiat).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritmul 6.5 in Cod</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def backprop_outer(T, G, z):
+    """
+    Algoritmul 6.5: Scheletul exterior backprop
+
+    Args:
+        T: set tinta de variabile (ex: weights)
+        G: graful computational
+        z: variabila de diferentiat (ex: loss)
+
+    Returns:
+        grad_table restrans la T
+    """
+    # Pas 1: Taie graful
+    # G' = G taiat sa contina doar nodurile care sunt
+    # stramosi ai lui z SI descendenti ai nodurilor din T
+    G_prime = prune_graph(G, ancestors_of=z, descendants_of=T)
+
+    # Pas 2: Initializeaza grad_table
+    grad_table = {}
+
+    # Pas 3: Gradientul lui z fata de el insusi = 1
+    grad_table[z] = 1
+
+    # Pas 4: Construieste gradientii recursiv
+    for V in T:
+        build_grad(V, G, G_prime, grad_table)
+
+    # Pas 5: Returneaza doar gradientii pentru T
+    return {v: grad_table[v] for v in T}
+
+def prune_graph(G, ancestors_of, descendants_of):
+    """
+    Elimina nodurile irelevante pentru a eficientiza calculul.
+    """
+    ancestors = get_all_ancestors(ancestors_of, G)
+    descendants = get_all_descendants(descendants_of, G)
+    return G.subgraph(ancestors.intersection(descendants))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Analiza Complexitatii Backprop</h4>
+                <p>In sectiunea 6.5.2, am explicat ca back-propagation a fost dezvoltat pentru a evita calcularea aceleiasi subexpresii din regula lantului de multiple ori. Algoritmul naiv ar putea avea runtime exponential din cauza acestor subexpresii repetate. Acum putem intelege costul computational. Daca presupunem ca fiecare evaluare de operatie are aproximativ acelasi cost, putem analiza costul in termeni de numar de operatii executate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Complexitate O(n²) Worst Case</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--primary); margin-bottom: 15px;">Analiza:</h5>
+                                <ul style="font-size: 0.9rem;">
+                                    <li style="margin-bottom: 10px;"><strong>Forward pass:</strong> Cel mult O(n²) operatii (n noduri, fiecare poate depinde de toate celelalte)</li>
+                                    <li style="margin-bottom: 10px;"><strong>Backward pass:</strong> Adauga un produs Jacobian-vector per muchie = O(1) per muchie</li>
+                                    <li style="margin-bottom: 10px;"><strong>Numar de muchii:</strong> Cel mult O(n²) pentru un DAG</li>
+                                    <li style="margin-bottom: 10px;"><strong>Total:</strong> O(n²) operatii worst case</li>
+                                </ul>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>In practica:</strong> Retelele neuronale tipice au graful mult mai rar, deci complexitatea este mult mai buna decat O(n²).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Eficienta in Practica</h4>
+                <p>Majoritatea functiilor de cost ale retelelor neuronale sunt aproximativ lant-like, unde fiecare nod din graf are cel mult cativa parinti si copii. Aceasta inseamna ca in practica, backprop este mult mai eficient decat worst case-ul teoretic. De asemenea, nu trebuie neaparat sa executam intreg graful - putem calcula doar valorile de care avem nevoie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Complexitate Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Pentru un MLP tipic cu L straturi, n neuroni/strat:
+
+# Forward pass:
+# - Fiecare strat: O(n²) pentru matmul
+# - Total: O(L * n²)
+
+# Backward pass:
+# - Acelasi cost ca forward!
+# - Total: O(L * n²)
+
+# Raport backward/forward ≈ 2-3x
+# (backward e putin mai scump din cauza
+# stocarii activarilor)
+
+import torch
+import time
+
+model = torch.nn.Sequential(*[
+    torch.nn.Linear(1000, 1000) for _ in range(10)
+])
+x = torch.randn(32, 1000)
+
+# Forward timing
+start = time.time()
+y = model(x)
+loss = y.sum()
+forward_time = time.time() - start
+
+# Backward timing
+start = time.time()
+loss.backward()
+backward_time = time.time() - start
+
+print(f"Forward: {forward_time*1000:.2f}ms")
+print(f"Backward: {backward_time*1000:.2f}ms")
+print(f"Ratio: {backward_time/forward_time:.2f}x")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

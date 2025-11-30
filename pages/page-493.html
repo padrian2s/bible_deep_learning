@@ -1,0 +1,103 @@
+<section class="page-section" id="page-493">
+    <div class="page-header">
+        <div class="page-number">493</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.5 Alte Aplicatii si 12.5.1 Sisteme de Recomandare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-493.jpg"
+             alt="Pagina 493" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.5 Alte Aplicatii</h4>
+                <p>In aceasta sectiune acoperim cateva alte tipuri de aplicatii deep learning, diferite de recunoasterea obiectelor, speech recognition si NLP standard discutate mai sus. Partea III a cartii va extinde si mai mult scopul catre task-uri care raman in principal arii de cercetare.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.5.1 Recommender Systems</h4>
+                <p>Una dintre familiile majore de aplicatii ML in tehnologia informatiei este capacitatea de a face <strong>recomandari de iteme</strong> catre utilizatori sau clienti. Doua tipuri principale pot fi distinse: <strong>online advertising</strong> si <strong>recomandari de produse</strong>. Ambele se bazeaza pe predictia asocierii intre un utilizator si un item.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Tipuri de Recomandari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">🛒 E-commerce</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Amazon, eBay - recomandari produse</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">📺 Streaming</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Netflix, YouTube - recomandari filme</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">📱 Social Media</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">News feed - ce posturi sa afiseze</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">💘 Dating</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Matching people with potential partners</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Proxy Variables</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Problema este de obicei formulata ca supervised learning: prezice un <strong>proxy de interes</strong> dat fiind informatii despre user si item:</p>
+                            <ul style="color: var(--text-secondary); margin-top: 10px;">
+                                <li>Click pe ad</li>
+                                <li>Rating acordat</li>
+                                <li>Click pe "like"</li>
+                                <li>Achizitie produs</li>
+                                <li>Timp petrecut pe pagina</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Collaborative Filtering</h4>
+                <p>Lucrarile timpurii pe sisteme de recomandare se bazau pe informatii minimale: doar <strong>user ID</strong> si <strong>item ID</strong>. Singura modalitate de a generaliza este sa te bazezi pe similaritatea dintre pattern-urile de valori target pentru diferiti utilizatori sau pentru diferite iteme. Aceasta abordare se numeste <strong>collaborative filtering</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Similar Users</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Exemplu:</strong> Daca user 1 si user 2 ambii apreciaza itemele A, B si C, si user 1 apreciaza si item D, atunci D ar trebui sa fie un candidat bun de recomandat lui user 2.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

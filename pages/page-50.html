@@ -1,0 +1,185 @@
+        <section class="page-section" id="page-50">
+            <div class="page-header">
+                <div class="page-number">50</div>
+                <div class="page-title">
+                    <h3>Proprietati ale Inmultirii si Sisteme Liniare</h3>
+                    <span>Ecuatia Ax = b</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-050.jpg"
+                     alt="Pagina 50" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Proprietatile Inmultirii Matriciale</h4>
+                        <p>Inmultirea matricilor este <strong>distributiva</strong> A(B+C)=AB+AC, <strong>asociativa</strong> A(BC)=(AB)C, dar <strong>NU comutativa</strong>! AB ≠ BA in general. Aceasta ordine conteaza enorm in deep learning.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Proprietati vizualizate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <div class="formula">A(B + C) = AB + AC</div>
+                                            <p style="color: var(--success); font-size: 0.85rem; margin-top: 5px;">✓ Distributiva - functioneaza!</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <div class="formula">A(BC) = (AB)C</div>
+                                            <p style="color: var(--success); font-size: 0.85rem; margin-top: 5px;">✓ Asociativa - ordinea gruparii nu conteaza</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <div class="formula">AB ≠ BA</div>
+                                            <p style="color: var(--warning); font-size: 0.85rem; margin-top: 5px;">⚠️ NU comutativa - ordinea factorilor conteaza!</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <div class="formula">(AB)ᵀ = BᵀAᵀ</div>
+                                            <p style="color: var(--accent); font-size: 0.85rem; margin-top: 5px;">📝 Transpusa produsului - ordinea se inverseaza!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Demo: Non-comutativitate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+                                        <code>
+import numpy as np<br><br>
+A = np.array([[1, 2], [3, 4]])<br>
+B = np.array([[5, 6], [7, 8]])<br><br>
+print("AB =")<br>
+print(A @ B)<br>
+# [[19 22]<br>
+#  [43 50]]<br><br>
+print("BA =")<br>
+print(B @ A)<br>
+# [[23 34]<br>
+#  [31 46]]<br><br>
+print("AB == BA?", np.allclose(A@B, B@A))  # False!
+                                        </code>
+                                    </div>
+                                    <p style="color: var(--warning); font-size: 0.9rem; margin-top: 15px;">
+                                        ⚠️ In deep learning, ordinea layerelor conteaza: Layer1(Layer2(x)) ≠ Layer2(Layer1(x))
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Comutativitatea Produsului Scalar</h4>
+                        <p>Desi inmultirea matricilor NU e comutativa, <strong>produsul scalar</strong> dintre doi vectori ESTE comutativ: xᵀy = yᵀx. Rezultatul e un scalar, iar scalarii sunt egali cu transpusa lor.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Demonstratie eleganta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🧮 De ce xᵀy = yᵀx?</h5>
+                                        <div style="margin-top: 15px;">
+                                            <div class="formula">xᵀy este un scalar (1×1)</div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 10px 0;">Un scalar este egal cu transpusa sa: s = sᵀ</p>
+                                            <div class="formula">xᵀy = (xᵀy)ᵀ = yᵀ(xᵀ)ᵀ = yᵀx</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Sistemul de Ecuatii Liniare: Ax = b</h4>
+                        <p>Ecuatia <strong>Ax = b</strong> este forma compacta a unui sistem de ecuatii liniare. A este matricea coeficientilor, x este vectorul necunoscutelor, b este vectorul rezultatelor. Rezolvarea acestei ecuatii sta la baza multor algoritmi ML!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare sistem liniar</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div>
+                                            <p style="color: var(--accent); font-weight: bold; margin-bottom: 10px;">Forma expandata:</p>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; font-family: monospace;">
+                                                A₁,₁x₁ + A₁,₂x₂ + ... + A₁,ₙxₙ = b₁<br>
+                                                A₂,₁x₁ + A₂,₂x₂ + ... + A₂,ₙxₙ = b₂<br>
+                                                ...<br>
+                                                Aₘ,₁x₁ + Aₘ,₂x₂ + ... + Aₘ,ₙxₙ = bₘ
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p style="color: var(--success); font-weight: bold; margin-bottom: 10px;">Forma matriciala:</p>
+                                            <div class="formula" style="font-size: 1.5rem;">
+                                                Ax = b
+                                            </div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 15px;">
+                                                A ∈ ℝᵐˣⁿ<br>
+                                                x ∈ ℝⁿ (necunoscute)<br>
+                                                b ∈ ℝᵐ (rezultate)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Aplicatie: Regresie Liniara</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 15px;">In regresia liniara, gasim weights w astfel incat Xw ≈ y:</p>
+                                    <div class="code-block">
+                                        <code>
+import numpy as np<br><br>
+# Date: 100 exemple, 5 features<br>
+X = np.random.randn(100, 5)<br>
+y = np.random.randn(100)<br><br>
+# Solutia analitica (least squares):<br>
+# Xw = y => w = (XᵀX)⁻¹Xᵀy<br>
+w = np.linalg.lstsq(X, y, rcond=None)[0]<br><br>
+# Sau cu numpy solve pentru sisteme exacte:<br>
+# np.linalg.solve(A, b) rezolva Ax = b
+                                        </code>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <h5>🎯 De ce conteaza?</h5>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                            Antrenarea unui model = gasirea lui x (weights) care minimizeaza eroarea in Ax ≈ b
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

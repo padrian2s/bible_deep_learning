@@ -1,0 +1,216 @@
+<section class="page-section" id="page-109">
+    <div class="page-header">
+        <div class="page-number">109</div>
+        <div class="page-title">
+            <h3>KKT si Lagrangianul Generalizat</h3>
+            <span>Capitolul 4 - Conditiile Karush-Kuhn-Tucker</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-109.jpg"
+             alt="Pagina 109" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Abordarea Karush-Kuhn-Tucker (KKT)</h4>
+                <p>Abordarea <strong>KKT</strong> ofera o solutie foarte generala pentru optimizarea constransa. Introducem o noua functie numita <strong>Lagrangian generalizat</strong>. Pentru a o defini, descriem multimea S prin m constrangeri de egalitate g⁽ⁱ⁾(x) = 0 si n constrangeri de inegalitate h⁽ʲ⁾(x) ≤ 0. Introducem variabile noi λᵢ si αⱼ pentru fiecare constrangere - acestea sunt <strong>multiplicatorii KKT</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Constrangeri de Tip</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Exemplu: minimizeaza f(x,y) = x² + y²
+# Constrangere egalitate: g(x,y) = x + y - 1 = 0
+# Constrangere inegalitate: h(x,y) = x - 0.5 <= 0
+
+def f(x, y):
+    return x**2 + y**2
+
+def g(x, y):  # Egalitate: trebuie sa fie = 0
+    return x + y - 1
+
+def h(x, y):  # Inegalitate: trebuie sa fie <= 0
+    return x - 0.5
+
+# Verificam daca un punct este fezabil
+def is_feasible(x, y, tol=1e-6):
+    eq_ok = abs(g(x, y)) < tol
+    ineq_ok = h(x, y) <= tol
+    return eq_ok and ineq_ok
+
+# Testam cateva puncte
+test_points = [
+    (0.5, 0.5),   # g=0, h=0 (fezabil, pe frontiera h)
+    (0.3, 0.7),   # g=0, h<0 (fezabil, interior h)
+    (0.6, 0.4),   # g=0, h>0 (NEFEZABIL - violeaza h)
+    (0.5, 0.3),   # g<0 (NEFEZABIL - violeaza g)
+]
+
+print("Verificare fezabilitate:")
+print("-" * 55)
+for x, y in test_points:
+    fez = "Fezabil" if is_feasible(x, y) else "NEFEZABIL"
+    print(f"({x:.1f}, {y:.1f}): g={g(x,y):+.1f}, "
+          f"h={h(x,y):+.1f} → {fez}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Tipuri de Constrangeri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Constrangeri de Egalitate</strong>
+                                    <div class="formula" style="margin: 10px 0;">g⁽ⁱ⁾(x) = 0</div>
+                                    <p style="font-size: 0.9rem;">Solutia trebuie sa fie <em>exact</em> pe suprafata definita de constrangere</p>
+                                    <p style="font-size: 0.85rem; margin-top: 10px; color: var(--text-secondary);">Ex: x + y = 1 (o linie)</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">Constrangeri de Inegalitate</strong>
+                                    <div class="formula" style="margin: 10px 0;">h⁽ʲ⁾(x) ≤ 0</div>
+                                    <p style="font-size: 0.9rem;">Solutia trebuie sa fie in <em>interiorul sau pe frontiera</em> regiunii</p>
+                                    <p style="font-size: 0.85rem; margin-top: 10px; color: var(--text-secondary);">Ex: ||x|| - 1 ≤ 0 (bila unitara)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Lagrangianul Generalizat</h4>
+                <p>Lagrangianul generalizat este definit ca:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    L(x, λ, α) = f(x) + Σᵢ λᵢg⁽ⁱ⁾(x) + Σⱼ αⱼh⁽ʲ⁾(x)
+                </div>
+                <p>Unde λᵢ sunt multiplicatorii pentru constrangerile de egalitate si αⱼ ≥ 0 sunt multiplicatorii pentru constrangerile de inegalitate. Acum putem rezolva problema constransa prin optimizare neconstransa a Lagrangianului!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Lagrangian</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy.optimize import minimize
+
+# Minimizam f(x,y) = x² + y²
+# Cu constrangere g(x,y) = x + y - 1 = 0
+
+def lagrangian(vars):
+    x, y, lam = vars
+    f = x**2 + y**2
+    g = x + y - 1
+    return f + lam * g
+
+# Gasim punctul stationar al Lagrangianului
+# ∂L/∂x = 2x + λ = 0
+# ∂L/∂y = 2y + λ = 0
+# ∂L/∂λ = x + y - 1 = 0
+# Rezolvand: x = y, 2x = 1, deci x = y = 0.5, λ = -1
+
+print("Minimizam x² + y² cu x + y = 1")
+print("\nRezolvare analitica:")
+print("∂L/∂x = 2x + λ = 0  →  x = -λ/2")
+print("∂L/∂y = 2y + λ = 0  →  y = -λ/2")
+print("∂L/∂λ = x + y - 1 = 0  →  -λ = 1  →  λ = -1")
+print("\nSolutie: x* = 0.5, y* = 0.5, λ* = -1")
+print(f"Valoare optima f(x*,y*) = {0.5**2 + 0.5**2}")
+
+# Verificare cu scipy
+from scipy.optimize import minimize
+result = minimize(
+    lambda xy: xy[0]**2 + xy[1]**2,
+    [0, 0],
+    constraints={'type': 'eq', 'fun': lambda xy: xy[0] + xy[1] - 1}
+)
+print(f"\nVerificare scipy: {result.x}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Ideea Lagrangianului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="text-align: center; margin-bottom: 15px;">Problema minimax:</p>
+                                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 10px 0;">
+                                    min<sub>x</sub> max<sub>λ, α≥0</sub> L(x, λ, α)
+                                </div>
+                                <div style="margin-top: 20px;">
+                                    <p><strong>Intuitie:</strong></p>
+                                    <ul style="margin-left: 20px;">
+                                        <li>Daca x satisface toate constrangerile (fezabil):
+                                            <br>max L = f(x) (termenii de constrangere sunt 0 sau negativi)</li>
+                                        <li>Daca x violeaza o constrangere:
+                                            <br>max L = ∞ (putem creste α pana L → ∞)</li>
+                                    </ul>
+                                    <p style="margin-top: 15px; color: var(--success);">Deci min<sub>x</sub> max<sub>λ,α</sub> L = min<sub>x fezabil</sub> f(x)!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Functioneaza?</h4>
+                <p>Observam ca atata timp cat exista cel putin un punct fezabil si f(x) nu are valoare infinita, atunci:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                    min<sub>x</sub> max<sub>λ, α≥0</sub> L(x, λ, α) = min<sub>x∈S</sub> f(x)
+                </div>
+                <p>Aceasta deoarece: (1) cand constrangerile sunt satisfacute, max L = f(x), si (2) cand o constrangere este violata, max L = ∞ (deci acel x nu va fi ales de minimizare).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Istoric: Lagrange vs KKT</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Joseph-Louis Lagrange (1788):</strong> A introdus multiplicatorii pentru constrangeri de EGALITATE
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Karush (1939), Kuhn-Tucker (1951):</strong> Au generalizat la constrangeri de INEGALITATE (conditiile KKT)
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Metoda KKT este fundamentul multor algoritmi de optimizare moderna, inclusiv SVM si multe altele.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,103 @@
+<section class="page-section" id="page-257">
+    <div class="page-header">
+        <div class="page-number">257</div>
+        <div class="page-title">
+            <h3>7.5 Noise Robustness</h3>
+            <span>Robustetea la Zgomot</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-257.jpg"
+             alt="Pagina 257" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Zgomot pe Inputuri ca Regularizare</h4>
+                <p>Sectiunea 7.4 a motivat zgomotul pe inputuri ca strategie de augmentare. Pentru unele modele, adaugarea de zgomot cu varianta infinitezimala la inputuri este echivalenta cu impunerea unei penalizari pe norma weights-urilor (Bishop, 1995a,b). In general, injectarea de zgomot poate fi mult mai puternica decat simpla constrangere a parametrilor, mai ales pe hidden units.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Zgomot pe Hidden Units = Dropout</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Zgomotul aplicat unitatilor ascunse este atat de important incat merita propria sectiune: <strong>Dropout</strong> (Sectiunea 7.12) este dezvoltarea principala a acestei abordari.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Zgomot pe Weights</h4>
+                <p>O alta varianta: adaugam zgomot direct pe weights. Aceasta tehnica a fost folosita pentru RNN-uri (Jim et al., 1996; Graves, 2011) si poate fi interpretata ca o implementare stocastica a inferentei Bayesiene. Tratamentul Bayesian considera weights-urile ca incerte, reprezentate de o distributie de probabilitate. Adaugarea de zgomot pe weights e o modalitate practica de a reflecta aceasta incertitudine.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Weight Noise</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+class NoisyLinear(nn.Module):
+    def __init__(self, in_features, out_features, noise_std=0.01):
+        super().__init__()
+        self.weight = nn.Parameter(torch.randn(out_features, in_features))
+        self.bias = nn.Parameter(torch.zeros(out_features))
+        self.noise_std = noise_std
+
+    def forward(self, x):
+        if self.training:
+            # Adaugam zgomot pe weights la training
+            weight_noise = torch.randn_like(self.weight) * self.noise_std
+            noisy_weight = self.weight + weight_noise
+            return F.linear(x, noisy_weight, self.bias)
+        return F.linear(x, self.weight, self.bias)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Analiza Matematica: Weight Noise ca Regularizare</h4>
+                <p>Pentru regresie cu cost MSE, presupunem ca adaugam zgomot εw ~ N(0, ηI) pe weights. Modelul perturbat produce ŷ_εw(x). Minimizam MSE asteptat peste zgomot:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    J̃w = E<sub>p(x,y,εw)</sub>[(ŷ_εw(x) - y)²]
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Rezultat: Penalizare pe Gradient</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Pentru η mic, minimizarea J cu weight noise e echivalenta cu:</p>
+                            <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                J̃ ≈ J + η E<sub>p(x,y)</sub>[||∇<sub>W</sub>ŷ(x)||²]
+                            </div>
+                            <p style="margin-top: 15px;">Aceasta forma de regularizare incurajeaza parametrii sa mearga in regiuni unde perturbatii mici ale weights au influenta mica asupra output-ului - "flat minima" (Hochreiter & Schmidhuber, 1995).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

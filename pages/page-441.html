@@ -1,0 +1,216 @@
+<section class="page-section" id="page-441">
+    <div class="page-header">
+        <div class="page-number">441</div>
+        <div class="page-title">
+            <h3>Transfer Learning si Colectarea Datelor</h3>
+            <span>Sectiunile 11.2-11.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-441.jpg"
+             alt="Pagina 441" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Transfer Learning: Nu Reinventa Roata</h4>
+                <p>Daca task-ul tau este similar cu unul deja studiat extensiv, probabil vei obtine rezultate bune <strong>copiind modelul si algoritmul</strong> deja cunoscut ca performant. Poti chiar folosi direct un <strong>model pre-antrenat</strong>. De exemplu, este comun sa folosesti features dintr-o retea convolutionala antrenata pe ImageNet pentru a rezolva alte task-uri de computer vision.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Transfer Learning in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torchvision.models as models
+import torch.nn as nn
+
+# TRANSFER LEARNING: Foloseste model pre-antrenat
+
+# 1. Incarca model antrenat pe ImageNet (1000 clase)
+resnet = models.resnet50(pretrained=True)
+
+# 2. Ingheta layerele convolutionale (optional)
+for param in resnet.parameters():
+    param.requires_grad = False
+
+# 3. Inlocuieste ultimul layer pentru task-ul tau
+num_features = resnet.fc.in_features
+num_classes = 10  # Task-ul tau are 10 clase
+
+resnet.fc = nn.Sequential(
+    nn.Linear(num_features, 256),
+    nn.ReLU(),
+    nn.Dropout(0.5),
+    nn.Linear(256, num_classes)
+)
+
+# 4. Antreneaza doar noul layer (sau fine-tune tot)
+optimizer = torch.optim.Adam(resnet.fc.parameters(), lr=0.001)
+
+# De ce functioneaza?
+# - Primele layere invata features generice (edges, textures)
+# - Aceste features sunt utile pentru multe task-uri
+# - Economisesti timp de antrenare si date
+
+# STRATEGII:
+# A) Feature extraction: Freeze all, train only new head
+# B) Fine-tuning: Unfreeze some layers, train with low LR
+# C) Full fine-tuning: Unfreeze all, very low LR
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Transfer Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Girshick et al. (2015)</strong> - R-CNN: Transfer de la ImageNet la object detection
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Pretrained Models:</strong> ImageNet (viziune), BERT/GPT (NLP), wav2vec (audio)
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Regula:</strong> Cu cat task-urile sunt mai similare, cu atat transfer-ul functioneaza mai bine
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Unsupervised Learning: Cand sa-l Folosesti?</h4>
+                <p>O intrebare frecventa este daca sa incepi cu <strong>unsupervised learning</strong>. Raspunsul depinde de domeniu. In <strong>NLP</strong>, tehnicile de unsupervised learning (word embeddings) aduc beneficii enorme. In <strong>computer vision</strong>, beneficiile sunt mai limitate, exceptand setarile semi-supervizate cu putine label-uri. Daca task-ul tau necesita unsupervised learning, include-l de la inceput. Altfel, incearca fara, si adauga doar daca baseline-ul sufera de overfitting.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cand Unsupervised?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4caf50; font-weight: bold; margin-bottom: 10px;">Recomand Unsupervised</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.9em; margin: 0; padding-left: 20px;">
+                                        <li>NLP - word embeddings</li>
+                                        <li>Putine date etichetate</li>
+                                        <li>Semi-supervised setting</li>
+                                        <li>Pretraining pentru fine-tuning</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #f44336; font-weight: bold; margin-bottom: 10px;">Probabil Nu Ajuta</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.9em; margin: 0; padding-left: 20px;">
+                                        <li>Computer vision cu multe date</li>
+                                        <li>Task supervised clar</li>
+                                        <li>Date etichetate abundente</li>
+                                        <li>Baseline deja functioneaza</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Sfat:</strong> Daca baseline sufera de overfitting si nu poti obtine mai multe date, incearca unsupervised pre-training.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>11.3 Determina Daca Ai Nevoie de Mai Multe Date</h4>
+                <p>Dupa ce ai un sistem end-to-end functional, e timpul sa masori performanta si sa decizi cum s-o imbunatatesti. Multi incepatori sunt tentati sa incerce <strong>algoritmi diferiti</strong>. Totusi, de multe ori e mai bine sa <strong>colectezi mai multe date</strong> decat sa imbunatatesti algoritmul. Cum decizi? Mai intai, verifica daca performanta pe training set este acceptabila!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Arbore de Decizie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Arbore de decizie: Mai multe date sau model mai bun?
+
+def diagnose_and_improve(train_error, test_error, target_error):
+    """
+    Ghid pentru imbunatatirea modelului
+    """
+
+    gap = test_error - train_error
+
+    # CAZU 1: Training error prea mare
+    if train_error > target_error:
+        return """
+        PROBLEMA: UNDERFITTING (model prea simplu)
+
+        NU aduna mai multe date! Modelul nu foloseste
+        nici datele pe care le ai.
+
+        SOLUTII:
+        1. Creste capacitatea modelului:
+           - Mai multe layere
+           - Mai multi neuroni/layer
+           - Arhitectura mai puternica
+        2. Imbunatateste optimizarea:
+           - Tuning learning rate
+           - Alt optimizer (Adam, SGD+momentum)
+        3. Antreneaza mai mult timp
+        4. Verifica calitatea datelor
+        """
+
+    # CAZUL 2: Training OK, dar test error mare
+    if test_error > target_error and train_error <= target_error:
+        return f"""
+        PROBLEMA: OVERFITTING (gap train-test: {gap:.2%})
+
+        SOLUTII (in ordine):
+        1. Regularizare:
+           - Dropout (creste p)
+           - Weight decay (creste lambda)
+           - Early stopping
+           - Data augmentation
+
+        2. Daca regularizarea nu ajuta:
+           -> ADUNA MAI MULTE DATE!
+
+        3. Alternativ: model mai mic
+           (dar pierzi potential expressiveness)
+        """
+
+    # CAZUL 3: Ambele sub target
+    return "SUCCES! Modelul functioneaza bine."
+
+# Exemplu:
+print(diagnose_and_improve(
+    train_error=0.05,
+    test_error=0.15,
+    target_error=0.10
+))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

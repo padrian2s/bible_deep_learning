@@ -1,0 +1,172 @@
+<section class="page-section" id="page-347">
+    <div class="page-header">
+        <div class="page-number">347</div>
+        <div class="page-title">
+            <h3>9.1 Operatia de Convolutie</h3>
+            <span>Convolutia 2D si Kernel Flipping</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-347.jpg"
+             alt="Pagina 347" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutia 2D pentru Imagini</h4>
+                <p>Pentru imagini (grila 2D), convolutia se extinde la doua dimensiuni. Daca avem o imagine I si un kernel K, formula devine: <span class="formula">S(i,j) = (I * K)(i,j) = Σₘ Σₙ I(m,n)K(i-m, j-n)</span>. Practic, kernelul "scaneaza" imaginea si calculeaza o suma ponderata in fiecare pozitie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Convolutie 2D in NumPy</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy.signal import convolve2d
+
+# Imagine 5x5 (simplificata)
+imagine = np.array([
+    [1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1],
+    [0, 0, 1, 1, 0],
+    [0, 1, 1, 0, 0]
+])
+
+# Kernel 3x3 pentru detectia muchiilor verticale
+kernel = np.array([
+    [1,  0, -1],
+    [1,  0, -1],
+    [1,  0, -1]
+])
+
+# Aplicam convolutia
+output = convolve2d(imagine, kernel, mode='valid')
+print("Feature map:\n", output)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Scanarea Imaginii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: auto auto auto; gap: 20px; align-items: center; justify-content: center;">
+                                <div style="text-align: center;">
+                                    <div style="font-weight: bold; margin-bottom: 5px;">Input (I)</div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 30px); gap: 2px;">
+                                        <div style="background: var(--primary); padding: 5px; text-align: center; border: 2px solid var(--accent);">a</div>
+                                        <div style="background: var(--primary); padding: 5px; text-align: center; border: 2px solid var(--accent);">b</div>
+                                        <div style="background: var(--bg-lighter); padding: 5px; text-align: center;">c</div>
+                                        <div style="background: var(--bg-lighter); padding: 5px; text-align: center;">d</div>
+                                        <div style="background: var(--primary); padding: 5px; text-align: center; border: 2px solid var(--accent);">e</div>
+                                        <div style="background: var(--primary); padding: 5px; text-align: center; border: 2px solid var(--accent);">f</div>
+                                        <div style="background: var(--bg-lighter); padding: 5px; text-align: center;">g</div>
+                                        <div style="background: var(--bg-lighter); padding: 5px; text-align: center;">h</div>
+                                        <div style="background: var(--bg-lighter); padding: 5px; text-align: center;">i</div>
+                                        <div style="background: var(--bg-lighter); padding: 5px; text-align: center;">j</div>
+                                        <div style="background: var(--bg-lighter); padding: 5px; text-align: center;">k</div>
+                                        <div style="background: var(--bg-lighter); padding: 5px; text-align: center;">l</div>
+                                    </div>
+                                </div>
+                                <div style="font-size: 2rem;">*</div>
+                                <div style="text-align: center;">
+                                    <div style="font-weight: bold; margin-bottom: 5px;">Kernel (K)</div>
+                                    <div style="display: grid; grid-template-columns: repeat(2, 30px); gap: 2px;">
+                                        <div style="background: var(--accent); padding: 5px; text-align: center;">w</div>
+                                        <div style="background: var(--accent); padding: 5px; text-align: center;">x</div>
+                                        <div style="background: var(--accent); padding: 5px; text-align: center;">y</div>
+                                        <div style="background: var(--accent); padding: 5px; text-align: center;">z</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 15px; padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                <strong>Output[0,0] = </strong>aw + bx + ey + fz
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Proprietatea de Comutativitate</h4>
+                <p>Convolutia este comutativa: <span class="formula">S(i,j) = (K * I)(i,j) = Σₘ Σₙ I(i-m, j-n)K(m,n)</span>. Aceasta forma este mai usor de implementat in bibliotecile de ML deoarece exista mai putina variatie in valorile valide ale indicilor. Comutativitatea apare deoarece am "rasturnat" (flipped) kernelul relativ la input.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Demonstratie: Kernel Flipping</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Kernel original
+kernel = np.array([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+])
+
+# Kernel "flipped" (rasturnat 180°)
+kernel_flipped = np.flip(np.flip(kernel, 0), 1)
+# sau echivalent: kernel[::-1, ::-1]
+
+print("Original:\n", kernel)
+# [[1 2 3]
+#  [4 5 6]
+#  [7 8 9]]
+
+print("Flipped:\n", kernel_flipped)
+# [[9 8 7]
+#  [6 5 4]
+#  [3 2 1]]
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>De ce conteaza?</strong> In ML, reteaua invata valorile kernelului. Daca algoritmul invata kernelul "flipped", rezultatul final e acelasi - doar interpretarea difera!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Convolutie vs Cross-Correlation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Convolutie (matematica)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Kernelul este rasturnat inainte de aplicare. Proprietate de comutativitate.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Cross-Correlation (ML)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Kernelul NU este rasturnat. Mai intuitiv, implementat in PyTorch/TensorFlow.</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">In practica ML, ambele operatii sunt numite "convolutie" - reteaua invata oricum parametrii potriviti!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

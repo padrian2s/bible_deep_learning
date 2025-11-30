@@ -1,0 +1,191 @@
+<section class="page-section" id="page-192">
+    <div class="page-header">
+        <div class="page-number">192</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2 Invatare Bazata pe Gradient</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-192.jpg"
+             alt="Pagina 192" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De la Exemplul XOR la Realitate</h4>
+                <p>In exemplul XOR, am specificat manual solutia si am aratat ca obtine eroare zero. In situatii reale, cu miliarde de parametri si miliarde de exemple de antrenare, nu putem ghici solutia. In schimb, un algoritm de optimizare bazat pe gradient poate gasi parametri care produc eroare foarte mica. Solutia XOR este un minim global, deci gradient descent ar putea converge la acest punct.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Antrenarea Retelei XOR</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# Date XOR
+X = torch.tensor([[0., 0.], [0., 1.], [1., 0.], [1., 1.]])
+y = torch.tensor([[0.], [1.], [1.], [0.]])
+
+# Retea
+model = nn.Sequential(
+    nn.Linear(2, 4),  # mai multe unitati ajuta convergenta
+    nn.ReLU(),
+    nn.Linear(4, 1)
+)
+
+# Antrenare cu gradient descent
+optimizer = optim.Adam(model.parameters(), lr=0.1)
+criterion = nn.MSELoss()
+
+for epoch in range(1000):
+    optimizer.zero_grad()
+    pred = model(X)
+    loss = criterion(pred, y)
+    loss.backward()
+    optimizer.step()
+
+    if epoch % 200 == 0:
+        print(f"Epoch {epoch}: Loss = {loss.item():.6f}")
+
+# Verificare
+print("\nPredictii finale:")
+print(model(X).round().detach())
+# tensor([[0.], [1.], [1.], [0.]])  - Corect!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gradient Descent si Non-Convexitate</h4>
+                <p>Cea mai mare diferenta intre modelele liniare si retelele neuronale este ca neliniaritatea cauzata de activari face ca functiile de cost sa devina non-convexe. Aceasta inseamna ca retelele neuronale sunt antrenate cu optimizatoare iterative bazate pe gradient care doar reduc costul, spre deosebire de ecuatiile normale sau optimizarea convexa care garanteaza convergenta la minim global.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Convex vs Non-Convex</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <h5 style="color: var(--success); margin-bottom: 10px;">Convex (Regresie Liniara)</h5>
+                                    <div style="font-size: 3rem;">⌣</div>
+                                    <ul style="text-align: left; font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>Un singur minim (global)</li>
+                                        <li>Orice start → acelasi rezultat</li>
+                                        <li>Solutie in forma inchisa</li>
+                                        <li>Garantii de convergenta</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <h5 style="color: var(--warning); margin-bottom: 10px;">Non-Convex (Neural Networks)</h5>
+                                    <div style="font-size: 3rem;">∿</div>
+                                    <ul style="text-align: left; font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>Multiple minime locale</li>
+                                        <li>Rezultat depinde de initializare</li>
+                                        <li>Doar metode iterative</li>
+                                        <li>Fara garantii de optimalitate</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Importanta Initializarii</h4>
+                <p>Gradient descent stochastic aplicat functiilor de cost non-convexe nu are garantie de convergenta si este sensibil la valorile initiale ale parametrilor. Pentru retelele feedforward, este important sa initializam toate ponderile cu valori mici aleatoare. Bias-urile pot fi initializate la zero sau la valori mici pozitive.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Strategii de Initializare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# PyTorch foloseste initializari inteligente implicit
+linear = nn.Linear(100, 50)
+
+# Initializari comune:
+
+# 1. Xavier/Glorot (bun pentru sigmoid/tanh)
+nn.init.xavier_uniform_(linear.weight)
+
+# 2. Kaiming/He (bun pentru ReLU)
+nn.init.kaiming_uniform_(linear.weight, nonlinearity='relu')
+
+# 3. Normal cu deviatie mica
+nn.init.normal_(linear.weight, mean=0, std=0.01)
+
+# 4. Uniform in interval mic
+nn.init.uniform_(linear.weight, -0.1, 0.1)
+
+# Bias - de obicei zero
+nn.init.zeros_(linear.bias)
+
+# De ce conteaza initializarea?
+# - Prea mare: gradient exploding, instabilitate
+# - Prea mica: gradient vanishing, invatare lenta
+# - Asimetrie: necesara pentru a "sparge simetria"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Algoritmi de Optimizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📈</span>
+                                    <div><strong>SGD</strong> - Stochastic Gradient Descent - simplu dar necesita tuning al learning rate</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🚀</span>
+                                    <div><strong>Adam</strong> - Adaptive Moment Estimation - cel mai popular, functioneaza bine out-of-the-box</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>⚡</span>
+                                    <div><strong>RMSprop</strong> - Root Mean Square Propagation - bun pentru RNN-uri</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🎯</span>
+                                    <div><strong>AdaGrad</strong> - Adaptive Gradient - bun pentru date sparse</div>
+                                </li>
+                            </ul>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">Detalii in Capitolul 8: Optimization for Training Deep Models</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

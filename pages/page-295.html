@@ -1,0 +1,129 @@
+<section class="page-section" id="page-295">
+    <div class="page-header">
+        <div class="page-number">295</div>
+        <div class="page-title">
+            <h3>Paralelism si Eroarea de Generalizare</h3>
+            <span>SGD si Distributia Reala</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-295.jpg"
+             alt="Pagina 295" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Paralelism Asincron</h4>
+                <p>O proprietate puternica a minibatch-urilor: update-urile se pot calcula <strong>in paralel</strong>! Putem calcula simultan update-ul pentru minibatch-ul X in timp ce calculam pentru alt minibatch. Aceasta permite antrenare distribuita pe multiple GPU-uri sau masini.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Parallel SGD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem;">🖥️</div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">GPU 1</p>
+                                    <p style="color: var(--accent);">Batch A</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem;">🖥️</div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">GPU 2</p>
+                                    <p style="color: var(--accent);">Batch B</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem;">🖥️</div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">GPU 3</p>
+                                    <p style="color: var(--accent);">Batch C</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem;">🖥️</div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">GPU 4</p>
+                                    <p style="color: var(--accent);">Batch D</p>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px; text-align: center;">→ Toate calculeaza gradiente simultan, apoi combina rezultatele</p>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Vezi sectiunea 12.1.3 pentru detalii despre metode paralele distribuite.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>SGD Minimizeaza Eroarea de Generalizare!</h4>
+                <p>O perspectiva fascinanta: minibatch SGD de fapt urmareste gradientul <strong>erorii de generalizare reale</strong> (ecuatia 8.2), nu doar eroarea pe training - atata timp cat nu reutilizam exemple! Prima trecere prin dataset da o estimare nebiasata a gradientului erorii de generalizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Formula: Gradient Nebiased</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                ĝ = (1/m) ∇<sub>θ</sub> Σ<sub>i</sub> L(f(x<sup>(i)</sup>; θ), y<sup>(i)</sup>)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Unde x<sup>(i)</sup>, y<sup>(i)</sup> sunt sample-uri proaspete din p<sub>data</sub> (nevazute inainte).</p>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p>Update-ul θ in directia -ĝ realizeaza <strong>SGD pe eroarea de generalizare</strong>, nu pe eroarea de training!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cazul Online vs Offline</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Online Learning:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Stream infinit de date noi - fiecare exemplu e vazut o singura data. Gradient nebiased pentru eroarea de generalizare!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Multiple Epochs:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Doar prima epoca e nebiased. De la epoca 2+, exemplele sunt reutilizate → bias.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Epochs Multiple: Bias dar Benefic</h4>
+                <p>In practica, facem multiple treceri prin dataset (epochs). De la epoca 2, estimarea nu mai e nebiased pentru eroarea de generalizare - dar aceasta "abatere" e de obicei compensata de reducerea erorii de training. Cu dataset-uri foarte mari, uneori e suficienta o singura epoca!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta: Bottou & Bousquet 2008</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Discuta efectul numarului de exemple de training asupra bottleneck-urilor computationale pentru eroarea de generalizare. Cu dataset-uri care cresc mai rapid decat puterea de calcul, devine mai comun sa folosim fiecare exemplu o singura data.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

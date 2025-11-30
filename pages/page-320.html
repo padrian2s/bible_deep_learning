@@ -1,0 +1,100 @@
+<section class="page-section" id="page-320">
+    <div class="page-header">
+        <div class="page-number">320</div>
+        <div class="page-title">
+            <h3>Initializarea Biasurilor si Transfer Learning</h3>
+            <span>Strategii Avansate de Initializare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-320.jpg"
+             alt="Pagina 320" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Diagnosticarea Scalei Initiale</h4>
+                <p>Regula practica pentru a verifica scala initializarii: ruleaza un minibatch si verifica range-ul/std activarilor sau gradientilor. Daca activarile sunt aproape de zero in primul layer, weights-urile sunt prea mici. Daca ajung la saturare, sunt prea mari.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Diagnostic Practic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Diagnostic pentru scala initializarii
+model = MyNetwork()
+x_batch = get_sample_batch()
+
+# Forward pass fara training
+with torch.no_grad():
+    activations = model.get_layer_activations(x_batch)
+
+for layer_name, act in activations.items():
+    print(f"{layer_name}: mean={act.mean():.4f}, std={act.std():.4f}")
+    # Ideal: std ~ 1.0, mean aproape de 0
+    # Prea mic: std < 0.1 → weights prea mici
+    # Prea mare: std > 10 → weights prea mari
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Initializarea Biasurilor</h4>
+                <p>Pentru <strong>biases</strong>, initializarea depinde de context. De obicei setam la 0, dar uneori valori non-zero sunt benefice. Exemplu important: <strong>forget gate</strong> in LSTM trebuie initializat cu bias mare (~1) pentru a "uita" mai greu la inceput.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Cazuri Speciale pentru Bias</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong>Output layer:</strong> Seteaza bias la media target-urilor din training set</li>
+                                <li><strong>ReLU hidden:</strong> 0 sau mic pozitiv (ex: 0.1) pentru a evita "dead neurons"</li>
+                                <li><strong>LSTM forget gate:</strong> ~1 pentru a pastra informatia mai mult</li>
+                                <li><strong>Variance params (ex: β):</strong> 1.0 pentru stabilitate</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Transfer Learning ca Initializare</h4>
+                <p>In loc de initializare aleatoare, putem initializa cu weights de la un model pre-antrenat! Aceasta e ideea din spatele <strong>transfer learning</strong> (Partea III). Putem folosi un model antrenat pe un task diferit sau un model unsupervised antrenat pe aceleasi date.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De Ce Functioneaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Transfer learning functioneaza din doua motive: (1) encodeaza informatie despre distributia datelor, (2) seteaza parametrii la o scala corecta. Chiar si antrenare pe un task <strong>nerealat</strong> poate oferi o initializare mai buna decat random!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

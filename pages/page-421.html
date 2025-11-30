@@ -1,0 +1,82 @@
+<section class="page-section" id="page-421">
+    <div class="page-header">
+        <div class="page-number">421</div>
+        <div class="page-title">
+            <h3>10.9 Leaky Units si Multiple Time Scales</h3>
+            <span>Strategii pentru Dependente Lungi</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-421.jpg"
+             alt="Pagina 421" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Operarea la Multiple Scale Temporale</h4>
+                <p>O strategie pentru dependente lungi: <strong>parti diferite</strong> ale modelului opereaza la <strong>scale temporale diferite</strong>. Unele parti capteaza detalii fine (short-term), altele pastreaza informatie pe termen lung (coarse time scale).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Strategii Multiple Time Scales</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">1. Skip Connections</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Conexiuni directe intre pasi temporali distanti</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">2. Leaky Units</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Running average cu constante de timp diferite</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">3. Removing Connections</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Eliminarea unor conexiuni fine-grained</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>10.9.1 Skip Connections prin Timp</h4>
+                <p>In loc de conexiuni doar h<sup>(t)</sup> → h<sup>(t+1)</sup>, adaugam conexiuni <strong>h<sup>(t)</sup> → h<sup>(t+d)</sup></strong> cu delay d > 1. Aceasta scurteaza calea gradientilor pentru dependente lungi de la τ la τ/d.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Idee si Referinte</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Skip Connections in Time:</h5>
+                                <div class="formula" style="margin: 10px 0;">
+                                    h<sup>(t)</sup> = f(h<sup>(t-1)</sup>, h<sup>(t-d)</sup>, x<sup>(t)</sup>)
+                                </div>
+                                <p>Gradientii pot "sari" d pasi in loc sa treaca prin toti!</p>
+                            </div>
+                            <ul class="reference-list" style="margin-top: 15px;">
+                                <li class="reference-item"><span>📖</span><div><strong>Lin et al., 1996</strong> - Recurrent connections with delays</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Lang & Hinton, 1988</strong> - Time-delay networks</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Bengio, 1991</strong> - Long delays in RNNs</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

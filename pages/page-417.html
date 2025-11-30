@@ -1,0 +1,108 @@
+<section class="page-section" id="page-417">
+    <div class="page-header">
+        <div class="page-number">417</div>
+        <div class="page-title">
+            <h3>Figura 10.15 - Vizualizare Nonlinearitate</h3>
+            <span>Compunerea Functiilor si Ecuatiile 10.36-10.38</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-417.jpg"
+             alt="Pagina 417" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.15 - Compunerea Functiilor</h4>
+                <p>Figura arata ce se intampla cand compunem aceeasi functie (linear + tanh) de mai multe ori. Rezultatul devine <strong>extrem de neliniar</strong>: unele regiuni au gradient aproape 0, altele au gradient mare. Aceasta este radacina problemei!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretare Vizuala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p><strong>Ce arata graficul:</strong></p>
+                                <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                    <li><strong>Curba 0:</strong> Functia initiala (lina)</li>
+                                    <li><strong>Curba 1-5:</strong> Compuneri succesive</li>
+                                    <li><strong>Regiuni plate:</strong> Gradient ≈ 0 (vanishing)</li>
+                                    <li><strong>Tranzitii abrupte:</strong> Gradient mare dar instabil</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Analiza Matematica - Power Method</h4>
+                <p>Pentru a intelege problema, consideram un RNN liniar simplificat: h<sup>(t)</sup> = W<sup>⊤</sup>h<sup>(t-1)</sup>. Dupa t pasi, avem h<sup>(t)</sup> = (W<sup>t</sup>)<sup>⊤</sup>h<sup>(0)</sup>. Comportamentul depinde de <strong>valorile proprii</strong> ale lui W!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile 10.36-10.38</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <div class="formula" style="margin: 10px 0;">
+                                    h<sup>(t)</sup> = W<sup>⊤</sup>h<sup>(t-1)</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.36)</span>
+                                </div>
+                                <div class="formula" style="margin: 10px 0;">
+                                    h<sup>(t)</sup> = (W<sup>t</sup>)<sup>⊤</sup>h<sup>(0)</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.37)</span>
+                                </div>
+                                <div class="formula" style="margin: 10px 0;">
+                                    W = QΛQ<sup>⊤</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.38) - eigendecomposition</span>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Rezultatul cheie:</h5>
+                                <p>W<sup>t</sup> = QΛ<sup>t</sup>Q<sup>⊤</sup> → daca |λ<sub>i</sub>| < 1, λ<sub>i</sub><sup>t</sup> → 0 (vanish); daca |λ<sub>i</sub>| > 1, λ<sub>i</sub><sup>t</sup> → ∞ (explode)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Demonstratie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>import numpy as np
+
+# W cu eigenvalues < 1 (vanishing)
+W_vanish = np.array([[0.5, 0.1], [0.1, 0.5]])
+eigenvalues = np.linalg.eigvals(W_vanish)
+print(f"Eigenvalues: {eigenvalues}")  # [0.6, 0.4]
+
+# Dupa 50 de pasi
+W_50 = np.linalg.matrix_power(W_vanish, 50)
+print(f"||W^50|| = {np.linalg.norm(W_50):.2e}")  # ~0!
+
+# Similar pentru exploding cu eigenvalues > 1</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

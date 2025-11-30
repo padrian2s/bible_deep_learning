@@ -1,0 +1,107 @@
+<section class="page-section" id="page-268">
+    <div class="page-header">
+        <div class="page-number">268</div>
+        <div class="page-title">
+            <h3>7.9 Parameter Tying and Parameter Sharing</h3>
+            <span>Legarea si Partajarea Parametrilor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-268.jpg"
+             alt="Pagina 268" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Penalizari Relative intre Parametri</h4>
+                <p>Pana acum, constrangerile/penalizarile au fost relative la o valoare fixa (de obicei zero). Dar uneori stim din cunostinte de domeniu ca anumiti parametri ar trebui sa fie <strong>apropiati intre ei</strong>, nu neaparat aproape de zero. Putem exprima aceasta ca o penalizare pe norma diferentei:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    Ω(w⁽ᴬ⁾, w⁽ᴮ⁾) = ||w⁽ᴬ⁾ - w⁽ᴮ⁾||²₂
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Exemplu: Doua Task-uri Similare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Consideram doua modele de clasificare pentru acelasi set de clase, dar cu distributii de input diferite:</p>
+                            <ul style="margin-top: 10px;">
+                                <li>Model A: ŷ⁽ᴬ⁾ = f(w⁽ᴬ⁾, x)</li>
+                                <li>Model B: ŷ⁽ᴮ⁾ = g(w⁽ᴮ⁾, x)</li>
+                            </ul>
+                            <p style="margin-top: 15px;">Daca task-urile sunt suficient de similare, ne asteptam ca wᵢ⁽ᴬ⁾ ≈ wᵢ⁽ᴮ⁾. Penalizarea L² pe diferenta intre modele forteaza aceasta similaritate (Lasserre et al., 2006).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Parameter Sharing - Constrangere Exacta</h4>
+                <p>O varianta mai populara: in loc de penalizare care incurajeaza parametrii sa fie apropiati, <strong>fortam seturi de parametri sa fie identici</strong>. Aceasta se numeste <strong>parameter sharing</strong> - diferitele modele sau componente partajeaza un singur set de parametri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Parameter Sharing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Parameter tying (soft constraint)
+loss = task_A_loss + task_B_loss
+loss += lambda_ * (model_A.fc.weight - model_B.fc.weight).pow(2).sum()
+
+# Parameter sharing (hard constraint)
+class SharedModel(nn.Module):
+    def __init__(self):
+        self.shared_encoder = nn.Linear(100, 50)  # Same weights!
+        self.head_A = nn.Linear(50, 10)
+        self.head_B = nn.Linear(50, 10)
+
+    def forward_A(self, x):
+        h = self.shared_encoder(x)  # Uses shared weights
+        return self.head_A(h)
+
+    def forward_B(self, x):
+        h = self.shared_encoder(x)  # Same shared weights!
+        return self.head_B(h)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Avantaje Parameter Sharing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Reducere Memorie</strong> - Un singur set de parametri trebuie stocat
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Mai multe date</strong> - Gradientii din toate task-urile contribuie la parametrii partajati
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <strong style="color: var(--success);">Regularizare implicita</strong> - Constrangere de a invata features universale
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

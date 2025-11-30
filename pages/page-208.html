@@ -1,0 +1,175 @@
+<section class="page-section" id="page-208">
+    <div class="page-header">
+        <div class="page-number">208</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.3.1 ReLU si Generalizarile Sale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-208.jpg"
+             alt="Pagina 208" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce ReLU este usor de optimizat</h4>
+                <p>Unitatile liniare rectificate sunt usor de optimizat deoarece sunt atat de similare cu unitatile liniare. Singura diferenta intre o unitate liniara si una rectificata este ca ReLU outputeaza zero pe jumatate din domeniul sau. Aceasta face ca derivatele prin ReLU sa ramana mari oriunde unitatea este activa. Gradientii sunt consistenti - derivata de ordin doi este 0 aproape peste tot.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Initializare pentru ReLU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Initializare recomandata pentru ReLU:
+# Seteaza bias la o valoare mica pozitiva (ex: 0.1)
+# pentru ca unitatile sa fie active initial
+
+linear = nn.Linear(100, 50)
+
+# Kaiming/He initialization pentru weights
+nn.init.kaiming_uniform_(linear.weight, nonlinearity='relu')
+
+# Bias mic pozitiv - asigura ca majoritatea unitatilor
+# sunt active la inceput si pot invata
+nn.init.constant_(linear.bias, 0.1)
+
+# De ce 0.1? Face ca ReLU sa fie "on" pentru
+# majoritatea inputurilor la inceput,
+# permitand derivatelor sa treaca prin retea
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema "Dying ReLU"</h4>
+                <p>Un dezavantaj al unitatilor liniare rectificate este ca nu pot invata prin metode bazate pe gradient pe exemplele pentru care activarea lor este zero. O varietate de generalizari ale ReLU garanteaza ca primesc gradient peste tot. Trei generalizari se bazeaza pe utilizarea unei pante non-zero αᵢ cand zᵢ < 0: hᵢ = g(z, α)ᵢ = max(0, zᵢ) + αᵢmin(0, zᵢ).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Variante ReLU: Comparatie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                <tr style="background: var(--primary);">
+                                    <th style="padding: 10px;">Varianta</th>
+                                    <th style="padding: 10px;">Formula (z < 0)</th>
+                                    <th style="padding: 10px;">α</th>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 10px;">ReLU</td>
+                                    <td style="padding: 10px;">0</td>
+                                    <td style="padding: 10px;">0 (fix)</td>
+                                </tr>
+                                <tr style="background: var(--bg-dark);">
+                                    <td style="padding: 10px;">Leaky ReLU</td>
+                                    <td style="padding: 10px;">0.01z</td>
+                                    <td style="padding: 10px;">0.01 (fix)</td>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 10px;">PReLU</td>
+                                    <td style="padding: 10px;">αz</td>
+                                    <td style="padding: 10px;">invatat</td>
+                                </tr>
+                                <tr style="background: var(--bg-dark);">
+                                    <td style="padding: 10px;">Abs Rectification</td>
+                                    <td style="padding: 10px;">|z|</td>
+                                    <td style="padding: 10px;">-1 (fix)</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Leaky ReLU (α = 0.01 fix)
+nn.LeakyReLU(negative_slope=0.01)
+
+# PReLU (α invatat per canal sau global)
+nn.PReLU(num_parameters=1)  # un α global
+nn.PReLU(num_parameters=64)  # α per canal
+
+# Absolute value rectification
+# g(z) = |z| - folosit pentru invarianta la polaritate
+# (ex: iluminare in imagini)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Maxout Units</h4>
+                <p>Unitatile Maxout (Goodfellow et al., 2013a) generalizeaza si mai mult unitatile liniare rectificate. In loc sa aplice o functie element-wise g(z), unitatile maxout impart z in grupuri de k valori. Fiecare unitate maxout outputeaza maximul dintr-unul din aceste grupuri: g(z)ᵢ = max(j∈G⁽ⁱ⁾) zⱼ. Aceasta ofera o modalitate de a invata o functie liniara pe portiuni.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Maxout: Invatarea Activarii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class MaxoutUnit(nn.Module):
+    """
+    Maxout: g(z)_i = max over k pieces
+    Poate invata ReLU, Leaky ReLU, sau functii noi!
+    """
+    def __init__(self, in_features, out_features, k=2):
+        super().__init__()
+        self.k = k
+        # k seturi de weights
+        self.linear = nn.Linear(in_features, out_features * k)
+
+    def forward(self, x):
+        z = self.linear(x)
+        # Reshape: [batch, out*k] -> [batch, out, k]
+        z = z.view(z.size(0), -1, self.k)
+        # Max over k dimension
+        return z.max(dim=2)[0]
+
+# Cu k=2, Maxout poate reprezenta:
+# - ReLU: max(0, z) = max(z, 0)
+# - Abs: |z| = max(z, -z)
+# - Orice functie convexa cu k segmente!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

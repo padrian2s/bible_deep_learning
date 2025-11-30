@@ -1,0 +1,103 @@
+<section class="page-section" id="page-491">
+    <div class="page-header">
+        <div class="page-number">491</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Attention Components si 12.4.6 Historical Perspective</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-491.jpg"
+             alt="Pagina 491" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Componentele unui Sistem cu Atentie</h4>
+                <p>Putem gandi un sistem bazat pe atentie ca avand <strong>trei componente</strong>: un proces care citeste datele raw si le converteste in reprezentari distribuite, o "memorie" care stocheaza aceste reprezentari, si un proces care exploateaza memoria pentru a executa un task secvential.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Read-Memory-Exploit</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">1. Read (Encoder)</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Citeste datele raw (cuvinte din propozitia sursa) si le converteste in reprezentari distribuite - un feature vector pentru fiecare pozitie de cuvant.</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">2. Memory</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Lista de feature vectors care stocheaza output-ul reader-ului. Poate fi vazuta ca o memorie cu continut care poate fi accesat in orice ordine.</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">3. Exploit (Decoder + Attention)</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Executa task-ul secvential (genereaza traducerea). La fiecare pas, pune atentie pe unul sau cativa elemente din memorie.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cross-Lingual Word Embeddings</h4>
+                <p>Cand cuvintele dintr-o propozitie in limba sursa sunt aliniate cu cuvintele corespunzatoare din traducere, devine posibil sa relationam word embeddings din cele doua limbi. Se poate invata o <strong>matrice de transformare</strong> care mapeaza embeddings dintr-o limba in alta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Cross-Lingual Embeddings</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Kocisky et al. (2014)</strong> - Matrice de transformare pentru aliniere cross-lingual</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Klementiev et al. (2012)</strong> - Cross-lingual word vectors</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Gouws et al. (2014)</strong> - Aliniere cross-lingual eficienta pe dataset-uri mari</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.6 Perspectiva Istorica</h4>
+                <p>Ideea reprezentarilor distribuite pentru simboluri a fost introdusa de <strong>Rumelhart et al. (1986a)</strong> in una dintre primele explorari ale backpropagation. Simbolurile corespundeau membrilor unei familii, iar reteaua neurala captura relatiile dintre ei cu exemple de antrenament precum (Colin, Mother, Victoria).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Exemplu: Family Tree</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Training examples:</p>
+                                <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                    <li>(Colin, Mother, Victoria) → Victoria este mama lui Colin</li>
+                                    <li>(Colin, Father, James) → James este tatal lui Colin</li>
+                                </ul>
+                                <p style="color: var(--accent); margin-top: 15px;">Primul layer invata o reprezentare pentru fiecare membru al familiei. Features-urile pentru Colin pot reprezenta in ce arbore genealogic se afla, din ce ramura, din ce generatie, etc.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

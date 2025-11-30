@@ -1,0 +1,133 @@
+<section class="page-section" id="page-323">
+    <div class="page-header">
+        <div class="page-number">323</div>
+        <div class="page-title">
+            <h3>8.5.3 Adam</h3>
+            <span>Adaptive Moment Estimation</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-323.jpg"
+             alt="Pagina 323" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Adam: Cel Mai Popular Optimizer</h4>
+                <p><strong>Adam</strong> (Kingma & Ba, 2014) combina ideile din RMSProp si Momentum. Numele vine de la "Adaptive Moment Estimation". Mentine si o medie a gradientilor (momentul 1) si o medie a patratelor gradientilor (momentul 2).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ce Combina Adam</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">De la Momentum:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Medie mobila a gradientilor → accelerare pe directii consistente</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">De la RMSProp:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Medie mobila a patratelor → learning rate adaptiv per parametru</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Bonus Adam:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Bias correction pentru primele iteratii</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Diferenta Cheie: Momentum pe Gradiente Rescalate</h4>
+                <p>In RMSProp + Momentum simplu, am aplica momentum pe gradientii rescalati. In Adam, momentum e incorporat direct ca estimare a momentului 1 (media gradientilor). Motivatia teoretica nu e complet clara, dar functioneaza excelent in practica!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Hiperparametrii Adam</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">β₁</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Decay moment 1</p>
+                                    <p style="color: var(--success);">Default: 0.9</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">β₂</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Decay moment 2</p>
+                                    <p style="color: var(--success);">Default: 0.999</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">ε</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Learning rate</p>
+                                    <p style="color: var(--success);">Default: 0.001</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Bias Correction</h4>
+                <p>Adam include <strong>bias correction</strong>: la primele iteratii, mediile m si v sunt biased spre zero (pentru ca sunt initializate la 0). Adam corecteaza impartind la (1-β^t), care compenseaza acest bias in primele iteratii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod PyTorch Adam</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Adam - cel mai folosit optimizer
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=0.001,       # ε
+    betas=(0.9, 0.999),  # (β₁, β₂)
+    eps=1e-8        # δ (stabilitate numerica)
+)
+
+# De multe ori, valorile default sunt suficiente!
+optimizer = torch.optim.Adam(model.parameters())
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cand Folosim Adam</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-success">
+                                <p>Adam e alegerea default pentru majoritatea aplicatiilor de deep learning. Functioneaza bine "out of the box" cu putina tuning. Daca nu stii ce optimizer sa folosesti, incepe cu Adam!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

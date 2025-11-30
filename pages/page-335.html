@@ -1,0 +1,84 @@
+<section class="page-section" id="page-335">
+    <div class="page-header">
+        <div class="page-number">335</div>
+        <div class="page-title">
+            <h3>Batch Norm: Reparametrizare si Expresivitate</h3>
+            <span>Parametrii γ si β</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-335.jpg"
+             alt="Pagina 335" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Adaugam γ si β?</h4>
+                <p>Daca doar normalizam la medie 0 si varianta 1, <strong>reducem expresivitatea</strong> retelei - nu mai poate reprezenta orice functie. Solutia: adaugam parametri <strong>invatati</strong> γ (scala) si β (offset): output = γH' + β.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Expresivitate Restaurata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Cu γ si β, reteaua poate invata orice medie si varianta dorite - chiar si cele originale! Dar acum sunt <strong>parametri directi</strong>, nu rezultate ale interactiunilor complexe intre layere. E mult mai usor de optimizat!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Batch Norm in CNNs</h4>
+                <p>In retelele convolutionale, aplicam batch norm per <strong>feature map</strong> (canal). Acelasi μ si σ sunt folosite pentru toate pozitiile spatiale ale unui feature map - asta garanteaza ca convolutia ramane invarianta la translatie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Vezi Capitolul 9</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Capitolul 9 despre CNNs discuta in detaliu cum batch normalization se aplica in contextul convolutiilor si ce presupuneri de invarianta implica.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.7.2 Coordinate Descent</h4>
+                <p><strong>Coordinate descent</strong> optimizeaza fiecare parametru (sau grup) pe rand, tinand restul fixe. Poate fi foarte eficient cand subproblemele sunt usor de rezolvat!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Sparse Coding</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                J(H, W) = Σ|H<sub>i,j</sub>| + Σ(X - WᵀH)²<sub>i,j</sub>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Aceasta nu e convexa in (H, W) impreuna, dar e convexa in H cu W fix si convexa in W cu H fix. Alternand intre cele doua, convergem la un minim local!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

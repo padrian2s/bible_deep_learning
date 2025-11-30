@@ -1,0 +1,183 @@
+        <section class="page-section" id="page-88">
+            <div class="page-header">
+                <div class="page-number">88</div>
+                <div class="page-title">
+                    <h3>3.13 Teoria Informatiei</h3>
+                    <span>Self-Information si Entropia Shannon</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-088.jpg"
+                     alt="Pagina 88" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Ce este Teoria Informatiei?</h4>
+                        <p>Teoria informatiei este o ramura a matematicii aplicata care cuantifica <strong>cat de multa informatie</strong> este prezenta intr-un semnal. A fost inventata pentru a studia transmiterea mesajelor peste canale zgomotoase (ex: comunicatii radio). In ML, folosim teoria informatiei pentru a caracteriza distributii de probabilitate si a masura similaritatea dintre ele. Referinte fundamentale: Cover & Thomas (2006), MacKay (2003).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Resurse pentru Information Theory</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>📖</span>
+                                            <div><strong>Elements of Information Theory</strong> - Cover & Thomas (2006) - Biblia domeniului</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📖</span>
+                                            <div><strong>Information Theory, Inference, and Learning Algorithms</strong> - MacKay (2003) - Gratuit online!</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🎥</span>
+                                            <div><strong>3Blue1Brown - Information Theory</strong> - Vizualizari excelente pe YouTube</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Intuitia din spatele informatiei</h4>
+                        <p>Intuitia de baza: aflarea ca un eveniment <strong>improbabil</strong> s-a intamplat este mai informativa decat aflarea ca un eveniment probabil s-a intamplat. Mesajul "soarele a rasarit azi dimineata" nu ne spune nimic nou. Dar "a fost o eclipsa de soare azi dimineata" este foarte informativ! Vrem sa cuantificam aceasta idee matematic.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Informatie vs Probabilitate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">☀️</div>
+                                            <strong style="color: var(--text-secondary);">P ≈ 1</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">"Soarele a rasarit"</p>
+                                            <p style="font-size: 0.85rem; color: var(--warning);">Informatie ≈ 0</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">🌑</div>
+                                            <strong style="color: var(--accent);">P ≈ 0.001</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">"Eclipsa totala azi!"</p>
+                                            <p style="font-size: 0.85rem; color: var(--success);">Informatie MARE</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Proprietatile Dorite ale Informatiei</h4>
+                        <p>Vrem ca masura informatiei sa satisfaca: (1) Evenimentele cu probabilitate 1 (garantate) au informatie 0. (2) Evenimentele mai putin probabile au informatie mai mare. (3) Informatia este <strong>aditiva</strong> pentru evenimente independente - aflarea a doua lucruri independente da de doua ori mai multa informatie decat aflarea unuia singur.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Cele 3 proprietati</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                            <strong>1. P(x) = 1 → I(x) = 0</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Evenimentele garantate nu aduc informatie noua</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(124, 58, 237, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);">
+                                            <strong>2. P(x) mic → I(x) mare</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Cu cat mai rar, cu atat mai informativ</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                            <strong>3. I(x, y) = I(x) + I(y) pentru x ⊥ y</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Informatia e aditiva pentru evenimente independente</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Self-Information (Auto-Informatie)</h4>
+                        <p>Singura functie care satisface toate cele 3 proprietati este <strong>self-information</strong>: I(x) = -log P(x). Folosim logaritmul natural (baza e), iar unitatea de masura se numeste <strong>nat</strong>. Daca folosim log baza 2, unitatea e <strong>bit</strong>. Un nat este cantitatea de informatie obtinuta prin observarea unui eveniment cu probabilitate 1/e ≈ 0.368.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Self-Information</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def self_information_nats(p):
+    """I(x) = -log(p) in nats"""
+    return -np.log(p)
+
+def self_information_bits(p):
+    """I(x) = -log2(p) in bits"""
+    return -np.log2(p)
+
+# Exemple
+print("Self-Information:")
+print(f"{'P':^10} {'I (nats)':^12} {'I (bits)':^12}")
+print("-" * 36)
+
+for p in [1.0, 0.5, 0.25, 0.1, 0.01, 0.001]:
+    i_nat = self_information_nats(p)
+    i_bit = self_information_bits(p)
+    print(f"{p:^10.3f} {i_nat:^12.3f} {i_bit:^12.3f}")
+
+# Verificare aditivitate pentru evenimente independente
+# P(A si B) = P(A) * P(B) pentru independente
+p_a, p_b = 0.5, 0.25
+p_ab = p_a * p_b
+print(f"\nAditivitate: I(A) + I(B) = {self_information_nats(p_a) + self_information_nats(p_b):.3f}")
+print(f"             I(A,B) = {self_information_nats(p_ab):.3f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Nats vs Bits</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Unitati de masura:</strong>
+                                        <p style="margin-top: 10px;"><strong>Bit</strong> (log baza 2) - informatia obtinuta prin aflarea rezultatului unei aruncari de moneda corecta. Folosit in compresie, comunicatii.</p>
+                                        <p style="margin-top: 10px;"><strong>Nat</strong> (log natural) - folosit in ML pentru ca derivatele sunt mai simple. 1 nat ≈ 1.443 bits.</p>
+                                        <p style="margin-top: 10px; color: var(--text-secondary);">Conversia: 1 nat = 1/ln(2) bits ≈ 1.443 bits</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

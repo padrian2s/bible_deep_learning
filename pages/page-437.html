@@ -1,0 +1,218 @@
+<section class="page-section" id="page-437">
+    <div class="page-header">
+        <div class="page-number">437</div>
+        <div class="page-title">
+            <h3>Metrici de Performanta</h3>
+            <span>Sectiunea 11.1 - Performance Metrics</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-437.jpg"
+             alt="Pagina 437" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Determinarea Obiectivelor: Prima Prioritate</h4>
+                <p>Determinarea obiectivelor - ce <strong>metrica de eroare</strong> sa folosesti si ce <strong>valoare target</strong> sa urmaresti - este primul pas esential. Metrica de eroare va ghida toate actiunile viitoare. Trebuie sa ai si o idee despre nivelul de performanta pe care il doresti. Retine: pentru majoritatea aplicatiilor, este <strong>imposibil sa obtii eroare zero</strong>!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Alegerea Metricii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Diferite metrici pentru diferite probleme
+
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score,
+    f1_score, roc_auc_score, mean_squared_error
+)
+
+# CLASIFICARE BINARA
+y_true = [1, 0, 1, 1, 0, 1, 0, 0, 1, 1]
+y_pred = [1, 0, 1, 0, 0, 1, 1, 0, 1, 1]
+
+print("=== Metrici Clasificare ===")
+print(f"Accuracy: {accuracy_score(y_true, y_pred):.2f}")
+print(f"Precision: {precision_score(y_true, y_pred):.2f}")
+print(f"Recall: {recall_score(y_true, y_pred):.2f}")
+print(f"F1-Score: {f1_score(y_true, y_pred):.2f}")
+
+# ALEGEREA METRICII DEPINDE DE PROBLEMA:
+"""
+Medical diagnosis (cancer):
+  -> RECALL maxim! (nu rata cazuri pozitive)
+  -> False Negative = pacient bolnav nediagnosticat
+
+Spam filter:
+  -> PRECISION mai importanta
+  -> False Positive = email important in spam
+
+Fraud detection:
+  -> F1 sau AUC-ROC (clase dezechilibrate)
+
+Recommendation system:
+  -> Precision@K, NDCG, Click-through rate
+"""
+
+# REGRESIE
+y_true_reg = [3.0, 2.5, 4.0, 5.5]
+y_pred_reg = [2.8, 2.7, 3.8, 5.2]
+print(f"\nMSE: {mean_squared_error(y_true_reg, y_pred_reg):.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Concept: Cost Function vs Metric</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Distinctie importanta:</strong> Metrica de performanta (ce raportam) poate fi diferita de cost function (ce optimizam in training). De exemplu, putem antrena cu cross-entropy dar evalua cu accuracy.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Eroarea Bayes: Limita Teoretica</h4>
+                <p><strong>Eroarea Bayes</strong> defineste rata minima de eroare pe care o poti spera sa o obtii, chiar daca ai date de antrenare infinite si ai putea recupera distributia adevarata de probabilitate. Aceasta limita exista deoarece: (1) features-urile input pot sa nu contina informatii complete despre output, sau (2) sistemul este intrinsec stochastic. Vei fi limitat si de cantitatea finita de date de antrenare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Surse de Eroare Ireductibila</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #2d1b4e, #1a1a2e); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="font-size: 2em; margin-bottom: 10px;">🎲</div>
+                                    <div style="color: #bb86fc; font-weight: bold;">Stochasticitate Intrinseca</div>
+                                    <div style="color: #a0a0a0; font-size: 0.85em; margin-top: 5px;">Sistemul este inerent aleator - acelasi input poate avea output-uri diferite</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b3d4e, #1a1a2e); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="font-size: 2em; margin-bottom: 10px;">🔍</div>
+                                    <div style="color: #03dac6; font-weight: bold;">Informatii Incomplete</div>
+                                    <div style="color: #a0a0a0; font-size: 0.85em; margin-top: 5px;">Features nu captureaza toti factorii relevanti pentru decizie</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4e1b1b, #1a1a2e); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="font-size: 2em; margin-bottom: 10px;">📊</div>
+                                    <div style="color: #cf6679; font-weight: bold;">Date Finite</div>
+                                    <div style="color: #a0a0a0; font-size: 0.85em; margin-top: 5px;">Nu putem invata perfect distributia cu sample-uri limitate</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b4e2d, #1a1a2e); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="font-size: 2em; margin-bottom: 10px;">🎯</div>
+                                    <div style="color: #4caf50; font-weight: bold;">Bayes Error</div>
+                                    <div style="color: #a0a0a0; font-size: 0.85em; margin-top: 5px;">Eroarea minima posibila = lower bound absolut</div>
+                                </div>
+                            </div>
+                            <div class="formula" style="margin-top: 15px; text-align: center;">
+                                Eroare Totala = Eroare Bayes + Eroare din Date Finite + Eroare Aproximare Model
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Estimarea Bayes Error</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Exemplu: Bayes Error in clasificare
+
+import numpy as np
+
+# Presupunem ca stim distributia adevarata P(y|x)
+# (in practica nu o stim, dar putem estima)
+
+def bayes_optimal_classifier(x, p_y_given_x):
+    """
+    Clasificatorul Bayes optimal alege
+    clasa cu probabilitatea maxima
+    """
+    return np.argmax(p_y_given_x(x))
+
+def bayes_error_rate(p_y_given_x, x_samples):
+    """
+    Eroarea Bayes = probabilitatea de a gresi
+    chiar cu clasificatorul optimal
+    """
+    errors = []
+    for x in x_samples:
+        probs = p_y_given_x(x)
+        # Chiar alegand optimal, probabilitatea de eroare
+        # este 1 - max(P(y|x))
+        error_prob = 1 - np.max(probs)
+        errors.append(error_prob)
+    return np.mean(errors)
+
+# Exemplu concret:
+# Daca P(y=1|x) = 0.7, P(y=0|x) = 0.3
+# Clasificatorul optimal alege y=1
+# Dar va gresi in 30% din cazuri!
+# Aceasta este eroarea Bayes pentru acel x
+
+# In imagistica medicala:
+# - Radiografii identice pot fi interpretate diferit
+#   chiar de experti (variabilitate inter-observer)
+# - Aceasta variabilitate seteaza o limita practica
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Determinarea Target-ului de Performanta</h4>
+                <p>Cum determinam un nivel rezonabil de performanta? In <strong>setari academice</strong>, avem de obicei estimate din benchmark-uri publicate anterior. In <strong>aplicatii reale</strong>, avem o idee despre rata de eroare necesara pentru ca aplicatia sa fie sigura, cost-eficienta sau atractiva pentru consumatori. Odata stabilit target-ul realist, deciziile de design vor fi ghidate de atingerea acestuia.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemple: Target-uri Realiste</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>ImageNet (2012):</strong> Human error ~5%, AlexNet 15.3%, acum sub 2%
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Speech Recognition:</strong> Human WER ~5.1%, modele actuale ~4-5%
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Self-driving:</strong> Humans: ~1 fatality/100M miles - target pentru autonomie
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Medical AI:</strong> Trebuie sa egaleze sau depaseasca expertii clinicieni
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

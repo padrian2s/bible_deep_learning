@@ -1,0 +1,161 @@
+<section class="page-section" id="page-462">
+    <div class="page-header">
+        <div class="page-number">462</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.1.3 Implementari Distribuite si 12.1.4 Comprimarea Modelelor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-462.jpg"
+             alt="Pagina 462" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.1.3 Implementari Distribuite la Scara Mare</h4>
+                <p>In multe cazuri, resursele computationale disponibile pe o singura masina sunt insuficiente. Vrem sa distribuim incarcatura de antrenament si inferenta pe mai multe masini. Distribuirea inferentei este simpla (<strong>data parallelism</strong>), dar antrenamentul este mai complicat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tipuri de Paralelism</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                    <h5 style="color: var(--accent); margin-bottom: 15px;">Data Parallelism</h5>
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Masina 1: Batch 1-100</div>
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Masina 2: Batch 101-200</div>
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Masina 3: Batch 201-300</div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">Acelasi model, date diferite</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                    <h5 style="color: var(--success); margin-bottom: 15px;">Model Parallelism</h5>
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Masina 1: Layers 1-3</div>
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Masina 2: Layers 4-6</div>
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Masina 3: Layers 7-9</div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">Acelasi batch, parti diferite ale modelului</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Asynchronous SGD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema:</strong> Gradient descent standard este secvential - gradientul la pasul t depinde de parametrii de la pasul t-1.
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <strong style="color: var(--success);">Solutia: Asynchronous Stochastic Gradient Descent</strong>
+                                <p style="color: var(--text-secondary); margin-top: 10px;">Mai multe core-uri partajeaza parametrii in memorie. Fiecare core:</p>
+                                <ol style="color: var(--text-secondary); margin-top: 10px;">
+                                    <li>Citeste parametrii <strong>fara lock</strong></li>
+                                    <li>Calculeaza gradientul</li>
+                                    <li>Actualizeaza parametrii <strong>fara lock</strong></li>
+                                </ol>
+                                <p style="color: var(--accent); margin-top: 10px;">Unele core-uri suprascriu progresul altora, dar rata mare de pasi compenseaza!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Distributed DL</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bengio et al. (2001); Recht et al. (2011)</strong> - Asynchronous SGD</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Dean et al. (2012)</strong> - Parameter server pentru antrenament distribuit</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Chilimbi et al. (2014); Wu et al. (2015)</strong> - Sisteme distribuite in industrie</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Coates et al. (2013)</strong> - Sisteme distribuite low-cost pentru academie</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.1.4 Comprimarea Modelelor</h4>
+                <p>In multe aplicatii comerciale, este mult mai important ca timpul si costul de <strong>inferenta</strong> sa fie mici decat costul de <strong>antrenament</strong>. Pentru aplicatii care nu necesita actualizari frecvente, antrenamentul se face o data, dar inferenta se face de milioane de ori.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Training vs Inference Cost</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem; color: var(--warning);">🏋️</div>
+                                    <h5 style="color: var(--warning);">Antrenament</h5>
+                                    <p style="color: var(--text-secondary);">O data / Periodic</p>
+                                    <p style="color: var(--text-secondary);">Resurse nelimitate OK</p>
+                                    <p style="color: var(--text-secondary);">GPU cluster</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem; color: var(--success);">⚡</div>
+                                    <h5 style="color: var(--success);">Inferenta</h5>
+                                    <p style="color: var(--text-secondary);">Milioane de apeluri</p>
+                                    <p style="color: var(--text-secondary);">Cost per query conteaza!</p>
+                                    <p style="color: var(--text-secondary);">Edge device / Mobile</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Strategia:</strong> Antrenam un model mare si costisitor, apoi il <strong>comprimam</strong> pentru inferenta rapida si ieftina.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Tehnici de Comprimare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">1. Knowledge Distillation</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Antrenam un model mic sa imite predictiile modelului mare</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">2. Quantization</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Reducem precizia weights (float32 → int8)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">3. Pruning</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Eliminam conexiunile cu weights mici</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

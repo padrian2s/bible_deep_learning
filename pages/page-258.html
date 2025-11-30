@@ -1,0 +1,115 @@
+<section class="page-section" id="page-258">
+    <div class="page-header">
+        <div class="page-number">258</div>
+        <div class="page-title">
+            <h3>7.5.1 Label Smoothing + 7.6 Semi-Supervised</h3>
+            <span>Zgomot pe Etichete si Invatare Semi-Supervizata</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-258.jpg"
+             alt="Pagina 258" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>7.5.1 Injectarea de Zgomot in Output Targets</h4>
+                <p>Majoritatea datasetelor au un procent de erori in etichete. Poate fi daunator sa maximizam log p(y|x) cand y este o greseala. O metoda: presupunem ca pentru un ε mic, eticheta e corecta cu probabilitate 1-ε, altfel orice alta eticheta poate fi corecta. In loc sa "tragem" de model explicit cu noise samples, incorporam aceasta presupunere analitic in cost function.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Label Smoothing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Label Smoothing</strong> regularizeaza un model cu softmax pe k clase inlocuind target-urile hard 0 si 1 cu:</p>
+                                <div class="formula" style="margin: 10px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                    Target corect: 1 - ε → (1 - ε)<br>
+                                    Alte clase: 0 → ε/(k-1)
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px;">Cross-entropy standard cu softmax nu poate obtine probabilitate exact 0 sau 1 - ar necesita weights infinit de mari. Label smoothing previne aceasta "urmarire" a probabilitatilor extreme.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Label Smoothing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn.functional as F
+
+def label_smoothing_loss(logits, targets, epsilon=0.1):
+    n_classes = logits.size(-1)
+
+    # One-hot encode
+    one_hot = F.one_hot(targets, n_classes).float()
+
+    # Smooth labels
+    smooth_labels = one_hot * (1 - epsilon) + epsilon / n_classes
+
+    # Cross entropy cu soft labels
+    log_probs = F.log_softmax(logits, dim=-1)
+    loss = -(smooth_labels * log_probs).sum(dim=-1).mean()
+    return loss
+
+# PyTorch built-in (>= 1.10)
+criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>7.6 Semi-Supervised Learning</h4>
+                <p>In paradigma semi-supervised, folosim atat exemple etichetate (x, y) cat si neetichetate (doar x) pentru a estima P(y|x). In deep learning, aceasta inseamna de obicei invatarea unei reprezentari h = f(x) astfel incat exemplele din aceeasi clasa sa aiba reprezentari similare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ideea de Baza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Invatarea nesupervizata ofera indicii despre cum sa grupam exemplele in spatiul reprezentarilor. Exemplele care se grupeaza in spatiul input ar trebui mapate la reprezentari similare. Un clasificator liniar in noul spatiu poate generaliza mai bine (Belkin & Niyogi, 2002; Chapelle et al., 2003).</p>
+                            <div style="margin-top: 15px; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <strong>Abordare clasica:</strong> PCA pe toate datele (labeled + unlabeled), apoi clasificator pe datele proiectate.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Combinarea Criteriilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Putem construi modele unde P(x, y) sau P(x) partajeaza parametri cu modelul discriminativ P(y|x). Trade-off intre criteriul supervised (-log P(y|x)) si cel unsupervised/generativ (-log P(x)):</p>
+                            <div class="formula" style="margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                Loss = -log P(y|x) + λ·(-log P(x))
+                            </div>
+                            <p style="color: var(--text-secondary);">Criteriul generativ exprima o forma de prior belief despre structura P(x) (Lasserre et al., 2006).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

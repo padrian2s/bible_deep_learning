@@ -1,0 +1,141 @@
+<section class="page-section" id="page-254">
+    <div class="page-header">
+        <div class="page-number">254</div>
+        <div class="page-title">
+            <h3>7.3 Regularizare si Probleme Sub-Determinate</h3>
+            <span>Regularization and Under-Constrained Problems</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-254.jpg"
+             alt="Pagina 254" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand Regularizarea e Necesara, Nu Optionala</h4>
+                <p>In unele cazuri, regularizarea este necesara pentru ca problema de ML sa fie bine definita. Multe modele liniare (regresie, PCA) depind de inversarea matricei X⊤X. Aceasta nu e posibila cand X⊤X este <strong>singulara</strong> - se intampla cand datele nu au varianta in vreo directie, sau cand avem mai putine exemple decat features (n < p).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: n < p</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# 10 exemple, 100 features -> n < p
+X = np.random.randn(10, 100)
+y = np.random.randn(10)
+
+# X'X este 100x100 dar rank maxim 10
+XtX = X.T @ X
+print(f"Rank X'X: {np.linalg.matrix_rank(XtX)}")  # 10, nu 100
+
+# Incercarea de inversare esueaza sau e instabila
+try:
+    w = np.linalg.solve(XtX, X.T @ y)  # Probleme!
+except:
+    print("Matrice singulara!")
+
+# Cu regularizare - functioneaza!
+alpha = 0.1
+w = np.linalg.solve(XtX + alpha * np.eye(100), X.T @ y)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regularizarea Face Matricea Inversabila</h4>
+                <p>In acest caz, formele de regularizare corespund inversarii X⊤X + αI in loc de X⊤X. Aceasta matrice regularizata este garantat inversabila atata timp cat α > 0. Acest lucru se intampla deoarece valorile proprii ale X⊤X + αI sunt cel putin α (chiar daca cele ale X⊤X erau 0).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce functioneaza matematic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                X⊤X are valori proprii λ₁, λ₂, ..., λₚ ≥ 0<br><br>
+                                X⊤X + αI are valori proprii λ₁+α, λ₂+α, ..., λₚ+α > 0<br><br>
+                                Toate valorile proprii sunt strict pozitive → Matrice inversabila!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Problema Regresiei Logistice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Regresia logistica pe clase liniar separabile este un exemplu clasic de problema sub-determinata. Daca un weight vector w separa perfect clasele, atunci 2w le separa si mai bine! SGD va continua sa creasca ||w|| la infinit.</p>
+                            </div>
+                            <p style="margin-top: 15px;">Weight decay opreste aceasta explozie. Gradientul regularizarii (αw) creste pe masura ce w creste, pana cand echilibreaza tendinta likelihood-ului de a creste w.</p>
+                            <div class="code-block" style="margin-top: 15px;">
+# Fara regularizare - weights explodeaza
+logreg = LogisticRegression(penalty=None, max_iter=10000)
+# Warning: nu converge pe date separabile
+
+# Cu L2 - stabil
+logreg_reg = LogisticRegression(penalty='l2', C=1.0)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aplicatii in Algebra Liniara</h4>
+                <p>Ideea de regularizare pentru probleme sub-determinate se extinde dincolo de ML. Moore-Penrose pseudoinverse (Sectiunea 2.9) rezolva sisteme liniare sub-determinate gasind solutia cu norma minima - echivalent cu limita weight decay cand α → 0.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudoinversa ca Limita</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+X = np.random.randn(5, 10)  # Sub-determinat
+y = np.random.randn(5)
+
+# Solutia cu pseudoinversa (norma minima)
+w_pinv = np.linalg.pinv(X) @ y
+
+# Limita ridge cand alpha -> 0
+alphas = [1, 0.1, 0.01, 0.001, 0.0001]
+for alpha in alphas:
+    w_ridge = X.T @ np.linalg.solve(X @ X.T + alpha*np.eye(5), y)
+    print(f"α={alpha}: diff={np.linalg.norm(w_ridge - w_pinv):.6f}")
+# Converge spre w_pinv!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

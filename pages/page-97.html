@@ -1,0 +1,249 @@
+<section class="page-section" id="page-97">
+    <div class="page-header">
+        <div class="page-number">97</div>
+        <div class="page-title">
+            <h3>Conditionare si Optimizare</h3>
+            <span>Capitolul 4 - Sectiunile 4.2 si 4.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-097.jpg"
+             alt="Pagina 97" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>4.2 Conditionare Slaba (Poor Conditioning)</h4>
+                <p><strong>Conditionarea</strong> se refera la cat de rapid se schimba o functie in raport cu mici schimbari in input. Functiile care se schimba rapid cand inputul este perturbat putin sunt problematice pentru calcul stiintific deoarece erorile de rotunjire in input pot cauza schimbari mari in output. Considera functia f(x) = A⁻¹x. Cand matricea A are o <strong>descompunere in valori proprii</strong>, <strong>numarul de conditionare</strong> este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0;">
+                    κ = max|λᵢ| / min|λᵢ|
+                </div>
+                <p>Acesta este raportul dintre cea mai mare si cea mai mica valoare proprie (in valoare absoluta). Cand acest numar este mare, inversarea matricei este foarte sensibila la erori.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Numar de Conditionare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Matrice bine conditionata
+A_good = np.array([[2, 0], [0, 1]])
+print("Matrice bine conditionata:")
+print(f"Valori proprii: {np.linalg.eigvals(A_good)}")
+print(f"Numar conditionare: {np.linalg.cond(A_good):.2f}")
+
+# Matrice slab conditionata
+A_bad = np.array([[1, 0], [0, 1e-10]])
+print("\nMatrice slab conditionata:")
+print(f"Valori proprii: {np.linalg.eigvals(A_bad)}")
+print(f"Numar conditionare: {np.linalg.cond(A_bad):.2e}")
+
+# Efect asupra solutiei
+b = np.array([1.0, 1.0])
+x = np.linalg.solve(A_bad, b)
+print(f"\nSolutie: {x}")
+# Mica perturbatie in b
+b_pert = b + np.array([1e-10, 0])
+x_pert = np.linalg.solve(A_bad, b_pert)
+print(f"Schimbare in solutie: {np.linalg.norm(x - x_pert):.2e}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Impact in Deep Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce conteaza?</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Hessianul:</strong> Conditionare slaba = suprafata "ingusta" = gradient descent lent</li>
+                                    <li><strong>Batch Normalization:</strong> Ajuta la imbunatatirea conditionarii</li>
+                                    <li><strong>Learning rate:</strong> Trebuie mic pentru matrici slab conditionate</li>
+                                    <li><strong>Preconditionare:</strong> Adam, RMSprop compenseaza conditionarea</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Conditionare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--success); margin: 0 auto;"></div>
+                                    <p style="margin-top: 10px;"><strong>κ ≈ 1</strong></p>
+                                    <p style="color: var(--success);">Bine conditionat</p>
+                                    <p style="font-size: 0.85rem;">Contururi circulare</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="width: 120px; height: 30px; border-radius: 15px; border: 3px solid var(--warning); margin: 0 auto;"></div>
+                                    <p style="margin-top: 10px;"><strong>κ >> 1</strong></p>
+                                    <p style="color: var(--warning);">Slab conditionat</p>
+                                    <p style="font-size: 0.85rem;">Contururi alungite (elipse)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>4.3 Optimizarea Bazata pe Gradient</h4>
+                <p>Majoritatea algoritmilor de deep learning implica <strong>optimizare</strong>: gasirea valorii x care minimizeaza (sau maximizeaza) o functie f(x). Functia pe care o minimizam se numeste <strong>functie obiectiv</strong>, <strong>criteriu</strong>, <strong>functie de cost</strong>, <strong>functie de pierdere (loss)</strong>, sau <strong>functie de eroare</strong>. Notam valoarea care minimizeaza functia cu x* = arg min f(x).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Functii de Cost</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import torch
+import torch.nn as nn
+
+# Diferite functii de cost
+y_true = np.array([1, 0, 1, 1])
+y_pred = np.array([0.9, 0.1, 0.8, 0.7])
+
+# MSE (Mean Squared Error)
+mse = np.mean((y_true - y_pred)**2)
+print(f"MSE Loss: {mse:.4f}")
+
+# Binary Cross-Entropy
+eps = 1e-7  # pentru stabilitate
+bce = -np.mean(y_true*np.log(y_pred+eps) +
+               (1-y_true)*np.log(1-y_pred+eps))
+print(f"BCE Loss: {bce:.4f}")
+
+# PyTorch face asta automat
+y_t = torch.tensor(y_true, dtype=torch.float32)
+y_p = torch.tensor(y_pred, dtype=torch.float32)
+print(f"\nPyTorch MSE: {nn.MSELoss()(y_p, y_t):.4f}")
+print(f"PyTorch BCE: {nn.BCELoss()(y_p, y_t):.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Terminologie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Minimizare</strong>
+                                    <p style="font-size: 0.9rem;">Gasim x* unde f(x*) este minim</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">Maximizare</strong>
+                                    <p style="font-size: 0.9rem;">= Minimizarea lui -f(x)</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Cost/Loss</strong>
+                                    <p style="font-size: 0.9rem;">Functia de minimizat</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Objective</strong>
+                                    <p style="font-size: 0.9rem;">Termen general (min sau max)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivata si Optimizarea</h4>
+                <p>Presupunem ca avem o functie y = f(x) unde atat x cat si y sunt numere reale. <strong>Derivata</strong> f'(x) ne spune cum se schimba output-ul cand facem o mica modificare in input. Derivata este utila pentru minimizare deoarece ne spune cum sa modificam x pentru a face o mica imbunatatire in y: stim ca f(x - ε·sign(f'(x))) < f(x) pentru ε suficient de mic. Aceasta tehnica se numeste <strong>gradient descent</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Gradient Descent 1D</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Functia de minimizat: f(x) = x^2
+def f(x):
+    return x**2
+
+def f_prime(x):
+    return 2*x
+
+# Gradient descent
+x = 3.0  # punct de start
+lr = 0.1  # learning rate
+
+print("Gradient Descent pentru f(x) = x²")
+for i in range(10):
+    grad = f_prime(x)
+    x_new = x - lr * grad
+    print(f"Iter {i+1}: x={x:.4f}, f(x)={f(x):.4f}, "
+          f"f'(x)={grad:.4f}")
+    x = x_new
+
+print(f"\nSolutie finala: x* = {x:.6f}")
+print(f"Optim teoretic: x* = 0")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Directia Gradientului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="text-align: center; font-family: monospace;">
+                                    <p>f(x) = ½x²</p>
+                                    <div style="margin: 20px 0; position: relative; height: 100px;">
+                                        <div style="position: absolute; left: 50%; top: 80px; transform: translateX(-50%); width: 200px; height: 4px; background: var(--text-secondary);"></div>
+                                        <div style="position: absolute; left: 20%; top: 20px; color: var(--warning);">• x < 0: f'(x) < 0<br>→ mergi dreapta</div>
+                                        <div style="position: absolute; right: 20%; top: 20px; color: var(--warning);">x > 0: f'(x) > 0 •<br>← mergi stanga</div>
+                                        <div style="position: absolute; left: 50%; top: 60px; transform: translateX(-50%); color: var(--success);">⬇<br>minim<br>f'(x) = 0</div>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px;">Mergem <strong>impotriva</strong> gradientului pentru a minimiza!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

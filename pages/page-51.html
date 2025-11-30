@@ -1,0 +1,133 @@
+        <section class="page-section" id="page-51">
+            <div class="page-header">
+                <div class="page-number">51</div>
+                <div class="page-title">
+                    <h3>Matricea Identitate si Inversa</h3>
+                    <span>Sectiunea 2.3</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-051.jpg"
+                     alt="Pagina 51" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.3 Matricea Identitate (I)</h4>
+                        <p><strong>Matricea identitate</strong> Iₙ este "1" al matricelor - orice vector inmultit cu ea ramane neschimbat: Iₙx = x. Are 1 pe diagonala principala si 0 in rest. Este fundamentala pentru definirea inversei!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Matricea I₃</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: flex; justify-content: center; margin: 20px 0;">
+                                        <div style="border: 2px solid var(--success); border-radius: 8px; padding: 15px;">
+                                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;">
+                                                <div style="background: var(--success); padding: 15px 20px; border-radius: 4px; text-align: center; font-weight: bold;">1</div>
+                                                <div style="background: var(--bg-lighter); padding: 15px 20px; border-radius: 4px; text-align: center; color: var(--text-secondary);">0</div>
+                                                <div style="background: var(--bg-lighter); padding: 15px 20px; border-radius: 4px; text-align: center; color: var(--text-secondary);">0</div>
+                                                <div style="background: var(--bg-lighter); padding: 15px 20px; border-radius: 4px; text-align: center; color: var(--text-secondary);">0</div>
+                                                <div style="background: var(--success); padding: 15px 20px; border-radius: 4px; text-align: center; font-weight: bold;">1</div>
+                                                <div style="background: var(--bg-lighter); padding: 15px 20px; border-radius: 4px; text-align: center; color: var(--text-secondary);">0</div>
+                                                <div style="background: var(--bg-lighter); padding: 15px 20px; border-radius: 4px; text-align: center; color: var(--text-secondary);">0</div>
+                                                <div style="background: var(--bg-lighter); padding: 15px 20px; border-radius: 4px; text-align: center; color: var(--text-secondary);">0</div>
+                                                <div style="background: var(--success); padding: 15px 20px; border-radius: 4px; text-align: center; font-weight: bold;">1</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formula">
+                                        ∀x ∈ ℝⁿ, Iₙx = x
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; text-align: center; margin-top: 10px;">
+                                        Diagonala <span style="color: var(--success);">verde</span> = 1, restul = 0
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Crearea matricei I</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+                                        <code>
+import numpy as np<br><br>
+# Creeaza matricea identitate 3x3<br>
+I = np.eye(3)<br>
+print(I)<br>
+# [[1. 0. 0.]<br>
+#  [0. 1. 0.]<br>
+#  [0. 0. 1.]]<br><br>
+# Verifica proprietatea<br>
+x = np.array([5, 3, 7])<br>
+print(I @ x)  # [5. 3. 7.] - neschimbat!
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Inversa Matricei (A⁻¹)</h4>
+                        <p><strong>Inversa</strong> lui A, notata A⁻¹, este matricea care "anuleaza" efectul lui A: A⁻¹A = I. Cu ea putem rezolva Ax = b prin x = A⁻¹b. ATENTIE: nu toate matricele au inversa!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Rezolvarea Ax = b</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px;">
+                                        <div class="formula">Ax = b</div>
+                                        <p style="color: var(--text-secondary); text-align: center;">Inmultim ambele parti cu A⁻¹ (la stanga):</p>
+                                        <div class="formula">A⁻¹Ax = A⁻¹b</div>
+                                        <p style="color: var(--text-secondary); text-align: center;">Deoarece A⁻¹A = I:</p>
+                                        <div class="formula">Ix = A⁻¹b</div>
+                                        <p style="color: var(--text-secondary); text-align: center;">Si Ix = x:</p>
+                                        <div class="formula" style="background: var(--success); color: white;">x = A⁻¹b</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Cand NU folosim inversa</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>⚠️ Avertisment practic</h5>
+                                        <p style="color: var(--text-secondary); margin-top: 10px;">
+                                            Desi x = A⁻¹b este elegant teoretic, in practica <strong>NU</strong> calculam inversa direct! De ce?
+                                        </p>
+                                        <ul style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                                            <li>Precizie limitata pe calculator → erori numerice</li>
+                                            <li>Algoritmi directi (LU, QR) sunt mai stabili</li>
+                                            <li>np.linalg.solve(A, b) e mai bun decat np.linalg.inv(A) @ b</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

@@ -1,0 +1,111 @@
+<section class="page-section" id="page-283">
+    <div class="page-header">
+        <div class="page-number">283</div>
+        <div class="page-title">
+            <h3>7.12-7.13 Zgomot Multiplicativ si Adversarial Training</h3>
+            <span>De ce Multiplicativ + Introducere Adversarial</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-283.jpg"
+             alt="Pagina 283" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Zgomot Multiplicativ, nu Aditiv?</h4>
+                <p>Daca zgomotul ar fi aditiv (h + ε in loc de h × μ), o unitate ReLU liniara ar putea invata sa faca h foarte mare pentru a face zgomotul ε nesemnificativ. Zgomotul <strong>multiplicativ</strong> nu permite aceasta solutie patologica - perturbatia scaleaza cu activarea.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Zgomot Aditiv</strong>
+                                    <p style="margin-top: 10px;">h' = h + ε</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Modelul poate mari h pentru a "ascunde" ε</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Zgomot Multiplicativ</strong>
+                                    <p style="margin-top: 10px;">h' = h × μ</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Perturbatia creste proportional cu h</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Batch Normalization ca Regularizare</h4>
+                <p>Batch normalization (Sectiunea 8.7.1) introduce atat zgomot aditiv cat si multiplicativ pe hidden units la training time. Scopul principal e imbunatatirea optimizarii, dar zgomotul poate avea si efect de regularizare - uneori facand dropout inutil.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>7.13 Adversarial Training</h4>
+                <p>In multe cazuri, neural networks au ajuns la performanta la nivel uman pe test set i.i.d. Dar Szegedy et al. (2014b) au descoperit ceva socant: chiar si modele cu acuratete ~100% pe test au eroare ~100% pe <strong>exemple adversariale</strong> - inputuri construite intentionat sa inducă model in eroare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cum se genereaza exemple adversariale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Fast Gradient Sign Method (FGSM)
+# Goodfellow et al., 2014b
+
+def generate_adversarial(model, x, y, epsilon=0.01):
+    x.requires_grad = True
+    loss = F.cross_entropy(model(x), y)
+    loss.backward()
+
+    # Perturbatie in directia semnului gradientului
+    perturbation = epsilon * x.grad.sign()
+
+    # Exemplu adversarial
+    x_adv = x + perturbation
+    return x_adv
+
+# x_adv arata aproape identic cu x pentru om
+# dar modelul clasifica complet gresit!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce conteaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Adversarial examples au implicatii pentru:</p>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Securitate:</strong> Atacatori pot "pacali" modele ML</li>
+                                <li><strong>Regularizare:</strong> Antrenarea pe exemple adversariale reduce eroarea i.i.d.</li>
+                                <li><strong>Intelegere:</strong> Arata ca modelele nu "vad" lumea ca noi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

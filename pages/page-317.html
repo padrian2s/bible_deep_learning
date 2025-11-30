@@ -1,0 +1,119 @@
+<section class="page-section" id="page-317">
+    <div class="page-header">
+        <div class="page-number">317</div>
+        <div class="page-title">
+            <h3>Initializare: Weights vs Biases</h3>
+            <span>Ce si Cum Initializam</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-317.jpg"
+             alt="Pagina 317" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce Initializam Aleator?</h4>
+                <p>Tipic, <strong>weights</strong> sunt initializate aleator pentru a sparge simetria, iar <strong>biases</strong> sunt setate la constante alese euristic. Alti parametri (ex: varianta pentru output de predictie) sunt adesea setati la constante bazate pe cunostinte despre problema.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Reguli Practice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Weights:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Initializare aleatoare din Gaussian sau Uniform. Alegerea distributiei (Gaussian vs Uniform) nu pare sa conteze mult.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Biases:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">De obicei 0. Uneori valori mici pozitive (ex: 0.1 pentru ReLU, 1 pentru LSTM forget gate).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Scala Initializarii: Trade-off Crucial</h4>
+                <p>Scala (magnitudinea) weights-urilor initiale e foarte importanta! Weights prea mari → exploding activations/gradients, saturare. Weights prea mici → vanishing activations/gradients, signal pierdut.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Trade-off: Scale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Weights Mai Mari:</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                        <li>✓ Sparge simetria mai puternic</li>
+                                        <li>✓ Evita pierderea signal-ului</li>
+                                        <li>✗ Poate cauza explozie</li>
+                                        <li>✗ Saturare activari (sigmoid/tanh)</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Weights Mai Mici:</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                        <li>✓ Mai stabil</li>
+                                        <li>✓ Efect regularizare</li>
+                                        <li>✗ Vanishing gradients</li>
+                                        <li>✗ Signal pierdut in forward pass</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Initializare si Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Early stopping face ca parametrii finali sa ramana aproape de cei initiali. Deci θ<sub>0</sub> mic = efect similar cu regularizare L2! Vezi sectiunea 7.8 pentru aceasta conexiune.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>RNN-uri: Chaos din Weights Mari</h4>
+                <p>In RNN-uri (retele recurente), weights mari pot duce la <strong>comportament haotic</strong>! Perturbatii mici in input cauzeaza output-uri complet diferite. Forward pass devine practic aleator, desi e determinist.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Solutii pentru RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Pentru RNN-uri se recomanda initializare ortogonala a matricei de recurrence si gradient clipping pentru a mitiga problemele. Vezi capitolul 10.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

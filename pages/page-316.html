@@ -1,0 +1,101 @@
+<section class="page-section" id="page-316">
+    <div class="page-header">
+        <div class="page-number">316</div>
+        <div class="page-title">
+            <h3>8.4 Strategii de Initializare a Parametrilor</h3>
+            <span>De Unde Incepem Antrenarea</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-316.jpg"
+             alt="Pagina 316" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Conteaza Initializarea?</h4>
+                <p>Antrenarea retelelor neurale e puternic afectata de punctul de start! Initializarea determina: (1) daca algoritmul converge, (2) cat de repede converge, (3) la ce cost converge, si (4) cat de bine generalizeaza. Strategiile de initializare sunt simple si euristice - nu avem inca o teorie completa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Impact-ul Initializarii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Initializare Proasta:</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">
+                                        <li>Instabilitate numerica (NaN, Inf)</li>
+                                        <li>Convergenta extrem de lenta</li>
+                                        <li>Blocaj in minime locale slabe</li>
+                                        <li>Generalizare proasta</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Initializare Buna:</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">
+                                        <li>Antrenare stabila</li>
+                                        <li>Convergenta rapida</li>
+                                        <li>Solutie de calitate</li>
+                                        <li>Generalizare buna</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Principiul de Baza: Break Symmetry</h4>
+                <p>Singurul lucru sigur: trebuie sa <strong>"spargem simetria"</strong> intre unitati. Daca doua unitati au aceleasi weights si primesc acelasi input, vor calcula acelasi output si vor primi acelasi gradient - vor ramane identice pentru totdeauna!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De Ce E Asta O Problema</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Exemplu: 2 neuroni cu weights identice
+h1 = relu(w @ x)  # = 0.5
+h2 = relu(w @ x)  # = 0.5 (identic!)
+
+# Gradient-ul e identic pentru ambii:
+grad_h1 = backprop(h1)  # = 0.1
+grad_h2 = backprop(h2)  # = 0.1 (identic!)
+
+# Dupa update, weights raman identice!
+# Ambii neuroni calculeaza ACEEASI functie
+# Puterea retelei e redusa drastic
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Solutia: Initializare Aleatoare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Initializand cu valori aleatorii diferite pentru fiecare unitate, garantam ca vor calcula functii diferite. Chiar si stochasticitatea din dropout sau minibatch-uri poate ajuta, dar initializare diferita ramane esentiala.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

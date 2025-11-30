@@ -1,0 +1,133 @@
+<section class="page-section" id="page-344">
+    <div class="page-header">
+        <div class="page-number">344</div>
+        <div class="page-title">
+            <h3>Concluzia Capitolului 8</h3>
+            <span>Sumar si Perspective</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-344.jpg"
+             alt="Pagina 344" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Recapitulare: Ce Am Invatat in Capitolul 8</h4>
+                <p>Am acoperit fundamentele optimizarii pentru deep learning: de la diferentele fata de optimizarea clasica, la algoritmi practici si strategii avansate. Metodele discutate sunt direct aplicabile la arhitecturile din capitolele urmatoare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Sumar pe Sectiuni</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">8.1-8.2: Fundamente</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">Training vs test error, surrogate loss, challenges (ill-conditioning, saddle points, cliffs)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">8.3: Algoritmi de Baza</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">SGD, Momentum, Nesterov momentum</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">8.4: Initializare</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">Xavier/Glorot, He, sparse initialization, bias initialization</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">8.5: Adaptive Learning Rates</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">AdaGrad, RMSProp, Adam, AdaDelta</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">8.6: Second-Order Methods</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">Newton, Conjugate Gradients, BFGS, L-BFGS</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">8.7: Strategii Avansate</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">Batch Norm, Coordinate Descent, Polyak Averaging, Pretraining, Curriculum Learning</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Mesajul Cheie</h4>
+                <p>Metodele de optimizare din acest capitol sunt <strong>direct aplicabile</strong> la arhitecturile specializate din capitolele urmatoare (CNNs, RNNs, etc.) cu putina sau fara modificare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ce Urmeaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Capitolele urmatoare acopera <strong>specializari ale retelelor neurale</strong> pentru tipuri specifice de date:</p>
+                                <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                    <li><strong>Capitolul 9:</strong> CNNs pentru imagini (structura spatiala)</li>
+                                    <li><strong>Capitolul 10:</strong> RNNs pentru secvente (structura temporala)</li>
+                                    <li><strong>Capitolul 11:</strong> Metodologii practice</li>
+                                    <li><strong>Capitolul 12:</strong> Aplicatii</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Recomandari Practice</h4>
+                <p>Pentru practicienii deep learning, cele mai importante takeaways din acest capitol sunt alegerea optimizatorului si a hyperparametrilor pentru diferite scenarii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ghid Rapid</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Recomandari pentru alegerea optimizatorului
+
+# Default pentru majoritatea cazurilor:
+optimizer = Adam(lr=0.001, betas=(0.9, 0.999))
+
+# Pentru CNNs pe ImageNet:
+optimizer = SGD(lr=0.1, momentum=0.9, weight_decay=1e-4)
+scheduler = StepLR(step_size=30, gamma=0.1)
+
+# Pentru NLP/Transformers:
+optimizer = AdamW(lr=1e-4, weight_decay=0.01)
+scheduler = LinearWarmup(warmup_steps=1000)
+
+# Pentru fine-tuning:
+optimizer = Adam(lr=1e-5)  # Learning rate mic!
+
+# Intotdeauna foloseste:
+# - Batch Normalization (sau LayerNorm pentru Transformers)
+# - Initializare corecta (He pentru ReLU, Xavier pentru tanh)
+# - Gradient clipping pentru RNNs
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

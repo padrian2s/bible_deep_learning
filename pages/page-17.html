@@ -1,0 +1,122 @@
+        <section class="page-section" id="page-17">
+            <div class="page-header">
+                <div class="page-number">17</div>
+                <div class="page-title">
+                    <h3>Deep Learning si Machine Learning</h3>
+                    <span>Abordari diferite pentru inteligenta artificiala</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-017.jpg"
+                     alt="Pagina 17" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce "Deep" Learning?</h4>
+                        <p>Graful conceptelor este ADANC - cu multe straturi. De aceea numim aceasta abordare <strong>"Deep Learning"</strong> (Invatare Profunda). Succesele timpurii ale AI au avut loc in medii sterile, unde calculatorul nu avea nevoie de multa cunostinta despre lume (ex: Deep Blue la sah).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Adancimea retelei</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="simulation-container">
+                                        <canvas id="sim-depth-17" class="simulation-canvas" data-sim-type="neural"></canvas>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--text-secondary);">
+                                        Fiecare strat transforma datele: Pixeli → Margini → Forme → Obiecte → Concepte
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Knowledge Base: Abordarea clasica</h4>
+                        <p>Proiectele AI clasice au incercat sa codifice cunostintele in limbaje formale. Cel mai faimos este <strong>Cyc</strong> - o baza de date cu afirmatii despre lume, introduse manual. Problema: regulile formale nu captureaza complexitatea lumii reale!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemplu: Esecul lui Cyc</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🤔 Povestea lui Fred</h5>
+                                        <p>Cyc a incercat sa inteleaga o poveste despre Fred care se barbiereste dimineata.</p>
+                                        <p style="margin-top: 10px;"><strong>Problema:</strong> Cyc stia ca oamenii nu au componente electrice. Dar Fred tinea un aparat de ras ELECTRIC!</p>
+                                        <p style="margin-top: 10px;"><strong>Intrebarea lui Cyc:</strong> "Fred mai este inca o persoana in timp ce se barbiereste?"</p>
+                                        <p style="margin-top: 10px; color: var(--warning);">Aceasta ilustreaza de ce regulile rigide esueaza in lumea reala!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinte</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 Lenat & Guha, 1989 - Cyc Project</li>
+                                        <li class="reference-item">📖 Linde, 1992 - Story about Fred shaving</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Machine Learning: Solutia moderna</h4>
+                        <p><strong>Machine Learning</strong> permite sistemelor AI sa-si dobandeasca propria cunostinta prin extragerea de tipare din date brute. Aceasta rezolva problema specificarii manuale a tuturor regulilor!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Comparatie: Knowledge Base vs ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <table style="width:100%; border-collapse: collapse;">
+                                        <tr style="background: var(--bg-lighter);">
+                                            <th style="padding: 12px;">Knowledge Base</th>
+                                            <th style="padding: 12px;">Machine Learning</th>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">Reguli scrise manual</td>
+                                            <td style="padding: 12px;">Invata din date</td>
+                                        </tr>
+                                        <tr style="background: var(--bg-lighter);">
+                                            <td style="padding: 12px;">Rigide, fragile</td>
+                                            <td style="padding: 12px;">Flexibile, adaptabile</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">Greu de scalat</td>
+                                            <td style="padding: 12px;">Se imbunatateste cu mai multe date</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

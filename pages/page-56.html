@@ -1,0 +1,162 @@
+        <section class="page-section" id="page-56">
+            <div class="page-header">
+                <div class="page-number">56</div>
+                <div class="page-title">
+                    <h3>Matrici Simetrice si Ortogonale</h3>
+                    <span>Tipuri Speciale de Matrici</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-056.jpg"
+                     alt="Pagina 56" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Matrici Simetrice (A = Aᵀ)</h4>
+                        <p>O matrice <strong>simetrica</strong> este egala cu transpusa sa: A = Aᵀ. Apar natural cand masuram distante sau corelatii (distanta de la A la B = distanta de la B la A). Au proprietati speciale care simplifica descompunerea!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Simetrie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: flex; justify-content: center; margin: 20px 0;">
+                                        <div style="border: 2px solid var(--secondary); border-radius: 8px; padding: 15px;">
+                                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;">
+                                                <div style="background: var(--primary); padding: 12px 18px; border-radius: 4px; text-align: center;">1</div>
+                                                <div style="background: var(--success); padding: 12px 18px; border-radius: 4px; text-align: center;">2</div>
+                                                <div style="background: var(--warning); padding: 12px 18px; border-radius: 4px; text-align: center;">3</div>
+                                                <div style="background: var(--success); padding: 12px 18px; border-radius: 4px; text-align: center;">2</div>
+                                                <div style="background: var(--primary); padding: 12px 18px; border-radius: 4px; text-align: center;">4</div>
+                                                <div style="background: var(--accent); padding: 12px 18px; border-radius: 4px; text-align: center;">5</div>
+                                                <div style="background: var(--warning); padding: 12px 18px; border-radius: 4px; text-align: center;">3</div>
+                                                <div style="background: var(--accent); padding: 12px 18px; border-radius: 4px; text-align: center;">5</div>
+                                                <div style="background: var(--primary); padding: 12px 18px; border-radius: 4px; text-align: center;">6</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
+                                        Observa: Elementele simetrice fata de diagonala au aceeasi culoare (si valoare)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Aplicatii in ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">Matricea de covarianta</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Cov(X,Y) = Cov(Y,X) → simetrica</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">Kernel matrices</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">K(x,y) = K(y,x) → SVM, GP</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">Hessian</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Matricea derivatelor secunde → optimizare</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Vectori Unitari si Ortogonali</h4>
+                        <p>Un <strong>vector unitar</strong> are norma 1: ||x||₂ = 1. Doi vectori sunt <strong>ortogonali</strong> daca produsul lor scalar e zero: xᵀy = 0 (formeaza unghi de 90°). Daca sunt SI unitari SI ortogonali = <strong>ortonormali</strong>!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Ortogonalitate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--success);">Ortogonali (90°)</strong>
+                                            <div style="font-size: 2rem; margin: 10px 0;">⊥</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                                                x = [1, 0], y = [0, 1]<br>
+                                                xᵀy = 1·0 + 0·1 = 0 ✓
+                                            </p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">NU ortogonali</strong>
+                                            <div style="font-size: 2rem; margin: 10px 0;">∠</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                                                x = [1, 1], y = [1, 0]<br>
+                                                xᵀy = 1·1 + 1·0 = 1 ≠ 0
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Matrici Ortogonale</h4>
+                        <p>O <strong>matrice ortogonala</strong> are randuri SI coloane mutual ortonormale: AᵀA = AAᵀ = I. Superputerea? Inversa e GRATIS: A⁻¹ = Aᵀ! Reprezinta rotatii si reflexii - pastreaza lungimile si unghiurile.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemplu: Matrice de rotatie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        R(θ) = [cos(θ), -sin(θ); sin(θ), cos(θ)]
+                                    </div>
+                                    <div class="code-block" style="margin-top: 15px;">
+                                        <code>
+import numpy as np<br><br>
+theta = np.pi / 4  # 45 grade<br>
+R = np.array([<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[np.cos(theta), -np.sin(theta)],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[np.sin(theta), np.cos(theta)]<br>
+])<br><br>
+# Verifica: RᵀR = I<br>
+print(R.T @ R)<br>
+# [[1. 0.]<br>
+#  [0. 1.]]<br><br>
+# Inversa = Transpusa!<br>
+print(np.allclose(np.linalg.inv(R), R.T))  # True
+                                        </code>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <h5>💡 De ce conteaza in DL?</h5>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                            Initializarea ortogonala a weights previne disparitia/explozia gradientilor in retele adanci!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

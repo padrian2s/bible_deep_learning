@@ -1,0 +1,129 @@
+<section class="page-section" id="page-215">
+    <div class="page-header">
+        <div class="page-number">215</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.4.1 Figura 6.5: Impaturirea Spatiului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-215.jpg"
+             alt="Pagina 215" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Puterea Retelelor cu Rectificator: Regiuni Liniare</h4>
+                <p>Montufar et al. (2014) au aratat ca functiile reprezentabile cu o retea profunda cu rectificator pot necesita un numar exponential de unitati ascunse cu o retea shallow. Mai precis, au aratat ca retelele liniare pe portiuni (obtinute din neliniaritati rectificator sau maxout) pot reprezenta functii cu un numar de regiuni care este exponential in adancimea retelei.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Figura 6.5: Explicatie Geometrica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;"><strong>Cum impatureste spatiul un strat cu absolute value:</strong></p>
+                                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 15px;">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem;">◇</div>
+                                        <p style="font-size: 0.8rem;">Input original</p>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem;">▷</div>
+                                        <p style="font-size: 0.8rem;">Fold 1</p>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem;">▽</div>
+                                        <p style="font-size: 0.8rem;">Fold 2</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">Fiecare strat "impatureste" spatiul, dublind numarul de regiuni. Cu l straturi, obtinem 2^l regiuni!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula pentru Numarul de Regiuni Liniare</h4>
+                <p>Mai precis, teorema principala din Montufar et al. (2014) afirma ca numarul de regiuni liniare taiete de o retea profunda cu rectificator, cu d inputuri, adancime l, si n unitati per strat ascuns, este O((n/d)^(d(l-1)) * n^d). Aceasta este exponentiala in adancimea l. Pentru maxout cu k filtre per unitate, numarul este O(k^((l-1)+d)).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu Numeric</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import math
+
+def num_linear_regions(d, n, l):
+    """
+    Numarul de regiuni liniare pentru retea ReLU
+    d = dimensiunea inputului
+    n = unitati per strat
+    l = adancime (numar de straturi ascunse)
+    """
+    return int((n/d)**(d*(l-1)) * n**d)
+
+# Exemplu: d=2 (input 2D), n=10 unitati per strat
+
+print("Adancime 1:", num_linear_regions(2, 10, 1))
+# ~100 regiuni
+
+print("Adancime 2:", num_linear_regions(2, 10, 2))
+# ~2,500 regiuni
+
+print("Adancime 3:", num_linear_regions(2, 10, 3))
+# ~62,500 regiuni
+
+print("Adancime 5:", num_linear_regions(2, 10, 5))
+# ~39 milioane regiuni!
+
+# EXPONENTIAL in adancime!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Intuitive: Compunerea Adauga Putere Exponentiala</h4>
+                <p>Fiecare unitate ascunsa specifica unde sa impatureasca spatiul de input pentru a crea raspunsuri oglinda (pe ambele parti ale neliniaratatii absolute value). Compunand aceste operatii de impaturire, obtinem un numar exponential mare de regiuni liniare pe portiuni care pot captura tot felul de patternuri regulate (de exemplu, repetitive).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Analogie: Impaturirea Hartiei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Analogia hartiei impaturite:</strong>
+                                <p style="margin-top: 10px;">Daca impaturesti o hartie o data, obtii 2 straturi. De doua ori: 4 straturi. De 10 ori: 1024 straturi! Similar, fiecare strat al retelei "dubleaza" complexitatea reprezentarii.</p>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Aceasta este puterea compunerii: operatii simple repetate creaza structuri extrem de complexe. De aceea retelele DEEP sunt atat de puternice!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

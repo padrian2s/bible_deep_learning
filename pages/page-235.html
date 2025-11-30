@@ -1,0 +1,167 @@
+<section class="page-section" id="page-235">
+    <div class="page-header">
+        <div class="page-number">235</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Figura 6.11: Graf Computational pentru MLP</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-235.jpg"
+             alt="Pagina 235" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.11: Graful Computational Complet</h4>
+                <p>Graful computational folosit pentru a calcula costul folosit la antrenarea exemplului nostru de MLP single-layer cu cross-entropy loss si weight decay. Figura arata toate variabilele intermediare si operatiile care leaga inputurile (X, W⁽¹⁾, W⁽²⁾, y) de costul final J.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Nodurile Grafului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                    <tr style="background: var(--primary);">
+                                        <th style="padding: 8px;">Nod</th>
+                                        <th style="padding: 8px;">Formula</th>
+                                        <th style="padding: 8px;">Descriere</th>
+                                    </tr>
+                                    <tr style="background: var(--bg-dark);">
+                                        <td style="padding: 8px;">U⁽¹⁾</td>
+                                        <td style="padding: 8px;">X @ W⁽¹⁾</td>
+                                        <td style="padding: 8px;">Pre-activare hidden</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px;">H</td>
+                                        <td style="padding: 8px;">relu(U⁽¹⁾)</td>
+                                        <td style="padding: 8px;">Activari hidden</td>
+                                    </tr>
+                                    <tr style="background: var(--bg-dark);">
+                                        <td style="padding: 8px;">U⁽²⁾</td>
+                                        <td style="padding: 8px;">H @ W⁽²⁾</td>
+                                        <td style="padding: 8px;">Logits</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px;">J<sub>MLE</sub></td>
+                                        <td style="padding: 8px;">cross_entropy(U⁽²⁾, y)</td>
+                                        <td style="padding: 8px;">Loss principal</td>
+                                    </tr>
+                                    <tr style="background: var(--bg-dark);">
+                                        <td style="padding: 8px;">u⁽³⁾-u⁽⁸⁾</td>
+                                        <td style="padding: 8px;">sqr, sum, +, ×</td>
+                                        <td style="padding: 8px;">Regularizare</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px;">J</td>
+                                        <td style="padding: 8px;">J<sub>MLE</sub> + u⁽⁸⁾</td>
+                                        <td style="padding: 8px;">Cost total</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Parcurgerea Backprop prin Graf</h4>
+                <p>Putem urmari comportamentul algoritmului de backprop uitandu-ne la graful de forward propagation din Figura 6.11. Pentru antrenare, vrem sa calculam atat ∇W⁽¹⁾J cat si ∇W⁽²⁾J. Exista doua cai diferite care merg inapoi de la J la weights: una prin costul de cross-entropy, si una prin costul de weight decay.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Backprop Step-by-Step</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def backprop_mlp_manual(X, y, W1, W2, lambda_reg):
+    """
+    Backprop manual pentru MLP din Figura 6.11
+    """
+    # ========== FORWARD PASS ==========
+    U1 = X @ W1              # pre-activare hidden
+    H = np.maximum(0, U1)    # ReLU
+    U2 = H @ W2              # logits
+
+    # Softmax + cross-entropy
+    probs = softmax(U2)
+    J_MLE = cross_entropy(probs, y)
+
+    # Regularizare
+    reg = lambda_reg * (np.sum(W1**2) + np.sum(W2**2))
+    J = J_MLE + reg
+
+    # ========== BACKWARD PASS ==========
+    # Start: dJ/dJ = 1
+
+    # Gradient prin cross-entropy
+    # dJ/dU2 = probs - one_hot(y)  (derivata softmax+CE)
+    G = probs - one_hot(y)
+
+    # Gradient pe W2 (din cross-entropy)
+    # dJ/dW2 = H^T @ G
+    dW2 = H.T @ G
+
+    # Propaga la H
+    # dJ/dH = G @ W2^T
+    dH = G @ W2.T
+
+    # Prin ReLU
+    # dJ/dU1 = dH * (U1 > 0)
+    dU1 = dH * (U1 > 0)
+
+    # Gradient pe W1 (din cross-entropy)
+    # dJ/dW1 = X^T @ dU1
+    dW1 = X.T @ dU1
+
+    # Adauga gradientul din weight decay
+    dW1 += 2 * lambda_reg * W1
+    dW2 += 2 * lambda_reg * W2
+
+    return dW1, dW2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Costul Computational</h4>
+                <p>Dupa ce gradientii au fost calculati, este responsabilitatea algoritmului de gradient descent sau altui algoritm de optimizare sa foloseasca acesti gradienti pentru a actualiza parametrii. Pentru MLP, costul computational este dominat de costul inmultirii matriceale. In forward propagation, inmultim fiecare matrice de weights. In backward, inmultim cu transpusa fiecarei matrici de weights.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Analiza Memoriei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Costul memoriei:</strong>
+                                <p style="margin-top: 10px;">O(m × nₕ), unde m = dimensiunea minibatch-ului, nₕ = numarul de unitati ascunse.</p>
+                                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Trebuie sa stocam inputul la neliniaritate (U⁽¹⁾) din forward pass pana cand backward pass-ul revine la acel punct.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

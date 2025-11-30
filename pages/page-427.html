@@ -1,0 +1,106 @@
+<section class="page-section" id="page-427">
+    <div class="page-header">
+        <div class="page-number">427</div>
+        <div class="page-title">
+            <h3>10.10.2 GRU - Gated Recurrent Unit</h3>
+            <span>Alternativa Simplificata la LSTM</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-427.jpg"
+             alt="Pagina 427" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>GRU - O Alternativa Mai Simpla</h4>
+                <p><strong>Gated Recurrent Unit</strong> (Cho et al., 2014) simplifica LSTM: un singur gate controleaza atat "uitarea" cat si "intrarea". Mai putini parametri, performanta similara pe multe task-uri!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>GRU vs LSTM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">LSTM</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>3 gates: input, forget, output</li>
+                                        <li>Cell state separat de hidden</li>
+                                        <li>Mai multi parametri</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">GRU</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>2 gates: update, reset</li>
+                                        <li>Un singur state vector</li>
+                                        <li>Mai putini parametri (~25% mai putin)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ecuatiile GRU (10.45-10.47)</h4>
+                <p>GRU foloseste un <strong>update gate</strong> (u) si un <strong>reset gate</strong> (r). Update gate decide cat din starea noua vs veche sa folosim. Reset gate decide cat din starea veche sa folosim pentru a calcula candidatul nou.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile GRU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--accent); margin-bottom: 10px;"><strong>State Update:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    h<sup>(t)</sup> = u<sup>(t-1)</sup>·h<sup>(t-1)</sup> + (1-u<sup>(t-1)</sup>)·σ(b + W·r<sup>(t-1)</sup>⊙h<sup>(t-1)</sup> + U·x<sup>(t-1)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.45)</span>
+                                </div>
+                                <p style="color: var(--success); margin: 15px 0 10px 0;"><strong>Update Gate:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    u<sup>(t)</sup> = σ(b<sup>u</sup> + U<sup>u</sup>·x<sup>(t)</sup> + W<sup>u</sup>·h<sup>(t)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.46)</span>
+                                </div>
+                                <p style="color: var(--warning); margin: 15px 0 10px 0;"><strong>Reset Gate:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    r<sup>(t)</sup> = σ(b<sup>r</sup> + U<sup>r</sup>·x<sup>(t)</sup> + W<sup>r</sup>·h<sup>(t)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.47)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Care e mai bun?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Studii Comparative (Greff et al., 2015; Jozefowicz et al., 2015)</h5>
+                                <p>Nu exista un castigator clar! LSTM si GRU au performante similare pe majoritatea task-urilor. Trucul important pentru LSTM: <strong>bias=1 pentru forget gate</strong> (Gers et al., 2000; Jozefowicz et al., 2015).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

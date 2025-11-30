@@ -1,0 +1,102 @@
+<section class="page-section" id="page-334">
+    <div class="page-header">
+        <div class="page-number">334</div>
+        <div class="page-title">
+            <h3>Batch Normalization: Formule</h3>
+            <span>Normalizarea Activarilor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-334.jpg"
+             alt="Pagina 334" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Batch Normalization</h4>
+                <p>Batch normalization normalizeaza activarile H la medie 0 si varianta 1, apoi aplica parametri invatati γ si β pentru a reda expresivitatea. Formula: H' = (H - μ) / σ, apoi output = γH' + β.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formule Complete</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                μ = (1/m) Σᵢ H<sub>i,:</sub><br><br>
+                                σ = √(δ + (1/m) Σᵢ (H<sub>i,:</sub> - μ)²)<br><br>
+                                H' = (H - μ) / σ
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">μ si σ sunt calculate <strong>per minibatch</strong> la training. δ (~10⁻⁸) evita impartirea la zero. Gradientul se propaga prin aceste operatii!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Functioneaza</h4>
+                <p>Inainte de batch norm, gradientul putea propune cresterea mediei unui layer, iar normalizarea ar fi anulat aceasta schimbare - wasted computation! Batch norm reparametrizeaza modelul astfel incat media e controlata direct de β.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Beneficii Batch Norm</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong>Learning rate mai mare:</strong> Reteaua e mai stabila, putem face pasi mai mari</li>
+                                <li><strong>Initializare mai putin critica:</strong> Normalizarea corecteaza distributia</li>
+                                <li><strong>Regularizare implicita:</strong> Zgomotul din calculul μ, σ pe minibatch</li>
+                                <li><strong>Retele mai deep:</strong> Permite antrenarea retelelor cu sute de layere</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>La Test Time</h4>
+                <p>La inferenta nu avem minibatch, deci nu putem calcula μ, σ. Solutia: folosim <strong>running averages</strong> colectate in timpul antrenarii. μ si σ devin constante fixe la test time.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Batch Norm in PyTorch
+import torch.nn as nn
+
+# Pentru layers fully connected
+bn = nn.BatchNorm1d(num_features=256)
+
+# Pentru CNN (normalizeaza per canal)
+bn_conv = nn.BatchNorm2d(num_features=64)
+
+# La training: calculeaza μ, σ din batch
+# La eval: foloseste running_mean, running_var
+model.eval()  # Switch to inference mode
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

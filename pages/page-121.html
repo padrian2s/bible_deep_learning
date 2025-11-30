@@ -1,0 +1,133 @@
+<section class="page-section" id="page-121">
+    <div class="page-header">
+        <div class="page-number">121</div>
+        <div class="page-title">
+            <h3>Semi-supervised, Reinforcement Learning, Design Matrix</h3>
+            <span>Capitolul 5 - Variante de Invatare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-121.jpg"
+             alt="Pagina 121" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conexiunea Unsupervised-Supervised</h4>
+                <p>Putem rezolva problema supervised p(y | x) folosind tehnici unsupervised: invatam distributia comuna p(x, y) si apoi inferim:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    p(y | x) = p(x, y) / Σᵧ p(x, y')
+                </div>
+                <p>Desi nu sunt concepte complet distincte, unsupervised si supervised ajuta la categorizarea algoritmilor. Traditional, regresie si clasificare = supervised, estimare de densitate = unsupervised.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ecuatia 5.2 Explicata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Regula Bayes in actiune</h5>
+                                <p>p(y | x) = p(x, y) / p(x)</p>
+                                <p>unde p(x) = Σᵧ p(x, y)</p>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Aceasta formula ne permite sa trecem de la modele generative (care modeleaza distributia comuna) la clasificatoare!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Variante de Invatare</h4>
+                <p><strong>Semi-supervised learning:</strong> Unele exemple au target, altele nu. <strong>Multi-instance learning:</strong> O colectie intreaga de exemple e etichetata, dar membrii individuali nu. <strong>Reinforcement learning:</strong> Algoritmul interactioneaza cu un mediu si exista feedback loop intre sistem si experientele sale - depaseste scopul acestei carti, vezi Sutton and Barto (1998) sau Mnih et al. (2013) pentru deep RL.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Spectrul Invatarii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--bg-dark); border-radius: 8px;">
+                                <div style="text-align: center;">
+                                    <div style="background: var(--warning); padding: 10px 15px; border-radius: 8px;">Unsupervised</div>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">0% labels</p>
+                                </div>
+                                <div style="flex: 1; height: 4px; background: linear-gradient(to right, var(--warning), var(--success)); margin: 0 10px;"></div>
+                                <div style="text-align: center;">
+                                    <div style="background: var(--accent); padding: 10px 15px; border-radius: 8px;">Semi-supervised</div>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">Partial labels</p>
+                                </div>
+                                <div style="flex: 1; height: 4px; background: linear-gradient(to right, var(--accent), var(--success)); margin: 0 10px;"></div>
+                                <div style="text-align: center;">
+                                    <div style="background: var(--success); padding: 10px 15px; border-radius: 8px;">Supervised</div>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">100% labels</p>
+                                </div>
+                            </div>
+                            <div class="reference-list" style="margin-top: 15px;">
+                                <div class="reference-item">
+                                    <strong>Kotzias et al. (2015)</strong> - Multi-instance learning cu modele deep
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Mnih et al. (2013)</strong> - Deep Reinforcement Learning (Atari games)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Design Matrix</h4>
+                <p>Un mod comun de a descrie un dataset este cu o <strong>design matrix</strong>. O design matrix este o matrice care contine un exemplu diferit in fiecare rand. Fiecare coloana corespunde unei features diferite. De exemplu, Iris dataset poate fi reprezentat ca <strong>X ∈ ℝ¹⁵⁰ˣ⁴</strong>, unde X<sub>i,1</sub> este lungimea sepalei plantei i, X<sub>i,2</sub> este latimea sepalei, etc. Majoritatea algoritmilor din aceasta carte opereaza pe design matrices.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Design Matrix</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Design Matrix pentru 4 case
+# Features: [suprafata, camere, etaj, an_constructie]
+X = np.array([
+    [85,  3, 2, 2010],  # Casa 1
+    [120, 4, 1, 2005],  # Casa 2
+    [60,  2, 5, 2018],  # Casa 3
+    [200, 5, 0, 2020],  # Casa 4
+])
+
+# Labels (preturi in mii EUR)
+y = np.array([150, 200, 100, 350])
+
+print("Design Matrix X ∈ R^(m×n)")
+print(f"m = {X.shape[0]} exemple (randuri)")
+print(f"n = {X.shape[1]} features (coloane)")
+print()
+print("X =")
+print(X)
+print()
+print("Notatie: X[i,j] = feature j pentru exemplul i")
+print(f"Exemplu: X[2,0] = {X[2,0]} mp (suprafata casei 3)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

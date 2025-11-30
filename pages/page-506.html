@@ -1,0 +1,78 @@
+<section class="page-section" id="page-506">
+    <div class="page-header">
+        <div class="page-number">506</div>
+        <div class="page-title">
+            <h3>Probabilistic PCA</h3>
+            <span>PCA ca Model Generativ</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-506.jpg"
+             alt="Pagina 506" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Probabilistic PCA</h4>
+                <p><strong>Probabilistic PCA</strong> e un caz special de factor analysis unde varianta zgomotului e aceeasi pentru toate dimensiunile: x ~ N(x; b, WW<sup>T</sup> + sigma²I). Cand sigma -> 0, devine PCA clasic!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Conexiunea cu PCA</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                x ~ N(x; b, WW<sup>T</sup> + sigma²I)<br><br>
+                                x = Wh + b + sigma*z<br><br>
+                                (z ~ N(0, I))
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Cand sigma -> 0, valoarea asteptata a lui h dat x devine proiectia ortogonala pe spatiul generat de coloanele lui W - exact ca PCA!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Tipping & Bishop (1999)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Tipping & Bishop au aratat ca probabilistic PCA poate fi antrenat cu un algoritm EM iterativ. Acest model e baza pentru multe extensii moderne.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>13.2 Independent Component Analysis (ICA)</h4>
+                <p><strong>ICA</strong> e una din cele mai vechi tehnici de representation learning. Scopul: a separa un semnal observat in mai multe semnale <strong>independente</strong> care au fost mixate impreuna.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Cocktail Party Problem</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Imaginati-va n persoane vorbind simultan si n microfoane. Fiecare microfon inregistreaza un mix de toate vocile. ICA poate separa vocile individuale!</p>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Aplicatii: EEG (separarea semnalelor cerebrale de artefacte de la inima/ochi), audio processing, analiza imaginilor.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

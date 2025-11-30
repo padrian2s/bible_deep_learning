@@ -1,0 +1,133 @@
+<section class="page-section" id="page-296">
+    <div class="page-header">
+        <div class="page-number">296</div>
+        <div class="page-title">
+            <h3>8.2 Provocari in Optimizarea Retelelor Neurale</h3>
+            <span>De Ce Este Greu?</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-296.jpg"
+             alt="Pagina 296" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trecerea de la Teorie la Practica</h4>
+                <p>Optimizarea in general este extrem de dificila. Machine learning traditional a evitat aceasta dificultate prin proiectarea atenta a functiilor obiectiv pentru a fi convexe. Dar la retelele neurale, trebuie sa confruntam cazul general <strong>non-convex</strong> cu toate complicatiile sale!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Convex vs Non-Convex</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Convex (ML clasic):</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Un singur minim global</li>
+                                        <li>Gradient = 0 → solutie optima</li>
+                                        <li>Convergenta garantata</li>
+                                        <li>Ex: Regresie logistica, SVM</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Non-Convex (Retele Neurale):</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Multiple minime locale</li>
+                                        <li>Saddle points</li>
+                                        <li>Platouri, cliff-uri</li>
+                                        <li>Fara garantii teoretice simple</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.2.1 Ill-Conditioning (Conditionare Slaba)</h4>
+                <p>Una din cele mai mari provocari: <strong>ill-conditioning</strong> al matricei Hessiene H. Aceasta problema apare chiar si la optimizarea convexa! Cauzeaza SGD sa se "blocheze" - pasi foarte mici cresc costul in loc sa-l reduca.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula: Expansiunea Taylor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Un pas de gradient descent de -εg adauga la cost aproximativ:</p>
+                            <div class="formula" style="margin: 15px 0;">
+                                ΔCost ≈ (1/2)ε²g<sup>⊤</sup>Hg - εg<sup>⊤</sup>g
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Termen negativ:</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">-εg<sup>⊤</sup>g (reduce costul)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Termen pozitiv:</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">(1/2)ε²g<sup>⊤</sup>Hg (creste costul)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cand devine problema?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-warning">
+                                <p>Ill-conditioning apare cand termenul Hessian <strong>g<sup>⊤</sup>Hg</strong> depaseste termenul gradient <strong>g<sup>⊤</sup>g</strong>. Adica: curbura suprafetei creste mai rapid decat gradientul - trebuie pasi din ce in ce mai mici!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Detectarea Ill-Conditioning</h4>
+                <p>Pentru a detecta daca ill-conditioning e o problema, monitorizeaza norma gradientului g<sup>⊤</sup>g si termenul Hessian g<sup>⊤</sup>Hg. Daca g<sup>⊤</sup>Hg creste mai mult decat un ordin de marime peste g<sup>⊤</sup>g, learning-ul devine foarte lent din cauza curburii puternice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Diagnostic Practic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Pseudo-cod pentru diagnostic
+gradient_norm = torch.norm(g)**2      # g^T g
+hessian_term = g @ H @ g              # g^T H g
+
+if hessian_term > 10 * gradient_norm:
+    print("Ill-conditioning detectat!")
+    print("Learning rate prea mare sau curbura prea puternica")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

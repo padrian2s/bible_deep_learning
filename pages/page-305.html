@@ -1,0 +1,105 @@
+<section class="page-section" id="page-305">
+    <div class="page-header">
+        <div class="page-number">305</div>
+        <div class="page-title">
+            <h3>8.2.6 Gradiente Inexacte</h3>
+            <span>Zgomot si Bias in Estimarea Gradientului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-305.jpg"
+             alt="Pagina 305" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>RNNs vs Feedforward: Problema Diferita</h4>
+                <p>RNN-urile folosesc aceeasi matrice W la fiecare timestep, deci problema vanishing/exploding gradients e mai severa. Feedforward nets au matrici diferite la fiecare strat, deci chiar retele foarte deep pot evita problema (Sussillo, 2014). Detalii despre RNN-uri in sectiunea 10.7.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta: Capitolul 10</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Provocarile specifice antrenarii RNN-urilor sunt discutate in detaliu in sectiunea 10.7, dupa ce arhitectura RNN e prezentata complet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.2.6 Gradiente Inexacte</h4>
+                <p>Majoritatea algoritmilor de optimizare presupun acces la gradientul exact. In practica, avem doar estimari <strong>zgomotoase</strong> sau chiar <strong>biased</strong>! Aproape orice algoritm de deep learning foloseste minibatch-uri pentru a estima gradientul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Surse de Inexactitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Minibatch Sampling (zgomot):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Estimam gradientul din subset mic → varianta mare dar nebiased</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Obiectiv Intractabil (bias):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Uneori nici macar functia de cost nu poate fi calculata exact! Ex: contrastive divergence pentru Boltzmann machines.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Modele din Partea III</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Partea III a cartii prezinta modele mai avansate unde gradientul e fundamental intractabil. Contrastive divergence e o tehnica de aproximare a gradientului log-likelihood-ului pentru Boltzmann machines.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Solutii pentru Gradiente Inexacte</h4>
+                <p>Diversi algoritmi de optimizare pentru retele neurale sunt proiectati sa functioneze cu gradiente imperfecte. Alternativ, putem alege o functie surrogate loss care e mai usor de aproximat decat loss-ul real.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Strategii Principale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong>Momentum:</strong> Mediaza gradientii din mai multe iteratii, reducand zgomotul</li>
+                                <li><strong>Learning rate decay:</strong> Reduce impactul zgomotului pe masura ce ne apropiem de solutie</li>
+                                <li><strong>Batch size adaptiv:</strong> Creste batch size spre final pentru gradiente mai precise</li>
+                                <li><strong>Surrogate loss:</strong> Alege o functie obiectiv care poate fi estimata mai bine</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

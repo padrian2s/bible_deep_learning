@@ -1,0 +1,88 @@
+<section class="page-section" id="page-151">
+    <div class="page-header">
+        <div class="page-number">151</div>
+        <div class="page-title">
+            <h3>Bayes' Rule si Posterior</h3>
+            <span>Capitolul 5 - Inferenta Bayesiana</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-151.jpg"
+             alt="Pagina 151" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Posterior Distribution via Bayes' Rule</h4>
+                <p>Dupa ce observam date {x<sup>(1)</sup>, ..., x<sup>(m)</sup>}, putem recupera efectul datelor asupra credintelor noastre despre θ combinand likelihood-ul cu prior-ul prin <strong>regula lui Bayes</strong>:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    p(θ | x<sup>(1)</sup>, ..., x<sup>(m)</sup>) = p(x<sup>(1)</sup>, ..., x<sup>(m)</sup> | θ) · p(θ) / p(x<sup>(1)</sup>, ..., x<sup>(m)</sup>)
+                </div>
+                <p>In scenariile unde se foloseste estimarea Bayesiana, prior-ul incepe ca o distributie uniforma sau Gaussiana cu high entropy, iar observarea datelor face posterior-ul sa piarda entropie si sa se concentreze in jurul catorva valori plauzibile ale parametrilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Prior → Posterior</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                <div style="display: flex; justify-content: space-around; align-items: center;">
+                                    <div>
+                                        <strong>Prior p(θ)</strong>
+                                        <p style="font-size: 0.9rem;">Larg, incert</p>
+                                    </div>
+                                    <div style="font-size: 2rem;">+</div>
+                                    <div>
+                                        <strong>Data</strong>
+                                        <p style="font-size: 0.9rem;">Observatii</p>
+                                    </div>
+                                    <div style="font-size: 2rem;">→</div>
+                                    <div>
+                                        <strong>Posterior p(θ|data)</strong>
+                                        <p style="font-size: 0.9rem;">Concentrat, precis</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Predictie Bayesiana</h4>
+                <p>Fata de MLE care face predictii bazate pe un singur estimat punct, abordarea Bayesiana face predictii folosind <strong>intreaga distributie</strong> peste θ. De exemplu, dupa observarea m exemple, distributia prezisa pentru urmatorul exemplu x<sup>(m+1)</sup> este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.1rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    p(x<sup>(m+1)</sup> | x<sup>(1)</sup>,...,x<sup>(m)</sup>) = ∫ p(x<sup>(m+1)</sup> | θ) p(θ | x<sup>(1)</sup>,...,x<sup>(m)</sup>) dθ
+                </div>
+                <p>Fiecare valoare de θ cu probabilitate pozitiva sub posterior contribuie la predictia pentru urmatorul exemplu. Aceasta integreaza incertitudinea - protejeaza impotriva overfitting-ului!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Avantaje Bayesiene</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Doua diferente importante fata de MLE:</strong></p>
+                                <ol style="margin-left: 20px;">
+                                    <li>Predictii bazate pe distributie (nu punct) - incorporeaza incertitudinea</li>
+                                    <li>Prior-ul influenteaza predictiile - exprima preferinte apriori</li>
+                                </ol>
+                                <p style="margin-top: 10px;">Bayesian generalizeaza mai bine cu date putine, dar costa computational mai mult.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,63 @@
+<section class="page-section" id="page-507">
+    <div class="page-header">
+        <div class="page-number">507</div>
+        <div class="page-title">
+            <h3>ICA: Detalii si Variante</h3>
+            <span>Independent Component Analysis</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-507.jpg"
+             alt="Pagina 507" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ICA: Prior Non-Gaussian</h4>
+                <p>Toate variantele ICA necesita ca p(h) sa fie <strong>non-Gaussian</strong>. Daca p(h) ar fi Gaussian, W nu ar fi identificabil - am putea obtine aceeasi p(x) cu multe valori diferite ale lui W!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De Ce Non-Gaussian?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Pentru factori Gaussieni independenti, orice rotatie a lui W produce aceeasi distributie p(x). Distributiile non-Gaussiene "sparg" aceasta simetrie.</p>
+                            <div class="formula" style="margin-top: 15px;">
+                                p(h<sub>i</sub>) = d/dh<sub>i</sub> sigma(h<sub>i</sub>)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Alegeri tipice: distributii cu kurtosis mare (varfuri ascutite), ca Laplace sau Student-t.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ICA pentru Sparse Features</h4>
+                <p>Multe implementari de ICA pot fi vazute ca invatand <strong>features sparse</strong>. Distributiile non-Gaussiene cu kurtosis mare au mai multa masa de probabilitate aproape de zero si in cozi - promoveaza sparsitate!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>W Ortogonal</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Ecuatia 3.47 necesita calculul det(W), care poate fi numeric instabil. Multe variante de ICA evita asta constrangand W sa fie ortogonal.</p>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Aceasta garanteaza h = W<sup>-1</sup>x sa fie usor de calculat si stable numeric.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

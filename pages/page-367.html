@@ -1,0 +1,125 @@
+<section class="page-section" id="page-367">
+    <div class="page-header">
+        <div class="page-number">367</div>
+        <div class="page-title">
+            <h3>Locally Connected Layers</h3>
+            <span>Unshared Convolution si Tiled Convolution</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-367.jpg"
+             alt="Pagina 367" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Locally Connected (Unshared Convolution)</h4>
+                <p>Uneori vrem conexiuni locale dar FARA partajarea parametrilor - fiecare pozitie are propriul set de ponderi. Aceasta se numeste <strong>locally connected layer</strong> sau <strong>unshared convolution</strong>. Formula e similara cu convolutia, dar ponderea W depinde si de pozitie: <span class="formula">Z[i,j,k] = Σ V[l,j+m-1,k+n-1] × W[i,j,k,l,m,n]</span></p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cand e util Locally Connected?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Exemplu clasic: Detectia fetelor</strong><br><br>
+                                Daca imaginile sunt mereu centrate (fete aliniate), stim ca ochii sunt mereu sus, gura jos. Nu vrem ca filtrul de "ochi" sa fie aplicat si in zona gurii! Locally connected permite filtre diferite pentru regiuni diferite.
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Avantaj</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Mai expresiv - fiecare regiune invata caracteristici specifice</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Dezavantaj</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">MULT mai multi parametri - risc de overfitting</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tiled Convolution - Compromis</h4>
+                <p><strong>Tiled convolution</strong> e un compromis intre convolutie (un kernel pentru toate) si locally connected (un kernel per pozitie). Ideea: avem K kerneluri diferite care se "rotesc" pe masura ce ne deplasam in spatiu. Vecinii imediati au kerneluri diferite, dar pozitii indepartate pot partaja acelasi kernel.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tiled Pattern</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; padding: 20px; background: var(--bg-lighter); border-radius: 12px;">
+                                <strong>3 kerneluri (A, B, C) rotite ciclic:</strong>
+                                <div style="display: inline-grid; grid-template-columns: repeat(6, 40px); gap: 3px; margin-top: 15px;">
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">A</div>
+                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">B</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px;">C</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">A</div>
+                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">B</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px;">C</div>
+                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">B</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px;">C</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">A</div>
+                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">B</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px;">C</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">A</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px;">C</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">A</div>
+                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">B</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px;">C</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">A</div>
+                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">B</div>
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">Vecinii au kerneluri diferite → pot captura rotatii/variatii locale</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie Parametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Imagine 100x100, kernel 3x3, 64 canale output
+
+# CONVOLUTION STANDARD
+params_conv = 3 * 3 * 64  # 576 parametri
+# Acelasi kernel peste tot
+
+# LOCALLY CONNECTED
+params_local = 3 * 3 * 64 * 100 * 100  # 57.6M parametri!
+# Kernel diferit la fiecare pozitie
+
+# TILED CONVOLUTION (tile_size = 4)
+# Imparte in 25x25 tiles, fiecare are propriul kernel
+params_tiled = 3 * 3 * 64 * 4 * 4  # 9,216 parametri
+# Compromis: 16x mai multi ca conv, dar 6000x mai putini ca local
+
+print(f"Conv: {params_conv:,}")
+print(f"Local: {params_local:,}")
+print(f"Tiled: {params_tiled:,}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

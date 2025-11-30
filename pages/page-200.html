@@ -1,0 +1,140 @@
+<section class="page-section" id="page-200">
+    <div class="page-header">
+        <div class="page-number">200</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2.3 Formula si Antrenarea Softmax</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-200.jpg"
+             alt="Pagina 200" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Softmax</h4>
+                <p>Un strat liniar prezice log-probabilitati nenormalizate: z = Wᵀh + b, unde zᵢ = log P~(y = i | x). Functia softmax poate apoi exponentia si normaliza z pentru a obtine y_hat: softmax(z)ᵢ = exp(zᵢ) / Σⱼ exp(zⱼ). Aceasta garanteaza o distributie de probabilitate valida.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare Softmax de la Zero</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def softmax(z):
+    """
+    softmax(z)_i = exp(z_i) / sum(exp(z_j))
+    """
+    exp_z = np.exp(z)
+    return exp_z / np.sum(exp_z)
+
+# Exemplu
+z = np.array([2.0, 1.0, 0.1])
+print(softmax(z))
+# [0.659, 0.242, 0.099]
+
+# Problema: overflow pentru valori mari!
+z_large = np.array([1000, 1000, 1000])
+# np.exp(1000) = inf → NaN!
+
+# Solutia: vezi pagina urmatoare (numerical stability)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Log-Softmax si Functia de Cost</h4>
+                <p>Ca si cu sigmoid-ul logistic, utilizarea exp functioneaza bine cand antrenam softmax cu maximum log-likelihood. Vrem sa maximizam log P(y = i; z) = log softmax(z)ᵢ. Definind softmax in termeni de exp este natural deoarece log din log-likelihood poate anula exp din softmax: log softmax(z)ᵢ = zᵢ - log Σⱼ exp(zⱼ).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cross-Entropy Loss pentru Multi-Clasa</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# Logits din retea (inainte de softmax)
+logits = torch.tensor([[2.0, 1.0, 0.1],
+                       [0.5, 2.5, 1.0]])  # batch de 2
+
+# Targeturi (indici de clasa)
+targets = torch.tensor([0, 1])  # prima e clasa 0, a doua e clasa 1
+
+# CrossEntropyLoss = LogSoftmax + NLLLoss
+criterion = nn.CrossEntropyLoss()
+loss = criterion(logits, targets)
+print(f"Loss: {loss.item():.4f}")
+
+# Echivalent manual:
+log_probs = F.log_softmax(logits, dim=1)
+# log_softmax(z)_i = z_i - log(sum(exp(z_j)))
+manual_loss = F.nll_loss(log_probs, targets)
+print(f"Manual: {manual_loss.item():.4f}")
+
+# Gradient cand greseste: MARE (liniar in z)
+# Gradient cand e corect: mic (apropiat de 0)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Intuition: Ce Penalizeaza Cross-Entropy?</h4>
+                <p>Primul termen al ecuatiei log softmax(z)ᵢ = zᵢ - log Σⱼ exp(zⱼ) arata ca inputul zᵢ contribuie direct la cost. Deoarece acest termen nu poate satura, invatarea poate continua chiar daca contributia lui zᵢ la al doilea termen devine mica. Al doilea termen penalizeaza puternic cea mai activa predictie incorecta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cum functioneaza Loss-ul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div class="formula" style="margin-bottom: 15px;">
+                                    Loss = -zᵢ + log Σⱼ exp(zⱼ) ≈ -zᵢ + max(z)
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">Cand e corect (zᵢ = max):</strong>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">Loss ≈ -max + max ≈ 0</p>
+                                        <p style="font-size: 0.85rem; color: var(--success);">Loss mic, model confident si corect</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Cand greseste (zⱼ = max, j≠i):</strong>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">Loss ≈ -zᵢ + zⱼ = zⱼ - zᵢ</p>
+                                        <p style="font-size: 0.85rem; color: var(--warning);">Loss mare, proportional cu "cat de mult greseste"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

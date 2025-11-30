@@ -1,0 +1,146 @@
+<section class="page-section" id="page-350">
+    <div class="page-header">
+        <div class="page-number">350</div>
+        <div class="page-title">
+            <h3>9.2 Motivatia CNN</h3>
+            <span>De ce functioneaza Convolutia?</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-350.jpg"
+             alt="Pagina 350" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cele Trei Idei Fundamentale ale Convolutiei</h4>
+                <p>Convolutia ofera trei avantaje majore pentru sistemele de machine learning: <strong>interactiuni sparse</strong> (sparse connectivity), <strong>partajarea parametrilor</strong> (parameter sharing) si <strong>reprezentari echivariante</strong> (equivariant representations). De asemenea, permite lucrul cu inputuri de dimensiuni variabile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cele 3 Piloni</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(135deg, var(--primary), var(--accent)); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 2rem;">🔗</div>
+                                    <strong>Sparse Interactions</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 10px;">Conexiuni locale, nu globale</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--success), var(--primary)); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 2rem;">♻️</div>
+                                    <strong>Parameter Sharing</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 10px;">Acelasi kernel peste tot</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--warning), var(--success)); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 2rem;">↔️</div>
+                                    <strong>Equivariance</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 10px;">Detectie invarianta la pozitie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interactiuni Sparse (Conectivitate Rara)</h4>
+                <p>In retelele neurale traditionale, fiecare output depinde de TOATE inputurile - matricea de ponderi are m×n parametri. In CNN, kernelul este mult mai mic decat inputul. Daca avem un input cu milioane de pixeli, putem detecta muchii folosind un kernel de doar zeci sau sute de pixeli. Rezultatul: mai putini parametri, mai putina memorie, mai putine calcule, eficienta statistica mai buna.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Comparatie Parametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Imagine 1000x1000 pixeli, 1000 neuroni in stratul ascuns
+
+# FULLY CONNECTED
+params_fc = 1000 * 1000 * 1000  # 1 MILIARD parametri!
+memory_fc = params_fc * 4 / 1e9  # ~4 GB pentru float32
+
+# CONVOLUTIONAL (kernel 5x5, 64 filtre)
+params_conv = 5 * 5 * 64  # 1,600 parametri
+memory_conv = params_conv * 4 / 1e6  # ~0.006 MB
+
+print(f"FC: {params_fc:,} parametri")
+print(f"CNN: {params_conv:,} parametri")
+print(f"Reducere: {params_fc / params_conv:,.0f}x mai putini!")
+# Reducere: 625,000x mai putini!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Complexitate Computationala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Fully Connected</strong>
+                                    <div class="formula" style="margin: 10px 0;">O(m × n)</div>
+                                    <p style="font-size: 0.85rem;">m inputuri, n outputuri</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Convolutional</strong>
+                                    <div class="formula" style="margin: 10px 0;">O(k × n)</div>
+                                    <p style="font-size: 0.85rem;">k = marimea kernelului (k << m)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Partajarea Parametrilor (Parameter Sharing)</h4>
+                <p>In retele fully connected, fiecare pondere este folosita o singura data. In CNN, acelasi kernel este aplicat in TOATE pozitiile imaginii - avem "tied weights". In loc sa invatam parametri separati pentru fiecare locatie, invatam un singur set de parametri care se aplica universal. Aceasta reduce dramatic numarul de parametri de stocat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Kernel Partajat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; padding: 20px; background: var(--bg-lighter); border-radius: 12px;">
+                                <div style="display: inline-block; background: var(--accent); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                    <strong>Un singur kernel</strong><br>
+                                    <span style="font-family: monospace;">[w₁ w₂ w₃]</span>
+                                </div>
+                                <div style="font-size: 2rem; margin: 10px 0;">↓ aplicat peste tot ↓</div>
+                                <div style="display: flex; justify-content: center; gap: 5px;">
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">pos 1</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">pos 2</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">pos 3</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">...</div>
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">pos N</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

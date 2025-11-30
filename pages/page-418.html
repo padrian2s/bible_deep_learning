@@ -1,0 +1,70 @@
+<section class="page-section" id="page-418">
+    <div class="page-header">
+        <div class="page-number">418</div>
+        <div class="page-title">
+            <h3>Eigenvalori si Gradient Dynamics</h3>
+            <span>Ecuatia 10.39 si Implicatii Practice</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-418.jpg"
+             alt="Pagina 418" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ecuatia 10.39 - Simplificarea cu Eigenvalori</h4>
+                <p>Folosind descompunerea eigen W = QΛQ<sup>⊤</sup>, putem scrie h<sup>(t)</sup> = Q<sup>⊤</sup>Λ<sup>t</sup>Qh<sup>(0)</sup>. Aceasta arata clar: componentele h<sup>(0)</sup> pe eigenvectorii cu |λ| < 1 <strong>dispar</strong>, cele cu |λ| > 1 <strong>explodeaza</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implicatii pentru RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce e problematic pentru RNN:</h5>
+                                <p>In retele non-recurente, produsul w<sup>(t)</sup> variaza la fiecare layer. In RNN, folosim <strong>acelasi W</strong> repetat - problema vanishing/exploding e mult mai severa!</p>
+                            </div>
+                            <div style="margin-top: 15px; background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                <p><strong>Rezultat experimental (Bengio et al., 1994):</strong></p>
+                                <p style="color: var(--text-secondary); margin-top: 5px;">Probabilitatea de succes pentru antrenarea unui RNN vanilla cu SGD scade la ~0 pentru secvente de lungime 10-20!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Feedforward vs Recurrent</h4>
+                <p>Pentru feedforward networks adanci, problema vanishing/exploding poate fi rezolvata prin initializare atenta (Saxe, 2014). Dar in RNN, chiar cu gradientii stabili, dependentele lungi au <strong>semnal mic</strong> comparat cu cele scurte - modelul tot nu invata bine!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte Importante</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📖</span><div><strong>Doya, 1993</strong> - Analiza dinamicilor RNN</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Bengio et al., 1994</strong> - Experimente cu long-term dependencies</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Siegelmann & Sontag, 1995</strong> - Turing completeness</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Pascanu et al., 2013</strong> - Review modern</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

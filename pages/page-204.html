@@ -1,0 +1,151 @@
+<section class="page-section" id="page-204">
+    <div class="page-header">
+        <div class="page-number">204</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2.4 Matrici de Covarianta si Mixture Density Networks</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-204.jpg"
+             alt="Pagina 204" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Invatarea Matricilor de Covarianta</h4>
+                <p>Este rar sa invatam o matrice de covarianta sau precizie cu structura mai bogata decat diagonala. Daca covarianta este completa si conditionala, trebuie aleasa o parametrizare care garanteaza pozitiv-definitatea matricei prezise. Aceasta poate fi realizata scriind Σ(x) = B(x)Bᵀ(x), unde B este o matrice patrata neconstrinsa. Totusi, calculul e costisitor O(d³).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Tipuri de Matrice de Covarianta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                <tr style="background: var(--primary);">
+                                    <th style="padding: 10px;">Tip</th>
+                                    <th style="padding: 10px;">Parametri</th>
+                                    <th style="padding: 10px;">Complexitate</th>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 10px;">Scalar (σ²I)</td>
+                                    <td style="padding: 10px;">1</td>
+                                    <td style="padding: 10px;">O(1)</td>
+                                </tr>
+                                <tr style="background: var(--bg-dark);">
+                                    <td style="padding: 10px;">Diagonala</td>
+                                    <td style="padding: 10px;">d</td>
+                                    <td style="padding: 10px;">O(d)</td>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 10px;">Full (Σ = BBᵀ)</td>
+                                    <td style="padding: 10px;">d(d+1)/2</td>
+                                    <td style="padding: 10px;">O(d³)</td>
+                                </tr>
+                            </table>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">In practica, se foloseste de obicei covarianta diagonala pentru eficienta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Mixture Density Networks (MDN)</h4>
+                <p>Adesea vrem sa facem regresie multimodala, adica sa prezicem valori reale care provin dintr-o distributie conditionala p(y | x) ce poate avea mai multe varfuri in spatiul y pentru aceeasi valoare de x. In acest caz, un Gaussian mixture este o reprezentare naturala pentru output. Retelele neuronale cu Gaussian mixtures ca output se numesc adesea mixture density networks.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare MDN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class MixtureDensityNetwork(nn.Module):
+    """
+    Output: mixture of n Gaussians
+    p(y|x) = Σ π_i(x) * N(y; μ_i(x), σ_i(x)²)
+    """
+    def __init__(self, input_dim, hidden_dim, n_components):
+        super().__init__()
+        self.n_components = n_components
+
+        self.shared = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU()
+        )
+
+        # Output heads pentru fiecare componenta
+        self.pi_head = nn.Linear(hidden_dim, n_components)  # mixing coeffs
+        self.mu_head = nn.Linear(hidden_dim, n_components)  # means
+        self.sigma_head = nn.Linear(hidden_dim, n_components)  # stdevs
+
+    def forward(self, x):
+        h = self.shared(x)
+
+        # π_i: probabilitati (softmax pentru a suma la 1)
+        pi = F.softmax(self.pi_head(h), dim=-1)
+
+        # μ_i: medii (neconstrans)
+        mu = self.mu_head(h)
+
+        # σ_i: deviatii standard (exp pentru pozitivitate)
+        sigma = torch.exp(self.sigma_head(h))
+
+        return pi, mu, sigma
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Mixture of Gaussians</h4>
+                <p>Un Gaussian mixture output cu n componente este definit de distributia conditionala: p(y | x) = Σᵢ p(c = i | x) N(y; μ⁽ⁱ⁾(x), Σ⁽ⁱ⁾(x)). Reteaua trebuie sa produca trei tipuri de output: un vector definind p(c = i | x) (coeficienti de mixing), matricea mediilor μ⁽ⁱ⁾(x), si tensorul covariantelor Σ⁽ⁱ⁾(x).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Mixture of Gaussians</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                <p style="margin-bottom: 15px;">Un singur Gaussian vs Mixture (3 componente):</p>
+                                <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+                                    <div>
+                                        <div style="font-size: 3rem;">∩</div>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">1 Gaussian<br/>Unimodal</p>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 3rem;">∩ ∩ ∩</div>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">3 Gaussians<br/>Multimodal</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; color: var(--accent); font-size: 0.9rem;">MDN poate reprezenta distributii cu mai multe moduri/varfuri!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

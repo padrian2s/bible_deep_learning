@@ -1,0 +1,119 @@
+<section class="page-section" id="page-310">
+    <div class="page-header">
+        <div class="page-number">310</div>
+        <div class="page-title">
+            <h3>Learning Rate Decay si Convergenta SGD</h3>
+            <span>Rata de Invatare in Timp</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-310.jpg"
+             alt="Pagina 310" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Learning Rate Schedule</h4>
+                <p>In practica, e comun sa scadem learning rate-ul liniar pana la iteratia τ. Formula: ε<sub>k</sub> = (1 - α)ε<sub>0</sub> + αε<sub>τ</sub>, unde α = k/τ. Dupa iteratia τ, ε ramane constant la ε<sub>τ</sub>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula: Linear Decay</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                ε<sub>k</sub> = (1 - k/τ) · ε<sub>0</sub> + (k/τ) · ε<sub>τ</sub>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; text-align: center;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">ε<sub>0</sub></strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Learning rate initial</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">τ</strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Numar iteratii de decay</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">ε<sub>τ</sub></strong>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">≈ 1% din ε<sub>0</sub></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alegerea Learning Rate-ului Initial</h4>
+                <p>Cum alegem ε<sub>0</sub>? <strong>Trial and error</strong> - monitorizezi learning curves si ajustezi. Daca loss-ul creste violent → ε prea mare. Daca scade foarte incet → ε poate fi marit. Un ε bun cauzeaza oscilare moderata dar cu trend descrescator clar.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Semne de Learning Rate Gresit</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">ε prea mare:</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">
+                                        <li>Loss creste sau oscileaza violent</li>
+                                        <li>Instabilitate, NaN values</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">ε prea mic:</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">
+                                        <li>Loss scade foarte incet</li>
+                                        <li>Blocare in minime locale</li>
+                                        <li>Antrenare nejustificat de lunga</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">ε bun:</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">
+                                        <li>Loss scade consistent</li>
+                                        <li>Oscilatie moderata e OK</li>
+                                        <li>Performanta pe val creste</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Rate de Convergenta SGD</h4>
+                <p>Pentru functii convexe, excesul de eroare J(θ) - min J scade ca <strong>O(1/√k)</strong> dupa k iteratii. Pentru strongly convex, e <strong>O(1/k)</strong>. Batch gradient descent e teoretic mai rapid, dar SGD compenseaza prin mai multi pasi pe unitate de timp!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cramer-Rao Bound</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Bottou & Bousquet (2008) argumenteaza ca pentru ML, nu are sens sa urmaresti convergenta mai rapida de O(1/k) - eroarea de generalizare nu poate scadea mai rapid oricum!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

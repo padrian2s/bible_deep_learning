@@ -1,0 +1,108 @@
+<section class="page-section" id="page-304">
+    <div class="page-header">
+        <div class="page-number">304</div>
+        <div class="page-title">
+            <h3>Figura 8.3: Cliff si Gradient Clipping</h3>
+            <span>8.2.5 Long-Term Dependencies</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-304.jpg"
+             alt="Pagina 304" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 8.3: Vizualizarea unui Cliff</h4>
+                <p>Aceasta figura (adaptata dupa Pascanu et al. 2013) arata cum arata un <strong>cliff</strong> in suprafata de cost. E o structura 3D cu o "stanca" foarte abrupta. Traiectoria SGD (linia punctata) arata cum un pas normal ar sari departe, iar gradient clipping (linia solida) pastreaza update-ul in regiune sigura.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretarea Figurii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Fara Gradient Clipping:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Update-ul ar sari peste stanca, ajungand in regiune cu cost foarte mare sau neinformativ.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Cu Gradient Clipping:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Pasul e limitat, ramanem pe partea buna a stancii si continuam sa coboram.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta: Sectiunea 10.11.1</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Gradient clipping e descris in detaliu in sectiunea 10.11.1. E folosit extensiv la RNNs unde cliff-urile sunt foarte comune din cauza inmultirii repetate.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.2.5 Long-Term Dependencies</h4>
+                <p>O alta dificultate majora apare cand graful computational devine extrem de deep. Retelele feedforward cu multe straturi si mai ales <strong>RNN-urile</strong> (care proceseaza secvente lungi) sufera de aceasta problema. Aplicarea repetata a aceleiasi operatii duce la probleme cu gradientii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Inmultirea Repetata cu W</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Presupune ca avem un graf computational unde inmultim cu W de t ori:</p>
+                            <div class="formula" style="margin: 15px 0;">
+                                W<sup>t</sup> = (V diag(λ) V<sup>-1</sup>)<sup>t</sup> = V diag(λ)<sup>t</sup> V<sup>-1</sup>
+                            </div>
+                            <p style="color: var(--text-secondary);">Eigenvalues λ<sub>i</sub> cu |λ<sub>i</sub>| > 1 → <span style="color: var(--warning);">EXPLODEAZA</span></p>
+                            <p style="color: var(--text-secondary);">Eigenvalues λ<sub>i</sub> cu |λ<sub>i</sub>| < 1 → <span style="color: var(--warning);">DISPARE</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Vanishing si Exploding Gradients</h4>
+                <p>Aceasta inmultire repetata duce la doua probleme gemene: <strong>vanishing gradients</strong> (gradientii dispar spre zero) si <strong>exploding gradients</strong> (gradientii explodeaza). Aceleasi eigenvalues care afecteaza forward pass afecteaza si gradientii!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analogie: Power Method</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Inmultirea repetata cu W e similara cu <strong>power method</strong> pentru gasirea celui mai mare eigenvalue. Dupa suficiente iteratii, x<sup>⊤</sup>W<sup>t</sup> va fi dominat de eigenvectorul principal - toate celelalte componente dispar!</p>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">RNN-urile sufera mai mult pentru ca folosesc acelasi W la fiecare pas. Feedforward nets au W-uri diferite la fiecare strat, deci efectul e mai moderat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

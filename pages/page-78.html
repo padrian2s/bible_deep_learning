@@ -1,0 +1,174 @@
+        <section class="page-section" id="page-78">
+            <div class="page-header">
+                <div class="page-number">78</div>
+                <div class="page-title">
+                    <h3>3.9.3 Distributia Gaussiana (Normala)</h3>
+                    <span>Cea mai importanta distributie in ML</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-078.jpg"
+                     alt="Pagina 78" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Distributia Normala (Gaussiana)</h4>
+                        <p>Cea mai folosita distributie peste numere reale este <strong>distributia normala</strong>, cunoscuta si ca <strong>Gaussiana</strong>. Are doi parametri: μ ∈ ℝ (media) si σ ∈ (0, ∞) (deviatia standard). Formula PDF-ului este celebra curba clopot: 𝒩(x; μ, σ²) = (1/√(2πσ²)) × exp(-(x-μ)²/(2σ²)). Varful curbei e la x = μ, iar σ controleaza latimea.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Curba clopot</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.1rem; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        𝒩(x; μ, σ²) = √(1/(2πσ²)) × exp(-(x-μ)²/(2σ²))
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                        <svg width="300" height="120" viewBox="0 0 300 120" style="max-width: 100%;">
+                                            <path d="M 20 100 Q 60 100 80 95 Q 100 85 120 60 Q 140 25 150 15 Q 160 25 180 60 Q 200 85 220 95 Q 240 100 280 100" stroke="var(--accent)" stroke-width="3" fill="none"/>
+                                            <line x1="20" y1="100" x2="280" y2="100" stroke="var(--text-secondary)" stroke-width="1"/>
+                                            <line x1="150" y1="100" x2="150" y2="15" stroke="var(--secondary)" stroke-width="1" stroke-dasharray="5,5"/>
+                                            <text x="150" y="115" fill="var(--text-secondary)" font-size="12" text-anchor="middle">μ</text>
+                                            <text x="200" y="90" fill="var(--text-secondary)" font-size="10">σ</text>
+                                        </svg>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                        <div style="text-align: center; padding: 10px; background: var(--bg-dark); border-radius: 6px;">
+                                            <strong style="color: var(--accent);">μ (medie)</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Pozitia varfului</p>
+                                        </div>
+                                        <div style="text-align: center; padding: 10px; background: var(--bg-dark); border-radius: 6px;">
+                                            <strong style="color: var(--secondary);">σ (std dev)</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Latimea curbei</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Distributia normala</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Distributia normala standard (μ=0, σ=1)
+standard_normal = stats.norm(loc=0, scale=1)
+
+# Proprietati
+print("Normal(μ=0, σ=1):")
+print(f"  E[X] = {standard_normal.mean():.1f}")
+print(f"  Var(X) = {standard_normal.var():.1f}")
+print(f"  p(0) = {standard_normal.pdf(0):.4f}")  # ≈ 0.3989
+
+# Regula 68-95-99.7
+print("\nRegula empirica:")
+print(f"  P(-1 < X < 1) = {standard_normal.cdf(1) - standard_normal.cdf(-1):.1%}")  # ~68%
+print(f"  P(-2 < X < 2) = {standard_normal.cdf(2) - standard_normal.cdf(-2):.1%}")  # ~95%
+print(f"  P(-3 < X < 3) = {standard_normal.cdf(3) - standard_normal.cdf(-3):.2%}")  # ~99.7%
+
+# In ML: initializare ponderilor
+weights = np.random.normal(0, 0.01, (100, 100))
+print(f"\nPonderi: mean={weights.mean():.4f}, std={weights.std():.4f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Parametrizare cu Precizia β</h4>
+                        <p>Cand trebuie sa evaluam PDF-ul frecvent cu diferiti parametri, este mai eficient sa folosim <strong>precizia</strong> β = 1/σ² in loc de varianta σ². Formula devine: 𝒩(x; μ, β⁻¹) = √(β/(2π)) × exp(-β(x-μ)²/2). Aceasta evita calculul radacinii patrate si impartirii in exponent.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>De ce conteaza precizia?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Precizia β = 1/σ²</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>Computational:</strong> Evita inversari si radacini patrate costisitoare</li>
+                                            <li><strong>Bayesian:</strong> Prior conjugat pentru media Gaussianei foloseste precizia</li>
+                                            <li><strong>Grafice:</strong> Precision matrix β in loc de covariance Σ pentru multivariate</li>
+                                        </ul>
+                                        <p style="margin-top: 10px;">β mare = σ² mic = distributie concentrata (precisa)</p>
+                                        <p>β mic = σ² mare = distributie larga (imprecisa)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce Gaussiana e atat de populara?</h4>
+                        <p>Distributia normala este alegerea implicita in lipsa cunostintelor prealabile, din doua motive fundamentale. In primul rand, multe distributii reale sunt aproape normale - <strong>Teorema Limitei Centrale</strong> ne arata ca suma multor variabile independente converge catre normala. Al doilea motiv este mai subtil si va fi explicat pe pagina urmatoare.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Teorema Limitei Centrale</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Demonstratie CLT: suma variabilelor converge la normala
+# Chiar daca variabilele originale NU sunt normale!
+
+np.random.seed(42)
+n_experiments = 10000
+
+# Suma de zaruri (distributie uniforma discreta)
+def clt_demonstration(n_dice):
+    """Arunca n zaruri, calculeaza suma"""
+    sums = []
+    for _ in range(n_experiments):
+        rolls = np.random.randint(1, 7, n_dice)
+        sums.append(rolls.sum())
+    return np.array(sums)
+
+# Cu cat mai multe zaruri, cu atat mai "normala" e distributia
+for n in [1, 2, 5, 30]:
+    sums = clt_demonstration(n)
+    # Standardizam pentru comparatie
+    standardized = (sums - sums.mean()) / sums.std()
+
+    # Testam normalitatea (p > 0.05 = probabil normala)
+    from scipy.stats import normaltest
+    _, p_value = normaltest(standardized)
+    print(f"{n} zaruri: mean={sums.mean():.1f}, std={sums.std():.2f}, "
+          f"normal? p={p_value:.4f}")
+
+# Output: cu n=30, p-value devine mare (distribuita normal)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

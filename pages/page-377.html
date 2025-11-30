@@ -1,0 +1,160 @@
+<section class="page-section" id="page-377">
+    <div class="page-header">
+        <div class="page-number">377</div>
+        <div class="page-title">
+            <h3>9.8 Algoritmi Eficienti de Convolutie</h3>
+            <span>Optimizari Computationale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-377.jpg"
+             alt="Pagina 377" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Inputuri de Dimensiuni Variabile</h4>
+                <p>Un avantaj major al CNN-urilor: pot procesa inputuri de dimensiuni variabile! Acelasi kernel se aplica indiferent de marimea imaginii - se schimba doar numarul de aplicari. Pentru clasificare cu output fix, folosim pooling adaptiv (ex: Global Average Pooling) care reduce orice dimensiune la un vector fix.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Input Variabil</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class FlexibleCNN(nn.Module):
+    def __init__(self, num_classes=1000):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, 3, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(64, 128, 3, padding=1),
+            nn.ReLU(),
+        )
+        # Global Average Pooling - accepta orice dimensiune!
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Linear(128, num_classes)
+
+    def forward(self, x):
+        x = self.features(x)  # [B, 128, H, W] - orice H, W
+        x = self.gap(x)        # [B, 128, 1, 1] - mereu 1x1!
+        x = x.flatten(1)       # [B, 128]
+        return self.classifier(x)
+
+model = FlexibleCNN()
+print(model(torch.randn(1, 3, 224, 224)).shape)  # [1, 1000]
+print(model(torch.randn(1, 3, 512, 512)).shape)  # [1, 1000]
+print(model(torch.randn(1, 3, 100, 300)).shape)  # [1, 1000]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutia in Domeniul Frecventei (FFT)</h4>
+                <p>Convolutia poate fi calculata eficient folosind <strong>transformata Fourier</strong>: conv(x, k) = IFFT(FFT(x) * FFT(k)). In domeniul frecventei, convolutia devine inmultire element-wise! Pentru kerneluri mari, aceasta abordare poate fi mai rapida decat convolutia directa (complexitate O(n log n) vs O(n*k)).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Convolutie via FFT</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy.signal import convolve2d
+import time
+
+# Imagine si kernel
+image = np.random.randn(512, 512)
+kernel = np.random.randn(31, 31)  # Kernel mare
+
+# Metoda 1: Convolutie directa
+start = time.time()
+out_direct = convolve2d(image, kernel, mode='same')
+time_direct = time.time() - start
+
+# Metoda 2: FFT-based
+def fft_convolve(image, kernel):
+    # Pad kernel to image size
+    padded_kernel = np.zeros_like(image)
+    kh, kw = kernel.shape
+    padded_kernel[:kh, :kw] = kernel
+
+    # FFT, multiply, IFFT
+    return np.real(np.fft.ifft2(
+        np.fft.fft2(image) * np.fft.fft2(padded_kernel)
+    ))
+
+start = time.time()
+out_fft = fft_convolve(image, kernel)
+time_fft = time.time() - start
+
+print(f"Direct: {time_direct:.3f}s")
+print(f"FFT: {time_fft:.3f}s")
+# Pentru kernel mare (31x31), FFT poate fi 2-5x mai rapid!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Kerneluri Separabile</h4>
+                <p>Un kernel 2D de dimensiune k×k poate fi uneori descompus in produsul exterior a doi vectori 1D de lungime k. In acest caz, convolutia 2D poate fi inlocuita cu doua convolutii 1D consecutive - reducand complexitatea de la O(k²) la O(2k). Aceasta tehnica e folosita in depthwise separable convolutions.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemple de Kerneluri Separabile</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Gaussian blur - SEPARABIL
+# K = outer(g, g) unde g = [1, 2, 1]
+g = np.array([1, 2, 1]) / 4
+K_gaussian = np.outer(g, g)
+print("Gaussian kernel:\n", K_gaussian)
+# [[0.0625 0.125  0.0625]
+#  [0.125  0.25   0.125 ]
+#  [0.0625 0.125  0.0625]]
+
+# Sobel - NU e separabil (dar poate fi aproximat)
+K_sobel = np.array([[-1, 0, 1],
+                    [-2, 0, 2],
+                    [-1, 0, 1]])
+# Sobel = outer([1,2,1], [-1,0,1]) - separabil!
+
+# Operatii: 3x3 = 9 multiplicari
+# Separabil: 3 + 3 = 6 multiplicari (33% mai putin)
+# La 5x5: 25 vs 10 (60% mai putin!)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,105 @@
+<section class="page-section" id="page-141">
+    <div class="page-header">
+        <div class="page-number">141</div>
+        <div class="page-title">
+            <h3>Estimatorul Mediei Gaussiene</h3>
+            <span>Capitolul 5 - Sample Mean pentru Gaussian</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-141.jpg"
+             alt="Pagina 141" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Distributia Gaussiana (Normala)</h4>
+                <p>Consideram esantioane {x<sup>(1)</sup>, ..., x<sup>(m)</sup>} i.i.d. dintr-o distributie Gaussiana cu parametri μ (media) si σ² (varianta): p(x<sup>(i)</sup>; μ, σ²) = N(x<sup>(i)</sup>; μ, σ²). Densitatea de probabilitate este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    p(x; μ, σ²) = (1/√(2πσ²)) exp(-(x - μ)² / (2σ²))
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sample Mean ca Estimator pentru μ</h4>
+                <p>Un estimator comun pentru media μ a distributiei Gaussiene este <strong>sample mean</strong> (media esantionului):</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    μ̂<sub>m</sub> = (1/m) Σᵢ x<sup>(i)</sup>
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Estimarea Mediei Gaussiene</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Parametrii adevarati
+mu_true = 5.0
+sigma_true = 2.0
+
+print(f"Distributie Gaussiana: μ = {mu_true}, σ = {sigma_true}")
+print("-" * 50)
+
+np.random.seed(42)
+
+for m in [10, 100, 1000, 10000]:
+    samples = np.random.normal(mu_true, sigma_true, m)
+    mu_hat = np.mean(samples)
+    bias = mu_hat - mu_true
+
+    print(f"m = {m:5d}: μ̂ = {mu_hat:.4f}, bias = {bias:+.4f}")
+
+print()
+print("=> Sample mean este UNBIASED pentru media Gaussiana")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Demonstratie: Sample Mean este Unbiased</h4>
+                <p>Calculam bias-ul sample mean pentru distributia Gaussiana:</p>
+                <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <p>bias(μ̂<sub>m</sub>) = E[μ̂<sub>m</sub>] - μ</p>
+                    <p style="margin-top: 10px;">= E[(1/m)Σᵢ x<sup>(i)</sup>] - μ</p>
+                    <p style="margin-top: 10px;">= (1/m)Σᵢ E[x<sup>(i)</sup>] - μ</p>
+                    <p style="margin-top: 10px;">= (1/m) · m · μ - μ</p>
+                    <p style="margin-top: 10px;">= μ - μ = 0</p>
+                </div>
+                <p>Astfel, sample mean este un estimator <strong>unbiased</strong> al parametrului mediei Gaussiene.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Pattern General</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Sample mean este unbiased pentru ORICE distributie cu medie finita, nu doar Gaussiana sau Bernoulli!</p>
+                                <p style="margin-top: 10px;">Demonstratia foloseste doar:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>Liniaritatea expectatiei: E[aX + bY] = aE[X] + bE[Y]</li>
+                                    <li>E[x<sup>(i)</sup>] = media adevarata</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,96 @@
+<section class="page-section" id="page-488">
+    <div class="page-header">
+        <div class="page-number">488</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4.5 Neural Machine Translation</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-488.jpg"
+             alt="Pagina 488" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>n-gram Features in Neural Networks</h4>
+                <p>O modalitate simpla de a adauga capacitate unei retele neurale este sa adaugam input-uri extra conectate direct la output, fara a trece prin restul modelului. Aceste input-uri sunt indicatori pentru prezenta anumitor n-grame in context - variabile foarte high-dimensional si sparse. Cresterea in capacitate poate fi de pana la |s·V|ⁿ parametri, dar computatia adaugata e minima.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Idea: Sparse n-gram features</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                Indicatorii pentru n-grame sunt foarte rari (majoritatea sunt 0), deci lookup-ul e rapid chiar daca dimensionalitatea e uriasa.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.5 Neural Machine Translation</h4>
+                <p><strong>Machine translation</strong> este task-ul de a citi o propozitie intr-un limbaj natural si a emite o propozitie cu sens echivalent in alt limbaj. Sistemele de traducere au multe componente: una care propune traduceri candidate (care de multe ori nu sunt gramatical corecte) si alta care evalueaza traducerile propuse.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Componentele MT</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--accent); padding: 15px; border-radius: 8px; color: var(--bg-dark); flex: 1;">
+                                        <strong>1. Proposal Mechanism</strong>
+                                        <p style="font-size: 0.8rem; margin-top: 5px;">"apple red" → propune variante</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--success); padding: 15px; border-radius: 8px; color: var(--bg-dark); flex: 1;">
+                                        <strong>2. Language Model (Scoring)</strong>
+                                        <p style="font-size: 0.8rem; margin-top: 5px;">"red apple" > "apple red"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>NLM in Translation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Prima utilizare a retelelor neurale pentru MT a fost inlocuirea componentei language model cu un <strong>neural language model</strong>.</p>
+                            <ul class="reference-list" style="margin-top: 15px;">
+                                <li class="reference-item"><span>📄</span><div><strong>Schwenk et al. (2006); Schwenk (2010)</strong> - NLM ca scoring component</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Devlin et al. (2014)</strong> - MLP pentru a scora perechi de fraze source-target</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conditional Language Model</h4>
+                <p>Deoarece traducerea necesita producerea unei propozitii de output data fiind una de input, are sens sa extindem language model-ul pentru a fi <strong>conditional</strong>. MLP-ul estimeaza P(t₁, t₂, ..., tₖ | s₁, s₂, ..., sₙ) - probabilitatea frazei target data fiind fraza source.</p>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,90 @@
+<section class="page-section" id="page-404">
+    <div class="page-header">
+        <div class="page-number">404</div>
+        <div class="page-title">
+            <h3>Eficienta RNN si Markov Assumption</h3>
+            <span>Comparatie cu Modele Tabulare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-404.jpg"
+             alt="Pagina 404" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Markov Assumption vs Full History</h4>
+                <p>Multi modele probabilistice fac <strong>Markov assumption</strong>: doar ultimele k observatii conteaza. RNN-urile sunt mai puternice - pot (teoretic) captura dependente de la orice distanta in trecut, prin starea h care comprima tot istoricul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie: Markov vs RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Markov Order k</strong>
+                                    <div class="formula" style="margin: 10px 0; font-size: 0.85rem;">
+                                        P(y<sup>(t)</sup> | y<sup>(t-k)</sup>, ..., y<sup>(t-1)</sup>)
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Vede doar ultimele k simboluri</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">RNN</strong>
+                                    <div class="formula" style="margin: 10px 0; font-size: 0.85rem;">
+                                        P(y<sup>(t)</sup> | h<sup>(t)</sup>) unde h<sup>(t)</sup> ≈ {y<sup>(1)</sup>,...,y<sup>(t-1)</sup>}
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">h comprima TOT istoricul</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Starea h ca "Sufficient Statistic"</h4>
+                <p>Interpretand RNN-ul ca graphical model, h<sup>(t)</sup> actioneaza ca un <strong>sufficient statistic</strong> - contine toata informatia din trecut necesara pentru a prezice viitorul. h decupleaza y<sup>(t)</sup> de y<sup>(1)</sup>...y<sup>(t-2)</sup>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Trade-off: Parametri vs Optimizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Pretul Eficientei</h5>
+                                <p>RNN-urile au putini parametri (<strong>O(1)</strong> vs O(k<sup>τ</sup>)), dar pretul este ca <strong>optimizarea</strong> devine dificila.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">+</strong> Putini parametri
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">+</strong> Generalizeaza la lungimi noi
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">-</strong> Gradientii vanishing/exploding
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">-</strong> Dificil de captat dependente foarte lungi
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

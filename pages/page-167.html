@@ -1,0 +1,140 @@
+<section class="page-section" id="page-167">
+    <div class="page-header">
+        <div class="page-number">167</div>
+        <div class="page-title">
+            <h3>Stochastic Gradient Descent</h3>
+            <span>Capitolul 5 - Sectiunea 5.9</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-167.jpg"
+             alt="Pagina 167" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Scalabilitatii</h4>
+                <p>O problema recurenta in ML este ca training set-urile mari sunt necesare pentru generalizare buna, dar training set-urile mari sunt si <strong>mai costisitoare computational</strong>. Functia cost este adesea o suma peste per-example loss:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    J(θ) = E<sub>x,y~p̂<sub>data</sub></sub> L(x, y, θ) = (1/m) Σᵢ L(x<sup>(i)</sup>, y<sup>(i)</sup>, θ)
+                </div>
+                <p>unde L este per-example loss, de ex. L(x, y, θ) = -log p(y | x; θ).</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Costul Gradientului Full-Batch</h4>
+                <p>Pentru functii cost aditive, gradient descent necesita calculul:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    ∇<sub>θ</sub>J(θ) = (1/m) Σᵢ ∇<sub>θ</sub>L(x<sup>(i)</sup>, y<sup>(i)</sup>, θ)
+                </div>
+                <p>Costul computational al acestei operatii este <strong>O(m)</strong>. Pe masura ce training set-ul creste la miliarde de exemple, timpul pentru un singur pas de gradient devine prohibitiv de lung.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Insight-ul SGD: Gradientul e o Expectation</h4>
+                <p>Insight-ul SGD este ca <strong>gradientul este o expectation</strong>. Expectation poate fi <strong>aproximata</strong> folosind un set mic de samples. La fiecare pas al algoritmului, putem sample un <strong>minibatch</strong> de exemple B = {x<sup>(1)</sup>, ..., x<sup>(m')</sup>} drawn uniform din training set. Minibatch size m' este ales sa fie un numar relativ mic (1 pana la cateva sute). <strong>Crucial</strong>: m' este tinut fix pe masura ce m creste!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Full-Batch vs Mini-Batch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Comparatie Complexitate</h5>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>Full-Batch GD</strong>
+                                        <p style="font-size: 1.1rem; margin: 10px 0; color: var(--warning);">O(m) per step</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Gradient exact</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>SGD</strong>
+                                        <p style="font-size: 1.1rem; margin: 10px 0; color: var(--success);">O(m') per step</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Gradient estimat (m' << m)</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center;">Putem antrena pe <strong>miliarde</strong> de exemple cu updates bazate doar pe ~100 exemple!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formulele SGD</h4>
+                <p>Estimarea gradientului este formata ca:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    g = (1/m') ∇<sub>θ</sub> Σᵢ L(x<sup>(i)</sup>, y<sup>(i)</sup>, θ)
+                </div>
+                <p>Algoritmul SGD urmeaza apoi gradientul estimat downhill:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    θ ← θ - εg
+                </div>
+                <p>unde ε este <strong>learning rate</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: SGD vs Full-Batch GD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+np.random.seed(42)
+
+# Problema: Linear regression pe date mari
+m = 10000  # total examples
+n = 10     # features
+X = np.random.randn(m, n)
+w_true = np.random.randn(n)
+y = X @ w_true + 0.1 * np.random.randn(m)
+
+# Full-batch GD
+def full_batch_step(X, y, w, lr=0.01):
+    grad = (2/m) * X.T @ (X @ w - y)
+    return w - lr * grad
+
+# SGD
+def sgd_step(X, y, w, batch_size=32, lr=0.01):
+    idx = np.random.choice(m, batch_size, replace=False)
+    X_batch, y_batch = X[idx], y[idx]
+    grad = (2/batch_size) * X_batch.T @ (X_batch @ w - y_batch)
+    return w - lr * grad
+
+# Compara
+w_fb = np.zeros(n)
+w_sgd = np.zeros(n)
+
+print("Training (100 steps):")
+for i in range(100):
+    w_fb = full_batch_step(X, y, w_fb)
+    w_sgd = sgd_step(X, y, w_sgd, batch_size=32)
+
+loss_fb = np.mean((X @ w_fb - y)**2)
+loss_sgd = np.mean((X @ w_sgd - y)**2)
+
+print(f"Full-batch loss: {loss_fb:.6f}")
+print(f"SGD loss:        {loss_sgd:.6f}")
+print(f"\nSGD: 32x mai putin compute per step!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

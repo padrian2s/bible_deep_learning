@@ -1,0 +1,113 @@
+<section class="page-section" id="page-129">
+    <div class="page-header">
+        <div class="page-number">129</div>
+        <div class="page-title">
+            <h3>Occam's Razor si VC Dimension</h3>
+            <span>Capitolul 5 - Teoria Generalizarii</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-129.jpg"
+             alt="Pagina 129" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Occam's Razor</h4>
+                <p>Ideile moderne despre imbunatatirea generalizarii sunt rafinamente ale unor ganduri care dateaza cel putin din vremea lui Ptolemeu. Cel mai cunoscut este principiul <strong>Occam's razor</strong> (c. 1287-1347): dintre ipotezele care explica la fel de bine observatiile, ar trebui sa alegem pe cea mai "simpla". Aceasta idee a fost formalizata si facuta mai precisa in secolul 20 de fondatorii teoriei invatarii statistice (Vapnik and Chervonenkis, 1971; Vapnik, 1982; Blumer et al., 1989).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Occam's Razor in ML</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Principiul Simplicitatii</h5>
+                                <p>"Entia non sunt multiplicanda praeter necessitatem"</p>
+                                <p style="color: var(--text-secondary);">(Nu multiplica entitatile dincolo de necesitate)</p>
+                                <p style="margin-top: 15px;">In ML: Alege modelul cel mai simplu care explica datele bine!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>VC Dimension</h4>
+                <p>Statistical learning theory ofera diverse moduri de a cuantifica capacity-ul modelului. Cel mai cunoscut este <strong>Vapnik-Chervonenkis dimension</strong> (VC dimension). VC dimension masoara capacity-ul unui clasificator binar: este cea mai mare valoare a lui m pentru care exista un training set de m puncte pe care clasificatorul le poate eticheta arbitrar. Daca poate "sparge" (shatter) orice set de m puncte, VC dimension ≥ m.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: VC Dimension Intuitiv</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# VC Dimension = numarul maxim de puncte care pot fi
+# "shattered" (etichetate arbitrar) de clasificator
+
+# Exemplu: Clasificator liniar 2D
+# Poate separa ORICE 3 puncte necoliniare? DA!
+# Poate separa ORICE 4 puncte? NU! (XOR problem)
+
+# Deci VC dimension pentru liniar 2D = 3
+
+# Formula generala pentru clasificator liniar in R^n:
+# VC(liniar in R^n) = n + 1
+
+print("VC Dimension pentru clasificatori liniari:")
+print("-" * 40)
+for n in [1, 2, 3, 10, 100]:
+    print(f"  R^{n:3d}: VC = {n+1}")
+
+print("\nInterpretare:")
+print("  VC mic -> model simplu, poate underfit")
+print("  VC mare -> model complex, poate overfit")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Curba U a Generalization Error</h4>
+                <p>Cuantificarea capacity permite statistical learning theory sa faca predictii cantitative. Cele mai importante rezultate arata ca discrepanta intre training error si generalization error este <strong>bounded</strong> de o cantitate care creste cu capacity dar scade cu numarul de exemple de antrenament. Aceste bounds ofera justificare intelectuala ca ML poate functiona, dar rareori sunt folosite in practica pentru deep learning - sunt prea slabe si dificil de determinat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Curba U</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Generalization Error vs Capacity</h5>
+                                <p>Training error scade monoton cu capacity.</p>
+                                <p>Generalization error are forma de <strong>U</strong>:</p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Capacity mica → underfit → ambele erori mari</li>
+                                    <li>Capacity optima → ambele erori mici</li>
+                                    <li>Capacity mare → overfit → train mic, test mare</li>
+                                </ul>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Vezi Figura 5.3 pentru ilustrare!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

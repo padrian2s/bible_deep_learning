@@ -1,0 +1,125 @@
+<section class="page-section" id="page-391">
+    <div class="page-header">
+        <div class="page-number">391</div>
+        <div class="page-title">
+            <h3>Sisteme Dinamice cu Input Extern</h3>
+            <span>Ecuatia 10.4 si Figura 10.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-391.jpg"
+             alt="Pagina 391" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Adaugarea Input-ului Extern x<sup>(t)</sup></h4>
+                <p>Sistemul dinamic simplu (ec. 10.1) nu primeste input extern. In practica, RNN-urile au nevoie de un <strong>semnal extern x<sup>(t)</sup></strong> la fiecare pas. Noua ecuatie devine: s<sup>(t)</sup> = f(s<sup>(t-1)</sup>, x<sup>(t)</sup>; θ). Acum starea depinde SI de input-ul curent!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Figura 10.2</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">Circuit (Folded)</strong>
+                                    <div style="margin: 15px 0; font-family: monospace;">
+                                        x → [h] ↺<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                                        &nbsp;&nbsp;&nbsp;output
+                                    </div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">■ = delay de 1 pas</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Unfolded</strong>
+                                    <div style="margin: 15px 0; font-family: monospace; font-size: 0.85rem;">
+                                        x<sup>(t-1)</sup>&nbsp;&nbsp;&nbsp;x<sup>(t)</sup>&nbsp;&nbsp;&nbsp;x<sup>(t+1)</sup><br>
+                                        &nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                                        h<sup>(...)</sup>→h<sup>(t-1)</sup>→h<sup>(t)</sup>→h<sup>(t+1)</sup>→h<sup>(...)</sup>
+                                    </div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Fiecare h primeste input x SI starea anterioara h</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: RNN cu Input</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>import torch
+import torch.nn as nn
+
+class SimpleRNNCell(nn.Module):
+    """Ecuatia 10.4: h(t) = f(h(t-1), x(t); theta)"""
+    def __init__(self, input_size, hidden_size):
+        super().__init__()
+        # Parametrii theta: W_xh si W_hh
+        self.W_xh = nn.Linear(input_size, hidden_size)
+        self.W_hh = nn.Linear(hidden_size, hidden_size)
+
+    def forward(self, x_t, h_prev):
+        # h(t) = tanh(W_xh * x(t) + W_hh * h(t-1))
+        return torch.tanh(self.W_xh(x_t) + self.W_hh(h_prev))
+
+# Exemplu
+cell = SimpleRNNCell(input_size=5, hidden_size=10)
+x_t = torch.randn(1, 5)      # input la timpul t
+h_prev = torch.zeros(1, 10)  # stare anterioara
+
+h_t = cell(x_t, h_prev)      # noua stare
+print(f"h_t shape: {h_t.shape}")  # [1, 10]</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Starea Ascunsa h<sup>(t)</sup> ca Memorie</h4>
+                <p>Variabila h se numeste <strong>stare ascunsa</strong> (hidden state). Ea actioneaza ca o "memorie" comprimata a intregului istoric. Cand RNN-ul trebuie sa prezica viitorul, invata sa pastreze in h<sup>(t)</sup> informatiile relevante din secventa x<sup>(1)</sup>, ..., x<sup>(t)</sup>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce stocheaza h?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>h<sup>(t)</sup> = "Lossy Summary" al istoricului</h5>
+                                <p>Starea h este <strong>necesarmente cu pierderi</strong> pentru ca mapeaza o secventa de lungime arbitrara la un vector de dimensiune fixa.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Language Modeling:</strong>
+                                    <span style="color: var(--text-secondary);"> h pastreaza suficient context pentru a prezice urmatorul cuvant</span>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Autoencoder:</strong>
+                                    <span style="color: var(--text-secondary);"> h trebuie sa fie suficient de bogat pentru a reconstrui TOATA secventa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

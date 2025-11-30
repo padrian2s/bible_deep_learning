@@ -1,0 +1,93 @@
+        <section class="page-section" id="page-37">
+            <div class="page-header">
+                <div class="page-number">37</div>
+                <div class="page-title">
+                    <h3>Datasetul MNIST</h3>
+                    <span>Figura 1.9 - "Drosophila" machine learning-ului</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-037.jpg"
+                     alt="Pagina 37" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Ce este MNIST?</h4>
+                        <p><strong>MNIST</strong> = Modified National Institute of Standards and Technology. Contine 70,000 imagini de cifre scrise de mana (0-9). Este cel mai folosit dataset pentru testarea algoritmilor ML!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Detalii MNIST</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--accent);">Specificatii</h5>
+                                            <ul style="margin-top: 10px; margin-left: 15px; color: var(--text-secondary);">
+                                                <li>60,000 imagini antrenare</li>
+                                                <li>10,000 imagini test</li>
+                                                <li>28×28 pixeli (grayscale)</li>
+                                                <li>10 clase (0-9)</li>
+                                            </ul>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--success);">De ce e important?</h5>
+                                            <ul style="margin-top: 10px; margin-left: 15px; color: var(--text-secondary);">
+                                                <li>Suficient de mic sa ruleze rapid</li>
+                                                <li>Suficient de greu sa fie interesant</li>
+                                                <li>Benchmark standardizat</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>"Drosophila" machine learning-ului</h4>
+                        <p>Geoffrey Hinton a numit MNIST "drosophila machine learning-ului" - la fel cum biologii studiaza musca de fructe pentru a intelege genetica, cercetatorii ML testeaza algoritmi noi pe MNIST.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Progresul pe MNIST</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <span style="width: 80px;">1998:</span>
+                                            <div style="background: var(--warning); height: 20px; width: 88%; border-radius: 4px;"></div>
+                                            <span>12% eroare</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <span style="width: 80px;">2012:</span>
+                                            <div style="background: var(--secondary); height: 20px; width: 23%; border-radius: 4px;"></div>
+                                            <span>0.23% eroare</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <span style="width: 80px;">2020:</span>
+                                            <div style="background: var(--success); height: 20px; width: 16%; border-radius: 4px;"></div>
+                                            <span>0.16% eroare</span>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--accent);">De la 12% eroare la sub 0.2% - aproape perfect!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

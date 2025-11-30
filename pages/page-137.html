@@ -1,0 +1,124 @@
+<section class="page-section" id="page-137">
+    <div class="page-header">
+        <div class="page-number">137</div>
+        <div class="page-title">
+            <h3>Cross-Validation si Introducere Estimatori</h3>
+            <span>Capitolul 5 - Sectiuni 5.3.1, 5.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-137.jpg"
+             alt="Pagina 137" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.3.1 Cross-Validation</h4>
+                <p>Impartirea dataset-ului intr-un training set fix si test set fix poate fi problematica daca rezulta intr-un test set mic. Un test set mic implica incertitudine statistica - e dificil sa sustii ca algoritmul A e mai bun decat B pe acel task. Cand dataset-ul are sute de mii de exemple, nu e o problema. Dar cand e prea mic, exista proceduri alternative care folosesc toate exemplele pentru estimarea test error, cu cost computational mai mare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: K-Fold Cross-Validation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.model_selection import cross_val_score, KFold
+from sklearn.linear_model import LogisticRegression
+import numpy as np
+
+# Dataset mic
+np.random.seed(42)
+X = np.random.randn(100, 5)
+y = (X[:, 0] + X[:, 1] > 0).astype(int)
+
+# K-Fold Cross-Validation
+model = LogisticRegression()
+
+# k=5: Impartim in 5 fold-uri
+# La fiecare iteratie, 4 fold-uri = train, 1 fold = test
+kfold = KFold(n_splits=5, shuffle=True, random_state=42)
+scores = cross_val_score(model, X, y, cv=kfold)
+
+print("5-Fold Cross-Validation:")
+print("-" * 40)
+for i, score in enumerate(scores):
+    print(f"  Fold {i+1}: accuracy = {score:.3f}")
+
+print(f"\nMean accuracy: {scores.mean():.3f} (+/- {scores.std()*2:.3f})")
+print("\nAvantaj: Folosim TOATE datele pt evaluare!")
+print("Dezavantaj: Antrenam modelul de k ori")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul K-Fold Cross-Validation</h4>
+                <p>Cea mai comuna procedura este <strong>k-fold cross-validation</strong> (Algorithm 5.1). Partitionam dataset-ul in k subseturi care nu se suprapun. La trial-ul i, subset-ul i devine test set, iar restul datelor devin training set. Test error se estimeaza mediind peste cele k trial-uri. O problema: nu exista estimatori nebiased pentru varianta acestei medii (Bengio and Grandvalet, 2004), dar aproximatii sunt folosite in practica.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: 5-Fold CV</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 10px;">
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; text-align: center;">Test</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center;">Train</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center;">Train</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center;">Train</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center;">Train</div>
+                                </div>
+                                <p style="font-size: 0.8rem; text-align: right;">Fold 1</p>
+                                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 10px;">
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center;">Train</div>
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; text-align: center;">Test</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center;">Train</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center;">Train</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center;">Train</div>
+                                </div>
+                                <p style="font-size: 0.8rem; text-align: right;">Fold 2</p>
+                                <p style="text-align: center; color: var(--text-secondary);">... (si asa mai departe pentru fold 3, 4, 5)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.4 Estimators, Bias and Variance</h4>
+                <p>Domeniul statisticii ne ofera multe unelte pentru a atinge scopul ML de a rezolva task-uri nu doar pe training set ci si pentru a generaliza. Concepte fundamentale precum <strong>estimarea parametrilor</strong>, <strong>bias</strong> si <strong>variance</strong> sunt utile pentru a caracteriza formal notiunile de generalizare, underfitting si overfitting.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>5.4.1 Point Estimation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Point estimation</strong> = incercarea de a oferi cea mai buna predictie singulara pentru o cantitate de interes. Poate fi un parametru scalar, un vector de parametri, sau chiar o intreaga functie.</p>
+                                <p style="margin-top: 10px;">Notatie: θ = parametrul adevarat, θ̂ = estimatul nostru</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

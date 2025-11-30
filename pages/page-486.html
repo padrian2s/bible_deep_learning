@@ -1,0 +1,125 @@
+<section class="page-section" id="page-486">
+    <div class="page-header">
+        <div class="page-number">486</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Bag of Words si 12.4.3.4 NCE & Ranking Loss</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-486.jpg"
+             alt="Pagina 486" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Importance Sampling pentru Bag of Words</h4>
+                <p>Importance sampling este utila nu doar pentru softmax peste vocabulare mari, ci si pentru accelerarea antrenarii cu output-uri <strong>sparse</strong> mari. Un exemplu este <strong>bag of words</strong> - un vector rar v unde vᵢ indica prezenta sau absenta cuvantului i din vocabular in document.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Bag of Words Output</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Document: "the cat sat on the mat"</p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 15px;">
+                                    <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark);">the: 1</span>
+                                    <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark);">cat: 1</span>
+                                    <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark);">sat: 1</span>
+                                    <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark);">on: 1</span>
+                                    <span style="background: var(--success); padding: 5px 10px; border-radius: 4px; color: var(--bg-dark);">mat: 1</span>
+                                    <span style="background: var(--bg-dark); padding: 5px 10px; border-radius: 4px; opacity: 0.5;">dog: 0</span>
+                                    <span style="background: var(--bg-dark); padding: 5px 10px; border-radius: 4px; opacity: 0.5;">run: 0</span>
+                                    <span style="color: var(--text-secondary);">... (|V|-5 zerouri)</span>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Problema: Loss function compara fiecare element al output-ului cu target-ul, dar majoritatea target-urilor sunt zero!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Sparse Outputs</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Dauphin et al. (2011)</strong> - Importance sampling pentru accelerarea modelelor cu sparse outputs</div></li>
+                            </ul>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Algoritmul esantioneaza "positive words" (cele non-zero in target) si un numar egal de "negative words" (alese random, mai probabil sa fie gresite). Bias-ul e corectat cu importance weights.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.3.4 Noise-Contrastive Estimation si Ranking Loss</h4>
+                <p>Alte abordari bazate pe sampling au fost propuse pentru a reduce costul antrenarii NLM cu vocabulare mari. <strong>Ranking loss</strong> trateaza output-ul NLM ca un scor si incearca sa faca scorul cuvantului corect aᵧ mai mare decat scorurile celorlalte cuvinte.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Ranking Loss</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Ranking Loss (Collobert & Weston, 2008a)
+# Scorul cuvantului corect trebuie sa fie mai mare
+# decat scorurile negative cu o margine de 1
+
+def ranking_loss(model, context, target, negative_samples):
+    """
+    L = sum_i max(0, 1 - a_y + a_i)
+
+    Gradientul e zero cand scorul corect e
+    mai mare decat cel negativ cu margine >= 1
+    """
+    a_y = model.score(context, target)
+
+    loss = 0.0
+    for neg in negative_samples:
+        a_i = model.score(context, neg)
+        # Hinge loss: penalizeaza daca a_y < a_i + 1
+        loss += torch.relu(1 - a_y + a_i)
+
+    return loss
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Limitare: Nu da probabilitati</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema:</strong> Ranking loss nu ofera probabilitati conditionale estimate - doar scoruri relative. Aceasta e problematica pentru aplicatii precum speech recognition sau machine translation care necesita probabilitati.
+                            </div>
+                            <ul class="reference-list" style="margin-top: 15px;">
+                                <li class="reference-item"><span>📄</span><div><strong>Collobert & Weston (2008a)</strong> - Ranking loss pentru NLM</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Mnih & Teh (2012); Mnih & Kavukcuoglu (2013)</strong> - Noise-Contrastive Estimation (NCE)</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

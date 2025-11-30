@@ -1,0 +1,110 @@
+<section class="page-section" id="page-163">
+    <div class="page-header">
+        <div class="page-number">163</div>
+        <div class="page-title">
+            <h3>PCA si Decorrelarea - Figura 5.8</h3>
+            <span>Capitolul 5 - Sectiunea 5.8.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-163.jpg"
+             alt="Pagina 163" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.8: PCA Transformation</h4>
+                <p><strong>(Stanga)</strong> Datele originale x - varianta poate aparea in directii care nu sunt axis-aligned. <strong>(Dreapta)</strong> Datele transformate z = x<sup>T</sup>W - acum variaza cel mai mult de-a lungul axei z₁, iar a doua cea mai mare varianta este pe z₂. PCA invata o <strong>proiectie liniara</strong> care aliniaza directiile de maxima varianta cu axele noului spatiu.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: PCA Rotation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Efectul PCA</h5>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>Inainte (x)</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 10px;">Corelat, varianta pe diagonala</p>
+                                        <div style="font-family: monospace; margin-top: 10px; color: var(--warning);">
+                                            ⟋<br>⟋<br>⟋
+                                        </div>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>Dupa (z = x<sup>T</sup>W)</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 10px;">Decorelat, varianta pe axe</p>
+                                        <div style="font-family: monospace; margin-top: 10px; color: var(--success);">
+                                            —<br>|<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>PCA Gaseste Reprezentari Decorelate</h4>
+                <p>PCA gaseste o reprezentare (prin transformare liniara) z = x<sup>T</sup>W unde <strong>Var[z] este diagonala</strong>. Reprezentarea are dimensionalitate mai mica decat inputul original si are elemente fara corelatie liniara intre ele. Acesta este un prim pas catre criteriul de a invata reprezentari cu elemente <strong>statistic independente</strong>. Pentru a obtine independenta completa, un algoritm de representation learning trebuie sa elimine si relatiile <strong>nonliniare</strong> intre variabile.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Matricea de Covarianta</h4>
+                <p>Consideram matricea de design m × n X. Presupunem ca datele au medie zero: E[x] = 0 (altfel, centram datele scazand media). Matricea de <strong>covarianta sample</strong> (unbiased) asociata cu X este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    Var[x] = (1/(m-1)) X<sup>T</sup>X
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Covariance Matrix</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+np.random.seed(42)
+
+# Date corelate
+n_samples = 1000
+X = np.random.randn(n_samples, 2)
+# Adaugam corelatie
+X[:, 1] = X[:, 0] * 0.8 + X[:, 1] * 0.2
+
+# Centram datele
+X_centered = X - X.mean(axis=0)
+
+# Covariance matrix (formula din carte)
+m = X_centered.shape[0]
+cov_manual = (1/(m-1)) * X_centered.T @ X_centered
+
+print("Covariance matrix (manual):")
+print(cov_manual.round(3))
+
+print("\nCovariance matrix (numpy):")
+print(np.cov(X.T).round(3))
+
+print("\n=> Elementele off-diagonal = corelatie")
+print(f"   Corelatie x1-x2: {cov_manual[0,1]:.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

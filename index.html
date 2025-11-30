@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Learning - Explicat in Romana</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" onclick="toggleNav()">☰</button>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Image Overlay -->
+    <div class="image-overlay" id="imageOverlay" onclick="closeZoom()"></div>
+
+    <!-- Navigation Sidebar -->
+    <nav class="nav-sidebar" id="navSidebar">
+        <div class="nav-header">
+            <h2>Deep Learning</h2>
+            <p>Goodfellow, Bengio, Courville</p>
+        </div>
+        <div class="nav-list">
+            <!-- ============ CAPITOLUL 1 ============ -->
+            <div class="nav-chapter-container" id="chapter1">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter1')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 1</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Introducere</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 1.1 -->
+                    <div class="nav-section">1.1 Ce este Deep Learning?</div>
+                    <div class="nav-item"><a href="#page-16" class="nav-link">Pag. 16 - Visul AI</a></div>
+                    <div class="nav-item"><a href="#page-17" class="nav-link">Pag. 17 - Machine Learning</a></div>
+                    <div class="nav-item"><a href="#page-20" class="nav-link">Pag. 20 - Factori de Variatie</a></div>
+                    <div class="nav-item"><a href="#page-21" class="nav-link">Pag. 21 - Straturi & Reprezentari</a></div>
+                    <div class="nav-item"><a href="#page-22" class="nav-link">Pag. 22 - Grafuri Computationale</a></div>
+                    <div class="nav-item"><a href="#page-23" class="nav-link">Pag. 23 - Cui se Adreseaza</a></div>
+                    <div class="nav-item"><a href="#page-24" class="nav-link">Pag. 24 - Diagrama Venn AI</a></div>
+                    <div class="nav-item"><a href="#page-25" class="nav-link">Pag. 25 - Tipuri Sisteme AI</a></div>
+                    <div class="nav-item"><a href="#page-26" class="nav-link">Pag. 26 - Organizare Carte</a></div>
+                    <div class="nav-item"><a href="#page-27" class="nav-link">Pag. 27 - Harta Capitolelor</a></div>
+
+                    <!-- Section 1.2 -->
+                    <div class="nav-section">1.2 Tendinte Istorice</div>
+                    <div class="nav-item"><a href="#page-28" class="nav-link">Pag. 28 - Numele Retelelor</a></div>
+                    <div class="nav-item"><a href="#page-29" class="nav-link">Pag. 29 - Cele 3 Valuri AI</a></div>
+                    <div class="nav-item"><a href="#page-30" class="nav-link">Pag. 30 - Perceptron & XOR</a></div>
+                    <div class="nav-item"><a href="#page-32" class="nav-link">Pag. 32 - Conexionism</a></div>
+                    <div class="nav-item"><a href="#page-33" class="nav-link">Pag. 33 - Backpropagation</a></div>
+
+                    <!-- Section 1.2.2-1.2.4 -->
+                    <div class="nav-section">1.2.2-4 Date & Modele</div>
+                    <div class="nav-item"><a href="#page-34" class="nav-link">Pag. 34 - Cresterea Datelor</a></div>
+                    <div class="nav-item"><a href="#page-35" class="nav-link">Pag. 35 - Dimensiune Modele</a></div>
+                    <div class="nav-item"><a href="#page-36" class="nav-link">Pag. 36 - Evolutia Datasetelor</a></div>
+                    <div class="nav-item"><a href="#page-37" class="nav-link">Pag. 37 - MNIST Dataset</a></div>
+                    <div class="nav-item"><a href="#page-38" class="nav-link">Pag. 38 - Acuratete & Impact</a></div>
+                    <div class="nav-item"><a href="#page-39" class="nav-link">Pag. 39 - Conexiuni/Neuron</a></div>
+                    <div class="nav-item"><a href="#page-40" class="nav-link">Pag. 40 - Aplicatii & Viitor</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 2 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter2">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter2')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 2</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Algebra Liniara</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 2.1-2.2 -->
+                    <div class="nav-section">2.1-2.2 Structuri de Date</div>
+                    <div class="nav-item"><a href="#page-46" class="nav-link">Pag. 46 - Intro & Scalari</a></div>
+                    <div class="nav-item"><a href="#page-47" class="nav-link">Pag. 47 - Vectori & Matrici</a></div>
+                    <div class="nav-item"><a href="#page-48" class="nav-link">Pag. 48 - Tensori & Transpusa</a></div>
+                    <div class="nav-item"><a href="#page-49" class="nav-link">Pag. 49 - Broadcasting</a></div>
+                    <div class="nav-item"><a href="#page-50" class="nav-link">Pag. 50 - Proprietati Inmultire</a></div>
+
+                    <!-- Section 2.3-2.4 -->
+                    <div class="nav-section">2.3-2.4 Inversa & Span</div>
+                    <div class="nav-item"><a href="#page-51" class="nav-link">Pag. 51 - Identitate & Inversa</a></div>
+                    <div class="nav-item"><a href="#page-52" class="nav-link">Pag. 52 - Dependenta Liniara</a></div>
+                    <div class="nav-item"><a href="#page-53" class="nav-link">Pag. 53 - Matrici Singulare</a></div>
+
+                    <!-- Section 2.5-2.6 -->
+                    <div class="nav-section">2.5-2.6 Norme & Tipuri Speciale</div>
+                    <div class="nav-item"><a href="#page-54" class="nav-link">Pag. 54 - Norme L²</a></div>
+                    <div class="nav-item"><a href="#page-55" class="nav-link">Pag. 55 - L¹, Frobenius</a></div>
+                    <div class="nav-item"><a href="#page-56" class="nav-link">Pag. 56 - Matrici Ortogonale</a></div>
+
+                    <!-- Section 2.7-2.9 -->
+                    <div class="nav-section">2.7-2.9 Descompuneri</div>
+                    <div class="nav-item"><a href="#page-57" class="nav-link">Pag. 57 - Eigendecomposition</a></div>
+                    <div class="nav-item"><a href="#page-58" class="nav-link">Pag. 58 - Efectul Eigenvectorilor</a></div>
+                    <div class="nav-item"><a href="#page-59" class="nav-link">Pag. 59 - Pozitiv Definita & SVD</a></div>
+                    <div class="nav-item"><a href="#page-60" class="nav-link">Pag. 60 - SVD & Pseudoinversa</a></div>
+
+                    <!-- Section 2.10-2.12 -->
+                    <div class="nav-section">2.10-2.12 Trace, Det & PCA</div>
+                    <div class="nav-item"><a href="#page-61" class="nav-link">Pag. 61 - Operatorul Trace</a></div>
+                    <div class="nav-item"><a href="#page-62" class="nav-link">Pag. 62 - Determinant</a></div>
+                    <div class="nav-item"><a href="#page-63" class="nav-link">Pag. 63 - PCA Introducere</a></div>
+                    <div class="nav-item"><a href="#page-64" class="nav-link">Pag. 64 - PCA Optimizare</a></div>
+                    <div class="nav-item"><a href="#page-65" class="nav-link">Pag. 65 - PCA Encoder/Decoder</a></div>
+                    <div class="nav-item"><a href="#page-66" class="nav-link">Pag. 66 - PCA Derivare</a></div>
+                    <div class="nav-item"><a href="#page-67" class="nav-link">Pag. 67 - Concluzie Cap. 2</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 3 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter3">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter3')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 3</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Probabilitati & Informatie</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 3.1-3.3 -->
+                    <div class="nav-section">3.1-3.3 Fundamente Probabilitati</div>
+                    <div class="nav-item"><a href="#page-68" class="nav-link">Pag. 68 - De ce Probabilitati?</a></div>
+                    <div class="nav-item"><a href="#page-69" class="nav-link">Pag. 69 - Variabile Aleatoare</a></div>
+                    <div class="nav-item"><a href="#page-70" class="nav-link">Pag. 70 - PMF si Distributii</a></div>
+                    <div class="nav-item"><a href="#page-71" class="nav-link">Pag. 71 - PDF Continuu</a></div>
+                    <div class="nav-item"><a href="#page-72" class="nav-link">Pag. 72 - Prob. Marginala & Conditionata</a></div>
+                    <div class="nav-item"><a href="#page-73" class="nav-link">Pag. 73 - Regula Lantului</a></div>
+                    <div class="nav-item"><a href="#page-74" class="nav-link">Pag. 74 - Independenta</a></div>
+
+                    <!-- Section 3.4-3.8 -->
+                    <div class="nav-section">3.4-3.8 Expectatii & Distributii</div>
+                    <div class="nav-item"><a href="#page-75" class="nav-link">Pag. 75 - Expectatie & Varianta</a></div>
+                    <div class="nav-item"><a href="#page-76" class="nav-link">Pag. 76 - Covarianta</a></div>
+                    <div class="nav-item"><a href="#page-77" class="nav-link">Pag. 77 - Bernoulli & Multinoulli</a></div>
+                    <div class="nav-item"><a href="#page-78" class="nav-link">Pag. 78 - Gaussian Normal</a></div>
+                    <div class="nav-item"><a href="#page-79" class="nav-link">Pag. 79 - Multivariate Normal</a></div>
+                    <div class="nav-item"><a href="#page-80" class="nav-link">Pag. 80 - Exponential & Laplace</a></div>
+                    <div class="nav-item"><a href="#page-81" class="nav-link">Pag. 81 - Dirac Delta & Mixturi</a></div>
+                    <div class="nav-item"><a href="#page-82" class="nav-link">Pag. 82 - GMM Vizualizare</a></div>
+
+                    <!-- Section 3.9-3.11 -->
+                    <div class="nav-section">3.9-3.11 Functii & Bayes</div>
+                    <div class="nav-item"><a href="#page-83" class="nav-link">Pag. 83 - Sigmoid & Softplus</a></div>
+                    <div class="nav-item"><a href="#page-84" class="nav-link">Pag. 84 - Bayes' Rule</a></div>
+                    <div class="nav-item"><a href="#page-85" class="nav-link">Pag. 85 - Detalii Tehnice</a></div>
+                    <div class="nav-item"><a href="#page-86" class="nav-link">Pag. 86 - Schimbare Variabile</a></div>
+                    <div class="nav-item"><a href="#page-87" class="nav-link">Pag. 87 - Jacobian</a></div>
+
+                    <!-- Section 3.13-3.14 -->
+                    <div class="nav-section">3.13-3.14 Teoria Informatiei</div>
+                    <div class="nav-item"><a href="#page-88" class="nav-link">Pag. 88 - Self-Information</a></div>
+                    <div class="nav-item"><a href="#page-89" class="nav-link">Pag. 89 - Entropia & KL</a></div>
+                    <div class="nav-item"><a href="#page-90" class="nav-link">Pag. 90 - Cross-Entropy</a></div>
+                    <div class="nav-item"><a href="#page-91" class="nav-link">Pag. 91 - Asimetria KL</a></div>
+                    <div class="nav-item"><a href="#page-92" class="nav-link">Pag. 92 - Modele Grafice</a></div>
+                    <div class="nav-item"><a href="#page-93" class="nav-link">Pag. 93 - Directed & Clici</a></div>
+                    <div class="nav-item"><a href="#page-94" class="nav-link">Pag. 94 - Undirected & Concluzie</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 4 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter4">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter4')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 4</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Calcul Numeric</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 4.1-4.2 -->
+                    <div class="nav-section">4.1-4.2 Stabilitate Numerica</div>
+                    <div class="nav-item"><a href="#page-95" class="nav-link">Pag. 95 - Intro & Underflow</a></div>
+                    <div class="nav-item"><a href="#page-96" class="nav-link">Pag. 96 - Overflow & Softmax</a></div>
+                    <div class="nav-item"><a href="#page-97" class="nav-link">Pag. 97 - Conditionare</a></div>
+
+                    <!-- Section 4.3 -->
+                    <div class="nav-section">4.3 Gradient Descent</div>
+                    <div class="nav-item"><a href="#page-98" class="nav-link">Pag. 98 - Derivata & Puncte Critice</a></div>
+                    <div class="nav-item"><a href="#page-99" class="nav-link">Pag. 99 - Saddle Points & Gradient</a></div>
+                    <div class="nav-item"><a href="#page-100" class="nav-link">Pag. 100 - Steepest Descent</a></div>
+                    <div class="nav-item"><a href="#page-101" class="nav-link">Pag. 101 - Jacobian & Hessian</a></div>
+                    <div class="nav-item"><a href="#page-102" class="nav-link">Pag. 102 - Curbura & Hessian</a></div>
+                    <div class="nav-item"><a href="#page-103" class="nav-link">Pag. 103 - Taylor & Pas Optim</a></div>
+                    <div class="nav-item"><a href="#page-104" class="nav-link">Pag. 104 - Testul Derivatei 2</a></div>
+                    <div class="nav-item"><a href="#page-105" class="nav-link">Pag. 105 - Saddle Point 3D</a></div>
+                    <div class="nav-item"><a href="#page-106" class="nav-link">Pag. 106 - GD Zigzag</a></div>
+                    <div class="nav-item"><a href="#page-107" class="nav-link">Pag. 107 - Newton & Lipschitz</a></div>
+
+                    <!-- Section 4.4-4.5 -->
+                    <div class="nav-section">4.4-4.5 Optimizare Constransa</div>
+                    <div class="nav-item"><a href="#page-108" class="nav-link">Pag. 108 - Convex & Constrans</a></div>
+                    <div class="nav-item"><a href="#page-109" class="nav-link">Pag. 109 - KKT & Lagrangian</a></div>
+                    <div class="nav-item"><a href="#page-110" class="nav-link">Pag. 110 - Conditii KKT</a></div>
+                    <div class="nav-item"><a href="#page-111" class="nav-link">Pag. 111 - Least Squares</a></div>
+                    <div class="nav-item"><a href="#page-112" class="nav-link">Pag. 112 - Concluzie Cap. 4</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 5 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter5">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter5')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 5</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Machine Learning Basics</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 5.1 -->
+                    <div class="nav-section">5.1 Learning Algorithms</div>
+                    <div class="nav-item"><a href="#page-113" class="nav-link">Pag. 113 - Intro Cap. 5</a></div>
+                    <div class="nav-item"><a href="#page-114" class="nav-link">Pag. 114 - Task T</a></div>
+                    <div class="nav-item"><a href="#page-115" class="nav-link">Pag. 115 - Clasificare & Regresie</a></div>
+                    <div class="nav-item"><a href="#page-116" class="nav-link">Pag. 116 - Transcription & Tasks</a></div>
+                    <div class="nav-item"><a href="#page-117" class="nav-link">Pag. 117 - Translation & Synthesis</a></div>
+                    <div class="nav-item"><a href="#page-118" class="nav-link">Pag. 118 - Denoising & Density</a></div>
+                    <div class="nav-item"><a href="#page-119" class="nav-link">Pag. 119 - Performance P</a></div>
+                    <div class="nav-item"><a href="#page-120" class="nav-link">Pag. 120 - Experience E</a></div>
+                    <div class="nav-item"><a href="#page-121" class="nav-link">Pag. 121 - Design Matrix</a></div>
+
+                    <!-- Section 5.2-5.4 -->
+                    <div class="nav-section">5.2-5.4 Capacity & Overfitting</div>
+                    <div class="nav-item"><a href="#page-122" class="nav-link">Pag. 122 - Linear Regression</a></div>
+                    <div class="nav-item"><a href="#page-123" class="nav-link">Pag. 123 - MSE & Normal Equations</a></div>
+                    <div class="nav-item"><a href="#page-124" class="nav-link">Pag. 124 - Generalization & Capacity</a></div>
+                    <div class="nav-item"><a href="#page-125" class="nav-link">Pag. 125 - Hypothesis Space</a></div>
+                    <div class="nav-item"><a href="#page-126" class="nav-link">Pag. 126 - Reprezentare (x, x²...)</a></div>
+                    <div class="nav-item"><a href="#page-127" class="nav-link">Pag. 127 - Figura 5.2 Polynomial</a></div>
+                    <div class="nav-item"><a href="#page-128" class="nav-link">Pag. 128 - Occam's Razor</a></div>
+                    <div class="nav-item"><a href="#page-129" class="nav-link">Pag. 129 - VC Dimension</a></div>
+                    <div class="nav-item"><a href="#page-130" class="nav-link">Pag. 130 - No Free Lunch</a></div>
+                    <div class="nav-item"><a href="#page-131" class="nav-link">Pag. 131 - Regularization</a></div>
+                    <div class="nav-item"><a href="#page-132" class="nav-link">Pag. 132 - Weight Decay</a></div>
+                    <div class="nav-item"><a href="#page-133" class="nav-link">Pag. 133 - Figura 5.5</a></div>
+
+                    <!-- Section 5.5 -->
+                    <div class="nav-section">5.5 Hyperparameters & Validation</div>
+                    <div class="nav-item"><a href="#page-134" class="nav-link">Pag. 134 - Hyperparameters</a></div>
+                    <div class="nav-item"><a href="#page-135" class="nav-link">Pag. 135 - Validation Set</a></div>
+                    <div class="nav-item"><a href="#page-136" class="nav-link">Pag. 136 - Cross-Validation</a></div>
+                    <div class="nav-item"><a href="#page-137" class="nav-link">Pag. 137 - Figura 5.6 K-Fold</a></div>
+
+                    <!-- Section 5.6 -->
+                    <div class="nav-section">5.6 Estimators & Bias-Variance</div>
+                    <div class="nav-item"><a href="#page-138" class="nav-link">Pag. 138 - Point Estimation</a></div>
+                    <div class="nav-item"><a href="#page-139" class="nav-link">Pag. 139 - Function Estimation</a></div>
+                    <div class="nav-item"><a href="#page-140" class="nav-link">Pag. 140 - Bias</a></div>
+                    <div class="nav-item"><a href="#page-141" class="nav-link">Pag. 141 - Variance & SE</a></div>
+                    <div class="nav-item"><a href="#page-142" class="nav-link">Pag. 142 - Bias-Variance Tradeoff</a></div>
+                    <div class="nav-item"><a href="#page-143" class="nav-link">Pag. 143 - Consistency</a></div>
+                    <div class="nav-item"><a href="#page-144" class="nav-link">Pag. 144 - MLE</a></div>
+                    <div class="nav-item"><a href="#page-145" class="nav-link">Pag. 145 - MLE Log-Likelihood</a></div>
+                    <div class="nav-item"><a href="#page-146" class="nav-link">Pag. 146 - Conditional MLE</a></div>
+                    <div class="nav-item"><a href="#page-147" class="nav-link">Pag. 147 - MSE = MLE Gaussian</a></div>
+                    <div class="nav-item"><a href="#page-148" class="nav-link">Pag. 148 - MLE Properties</a></div>
+                    <div class="nav-item"><a href="#page-149" class="nav-link">Pag. 149 - Bayesian Statistics</a></div>
+                    <div class="nav-item"><a href="#page-150" class="nav-link">Pag. 150 - Prior & Posterior</a></div>
+                    <div class="nav-item"><a href="#page-151" class="nav-link">Pag. 151 - Bayesian Predictive</a></div>
+                    <div class="nav-item"><a href="#page-152" class="nav-link">Pag. 152 - Gaussian Prior</a></div>
+                    <div class="nav-item"><a href="#page-153" class="nav-link">Pag. 153 - MAP Estimation</a></div>
+                    <div class="nav-item"><a href="#page-154" class="nav-link">Pag. 154 - MAP = Regularization</a></div>
+
+                    <!-- Section 5.7 -->
+                    <div class="nav-section">5.7 Supervised Algorithms</div>
+                    <div class="nav-item"><a href="#page-155" class="nav-link">Pag. 155 - Logistic Regression</a></div>
+                    <div class="nav-item"><a href="#page-156" class="nav-link">Pag. 156 - SVM & Kernel Trick</a></div>
+                    <div class="nav-item"><a href="#page-157" class="nav-link">Pag. 157 - Gaussian Kernel</a></div>
+                    <div class="nav-item"><a href="#page-158" class="nav-link">Pag. 158 - k-Nearest Neighbors</a></div>
+                    <div class="nav-item"><a href="#page-159" class="nav-link">Pag. 159 - k-NN Slabiciuni</a></div>
+                    <div class="nav-item"><a href="#page-160" class="nav-link">Pag. 160 - Decision Trees</a></div>
+                    <div class="nav-item"><a href="#page-161" class="nav-link">Pag. 161 - Tree Limitations</a></div>
+
+                    <!-- Section 5.8-5.9 -->
+                    <div class="nav-section">5.8-5.9 Unsupervised & SGD</div>
+                    <div class="nav-item"><a href="#page-162" class="nav-link">Pag. 162 - Reprezentari & PCA</a></div>
+                    <div class="nav-item"><a href="#page-163" class="nav-link">Pag. 163 - Figura 5.8 PCA</a></div>
+                    <div class="nav-item"><a href="#page-164" class="nav-link">Pag. 164 - PCA via SVD</a></div>
+                    <div class="nav-item"><a href="#page-165" class="nav-link">Pag. 165 - k-Means Clustering</a></div>
+                    <div class="nav-item"><a href="#page-166" class="nav-link">Pag. 166 - Distributed Rep.</a></div>
+                    <div class="nav-item"><a href="#page-167" class="nav-link">Pag. 167 - SGD</a></div>
+                    <div class="nav-item"><a href="#page-168" class="nav-link">Pag. 168 - SGD Scalability</a></div>
+
+                    <!-- Section 5.10-5.11 -->
+                    <div class="nav-section">5.10-5.11 Challenges</div>
+                    <div class="nav-item"><a href="#page-169" class="nav-link">Pag. 169 - ML Algorithm Recipe</a></div>
+                    <div class="nav-item"><a href="#page-170" class="nav-link">Pag. 170 - Curse of Dimensionality</a></div>
+                    <div class="nav-item"><a href="#page-171" class="nav-link">Pag. 171 - Figura 5.9</a></div>
+                    <div class="nav-item"><a href="#page-172" class="nav-link">Pag. 172 - Smoothness Prior</a></div>
+                    <div class="nav-item"><a href="#page-173" class="nav-link">Pag. 173 - Local Kernels</a></div>
+                    <div class="nav-item"><a href="#page-174" class="nav-link">Pag. 174 - Figura 5.10 Voronoi</a></div>
+                    <div class="nav-item"><a href="#page-175" class="nav-link">Pag. 175 - Non-Local Generalization</a></div>
+                    <div class="nav-item"><a href="#page-176" class="nav-link">Pag. 176 - Manifold Learning</a></div>
+                    <div class="nav-item"><a href="#page-177" class="nav-link">Pag. 177 - Manifold Hypothesis</a></div>
+                    <div class="nav-item"><a href="#page-178" class="nav-link">Pag. 178 - Figura 5.12 Noise</a></div>
+                    <div class="nav-item"><a href="#page-179" class="nav-link">Pag. 179 - Concluzie Partea I</a></div>
+                    <div class="nav-item"><a href="#page-180" class="nav-link">Pag. 180 - Figura 5.13 Faces</a></div>
+                    <div class="nav-item"><a href="#page-181" class="nav-link">Pag. 181 - Part II Title</a></div>
+                    <div class="nav-item"><a href="#page-182" class="nav-link">Pag. 182 - Intro Partea II</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 6 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter6">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter6')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 6</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Deep Feedforward Networks</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 6.0-6.1 -->
+                    <div class="nav-section">6.0-6.1 Intro & XOR</div>
+                    <div class="nav-item"><a href="#page-183" class="nav-link">Pag. 183 - Intro Feedforward</a></div>
+                    <div class="nav-item"><a href="#page-184" class="nav-link">Pag. 184 - De la Liniar la Neliniar</a></div>
+                    <div class="nav-item"><a href="#page-185" class="nav-link">Pag. 185 - Straturi Ascunse</a></div>
+                    <div class="nav-item"><a href="#page-186" class="nav-link">Pag. 186 - Problema XOR</a></div>
+                    <div class="nav-item"><a href="#page-187" class="nav-link">Pag. 187 - Spatiul Caracteristicilor</a></div>
+                    <div class="nav-item"><a href="#page-188" class="nav-link">Pag. 188 - Solutia XOR</a></div>
+                    <div class="nav-item"><a href="#page-189" class="nav-link">Pag. 189 - Figura 6.1</a></div>
+                    <div class="nav-item"><a href="#page-190" class="nav-link">Pag. 190 - Implementare XOR</a></div>
+                    <div class="nav-item"><a href="#page-191" class="nav-link">Pag. 191 - Invatarea Reprezentarilor</a></div>
+                    <div class="nav-item"><a href="#page-192" class="nav-link">Pag. 192 - Figurile 6.2-6.3</a></div>
+
+                    <!-- Section 6.2 -->
+                    <div class="nav-section">6.2 Gradient-Based Learning</div>
+                    <div class="nav-item"><a href="#page-193" class="nav-link">Pag. 193 - Gradient Descent pentru NN</a></div>
+                    <div class="nav-item"><a href="#page-194" class="nav-link">Pag. 194 - Cost Functions</a></div>
+                    <div class="nav-item"><a href="#page-195" class="nav-link">Pag. 195 - Maximum Likelihood</a></div>
+                    <div class="nav-item"><a href="#page-196" class="nav-link">Pag. 196 - Output Units</a></div>
+                    <div class="nav-item"><a href="#page-197" class="nav-link">Pag. 197 - Sigmoid Output</a></div>
+                    <div class="nav-item"><a href="#page-198" class="nav-link">Pag. 198 - Sigmoid Derivare</a></div>
+                    <div class="nav-item"><a href="#page-199" class="nav-link">Pag. 199 - Softmax Units</a></div>
+                    <div class="nav-item"><a href="#page-200" class="nav-link">Pag. 200 - Softmax & Cross-Entropy</a></div>
+                    <div class="nav-item"><a href="#page-201" class="nav-link">Pag. 201 - Log-Sum-Exp Trick</a></div>
+                    <div class="nav-item"><a href="#page-202" class="nav-link">Pag. 202 - Softmax Gradiente</a></div>
+                    <div class="nav-item"><a href="#page-203" class="nav-link">Pag. 203 - Heteroscedastic Models</a></div>
+                    <div class="nav-item"><a href="#page-204" class="nav-link">Pag. 204 - Mixture Density Networks</a></div>
+
+                    <!-- Section 6.3 -->
+                    <div class="nav-section">6.3 Hidden Units</div>
+                    <div class="nav-item"><a href="#page-205" class="nav-link">Pag. 205 - Unitati Ascunse</a></div>
+                    <div class="nav-item"><a href="#page-206" class="nav-link">Pag. 206 - ReLU</a></div>
+                    <div class="nav-item"><a href="#page-207" class="nav-link">Pag. 207 - Figura 6.4 Activari</a></div>
+                    <div class="nav-item"><a href="#page-208" class="nav-link">Pag. 208 - Leaky ReLU & PReLU</a></div>
+                    <div class="nav-item"><a href="#page-209" class="nav-link">Pag. 209 - Maxout Units</a></div>
+                    <div class="nav-item"><a href="#page-210" class="nav-link">Pag. 210 - Sigmoid & Tanh</a></div>
+                    <div class="nav-item"><a href="#page-211" class="nav-link">Pag. 211 - Alte Functii de Activare</a></div>
+                    <div class="nav-item"><a href="#page-212" class="nav-link">Pag. 212 - Softplus & RBF</a></div>
+
+                    <!-- Section 6.4 -->
+                    <div class="nav-section">6.4 Architecture Design</div>
+                    <div class="nav-item"><a href="#page-213" class="nav-link">Pag. 213 - Universal Approximation</a></div>
+                    <div class="nav-item"><a href="#page-214" class="nav-link">Pag. 214 - Shallow vs Deep</a></div>
+                    <div class="nav-item"><a href="#page-215" class="nav-link">Pag. 215 - Figura 6.5 Space Folding</a></div>
+                    <div class="nav-item"><a href="#page-216" class="nav-link">Pag. 216 - De ce Adancime?</a></div>
+                    <div class="nav-item"><a href="#page-217" class="nav-link">Pag. 217 - Skip Connections</a></div>
+                    <div class="nav-item"><a href="#page-218" class="nav-link">Pag. 218 - Figura 6.7 Depth vs Params</a></div>
+
+                    <!-- Section 6.5 -->
+                    <div class="nav-section">6.5 Back-Propagation</div>
+                    <div class="nav-item"><a href="#page-219" class="nav-link">Pag. 219 - Intro Backprop</a></div>
+                    <div class="nav-item"><a href="#page-220" class="nav-link">Pag. 220 - Grafuri Computationale</a></div>
+                    <div class="nav-item"><a href="#page-221" class="nav-link">Pag. 221 - Figura 6.8 Exemple Graf</a></div>
+                    <div class="nav-item"><a href="#page-222" class="nav-link">Pag. 222 - Regula Lantului Vectori</a></div>
+                    <div class="nav-item"><a href="#page-223" class="nav-link">Pag. 223 - Subexpresii Repetate</a></div>
+                    <div class="nav-item"><a href="#page-224" class="nav-link">Pag. 224 - Alg. 6.1 Forward Prop</a></div>
+                    <div class="nav-item"><a href="#page-225" class="nav-link">Pag. 225 - Alg. 6.2 Backprop Simplificat</a></div>
+                    <div class="nav-item"><a href="#page-226" class="nav-link">Pag. 226 - Figura 6.9 Subexpresii</a></div>
+                    <div class="nav-item"><a href="#page-227" class="nav-link">Pag. 227 - Alg. 6.3 Forward MLP</a></div>
+                    <div class="nav-item"><a href="#page-228" class="nav-link">Pag. 228 - Alg. 6.4 Backward</a></div>
+                    <div class="nav-item"><a href="#page-229" class="nav-link">Pag. 229 - Symbol-to-Symbol</a></div>
+                    <div class="nav-item"><a href="#page-230" class="nav-link">Pag. 230 - General Backprop</a></div>
+                    <div class="nav-item"><a href="#page-231" class="nav-link">Pag. 231 - Op bprop</a></div>
+                    <div class="nav-item"><a href="#page-232" class="nav-link">Pag. 232 - Alg. 6.5 Schelet Backprop</a></div>
+                    <div class="nav-item"><a href="#page-233" class="nav-link">Pag. 233 - Alg. 6.6 build_grad</a></div>
+                    <div class="nav-item"><a href="#page-234" class="nav-link">Pag. 234 - Exemplu MLP Training</a></div>
+                    <div class="nav-item"><a href="#page-235" class="nav-link">Pag. 235 - Figura 6.11 Graf MLP</a></div>
+                    <div class="nav-item"><a href="#page-236" class="nav-link">Pag. 236 - Complicatii</a></div>
+                    <div class="nav-item"><a href="#page-237" class="nav-link">Pag. 237 - Automatic Differentiation</a></div>
+                    <div class="nav-item"><a href="#page-238" class="nav-link">Pag. 238 - Forward vs Backward Mode</a></div>
+                    <div class="nav-item"><a href="#page-239" class="nav-link">Pag. 239 - Higher-Order Derivatives</a></div>
+
+                    <!-- Section 6.6 -->
+                    <div class="nav-section">6.6 Historical Notes</div>
+                    <div class="nav-item"><a href="#page-240" class="nav-link">Pag. 240 - Istoria Backprop</a></div>
+                    <div class="nav-item"><a href="#page-241" class="nav-link">Pag. 241 - Schimbari Algoritmice</a></div>
+                    <div class="nav-item"><a href="#page-242" class="nav-link">Pag. 242 - Concluzii Cap. 6</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 7 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter7">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter7')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 7</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Regularizare</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 7.0-7.1 -->
+                    <div class="nav-section">7.1 Introducere & Norm Penalties</div>
+                    <div class="nav-item"><a href="#page-243" class="nav-link">Pag. 243 - Ce este Regularizarea</a></div>
+                    <div class="nav-item"><a href="#page-244" class="nav-link">Pag. 244 - Cele 3 Regimuri</a></div>
+                    <div class="nav-item"><a href="#page-245" class="nav-link">Pag. 245 - Parameter Norm Penalties</a></div>
+                    <div class="nav-item"><a href="#page-246" class="nav-link">Pag. 246 - L² Weight Decay</a></div>
+                    <div class="nav-item"><a href="#page-247" class="nav-link">Pag. 247 - Analiza Matematica L²</a></div>
+                    <div class="nav-item"><a href="#page-248" class="nav-link">Pag. 248 - Figura 7.1 Vizualizare</a></div>
+                    <div class="nav-item"><a href="#page-249" class="nav-link">Pag. 249 - L¹ Regularization</a></div>
+                    <div class="nav-item"><a href="#page-250" class="nav-link">Pag. 250 - L¹ Soft Thresholding</a></div>
+                    <div class="nav-item"><a href="#page-251" class="nav-link">Pag. 251 - Sparsity & LASSO</a></div>
+
+                    <!-- Section 7.2-7.4 -->
+                    <div class="nav-section">7.2-7.4 Constrangeri & Augmentare</div>
+                    <div class="nav-item"><a href="#page-252" class="nav-link">Pag. 252 - Constrained Optimization</a></div>
+                    <div class="nav-item"><a href="#page-253" class="nav-link">Pag. 253 - Reprojection</a></div>
+                    <div class="nav-item"><a href="#page-254" class="nav-link">Pag. 254 - Probleme Sub-Determinate</a></div>
+                    <div class="nav-item"><a href="#page-255" class="nav-link">Pag. 255 - Dataset Augmentation</a></div>
+                    <div class="nav-item"><a href="#page-256" class="nav-link">Pag. 256 - Noise Injection</a></div>
+
+                    <!-- Section 7.5-7.7 -->
+                    <div class="nav-section">7.5-7.7 Noise & Multi-Task</div>
+                    <div class="nav-item"><a href="#page-257" class="nav-link">Pag. 257 - Noise Robustness</a></div>
+                    <div class="nav-item"><a href="#page-258" class="nav-link">Pag. 258 - Label Smoothing</a></div>
+                    <div class="nav-item"><a href="#page-259" class="nav-link">Pag. 259 - Multi-Task Learning</a></div>
+                    <div class="nav-item"><a href="#page-260" class="nav-link">Pag. 260 - Figura 7.2 Multi-Task</a></div>
+
+                    <!-- Section 7.8 Early Stopping -->
+                    <div class="nav-section">7.8 Early Stopping</div>
+                    <div class="nav-item"><a href="#page-261" class="nav-link">Pag. 261 - Learning Curves</a></div>
+                    <div class="nav-item"><a href="#page-262" class="nav-link">Pag. 262 - Algorithm 7.1</a></div>
+                    <div class="nav-item"><a href="#page-263" class="nav-link">Pag. 263 - Beneficii</a></div>
+                    <div class="nav-item"><a href="#page-264" class="nav-link">Pag. 264 - Algorithms 7.2-7.3</a></div>
+                    <div class="nav-item"><a href="#page-265" class="nav-link">Pag. 265 - Early Stop = L²</a></div>
+                    <div class="nav-item"><a href="#page-266" class="nav-link">Pag. 266 - Figura 7.4</a></div>
+
+                    <!-- Section 7.9-7.11 -->
+                    <div class="nav-section">7.9-7.11 Sharing & Ensemble</div>
+                    <div class="nav-item"><a href="#page-267" class="nav-link">Pag. 267 - τ ≈ 1/(εα)</a></div>
+                    <div class="nav-item"><a href="#page-268" class="nav-link">Pag. 268 - Parameter Sharing</a></div>
+                    <div class="nav-item"><a href="#page-269" class="nav-link">Pag. 269 - CNNs & Sparse Rep</a></div>
+                    <div class="nav-item"><a href="#page-270" class="nav-link">Pag. 270 - Sparse Activations</a></div>
+                    <div class="nav-item"><a href="#page-271" class="nav-link">Pag. 271 - Bagging</a></div>
+                    <div class="nav-item"><a href="#page-272" class="nav-link">Pag. 272 - Figura 7.5</a></div>
+
+                    <!-- Section 7.12 Dropout -->
+                    <div class="nav-section">7.12 Dropout</div>
+                    <div class="nav-item"><a href="#page-273" class="nav-link">Pag. 273 - Intro Dropout</a></div>
+                    <div class="nav-item"><a href="#page-274" class="nav-link">Pag. 274 - Training cu Masti</a></div>
+                    <div class="nav-item"><a href="#page-275" class="nav-link">Pag. 275 - Figura 7.6 Subnetworks</a></div>
+                    <div class="nav-item"><a href="#page-276" class="nav-link">Pag. 276 - Figura 7.7 Forward</a></div>
+                    <div class="nav-item"><a href="#page-277" class="nav-link">Pag. 277 - Inferenta</a></div>
+                    <div class="nav-item"><a href="#page-278" class="nav-link">Pag. 278 - Weight Scaling</a></div>
+                    <div class="nav-item"><a href="#page-279" class="nav-link">Pag. 279 - Proof Softmax</a></div>
+                    <div class="nav-item"><a href="#page-280" class="nav-link">Pag. 280 - Avantaje & Cost</a></div>
+                    <div class="nav-item"><a href="#page-281" class="nav-link">Pag. 281 - Fast Dropout</a></div>
+                    <div class="nav-item"><a href="#page-282" class="nav-link">Pag. 282 - Gene Swapping</a></div>
+
+                    <!-- Section 7.13-7.14 -->
+                    <div class="nav-section">7.13-7.14 Adversarial & Tangent</div>
+                    <div class="nav-item"><a href="#page-283" class="nav-link">Pag. 283 - Adversarial Training</a></div>
+                    <div class="nav-item"><a href="#page-284" class="nav-link">Pag. 284 - Figura 7.8 Panda</a></div>
+                    <div class="nav-item"><a href="#page-285" class="nav-link">Pag. 285 - Tangent Distance</a></div>
+                    <div class="nav-item"><a href="#page-286" class="nav-link">Pag. 286 - Tangent Prop</a></div>
+                    <div class="nav-item"><a href="#page-287" class="nav-link">Pag. 287 - Figura 7.9 Manifold</a></div>
+                    <div class="nav-item"><a href="#page-288" class="nav-link">Pag. 288 - Concluzie Cap. 7</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 8 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter8">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter8')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 8</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Optimizare</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 8.1 -->
+                    <div class="nav-section">8.1 Learning vs Pure Optimization</div>
+                    <div class="nav-item"><a href="#page-289" class="nav-link">Pag. 289 - Intro Optimizare</a></div>
+                    <div class="nav-item"><a href="#page-290" class="nav-link">Pag. 290 - Risk vs Loss</a></div>
+                    <div class="nav-item"><a href="#page-291" class="nav-link">Pag. 291 - Surrogate Loss</a></div>
+                    <div class="nav-item"><a href="#page-292" class="nav-link">Pag. 292 - Early Stopping</a></div>
+                    <div class="nav-item"><a href="#page-293" class="nav-link">Pag. 293 - Batch vs Minibatch</a></div>
+                    <div class="nav-item"><a href="#page-294" class="nav-link">Pag. 294 - Minibatch SGD</a></div>
+                    <div class="nav-item"><a href="#page-295" class="nav-link">Pag. 295 - Gradient Estimation</a></div>
+
+                    <!-- Section 8.2 -->
+                    <div class="nav-section">8.2 Challenges in Optimization</div>
+                    <div class="nav-item"><a href="#page-296" class="nav-link">Pag. 296 - Ill-Conditioning</a></div>
+                    <div class="nav-item"><a href="#page-297" class="nav-link">Pag. 297 - Local Minima</a></div>
+                    <div class="nav-item"><a href="#page-298" class="nav-link">Pag. 298 - Saddle Points</a></div>
+                    <div class="nav-item"><a href="#page-299" class="nav-link">Pag. 299 - Figura 8.1</a></div>
+                    <div class="nav-item"><a href="#page-300" class="nav-link">Pag. 300 - Cliffs & Exploding</a></div>
+                    <div class="nav-item"><a href="#page-301" class="nav-link">Pag. 301 - Figura 8.2-8.3</a></div>
+                    <div class="nav-item"><a href="#page-302" class="nav-link">Pag. 302 - Long-Term Dependencies</a></div>
+                    <div class="nav-item"><a href="#page-303" class="nav-link">Pag. 303 - Inexact Gradients</a></div>
+                    <div class="nav-item"><a href="#page-304" class="nav-link">Pag. 304 - Poor Correspondence</a></div>
+
+                    <!-- Section 8.3 -->
+                    <div class="nav-section">8.3 Basic Algorithms</div>
+                    <div class="nav-item"><a href="#page-305" class="nav-link">Pag. 305 - SGD Algorithm</a></div>
+                    <div class="nav-item"><a href="#page-306" class="nav-link">Pag. 306 - Learning Rate</a></div>
+                    <div class="nav-item"><a href="#page-307" class="nav-link">Pag. 307 - Momentum</a></div>
+                    <div class="nav-item"><a href="#page-308" class="nav-link">Pag. 308 - Alg. 8.2 Momentum</a></div>
+                    <div class="nav-item"><a href="#page-309" class="nav-link">Pag. 309 - Nesterov Momentum</a></div>
+
+                    <!-- Section 8.4 -->
+                    <div class="nav-section">8.4 Parameter Initialization</div>
+                    <div class="nav-item"><a href="#page-310" class="nav-link">Pag. 310 - Break Symmetry</a></div>
+                    <div class="nav-item"><a href="#page-311" class="nav-link">Pag. 311 - Init Random</a></div>
+                    <div class="nav-item"><a href="#page-312" class="nav-link">Pag. 312 - Init Scale</a></div>
+                    <div class="nav-item"><a href="#page-313" class="nav-link">Pag. 313 - Xavier/Glorot</a></div>
+                    <div class="nav-item"><a href="#page-314" class="nav-link">Pag. 314 - Sparse Init</a></div>
+                    <div class="nav-item"><a href="#page-315" class="nav-link">Pag. 315 - Bias Init</a></div>
+
+                    <!-- Section 8.5 -->
+                    <div class="nav-section">8.5 Adaptive Learning Rates</div>
+                    <div class="nav-item"><a href="#page-316" class="nav-link">Pag. 316 - Intro Adaptive</a></div>
+                    <div class="nav-item"><a href="#page-317" class="nav-link">Pag. 317 - AdaGrad</a></div>
+                    <div class="nav-item"><a href="#page-318" class="nav-link">Pag. 318 - RMSProp</a></div>
+                    <div class="nav-item"><a href="#page-319" class="nav-link">Pag. 319 - Adam</a></div>
+                    <div class="nav-item"><a href="#page-320" class="nav-link">Pag. 320 - Alg. 8.7 Adam</a></div>
+                    <div class="nav-item"><a href="#page-321" class="nav-link">Pag. 321 - Adam Correct</a></div>
+                    <div class="nav-item"><a href="#page-322" class="nav-link">Pag. 322 - Choosing Optimizer</a></div>
+
+                    <!-- Section 8.6 -->
+                    <div class="nav-section">8.6 Second-Order Methods</div>
+                    <div class="nav-item"><a href="#page-323" class="nav-link">Pag. 323 - Newton Method</a></div>
+                    <div class="nav-item"><a href="#page-324" class="nav-link">Pag. 324 - Newton Problems</a></div>
+                    <div class="nav-item"><a href="#page-325" class="nav-link">Pag. 325 - Figura 8.5 Saddle</a></div>
+                    <div class="nav-item"><a href="#page-326" class="nav-link">Pag. 326 - Conjugate Gradients</a></div>
+                    <div class="nav-item"><a href="#page-327" class="nav-link">Pag. 327 - CG Directions</a></div>
+                    <div class="nav-item"><a href="#page-328" class="nav-link">Pag. 328 - Figura 8.6</a></div>
+                    <div class="nav-item"><a href="#page-329" class="nav-link">Pag. 329 - Nonlinear CG</a></div>
+                    <div class="nav-item"><a href="#page-330" class="nav-link">Pag. 330 - BFGS</a></div>
+                    <div class="nav-item"><a href="#page-331" class="nav-link">Pag. 331 - L-BFGS</a></div>
+
+                    <!-- Section 8.7 -->
+                    <div class="nav-section">8.7 Optimization Strategies</div>
+                    <div class="nav-item"><a href="#page-332" class="nav-link">Pag. 332 - L-BFGS Memory</a></div>
+                    <div class="nav-item"><a href="#page-333" class="nav-link">Pag. 333 - Batch Normalization</a></div>
+                    <div class="nav-item"><a href="#page-334" class="nav-link">Pag. 334 - BN Formule</a></div>
+                    <div class="nav-item"><a href="#page-335" class="nav-link">Pag. 335 - BN γ si β</a></div>
+                    <div class="nav-item"><a href="#page-336" class="nav-link">Pag. 336 - Coordinate Descent</a></div>
+                    <div class="nav-item"><a href="#page-337" class="nav-link">Pag. 337 - Polyak Averaging</a></div>
+                    <div class="nav-item"><a href="#page-338" class="nav-link">Pag. 338 - Supervised Pretraining</a></div>
+                    <div class="nav-item"><a href="#page-339" class="nav-link">Pag. 339 - Figura 8.7</a></div>
+                    <div class="nav-item"><a href="#page-340" class="nav-link">Pag. 340 - FitNets</a></div>
+                    <div class="nav-item"><a href="#page-341" class="nav-link">Pag. 341 - Model Design</a></div>
+                    <div class="nav-item"><a href="#page-342" class="nav-link">Pag. 342 - Continuation Methods</a></div>
+                    <div class="nav-item"><a href="#page-343" class="nav-link">Pag. 343 - Curriculum Learning</a></div>
+                    <div class="nav-item"><a href="#page-344" class="nav-link">Pag. 344 - Concluzie Cap. 8</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 9 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter9">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter9')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 9</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Retele Convolutionale</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 9.1 -->
+                    <div class="nav-section">9.1 Operatia de Convolutie</div>
+                    <div class="nav-item"><a href="#page-345" class="nav-link">Pag. 345 - Intro CNN</a></div>
+                    <div class="nav-item"><a href="#page-346" class="nav-link">Pag. 346 - Convolutia 1D</a></div>
+                    <div class="nav-item"><a href="#page-347" class="nav-link">Pag. 347 - Convolutia 2D</a></div>
+                    <div class="nav-item"><a href="#page-348" class="nav-link">Pag. 348 - Cross-Correlation</a></div>
+
+                    <!-- Section 9.2 -->
+                    <div class="nav-section">9.2 Motivatie CNN</div>
+                    <div class="nav-item"><a href="#page-349" class="nav-link">Pag. 349 - Sparse Interactions</a></div>
+                    <div class="nav-item"><a href="#page-350" class="nav-link">Pag. 350 - Figura 9.2-9.3</a></div>
+                    <div class="nav-item"><a href="#page-351" class="nav-link">Pag. 351 - Receptive Field</a></div>
+                    <div class="nav-item"><a href="#page-352" class="nav-link">Pag. 352 - Figura 9.4</a></div>
+                    <div class="nav-item"><a href="#page-353" class="nav-link">Pag. 353 - Parameter Sharing</a></div>
+                    <div class="nav-item"><a href="#page-354" class="nav-link">Pag. 354 - Echivarianta</a></div>
+                    <div class="nav-item"><a href="#page-355" class="nav-link">Pag. 355 - Invarianta</a></div>
+
+                    <!-- Section 9.3 -->
+                    <div class="nav-section">9.3 Pooling</div>
+                    <div class="nav-item"><a href="#page-356" class="nav-link">Pag. 356 - Intro Pooling</a></div>
+                    <div class="nav-item"><a href="#page-357" class="nav-link">Pag. 357 - Figura 9.7</a></div>
+                    <div class="nav-item"><a href="#page-358" class="nav-link">Pag. 358 - Figura 9.8-9.9</a></div>
+                    <div class="nav-item"><a href="#page-359" class="nav-link">Pag. 359 - Max Pooling</a></div>
+                    <div class="nav-item"><a href="#page-360" class="nav-link">Pag. 360 - Figura 9.10-9.11</a></div>
+
+                    <!-- Section 9.4 -->
+                    <div class="nav-section">9.4 Convolutia ca Prior</div>
+                    <div class="nav-item"><a href="#page-361" class="nav-link">Pag. 361 - Prior Infinit de Puternic</a></div>
+                    <div class="nav-item"><a href="#page-362" class="nav-link">Pag. 362 - Cand Functioneaza CNN</a></div>
+
+                    <!-- Section 9.5 -->
+                    <div class="nav-section">9.5 Variante de Convolutie</div>
+                    <div class="nav-item"><a href="#page-363" class="nav-link">Pag. 363 - Canale Multiple</a></div>
+                    <div class="nav-item"><a href="#page-364" class="nav-link">Pag. 364 - Zero Padding</a></div>
+                    <div class="nav-item"><a href="#page-365" class="nav-link">Pag. 365 - Figura 9.12-9.13</a></div>
+                    <div class="nav-item"><a href="#page-366" class="nav-link">Pag. 366 - Strided Convolution</a></div>
+                    <div class="nav-item"><a href="#page-367" class="nav-link">Pag. 367 - Figura 9.14</a></div>
+                    <div class="nav-item"><a href="#page-368" class="nav-link">Pag. 368 - Figura 9.15</a></div>
+                    <div class="nav-item"><a href="#page-369" class="nav-link">Pag. 369 - Unshared & Tiled</a></div>
+                    <div class="nav-item"><a href="#page-370" class="nav-link">Pag. 370 - Figura 9.16</a></div>
+                    <div class="nav-item"><a href="#page-371" class="nav-link">Pag. 371 - Transpose Conv</a></div>
+                    <div class="nav-item"><a href="#page-372" class="nav-link">Pag. 372 - Gradientul Convolutiei</a></div>
+                    <div class="nav-item"><a href="#page-373" class="nav-link">Pag. 373 - Autoencoder Conv</a></div>
+
+                    <!-- Section 9.6 -->
+                    <div class="nav-section">9.6 Outputuri Structurate</div>
+                    <div class="nav-item"><a href="#page-374" class="nav-link">Pag. 374 - Segmentare Semantica</a></div>
+
+                    <!-- Section 9.7-9.8 -->
+                    <div class="nav-section">9.7-9.8 Tipuri Date & Eficienta</div>
+                    <div class="nav-item"><a href="#page-375" class="nav-link">Pag. 375 - CRF & CNN pentru Video</a></div>
+                    <div class="nav-item"><a href="#page-376" class="nav-link">Pag. 376 - Tabel 9.1 (1D/2D/3D)</a></div>
+                    <div class="nav-item"><a href="#page-377" class="nav-link">Pag. 377 - FFT & Kerneluri Separabile</a></div>
+
+                    <!-- Section 9.9 -->
+                    <div class="nav-section">9.9 Features Nesupervizate</div>
+                    <div class="nav-item"><a href="#page-378" class="nav-link">Pag. 378 - Random Features</a></div>
+                    <div class="nav-item"><a href="#page-379" class="nav-link">Pag. 379 - Patch-based Pretraining</a></div>
+
+                    <!-- Section 9.10 -->
+                    <div class="nav-section">9.10 Baza Neurostiintifica</div>
+                    <div class="nav-item"><a href="#page-380" class="nav-link">Pag. 380 - Cortexul V1</a></div>
+                    <div class="nav-item"><a href="#page-381" class="nav-link">Pag. 381 - Grandmother Cells</a></div>
+                    <div class="nav-item"><a href="#page-382" class="nav-link">Pag. 382 - CNN vs Creier</a></div>
+                    <div class="nav-item"><a href="#page-383" class="nav-link">Pag. 383 - Reverse Correlation</a></div>
+                    <div class="nav-item"><a href="#page-384" class="nav-link">Pag. 384 - Quadrature Pair</a></div>
+                    <div class="nav-item"><a href="#page-385" class="nav-link">Pag. 385 - Figura 9.18 Gabor</a></div>
+
+                    <!-- Section 9.11 -->
+                    <div class="nav-section">9.11 Istoria CNN</div>
+                    <div class="nav-item"><a href="#page-386" class="nav-link">Pag. 386 - CNN si Deep Learning</a></div>
+                    <div class="nav-item"><a href="#page-387" class="nav-link">Pag. 387 - Concluzie Cap. 9</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 10 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter10">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter10')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 10</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Sequence Modeling: RNN</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 10.1-10.2 -->
+                    <div class="nav-section">10.1-10.2 Unfolding & RNN Basics</div>
+                    <div class="nav-item"><a href="#page-388" class="nav-link">Pag. 388 - Intro Cap. 10</a></div>
+                    <div class="nav-item"><a href="#page-389" class="nav-link">Pag. 389 - Unfolding</a></div>
+                    <div class="nav-item"><a href="#page-390" class="nav-link">Pag. 390 - Figura 10.2</a></div>
+                    <div class="nav-item"><a href="#page-391" class="nav-link">Pag. 391 - Parameter Sharing</a></div>
+                    <div class="nav-item"><a href="#page-392" class="nav-link">Pag. 392 - 1D Convolution</a></div>
+                    <div class="nav-item"><a href="#page-393" class="nav-link">Pag. 393 - RNN Design Patterns</a></div>
+                    <div class="nav-item"><a href="#page-394" class="nav-link">Pag. 394 - Figura 10.3</a></div>
+                    <div class="nav-item"><a href="#page-395" class="nav-link">Pag. 395 - Figura 10.4</a></div>
+                    <div class="nav-item"><a href="#page-396" class="nav-link">Pag. 396 - Figura 10.5</a></div>
+                    <div class="nav-item"><a href="#page-397" class="nav-link">Pag. 397 - Teacher Forcing</a></div>
+                    <div class="nav-item"><a href="#page-398" class="nav-link">Pag. 398 - Graphical Models</a></div>
+                    <div class="nav-item"><a href="#page-399" class="nav-link">Pag. 399 - Figura 10.7</a></div>
+                    <div class="nav-item"><a href="#page-400" class="nav-link">Pag. 400 - Figura 10.8</a></div>
+                    <div class="nav-item"><a href="#page-401" class="nav-link">Pag. 401 - BPTT Intro</a></div>
+                    <div class="nav-item"><a href="#page-402" class="nav-link">Pag. 402 - BPTT Equations</a></div>
+                    <div class="nav-item"><a href="#page-403" class="nav-link">Pag. 403 - Gradient ∂L/∂U</a></div>
+                    <div class="nav-item"><a href="#page-404" class="nav-link">Pag. 404 - BPTT Complexity</a></div>
+
+                    <!-- Section 10.3-10.5 -->
+                    <div class="nav-section">10.3-10.5 Bidirectional & Seq2Seq</div>
+                    <div class="nav-item"><a href="#page-405" class="nav-link">Pag. 405 - Bidirectional RNN</a></div>
+                    <div class="nav-item"><a href="#page-406" class="nav-link">Pag. 406 - Figura 10.11</a></div>
+                    <div class="nav-item"><a href="#page-407" class="nav-link">Pag. 407 - Encoder-Decoder</a></div>
+                    <div class="nav-item"><a href="#page-408" class="nav-link">Pag. 408 - Seq2Seq & Attention</a></div>
+                    <div class="nav-item"><a href="#page-409" class="nav-link">Pag. 409 - Deep RNN</a></div>
+                    <div class="nav-item"><a href="#page-410" class="nav-link">Pag. 410 - Figura 10.13</a></div>
+
+                    <!-- Section 10.6-10.7 -->
+                    <div class="nav-section">10.6-10.7 Recursive & Long-Term</div>
+                    <div class="nav-item"><a href="#page-411" class="nav-link">Pag. 411 - Recursive Networks</a></div>
+                    <div class="nav-item"><a href="#page-412" class="nav-link">Pag. 412 - Figura 10.14</a></div>
+                    <div class="nav-item"><a href="#page-413" class="nav-link">Pag. 413 - Long-Term Dependencies</a></div>
+                    <div class="nav-item"><a href="#page-414" class="nav-link">Pag. 414 - Vanishing Gradient</a></div>
+                    <div class="nav-item"><a href="#page-415" class="nav-link">Pag. 415 - Figura 10.15</a></div>
+                    <div class="nav-item"><a href="#page-416" class="nav-link">Pag. 416 - Jacobian Eigenvalues</a></div>
+
+                    <!-- Section 10.8-10.10 -->
+                    <div class="nav-section">10.8-10.10 ESN, Leaky & Gated</div>
+                    <div class="nav-item"><a href="#page-417" class="nav-link">Pag. 417 - Echo State Networks</a></div>
+                    <div class="nav-item"><a href="#page-418" class="nav-link">Pag. 418 - ESN vs Full Training</a></div>
+                    <div class="nav-item"><a href="#page-419" class="nav-link">Pag. 419 - Skip Connections</a></div>
+                    <div class="nav-item"><a href="#page-420" class="nav-link">Pag. 420 - Leaky Units</a></div>
+                    <div class="nav-item"><a href="#page-421" class="nav-link">Pag. 421 - Removing Connections</a></div>
+                    <div class="nav-item"><a href="#page-422" class="nav-link">Pag. 422 - Figura 10.16</a></div>
+                    <div class="nav-item"><a href="#page-423" class="nav-link">Pag. 423 - LSTM Intro</a></div>
+                    <div class="nav-item"><a href="#page-424" class="nav-link">Pag. 424 - LSTM Diagram</a></div>
+                    <div class="nav-item"><a href="#page-425" class="nav-link">Pag. 425 - LSTM Equations</a></div>
+                    <div class="nav-item"><a href="#page-426" class="nav-link">Pag. 426 - LSTM Complete</a></div>
+                    <div class="nav-item"><a href="#page-427" class="nav-link">Pag. 427 - GRU</a></div>
+
+                    <!-- Section 10.11-10.12 -->
+                    <div class="nav-section">10.11-10.12 Optimization & Memory</div>
+                    <div class="nav-item"><a href="#page-428" class="nav-link">Pag. 428 - Optimization</a></div>
+                    <div class="nav-item"><a href="#page-429" class="nav-link">Pag. 429 - Gradient Clipping</a></div>
+                    <div class="nav-item"><a href="#page-430" class="nav-link">Pag. 430 - Regularizing Flow</a></div>
+                    <div class="nav-item"><a href="#page-431" class="nav-link">Pag. 431 - Explicit Memory</a></div>
+                    <div class="nav-item"><a href="#page-432" class="nav-link">Pag. 432 - NTM Architecture</a></div>
+                    <div class="nav-item"><a href="#page-433" class="nav-link">Pag. 433 - Memory Networks</a></div>
+                    <div class="nav-item"><a href="#page-434" class="nav-link">Pag. 434 - Addressing</a></div>
+                    <div class="nav-item"><a href="#page-435" class="nav-link">Pag. 435 - Conclusion</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 11 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter11">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter11')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 11</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Metodologie Practica</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 11.1 -->
+                    <div class="nav-section">11.1 Metrici de Performanta</div>
+                    <div class="nav-item"><a href="#page-436" class="nav-link">Pag. 436 - Intro Metodologie</a></div>
+                    <div class="nav-item"><a href="#page-437" class="nav-link">Pag. 437 - Bayes Error</a></div>
+                    <div class="nav-item"><a href="#page-438" class="nav-link">Pag. 438 - Precision & Recall</a></div>
+                    <div class="nav-item"><a href="#page-439" class="nav-link">Pag. 439 - F-Score & Coverage</a></div>
+
+                    <!-- Section 11.2-11.3 -->
+                    <div class="nav-section">11.2-11.3 Baseline & Date</div>
+                    <div class="nav-item"><a href="#page-440" class="nav-link">Pag. 440 - Default Baseline</a></div>
+                    <div class="nav-item"><a href="#page-441" class="nav-link">Pag. 441 - Transfer Learning</a></div>
+                    <div class="nav-item"><a href="#page-442" class="nav-link">Pag. 442 - Mai Multe Date?</a></div>
+
+                    <!-- Section 11.4 -->
+                    <div class="nav-section">11.4 Selectare Hiperparametri</div>
+                    <div class="nav-item"><a href="#page-443" class="nav-link">Pag. 443 - Manual Tuning</a></div>
+                    <div class="nav-item"><a href="#page-444" class="nav-link">Pag. 444 - Learning Rate</a></div>
+                    <div class="nav-item"><a href="#page-445" class="nav-link">Pag. 445 - Figura 11.1</a></div>
+                    <div class="nav-item"><a href="#page-446" class="nav-link">Pag. 446 - Tabel 11.1</a></div>
+                    <div class="nav-item"><a href="#page-447" class="nav-link">Pag. 447 - Grid Search</a></div>
+                    <div class="nav-item"><a href="#page-448" class="nav-link">Pag. 448 - Figura 11.2</a></div>
+                    <div class="nav-item"><a href="#page-449" class="nav-link">Pag. 449 - Random Search</a></div>
+                    <div class="nav-item"><a href="#page-450" class="nav-link">Pag. 450 - Bayesian Opt</a></div>
+
+                    <!-- Section 11.5 -->
+                    <div class="nav-section">11.5 Debugging Strategies</div>
+                    <div class="nav-item"><a href="#page-451" class="nav-link">Pag. 451 - Intro Debugging</a></div>
+                    <div class="nav-item"><a href="#page-452" class="nav-link">Pag. 452 - Vizualizare Erori</a></div>
+                    <div class="nav-item"><a href="#page-453" class="nav-link">Pag. 453 - Gradient Check</a></div>
+                    <div class="nav-item"><a href="#page-454" class="nav-link">Pag. 454 - Finite Differences</a></div>
+                    <div class="nav-item"><a href="#page-455" class="nav-link">Pag. 455 - Monitor Activari</a></div>
+
+                    <!-- Section 11.6 -->
+                    <div class="nav-section">11.6 Exemplu: Street View</div>
+                    <div class="nav-item"><a href="#page-456" class="nav-link">Pag. 456 - Studiu de Caz</a></div>
+                    <div class="nav-item"><a href="#page-457" class="nav-link">Pag. 457 - Concluzie Cap. 11</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 12 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter12">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter12')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 12</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Aplicatii</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 12.1 -->
+                    <div class="nav-section">12.1 Large-Scale Deep Learning</div>
+                    <div class="nav-item"><a href="#page-458" class="nav-link">Pag. 458 - Intro Aplicatii</a></div>
+                    <div class="nav-item"><a href="#page-459" class="nav-link">Pag. 459 - Fast CPU Operations</a></div>
+                    <div class="nav-item"><a href="#page-460" class="nav-link">Pag. 460 - GPU Implementations</a></div>
+                    <div class="nav-item"><a href="#page-461" class="nav-link">Pag. 461 - Tensor Operations</a></div>
+                    <div class="nav-item"><a href="#page-462" class="nav-link">Pag. 462 - Distributed Computing</a></div>
+                    <div class="nav-item"><a href="#page-463" class="nav-link">Pag. 463 - Asynchronous SGD</a></div>
+                    <div class="nav-item"><a href="#page-464" class="nav-link">Pag. 464 - Model Compression</a></div>
+                    <div class="nav-item"><a href="#page-465" class="nav-link">Pag. 465 - Dynamic Structure</a></div>
+                    <div class="nav-item"><a href="#page-466" class="nav-link">Pag. 466 - Mixture of Experts</a></div>
+                    <div class="nav-item"><a href="#page-467" class="nav-link">Pag. 467 - Specialized Hardware</a></div>
+
+                    <!-- Section 12.2 -->
+                    <div class="nav-section">12.2 Computer Vision</div>
+                    <div class="nav-item"><a href="#page-468" class="nav-link">Pag. 468 - Intro Computer Vision</a></div>
+                    <div class="nav-item"><a href="#page-469" class="nav-link">Pag. 469 - Preprocessing</a></div>
+                    <div class="nav-item"><a href="#page-470" class="nav-link">Pag. 470 - Global Contrast Norm</a></div>
+                    <div class="nav-item"><a href="#page-471" class="nav-link">Pag. 471 - Local Contrast Norm</a></div>
+                    <div class="nav-item"><a href="#page-472" class="nav-link">Pag. 472 - Dataset Augmentation</a></div>
+
+                    <!-- Section 12.3 -->
+                    <div class="nav-section">12.3 Speech Recognition</div>
+                    <div class="nav-item"><a href="#page-473" class="nav-link">Pag. 473 - Intro ASR</a></div>
+                    <div class="nav-item"><a href="#page-474" class="nav-link">Pag. 474 - Deep Learning ASR</a></div>
+                    <div class="nav-item"><a href="#page-475" class="nav-link">Pag. 475 - End-to-End ASR</a></div>
+
+                    <!-- Section 12.4 -->
+                    <div class="nav-section">12.4 Natural Language Processing</div>
+                    <div class="nav-item"><a href="#page-476" class="nav-link">Pag. 476 - Intro NLP</a></div>
+                    <div class="nav-item"><a href="#page-477" class="nav-link">Pag. 477 - n-gram Models</a></div>
+                    <div class="nav-item"><a href="#page-478" class="nav-link">Pag. 478 - Neural Language Models</a></div>
+                    <div class="nav-item"><a href="#page-479" class="nav-link">Pag. 479 - Word Embeddings</a></div>
+                    <div class="nav-item"><a href="#page-480" class="nav-link">Pag. 480 - Word2Vec</a></div>
+                    <div class="nav-item"><a href="#page-481" class="nav-link">Pag. 481 - High-Dimensional Outputs</a></div>
+                    <div class="nav-item"><a href="#page-482" class="nav-link">Pag. 482 - Short Lists</a></div>
+                    <div class="nav-item"><a href="#page-483" class="nav-link">Pag. 483 - Hierarchical Softmax</a></div>
+                    <div class="nav-item"><a href="#page-484" class="nav-link">Pag. 484 - Importance Sampling</a></div>
+                    <div class="nav-item"><a href="#page-485" class="nav-link">Pag. 485 - NCE & Self-Normalization</a></div>
+                    <div class="nav-item"><a href="#page-486" class="nav-link">Pag. 486 - Combining NLP & DL</a></div>
+                    <div class="nav-item"><a href="#page-487" class="nav-link">Pag. 487 - Machine Translation</a></div>
+                    <div class="nav-item"><a href="#page-488" class="nav-link">Pag. 488 - Encoder-Decoder</a></div>
+                    <div class="nav-item"><a href="#page-489" class="nav-link">Pag. 489 - Attention Mechanism</a></div>
+                    <div class="nav-item"><a href="#page-490" class="nav-link">Pag. 490 - Historical Perspective</a></div>
+
+                    <!-- Section 12.5 -->
+                    <div class="nav-section">12.5 Other Applications</div>
+                    <div class="nav-item"><a href="#page-491" class="nav-link">Pag. 491 - Intro Alte Aplicatii</a></div>
+                    <div class="nav-item"><a href="#page-492" class="nav-link">Pag. 492 - Recommender Systems</a></div>
+                    <div class="nav-item"><a href="#page-493" class="nav-link">Pag. 493 - Factorizare & Embeddings</a></div>
+                    <div class="nav-item"><a href="#page-494" class="nav-link">Pag. 494 - Exploration vs Exploitation</a></div>
+                    <div class="nav-item"><a href="#page-495" class="nav-link">Pag. 495 - Contextual Bandits</a></div>
+                    <div class="nav-item"><a href="#page-496" class="nav-link">Pag. 496 - Deep Reinforcement Learning</a></div>
+                    <div class="nav-item"><a href="#page-497" class="nav-link">Pag. 497 - Knowledge Graphs</a></div>
+                    <div class="nav-item"><a href="#page-498" class="nav-link">Pag. 498 - Relations & Training</a></div>
+                    <div class="nav-item"><a href="#page-499" class="nav-link">Pag. 499 - Link Prediction</a></div>
+                    <div class="nav-item"><a href="#page-500" class="nav-link">Pag. 500 - QA Systems & Concluzie</a></div>
+
+                    <!-- Part III Intro -->
+                    <div class="nav-section">Partea III - Intro</div>
+                    <div class="nav-item"><a href="#page-501" class="nav-link">Pag. 501 - Part III Title</a></div>
+                    <div class="nav-item"><a href="#page-502" class="nav-link">Pag. 502 - Unsupervised Challenges</a></div>
+                    <div class="nav-item"><a href="#page-503" class="nav-link">Pag. 503 - Intractable Inference</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 13 ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter13">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter13')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 13</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Linear Factor Models</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 13.1 -->
+                    <div class="nav-section">13.0-13.1 Intro & PCA</div>
+                    <div class="nav-item"><a href="#page-504" class="nav-link">Pag. 504 - Linear Factor Models</a></div>
+                    <div class="nav-item"><a href="#page-505" class="nav-link">Pag. 505 - Figura 13.1 & Factor Analysis</a></div>
+                    <div class="nav-item"><a href="#page-506" class="nav-link">Pag. 506 - Probabilistic PCA</a></div>
+
+                    <!-- Section 13.2 -->
+                    <div class="nav-section">13.2 ICA</div>
+                    <div class="nav-item"><a href="#page-507" class="nav-link">Pag. 507 - ICA Detalii</a></div>
+                    <div class="nav-item"><a href="#page-508" class="nav-link">Pag. 508 - ICA Nonliniar & NICE</a></div>
+
+                    <!-- Section 13.3 -->
+                    <div class="nav-section">13.3 Slow Feature Analysis</div>
+                    <div class="nav-item"><a href="#page-509" class="nav-link">Pag. 509 - SFA Formule</a></div>
+                    <div class="nav-item"><a href="#page-510" class="nav-link">Pag. 510 - Deep SFA</a></div>
+
+                    <!-- Section 13.4 -->
+                    <div class="nav-section">13.4 Sparse Coding</div>
+                    <div class="nav-item"><a href="#page-511" class="nav-link">Pag. 511 - Sparse Coding Intro</a></div>
+                    <div class="nav-item"><a href="#page-512" class="nav-link">Pag. 512 - Training</a></div>
+                    <div class="nav-item"><a href="#page-513" class="nav-link">Pag. 513 - Non-Parametric Encoder</a></div>
+                    <div class="nav-item"><a href="#page-514" class="nav-link">Pag. 514 - Figura 13.2</a></div>
+
+                    <!-- Section 13.5 -->
+                    <div class="nav-section">13.5 Manifold Interpretation</div>
+                    <div class="nav-item"><a href="#page-515" class="nav-link">Pag. 515 - Figura 13.3</a></div>
+                    <div class="nav-item"><a href="#page-516" class="nav-link">Pag. 516 - Concluzie Cap. 13</a></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <h1 style="margin-bottom: 30px; font-size: 2rem;">
+            Deep Learning - Explicat in Limba Romana
+        </h1>
+        <p style="color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem;">
+            Ghid interactiv pentru intelegerea conceptelor din cartea "Deep Learning" de Ian Goodfellow, Yoshua Bengio si Aaron Courville.
+            <br><strong>Click pe orice paragraf pentru a vedea simulari, referinte si animatii.</strong>
+        </p>
+
+        <!-- Container pentru paginile incarcate dinamic -->
+        <div id="pages-container">
+            <!-- Paginile vor fi incarcate aici de PageLoader -->
+        </div>
+
+        <!-- Final Section -->
+        <section id="final-section" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 16px; padding: 40px; text-align: center; margin-top: 40px; display: none;">
+            <h2 style="margin-bottom: 20px;">Felicitari!</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">Ai parcurs Capitolele 1-11 si 13 din "Deep Learning"!</p>
+            <p style="color: rgba(255,255,255,0.9);">Acum intelegi: istoria AI, algebra liniara (vectori, matrici, SVD, PCA), probabilitati (distributii, Bayes, expectatii), teoria informatiei (entropia, KL divergence, cross-entropy), calculul numeric (gradient descent, Hessian, optimizare constransa, KKT), machine learning basics (capacity, overfitting, regularization, MLE, SGD, manifold learning), retele feedforward (MLP, activari, backpropagation, grafuri computationale), regularizare pentru deep learning, optimizare (SGD, Momentum, Adam, Batch Normalization), retele convolutionale (CNN-uri, pooling, echivarianta, baza neurostiintifica), retele recurente (RNN, LSTM, GRU, attention, memory networks), metodologie practica (metrici, hyperparameter tuning, debugging) si linear factor models (PCA probabilistic, ICA, SFA, sparse coding)!</p>
+            <div style="margin-top: 30px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <div style="background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 8px;">
+                    <strong>345</strong> pagini explicate
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 8px;">
+                    <strong>850+</strong> concepte cheie
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 8px;">
+                    <strong>345+</strong> simulari interactive
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Configuratie pagini -->
+    <script>
+        // Lista paginilor de incarcat (in ordine)
+        window.PAGES_CONFIG = [16,17,20,21,22,23,24,25,26,27,28,29,30,32,33,34,35,36,37,38,39,40,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516];
+    </script>
+
+    <!-- Scripts -->
+    <script src="js/scripts.js"></script>
+
+    <!-- Afiseaza sectiunea finala dupa incarcare -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Afiseaza sectiunea finala dupa ce toate paginile au fost incarcate
+            setTimeout(() => {
+                const finalSection = document.getElementById('final-section');
+                if (finalSection) {
+                    finalSection.style.display = 'block';
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

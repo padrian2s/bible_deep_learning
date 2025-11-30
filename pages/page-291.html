@@ -1,0 +1,143 @@
+<section class="page-section" id="page-291">
+    <div class="page-header">
+        <div class="page-number">291</div>
+        <div class="page-title">
+            <h3>8.1.2 Surrogate Loss Functions si Early Stopping</h3>
+            <span>Functii de Loss Inlocuitoare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-291.jpg"
+             alt="Pagina 291" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Nu Optimizam Exact Ce Vrem?</h4>
+                <p>Uneori, functia de loss pe care chiar ne pasa (ex: eroarea de clasificare 0-1) nu poate fi optimizata eficient! Eroarea 0-1 are derivata zero aproape peste tot, deci gradient descent nu functioneaza. Solutia: folosim o <strong>functie surrogate</strong> (inlocuitoare) care actioneaza ca proxy.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: 0-1 Loss vs Cross-Entropy</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">0-1 Loss (ce vrem):</strong>
+                                    <div class="formula" style="margin-top: 10px;">L = 1 daca predictie ≠ target, 0 altfel</div>
+                                    <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.85rem;">Derivata = 0 sau nedefinita. Inutilizabil pentru gradient descent!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Cross-Entropy (surrogate):</strong>
+                                    <div class="formula" style="margin-top: 10px;">L = -log P(y|x)</div>
+                                    <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.85rem;">Derivate utile! Si minimizarea sa tinde sa minimizeze eroarea 0-1.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta: Marcotte si Savard (1992)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Minimizarea exacta a expected 0-1 loss e intractabila (exponentiala in dimensiunea input-ului), chiar si pentru un clasificator liniar!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Beneficiul Neasteptat al Surrogate Loss</h4>
+                <p>Uneori, surrogate loss chiar invata mai bine decat obiectivul original! De exemplu, dupa ce eroarea 0-1 pe training ajunge la zero, cross-entropy poate continua sa scada, iar eroarea pe test continua sa se imbunatateasca - modelul devine mai confident si mai robust.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Continuarea Antrenarii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Training 0-1 Loss = 0% (perfect pe training)</p>
+                                <div style="background: var(--bg-dark); height: 20px; border-radius: 10px; margin: 10px 0; overflow: hidden;">
+                                    <div style="width: 100%; height: 100%; background: var(--success);"></div>
+                                </div>
+                                <p style="color: var(--text-secondary); margin-top: 15px;">Dar Cross-Entropy inca scade...</p>
+                                <div style="background: var(--bg-dark); height: 20px; border-radius: 10px; margin: 10px 0; overflow: hidden;">
+                                    <div style="width: 70%; height: 100%; background: var(--accent);"></div>
+                                </div>
+                                <p style="color: var(--success); margin-top: 10px;">→ Clasificatorul devine mai robust, clasele sunt impinse mai departe!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ML Nu Se Opreste la Minim Local</h4>
+                <p>O diferenta importanta fata de optimizarea pura: algoritmii de ML nu se opresc de obicei la un minim local. Se opresc cand un criteriu de <strong>early stopping</strong> (bazat pe validare) e satisfacut. De obicei, loss-ul pe setul de validare incepe sa creasca cand apare overfitting.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Early Stopping Vizualizat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 2rem;">📉</div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Train Loss</p>
+                                    <p style="color: var(--success);">Scade mereu</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 2rem;">📈</div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Val Loss</p>
+                                    <p style="color: var(--warning);">Scade, apoi creste</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 2rem;">🛑</div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Stop</p>
+                                    <p style="color: var(--accent);">Cand val creste</p>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px; font-size: 0.9rem;">Vezi sectiunea 7.8 pentru detalii despre early stopping.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Implicatie pentru Optimizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>In optimizarea pura, convergenta la gradient mic = succes. In ML, antrenarea se opreste adesea cand surrogate loss-ul are inca gradient mare - pentru ca optimizam prea mult duce la overfitting!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

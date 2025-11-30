@@ -1,0 +1,93 @@
+<section class="page-section" id="page-152">
+    <div class="page-header">
+        <div class="page-number">152</div>
+        <div class="page-title">
+            <h3>Bayesian Linear Regression</h3>
+            <span>Capitolul 5 - Exemplu Bayesian</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-152.jpg"
+             alt="Pagina 152" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Metode Bayesiene: Avantaje si Dezavantaje</h4>
+                <p>Metodele Bayesiene generalizeaza de obicei mult mai bine cand datele de antrenament sunt limitate, dar sufera de cost computational ridicat cand numarul de exemple de antrenament este mare. Criticii abordarii Bayesiene identifica prior-ul ca sursa de judecata subiectiva umana care afecteaza predictiile.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu: Bayesian Linear Regression</h4>
+                <p>Consideram abordarea Bayesiana pentru invatarea parametrilor regresiei liniare. Modelul: ŷ = w<sup>T</sup>x. Dat fiind un training set (X<sup>(train)</sup>, y<sup>(train)</sup>), predictia peste intregul set este:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    ŷ<sup>(train)</sup> = X<sup>(train)</sup>w
+                </div>
+                <p>Exprimat ca distributie Gaussiana conditionata pe y<sup>(train)</sup>:</p>
+                <div class="formula" style="text-align: center; font-size: 1.1rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    p(y<sup>(train)</sup> | X<sup>(train)</sup>, w) = N(y<sup>(train)</sup>; X<sup>(train)</sup>w, I)
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Bayesian Regression</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Bayesian Linear Regression simplificat
+# Prior: w ~ N(0, sigma_prior^2 * I)
+# Likelihood: y ~ N(X*w, sigma_noise^2 * I)
+
+def bayesian_linear_regression(X, y, sigma_prior=1.0, sigma_noise=0.1):
+    """
+    Returneaza posterior mean si covariance pentru w
+    """
+    n_features = X.shape[1]
+
+    # Posterior (formule din teoria Bayesiana)
+    Lambda_prior = np.eye(n_features) / (sigma_prior**2)
+    Lambda_posterior = Lambda_prior + X.T @ X / (sigma_noise**2)
+
+    Sigma_posterior = np.linalg.inv(Lambda_posterior)
+    mu_posterior = Sigma_posterior @ X.T @ y / (sigma_noise**2)
+
+    return mu_posterior, Sigma_posterior
+
+# Exemplu
+X = np.array([[1], [2], [3], [4], [5]])
+y = np.array([2.1, 4.0, 5.9, 8.1, 10.0])
+
+mu, Sigma = bayesian_linear_regression(X, y)
+
+print("Bayesian Linear Regression:")
+print(f"Posterior mean w: {mu[0]:.3f}")
+print(f"Posterior std:    {np.sqrt(Sigma[0,0]):.3f}")
+print()
+print("=> Avem nu doar estimatul, ci si INCERTITUDINEA!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gaussian Prior pe Weights</h4>
+                <p>Pentru a determina posterior-ul peste w, specificam un <strong>prior</strong>. Este comun sa presupunem un prior Gaussian:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    p(w) = N(w; μ₀, Λ₀) ∝ exp(-½(w - μ₀)<sup>T</sup>Λ₀<sup>-1</sup>(w - μ₀))
+                </div>
+                <p>Prior-ul exprima credintele naive despre valoarea parametrilor. In practica, alegem o distributie destul de larga (high variance) pentru a exprima incertitudine. Prior-ul influenteaza catre regiuni ale spatiului parametrilor care sunt preferate a priori - modele mai simple sau mai smooth.</p>
+            </div>
+        </div>
+    </div>
+</section>

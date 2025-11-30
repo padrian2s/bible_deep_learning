@@ -1,0 +1,112 @@
+<section class="page-section" id="page-489">
+    <div class="page-header">
+        <div class="page-number">489</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Figura 12.5 - Encoder-Decoder Architecture</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-489.jpg"
+             alt="Pagina 489" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 12.5: Encoder-Decoder Architecture</h4>
+                <p>Aceasta figura ilustreaza arhitectura <strong>encoder-decoder</strong> pentru a mapa inainte si inapoi intre o reprezentare de suprafata (secventa de cuvinte sau imagine) si o reprezentare semantica. Encoder-ul mapeaza input-ul la o reprezentare intermediara, iar decoder-ul genereaza output-ul din aceasta reprezentare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Encoder-Decoder</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                                <div style="background: var(--success); padding: 15px 30px; border-radius: 8px; color: var(--bg-dark);">
+                                    <strong>Output (English sentence)</strong>
+                                </div>
+                                <div style="color: var(--text-secondary);">↑ Decoder</div>
+                                <div style="background: var(--accent); padding: 20px 40px; border-radius: 8px; color: var(--bg-dark);">
+                                    <strong>Intermediate Semantic Representation</strong>
+                                </div>
+                                <div style="color: var(--text-secondary);">↑ Encoder</div>
+                                <div style="background: var(--warning); padding: 15px 30px; border-radius: 8px; color: var(--bg-dark);">
+                                    <strong>Source (French sentence or image)</strong>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 20px;">
+                                Aceasta idee a fost aplicata cu succes nu doar pentru machine translation, ci si pentru <strong>image captioning</strong> - generarea de descrieri text din imagini!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>RNN pentru Secvente de Lungime Variabila</h4>
+                <p>Un dezavantaj al abordarii MLP este ca necesita secvente de lungime fixa. Pentru a face traducerea mai flexibila, dorim un model care sa acomodeze input-uri si output-uri de <strong>lungime variabila</strong>. Un <strong>RNN</strong> ofera aceasta abilitate - encoder-ul citeste secventa source si produce un "rezumat" C, apoi decoder-ul genereaza secventa target conditionat de C.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Seq2Seq Model</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Sequence-to-Sequence Model (Sutskever et al., 2014)
+
+class Seq2Seq(nn.Module):
+    def __init__(self, vocab_size, embed_dim, hidden_dim):
+        super().__init__()
+        self.encoder = nn.LSTM(embed_dim, hidden_dim)
+        self.decoder = nn.LSTM(embed_dim, hidden_dim)
+        self.embed = nn.Embedding(vocab_size, embed_dim)
+        self.output = nn.Linear(hidden_dim, vocab_size)
+
+    def forward(self, source, target):
+        # Encode: citeste source, produce context C
+        embedded_src = self.embed(source)
+        _, (h, c) = self.encoder(embedded_src)
+        # h, c = contextul "rezumat"
+
+        # Decode: genereaza target conditionat de C
+        embedded_tgt = self.embed(target)
+        outputs, _ = self.decoder(embedded_tgt, (h, c))
+
+        return self.output(outputs)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Neural MT</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Kalchbrenner & Blunsom (2013)</strong> - Convolutions + RNN pentru reprezentari</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Cho et al. (2014a)</strong> - RNN encoder-decoder pentru scoring</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Sutskever et al. (2014)</strong> - LSTM pentru generare end-to-end</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Jean et al. (2014)</strong> - Scalare la vocabulare mari</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,235 @@
+<section class="page-section" id="page-95">
+    <div class="page-header">
+        <div class="page-number">95</div>
+        <div class="page-title">
+            <h3>Calculul Numeric</h3>
+            <span>Capitolul 4 - Introducere</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-095.jpg"
+             alt="Pagina 95" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Introducere in Calculul Numeric</h4>
+                <p>Algoritmii de machine learning necesita o cantitate mare de calcul numeric. Spre deosebire de matematica pura unde putem deriva formule exacte, in practica rezolvam probleme iterativ - actualizand estimari pana ajungem la solutie. Operatiile comune includ: <strong>optimizarea</strong> (gasirea minimului sau maximului unei functii) si <strong>rezolvarea sistemelor de ecuatii liniare</strong>. Chiar si evaluarea unei functii matematice pe un computer poate fi dificila cand lucram cu numere reale, deoarece acestea nu pot fi reprezentate perfect cu o memorie finita.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Erori de Reprezentare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Exemplu de eroare de reprezentare floating-point:</p>
+                            <div class="code-block">
+import numpy as np
+
+# Pi nu poate fi reprezentat exact
+pi_32 = np.float32(np.pi)
+pi_64 = np.float64(np.pi)
+
+print(f"Pi (float32): {pi_32:.20f}")
+print(f"Pi (float64): {pi_64:.20f}")
+print(f"Eroare 32-bit: {abs(np.pi - pi_32):.2e}")
+
+# Exemplu de acumulare erori
+suma = np.float32(0.0)
+for _ in range(1000000):
+    suma += np.float32(0.1)
+print(f"\n0.1 * 1000000 = {suma}")
+print(f"Eroare acumulata: {abs(100000 - suma)}")
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Float32 are ~7 cifre de precizie, Float64 are ~15 cifre.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce conteaza in Deep Learning?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Aplicatii Practice</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Training GPU:</strong> Se foloseste float16/bfloat16 pentru viteza, dar cu risc de instabilitate</li>
+                                    <li><strong>Gradient descent:</strong> Milioane de iteratii acumuleaza erori</li>
+                                    <li><strong>Backpropagation:</strong> Gradientii pot exploda sau disparea</li>
+                                    <li><strong>Softmax/Log:</strong> Necesita stabilizare numerica speciala</li>
+                                </ul>
+                            </div>
+                            <div class="reference-list" style="margin-top: 15px;">
+                                <div class="reference-item">
+                                    <strong>IEEE 754:</strong> Standardul pentru floating-point arithmetic
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Mixed Precision Training:</strong> Tehnica moderna de a combina float16 cu float32
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tipuri de Calcul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">📐</div>
+                                    <strong>Symbolic</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">x² - 4 = 0</p>
+                                    <p style="font-size: 0.9rem;">→ x = ±2 (exact)</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">🔄</div>
+                                    <strong>Numeric (Iterativ)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">x₀=3 → x₁=2.17 → x₂=2.01</p>
+                                    <p style="font-size: 0.9rem;">→ x ≈ 2.0 (aproximativ)</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; text-align: center; color: var(--text-secondary);">Deep Learning foloseste calcul numeric iterativ!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>4.1 Overflow si Underflow</h4>
+                <p>Dificultatea fundamentala in calculul numeric pe computere este ca trebuie sa reprezentam infinit de multe numere reale cu un numar finit de biti. Aceasta inseamna ca pentru aproape toate numerele reale avem <strong>erori de rotunjire</strong>. Aceste erori sunt problematice deoarece se acumuleaza de-a lungul multor operatii si pot cauza esecul algoritmilor care ar functiona perfect in teorie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Erori de Rotunjire</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Eroarea de rotunjire clasica
+a = 0.1 + 0.2
+print(f"0.1 + 0.2 = {a}")
+print(f"Este egal cu 0.3? {a == 0.3}")
+print(f"Diferenta: {a - 0.3:.20f}")
+
+# Acumulare erori in bucle
+suma = 0.0
+for _ in range(10):
+    suma += 0.1
+print(f"\n0.1 * 10 = {suma}")
+print(f"Diferenta de 1.0: {suma - 1.0:.2e}")
+                            </div>
+                            <p style="margin-top: 15px; color: var(--warning);">0.1 in binar este 0.0001100110011... (infinit!)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Definitii: Underflow & Overflow</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                                <strong style="color: var(--accent);">Underflow:</strong>
+                                <p>Cand numere foarte mici (aproape de zero) sunt rotunjite la zero.</p>
+                                <p style="font-family: monospace; margin-top: 10px;">1e-400 → 0.0 (pierdere completa)</p>
+                            </div>
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <strong style="color: var(--warning);">Overflow:</strong>
+                                <p>Cand numere foarte mari devin ∞ sau -∞</p>
+                                <p style="font-family: monospace; margin-top: 10px;">1e400 → inf (pierdere completa)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Underflow - Problema Numerelor Mici</h4>
+                <p><strong>Underflow</strong> apare cand numere foarte aproape de zero sunt rotunjite la zero. Multe functii se comporta diferit cand argumentul lor este zero fata de cand este un numar mic pozitiv. De exemplu, vrem de obicei sa evitam impartirea la zero (unele medii software vor genera exceptii, altele vor returna NaN - "not a number").</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Underflow in Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Underflow simplu
+x = 1e-200
+y = 1e-200
+print(f"1e-200 * 1e-200 = {x * y}")  # Underflow!
+
+# Problema in probabilitati
+# P(A) * P(B) * P(C) * ... pentru multe evenimente
+probs = [0.01] * 200  # 200 de probabilitati mici
+produs = 1.0
+for p in probs:
+    produs *= p
+print(f"\nProdus de 200 probabilitati: {produs}")
+
+# Solutia: lucram in log-space
+log_sum = sum(np.log(probs))
+print(f"Suma log-probabilitatilor: {log_sum:.2f}")
+print(f"Deci produsul real este: e^{log_sum:.0f}")
+                            </div>
+                            <p style="margin-top: 15px; color: var(--success);">Solutie: Lucreaza cu log-probabilitati!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Zona de Underflow</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 5px; font-family: monospace;">
+                                    <span style="background: var(--accent); padding: 5px 10px; border-radius: 4px;">-∞</span>
+                                    <span>...</span>
+                                    <span style="background: var(--warning); padding: 5px 10px; border-radius: 4px;">-1e308</span>
+                                    <span>...</span>
+                                    <span style="background: #ff4444; padding: 5px 15px; border-radius: 4px; color: white;">UNDERFLOW</span>
+                                    <span style="background: var(--success); padding: 5px 10px; border-radius: 4px;">0</span>
+                                    <span style="background: #ff4444; padding: 5px 15px; border-radius: 4px; color: white;">UNDERFLOW</span>
+                                    <span>...</span>
+                                    <span style="background: var(--warning); padding: 5px 10px; border-radius: 4px;">1e308</span>
+                                    <span>...</span>
+                                    <span style="background: var(--accent); padding: 5px 10px; border-radius: 4px;">+∞</span>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">Float64: numere mai mici de ~1e-308 devin 0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

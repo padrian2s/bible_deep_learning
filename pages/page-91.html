@@ -1,0 +1,174 @@
+        <section class="page-section" id="page-91">
+            <div class="page-header">
+                <div class="page-number">91</div>
+                <div class="page-title">
+                    <h3>Asimetria KL Divergence</h3>
+                    <span>Figura 3.6 - Forward vs Reverse KL</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-091.jpg"
+                     alt="Pagina 91" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Figura 3.6: Asimetria KL</h4>
+                        <p>Aceasta figura demonstreaza de ce alegerea dintre D_KL(P||Q) si D_KL(Q||P) conteaza. Presupunem ca p(x) e o mixtura de doua Gaussiane si vrem sa o aproximam cu o singura Gaussiana q(x). Cele doua directii KL dau rezultate foarte diferite!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Forward vs Reverse KL</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">min D_KL(p || q)</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 10px 0;">"Forward KL" / "Mean-seeking"</p>
+                                            <div style="height: 60px; position: relative; margin: 10px 0;">
+                                                <!-- Two bumps for p -->
+                                                <div style="position: absolute; width: 30%; height: 40px; background: var(--secondary); border-radius: 50% 50% 0 0; left: 15%; opacity: 0.5;"></div>
+                                                <div style="position: absolute; width: 30%; height: 40px; background: var(--secondary); border-radius: 50% 50% 0 0; right: 15%; opacity: 0.5;"></div>
+                                                <!-- Wide q covering both -->
+                                                <div style="position: absolute; width: 90%; height: 25px; background: var(--accent); border-radius: 50% 50% 0 0; left: 5%; bottom: 0; opacity: 0.7;"></div>
+                                            </div>
+                                            <p style="font-size: 0.75rem; color: var(--text-secondary);">q "blur-eaza" pentru a acoperi TOATA masa lui p</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">min D_KL(q || p)</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 10px 0;">"Reverse KL" / "Mode-seeking"</p>
+                                            <div style="height: 60px; position: relative; margin: 10px 0;">
+                                                <!-- Two bumps for p -->
+                                                <div style="position: absolute; width: 30%; height: 40px; background: var(--secondary); border-radius: 50% 50% 0 0; left: 15%; opacity: 0.5;"></div>
+                                                <div style="position: absolute; width: 30%; height: 40px; background: var(--secondary); border-radius: 50% 50% 0 0; right: 15%; opacity: 0.5;"></div>
+                                                <!-- Narrow q on one mode -->
+                                                <div style="position: absolute; width: 25%; height: 50px; background: var(--warning); border-radius: 50% 50% 0 0; left: 18%; bottom: 0; opacity: 0.7;"></div>
+                                            </div>
+                                            <p style="font-size: 0.75rem; color: var(--text-secondary);">q se "concentreaza" pe UN SINGUR mod al lui p</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Forward KL: D_KL(P || Q) - Mean-Seeking</h4>
+                        <p>Cand minimizam D_KL(P||Q) = 𝔼_{x~P}[log P(x)/Q(x)], ne "asiguram" ca Q pune masa peste tot unde P pune masa. Daca P are doua moduri, Q trebuie sa le acopere pe ambele - altfel log(P/Q) explodeaza unde P > 0 dar Q ≈ 0. Rezultat: Q "blur-eaza" si acopera tot, chiar daca pierde acuratetea pe fiecare mod individual.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Cand folosim Forward KL?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Forward KL e potrivita cand:</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li>Vrem sa <strong>acoperim</strong> toata distributia tinta</li>
+                                            <li>E OK sa punem masa in zone unde tinta nu are</li>
+                                            <li>Ex: Classificare - nu vrem sa ignoram nicio clasa</li>
+                                            <li>Ex: Maximum Likelihood training</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Reverse KL: D_KL(Q || P) - Mode-Seeking</h4>
+                        <p>Cand minimizam D_KL(Q||P) = 𝔼_{x~Q}[log Q(x)/P(x)], ne "asiguram" ca Q nu pune masa unde P nu are. Daca Q pune masa unde P ≈ 0, termenul log(Q/P) explodeaza. Rezultat: Q prefera sa se concentreze pe UN mod al lui P si sa-l modeleze precis, ignorand alte moduri.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Cand folosim Reverse KL?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Reverse KL e potrivita cand:</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li>Vrem sa <strong>evitam</strong> zone unde tinta nu pune masa</li>
+                                            <li>E OK sa ignoram parti din distributia tinta</li>
+                                            <li>Ex: VAE - posterior q(z|x) trebuie sa stea in prior p(z)</li>
+                                            <li>Ex: Generative modeling cand vrem esantioane realiste</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Demonstratie asimetrie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+from scipy.optimize import minimize
+
+# P = mixtura de 2 Gaussiene
+def p_mixture(x):
+    return 0.5 * stats.norm.pdf(x, -2, 0.5) + 0.5 * stats.norm.pdf(x, 2, 0.5)
+
+# Q = o singura Gaussiana cu parametri (mu, sigma)
+def q_single(x, mu, sigma):
+    return stats.norm.pdf(x, mu, sigma)
+
+# Forward KL: E_p[log(p/q)]
+def forward_kl(params):
+    mu, sigma = params
+    if sigma <= 0:
+        return np.inf
+    x = np.linspace(-5, 5, 1000)
+    p = p_mixture(x)
+    q = q_single(x, mu, sigma) + 1e-10
+    return np.trapz(p * np.log(p / q), x)
+
+# Reverse KL: E_q[log(q/p)]
+def reverse_kl(params):
+    mu, sigma = params
+    if sigma <= 0:
+        return np.inf
+    x = np.linspace(-5, 5, 1000)
+    p = p_mixture(x) + 1e-10
+    q = q_single(x, mu, sigma)
+    return np.trapz(q * np.log(q / p), x)
+
+# Optimizam
+res_forward = minimize(forward_kl, [0, 2], method='Nelder-Mead')
+res_reverse = minimize(reverse_kl, [0, 2], method='Nelder-Mead')
+
+print("Rezultate:")
+print(f"Forward KL: mu={res_forward.x[0]:.2f}, sigma={res_forward.x[1]:.2f}")
+print(f"  → Centreaza intre moduri, sigma mare (blur)")
+print(f"Reverse KL: mu={res_reverse.x[0]:.2f}, sigma={res_reverse.x[1]:.2f}")
+print(f"  → Se duce la un mod, sigma mica (concentrat)")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

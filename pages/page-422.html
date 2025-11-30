@@ -1,0 +1,101 @@
+<section class="page-section" id="page-422">
+    <div class="page-header">
+        <div class="page-number">422</div>
+        <div class="page-title">
+            <h3>10.9.2 Leaky Units</h3>
+            <span>Unitati cu Scurgere - Running Averages</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-422.jpg"
+             alt="Pagina 422" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Leaky Units - Ideea de Baza</h4>
+                <p><strong>Leaky units</strong> folosesc o auto-conexiune liniara cu greutate aproape de 1. Unitatea "tine minte" valorile anterioare prin running average: μ<sup>(t)</sup> = αμ<sup>(t-1)</sup> + (1-α)v<sup>(t)</sup>. Cand α ≈ 1, memoria e lunga!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula Leaky Unit</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <div class="formula" style="margin: 10px 0;">
+                                    μ<sup>(t)</sup> = α·μ<sup>(t-1)</sup> + (1-α)·v<sup>(t)</sup>
+                                </div>
+                                <ul style="margin-top: 15px; color: var(--text-secondary);">
+                                    <li><strong>α ≈ 0:</strong> Starea se schimba rapid (short memory)</li>
+                                    <li><strong>α ≈ 1:</strong> Starea se schimba lent (long memory)</li>
+                                    <li><strong>α variabil:</strong> Diferite unitati, diferite time scales!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Leaky Integration</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>class LeakyUnit(nn.Module):
+    def __init__(self, alpha=0.9):
+        super().__init__()
+        self.alpha = alpha  # leak rate
+
+    def forward(self, v, mu_prev):
+        # Running average cu leak
+        mu = self.alpha * mu_prev + (1 - self.alpha) * v
+        return mu
+
+# Diferite unitati cu diferite alpha
+slow_unit = LeakyUnit(alpha=0.99)   # memorie lunga
+fast_unit = LeakyUnit(alpha=0.5)    # memorie scurta</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Comparatie: Skip vs Leaky</h4>
+                <p>Ambele metode ajuta la captarea dependentelor lungi, dar in moduri diferite. Skip connections scurteaza calea gradientilor; leaky units fac gradient flow mai lin prin auto-conexiuni liniare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte Originale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📖</span><div><strong>Mozer, 1992</strong> - Time constants pentru unitati</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>El Hihi & Bengio, 1996</strong> - Hierarchical structures</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Jaeger et al., 2007</strong> - Leaky units in ESN</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Nota:</h5>
+                                <p>LSTM (sectiunea urmatoare) generalizeaza leaky units facand α <strong>invatabil si input-dependent</strong>!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

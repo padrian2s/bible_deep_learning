@@ -1,0 +1,132 @@
+<section class="page-section" id="page-234">
+    <div class="page-header">
+        <div class="page-number">234</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5.7 Exemplu: Backprop pentru MLP Training</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-234.jpg"
+             alt="Pagina 234" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.5.7 Exemplu: Back-Propagation pentru MLP Training</h4>
+                <p>Ca exemplu, parcurgem algoritmul de backprop asa cum este folosit pentru a antrena un multilayer perceptron. Dezvoltam un MLP foarte simplu cu un singur strat ascuns. Pentru a antrena acest model, vom folosi minibatch stochastic gradient descent. Algoritmul de backprop este folosit pentru a calcula gradientul costului pe un singur minibatch.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Arhitectura MLP</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--primary); margin-bottom: 15px;">Structura retelei:</h5>
+                                <div style="font-family: monospace; font-size: 0.9rem;">
+                                    <p>Input: X (design matrix m × n)</p>
+                                    <p>Hidden: H = max{0, XW⁽¹⁾} (ReLU, fara bias)</p>
+                                    <p>Output: U⁽²⁾ = HW⁽²⁾ (log probabilities)</p>
+                                    <p>Predictions: softmax(U⁽²⁾)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Functia de Cost cu Regularizare</h4>
+                <p>Reteaua calculeaza un strat de caracteristici ascunse H = max{0, XW⁽¹⁾}. Predictiile log probabilitatilor nenormalizate peste clase sunt date de HW⁽²⁾. Presupunem ca limbajul nostru de graf include o operatie cross_entropy care calculeaza cross-entropy intre targets y si probabilitati. Costul total include si un termen de regularizare L2.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatia 6.56: Costul Total</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Costul total (Ecuatia 6.56):</strong>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.1rem; text-align: center;">
+                                    J = J<sub>MLE</sub> + λ(Σᵢⱼ(W⁽¹⁾ᵢⱼ)² + Σᵢⱼ(W⁽²⁾ᵢⱼ)²)
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class SimpleMLP(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super().__init__()
+        # Fara bias pentru simplitate
+        self.W1 = nn.Parameter(torch.randn(input_dim, hidden_dim))
+        self.W2 = nn.Parameter(torch.randn(hidden_dim, output_dim))
+
+    def forward(self, X):
+        # H = max{0, X @ W1}
+        H = F.relu(X @ self.W1)
+        # U2 = H @ W2 (log probabilities)
+        U2 = H @ self.W2
+        return U2
+
+def compute_loss(model, X, y, lambda_reg=0.01):
+    logits = model(X)
+    # J_MLE = cross_entropy
+    J_MLE = F.cross_entropy(logits, y)
+    # L2 regularization
+    reg = lambda_reg * (model.W1.pow(2).sum() + model.W2.pow(2).sum())
+    # Total cost
+    J = J_MLE + reg
+    return J
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Graful Computational (Figura 6.11)</h4>
+                <p>Graful computational pentru gradientul acestui exemplu este suficient de mare incat ar fi plictisitor sa-l desenam sau sa-l citim. Aceasta demonstreaza unul din beneficiile algoritmului de backprop: poate genera automat gradienti care ar fi straightforward dar tedious pentru un software engineer sa ii derive manual.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Doua Cai catre Weights</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Calea 1: Cross-Entropy</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">J ← J<sub>MLE</sub> ← cross_entropy ← U⁽²⁾ ← H ← U⁽¹⁾ ← W⁽¹⁾</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Gradientul "principal" pentru clasificare</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Calea 2: Weight Decay</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">J ← u⁽⁸⁾ ← u⁽⁷⁾ ← u⁽⁶⁾ ← (W⁽¹⁾)²</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Contribuie 2λW⁽¹⁾ la gradient</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,240 @@
+<section class="page-section" id="page-100">
+    <div class="page-header">
+        <div class="page-number">100</div>
+        <div class="page-title">
+            <h3>Derivata Directionala si Steepest Descent</h3>
+            <span>Capitolul 4 - Metoda Gradientului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-100.jpg"
+             alt="Pagina 100" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 4.3: Minime Locale Acceptabile</h4>
+                <p>In deep learning, algoritmii de optimizare pot esua in gasirea minimului global cand exista minime locale sau platouri. Totusi, acceptam astfel de solutii atata timp cat corespund unor valori suficient de mici ale functiei de cost. Un minim local care performeaza aproape la fel de bine ca cel global este acceptabil. Un minim local cu performanta slaba trebuie evitat - de aceea alegerea punctului de start si a hiperparametrilor este importanta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Minime Locale Multiple</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Functie cu multiple minime de calitati diferite
+def loss_landscape(x):
+    return np.sin(3*x) * np.exp(-0.1*x**2) + 0.5
+
+def grad(x):
+    return (3*np.cos(3*x) - 0.2*x*np.sin(3*x)) * np.exp(-0.1*x**2)
+
+# Gradient descent din diferite starturi
+starts = np.linspace(-4, 4, 9)
+results = []
+
+for x0 in starts:
+    x = x0
+    for _ in range(100):
+        x = x - 0.1 * grad(x)
+    results.append((x0, x, loss_landscape(x)))
+
+print("Start  →  Converge    Loss")
+print("-" * 35)
+for x0, xf, loss in sorted(results, key=lambda r: r[2]):
+    quality = "BEST!" if loss < -0.3 else ("ok" if loss < 0.3 else "poor")
+    print(f"{x0:5.1f}  →  {xf:6.2f}    {loss:6.3f}  {quality}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Strategii pentru Minime Locale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Tehnici de Evitare</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Random restarts:</strong> Pornesti din mai multe puncte</li>
+                                    <li><strong>Momentum:</strong> Acumuleaza "viteza" pentru a trece peste minime locale</li>
+                                    <li><strong>Learning rate scheduling:</strong> Reduce treptat pentru fine-tuning</li>
+                                    <li><strong>Noise injection:</strong> SGD adauga zgomot natural</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivata Directionala</h4>
+                <p><strong>Derivata directionala</strong> in directia u (vector unitar) este panta functiei f in directia u. Este derivata lui f(x + αu) in raport cu α, evaluata la α = 0. Folosind regula lantului, derivata directionala este <strong>uᵀ∇ₓf(x)</strong>. Pentru a minimiza f, vrem sa gasim directia in care f descreste cel mai rapid.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Derivata Directionala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def f(x, y):
+    return x**2 + 2*y**2
+
+def gradient(x, y):
+    return np.array([2*x, 4*y])
+
+# Punct curent
+x, y = 2.0, 1.0
+grad = gradient(x, y)
+print(f"La punctul ({x}, {y}):")
+print(f"Gradient: {grad}")
+print(f"|grad|: {np.linalg.norm(grad):.3f}")
+
+# Derivata directionala in diferite directii
+directions = {
+    'dreapta': np.array([1, 0]),
+    'sus': np.array([0, 1]),
+    'diagonal': np.array([1, 1]) / np.sqrt(2),
+    '-gradient': -grad / np.linalg.norm(grad)
+}
+
+print("\nDerivata directionala (panta) in directii:")
+for name, u in directions.items():
+    deriv_dir = np.dot(u, grad)
+    print(f"  {name:12s}: {deriv_dir:+.3f}")
+
+print("\n→ Cea mai negativa panta = directia -gradient!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Formula</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                <p>Derivata directionala in directia u:</p>
+                                <p style="font-size: 1.4rem; margin: 15px 0;">Dᵤf(x) = uᵀ∇f(x) = |∇f| · cos(θ)</p>
+                                <p style="color: var(--text-secondary);">unde θ este unghiul intre u si ∇f</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                                <div style="background: var(--success); padding: 10px; border-radius: 8px;">
+                                    <p>θ = 180°</p>
+                                    <p>cos θ = -1</p>
+                                    <p><strong>max descent</strong></p>
+                                </div>
+                                <div style="background: var(--warning); padding: 10px; border-radius: 8px;">
+                                    <p>θ = 90°</p>
+                                    <p>cos θ = 0</p>
+                                    <p><strong>nu schimba f</strong></p>
+                                </div>
+                                <div style="background: #ff6464; padding: 10px; border-radius: 8px;">
+                                    <p>θ = 0°</p>
+                                    <p>cos θ = 1</p>
+                                    <p><strong>max ascent</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Steepest Descent (Gradient Descent)</h4>
+                <p>Minimizam uᵀ∇f(x) asupra tuturor vectorilor unitari u. Aceasta se simplifica la min cos(θ), care este minimizat cand u indica in directia opusa gradientului. Deci putem reduce f miscandu-ne in directia <strong>gradientului negativ</strong>. Aceasta metoda se numeste <strong>steepest descent</strong> sau <strong>gradient descent</strong>:</p>
+                <div class="formula" style="text-align: center; font-size: 1.4rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    x' = x - ε∇ₓf(x)
+                </div>
+                <p>unde ε (epsilon) este <strong>learning rate</strong> - un scalar pozitiv care determina marimea pasului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Gradient Descent 2D</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def f(pos):
+    x, y = pos
+    return x**2 + 4*y**2  # Elipsa
+
+def grad_f(pos):
+    x, y = pos
+    return np.array([2*x, 8*y])
+
+# Gradient descent
+pos = np.array([4.0, 2.0])
+lr = 0.1
+trajectory = [pos.copy()]
+
+print("Gradient Descent pentru f(x,y) = x² + 4y²")
+print("Iter |    x    |    y    |  f(x,y)")
+print("-" * 42)
+for i in range(8):
+    print(f"{i:4d} | {pos[0]:7.3f} | {pos[1]:7.3f} | {f(pos):8.3f}")
+    pos = pos - lr * grad_f(pos)
+    trajectory.append(pos.copy())
+
+print(f"Final: x={pos[0]:.4f}, y={pos[1]:.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Alegerea Learning Rate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: rgba(255,100,100,0.2); padding: 15px; border-radius: 8px; border: 2px solid #ff6464;">
+                                    <strong>ε prea mic</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Convergenta foarte lenta, mii de iteratii</p>
+                                </div>
+                                <div style="background: rgba(0,200,100,0.2); padding: 15px; border-radius: 8px; border: 2px solid var(--success);">
+                                    <strong>ε optim</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Convergenta rapida si stabila</p>
+                                </div>
+                                <div style="background: rgba(255,100,100,0.2); padding: 15px; border-radius: 8px; border: 2px solid #ff6464;">
+                                    <strong>ε prea mare</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Divergenta! Oscilatie sau explozie</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Valori tipice: 0.001 - 0.1 pentru majoritatea problemelor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,191 @@
+<section class="page-section" id="page-449">
+    <div class="page-header">
+        <div class="page-number">449</div>
+        <div class="page-title">
+            <h3>Random Search in Detaliu</h3>
+            <span>Sectiunea 11.4.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-449.jpg"
+             alt="Pagina 449" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>11.4.4 Random Search: Algoritm</h4>
+                <p>Random search procedeaza astfel: definim o <strong>distributie marginala</strong> pentru fiecare hiperparametru (Bernoulli pentru discreti, uniform pe scala logaritmica pentru continui), apoi <strong>esantionam aleator</strong> configuratii si antrenam modele. Spre deosebire de grid search, nu ar trebui sa <strong>discretizezi</strong> valorile - poti explora un set mai mare de valori fara cost suplimentar.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Distributii pentru HP</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# ESANTIONARE HIPERPARAMETRI
+
+# 1. Learning rate: log-uniform de la 10^-5 la 10^-1
+def sample_learning_rate():
+    log_lr = np.random.uniform(-5, -1)
+    return 10 ** log_lr
+# Ecuatia din carte: log_learning_rate ~ u(-1, -5)
+#                   learning_rate = 10^log_learning_rate
+
+# 2. Number of hidden units: log-uniform
+def sample_hidden_units():
+    log_units = np.random.uniform(np.log10(50), np.log10(2000))
+    return int(10 ** log_units)
+# log_number_of_hidden_units ~ u(log(50), log(2000))
+
+# 3. Dropout: uniform
+def sample_dropout():
+    return np.random.uniform(0, 0.5)
+
+# 4. Weight decay: log-uniform
+def sample_weight_decay():
+    log_wd = np.random.uniform(-6, -2)
+    return 10 ** log_wd
+
+# Genereaza N configuratii random
+def generate_random_configs(n_configs):
+    configs = []
+    for _ in range(n_configs):
+        config = {
+            'lr': sample_learning_rate(),
+            'hidden_units': sample_hidden_units(),
+            'dropout': sample_dropout(),
+            'weight_decay': sample_weight_decay(),
+        }
+        configs.append(config)
+    return configs
+
+# Exemplu: 5 configuratii
+for c in generate_random_configs(5):
+    print(f"lr={c['lr']:.6f}, units={c['hidden_units']}, "
+          f"dropout={c['dropout']:.2f}, wd={c['weight_decay']:.6f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Random Search Gaseste Solutii Mai Repede</h4>
+                <p>Motivul principal: <strong>nu exista experimente "irosite"</strong>. In grid search, cand doua valori ale unui HP dau acelasi rezultat (pentru ca acel HP nu conteaza), experimentele sunt efectiv duplicate. In random search, chiar daca un HP nu conteaza, ceilalti HP au valori diferite, deci fiecare experiment exploreaza o regiune noua. Aceasta conduce la explorare mai eficienta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Experimentele "Irosite"</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #4d1b1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ff6b6b; font-weight: bold; margin-bottom: 10px;">Grid Search - Experimente "Duplicate"</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">
+                                        Daca HP<sub>y</sub> nu conteaza (toate valorile dau acelasi rezultat):<br>
+                                        <code style="color: #ffd93d;">
+                                        (lr=0.01, units=100) ~ (lr=0.01, units=200) ~ (lr=0.01, units=500)
+                                        </code><br>
+                                        → 3 experimente, dar efectiv acelasi test pentru lr=0.01!
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4caf50; font-weight: bold; margin-bottom: 10px;">Random Search - Fiecare Experiment Unic</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">
+                                        Chiar daca HP<sub>y</sub> nu conteaza:<br>
+                                        <code style="color: #4ecdc4;">
+                                        (lr=0.0123, units=137), (lr=0.0847, units=422), (lr=0.0031, units=891)
+                                        </code><br>
+                                        → 3 experimente, 3 valori DIFERITE pentru lr!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Strategii Combinate</h4>
+                <p>Ca si cu grid search, poti rula <strong>runde repetate</strong> de random search, rafinand cautarea bazat pe rezultatele anterioare. De exemplu, dupa o runda initiala, poti restrange distributiile in jurul valorilor care au functionat bine. Aceasta combina avantajele explorarii globale (random) cu exploatarea locala (zoom-in).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Iterative Random Search</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Iterative Random Search cu Zoom-In
+
+def iterative_random_search(train_fn, n_rounds=3, n_per_round=20):
+    """
+    Runda 1: Cautare larga
+    Runde 2+: Zoom in pe regiunile promatatoare
+    """
+
+    # Distributii initiale (largi)
+    lr_range = (-5, -1)       # 10^-5 to 10^-1
+    units_range = (50, 2000)
+
+    best_overall = None
+    best_score = float('inf')
+
+    for round_num in range(n_rounds):
+        print(f"\n=== Round {round_num + 1} ===")
+        print(f"LR range: 10^{lr_range}")
+        print(f"Units range: {units_range}")
+
+        # Genereaza si evalueaza configuratii
+        results = []
+        for _ in range(n_per_round):
+            config = {
+                'lr': 10 ** np.random.uniform(*lr_range),
+                'units': int(np.random.uniform(*units_range))
+            }
+            score = train_fn(config)
+            results.append((score, config))
+
+        # Gaseste top K configuratii
+        results.sort(key=lambda x: x[0])
+        top_k = results[:5]
+
+        if top_k[0][0] < best_score:
+            best_score = top_k[0][0]
+            best_overall = top_k[0][1]
+
+        # ZOOM IN: restrange range-urile bazat pe top configs
+        top_lrs = [np.log10(c['lr']) for _, c in top_k]
+        top_units = [c['units'] for _, c in top_k]
+
+        lr_range = (min(top_lrs) - 0.5, max(top_lrs) + 0.5)
+        units_range = (max(50, min(top_units) - 100),
+                       min(2000, max(top_units) + 100))
+
+    return best_overall
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

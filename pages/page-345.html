@@ -1,0 +1,175 @@
+<section class="page-section" id="page-345">
+    <div class="page-header">
+        <div class="page-number">345</div>
+        <div class="page-title">
+            <h3>Capitolul 9: Retele Convolutionale</h3>
+            <span>Introducere in CNN</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-345.jpg"
+             alt="Pagina 345" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce sunt Retelele Convolutionale (CNN)?</h4>
+                <p>Retelele convolutionale (LeCun, 1989), cunoscute si ca CNN-uri, sunt un tip specializat de retea neurala pentru procesarea datelor cu topologie de tip grila. Exemple includ serii temporale (grila 1D de esantioane la intervale regulate) si imagini (grila 2D de pixeli). CNN-urile au avut un succes extraordinar in aplicatii practice, fiind fundamentale pentru recunoasterea de imagini, detectia obiectelor si multe alte sarcini de viziune computationala.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: CNN vs Retea Fully Connected</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Fully Connected (Clasic)</strong>
+                                    <div class="code-block" style="margin-top: 10px;">
+# Imagine 224x224x3 = 150,528 pixeli
+# Layer ascuns: 1000 neuroni
+parametri = 150528 * 1000 = 150M
+# PROBLEMA: Prea multi parametri!
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">Fiecare neuron e conectat la TOTI pixelii</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">CNN (Convolutional)</strong>
+                                    <div class="code-block" style="margin-top: 10px;">
+# Kernel 3x3, 64 filtre
+parametri = 3 * 3 * 3 * 64 = 1,728
+# Acelasi kernel scanneaza toata imaginea
+# AVANTAJ: Partajare parametri!
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">Kernelul "gliseaza" peste imagine, detectand pattern-uri locale</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Istoria CNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>LeCun et al. (1989)</strong> - Primul CNN pentru recunoasterea cifrelor scrise de mana
+                                </div>
+                                <div class="reference-item">
+                                    <strong>LeNet-5 (1998)</strong> - Arhitectura clasica pentru MNIST, inca studiata azi
+                                </div>
+                                <div class="reference-item">
+                                    <strong>AlexNet (2012)</strong> - Victoria in ImageNet care a declansat revolutia Deep Learning
+                                </div>
+                                <div class="reference-item">
+                                    <strong>VGG, ResNet, Inception</strong> - Evolutii moderne ale arhitecturii CNN
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura Capitolului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                                <div style="background: var(--primary); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem;">🔄</div>
+                                    <strong>9.1 Convolutie</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">Operatia matematica de baza</p>
+                                </div>
+                                <div style="background: var(--secondary); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem;">💡</div>
+                                    <strong>9.2 Motivatie</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">De ce functioneaza CNN</p>
+                                </div>
+                                <div style="background: var(--accent); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem;">🏊</div>
+                                    <strong>9.3 Pooling</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">Reducerea dimensionala</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Operatia de Convolutie</h4>
+                <p>Numele "retea neurala convolutionala" indica faptul ca reteaua foloseste o operatie matematica numita <strong>convolutie</strong>. Convolutia este un tip specializat de operatie liniara. Retelele convolutionale sunt pur si simplu retele neurale care folosesc convolutia in loc de inmultirea generala de matrice in cel putin unul din straturile lor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Convolutie 1D simpla</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Semnal de intrare (ex: serie temporala)
+signal = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+
+# Kernel (filtru) - detecteaza schimbari
+kernel = np.array([1, 0, -1])
+
+# Convolutie 1D
+output = np.convolve(signal, kernel, mode='valid')
+print("Input:", signal)
+print("Kernel:", kernel)
+print("Output:", output)
+# Output: [2, 2, 2, 2, 2, 2] - diferente constante!
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Ideea cheie:</strong> Kernelul [1, 0, -1] calculeaza diferenta intre elementul curent si cel de acum 2 pozitii - detecteaza "derivata" semnalului!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Practice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 8px 0; border-bottom: 1px solid var(--bg-lighter);">
+                                    <strong style="color: var(--accent);">🖼️ Imagini:</strong> Detectia muchiilor, blur, sharpening
+                                </li>
+                                <li style="padding: 8px 0; border-bottom: 1px solid var(--bg-lighter);">
+                                    <strong style="color: var(--success);">📊 Serii temporale:</strong> Smoothing, detectia anomaliilor
+                                </li>
+                                <li style="padding: 8px 0; border-bottom: 1px solid var(--bg-lighter);">
+                                    <strong style="color: var(--warning);">🎵 Audio:</strong> Filtre de frecventa, efecte sonore
+                                </li>
+                                <li style="padding: 8px 0;">
+                                    <strong style="color: var(--primary);">📝 Text:</strong> CNN-uri pentru clasificare de text
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

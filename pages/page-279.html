@@ -1,0 +1,80 @@
+<section class="page-section" id="page-279">
+    <div class="page-header">
+        <div class="page-number">279</div>
+        <div class="page-title">
+            <h3>7.12 Demonstratia Weight Scaling</h3>
+            <span>Proof pentru Softmax Liniar</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-279.jpg"
+             alt="Pagina 279" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Demonstratie: Weight Scaling e Exact pentru Softmax</h4>
+                <p>Pentru a vedea ca weight scaling inference rule e exacta pentru softmax liniar, simplificam P̃<sub>ensemble</sub>. Media geometrica a tuturor sub-modelelor:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    P̃<sub>ensemble</sub>(y|v) = <sup>2ⁿ</sup>√(∏<sub>d∈{0,1}ⁿ</sub> P(y|v; d))
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pasii Demonstratiei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ol style="line-height: 2.5;">
+                                <li>Scriem fiecare P(y|v;d) = softmax(W⊤(d⊙v) + b)<sub>y</sub></li>
+                                <li>Produsul peste d devine: ∏ exp(W<sub>y</sub>⊤(d⊙v) + b<sub>y</sub>)</li>
+                                <li>Radacina 2ⁿ: exp(1/2ⁿ · Σ<sub>d</sub> W<sub>y</sub>⊤(d⊙v) + b<sub>y</sub>)</li>
+                                <li>Observam ca Σ<sub>d</sub>(d⊙v) = 2ⁿ⁻¹ · v (fiecare componenta apare in jumatate din masti)</li>
+                                <li>Rezultat: exp(½ W<sub>y</sub>⊤v + b<sub>y</sub>)</li>
+                            </ol>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p><strong>Concluzie:</strong> Softmax cu weights ½W produce exact media geometrica a ensemble-ului!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand e Exact? Cand e Aproximare?</h4>
+                <p>Weight scaling rule e <strong>exact</strong> pentru: softmax liniar, regresie liniara, retele deep fara neliniaritati. Pentru deep networks cu neliniaritati e doar <strong>aproximare</strong>, dar functioneaza excelent empiric!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Rezultate Empirice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📊</span>
+                                    <div><strong>Goodfellow et al. (2013a)</strong>: Weight scaling poate fi mai bun decat Monte Carlo cu 1000 samples!</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📊</span>
+                                    <div><strong>Gal & Ghahramani (2015)</strong>: Pentru unele modele, Monte Carlo cu 20 samples e mai bun</div>
+                                </li>
+                            </ul>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Alegerea optima depinde de problema specifica.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

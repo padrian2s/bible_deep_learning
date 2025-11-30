@@ -1,0 +1,100 @@
+<section class="page-section" id="page-169">
+    <div class="page-header">
+        <div class="page-number">169</div>
+        <div class="page-title">
+            <h3>Reteta pentru ML Algorithms</h3>
+            <span>Capitolul 5 - Sectiunea 5.10 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-169.jpg"
+             alt="Pagina 169" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu: Linear Regression</h4>
+                <p>Algoritmul de <strong>linear regression</strong> combina: un dataset X si y, functia cost:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    J(w, b) = -E<sub>x,y~p̂<sub>data</sub></sub> log p<sub>model</sub>(y | x)
+                </div>
+                <p>specificatia modelului p<sub>model</sub>(y | x) = N(y; x<sup>T</sup>w + b, 1), si in cele mai multe cazuri algoritmul de optimizare definit prin rezolvarea pentru unde gradientul costului este zero (normal equations).</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Modularitatea Componentelor</h4>
+                <p>Prin realizarea ca putem inlocui oricare din aceste componente <strong>relativ independent</strong> una de alta, putem obtine o varietate foarte larga de algoritmi. Functia cost include de obicei cel putin un termen care determina procesul de invatare sa faca <strong>estimare statistica</strong>. Cea mai comuna functie cost este <strong>negative log-likelihood</strong>, astfel incat minimizarea ei duce la <strong>maximum likelihood estimation</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Diferite Combinatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Diferite combinatii de componente
+
+# 1. Linear Regression (closed-form)
+# Dataset: (X, y)
+# Cost: MSE = -log p(y|x) pentru Gaussian
+# Model: y = Xw + b
+# Optimization: Normal equations
+
+# 2. Logistic Regression (iterative)
+# Dataset: (X, y) cu y ∈ {0, 1}
+# Cost: Binary cross-entropy
+# Model: p(y=1|x) = sigmoid(Xw + b)
+# Optimization: Gradient descent
+
+# 3. Neural Network
+# Dataset: (X, y)
+# Cost: Cross-entropy sau MSE
+# Model: y = f(x; θ) multi-layer
+# Optimization: SGD + backprop
+
+# 4. PCA (unsupervised)
+# Dataset: X (fara y!)
+# Cost: Reconstruction error
+# Model: z = Wx, r = W^T z
+# Optimization: Eigendecomposition
+
+print("Schimband orice componenta => algoritm nou!")
+print()
+print("Cost function commun:")
+print("  - Negative log-likelihood (MLE)")
+print("  - + Regularization term (MAP)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cost Function cu Regularization</h4>
+                <p>Functia cost poate include termeni aditional, cum ar fi <strong>regularization</strong>. De exemplu, putem adauga weight decay la linear regression:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    J(w, b) = λ||w||₂² - E<sub>x,y~p̂<sub>data</sub></sub> log p<sub>model</sub>(y | x)
+                </div>
+                <p>Aceasta inca permite optimizare closed-form.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Unsupervised Learning</h4>
+                <p>Reteta pentru construirea unui learning algorithm prin combinarea models, costs si optimization suporta atat <strong>supervised</strong> cat si <strong>unsupervised</strong> learning. Unsupervised learning poate fi suportat definind un dataset care contine doar X si oferind un cost si model corespunzator. De exemplu, pentru primul PC al PCA putem specifica loss function:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    J(w) = E<sub>x~p̂<sub>data</sub></sub> ||x - r(x; w)||₂²
+                </div>
+                <p>unde modelul este w cu norma 1 si reconstruction function r(x) = w<sup>T</sup>x · w.</p>
+            </div>
+        </div>
+    </div>
+</section>

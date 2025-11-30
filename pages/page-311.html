@@ -1,0 +1,129 @@
+<section class="page-section" id="page-311">
+    <div class="page-header">
+        <div class="page-number">311</div>
+        <div class="page-title">
+            <h3>8.3.2 Momentum</h3>
+            <span>Accelerarea SGD</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-311.jpg"
+             alt="Pagina 311" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema: SGD E Lent pe Suprafete Slab Conditionate</h4>
+                <p>Desi SGD e popular, poate fi foarte lent, mai ales pe suprafete cu <strong>curbura ridicata</strong> sau <strong>gradient consistent dar mic</strong>. Solutia: <strong>Momentum</strong> (Polyak, 1964) - acumuleaza o medie mobila exponentiala a gradientilor anteriori.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analogie: Bila pe Panta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Imagineaza-ti parametrii ca o particula care se misca prin spatiul parametrilor. Gradientul negativ e ca forta gravitationala. Momentum face particula sa:</p>
+                                <ul style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                    <li>Accelereze pe directii cu gradient consistent</li>
+                                    <li>Amortizeze oscilațiile pe directii cu gradient alternant</li>
+                                    <li>"Goneasca" prin regiuni plate folosind viteza acumulata</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Momentum</h4>
+                <p>Momentum introduce o variabila <strong>v</strong> (velocitate) care acumuleaza gradientii. Hiperparametrul α ∈ [0,1) controleaza cat de repede decad contributiile gradientilor vechi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Update Rules</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                v ← αv - ε∇<sub>θ</sub>J(θ)<br><br>
+                                θ ← θ + v
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">α (momentum)</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Tipic: 0.9, 0.99, 0.999</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">v (velocitate)</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Acumuleaza directia</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Interpretare: Viteza Terminala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Daca gradientul e constant g la fiecare pas, viteza terminala e:</p>
+                            <div class="formula" style="margin: 10px 0;">
+                                v<sub>terminal</sub> = ε||g|| / (1-α)
+                            </div>
+                            <p style="color: var(--text-secondary);">Cu α=0.9, asta e de 10x mai mare decat fara momentum!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Valori Tipice pentru α</h4>
+                <p>Valori comune: 0.5, 0.9, 0.99. α se poate adapta in timp, incepand mic si crescand. E mai putin important sa adaptezi α decat ε - majoritatea practitionerilor seteaza α=0.9 si nu mai modifica.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# SGD cu Momentum in PyTorch
+optimizer = torch.optim.SGD(
+    model.parameters(),
+    lr=0.01,         # ε
+    momentum=0.9     # α
+)
+
+# Training loop
+for batch in dataloader:
+    loss = model(batch)
+    loss.backward()
+    optimizer.step()  # Aplica momentum update
+    optimizer.zero_grad()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

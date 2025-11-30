@@ -1,0 +1,189 @@
+<section class="page-section" id="page-222">
+    <div class="page-header">
+        <div class="page-number">222</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5.2-6.5.3 Regula Lantului pentru Vectori si Tensori</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-222.jpg"
+             alt="Pagina 222" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regula Lantului pentru Vectori</h4>
+                <p>Putem generaliza regula lantului dincolo de cazul scalar. Presupunem ca x ∈ ℝᵐ, y ∈ ℝⁿ, g mapeaza de la ℝᵐ la ℝⁿ, si f mapeaza de la ℝⁿ la ℝ. Daca y = g(x) si z = f(y), atunci regula lantului devine o formula cu Jacobieni.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Formula cu Jacobian</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Regula Lantului Vectoriala:</strong>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.2rem;">
+                                    ∂z/∂xᵢ = Σⱼ (∂z/∂yⱼ)(∂yⱼ/∂xᵢ)
+                                </div>
+                                <p style="margin-top: 15px;">In notatia vectoriala/matriceala:</p>
+                                <div class="formula" style="margin-top: 10px; font-size: 1.2rem;">
+                                    ∇ₓz = (∂y/∂x)⊤ ∇ᵧz
+                                </div>
+                                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">unde ∂y/∂x este matricea Jacobiana n×m a lui g</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Backprop = Produs Jacobian-Gradient</h4>
+                <p>Din aceasta vedem ca gradientul unei variabile x poate fi obtinut inmultind o matrice Jacobiana ∂y/∂x cu un gradient ∇ᵧz. Algoritmul de back-propagation consta in efectuarea unui astfel de produs Jacobian-gradient pentru fiecare operatie din graf.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu Numeric cu Jacobian</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+
+# x ∈ R², y = g(x), z = f(y) ∈ R
+x = torch.tensor([1.0, 2.0], requires_grad=True)
+
+# g: R² → R²
+# y = [x₁ + x₂, x₁ * x₂]
+y1 = x[0] + x[1]  # y₁ = 3
+y2 = x[0] * x[1]  # y₂ = 2
+
+# f: R² → R
+# z = y₁² + y₂
+z = y1**2 + y2    # z = 9 + 2 = 11
+
+# Jacobian ∂y/∂x (2×2):
+# ∂y₁/∂x₁ = 1    ∂y₁/∂x₂ = 1
+# ∂y₂/∂x₁ = x₂   ∂y₂/∂x₂ = x₁
+# J = [[1, 1], [2, 1]]
+
+# Gradient ∇ᵧz (1×2):
+# ∂z/∂y₁ = 2*y₁ = 6
+# ∂z/∂y₂ = 1
+# ∇ᵧz = [6, 1]
+
+# Regula lantului: ∇ₓz = J⊤ · ∇ᵧz
+# [[1, 2], [1, 1]] · [6, 1]ᵀ = [8, 7]
+
+z.backward()
+print(f"∇ₓz = {x.grad}")  # tensor([8., 7.])
+
+# Verificare:
+# ∂z/∂x₁ = ∂z/∂y₁ · ∂y₁/∂x₁ + ∂z/∂y₂ · ∂y₂/∂x₁
+#        = 6 · 1 + 1 · 2 = 8 ✓
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Generalizare la Tensori</h4>
+                <p>De obicei nu aplicam algoritmul de back-propagation doar pentru vectori, ci pentru tensori de dimensionalitate arbitrara. Conceptual, este exact la fel ca back-propagation cu vectori - singura diferenta este ca numerele sunt aranjate intr-un grid in loc de un vector. Putem scrie regula lantului pentru tensori folosind notatia cu indici.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Notatia pentru Tensori</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Regula Lantului pentru Tensori:</strong>
+                                <p style="margin-top: 10px;">Daca Y = g(X) si z = f(Y), atunci:</p>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.1rem;">
+                                    ∇<sub>X</sub>z = Σⱼ (∇<sub>X</sub>Yⱼ) · ∂z/∂Yⱼ
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+
+# Exemplu cu matrice (tensor 2D)
+X = torch.randn(3, 4, requires_grad=True)
+
+# Y = operatie pe X (ex: softmax pe randuri)
+Y = torch.softmax(X, dim=1)
+
+# z = suma tuturor elementelor (scalar)
+z = Y.sum()
+
+# Backward calculeaza ∂z/∂Xᵢⱼ pentru fiecare element
+z.backward()
+
+print(f"X shape: {X.shape}")        # (3, 4)
+print(f"grad shape: {X.grad.shape}")  # (3, 4)
+# Fiecare element Xᵢⱼ are propriul gradient!
+
+# PyTorch face toate calculele cu Jacobieni
+# automat, chiar si pentru tensori 4D, 5D, etc.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.5.3 Aplicarea Recursiva a Regulii Lantului</h4>
+                <p>Folosind regula lantului, este direct sa scriem o expresie algebrica pentru gradientul unui scalar fata de orice nod din graful computational care a produs acel scalar. Totusi, evaluarea efectiva a acelei expresii intr-un computer introduce cateva consideratii suplimentare - in special, multe subexpresii pot aparea de mai multe ori.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce Backprop este Eficient</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--warning); margin-bottom: 15px;">Problema: Calcule Redundante</h5>
+                                <p style="font-size: 0.9rem; margin-bottom: 15px;">Daca calculam gradientul naiv, multe subexpresii se repeta:</p>
+                                <div style="font-family: monospace; font-size: 0.85rem; background: var(--bg-dark); padding: 10px; border-radius: 4px;">
+                                    ∂z/∂x = (∂z/∂y₃)(∂y₃/∂y₂)(∂y₂/∂y₁)(∂y₁/∂x)<br>
+                                    ∂z/∂w = (∂z/∂y₃)(∂y₃/∂y₂)(∂y₂/∂w) ← repeta!
+                                </div>
+                            </div>
+                            <div style="background: rgba(39, 174, 96, 0.1); padding: 20px; border-radius: 12px; margin-top: 15px; border: 1px solid var(--success);">
+                                <h5 style="color: var(--success); margin-bottom: 15px;">Solutia Backprop: Refolosire</h5>
+                                <p style="font-size: 0.9rem;">Backprop calculeaza gradientii in ordine inversa, refolosind rezultatele:</p>
+                                <ol style="font-size: 0.9rem; margin-top: 10px;">
+                                    <li>Calculeaza ∂z/∂y₃ (o singura data)</li>
+                                    <li>Calculeaza ∂z/∂y₂ = (∂z/∂y₃)(∂y₃/∂y₂)</li>
+                                    <li>Calculeaza ∂z/∂y₁ = (∂z/∂y₂)(∂y₂/∂y₁)</li>
+                                    <li>Etc... fiecare gradient se calculeaza O SINGURA DATA!</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

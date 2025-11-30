@@ -1,0 +1,102 @@
+<section class="page-section" id="page-319">
+    <div class="page-header">
+        <div class="page-number">319</div>
+        <div class="page-title">
+            <h3>Limitari si Sparse Initialization</h3>
+            <span>Cand Teoria Nu E Suficienta</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-319.jpg"
+             alt="Pagina 319" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Feedforward vs RNN: Comportament Diferit</h4>
+                <p>In retelele feedforward, matricile de weights sunt diferite la fiecare layer. Activarile si gradientii pot creste sau scadea la fiecare pas, ca un <strong>random walk</strong>. Daca tunam acest random walk sa pastreze norme, evitam vanishing/exploding. RNN-urile au aceeasi matrice la fiecare pas - problema e mult mai severa!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Sussillo (2014)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Sussillo a aratat ca retetele feedforward de pana la 1000 de layere pot fi antrenate cu succes daca folosim gain factor corect - fara tehnici speciale precum batch normalization!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Criteriile Teoretice Nu Sunt Perfecte</h4>
+                <p>Criteriile optime pentru initializare adesea nu duc la performanta optima din trei motive: (1) criteriul poate fi gresit pentru problema specifica, (2) proprietatile de la initializare nu persista dupa ce learning-ul incepe, (3) ce e bun pentru optimizare poate fi rau pentru generalizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Practica: Hiperparameter Search</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>In practica, tratam scala initializarii ca un <strong>hiperparametru</strong>! Folosim valoarea teoretica ca punct de start, apoi cautam in jurul ei cu random search sau alte metode (sectiunea 11.4.2).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sparse Initialization (Martens 2010)</h4>
+                <p>O problema cu initializarea standard: pentru layere cu multi inputs, fiecare weight individual devine foarte mic (1/√m). <strong>Martens (2010)</strong> propune <strong>sparse initialization</strong>: fiecare unitate are exact k weights non-zero, indiferent de m.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Sparse vs Dense Init</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Dense Init (1/√m):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Pentru m=10000 inputs, std = 0.01. Weights foarte mici!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Sparse Init (k=15):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Doar 15 weights non-zero per unitate. Fiecare weight e mai mare, diversitate mai mare.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Dezavantaj</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Sparse init impune un prior foarte puternic: weights-urile mari initiale vor ramane mari mult timp (gradient descent face pasi mici). Poate fi problematic pentru unitati care trebuie sa invete filtre coordonate (ex: maxout).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

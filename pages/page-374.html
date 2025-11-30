@@ -1,0 +1,136 @@
+<section class="page-section" id="page-374">
+    <div class="page-header">
+        <div class="page-number">374</div>
+        <div class="page-title">
+            <h3>Figura 9.17: Recurrent CNN pentru Segmentare</h3>
+            <span>Strategii pentru Output Full-Resolution</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-374.jpg"
+             alt="Pagina 374" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema: Pooling Reduce Rezolutia</h4>
+                <p>CNN-urile clasice folosesc pooling pentru a reduce dimensiunile si a creste receptive field. Dar pentru segmentare, avem nevoie de output la rezolutia originala! Exista mai multe strategii: (1) evitam pooling complet, (2) emitem output la rezolutie mai mica, (3) folosim pooling cu stride=1, sau (4) folosim <strong>upsampling</strong> pentru a reveni la rezolutia originala.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Strategii pentru Full Resolution</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">1. Fara Pooling</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 8px;">Doar convolutii cu padding='same'. Receptive field limitat.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">2. Output Low-Res</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 8px;">Emitem la rezolutie mai mica, upsample post-procesare.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">3. Dilated Convolution</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 8px;">Receptive field mare fara reducere dimensionala.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">4. Encoder-Decoder</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 8px;">Downsampling urmat de upsampling (U-Net style).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 9.17: Recurrent Refinement</h4>
+                <p>O abordare eleganta este <strong>rafinierea iterativa</strong>. Reteaua produce o estimare initiala Y^(1), apoi o rafineaza folosind aceleasi ponderi de mai multe ori. Inputul imaginii X trece prin kernelul U pentru a obtine reprezentarea H. Kernelul V produce estimarea initiala, iar kernelul W combina estimarea anterioara cu H pentru a o rafina. Acest proces se repeta de t ori.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Recurrent Refinement</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class RecurrentSegmentation(nn.Module):
+    def __init__(self, num_classes, hidden_dim=64, num_steps=3):
+        super().__init__()
+        self.num_steps = num_steps
+
+        # U: Input -> Hidden
+        self.U = nn.Conv2d(3, hidden_dim, 3, padding=1)
+
+        # V: Hidden -> Output (initial guess)
+        self.V = nn.Conv2d(hidden_dim, num_classes, 1)
+
+        # W: Previous output -> Hidden (refinement)
+        self.W = nn.Conv2d(num_classes, hidden_dim, 3, padding=1)
+
+    def forward(self, x):
+        # Compute hidden representation
+        H = torch.relu(self.U(x))
+
+        # Initial prediction
+        Y = self.V(H)
+
+        # Iterative refinement
+        for _ in range(self.num_steps - 1):
+            # Combine previous prediction with hidden
+            H_refined = H + torch.relu(self.W(Y))
+            Y = self.V(H_refined)
+
+        return Y
+
+model = RecurrentSegmentation(num_classes=21)
+out = model(torch.randn(1, 3, 256, 256))
+print("Output:", out.shape)  # [1, 21, 256, 256]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Arhitecturi Moderne pentru Segmentare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>FCN (2015)</strong> - Prima retea fully convolutional pentru segmentare
+                                </div>
+                                <div class="reference-item">
+                                    <strong>U-Net (2015)</strong> - Encoder-decoder cu skip connections, excelent pentru imagini medicale
+                                </div>
+                                <div class="reference-item">
+                                    <strong>DeepLab (2017)</strong> - Dilated/atrous convolutions pentru receptive field mare
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Mask R-CNN (2017)</strong> - Instance segmentation (separa obiecte individuale)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

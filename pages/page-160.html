@@ -1,0 +1,94 @@
+<section class="page-section" id="page-160">
+    <div class="page-header">
+        <div class="page-number">160</div>
+        <div class="page-title">
+            <h3>Decision Trees - Figura 5.7</h3>
+            <span>Capitolul 5 - Sectiunea 5.7.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-160.jpg"
+             alt="Pagina 160" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.7: Decision Tree</h4>
+                <p>Diagrama ilustreaza cum functioneaza un <strong>decision tree</strong>. <strong>(Sus)</strong> Fiecare nod al arborelui alege sa trimita input-ul la child-ul din stanga (0) sau din dreapta (1). Nodurile interne sunt cercuri, frunzele sunt patrate. Fiecare nod are un identificator binar corespunzator pozitiei in arbore (0 = stanga, 1 = dreapta). <strong>(Jos)</strong> Arborele imparte spatiul in regiuni. Planul 2D arata cum un decision tree imparte R², cu fiecare nod intern desenat pe linia de decizie pe care o foloseste pentru a categoriza exemplele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura Decision Tree</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Componentele Decision Tree</h5>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--primary);">Noduri Interne (O)</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 10px;">Fac split-uri pe features</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: "x₁ > 0.5?"</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--secondary);">Frunze (□)</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 10px;">Returneaza predictia</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Clasa sau valoare</p>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center;">
+                                    <p><strong>Rezultat:</strong> Functie <span style="color: var(--accent);">piecewise-constant</span></p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">O bucata constanta per frunza</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Decision Tree Visualization</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import export_text
+import numpy as np
+
+# Date simple 2D
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1],
+              [2, 2], [2, 3], [3, 2], [3, 3]])
+y = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+
+# Antrenare decision tree
+tree = DecisionTreeClassifier(max_depth=2)
+tree.fit(X, y)
+
+# Vizualizare structura
+print("Structura Decision Tree:")
+print(export_text(tree, feature_names=['x1', 'x2']))
+
+print("\nRegiuni create:")
+print("- Daca x1 <= 1.5: Clasa 0")
+print("- Daca x1 > 1.5:  Clasa 1")
+print("\n=> Axis-aligned splits!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea Spatiala</h4>
+                <p>Decision tree imparte spatiul in <strong>regiuni non-overlapping</strong>, cu o corespondenta unu-la-unu intre frunze si regiuni de input. Fiecare frunza mapeaza toate punctele din regiunea sa la acelasi output. Rezultatul este o functie <strong>piecewise-constant</strong>, cu o bucata per frunza. Fiecare frunza necesita cel putin un exemplu de training pentru a fi definita, deci nu este posibil pentru decision tree sa invete o functie cu mai multe maxime locale decat numarul de exemple de training.</p>
+            </div>
+        </div>
+    </div>
+</section>

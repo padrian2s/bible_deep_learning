@@ -1,0 +1,184 @@
+<section class="page-section" id="page-453">
+    <div class="page-header">
+        <div class="page-number">453</div>
+        <div class="page-title">
+            <h3>Debugging: Train/Test si Gradient Check</h3>
+            <span>Sectiunea 11.5 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-453.jpg"
+             alt="Pagina 453" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Rationeaza despre Train si Test Error</h4>
+                <p>E adesea dificil sa determini daca software-ul e implementat corect. Cateva indicii pot fi obtinute din <strong>compararea train vs test error</strong>: (1) Daca train error e mic dar test error e mare → training OK, model overfit sau bug in evaluare. (2) Daca ambele sunt mari → fie underfitting fundamental, fie bug in software. (3) Test error se masoara diferit? (ex: model salvat/incarcat gresit, test data preprocesata diferit)</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Diagnostic Matrix</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4caf50; font-weight: bold;">Train Low, Test Low</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-top: 5px;">PERFECT! Model functioneaza corect.</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ffd93d; font-weight: bold;">Train Low, Test High</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-top: 5px;">Overfitting SAU bug in evaluare/save-load</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ff6b6b; font-weight: bold;">Train High, Test High</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-top: 5px;">Underfitting SAU bug in training → teste suplimentare</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b4d, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #bb86fc; font-weight: bold;">Train High, Test Low</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-top: 5px;">Imposibil natural → sigur bug!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Fit pe Dataset Minuscul</h4>
+                <p>Daca ai train error mare, verifica daca modelul poate <strong>memoriza un dataset foarte mic</strong>. Chiar si modele mici ar trebui sa poata fit-ui perfect un singur exemplu de clasificare (prin ajustarea biasurilor output layer-ului). Daca nu poti antrena un clasificator sa eticheteze corect un singur exemplu, sau un autoencoder sa reproduca un singur exemplu → <strong>sigur exista un bug</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Test Overfit pe 1 Exemplu</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def test_overfit_single_example(model, X, y):
+    """
+    Verifica daca modelul poate memoriza UN singur exemplu.
+    Daca nu poate → BUG GARANTAT!
+    """
+    # Selecteaza un singur exemplu
+    X_single = X[:1]
+    y_single = y[:1]
+
+    # Antreneaza pe acest singur exemplu
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+    criterion = nn.CrossEntropyLoss()
+
+    for epoch in range(1000):
+        optimizer.zero_grad()
+        output = model(X_single)
+        loss = criterion(output, y_single)
+        loss.backward()
+        optimizer.step()
+
+        if epoch % 100 == 0:
+            pred = output.argmax(dim=1)
+            correct = (pred == y_single).item()
+            print(f"Epoch {epoch}: Loss={loss.item():.4f}, Correct={correct}")
+
+    # DUPA 1000 de iteratii pe UN singur exemplu:
+    # Loss ar trebui sa fie ~0
+    # Predictia ar trebui sa fie 100% corecta
+
+    final_pred = model(X_single).argmax(dim=1)
+    if final_pred != y_single:
+        print("BUG! Nu poate fit-ui nici macar un exemplu!")
+        return False
+    else:
+        print("OK - modelul poate memoriza")
+        return True
+
+# Extinde testul la 5-10 exemple
+# Daca functioneaza pe 1 dar nu pe 10 → posibil bug in batching
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Compara Backprop cu Diferente Finite</h4>
+                <p>Daca implementezi propriile gradiente sau adaugi o operatie noua la o librarie de diferentiere automata, o sursa comuna de erori este implementarea gresita a expresiei gradientului. O metoda de verificare este sa <strong>compari derivatele din backpropagation</strong> cu cele calculate prin <strong>diferente finite</strong>. Aceasta tehnica se numeste <strong>gradient checking</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Gradient Checking</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def numerical_gradient(f, x, epsilon=1e-5):
+    """
+    Calculeaza gradientul prin diferente finite
+    f'(x) ≈ (f(x+ε) - f(x)) / ε  (formula simpla)
+    """
+    grad = np.zeros_like(x)
+
+    for i in range(len(x)):
+        x_plus = x.copy()
+        x_plus[i] += epsilon
+
+        grad[i] = (f(x_plus) - f(x)) / epsilon
+
+    return grad
+
+def gradient_check(model, X, y, epsilon=1e-5, tolerance=1e-4):
+    """
+    Compara gradient din backprop cu diferente finite
+    """
+    # 1. Calculeaza gradient prin backprop
+    loss = compute_loss(model, X, y)
+    loss.backward()
+    backprop_grad = model.get_gradient()
+
+    # 2. Calculeaza gradient prin diferente finite
+    params = model.get_params_flat()
+
+    def loss_fn(p):
+        model.set_params_flat(p)
+        return compute_loss(model, X, y).item()
+
+    numerical_grad = numerical_gradient(loss_fn, params, epsilon)
+
+    # 3. Compara
+    diff = np.abs(backprop_grad - numerical_grad)
+    relative_error = diff / (np.abs(backprop_grad) + np.abs(numerical_grad) + 1e-8)
+
+    max_error = np.max(relative_error)
+    print(f"Max relative error: {max_error:.2e}")
+
+    if max_error > tolerance:
+        print("FAIL! Gradient mismatch detectat!")
+        print(f"Index cu eroare maxima: {np.argmax(relative_error)}")
+        return False
+    else:
+        print("PASS! Gradientele se potrivesc.")
+        return True
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,107 @@
+<section class="page-section" id="page-412">
+    <div class="page-header">
+        <div class="page-number">412</div>
+        <div class="page-title">
+            <h3>Limitari Seq2Seq si Attention</h3>
+            <span>Introducere in Mecanismul Attention</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-412.jpg"
+             alt="Pagina 412" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Bottleneck</h4>
+                <p>Limitarea majora a Seq2Seq de baza: <strong>TOATA informatia</strong> din secventa de input trebuie comprimata intr-un singur vector C de dimensiune fixa. Pentru secvente lungi, aceasta compresie devine un bottleneck sever!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Bottleneck</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-family: monospace;">
+                                    <span style="color: var(--text-secondary);">Input lung (1000 tokens)</span><br><br>
+                                    [x<sup>(1)</sup>, x<sup>(2)</sup>, x<sup>(3)</sup>, ..., x<sup>(999)</sup>, x<sup>(1000)</sup>]<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="background: var(--warning); color: var(--bg-dark); padding: 5px 15px; border-radius: 5px;">C (512 dim)</span><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                                    <span style="color: var(--text-secondary);">Output</span>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--warning);">
+                                1000 de tokeni comprimate in 512 numere - mult se pierde!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Solutia: Attention Mechanism</h4>
+                <p><strong>Bahdanau et al. (2015)</strong> au propus solutia revolutionara: in loc de un singur C fix, fac C <strong>variabil</strong> - o secventa de vectori context! La fiecare pas de decodare, un mecanism de "atentie" decide ce parti din input sunt relevante.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ideea Attention</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Attention = Weighted Sum</h5>
+                                <p>La fiecare pas de decodare t:</p>
+                                <div class="formula" style="margin: 10px 0;">
+                                    c<sub>t</sub> = Σ<sub>i</sub> α<sub>t,i</sub> · h<sub>i</sub>
+                                </div>
+                                <p>unde α<sub>t,i</sub> = cat de mult "atentie" acordam input-ului i cand generam output-ul t</p>
+                            </div>
+                            <div style="margin-top: 15px; background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                <p><strong>Exemplu traducere:</strong></p>
+                                <p style="color: var(--text-secondary); margin-top: 5px;">"The cat sat" → "Le chat s'est assis"</p>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Cand generam "chat", atentia se concentreaza pe "cat"!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Impactul Attention</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong>2015:</strong> Bahdanau et al. introduc attention pentru NMT
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong>2017:</strong> "Attention Is All You Need" - Transformers
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong>2018+:</strong> BERT, GPT, si toata era LLM-urilor!
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--accent);">
+                                Attention a fost baza pentru revolutia Transformer/LLM!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

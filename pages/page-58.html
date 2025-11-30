@@ -1,0 +1,126 @@
+        <section class="page-section" id="page-58">
+            <div class="page-header">
+                <div class="page-number">58</div>
+                <div class="page-title">
+                    <h3>Efectul Eigenvectorilor</h3>
+                    <span>Vizualizare si Formula</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-058.jpg"
+                     alt="Pagina 58" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Figura 2.3 - Transformarea Cercului Unitar</h4>
+                        <p>Aceasta figura ilustreaza perfect ce face o matrice: ia cercul unitar (toate punctele cu ||x||=1) si il transforma intr-o <strong>elipsa</strong>. Eigenvectorii sunt axele elipsei, eigenvalues sunt lungimile axelor!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Interpretare vizuala</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">⭕</div>
+                                            <strong>Inainte: Cerc</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                                Toate punctele unitare u cu ||u|| = 1
+                                            </p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">⬭</div>
+                                            <strong>Dupa A·u: Elipsa</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                                Axa lunga = λ₁·v⁽¹⁾<br>
+                                                Axa scurta = λ₂·v⁽²⁾
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 20px;">
+                                        <h5>🔑 Intuitia cheie</h5>
+                                        <p style="color: var(--text-secondary); margin-top: 10px;">
+                                            Matricea A "intinde" spatiul de-a lungul eigenvectorilor sai. Cat de mult intinde? Cu factorul eigenvalue corespunzator!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Transformare cerc → elipsa</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+                                        <code>
+import numpy as np<br>
+import matplotlib.pyplot as plt<br><br>
+# Matrice cu eigenvectors ortonormali<br>
+A = np.array([[2, 1], [1, 2]])<br><br>
+# Cerc unitar<br>
+theta = np.linspace(0, 2*np.pi, 100)<br>
+circle = np.array([np.cos(theta), np.sin(theta)])<br><br>
+# Transforma cu A<br>
+ellipse = A @ circle<br><br>
+# Eigenvectors = axele elipsei<br>
+eigenvals, eigenvecs = np.linalg.eig(A)<br>
+print(f"λ₁={eigenvals[0]:.1f}, λ₂={eigenvals[1]:.1f}")<br>
+# λ₁=3.0, λ₂=1.0<br><br>
+# Axa lunga are lungime 3, axa scurta 1
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Formula Eigendecomposition</h4>
+                        <p>Punand toti eigenvectorii in matricea V si eigenvalues in Λ diagonal, obtinem formula: <strong>A = V Λ V⁻¹</strong> sau pentru matrici simetrice (mai simplu): <strong>A = Q Λ Qᵀ</strong> unde Q e ortogonala.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Descompunere pas cu pas</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div class="formula">A = V diag(λ) V⁻¹</div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--primary);">V</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem;">Matricea eigenvectorilor (ca coloane)</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">diag(λ)</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem;">Matricea diagonala cu eigenvalues</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">V⁻¹</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem;">Inversa lui V (sau Vᵀ daca V e ortogonala)</p>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 15px; text-align: center;">
+                                        Intuitie: V⁻¹ roteste in sistemul eigenvectorilor, Λ scaleaza, V roteste inapoi.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

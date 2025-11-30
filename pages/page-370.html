@@ -1,0 +1,108 @@
+<section class="page-section" id="page-370">
+    <div class="page-header">
+        <div class="page-number">370</div>
+        <div class="page-title">
+            <h3>Figura 9.16: Comparatie Detaliata</h3>
+            <span>Local vs Tiled vs Standard Convolution</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-370.jpg"
+             alt="Pagina 370" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Comparatie Vizuala a Partajarii Ponderilor</h4>
+                <p>Figura 9.16 compara cele trei tipuri de layere cu kernel de 2 pixeli. <strong>Sus (Locally Connected):</strong> Fiecare conexiune are litera unica (a,b,c,d...). <strong>Mijloc (Tiled, t=2):</strong> Kernelurile (a,b) si (c,d) alterneaza - vecinii imediati sunt diferiti, dar se repeta la distanta. <strong>Jos (Standard Conv):</strong> Doar (a,b) peste tot - partajare completa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Pattern de Partajare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Locally Connected</strong>
+                                    <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: center; flex-wrap: wrap;">
+                                        <span style="background: #ff6b6b; padding: 8px 12px; border-radius: 4px;">ab</span>
+                                        <span style="background: #4ecdc4; padding: 8px 12px; border-radius: 4px;">cd</span>
+                                        <span style="background: #45b7d1; padding: 8px 12px; border-radius: 4px;">ef</span>
+                                        <span style="background: #96ceb4; padding: 8px 12px; border-radius: 4px;">gh</span>
+                                        <span style="background: #ffeaa7; padding: 8px 12px; border-radius: 4px;">ij</span>
+                                    </div>
+                                    <p style="font-size: 0.8rem; text-align: center; margin-top: 10px;">Toate diferite (10 parametri)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Tiled (t=2)</strong>
+                                    <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: center; flex-wrap: wrap;">
+                                        <span style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">ab</span>
+                                        <span style="background: var(--accent); padding: 8px 12px; border-radius: 4px;">cd</span>
+                                        <span style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">ab</span>
+                                        <span style="background: var(--accent); padding: 8px 12px; border-radius: 4px;">cd</span>
+                                        <span style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">ab</span>
+                                    </div>
+                                    <p style="font-size: 0.8rem; text-align: center; margin-top: 10px;">Alterneaza (4 parametri)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Standard Convolution</strong>
+                                    <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: center; flex-wrap: wrap;">
+                                        <span style="background: var(--success); padding: 8px 12px; border-radius: 4px;">ab</span>
+                                        <span style="background: var(--success); padding: 8px 12px; border-radius: 4px;">ab</span>
+                                        <span style="background: var(--success); padding: 8px 12px; border-radius: 4px;">ab</span>
+                                        <span style="background: var(--success); padding: 8px 12px; border-radius: 4px;">ab</span>
+                                        <span style="background: var(--success); padding: 8px 12px; border-radius: 4px;">ab</span>
+                                    </div>
+                                    <p style="font-size: 0.8rem; text-align: center; margin-top: 10px;">Identice (2 parametri)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutia Standard = Tiled cu t=1</h4>
+                <p>Putem vedea convolutia standard ca un caz special de tiled convolution cu t=1 (un singur kernel care se "repeta" imediat). Similar, tiled convolution cu t egal cu dimensiunea output-ului devine locally connected. Aceasta perspectiva unifica cele trei tipuri intr-un spectru continuu.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Spectrul de Partajare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px; background: linear-gradient(90deg, var(--success) 0%, var(--accent) 50%, var(--warning) 100%); border-radius: 8px; color: white;">
+                                <div style="text-align: center;">
+                                    <strong>t = 1</strong><br>
+                                    <small>Conv Standard</small><br>
+                                    <small>Min parametri</small>
+                                </div>
+                                <div style="text-align: center;">
+                                    <strong>1 &lt; t &lt; N</strong><br>
+                                    <small>Tiled Conv</small><br>
+                                    <small>Compromis</small>
+                                </div>
+                                <div style="text-align: center;">
+                                    <strong>t = N</strong><br>
+                                    <small>Locally Connected</small><br>
+                                    <small>Max parametri</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

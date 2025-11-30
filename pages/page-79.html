@@ -1,0 +1,164 @@
+        <section class="page-section" id="page-79">
+            <div class="page-header">
+                <div class="page-number">79</div>
+                <div class="page-title">
+                    <h3>Gaussiana - Proprietati si Forma Multivariata</h3>
+                    <span>CLT, Entropie Maxima, Normal Multivariat</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-079.jpg"
+                     alt="Pagina 79" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Teorema Limitei Centrale (CLT)</h4>
+                        <p>Primul motiv pentru popularitatea Gaussianei: <strong>Teorema Limitei Centrale</strong> arata ca suma multor variabile aleatoare independente este aproximativ normal distribuita. Aceasta inseamna ca in practica, multe sisteme complicate pot fi modelate cu succes ca zgomot distribuit normal, chiar daca sistemul poate fi descompus in parti cu comportament mai structurat.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: CLT in actiune</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">n=1</strong>
+                                            <div style="height: 40px; background: var(--warning); margin: 10px 0;"></div>
+                                            <p style="font-size: 0.7rem; color: var(--text-secondary);">Uniform</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--accent);">n=2</strong>
+                                            <div style="height: 40px; background: linear-gradient(var(--accent), transparent); margin: 10px 0; clip-path: polygon(0 100%, 50% 0, 100% 100%);"></div>
+                                            <p style="font-size: 0.7rem; color: var(--text-secondary);">Triunghi</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--secondary);">n=5</strong>
+                                            <div style="height: 40px; background: var(--secondary); margin: 10px 0; border-radius: 50% 50% 0 0;"></div>
+                                            <p style="font-size: 0.7rem; color: var(--text-secondary);">~Clopot</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--success);">n=30</strong>
+                                            <div style="height: 40px; background: var(--success); margin: 10px 0; border-radius: 50% 50% 0 0;"></div>
+                                            <p style="font-size: 0.7rem; color: var(--text-secondary);">≈Normal</p>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
+                                        Suma de n variabile uniforme → Curba clopot pe masura ce n creste
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Proprietatea de Entropie Maxima</h4>
+                        <p>Al doilea motiv: dintre toate distributiile cu aceeasi varianta, Gaussiana are <strong>entropia maxima</strong>. Asta inseamna ca encodează cel mai mult "ne-stiu" sau incertitudine - este cel mai <em>neinformativ</em> prior. Cand nu avem cunostinte prealabile despre forma distributiei, Gaussiana este alegerea care introduce cel mai putin bias.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>De ce conteaza entropia maxima?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Principiul Entropiei Maxime (Jaynes):</strong>
+                                        <p style="margin-top: 10px;">Cand alegi o distributie si tot ce stii sunt anumite momente (ex: media si varianta), ar trebui sa alegi distributia cu entropia maxima care satisface aceste constrangeri.</p>
+                                        <p style="margin-top: 10px;"><strong>Pentru media si varianta fixate → Gaussiana</strong></p>
+                                        <p style="margin-top: 10px; color: var(--text-secondary);">Aceasta alegere minimizeaza presupunerile suplimentare - nu "inventam" structura care nu exista in date.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Distributia Normala Multivariata</h4>
+                        <p>Gaussiana se generalizeaza la vectori <strong>x</strong> ∈ ℝⁿ, devenind <strong>distributia normala multivariata</strong>. Este parametrizata de vectorul mediilor <strong>μ</strong> si matricea de covarianta <strong>Σ</strong> (pozitiv definita, simetrica): 𝒩(<strong>x</strong>; <strong>μ</strong>, <strong>Σ</strong>) = √(1/((2π)ⁿ det(<strong>Σ</strong>))) × exp(-½(<strong>x</strong>-<strong>μ</strong>)ᵀ<strong>Σ</strong>⁻¹(<strong>x</strong>-<strong>μ</strong>)).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Gaussian 2D</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--accent);">Isotropic</strong>
+                                            <div style="width: 60px; height: 60px; border: 3px solid var(--accent); border-radius: 50%; margin: 15px auto;"></div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Σ = σ²I</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--secondary);">Diagonal</strong>
+                                            <div style="width: 80px; height: 40px; border: 3px solid var(--secondary); border-radius: 50%; margin: 15px auto;"></div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Σ diagonal</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">Full</strong>
+                                            <div style="width: 70px; height: 40px; border: 3px solid var(--warning); border-radius: 50%; margin: 15px auto; transform: rotate(-30deg);"></div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Σ full (corelat)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Normal multivariat</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Gaussian 2D
+mu = np.array([1.0, 2.0])
+# Matricea de covarianta (trebuie sa fie pozitiv definita)
+sigma = np.array([
+    [1.0, 0.5],   # var(x1)=1, cov(x1,x2)=0.5
+    [0.5, 2.0]    # cov(x2,x1)=0.5, var(x2)=2
+])
+
+mvn = stats.multivariate_normal(mean=mu, cov=sigma)
+
+# Esantionare
+samples = mvn.rvs(size=1000)
+print(f"Samples shape: {samples.shape}")
+print(f"Sample mean: {samples.mean(axis=0).round(2)}")
+print(f"Sample cov:\n{np.cov(samples.T).round(2)}")
+
+# Evaluare PDF
+x = np.array([1.0, 2.0])  # la medie
+pdf_at_mean = mvn.pdf(x)
+print(f"\np(μ) = {pdf_at_mean:.4f}")
+
+# Isotropic Gaussian (toate variantele egale, fara corelatie)
+isotropic_cov = 0.5 * np.eye(2)  # σ²I
+iso_mvn = stats.multivariate_normal(mean=[0, 0], cov=isotropic_cov)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

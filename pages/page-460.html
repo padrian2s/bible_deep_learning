@@ -1,0 +1,145 @@
+<section class="page-section" id="page-460">
+    <div class="page-header">
+        <div class="page-number">460</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.1.2 Implementari GPU (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-460.jpg"
+             alt="Pagina 460" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Caracteristicile GPU pentru Deep Learning</h4>
+                <p>Hardware-ul GPU a fost initial atat de specializat incat putea fi folosit doar pentru task-uri grafice. De-a lungul timpului, GPU-urile au devenit mai flexibile, permitand subrutine personalizate pentru transformari de coordonate si culori de pixeli.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Evolutia GPU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--warning); color: var(--bg-dark); padding: 10px 15px; border-radius: 8px; font-weight: bold;">1990s</div>
+                                    <div style="flex: 1; background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                        <span style="color: var(--text-secondary);">GPU-uri fixe - doar rendering grafic</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--accent); color: var(--bg-dark); padding: 10px 15px; border-radius: 8px; font-weight: bold;">2005</div>
+                                    <div style="flex: 1; background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                        <span style="color: var(--text-secondary);">Steinkrau et al. - Prima retea neurala pe GPU (2x speedup)</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--success); color: var(--bg-dark); padding: 10px 15px; border-radius: 8px; font-weight: bold;">2006</div>
+                                    <div style="flex: 1; background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                        <span style="color: var(--text-secondary);">Chellapilla et al. - CNN-uri supervised pe GPU</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--primary); color: white; padding: 10px 15px; border-radius: 8px; font-weight: bold;">2007+</div>
+                                    <div style="flex: 1; background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                        <span style="color: var(--text-secondary);">GP-GPU si CUDA - explozie in adoptare</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Pionieri GPU pentru ML</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Steinkrau et al. (2005)</strong> - Prima retea fully-connected pe GPU, 3x speedup</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Chellapilla et al. (2006)</strong> - CNN-uri supervised accelerate pe GPU</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Raina et al. (2009)</strong> - Adoptare timpurie de cercetatori DL</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Ciresan et al. (2010)</strong> - Demonstrarea potentialului GPU pentru DL</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>General Purpose GPU (GP-GPU)</h4>
+                <p>Popularitatea placilor grafice pentru antrenarea retelelor neurale a explodat dupa aparitia <strong>GP-GPU-urilor</strong>. Acestea pot executa cod arbitrar, nu doar subrutine de rendering. Limbajul <strong>CUDA</strong> al NVIDIA a oferit o modalitate convenabila de a scrie acest cod in C.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Model de Programare GPU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <h5 style="color: var(--accent); margin-bottom: 15px;">Arhitectura GPU</h5>
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px;">
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center; color: var(--bg-dark); font-size: 0.8rem;">Thread 1</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center; color: var(--bg-dark); font-size: 0.8rem;">Thread 2</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center; color: var(--bg-dark); font-size: 0.8rem;">Thread 3</div>
+                                    <div style="background: var(--success); padding: 10px; border-radius: 4px; text-align: center; color: var(--bg-dark); font-size: 0.8rem;">Thread 4</div>
+                                </div>
+                                <div style="text-align: center; color: var(--text-secondary); margin-bottom: 10px;">↓ Toate executa aceeasi instructiune ↓</div>
+                                <div style="background: var(--accent); padding: 15px; border-radius: 4px; text-align: center; color: var(--bg-dark);">
+                                    <strong>WARP</strong> - grup de thread-uri
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Warps:</strong> Thread-urile GPU sunt impartite in grupuri mici numite warps. Fiecare thread dintr-un warp executa aceeasi instructiune in fiecare ciclu. Daca branch-urile difera, caile de cod diferite sunt traversate secvential, nu in paralel.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: CUDA pentru Neural Networks</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+// Exemplu simplificat de kernel CUDA pentru forward pass
+__global__ void neural_layer_forward(
+    float* input, float* weights, float* output,
+    int input_size, int output_size) {
+
+    // Fiecare thread proceseaza un neuron de output
+    int neuron_idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (neuron_idx < output_size) {
+        float sum = 0.0f;
+        for (int i = 0; i < input_size; i++) {
+            sum += input[i] * weights[neuron_idx * input_size + i];
+        }
+        output[neuron_idx] = tanh(sum);  // Activare
+    }
+}
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Mii de neuroni sunt procesati simultan, fiecare de un thread separat!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

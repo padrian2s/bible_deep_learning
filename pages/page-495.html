@@ -1,0 +1,90 @@
+<section class="page-section" id="page-495">
+    <div class="page-header">
+        <div class="page-number">495</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Cold-Start Problem si 12.5.1.1 Exploration vs Exploitation</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-495.jpg"
+             alt="Pagina 495" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cold-Start Problem</h4>
+                <p>O limitare fundamentala a sistemelor de collaborative filtering este: cand un <strong>item nou</strong> sau un <strong>user nou</strong> este introdus, nu exista istorie de rating-uri pentru a evalua similaritatea cu alti users sau items. Aceasta se numeste problema <strong>cold-start</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Solutie: Content-Based Recommenders</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Content-based recommenders</strong> rezolva cold-start prin introducerea de informatii suplimentare despre users sau items: user profile, item features, etc.
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Maparea de la features la embedding poate fi invatata printr-o arhitectura deep learning.</p>
+                            <ul class="reference-list" style="margin-top: 15px;">
+                                <li class="reference-item"><span>📄</span><div><strong>Huang et al. (2013); Elkahky et al. (2015)</strong> - Deep learning pentru content-based recommenders</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>van den Oord et al. (2013)</strong> - CNN pentru extragerea features din audio muzical</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.5.1.1 Exploration Versus Exploitation</h4>
+                <p>Cand facem recomandari utilizatorilor, apare o problema care depaseste supervised learning standard si intra in domeniul <strong>reinforcement learning</strong>. Problema este descrisa teoretic ca <strong>contextual bandits</strong>: vedem doar raspunsul utilizatorilor la itemele recomandate, nu si la celelalte iteme!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Biased Data Problem</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary); margin-bottom: 15px;">Imagine: Antrenam un clasificator sa aleaga clasa ŷ pentru fiecare exemplu x.</p>
+                                <div style="display: grid; gap: 10px;">
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; color: var(--bg-dark);">
+                                        <strong>Training traditional:</strong> Vedem label-ul corect y pentru toate exemplele
+                                    </div>
+                                    <div style="background: var(--danger, var(--warning)); padding: 10px; border-radius: 4px; color: var(--bg-dark);">
+                                        <strong>Bandit setting:</strong> Vedem feedback doar pentru clasa aleasa ŷ, nu si pentru alternativele y' != ŷ
+                                    </div>
+                                </div>
+                                <p style="color: var(--accent); margin-top: 15px;">Problema: Putem ajunge sa pickam mereu decizii gresite fara sa invatam ca exista alternative mai bune!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Contextual Bandits</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Langford & Zhang (2008); Lu et al. (2010)</strong> - Contextual bandits framework</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

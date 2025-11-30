@@ -1,0 +1,136 @@
+        <section class="page-section" id="page-53">
+            <div class="page-header">
+                <div class="page-number">53</div>
+                <div class="page-title">
+                    <h3>Spatiul Coloanelor si Independenta</h3>
+                    <span>Matrici Singulare</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-053.jpg"
+                     alt="Pagina 53" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Column Space (Spatiul Coloanelor)</h4>
+                        <p><strong>Column space</strong> al lui A (sau range) este span-ul coloanelor matricei. Pentru ca Ax = b sa aiba solutie, b trebuie sa fie IN column space-ul lui A. Daca nu e, sistemul nu are solutie!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Conditia pentru solutie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>📐 Regula dimensiunilor</h5>
+                                        <p style="color: var(--text-secondary); margin-top: 10px;">
+                                            Pentru ca Ax = b sa aiba solutie pentru ORICE b ∈ ℝᵐ:
+                                        </p>
+                                        <div class="formula" style="margin: 15px 0;">
+                                            column space(A) = ℝᵐ → n ≥ m
+                                        </div>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                                            Adica: A trebuie sa aiba cel putin atatea coloane cat randuri!
+                                        </p>
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                        <strong style="color: var(--warning);">Exemplu problematic:</strong>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                            A este 3×2 (3D target, doar 2 directii) → column space e un plan in ℝ³, nu tot spatiul. Unele b nu pot fi atinse!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Independenta Liniara</h4>
+                        <p>Un set de vectori este <strong>liniar independent</strong> daca niciunul nu poate fi scris ca combinatie liniara a celorlalti. Daca sunt dependenti, avem redundanta - unele coloane nu aduc informatie noua!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Test: Independent sau nu?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">✓ Independenti</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                                v₁ = [1, 0], v₂ = [0, 1]<br>
+                                                Nu poti scrie v₁ = c·v₂ pentru niciun c
+                                            </p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">✗ Dependenti</strong>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                                v₁ = [1, 2], v₂ = [2, 4]<br>
+                                                v₂ = 2·v₁ (redundant!)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="code-block" style="margin-top: 15px;">
+                                        <code>
+# Verifica independenta cu rank<br>
+import numpy as np<br><br>
+A_independent = np.array([[1, 0], [0, 1]])<br>
+A_dependent = np.array([[1, 2], [2, 4]])<br><br>
+print(np.linalg.matrix_rank(A_independent))  # 2<br>
+print(np.linalg.matrix_rank(A_dependent))    # 1 (!)
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Matrici Singulare vs Nesingulare</h4>
+                        <p>O matrice <strong>patratica</strong> (n×n) cu coloane liniar independente este <strong>nesingulara</strong> si are inversa. Daca are coloane dependente, e <strong>singulara</strong> si NU are inversa - determinantul e 0!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Conditii pentru A⁻¹</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🔑 A are inversa daca si numai daca:</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                                            <li>A este patratica (n×n)</li>
+                                            <li>Coloanele sunt liniar independente</li>
+                                            <li>Rank(A) = n (full rank)</li>
+                                            <li>det(A) ≠ 0</li>
+                                            <li>Ax = b are solutie UNICA pentru orice b</li>
+                                        </ul>
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                        <strong style="color: var(--accent);">In Deep Learning:</strong>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                            Matricele de weight sunt aproape niciodata patratice (layers au dimensiuni diferite). Folosim pseudo-inverse si optimizare iterativa in loc de A⁻¹ direct.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

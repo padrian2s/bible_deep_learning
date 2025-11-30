@@ -1,0 +1,87 @@
+<section class="page-section" id="page-340">
+    <div class="page-header">
+        <div class="page-number">340</div>
+        <div class="page-title">
+            <h3>Transfer Learning si FitNets</h3>
+            <span>Pretraining Avansat</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-340.jpg"
+             alt="Pagina 340" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Transfer Learning cu Reteaua Pretrenata</h4>
+                <p>Yosinski et al. (2014) pretreneaza o retea CNN cu 8 layere pe un subset de ImageNet (1000 categorii), apoi initializeaza o alta retea cu primele k layere si antreneaza pe un alt subset de categorii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Insight Important</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Studiul lui Yosinski et al. a aratat ca primele layere ale CNN-urilor invata features generice (edges, textures) transferabile intre task-uri, in timp ce layerele finale invata features specifice task-ului.</p>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p>Aceasta observatie a fundamentat practica moderna de fine-tuning: folosim layerele inferioare pretrenate si re-antrenam doar layerele superioare pentru task-ul nou.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>FitNets: Teacher-Student Learning</h4>
+                <p>Romero et al. (2015) propun <strong>FitNets</strong>: antrenam o retea shallow si wide (usor de antrenat) ca <strong>teacher</strong>, apoi o folosim pentru a antrena o retea deep si thin ca <strong>student</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Cum Functioneaza FitNets</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Teacher Network</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Shallow (5 layere) si wide → usor de antrenat cu SGD</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Student Network</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Deep (11-19 layere) si thin → greu de antrenat direct</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Hint Loss</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Student-ul e antrenat sa prezica atat output-ul, cat si layer-ul intermediar al teacher-ului</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De Ce Deep si Thin?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Reteaua student (deep si thin) poate generaliza mai bine si are mai putini parametri decat teacher-ul, dar e greu de antrenat direct. Hint-urile de la middle layers rezolva aceasta problema!</p>
+                            <p style="color: var(--warning); margin-top: 10px;">Fara hint-uri, student-ul performeaza slab pe ambele: training si test set.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

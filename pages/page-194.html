@@ -1,0 +1,137 @@
+<section class="page-section" id="page-194">
+    <div class="page-header">
+        <div class="page-number">194</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.1.1 Cross-Entropy si Gradientul Costului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-194.jpg"
+             alt="Pagina 194" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Cross-Entropy ca Functie de Cost</h4>
+                <p>Functia de cost cross-entropy este J(θ) = -E[log p_model(y | x)]. Forma specifica a functiei de cost se schimba de la model la model, depinzand de forma lui log p_model. Daca presupunem p_model(y | x) = N(y; f(x; θ), I) - o distributie Gaussiana cu medie data de retea, obtinem mean squared error (MSE).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Demonstratie: MSE din Maximum Likelihood</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <p>Daca p(y | x) = N(y; f(x; θ), σ²I)</p>
+                                <p style="margin-top: 10px;">log p(y | x) = -1/(2σ²) ||y - f(x; θ)||² + const</p>
+                                <p style="margin-top: 10px; color: var(--success);">⟹ J(θ) = 1/2 E||y - f(x; θ)||² (MSE!)</p>
+                            </div>
+                            <div class="code-block">
+import torch.nn as nn
+
+# MSE Loss - derivat din Maximum Likelihood
+# cu presupunere Gaussiana pentru output
+mse = nn.MSELoss()
+
+# Este echivalent cu:
+def gaussian_nll(pred, target, sigma=1.0):
+    # -log N(y; pred, sigma²)
+    return 0.5 * ((target - pred) ** 2).mean() / (sigma ** 2)
+
+# Pentru regresie, MSE este alegerea naturala
+# cand presupunem zgomot Gaussian pe output
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantajul Maximum Likelihood: Design Automat al Costului</h4>
+                <p>Un avantaj al derivarii functiei de cost din maximum likelihood este ca elimina povara proiectarii functiilor de cost pentru fiecare model. Specificand un model p(y | x), determinam automat o functie de cost log p(y | x). Nu trebuie sa inventam functii de cost ad-hoc pentru fiecare problema.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Distributie → Functie de Cost</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                <tr style="background: var(--primary);">
+                                    <th style="padding: 12px;">Distributie Output</th>
+                                    <th style="padding: 12px;">Functie de Cost</th>
+                                    <th style="padding: 12px;">Task</th>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 12px;">Gaussian N(y; f(x), σ²)</td>
+                                    <td style="padding: 12px;">MSE</td>
+                                    <td style="padding: 12px;">Regresie</td>
+                                </tr>
+                                <tr style="background: var(--bg-dark);">
+                                    <td style="padding: 12px;">Bernoulli(σ(f(x)))</td>
+                                    <td style="padding: 12px;">Binary CE</td>
+                                    <td style="padding: 12px;">Clasificare binara</td>
+                                </tr>
+                                <tr style="background: var(--bg-lighter);">
+                                    <td style="padding: 12px;">Categorical(softmax(f(x)))</td>
+                                    <td style="padding: 12px;">Categorical CE</td>
+                                    <td style="padding: 12px;">Clasificare multi-clasa</td>
+                                </tr>
+                                <tr style="background: var(--bg-dark);">
+                                    <td style="padding: 12px;">Laplace</td>
+                                    <td style="padding: 12px;">L1 / MAE</td>
+                                    <td style="padding: 12px;">Regresie robusta</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gradientul Functiei de Cost: Criteriu Important</h4>
+                <p>O tema recurenta in designul retelelor neuronale este ca gradientul functiei de cost trebuie sa fie suficient de mare si predictibil pentru a ghida bine algoritmul de invatare. Functiile care satureaza (devin foarte plate) submineaza acest obiectiv deoarece fac gradientul foarte mic. Log-likelihood-ul negativ ajuta la evitarea acestei probleme.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce Log anuleaza Saturarea</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;">Multe unitati de output implica o functie exp care satureaza cand argumentul este foarte negativ.</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Problema cu exp:</strong>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 8px;">exp(-100) ≈ 0, gradient ≈ 0<br/>Invatarea se blocheaza!</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">Solutia cu log:</strong>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 8px;">log(exp(z)) = z<br/>Gradient liniar, invatare stabila!</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; color: var(--accent); font-size: 0.9rem;">Log din negative log-likelihood anuleaza exp din softmax/sigmoid!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

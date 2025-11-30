@@ -1,0 +1,118 @@
+<section class="page-section" id="page-322">
+    <div class="page-header">
+        <div class="page-number">322</div>
+        <div class="page-title">
+            <h3>Algoritmul 8.4: AdaGrad si RMSProp</h3>
+            <span>8.5.2 RMSProp</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-322.jpg"
+             alt="Pagina 322" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 8.4: AdaGrad</h4>
+                <p>AdaGrad mentine o variabila <strong>r</strong> care acumuleaza suma patratelor gradientilor. La update, imparte gradientul curent la √r. Hiperparametrul δ (ex: 10⁻⁷) previne impartirea la zero.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudo-cod AdaGrad</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 8.4: AdaGrad
+r = 0  # Acumulator patrate gradient
+
+while not converged:
+    g = compute_gradient()
+
+    # Acumuleaza patratul gradientului
+    r = r + g ⊙ g  # element-wise
+
+    # Update cu learning rate adaptiv
+    Δθ = -ε / (δ + √r) ⊙ g
+    θ = θ + Δθ
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">⊙ inseamna inmultire element-wise. √r si impartirea sunt tot element-wise.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema AdaGrad pentru Deep Learning</h4>
+                <p>AdaGrad e excelent pentru optimizare convexa! Dar pentru retele neurale (non-convex), are o problema: <strong>r creste mereu</strong>, deci learning rate-ul scade mereu. La un moment dat, pasii devin atat de mici incat antrenarea se opreste prematur.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De Ce E Problematic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-warning">
+                                <p>In non-convex, traiectoria poate trece prin multe "structuri" diferite. Acumuland gradiente din regiuni irelevante, AdaGrad isi reduce learning rate-ul bazat pe istoria care nu mai e relevanta!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.5.2 RMSProp (Hinton, 2012)</h4>
+                <p><strong>RMSProp</strong> rezolva problema AdaGrad: in loc sa acumuleze toate gradientele, foloseste o <strong>medie mobila exponentiala</strong>. Gradientele vechi "uita" exponential, deci algoritmul se poate adapta la schimbari in suprafata de cost.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula RMSProp</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                r ← ρ·r + (1-ρ)·g⊙g
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">ρ (tipic 0.9 sau 0.99) controleaza cat de repede uita istoricul. Gradientele recente conteaza mai mult!</p>
+                            <div class="code-block" style="margin-top: 15px;">
+# RMSProp in PyTorch
+optimizer = torch.optim.RMSprop(
+    model.parameters(),
+    lr=0.001,
+    alpha=0.99  # = ρ
+)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Status Practic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">RMSProp e unul din optimizatorii "go-to" pentru deep learning. A fost introdus informal in cursul lui Hinton pe Coursera, dar a devenit extrem de popular. E eficient si stabil pentru majoritatea aplicatiilor.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,106 @@
+<section class="page-section" id="page-498">
+    <div class="page-header">
+        <div class="page-number">498</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Relatii si Knowledge Bases</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-498.jpg"
+             alt="Pagina 498" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Relatii ca Triplete</h4>
+                <p>In contextul AI, gandim o relatie ca o propozitie intr-un limbaj simplu si structurat sintactic. Relatia joaca rolul unui <strong>verb</strong>, iar cele doua argumente joaca rolul <strong>subiectului</strong> si <strong>obiectului</strong>. Aceste propozitii iau forma de triplete de tokens:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Formatul Tripletelor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                (subject, verb, object)
+                            </div>
+                            <div class="formula" style="margin-top: 10px;">
+                                (entityᵢ, relationⱼ, entityₖ)
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <p style="color: var(--text-secondary);">Exemple:</p>
+                                <ul style="color: var(--text-secondary); font-size: 0.9rem;">
+                                    <li>(dog, is_a_type_of, mammal)</li>
+                                    <li>(Paris, capital_of, France)</li>
+                                    <li>(Einstein, born_in, Germany)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Atribute (Un singur argument)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                (entityᵢ, attributeⱼ)
+                            </div>
+                            <p style="margin-top: 10px; color: var(--text-secondary);">Exemplu: (dog, has_fur) - atributul se aplica la o singura entitate.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Knowledge Bases</h4>
+                <p>Multe aplicatii necesita reprezentarea relatiilor si rationarea despre ele. Datele de antrenament pentru modele ML pot veni din baze de date structurate care identifica relatii explicit. Cand o baza de date transmite cunostinte despre viata de zi cu zi sau cunostinte expert, o numim <strong>knowledge base</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemple de Knowledge Bases</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Freebase</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">freebase.com</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">OpenCyc</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">cyc.com/opencyc</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">WordNet</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">wordnet.princeton.edu</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Wikibase</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">wikiba.se</p>
+                                </div>
+                            </div>
+                            <ul class="reference-list" style="margin-top: 15px;">
+                                <li class="reference-item"><span>📄</span><div><strong>Bordes et al. (2013a)</strong> - Reprezentari pentru entitati si relatii din knowledge bases</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

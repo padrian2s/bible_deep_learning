@@ -1,0 +1,137 @@
+<section class="page-section" id="page-313">
+    <div class="page-header">
+        <div class="page-number">313</div>
+        <div class="page-title">
+            <h3>Algoritmul 8.2: SGD cu Momentum</h3>
+            <span>Interpretarea Fizica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-313.jpg"
+             alt="Pagina 313" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 8.2: SGD cu Momentum (Complet)</h4>
+                <p>Algoritmul complet pentru SGD cu momentum. Initializeaza velocitatea v la zero, apoi la fiecare iteratie: (1) calculeaza gradientul, (2) actualizeaza velocitatea, (3) actualizeaza parametrii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudo-cod Complet</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 8.2: SGD with Momentum
+# Require: learning rate ε, momentum α
+# Require: initial params θ, initial velocity v
+
+v = 0  # Initialize velocity
+
+while not converged:
+    # 1. Sample minibatch
+    X_batch, y_batch = sample_minibatch(m)
+
+    # 2. Compute gradient
+    g = (1/m) * sum(∇θ L(f(x; θ), y))
+
+    # 3. Update velocity (acumuleaza)
+    v = α * v - ε * g
+
+    # 4. Update parameters
+    θ = θ + v
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea Fizica: Dinamica Newtoniana</h4>
+                <p>Putem vedea momentum ca simularea unei particule sub legile lui Newton. Pozitia particulei e θ(t), experimenteaza o forta f(t) = -∇J(θ). Forta produce acceleratie care modifica viteza, viteza modifica pozitia.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ecuatii de Miscare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Forta:</strong>
+                                    <div class="formula" style="margin-top: 5px;">f(t) = ∂²θ/∂t² = -∇J(θ)</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 5px;">Gradientul negativ actioneaza ca forta gravitationala</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Viteza:</strong>
+                                    <div class="formula" style="margin-top: 5px;">v(t) = ∂θ/∂t</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 5px;">Particula acumuleaza viteza in directia fortei</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Frecare Viscoasa</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Hiperparametrul α actioneaza ca un coeficient de frecare viscoasa - cauzeaza viteza sa decada exponential in absenta fortei. Fara frecare (α=1), particula ar oscila la nesfarsit!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Viteza Terminala</h4>
+                <p>Cand gradientul e constant, particula atinge o <strong>viteza terminala</strong>. Cu α=0.9 si gradient constant g, viteza terminala e ε||g||/(1-α) = 10 · ε||g||. Aceasta e de 10x mai mare decat pasul SGD standard!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Calcul Viteza Terminala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                v<sub>terminal</sub> = ε||g|| / (1 - α)
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; text-align: center;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <div style="color: var(--accent);">α = 0.5</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.85rem;">2x speedup</div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <div style="color: var(--accent);">α = 0.9</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.85rem;">10x speedup</div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <div style="color: var(--accent);">α = 0.99</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.85rem;">100x speedup</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

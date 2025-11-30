@@ -1,0 +1,111 @@
+<section class="page-section" id="page-240">
+    <div class="page-header">
+        <div class="page-number">240</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.6 Istoria Back-Propagation</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-240.jpg"
+             alt="Pagina 240" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Origini: De la Calcul la Control</h4>
+                <p>Regula lantului care sta la baza algoritmului de backprop a fost inventata in secolul 17 (Leibniz, 1676; L'Hôpital, 1696). Calculul si algebra au fost mult timp folosite pentru a rezolva probleme de optimizare in forma inchisa, dar gradient descent nu a fost introdus ca tehnica pentru aproximarea iterativa a solutiei problemelor de optimizare pana in secolul 19 (Cauchy, 1847).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Istoria Backpropagation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--primary); margin-bottom: 15px;">Evolutia algoritmului:</h5>
+                                <ul style="font-size: 0.9rem;">
+                                    <li style="margin-bottom: 10px;"><strong>1960s-70s:</strong> Chain rule pentru control (Kelley, Bryson, Dreyfus)</li>
+                                    <li style="margin-bottom: 10px;"><strong>1974:</strong> Werbos - teza de doctorat (aplicare la NN)</li>
+                                    <li style="margin-bottom: 10px;"><strong>1981:</strong> Werbos - publicare oficiala</li>
+                                    <li style="margin-bottom: 10px;"><strong>1985:</strong> LeCun, Parker - redescoperire independenta</li>
+                                    <li style="margin-bottom: 10px;"><strong>1986:</strong> Rumelhart et al. - popularizare masiva</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Perceptron si Critica din 1969</h4>
+                <p>Incepand cu anii 1940, aceste tehnici de aproximare a functiilor au fost folosite pentru a motiva modele de machine learning precum perceptronul. Totusi, cele mai timpurii modele erau bazate pe modele liniare. Criticii, inclusiv Marvin Minsky, au aratat mai multe defecte ale familiei de modele liniare, cum ar fi incapacitatea de a invata functia XOR, ceea ce a dus la un backlash impotriva intregii abordari cu retele neuronale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Iarna AI (AI Winter)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Minsky & Papert (1969): "Perceptrons"</strong>
+                                <p style="margin-top: 10px;">Au demonstrat ca perceptronul NU poate invata XOR. Aceasta critica a redus dramatic finantarea pentru cercetarea in retele neuronale pentru aproape doua decenii.</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# Problema XOR:
+# Input  Output
+# 0,0    0
+# 0,1    1
+# 1,0    1
+# 1,1    0
+
+# NU exista o linie care separa clasele!
+# => Perceptronul (model liniar) esueaza
+# => Solutia: STRATURILE ASCUNSE!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Parallel Distributed Processing (1986)</h4>
+                <p>Cartea Parallel Distributed Processing a prezentat rezultatele unor dintre primele experimente de succes cu back-propagation intr-un capitol (Rumelhart et al., 1986b) care a contribuit enorm la popularizarea backprop si a initiat o zona foarte activa de cercetare in retele neuronale multi-layer. Ideile din carte au mers mult dincolo de backprop si au inclus ideea de reprezentare distribuita (Hinton et al., 1986).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Connectionismul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--accent); margin-bottom: 15px;">Ideile cheie din PDP:</h5>
+                                <ul style="font-size: 0.9rem;">
+                                    <li style="margin-bottom: 10px;"><strong>Reprezentare distribuita:</strong> Conceptele sunt encodate in patternuri de activare, nu in neuroni individuali</li>
+                                    <li style="margin-bottom: 10px;"><strong>Procesare paralela:</strong> Multe unitati lucreaza simultan</li>
+                                    <li style="margin-bottom: 10px;"><strong>Invatare prin ajustarea conexiunilor:</strong> Cunostintele sunt in weights</li>
+                                    <li style="margin-bottom: 10px;"><strong>Connectionism:</strong> Importanta conexiunilor intre neuroni</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

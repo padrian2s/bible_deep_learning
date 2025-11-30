@@ -1,0 +1,110 @@
+<section class="page-section" id="page-395">
+    <div class="page-header">
+        <div class="page-number">395</div>
+        <div class="page-title">
+            <h3>Figura 10.4 - Output Recurrence</h3>
+            <span>RNN cu Recurenta de la Output</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-395.jpg"
+             alt="Pagina 395" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>RNN cu Recurenta Output→Hidden</h4>
+                <p>Figura 10.4 arata o arhitectura unde <strong>recurenta vine de la output</strong>, nu de la starea ascunsa. Diferenta: h<sup>(t)</sup> primeste o<sup>(t-1)</sup> in loc de h<sup>(t-1)</sup>. Aceasta e mai putin expresiva dar permite un truc puternic: <strong>Teacher Forcing</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Output Recurrence</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; font-family: monospace; text-align: center;">
+                                <div>y<sup>(t-1)</sup> &nbsp;&nbsp;&nbsp; y<sup>(t)</sup> &nbsp;&nbsp;&nbsp; y<sup>(t+1)</sup></div>
+                                <div>↑ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↑ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↑</div>
+                                <div>L<sup>(t-1)</sup> &nbsp;&nbsp;&nbsp; L<sup>(t)</sup> &nbsp;&nbsp;&nbsp; L<sup>(t+1)</sup></div>
+                                <div>↑ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↑ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↑</div>
+                                <div style="color: var(--accent);">o<sup>(t-1)</sup> → o<sup>(t)</sup> → o<sup>(t+1)</sup></div>
+                                <div>&nbsp;&nbsp;↘ V &nbsp;&nbsp; ↘ V &nbsp;&nbsp; ↘ V</div>
+                                <div style="color: var(--success);">h<sup>(t-1)</sup> &nbsp;&nbsp; h<sup>(t)</sup> &nbsp;&nbsp; h<sup>(t+1)</sup></div>
+                                <div>↑ U &nbsp;&nbsp;&nbsp;&nbsp; ↑ U &nbsp;&nbsp;&nbsp;&nbsp; ↑ U</div>
+                                <div style="color: var(--primary);">x<sup>(t-1)</sup> &nbsp;&nbsp; x<sup>(t)</sup> &nbsp;&nbsp; x<sup>(t+1)</sup></div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <strong>Diferenta cheie:</strong> Output-ul o<sup>(t-1)</sup> (nu h<sup>(t-1)</sup>) influenteaza urmatorul pas!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Trade-offs</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Dezavantaje:</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>Mai putin expresiv</li>
+                                        <li>Nu poate "ascunde" informatie</li>
+                                        <li>Output-ul trebuie sa contina TOT</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Avantaje:</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>Antrenare mai rapida</li>
+                                        <li>Permite Teacher Forcing</li>
+                                        <li>Mai stabila la secvente lungi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce e Importanta Distinctia?</h4>
+                <p>In RNN cu hidden-to-hidden (Fig 10.3), informatia poate fi transmisa "secret" prin h fara a fi expusa in output. In varianta output-to-hidden (Fig 10.4), TOATA informatia necesara pentru viitor trebuie sa fie in output - nu exista memorie ascunsa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemplu Practic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Cand conteaza "memoria secreta"?</h5>
+                                <p>Daca RNN-ul trebuie sa numere aparitiile unui cuvant dar sa nu le raporteze pana la final - are nevoie de memorie ascunsa!</p>
+                            </div>
+                            <div style="margin-top: 15px; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p><strong>Task:</strong> "Numara cate 'the' sunt si raporteaza la final"</p>
+                                <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                    <li><strong>Hidden-to-hidden:</strong> Poate tine cont-ul in h fara output</li>
+                                    <li><strong>Output-to-hidden:</strong> Trebuie sa "scrie" contorul in output la fiecare pas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

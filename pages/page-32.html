@@ -1,0 +1,81 @@
+        <section class="page-section" id="page-32">
+            <div class="page-header">
+                <div class="page-number">32</div>
+                <div class="page-title">
+                    <h3>Conexionism si Reprezentari Distribuite</h3>
+                    <span>Al doilea val - Procesarea paralela distribuita</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-032.jpg"
+                     alt="Pagina 32" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Conexionism: Al doilea val</h4>
+                        <p>In anii 1980, a aparut <strong>conexionismul</strong> sau "procesarea paralela distribuita". Ideea centrala: un numar mare de unitati computationale simple pot atinge comportament inteligent cand lucreaza impreuna!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Analogie cu furnicile</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🐜 Inteligenta emergenta</h5>
+                                        <p>O singura furnica nu e inteligenta. Dar o colonie de furnici poate rezolva probleme complexe!</p>
+                                        <p style="margin-top: 10px;">La fel, un singur neuron artificial este simplu. Dar milioane de neuroni conectati pot recunoaste fete, traduce limbi, conduce masini!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Reprezentari distribuite</h4>
+                        <p><strong>Reprezentarea distribuita</strong> (Hinton, 1986): Fiecare input este reprezentat de MULTE caracteristici, si fiecare caracteristica participa la reprezentarea MULTOR inputuri. Contrast cu reprezentarea locala (un neuron = un concept).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemplu: Sistemul de viziune</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--warning);">Reprezentare locala (INEFICIENTA)</h5>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">
+                                                Neuron 1: camion rosu<br>
+                                                Neuron 2: camion verde<br>
+                                                Neuron 3: masina rosie<br>
+                                                Neuron 4: masina verde<br>
+                                                ... (9 neuroni pentru 3 obiecte × 3 culori)
+                                            </p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--success);">Reprezentare distribuita (EFICIENTA)</h5>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">
+                                                3 neuroni culoare: rosu, verde, albastru<br>
+                                                3 neuroni obiect: camion, masina, pasare<br>
+                                                Total: doar 6 neuroni!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

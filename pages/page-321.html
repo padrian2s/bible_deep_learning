@@ -1,0 +1,91 @@
+<section class="page-section" id="page-321">
+    <div class="page-header">
+        <div class="page-number">321</div>
+        <div class="page-title">
+            <h3>8.5 Algoritmi cu Rata de Invatare Adaptiva</h3>
+            <span>8.5.1 AdaGrad</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-321.jpg"
+             alt="Pagina 321" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.5 Problema: Learning Rate E Greu de Ales</h4>
+                <p>Learning rate-ul e cel mai dificil hiperparametru! Suprafata de cost e foarte sensibila in unele directii si insensibila in altele. <strong>Momentum</strong> ajuta partial, dar introduce alt hiperparametru (α). Solutia: <strong>adapteaza learning rate-ul automat</strong> pentru fiecare parametru!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ideia: LR Separat per Parametru</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Daca directiile de sensibilitate sunt aproximativ <strong>aliniate cu axele</strong> (fiecare parametru are propria sa sensibilitate), putem folosi un learning rate diferit pentru fiecare parametru!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Delta-Bar-Delta (Jacobs, 1988)</h4>
+                <p>O abordare veche: daca derivata partiala pentru un parametru pastreaza acelasi semn, creste learning rate-ul. Daca schimba semnul, scade-l. Problema: functioneaza doar pentru batch gradient descent, nu pentru minibatch.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Evolutia Metodelor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Metodele moderne (AdaGrad, RMSProp, Adam) adapteaza learning rate-ul bazat pe <strong>magnitudinea</strong> gradientilor anteriori, nu pe semnul lor. Asta functioneaza si pentru minibatch!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.5.1 AdaGrad (Duchi et al., 2011)</h4>
+                <p><strong>AdaGrad</strong> scaleaza fiecare parametru invers proportional cu radacina sumei patratelor tuturor gradientilor istorici. Parametrii cu gradiente mari primesc learning rate mic; cei cu gradiente mici primesc learning rate mare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Intuitia AdaGrad</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Parametru cu gradient mare:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Σg² e mare → LR scade → pasi mai mici</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Parametru cu gradient mic:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Σg² e mic → LR ramane mare → pasi mai mari</p>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Efectul net: mai mult progres pe directiile "plate", mai putina oscilatie pe directiile "abrupte".</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

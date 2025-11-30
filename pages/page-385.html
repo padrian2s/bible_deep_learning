@@ -1,0 +1,127 @@
+<section class="page-section" id="page-385">
+    <div class="page-header">
+        <div class="page-number">385</div>
+        <div class="page-title">
+            <h3>Figura 9.18: Filtre Gabor</h3>
+            <span>Variatii de Parametri</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-385.jpg"
+             alt="Pagina 385" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 9.18: Varietate de Filtre Gabor</h4>
+                <p>Figura arata functii Gabor cu diferite setari de parametri. Alb = pondere pozitiva mare, negru = pondere negativa mare, gri = zero. <strong>Stanga:</strong> variatie in x₀, y₀, τ (pozitie si orientare). <strong>Centru:</strong> variatie in β<sub>x</sub>, β<sub>y</sub> (latimea Gaussian-ului). <strong>Dreapta:</strong> variatie in f si φ (frecventa si faza sinusoidei).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Gabor Filter Bank</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import matplotlib.pyplot as plt
+
+def gabor_bank(size=32, n_orientations=8, n_frequencies=4):
+    """Genereaza o banca de filtre Gabor ca in V1"""
+    filters = []
+
+    for f_idx in range(n_frequencies):
+        frequency = 0.1 + f_idx * 0.15  # Frecvente crescatoare
+
+        for o_idx in range(n_orientations):
+            orientation = o_idx * np.pi / n_orientations
+
+            # Genereaza filtru Gabor
+            x = np.linspace(-1, 1, size)
+            y = np.linspace(-1, 1, size)
+            X, Y = np.meshgrid(x, y)
+
+            X_rot = X * np.cos(orientation) + Y * np.sin(orientation)
+            Y_rot = -X * np.sin(orientation) + Y * np.cos(orientation)
+
+            gaussian = np.exp(-0.5 * (X_rot**2 + Y_rot**2) / 0.3**2)
+            sinusoid = np.cos(2 * np.pi * frequency * X_rot * size)
+
+            filters.append(gaussian * sinusoid)
+
+    return np.array(filters)
+
+# Total: 8 orientari × 4 frecvente = 32 filtre
+# Similar cu primul layer al unui CNN antrenat pe imagini!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Invatarea Nesupervizata Produce Gabor!</h4>
+                <p>Una dintre cele mai izbitoare corespondente intre neurostiinta si ML: <strong>Olshausen si Field (1996)</strong> au aratat ca un simplu algoritm nesupervizat (sparse coding) aplicat pe patch-uri de imagini naturale invata features similare cu celulele simple din V1! De atunci, MULTE algoritmi de invatare (inclusiv primul layer al CNN-urilor) produc filtre Gabor-like.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De Ce Invata Toata Lumea Gabor?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Statistica Imaginilor Naturale:</strong><br><br>
+                                Filtrele Gabor nu sunt o coincidenta - ele reflecta <em>structura statistica a imaginilor naturale</em>. Imaginile contin multe margini, contururi si texturi care sunt bine descrise de functii Gabor.
+                                <ul style="margin-top: 10px;">
+                                    <li>Sparse coding → Gabor</li>
+                                    <li>ICA (Independent Component Analysis) → Gabor</li>
+                                    <li>CNN Layer 1 → Gabor</li>
+                                    <li>Autoencoders → Gabor</li>
+                                </ul>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Daca un algoritm NU invata detectori de margini pe imagini naturale, e un semn rau!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie: V1 vs CNN vs Sparse Coding</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 10px;">🧠</div>
+                                    <strong style="color: var(--primary);">V1 (Biologic)</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 8px;">Celule simple cu receptive fields Gabor-like, formate prin dezvoltare si experienta</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 10px;">🔮</div>
+                                    <strong style="color: var(--accent);">Sparse Coding</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 8px;">Nesupervizat, minimizeaza reconstructia + sparsity → Gabor emerge!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 10px;">🤖</div>
+                                    <strong style="color: var(--success);">CNN Layer 1</strong>
+                                    <p style="font-size: 0.8rem; margin-top: 8px;">Supervizat (clasificare), backprop → Tot Gabor-like!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

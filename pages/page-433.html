@@ -1,0 +1,190 @@
+<section class="page-section" id="page-433">
+    <div class="page-header">
+        <div class="page-number">433</div>
+        <div class="page-title">
+            <h3>Memory Networks si Neural Turing Machines</h3>
+            <span>Soft Attention si Accesul la Memorie</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-433.jpg"
+             alt="Pagina 433" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Working Memory in Neural Networks</h4>
+                <p>Graves et al. (2014b) au observat ca retelele neuronale nu au echivalentul <strong>memoriei de lucru</strong> - sistemul care permite oamenilor sa tina minte si sa manipuleze informatii in mod explicit. Solutia: componente de memorie explicita care pot stoca si recupera rapid fapte specifice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce avem nevoie de memorie explicita?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Limitarile memoriei implicite:</h5>
+                                <p>Retelele neuronale standard stocheaza cunostinte in weights - bune pentru pattern recognition, dar slabe pentru fapte specifice care trebuie accesate rapid.</p>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Fara Working Memory:</strong>
+                                    <ul style="margin-top: 8px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>Informatia se "pierde" in weights</li>
+                                        <li>Greu de accesat fapte specifice</li>
+                                        <li>Interferenta intre amintiri</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Cu Working Memory:</strong>
+                                    <ul style="margin-top: 8px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>Stocare explicita in "slots"</li>
+                                        <li>Acces rapid prin adresare</li>
+                                        <li>Rationament secvential</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Memory Networks vs Neural Turing Machines</h4>
+                <p><strong>Memory Networks</strong> (Weston et al., 2014) au introdus celule de memorie accesibile prin mecanisme de adresare, dar necesitau supervizare pentru utilizarea memoriei. <strong>NTM</strong> (Graves et al., 2014b) au rezolvat aceasta problema - invatare end-to-end prin soft attention!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Comparatie Arhitecturi</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">Memory Networks (Weston, 2014)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Necesita supervizare explicita pentru cum sa foloseasca memoria</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Neural Turing Machine (Graves, 2014)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">End-to-end training prin soft attention - invata singur ce/unde sa scrie si citeasca</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">End-to-End Memory Networks (Sukhbaatar, 2015)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Versiune simplificata a memory networks cu antrenare end-to-end</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Soft Attention pentru Memorie</h4>
+                <p>De ce NTM functioneaza? Pentru ca foloseste <strong>soft attention</strong> - in loc sa aleaga o singura celula (hard), citeste o <strong>medie ponderata</strong> din multe celule. Ponderile sunt produse prin softmax, deci au derivate nenule - gradient descent functioneaza!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Soft Read/Write Operations</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre># Soft attention pentru citire din memorie
+import torch
+import torch.nn.functional as F
+
+class SoftMemoryAccess:
+    def __init__(self, memory_size, vector_dim):
+        # Memorie: N locatii x D dimensiuni
+        self.memory = torch.zeros(memory_size, vector_dim)
+
+    def read(self, weights):
+        """
+        Soft read - medie ponderata a tuturor celulelor
+        weights: [N] - atentie asupra fiecarei locatii (suma = 1)
+        return: [D] - vectorul citit
+        """
+        # r = Σ w_i * M[i]
+        return torch.matmul(weights, self.memory)
+
+    def write(self, weights, erase_vector, add_vector):
+        """
+        Soft write - modifica toate celulele proportional cu weights
+        """
+        # Erase: M[i] = M[i] * (1 - w_i * e)
+        erase = torch.outer(weights, erase_vector)
+        self.memory = self.memory * (1 - erase)
+
+        # Add: M[i] = M[i] + w_i * a
+        add = torch.outer(weights, add_vector)
+        self.memory = self.memory + add
+
+# Weights sunt produse prin softmax = diferentiabil!
+attention_logits = controller_output  # din RNN/LSTM
+weights = F.softmax(attention_logits, dim=0)</pre>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>De ce Softmax?</h5>
+                                <p>Softmax produce ponderi pozitive care sumeaza la 1 (probabilitati). Gradientii sunt nenuli pentru toate celulele - reteaua invata ce locatii sunt relevante!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Memory Cells ca Extensie a LSTM</h4>
+                <p>Celulele de memorie NTM pot fi vazute ca o <strong>extensie a LSTM</strong>. Diferenta: LSTM are o stare interna fixa, NTM are <strong>multe celule</strong> si reteaua alege explicit care sa fie accesata - similar cu RAM-ul unui computer!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>LSTM vs NTM Memory</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">LSTM Cell State</strong>
+                                    <div style="margin: 15px 0; font-family: monospace; font-size: 0.85rem;">
+                                        c<sub>t</sub> ∈ ℝ<sup>d</sup>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Un singur vector de stare, accesat implicit</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">NTM Memory</strong>
+                                    <div style="margin: 15px 0; font-family: monospace; font-size: 0.85rem;">
+                                        M ∈ ℝ<sup>N×D</sup>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">N celule, fiecare de D dimensiuni, acces explicit prin adresare</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <strong>Analogie:</strong> LSTM = registru CPU (rapid dar mic), NTM = RAM (mare, acces prin adrese)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

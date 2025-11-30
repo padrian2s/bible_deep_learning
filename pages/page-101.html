@@ -1,0 +1,227 @@
+<section class="page-section" id="page-101">
+    <div class="page-header">
+        <div class="page-number">101</div>
+        <div class="page-title">
+            <h3>Learning Rate si Jacobian/Hessian</h3>
+            <span>Capitolul 4 - Sectiunea 4.3.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-101.jpg"
+             alt="Pagina 101" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alegerea Learning Rate (ε)</h4>
+                <p>Learning rate-ul ε poate fi ales in mai multe moduri: (1) ca o constanta mica, (2) rezolvand pentru pasul care face derivata directionala zero, sau (3) evaluand f(x - ε∇f(x)) pentru mai multe valori de ε si alegand cea care produce cea mai mica valoare. Aceasta ultima strategie se numeste <strong>line search</strong>. Steepest descent converge cand fiecare element al gradientului devine zero (sau foarte aproape de zero).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Line Search</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def f(x):
+    return x[0]**2 + 4*x[1]**2
+
+def grad_f(x):
+    return np.array([2*x[0], 8*x[1]])
+
+def line_search(x, grad, candidates=[0.001, 0.01, 0.05, 0.1, 0.2, 0.5]):
+    """Gaseste cel mai bun learning rate"""
+    best_lr = candidates[0]
+    best_val = f(x - best_lr * grad)
+
+    for lr in candidates[1:]:
+        new_x = x - lr * grad
+        new_val = f(new_x)
+        if new_val < best_val:
+            best_val = new_val
+            best_lr = lr
+    return best_lr
+
+# Gradient descent cu line search
+x = np.array([4.0, 2.0])
+print("GD cu Line Search:")
+print("-" * 50)
+for i in range(5):
+    g = grad_f(x)
+    lr = line_search(x, g)
+    print(f"Iter {i}: x={x}, f={f(x):.3f}, lr_optim={lr}")
+    x = x - lr * g
+
+print(f"\nFinal: {x}, f={f(x):.6f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Hill Climbing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Generalizare la Spatii Discrete</h5>
+                                <p>Gradient descent este pentru spatii continue. Pentru parametri discreti (ex: arhitectura retelei), folosim <strong>hill climbing</strong>:</p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Evalueaza toti vecinii</li>
+                                    <li>Alege vecinul cu cea mai buna valoare</li>
+                                    <li>Repeta pana nu mai exista imbunatatiri</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>4.3.1 Dincolo de Gradient: Jacobian si Hessian</h4>
+                <p>Uneori avem nevoie de toate derivatele partiale ale unei functii cu input si output vectorial. Matricea care contine aceste derivate se numeste <strong>Jacobian</strong>. Pentru o functie f: ℝᵐ → ℝⁿ, Jacobianul J ∈ ℝⁿˣᵐ este definit astfel incat J_{i,j} = ∂f(x)ᵢ/∂xⱼ.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Jacobian</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import torch
+from torch.autograd.functional import jacobian
+
+# f: R² → R²
+# f(x,y) = [x² + y, xy]
+def f(x):
+    return torch.stack([x[0]**2 + x[1], x[0]*x[1]])
+
+x = torch.tensor([2.0, 3.0])
+J = jacobian(f, x)
+
+print("f(x,y) = [x² + y, xy]")
+print(f"\nLa punctul x = {x.tolist()}")
+print(f"f(x) = {f(x).tolist()}")
+print(f"\nJacobian J:")
+print(J.numpy())
+print("""
+J = | ∂f₁/∂x  ∂f₁/∂y |   | 2x   1 |   | 4  1 |
+    | ∂f₂/∂x  ∂f₂/∂y | = | y    x | = | 3  2 |
+""")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Gradient vs Jacobian</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">Gradient ∇f</strong>
+                                    <p style="margin: 10px 0;">f: ℝⁿ → ℝ</p>
+                                    <p>Vector n×1</p>
+                                    <div style="font-family: monospace; margin-top: 10px;">
+                                        [∂f/∂x₁, ∂f/∂x₂, ..., ∂f/∂xₙ]ᵀ
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--secondary);">Jacobian J</strong>
+                                    <p style="margin: 10px 0;">f: ℝᵐ → ℝⁿ</p>
+                                    <p>Matrice n×m</p>
+                                    <div style="font-family: monospace; margin-top: 10px;">
+                                        Jᵢⱼ = ∂fᵢ/∂xⱼ
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivata a Doua si Curbura</h4>
+                <p><strong>Derivata a doua</strong> ne spune cum se va schimba derivata prima cand modificam input-ul. Este importanta pentru ca ne spune daca un pas de gradient va produce o imbunatatire la fel de mare cum prezice gradientul. Derivata a doua masoara <strong>curbura</strong>: daca f'' = 0, nu exista curbura (linie dreapta); daca f'' < 0, curba descrescatoare; daca f'' > 0, curba crescatoare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Curbura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Trei functii cu curburi diferite
+def f_neg(x): return -x**2 + 2*x  # f'' = -2 (curbura negativa)
+def f_zero(x): return 2*x         # f'' = 0 (fara curbura)
+def f_pos(x): return x**2 + 2*x   # f'' = 2 (curbura pozitiva)
+
+x = 1.0
+step = 0.5
+
+print("Efect curbura asupra pasului de gradient:")
+print("-" * 50)
+
+for name, f, f_pp in [("f''<0", f_neg, -2),
+                       ("f''=0", f_zero, 0),
+                       ("f''>0", f_pos, 2)]:
+    # Predictia bazata pe gradient (liniarizare)
+    grad_at_x = 2*x if name != "f''=0" else 2
+    if name == "f''<0": grad_at_x = -2*x + 2
+
+    predicted_decrease = step * abs(grad_at_x)
+    actual = f(x) - f(x - step * np.sign(grad_at_x))
+
+    print(f"{name}: predictie={predicted_decrease:.2f}, "
+          f"actual={actual:.2f}")
+                            </div>
+                            <p style="margin-top: 15px;">Curbura pozitiva = imbunatatire mai mica decat prezis!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Interpretare Geometrica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Ce inseamna curbura pentru optimizare?</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>f'' < 0:</strong> Functia se cooara in jos, pasul de gradient produce imbunatatire MAI MARE decat prezis</li>
+                                    <li><strong>f'' = 0:</strong> Functia este liniara local, pasul produce exact imbunatatirea prezisa</li>
+                                    <li><strong>f'' > 0:</strong> Functia se curbeaza in sus, pasul produce imbunatatire MAI MICA (poate chiar crestere!)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,227 @@
+<section class="page-section" id="page-111">
+    <div class="page-header">
+        <div class="page-number">111</div>
+        <div class="page-title">
+            <h3>Exemplu: Linear Least Squares</h3>
+            <span>Capitolul 4 - Sectiunea 4.5</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-111.jpg"
+             alt="Pagina 111" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>4.5 Exemplu: Linear Least Squares</h4>
+                <p>Presupunem ca vrem sa gasim x care minimizeaza:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    f(x) = ½||Ax - b||₂²
+                </div>
+                <p>Aceasta este problema <strong>least squares</strong> - gasim x care face Ax cat mai aproape de b in sensul normei L2. Exista algoritmi specializati de algebra liniara pentru aceasta problema, dar o putem rezolva si cu gradient descent ca exemplu simplu.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Least Squares</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Problema: gasim x astfel incat Ax ≈ b
+np.random.seed(42)
+A = np.random.randn(5, 3)  # 5 ecuatii, 3 necunoscute
+b = np.random.randn(5)
+
+# Solutia analitica (pseudoinversa)
+x_analytical = np.linalg.lstsq(A, b, rcond=None)[0]
+
+# Gradient descent
+def f(x):
+    return 0.5 * np.linalg.norm(A @ x - b)**2
+
+def grad_f(x):
+    # ∇f = Aᵀ(Ax - b) = AᵀAx - Aᵀb
+    return A.T @ (A @ x - b)
+
+x = np.zeros(3)
+lr = 0.1
+history = [f(x)]
+
+for _ in range(100):
+    x = x - lr * grad_f(x)
+    history.append(f(x))
+
+print("Linear Least Squares: min ½||Ax - b||²")
+print(f"\nA shape: {A.shape}, b shape: {b.shape}")
+print(f"\nSolutie analitica: {x_analytical}")
+print(f"Solutie GD (100 iter): {x}")
+print(f"\nEroare: {np.linalg.norm(x - x_analytical):.6f}")
+print(f"Loss final: {f(x):.6f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Gradientul pentru Least Squares</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p>Derivam gradientul:</p>
+                                <p style="margin: 10px 0; font-family: monospace;">f(x) = ½||Ax - b||² = ½(Ax - b)ᵀ(Ax - b)</p>
+                                <p style="margin: 10px 0; font-family: monospace;">∇f(x) = Aᵀ(Ax - b) = AᵀAx - Aᵀb</p>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Ecuatia Normala</h5>
+                                <p>La optim, ∇f(x*) = 0:</p>
+                                <p style="font-family: monospace; margin-top: 10px;">AᵀAx* = Aᵀb</p>
+                                <p style="font-family: monospace;">x* = (AᵀA)⁻¹Aᵀb = A⁺b</p>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">unde A⁺ este pseudoinversa Moore-Penrose</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 4.1: Gradient Descent pentru Least Squares</h4>
+                <p>Algoritmul urmeste gradientul in jos facand pasi mici. Se opreste cand norma gradientului este sub un prag δ (toleranta).</p>
+                <div class="code-block" style="margin: 15px 0;">
+<strong>Algoritm 4.1:</strong> Minimizeaza f(x) = ½||Ax - b||²
+
+Set step size (ε) si tolerance (δ) la numere mici pozitive
+<strong>while</strong> ||AᵀAx - Aᵀb||₂ > δ <strong>do</strong>
+    x ← x - ε(AᵀAx - Aᵀb)
+<strong>end while</strong>
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Algoritm 4.1 Implementat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def algorithm_4_1(A, b, epsilon=0.01, delta=1e-6, max_iter=10000):
+    """
+    Algoritm 4.1: GD pentru least squares
+    Minimizeaza f(x) = 0.5 * ||Ax - b||^2
+    """
+    n = A.shape[1]
+    x = np.zeros(n)
+
+    ATA = A.T @ A
+    ATb = A.T @ b
+
+    for i in range(max_iter):
+        grad = ATA @ x - ATb
+        grad_norm = np.linalg.norm(grad)
+
+        if grad_norm <= delta:
+            print(f"Convergent dupa {i} iteratii")
+            break
+
+        x = x - epsilon * grad
+
+    return x
+
+# Test
+np.random.seed(42)
+A = np.random.randn(100, 10)
+b = np.random.randn(100)
+
+x_gd = algorithm_4_1(A, b, epsilon=0.01, delta=1e-8)
+x_exact = np.linalg.lstsq(A, b, rcond=None)[0]
+
+print(f"\nEroare fata de solutia exacta: {np.linalg.norm(x_gd - x_exact):.2e}")
+print(f"Residual ||Ax - b||: {np.linalg.norm(A @ x_gd - b):.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Least Squares cu Constrangere ||x|| ≤ 1</h4>
+                <p>Acum presupunem ca vrem sa minimizam aceeasi functie, dar cu constrangerea <strong>xᵀx ≤ 1</strong> (norma x sa fie cel mult 1). Folosim Lagrangianul:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    L(x, λ) = f(x) + λ(xᵀx - 1)
+                </div>
+                <p>Rezolvam min<sub>x</sub> max<sub>λ≥0</sub> L(x, λ). Solutia fara constrangere este x = A⁺b. Daca ||A⁺b|| ≤ 1, aceasta este si solutia constransa. Altfel, trebuie sa gasim λ astfel incat solutia sa aiba norma exact 1.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Least Squares Constrans</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy.optimize import minimize_scalar
+
+def constrained_least_squares(A, b, max_norm=1.0):
+    """Least squares cu ||x|| <= max_norm"""
+
+    # Solutia neconstransa
+    x_unconstrained = np.linalg.lstsq(A, b, rcond=None)[0]
+
+    if np.linalg.norm(x_unconstrained) <= max_norm:
+        print("Solutia neconstransa este fezabila!")
+        return x_unconstrained, 0
+
+    # Trebuie sa gasim λ > 0
+    # x(λ) = (AᵀA + 2λI)⁻¹ Aᵀb
+    ATA = A.T @ A
+    ATb = A.T @ b
+    n = A.shape[1]
+
+    def x_of_lambda(lam):
+        return np.linalg.solve(ATA + 2*lam*np.eye(n), ATb)
+
+    def norm_minus_one(lam):
+        return np.linalg.norm(x_of_lambda(lam)) - max_norm
+
+    # Cautam λ unde ||x(λ)|| = 1
+    from scipy.optimize import brentq
+    lambda_opt = brentq(norm_minus_one, 0, 100)
+
+    x_opt = x_of_lambda(lambda_opt)
+    return x_opt, lambda_opt
+
+# Test
+np.random.seed(42)
+A = np.random.randn(5, 3)
+b = 5 * np.random.randn(5)  # b mare pentru a forta constrangerea
+
+x_opt, lam = constrained_least_squares(A, b, max_norm=1.0)
+print(f"λ* = {lam:.4f}")
+print(f"x* = {x_opt}")
+print(f"||x*|| = {np.linalg.norm(x_opt):.6f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

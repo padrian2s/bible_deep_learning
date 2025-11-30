@@ -1,0 +1,138 @@
+<section class="page-section" id="page-469">
+    <div class="page-header">
+        <div class="page-number">469</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.2.1.1 Normalizarea Contrastului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-469.jpg"
+             alt="Pagina 469" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.2.1.1 Contrast Normalization</h4>
+                <p>Una dintre cele mai evidente surse de variatie care poate fi eliminata sigur este <strong>contrastul</strong>. Contrastul se refera la magnitudinea diferentei dintre pixelii luminosi si cei intunecati. In deep learning, contrastul este de obicei <strong>deviatia standard</strong> a pixelilor dintr-o imagine sau regiune.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Ce este Contrastul?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px;">
+                                <div style="background: linear-gradient(to bottom, #333, #555); height: 80px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    <span style="color: white; font-weight: bold;">Low Contrast</span>
+                                </div>
+                                <div style="background: linear-gradient(to bottom, #000, #888); height: 80px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    <span style="color: white; font-weight: bold;">Medium</span>
+                                </div>
+                                <div style="background: linear-gradient(to bottom, #000, #fff); height: 80px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    <span style="color: #666; font-weight: bold;">High Contrast</span>
+                                </div>
+                            </div>
+                            <div class="formula">
+                                Contrast = √(1/3rc × Σᵢ Σⱼ Σₖ (Xᵢ,ⱼ,ₖ - X̄)²)
+                            </div>
+                            <p style="margin-top: 10px; color: var(--text-secondary);">unde X̄ este intensitatea medie a intregii imagini, r = rows, c = columns, k = channels (RGB).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Calculul Contrastului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def compute_contrast(image):
+    """
+    Calculeaza contrastul unei imagini RGB.
+    image: tensor de forma (r, c, 3) cu valori in [0, 1]
+    """
+    r, c, channels = image.shape
+
+    # Media intregii imagini
+    X_bar = image.mean()
+
+    # Deviatia standard (contrast)
+    contrast = np.sqrt(
+        (1 / (3 * r * c)) *
+        np.sum((image - X_bar) ** 2)
+    )
+
+    return contrast
+
+# Exemplu
+img = load_image("photo.jpg")
+print(f"Contrast: {compute_contrast(img):.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Global Contrast Normalization (GCN)</h4>
+                <p><strong>GCN</strong> are scopul de a preveni imaginile cu cantitati variate de contrast prin scaderea mediei din fiecare imagine, apoi rescalarea astfel incat deviatia standard sa fie egala cu o constanta s. Problema: nu putem schimba contrastul unei imagini cu contrast zero!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Formula GCN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="font-size: 1.1rem;">
+                                X'ᵢ,ⱼ,ₖ = s × (Xᵢ,ⱼ,ₖ - X̄) / max{ε, σ}
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <p style="color: var(--text-secondary);">unde:</p>
+                                <ul style="color: var(--text-secondary);">
+                                    <li><strong>s</strong> = scale factor (de obicei 1)</li>
+                                    <li><strong>X̄</strong> = media imaginii</li>
+                                    <li><strong>σ</strong> = deviatia standard a imaginii</li>
+                                    <li><strong>ε</strong> = regularizare pentru a evita impartirea la 0</li>
+                                </ul>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Problema zero-contrast:</strong> Imaginile cu contrast foarte mic (toti pixelii aproape egali) au putina informatie. Impartirea la deviatia standard mica doar amplifica zgomotul senzorului!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Setari Practice pentru GCN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Goodfellow et al. (2013a)</strong> - CIFAR-10: λ=0, ε=10⁻⁸ (ignora problema small denominator)</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Coates et al. (2011)</strong> - CIFAR-10 random patches: ε=0, λ=10 (regularizare agresiva)</div></li>
+                            </ul>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Dataset-urile cu imagini mari (crop-uri din scene reale) sunt putin probabil sa contina imagini cu intensitate aproape constanta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

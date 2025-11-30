@@ -1,0 +1,164 @@
+<section class="page-section" id="page-396">
+    <div class="page-header">
+        <div class="page-number">396</div>
+        <div class="page-title">
+            <h3>Total Loss si BPTT</h3>
+            <span>Backpropagation Through Time</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-396.jpg"
+             alt="Pagina 396" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Calculul Loss-ului Total</h4>
+                <p>Pentru o secventa de lungime τ, loss-ul total este <strong>suma loss-urilor</strong> de la fiecare pas temporal. Daca folosim negative log-likelihood, L<sup>(t)</sup> este log probabilitatea target-ului y<sup>(t)</sup> data fiind predictia modelului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile 10.12-10.14</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <div class="formula" style="margin: 10px 0;">
+                                    L({x<sup>(1)</sup>,...,x<sup>(τ)</sup>}, {y<sup>(1)</sup>,...,y<sup>(τ)</sup>})
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.12)</span>
+                                </div>
+                                <div class="formula" style="margin: 10px 0;">
+                                    = Σ<sub>t</sub> L<sup>(t)</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.13)</span>
+                                </div>
+                                <div class="formula" style="margin: 10px 0;">
+                                    = -Σ<sub>t</sub> log p<sub>model</sub>(y<sup>(t)</sup> | {x<sup>(1)</sup>,...,x<sup>(t)</sup>})
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.14)</span>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">
+                                Loss-ul la timpul t este citit din vectorul ŷ<sup>(t)</sup> la pozitia corespunzatoare target-ului.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Calculul Loss</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>import torch.nn.functional as F
+
+def compute_sequence_loss(predictions, targets):
+    """
+    predictions: lista de [batch, vocab_size] - output softmax
+    targets: lista de [batch] - indici target
+    """
+    total_loss = 0
+    for y_pred, y_target in zip(predictions, targets):
+        # Negative log likelihood la fiecare pas
+        loss_t = F.cross_entropy(y_pred, y_target)
+        total_loss += loss_t
+
+    return total_loss / len(targets)  # media
+
+# Exemplu
+seq_len = 10
+vocab_size = 1000
+batch = 32
+
+predictions = [torch.randn(batch, vocab_size) for _ in range(seq_len)]
+targets = [torch.randint(0, vocab_size, (batch,)) for _ in range(seq_len)]
+
+loss = compute_sequence_loss(predictions, targets)
+print(f"Total loss: {loss.item():.4f}")</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>BPTT - Backpropagation Through Time</h4>
+                <p>Pentru a calcula gradientii, aplicam backpropagation pe <strong>graful desfasurat</strong>. Algoritmul se numeste BPTT (Backpropagation Through Time). Gradientii se propaga inapoi de la loss prin toate pasii temporali.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Fluxul Gradientilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; font-family: monospace;">
+                                <p style="text-align: center; margin-bottom: 10px;">Forward: →→→→→</p>
+                                <div style="display: flex; justify-content: space-around; align-items: center;">
+                                    <span>h<sup>(1)</sup></span>
+                                    <span>→</span>
+                                    <span>h<sup>(2)</sup></span>
+                                    <span>→</span>
+                                    <span>h<sup>(3)</sup></span>
+                                    <span>→</span>
+                                    <span>h<sup>(τ)</sup></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-around; margin-top: 5px;">
+                                    <span>↓</span>
+                                    <span></span>
+                                    <span>↓</span>
+                                    <span></span>
+                                    <span>↓</span>
+                                    <span></span>
+                                    <span>↓</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-around;">
+                                    <span style="color: var(--warning);">L<sup>(1)</sup></span>
+                                    <span></span>
+                                    <span style="color: var(--warning);">L<sup>(2)</sup></span>
+                                    <span></span>
+                                    <span style="color: var(--warning);">L<sup>(3)</sup></span>
+                                    <span></span>
+                                    <span style="color: var(--warning);">L<sup>(τ)</sup></span>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; color: var(--accent);">Backward: ←←←←←</p>
+                                <p style="text-align: center; color: var(--text-secondary); font-size: 0.85rem;">Gradientii se acumuleaza de la toate L<sup>(t)</sup></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Complexitate BPTT</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Timp: O(τ)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Nu poate fi paralelizat - fiecare pas depinde de anterior</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Memorie: O(τ)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Trebuie stocate toate activarile pentru backward</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

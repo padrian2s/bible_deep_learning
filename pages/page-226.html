@@ -1,0 +1,143 @@
+<section class="page-section" id="page-226">
+    <div class="page-header">
+        <div class="page-number">226</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Figura 6.9: Subexpresii Repetate</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-226.jpg"
+             alt="Pagina 226" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.9: Graf cu Subexpresii Repetate</h4>
+                <p>Un graf computational care rezulta in subexpresii repetate cand calculam gradientul. Fie w ∈ ℝ inputul in graf. Folosim aceeasi functie f: ℝ → ℝ la fiecare pas al unui lant: x = f(w), y = f(x), z = f(y). Pentru a calcula ∂z/∂w, aplicam regula lantului si obtinem diverse forme echivalente.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Structura Grafului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; font-weight: bold;">z</div>
+                                    <div style="font-size: 1.2rem;">↑ f</div>
+                                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; font-weight: bold;">y</div>
+                                    <div style="font-size: 1.2rem;">↑ f</div>
+                                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; font-weight: bold;">x</div>
+                                    <div style="font-size: 1.2rem;">↑ f</div>
+                                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">w</div>
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.9rem;">x = f(w), y = f(x) = f(f(w)), z = f(y) = f(f(f(w)))</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Doua Moduri de a Calcula ∂z/∂w</h4>
+                <p>Aplicand regula lantului obtinem ∂z/∂w = (∂z/∂y)(∂y/∂x)(∂x/∂w) = f'(y)f'(x)f'(w). Dar putem rescrie aceasta in doua forme diferite care duc la algoritmi diferiti. Ecuatia 6.52 sugereaza sa calculam f(w) o singura data si sa o stocam in x - aceasta este abordarea backprop. Ecuatia 6.53 arata ca f(w) apare de mai multe ori.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie: Store vs Recompute</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Ecuatia 6.52: Backprop (stocheaza valorile)
+def backprop_approach(w, f, f_prime):
+    # Forward: calculeaza si STOCHEAZA
+    x = f(w)      # stocheaza x
+    y = f(x)      # stocheaza y
+    z = f(y)      # output
+
+    # Backward: foloseste valorile stocate
+    dz_dw = f_prime(y) * f_prime(x) * f_prime(w)
+    return dz_dw
+
+# Ecuatia 6.53: Naive (recalculeaza)
+def naive_approach(w, f, f_prime):
+    # Expanda totul in termeni de w
+    # f'(f(f(w))) * f'(f(w)) * f'(w)
+    #
+    # f(w) se calculeaza de 3 ori!
+    # f(f(w)) se calculeaza de 2 ori!
+
+    dz_dw = f_prime(f(f(w))) * f_prime(f(w)) * f_prime(w)
+    return dz_dw
+
+# Pentru retele ADANCI, diferenta e ENORMA:
+# - Backprop: O(L) calcule de f
+# - Naive: O(2^L) calcule de f!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trade-off Memorie vs Timp</h4>
+                <p>Cand memoria necesara pentru a stoca valorile acestor expresii este mica, abordarea backprop din ecuatia 6.52 este clar preferabila datorita runtime-ului redus. Totusi, ecuatia 6.53 este de asemenea o implementare valida a regulii lantului, si este utila cand memoria este limitata. Gradient checkpointing este o tehnica moderna care balanseaza acest trade-off.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Gradient Checkpointing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Gradient Checkpointing (modern):</strong>
+                                <p style="margin-top: 10px;">Compromis: stocheaza UNELE activari (checkpoints), recalculeaza restul. Reduce memoria de la O(L) la O(√L) cu cost O(2L) timp.</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+from torch.utils.checkpoint import checkpoint
+
+class BigModel(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer1 = torch.nn.Linear(1000, 1000)
+        self.layer2 = torch.nn.Linear(1000, 1000)
+        # ... multe straturi
+
+    def forward(self, x):
+        # Fara checkpointing: stocheaza toate activarile
+        # h1 = self.layer1(x)
+        # h2 = self.layer2(h1)
+
+        # Cu checkpointing: recalculeaza la backward
+        h1 = checkpoint(self.layer1, x)
+        h2 = checkpoint(self.layer2, h1)
+        return h2
+
+# Util pentru modele FOARTE mari (GPT, etc.)
+# unde memoria GPU este limitata
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

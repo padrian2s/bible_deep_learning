@@ -1,0 +1,127 @@
+<section class="page-section" id="page-308">
+    <div class="page-header">
+        <div class="page-number">308</div>
+        <div class="page-title">
+            <h3>8.2.8 Limitele Teoretice ale Optimizarii</h3>
+            <span>Ce Garantii Avem (si Nu Avem)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-308.jpg"
+             alt="Pagina 308" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Rezultate Teoretice Negative</h4>
+                <p>Exista rezultate teoretice care arata limite fundamentale pentru orice algoritm de optimizare pentru retele neurale. Din fericire, aceste rezultate au <strong>putina relevanta practica</strong> - se aplica cazurilor cele mai defavorabile, nu celor tipice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Rezultate Teoretice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Blum & Rivest (1992)</strong> - Probleme NP-hard</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Judd (1989)</strong> - Complexitate computationala</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Wolpert & MacReady (1997)</strong> - No Free Lunch theorem</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Nu Conteaza in Practica?</h4>
+                <p>Rezultatele negative se aplica de obicei unor cazuri specifice: (1) retele cu unitati discrete, (2) worst-case inputs, (3) cerinta de solutie exacta. In practica: (1) folosim unitati continue, (2) intampina probleme tipice, (3) cautam solutii "suficient de bune".</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Teorie vs Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Rezultate Teoretice:</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Worst-case complexity</li>
+                                        <li>Solutie exacta necesara</li>
+                                        <li>Unitati discrete</li>
+                                        <li>Retele de orice marime</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Practica Reala:</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Average-case e relevant</li>
+                                        <li>"Destul de bun" e suficient</li>
+                                        <li>Unitati continue (ReLU, etc.)</li>
+                                        <li>Retele overparameterized</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Retele Mari: Mai Usor de Antrenat!</h4>
+                <p>Paradoxal, gasirea unei solutii pentru o retea de o <strong>marime fixa</strong> poate fi intractabila teoretic. Dar in practica folosim retele mari (overparameterized) unde exista multe configuratii de parametri care dau solutii acceptabile - e mult mai usor sa gasim una!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analogie: Gaseste Acul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Retea mica:</strong> Gaseste un ac specific intr-un car de fan<br>
+                                <strong>Retea mare:</strong> Gaseste oricare din milioanele de ace dintr-un car de fan</p>
+                                <p style="margin-top: 10px;">Cu mai multi parametri, mai multe solutii exista, deci e mai usor sa gasim una!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Concluzie Sectiunea 8.2</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Dezvoltarea unor limite teoretice mai realiste pentru performanta algoritmilor de optimizare ramane un obiectiv important pentru cercetarea in machine learning. Pentru moment, ne bazam pe intuitie si experimentare.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

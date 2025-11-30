@@ -1,0 +1,142 @@
+<section class="page-section" id="page-124">
+    <div class="page-header">
+        <div class="page-number">124</div>
+        <div class="page-title">
+            <h3>Figura 5.1 si Ecuatiile Normale</h3>
+            <span>Capitolul 5 - Solutia Closed-Form</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-124.jpg"
+             alt="Pagina 124" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.1: Regresia Liniara in Actiune</h4>
+                <p>Figura arata o problema de regresie liniara cu 10 puncte de antrenament, fiecare cu o singura feature. Vectorul w contine un singur parametru w₁. <strong>Stanga:</strong> Regresia liniara invata w₁ astfel incat linia y = w₁x trece cat mai aproape de toate punctele. <strong>Dreapta:</strong> MSE<sub>train</sub> in functie de w₁ - punctul marcat indica valoarea optima gasita prin ecuatiile normale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Landscape-ul MSE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Date de antrenament simple
+X = np.array([-1, -0.5, 0, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0, 1.1])
+y = np.array([-2, -1, 0.2, 0.5, 1.0, 1.2, 0.8, 1.5, 2.0, 1.8])
+
+# Calculeaza MSE pentru diferite valori ale lui w
+def mse_for_w(w):
+    predictions = w * X
+    return np.mean((predictions - y) ** 2)
+
+# Gaseste w optim
+w_values = np.linspace(0, 2, 50)
+mse_values = [mse_for_w(w) for w in w_values]
+w_optimal = w_values[np.argmin(mse_values)]
+
+print(f"w optimal ≈ {w_optimal:.2f}")
+print(f"MSE minim ≈ {min(mse_values):.3f}")
+
+# Solutia analitica: w = (X^T X)^-1 X^T y
+X_col = X.reshape(-1, 1)
+w_analytic = np.linalg.lstsq(X_col, y, rcond=None)[0][0]
+print(f"\nSolutie analitica: w = {w_analytic:.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivarea Ecuatiilor Normale</h4>
+                <p>Rezolvam ∇<sub>w</sub>MSE = 0 prin calcul diferential. Expandam gradientul si simplificam:</p>
+                <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <p>∇<sub>w</sub>(X<sup>(train)</sup>w - y)<sup>T</sup>(X<sup>(train)</sup>w - y) = 0</p>
+                    <p style="margin-top: 10px;">2X<sup>(train)T</sup>X<sup>(train)</sup>w - 2X<sup>(train)T</sup>y = 0</p>
+                </div>
+                <p>Rezulta solutia in forma inchisa (closed-form):</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    w = (X<sup>T</sup>X)<sup>-1</sup>X<sup>T</sup>y
+                </div>
+                <p>Acest sistem de ecuatii se numeste <strong>ecuatiile normale</strong> (normal equations).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Normal Equations</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Dataset simplu
+X = np.array([[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]])
+y = np.array([3, 5, 7, 9, 11])
+
+# Solutia cu ecuatiile normale: w = (X^T X)^-1 X^T y
+XtX = X.T @ X
+XtX_inv = np.linalg.inv(XtX)
+Xty = X.T @ y
+w = XtX_inv @ Xty
+
+print("Ecuatiile Normale: w = (X^T X)^-1 X^T y")
+print(f"\nX^T X =\n{XtX}")
+print(f"\n(X^T X)^-1 =\n{XtX_inv.round(3)}")
+print(f"\nX^T y = {Xty}")
+print(f"\nw = {w}")
+
+# Verificare
+y_pred = X @ w
+print(f"\nPredictii: {y_pred}")
+print(f"Target:    {y}")
+print(f"MSE: {np.mean((y_pred - y)**2):.6f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regresia Liniara cu Bias (Intercept)</h4>
+                <p>Termenul "regresie liniara" se refera adesea la un model mai sofisticat cu un parametru aditional - un <strong>intercept</strong> (sau <strong>bias</strong>) b:</p>
+                <div class="formula" style="text-align: center; font-size: 1.4rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--accent), var(--success)); border-radius: 8px;">
+                    ŷ = w<sup>T</sup>x + b
+                </div>
+                <p>Maparea de la parametri la predictii ramane liniara, dar maparea de la features la predictii este acum o functie <strong>afina</strong>. Graficul nu mai trece neaparat prin origine. In practica, adaugam o coloana de 1-uri la X pentru a incorpora bias-ul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Bias vs Intercept</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Terminologie</h5>
+                                <p>Termenul b se numeste <strong>bias</strong> deoarece output-ul transformarii este "biased" catre valoarea b in absenta oricarui input.</p>
+                                <p style="margin-top: 10px; color: var(--warning);">Atentie: Acest "bias" este diferit de "statistical bias" (cand estimatorul are expectatie diferita de valoarea adevarata)!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

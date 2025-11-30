@@ -1,0 +1,63 @@
+<section class="page-section" id="page-333">
+    <div class="page-header">
+        <div class="page-number">333</div>
+        <div class="page-title">
+            <h3>8.7.1 Batch Normalization</h3>
+            <span>Reparametrizare Adaptiva</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-333.jpg"
+             alt="Pagina 333" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Batch Normalization: Una din Cele Mai Importante Inovatii</h4>
+                <p><strong>Batch Normalization</strong> (Ioffe & Szegedy, 2015) e una din cele mai importante inovatii recente in deep learning. Tehnic, nu e un algoritm de optimizare, ci o metoda de <strong>reparametrizare</strong> care face antrenarea mult mai usoara.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Problema pe care o Rezolva</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">In retele deep, fiecare layer depinde de toate layerele anterioare. Cand facem un update la layer 1, schimbam distributia input-ului pentru toate layerele urmatoare! Aceasta e numita <strong>internal covariate shift</strong>.</p>
+                            <p style="color: var(--warning); margin-top: 10px;">Rezultat: alegerea learning rate-ului devine foarte dificila - un pas prea mare la un layer poate destabiliza toata reteaua.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interactiuni de Ordin Inalt</h4>
+                <p>Gradientul presupune ca celelalte layere raman constante. Dar le updatam pe toate simultan! Interactiunile pot fi de ordin foarte inalt - efectul unui update la layer 1 se propaga exponential prin toate layerele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Retea Liniara</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Presupune o retea liniara fara nonlinearitati: ŷ = xw₁w₂...w<sub>l</sub>. Schimbarea in ŷ dupa un update ε la toate weights:</p>
+                            <div class="formula" style="margin: 10px 0;">
+                                Δŷ = x(w₁-εg₁)(w₂-εg₂)...(w<sub>l</sub>-εg<sub>l</sub>)
+                            </div>
+                            <p style="color: var(--text-secondary);">Aceasta contine termeni de toate ordinele: ε, ε², ε³, ... Metodele de ordin 2 ar captura doar pana la ε². Efectele de ordin inalt pot domina!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

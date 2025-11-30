@@ -1,0 +1,95 @@
+<section class="page-section" id="page-499">
+    <div class="page-header">
+        <div class="page-number">499</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Link Prediction si Embeddings pentru Relatii</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-499.jpg"
+             alt="Pagina 499" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Embeddings pentru Entitati si Relatii</h4>
+                <p>Pe langa datele de antrenament, avem nevoie si de o familie de modele. O abordare comuna este sa extindem neural language models pentru a modela entitati SI relatii. NLM invata vectori pentru cuvinte si functii care prezic urmatorul cuvant. Putem invata embeddings pentru relatii in mod similar.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Relation Embeddings</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Abordari pentru relation embeddings
+
+# 1. Linear relational embeddings (Paccanaro & Hinton, 2000)
+# Relatia = forma parametrica constrained
+
+# 2. Relations as operators (Bordes et al., 2011)
+# Relatia actioneaza ca un operator pe entitati
+def relation_as_operator(entity_emb, relation_matrix):
+    return relation_matrix @ entity_emb
+
+# 3. Relations as entities (Bordes et al., 2012)
+# Relatiile au embeddings proprii, ca entitatile
+def score_triple(entity_i, relation, entity_k):
+    return similarity(entity_i + relation, entity_k)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Relation Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bordes et al. (2011, 2012, 2013b)</strong> - Knowledge base embeddings</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Wang et al. (2014a)</strong> - Combinarea KB si text natural</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Paccanaro & Hinton (2000)</strong> - Linear relational embeddings</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Link Prediction</h4>
+                <p>O aplicatie practica pe termen scurt a acestor modele este <strong>link prediction</strong>: predicerea arcelor lipsa din knowledge graph. Aceasta este o forma de generalizare catre fapte noi, bazata pe fapte vechi. Majoritatea knowledge bases au fost construite manual si lasa multe relatii adevarate nespecificate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Evaluare: Precision at 10%</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema evaluarii:</strong> Daca modelul propune un fapt care nu e in dataset, nu stim daca e o greseala sau un fapt nou descoperit!
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);"><strong>Solutie:</strong> Cream exemple negative prin coruperea faptelor adevarate (inlocuim o entitate cu alta la intamplare). Metrica "precision at 10%" masoara cat de des faptul corect este in top 10% fata de versiunile corupte.</p>
+                            <ul class="reference-list" style="margin-top: 15px;">
+                                <li class="reference-item"><span>📄</span><div><strong>Wang et al. (2014b); Lin et al. (2015); Garcia-Duran et al. (2015)</strong> - Aplicatii link prediction</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

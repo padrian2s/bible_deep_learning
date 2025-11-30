@@ -1,0 +1,137 @@
+<section class="page-section" id="page-212">
+    <div class="page-header">
+        <div class="page-number">212</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.3.3 RBF, Softplus, Hard Tanh si 6.4 Architecture Design</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-212.jpg"
+             alt="Pagina 212" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alte Unitati Ascunse: RBF, Softplus, Hard Tanh</h4>
+                <p>Cateva alte tipuri de unitati ascunse rezonabil comune: Radial basis function (RBF) hᵢ = exp(-||W:,ᵢ - x||²/σ²) - devine activa cand x se apropie de template-ul W:,ᵢ. Softplus g(a) = ζ(a) = log(1+eᵃ) - o versiune smooth a ReLU. Hard tanh g(a) = max(-1, min(1, a)) - bounded ca tanh dar liniar pe portiuni ca ReLU.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementari in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# Softplus: smooth ReLU
+# ζ(a) = log(1 + exp(a))
+softplus = nn.Softplus()
+# Nota: ζ(a) → a pentru a >> 0, ζ(a) → 0 pentru a << 0
+# Avantaj: diferentiabila peste tot
+# Dezavantaj: empiric, nu e mai buna ca ReLU
+
+# Hard Tanh: bounded piecewise linear
+# g(a) = max(-1, min(1, a))
+hardtanh = nn.Hardtanh()
+# Avantaj: bounded, simpla, rapida
+# Folosita in: quantized networks, mobile
+
+# RBF (trebuie implementat manual)
+class RBFUnit(nn.Module):
+    def __init__(self, in_features, n_centers):
+        super().__init__()
+        self.centers = nn.Parameter(torch.randn(n_centers, in_features))
+        self.sigma = nn.Parameter(torch.ones(1))
+
+    def forward(self, x):
+        # h_i = exp(-||x - center_i||² / σ²)
+        diff = x.unsqueeze(1) - self.centers
+        return torch.exp(-diff.pow(2).sum(-1) / self.sigma.pow(2))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sectiunea 6.4: Design-ul Arhitecturii</h4>
+                <p>O alta consideratie cheie de design pentru retelele neuronale este determinarea arhitecturii. Cuvantul arhitectura se refera la structura generala a retelei: cate unitati ar trebui sa aiba si cum ar trebui sa fie conectate aceste unitati intre ele. Majoritatea retelelor neuronale sunt organizate in grupuri de unitati numite straturi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Structura in Lant a Straturilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;">Arhitectura feed-forward tipica:</p>
+                                <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                    h⁽¹⁾ = g⁽¹⁾(W⁽¹⁾ᵀx + b⁽¹⁾)
+                                </div>
+                                <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                    h⁽²⁾ = g⁽²⁾(W⁽²⁾ᵀh⁽¹⁾ + b⁽²⁾)
+                                </div>
+                                <div class="formula" style="text-align: center;">
+                                    ...si asa mai departe
+                                </div>
+                                <p style="margin-top: 15px; color: var(--text-secondary);">Fiecare strat este o functie a stratului precedent. Aceasta structura in lant este cea mai comuna arhitectura.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Decizii de Design Architectural</h4>
+                <p>Principalele decizii arhitecturale includ: (1) Adancimea retelei - cate straturi sa folosim, (2) Latimea fiecarui strat - cate unitati per strat, (3) Tipul de conexiuni - fully connected, convolutional, skip connections. Aceste alegeri au impact semnificativ asupra capacitatii modelului si asupra usurintei de antrenare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Preview: Decizii Arhitecturale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📏</span>
+                                    <div><strong>Adancime</strong> - Mai multe straturi = reprezentari mai abstracte (paginile urmatoare)</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>↔️</span>
+                                    <div><strong>Latime</strong> - Mai multe unitati = mai multa capacitate per strat</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🔗</span>
+                                    <div><strong>Conexiuni</strong> - Skip connections (ResNet), Dense connections (DenseNet)</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🎛️</span>
+                                    <div><strong>Hiperparametri</strong> - Learning rate, batch size, regularizare</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

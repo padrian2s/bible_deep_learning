@@ -1,0 +1,120 @@
+<section class="page-section" id="page-298">
+    <div class="page-header">
+        <div class="page-number">298</div>
+        <div class="page-title">
+            <h3>Minime Locale: Mit sau Realitate?</h3>
+            <span>Cercetari Recente despre Local Minima</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-298.jpg"
+             alt="Pagina 298" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Minimele Locale Nu Sunt Problema Principala</h4>
+                <p>Multi practicieni credeau ca minimele locale sunt cauza principala a dificultatii antrenarii. Dar cercetarile recente arata ca <strong>nu acesta e cazul</strong>! Pentru retele suficient de mari, majoritatea minimelor locale au cost similar cu minimul global, deci nu e important in care ajungem.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Test: Norma Gradientului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);"><strong>Cum testam daca suntem intr-un minim local?</strong></p>
+                                <p style="color: var(--text-secondary); margin-top: 10px;">Urmareste norma gradientului in timp. Daca scade spre zero dar antrenarea e slaba → minim local. Daca ramane mare → problema e ill-conditioning sau saddle points, nu local minima.</p>
+                                <div class="key-concept" style="margin-top: 15px;">
+                                    <p>In practica, norma gradientului adesea <strong>nu</strong> scade spre zero! Asta inseamna ca nu suntem blocati in minime locale - problema e alta.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Retele Mari: Multe Minime Echivalente</h4>
+                <p>Un model cu n parametri are un spatiu de optimizare n-dimensional. Pentru retele mari (milioane de parametri), probabilitatea ca toate directiile sa duca in sus (minim local) e extrem de mica. Mai probabil sunt saddle points!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Spatiu Multi-dimensional</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Imagineaza-ti fiecare directie ca un coin flip: sus sau jos.</p>
+                                <ul style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                    <li><strong>2D:</strong> 25% sansa de minim (ambele directii in sus)</li>
+                                    <li><strong>10D:</strong> 0.1% sansa de minim</li>
+                                    <li><strong>1000D:</strong> 10<sup>-300</sup>% - practic imposibil!</li>
+                                </ul>
+                                <p style="color: var(--success); margin-top: 15px;">→ In spatii de dimensiuni mari, minimele locale sunt foarte rare. Saddle points sunt mult mai comune!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Model Identifiability si Minime Echivalente</h4>
+                <p>Retelele neurale au o proprietate speciala: <strong>weight space symmetry</strong>. Putem permuta neuronii din orice strat ascuns si obtinem exact acelasi model! Asta inseamna ca fiecare minim local are multe "copii" echivalente - nu conteaza in care ajungem.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Permutarea Neuronilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Hidden layer cu 3 neuroni
+h1, h2, h3 = neurons
+
+# Configuratia originala
+model_A: [h1, h2, h3] → output
+
+# Configuratia permutata (acelasi model!)
+model_B: [h3, h1, h2] → output
+
+# Ambele dau exact aceleasi predictii!
+assert model_A(x) == model_B(x)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Pentru m neuroni ascunsi, exista m! (factorial) configuratii echivalente. Cu 100 neuroni → 10<sup>158</sup> minime identice!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Implicatie Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-success">
+                                <p>Nu exista un "cel mai bun" set de weights - exista familii de weights echivalente. Toate duc la acelasi comportament al modelului. Problema nu e sa gasim THE minimum, ci A minimum bun.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,97 @@
+<section class="page-section" id="page-286">
+    <div class="page-header">
+        <div class="page-number">286</div>
+        <div class="page-title">
+            <h3>7.14 Tangent Prop vs Data Augmentation</h3>
+            <span>Comparatie si Double Backprop</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-286.jpg"
+             alt="Pagina 286" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tangent Prop vs Data Augmentation</h4>
+                <p>Tangent propagation si data augmentation sunt <strong>strans legate</strong>. In ambele, utilizatorul specifica transformari care nu ar trebui sa schimbe outputul. Diferenta cheie:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie Detaliata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Data Augmentation</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Aplica transformari discrete</li>
+                                        <li>Rezistenta la perturbatii mari</li>
+                                        <li>Functioneaza bine cu ReLU</li>
+                                        <li>"Versiune non-infinitezimala"</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Tangent Prop</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Regularizeaza derivata (infinitezimal)</li>
+                                        <li>Rezistenta doar la perturbatii mici</li>
+                                        <li>Probleme cu ReLU (derivate constante)</li>
+                                        <li>Elegant analitic</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema cu ReLU si Tangent Prop</h4>
+                <p>Tangent prop are dificultati cu unitati ReLU. Modelele cu ReLU pot micsora derivatele doar prin: (1) oprirea unitatilor (output = 0) sau (2) micsorarea weights-urilor. Dar data augmentation functioneaza excelent cu ReLU deoarece diferite subseturi de unitati sunt active pentru diferite versiuni transformate ale inputului.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Double Backprop si Adversarial Training</h4>
+                <p>Tangent prop este legata de <strong>double backprop</strong> (Drucker & LeCun, 1992) si adversarial training. Toate regularizeaza Jacobianul (derivatele output-ului fata de input):</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Conexiunile</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong>Double Backprop:</strong> Jacobian mic in TOATE directiile
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong>Tangent Prop:</strong> Jacobian mic in directii SPECIFICE (tangente)
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong>Data Augmentation:</strong> Versiune "non-infinitezimala" a tangent prop
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <strong>Adversarial Training:</strong> Versiune "non-infinitezimala" a double backprop
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

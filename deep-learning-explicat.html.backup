@@ -1,0 +1,3389 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Learning - Explicat in Romana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-lighter: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #475569;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        .nav-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: sticky;
+            top: 0;
+        }
+
+        .nav-header h2 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .nav-header p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 10px;
+        }
+
+        .nav-item {
+            margin: 5px 0;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--bg-lighter);
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Chapter Header */
+        .nav-chapter {
+            margin-bottom: 15px;
+        }
+
+        .chapter-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        .chapter-icon {
+            font-size: 1.5rem;
+        }
+
+        .chapter-header strong {
+            display: block;
+            font-size: 1rem;
+        }
+
+        .chapter-header span {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Section Labels */
+        .nav-section {
+            padding: 8px 15px 8px 25px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--bg-lighter);
+            border-radius: 4px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        /* Chapter Container */
+        .nav-chapter-container {
+            margin-bottom: 10px;
+        }
+
+        .chapter-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chapter-toggle:hover {
+            transform: scale(1.02);
+        }
+
+        .chapter-toggle .arrow {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-chapter-container.collapsed .chapter-toggle .arrow {
+            transform: rotate(-90deg);
+        }
+
+        .chapter-pages {
+            margin-left: 15px;
+            border-left: 2px solid var(--primary);
+            padding-left: 5px;
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .nav-chapter-container.collapsed .chapter-pages {
+            max-height: 0;
+        }
+
+        .chapter-pages .nav-item {
+            margin: 2px 0;
+        }
+
+        .chapter-pages .nav-link {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            max-width: 1200px;
+        }
+
+        /* Page Section */
+        .page-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            scroll-margin-top: 20px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--bg-lighter), var(--bg-card));
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-number {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .page-title h3 {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+
+        .page-title span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Image Container */
+        .image-container {
+            padding: 20px;
+            background: var(--bg-lighter);
+            text-align: center;
+        }
+
+        .page-image {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .page-image:hover {
+            transform: scale(1.02);
+        }
+
+        .page-image.zoomed {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            max-width: 90vw;
+            max-height: 90vh;
+            z-index: 2000;
+            cursor: zoom-out;
+        }
+
+        .image-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1999;
+        }
+
+        .image-overlay.active {
+            display: block;
+        }
+
+        /* Explanation Content */
+        .explanation-content {
+            padding: 25px;
+        }
+
+        /* Interactive Paragraph */
+        .interactive-paragraph {
+            background: var(--bg-lighter);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-paragraph:hover {
+            border-color: var(--primary);
+        }
+
+        .paragraph-main {
+            padding: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .paragraph-main::after {
+            content: '▼';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .interactive-paragraph.expanded .paragraph-main::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .paragraph-main h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .paragraph-main p {
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        /* Expandable Sections */
+        .expandable-sections {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: var(--bg-dark);
+        }
+
+        .interactive-paragraph.expanded .expandable-sections {
+            max-height: 2000px;
+        }
+
+        .section-tab {
+            border-top: 1px solid var(--border);
+        }
+
+        .section-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s ease;
+        }
+
+        .section-header:hover {
+            background: var(--bg-lighter);
+        }
+
+        .section-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .section-icon.simulation { background: var(--success); }
+        .section-icon.reference { background: var(--warning); }
+        .section-icon.animation { background: var(--secondary); }
+
+        .section-header span {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .section-header .arrow {
+            color: var(--text-secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .section-tab.open .section-header .arrow {
+            transform: rotate(90deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .section-tab.open .section-content {
+            max-height: 1000px;
+        }
+
+        .section-body {
+            padding: 20px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+        }
+
+        /* Simulation Canvas */
+        .simulation-container {
+            background: var(--bg-dark);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        .simulation-canvas {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 8px;
+        }
+
+        .simulation-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sim-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .sim-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .sim-btn.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .sim-btn.secondary {
+            background: var(--bg-lighter);
+            color: var(--text-primary);
+        }
+
+        /* Reference Links */
+        .reference-list {
+            list-style: none;
+        }
+
+        .reference-item {
+            padding: 12px;
+            background: var(--bg-lighter);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .reference-item a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .reference-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animation Demo */
+        .animation-demo {
+            padding: 20px;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .neural-network-viz {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 30px;
+        }
+
+        .layer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .neuron {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        .neuron:nth-child(2) { animation-delay: 0.2s; }
+        .neuron:nth-child(3) { animation-delay: 0.4s; }
+        .neuron:nth-child(4) { animation-delay: 0.6s; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes flow {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-block code {
+            color: #e2e8f0;
+        }
+
+        /* Formula */
+        .formula {
+            background: var(--bg-lighter);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.2rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        /* Key Concept */
+        .key-concept {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(124, 58, 237, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .key-concept h5 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 280px;
+            right: 0;
+            height: 4px;
+            background: var(--bg-card);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: var(--primary);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .nav-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+                padding-top: 70px;
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .progress-container {
+                left: 0;
+            }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+
+        /* Highlight Animation */
+        .highlight {
+            background: linear-gradient(120deg, transparent 0%, rgba(6, 182, 212, 0.2) 50%, transparent 100%);
+            background-size: 200% 100%;
+            animation: highlight-sweep 2s ease infinite;
+        }
+
+        @keyframes highlight-sweep {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" onclick="toggleNav()">☰</button>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Image Overlay -->
+    <div class="image-overlay" id="imageOverlay" onclick="closeZoom()"></div>
+
+    <!-- Navigation Sidebar -->
+    <nav class="nav-sidebar" id="navSidebar">
+        <div class="nav-header">
+            <h2>Deep Learning</h2>
+            <p>Goodfellow, Bengio, Courville</p>
+        </div>
+        <div class="nav-list">
+            <!-- ============ CAPITOLUL 1 ============ -->
+            <div class="nav-chapter-container" id="chapter1">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter1')">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 1</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Introducere</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <!-- Section 1.1 -->
+                    <div class="nav-section">1.1 Ce este Deep Learning?</div>
+                    <div class="nav-item"><a href="#page-16" class="nav-link">Pag. 16 - Visul AI</a></div>
+                    <div class="nav-item"><a href="#page-17" class="nav-link">Pag. 17 - Machine Learning</a></div>
+                    <div class="nav-item"><a href="#page-20" class="nav-link">Pag. 20 - Factori de Variatie</a></div>
+                    <div class="nav-item"><a href="#page-21" class="nav-link">Pag. 21 - Straturi & Reprezentari</a></div>
+                    <div class="nav-item"><a href="#page-22" class="nav-link">Pag. 22 - Grafuri Computationale</a></div>
+                    <div class="nav-item"><a href="#page-23" class="nav-link">Pag. 23 - Cui se Adreseaza</a></div>
+                    <div class="nav-item"><a href="#page-24" class="nav-link">Pag. 24 - Diagrama Venn AI</a></div>
+                    <div class="nav-item"><a href="#page-25" class="nav-link">Pag. 25 - Tipuri Sisteme AI</a></div>
+                    <div class="nav-item"><a href="#page-26" class="nav-link">Pag. 26 - Organizare Carte</a></div>
+                    <div class="nav-item"><a href="#page-27" class="nav-link">Pag. 27 - Harta Capitolelor</a></div>
+
+                    <!-- Section 1.2 -->
+                    <div class="nav-section">1.2 Tendinte Istorice</div>
+                    <div class="nav-item"><a href="#page-28" class="nav-link">Pag. 28 - Numele Retelelor</a></div>
+                    <div class="nav-item"><a href="#page-29" class="nav-link">Pag. 29 - Cele 3 Valuri AI</a></div>
+                    <div class="nav-item"><a href="#page-30" class="nav-link">Pag. 30 - Perceptron & XOR</a></div>
+                    <div class="nav-item"><a href="#page-32" class="nav-link">Pag. 32 - Conexionism</a></div>
+                    <div class="nav-item"><a href="#page-33" class="nav-link">Pag. 33 - Backpropagation</a></div>
+
+                    <!-- Section 1.2.2-1.2.4 -->
+                    <div class="nav-section">1.2.2-4 Date & Modele</div>
+                    <div class="nav-item"><a href="#page-34" class="nav-link">Pag. 34 - Cresterea Datelor</a></div>
+                    <div class="nav-item"><a href="#page-35" class="nav-link">Pag. 35 - Dimensiune Modele</a></div>
+                    <div class="nav-item"><a href="#page-36" class="nav-link">Pag. 36 - Evolutia Datasetelor</a></div>
+                    <div class="nav-item"><a href="#page-37" class="nav-link">Pag. 37 - MNIST Dataset</a></div>
+                    <div class="nav-item"><a href="#page-38" class="nav-link">Pag. 38 - Acuratete & Impact</a></div>
+                    <div class="nav-item"><a href="#page-39" class="nav-link">Pag. 39 - Conexiuni/Neuron</a></div>
+                    <div class="nav-item"><a href="#page-40" class="nav-link">Pag. 40 - Aplicatii & Viitor</a></div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 2 (placeholder) ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter2">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter2')" style="background: linear-gradient(135deg, #475569, #334155); opacity: 0.6;">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 2</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Algebra Liniara</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <div class="nav-section" style="color: var(--text-secondary);">In curand...</div>
+                </div>
+            </div>
+
+            <!-- ============ CAPITOLUL 3 (placeholder) ============ -->
+            <div class="nav-chapter-container collapsed" id="chapter3">
+                <div class="chapter-toggle" onclick="toggleChapter('chapter3')" style="background: linear-gradient(135deg, #475569, #334155); opacity: 0.6;">
+                    <span class="chapter-icon">📖</span>
+                    <div>
+                        <strong>Capitolul 3</strong>
+                        <span style="display:block; font-size:0.8rem; opacity:0.9;">Probabilitati</span>
+                    </div>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="chapter-pages">
+                    <div class="nav-section" style="color: var(--text-secondary);">In curand...</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <h1 style="margin-bottom: 30px; font-size: 2rem;">
+            Deep Learning - Explicat in Limba Romana
+        </h1>
+        <p style="color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem;">
+            Ghid interactiv pentru intelegerea conceptelor din cartea "Deep Learning" de Ian Goodfellow, Yoshua Bengio si Aaron Courville.
+            <br><strong>Click pe orice paragraf pentru a vedea simulari, referinte si animatii.</strong>
+        </p>
+
+        <!-- PAGES WILL BE INSERTED HERE -->
+        <!-- CHUNK 2 START -->
+
+        <!-- ==================== PAGE 16 ==================== -->
+        <section class="page-section" id="page-16">
+            <div class="page-header">
+                <div class="page-number">16</div>
+                <div class="page-title">
+                    <h3>Capitolul 1: Introducere</h3>
+                    <span>Istoria si motivatia invatarii profunde</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-016.jpg"
+                     alt="Pagina 16" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Visul masinilor care gandesc</h4>
+                        <p>Inventatorii au visat dintotdeauna sa creeze masini care gandesc. Acest vis dateaza din Grecia Antica, cu figurile mitologice precum Pygmalion, Daedalus si Galatea - toate considerate forme de viata artificiala.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Evolutia AI</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <p>Imaginati-va o linie temporala de la mitologie pana la AI modern:</p>
+                                    <div class="simulation-container">
+                                        <canvas id="sim-timeline-16" class="simulation-canvas" data-sim-type="neural"></canvas>
+                                    </div>
+                                    <p style="margin-top:15px; color: var(--text-secondary);">
+                                        <strong>Grecia Antica:</strong> Mituri despre automate<br>
+                                        <strong>1842:</strong> Ada Lovelace - primul program<br>
+                                        <strong>1950:</strong> Turing Test<br>
+                                        <strong>2012:</strong> Deep Learning revolutie
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinte</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 Ovid and Martin, 2004 - Metamorphoses</li>
+                                        <li class="reference-item">📖 Lovelace, 1842 - Note on the Analytical Engine</li>
+                                        <li class="reference-item">📖 Turing, 1950 - Computing Machinery and Intelligence</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Animatie: De la mit la realitate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div class="neural-network-viz">
+                                        <div class="layer">
+                                            <div class="neuron">🏛️</div>
+                                            <div class="neuron">⚙️</div>
+                                        </div>
+                                        <div class="layer">
+                                            <div class="neuron">💻</div>
+                                            <div class="neuron">🧮</div>
+                                            <div class="neuron">📊</div>
+                                        </div>
+                                        <div class="layer">
+                                            <div class="neuron">🤖</div>
+                                            <div class="neuron">🧠</div>
+                                        </div>
+                                    </div>
+                                    <p>Evolutia: Mituri → Mecanisme → Computere → AI</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Ce este Inteligenta Artificiala?</h4>
+                        <p><strong>Inteligenta Artificiala (AI)</strong> este un domeniu cu multe aplicatii practice si cercetare activa. AI include: automatizarea muncii, intelegerea vorbirii, procesarea imaginilor, diagnostic medical si cercetare stiintifica.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Domenii AI</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🎯 Aplicatii AI in viata reala</h5>
+                                        <ul style="margin-left: 20px; color: var(--text-secondary);">
+                                            <li><strong>Computer Vision:</strong> Recunoasterea fetelor, masini autonome</li>
+                                            <li><strong>NLP:</strong> Traducere automata, chatbots</li>
+                                            <li><strong>Robotica:</strong> Automatizare industriala</li>
+                                            <li><strong>Medicina:</strong> Diagnostic din imagini medicale</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinte</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 IBM Deep Blue - 1997 (Kasparov)</li>
+                                        <li class="reference-item">📖 ImageNet Challenge - 2012</li>
+                                        <li class="reference-item">📖 AlphaGo - 2016</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Problema reala a AI: Cunostintele intuitive</h4>
+                        <p>In primele zile ale AI, calculatoarele rezolvau probleme dificile pentru oameni dar usor de descris formal (sah, matematica). Provocarea reala? Sarcinile pe care le facem intuitiv - recunoasterea fetelor, intelegerea vorbirii - sunt MULT mai greu de programat!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Dificil vs Usor</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <table style="width:100%; border-collapse: collapse;">
+                                        <tr style="background: var(--bg-lighter);">
+                                            <th style="padding: 12px; text-align: left;">Sarcina</th>
+                                            <th style="padding: 12px;">Pentru Om</th>
+                                            <th style="padding: 12px;">Pentru Calculator</th>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">Sah</td>
+                                            <td style="padding: 12px; text-align: center;">🔴 Greu</td>
+                                            <td style="padding: 12px; text-align: center;">🟢 Usor (reguli clare)</td>
+                                        </tr>
+                                        <tr style="background: var(--bg-lighter);">
+                                            <td style="padding: 12px;">Recunoastere fete</td>
+                                            <td style="padding: 12px; text-align: center;">🟢 Usor (intuitiv)</td>
+                                            <td style="padding: 12px; text-align: center;">🔴 FOARTE Greu</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">Mers pe jos</td>
+                                            <td style="padding: 12px; text-align: center;">🟢 Automat</td>
+                                            <td style="padding: 12px; text-align: center;">🔴 Extrem de Greu</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Animatie: Paradoxul Moravec</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>💡 Paradoxul Moravec</h5>
+                                        <p>"Este comparativ usor sa faci calculatoarele sa afiseze performanta de nivel adult la teste de inteligenta sau la sah, dar dificil sau imposibil sa le dai abilitatile unui copil de un an la perceptie si mobilitate."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Solutia: Invatarea din experienta</h4>
+                        <p>Aceasta carte prezinta solutia: <strong>permiterea calculatoarelor sa invete din experienta</strong> si sa inteleaga lumea prin ierarhii de concepte. Fiecare concept este definit prin relatia sa cu concepte mai simple. Aceasta abordare se numeste <strong>Deep Learning</strong>.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Ierarhia conceptelor</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: inline-block; text-align: left;">
+                                            <div style="background: var(--success); padding: 10px 30px; border-radius: 8px; margin-bottom: 5px;">🐱 PISICA</div>
+                                            <div style="margin-left: 30px;">↑</div>
+                                            <div style="background: var(--primary); padding: 10px 20px; border-radius: 8px; margin-bottom: 5px; margin-left: 20px;">Ochi + Urechi + Blana</div>
+                                            <div style="margin-left: 50px;">↑</div>
+                                            <div style="background: var(--secondary); padding: 10px 15px; border-radius: 8px; margin-bottom: 5px; margin-left: 40px;">Contururi + Forme</div>
+                                            <div style="margin-left: 70px;">↑</div>
+                                            <div style="background: var(--warning); padding: 10px 10px; border-radius: 8px; margin-left: 60px;">Margini + Pixeli</div>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; color: var(--text-secondary);">Conceptele complexe sunt construite din concepte simple!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 17 ==================== -->
+        <section class="page-section" id="page-17">
+            <div class="page-header">
+                <div class="page-number">17</div>
+                <div class="page-title">
+                    <h3>Deep Learning si Machine Learning</h3>
+                    <span>Abordari diferite pentru inteligenta artificiala</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-017.jpg"
+                     alt="Pagina 17" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce "Deep" Learning?</h4>
+                        <p>Graful conceptelor este ADANC - cu multe straturi. De aceea numim aceasta abordare <strong>"Deep Learning"</strong> (Invatare Profunda). Succesele timpurii ale AI au avut loc in medii sterile, unde calculatorul nu avea nevoie de multa cunostinta despre lume (ex: Deep Blue la sah).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Adancimea retelei</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="simulation-container">
+                                        <canvas id="sim-depth-17" class="simulation-canvas" data-sim-type="neural"></canvas>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--text-secondary);">
+                                        Fiecare strat transforma datele: Pixeli → Margini → Forme → Obiecte → Concepte
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Knowledge Base: Abordarea clasica</h4>
+                        <p>Proiectele AI clasice au incercat sa codifice cunostintele in limbaje formale. Cel mai faimos este <strong>Cyc</strong> - o baza de date cu afirmatii despre lume, introduse manual. Problema: regulile formale nu captureaza complexitatea lumii reale!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemplu: Esecul lui Cyc</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🤔 Povestea lui Fred</h5>
+                                        <p>Cyc a incercat sa inteleaga o poveste despre Fred care se barbiereste dimineata.</p>
+                                        <p style="margin-top: 10px;"><strong>Problema:</strong> Cyc stia ca oamenii nu au componente electrice. Dar Fred tinea un aparat de ras ELECTRIC!</p>
+                                        <p style="margin-top: 10px;"><strong>Intrebarea lui Cyc:</strong> "Fred mai este inca o persoana in timp ce se barbiereste?"</p>
+                                        <p style="margin-top: 10px; color: var(--warning);">Aceasta ilustreaza de ce regulile rigide esueaza in lumea reala!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinte</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 Lenat & Guha, 1989 - Cyc Project</li>
+                                        <li class="reference-item">📖 Linde, 1992 - Story about Fred shaving</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Machine Learning: Solutia moderna</h4>
+                        <p><strong>Machine Learning</strong> permite sistemelor AI sa-si dobandeasca propria cunostinta prin extragerea de tipare din date brute. Aceasta rezolva problema specificarii manuale a tuturor regulilor!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Comparatie: Knowledge Base vs ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <table style="width:100%; border-collapse: collapse;">
+                                        <tr style="background: var(--bg-lighter);">
+                                            <th style="padding: 12px;">Knowledge Base</th>
+                                            <th style="padding: 12px;">Machine Learning</th>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">Reguli scrise manual</td>
+                                            <td style="padding: 12px;">Invata din date</td>
+                                        </tr>
+                                        <tr style="background: var(--bg-lighter);">
+                                            <td style="padding: 12px;">Rigide, fragile</td>
+                                            <td style="padding: 12px;">Flexibile, adaptabile</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">Greu de scalat</td>
+                                            <td style="padding: 12px;">Se imbunatateste cu mai multe date</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 20 ==================== -->
+        <section class="page-section" id="page-20">
+            <div class="page-header">
+                <div class="page-number">20</div>
+                <div class="page-title">
+                    <h3>Factori de Variatie si Reprezentari</h3>
+                    <span>Cum invatam sa extragem informatii utile</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-020.jpg"
+                     alt="Pagina 20" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Ce sunt Factorii de Variatie?</h4>
+                        <p><strong>Factorii de variatie</strong> sunt diferitele surse de influenta care afecteaza datele observate. Ei pot fi obiecte neobservate sau forte din lumea fizica. Exemplu pentru vorbire: varsta, sex, accent, cuvintele rostite. Pentru o imagine: pozitia obiectului, culoarea, unghiul luminii.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Factori pentru o imagine de masina</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🚗 Factorii unei imagini cu masina</h5>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Pozitie</strong><br>
+                                                <span style="color: var(--text-secondary);">Unde este masina in cadru?</span>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Culoare</strong><br>
+                                                <span style="color: var(--text-secondary);">Rosie, albastra, argintie?</span>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Lumina</strong><br>
+                                                <span style="color: var(--text-secondary);">Zi, noapte, umbra?</span>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Unghi</strong><br>
+                                                <span style="color: var(--text-secondary);">Fata, spate, profil?</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Problema Disentanglement</h4>
+                        <p>O masina rosie noaptea poate arata foarte similar cu una neagra ziua (pixeli aproape identici). Aplicatiile trebuie sa <strong>disentangle</strong> (sa desfaca, sa separe) factorii de variatie si sa-i pastreze doar pe cei relevanti.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Animatie: Separarea factorilor</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <p>Imaginati-va ca desfaceti un ghem de fire colorate:</p>
+                                    <div style="font-size: 3rem; margin: 20px 0;">
+                                        🧶 → 🔴🔵🟢🟡
+                                    </div>
+                                    <p style="color: var(--text-secondary);">Din date amestecate → Factori separati si identificabili</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Deep Learning rezolva problema</h4>
+                        <p><strong>Deep Learning</strong> rezolva aceasta problema centrala introducand reprezentari exprimate in termeni de alte reprezentari mai simple. Permite calculatorului sa construiasca concepte complexe din concepte mai simple.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Retea neurala profunda</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="simulation-container">
+                                        <canvas id="sim-deep-20" class="simulation-canvas" data-sim-type="neural"></canvas>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--text-secondary);">
+                                        Activarile neuronilor reprezinta transformari succesive ale datelor de intrare.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Multilayer Perceptron (MLP)</h4>
+                        <p>Exemplul clasic de deep learning este <strong>Multilayer Perceptron (MLP)</strong> - o retea feed-forward. Este o functie matematica care mapeaza valori de intrare la valori de iesire prin compunerea mai multor functii simple.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Formula MLP</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        y = f₃(f₂(f₁(x)))
+                                    </div>
+                                    <p style="color: var(--text-secondary);">
+                                        Fiecare f reprezinta un strat care transforma datele. Cu cat avem mai multe straturi, cu atat reteaua este mai "adanca".
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 21 ==================== -->
+        <section class="page-section" id="page-21">
+            <div class="page-header">
+                <div class="page-number">21</div>
+                <div class="page-title">
+                    <h3>Ilustrarea Modelului Deep Learning</h3>
+                    <span>Figura 1.2 - Cum functioneaza straturile</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-021.jpg"
+                     alt="Pagina 21" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Stratul Vizibil (Visible Layer)</h4>
+                        <p>Primul strat se numeste <strong>stratul vizibil</strong> deoarece contine variabilele pe care le putem observa direct - pixelii imaginii. Acesta este punctul de intrare al datelor in retea.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Animatie: De la pixeli la recunoastere</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: flex; justify-content: center; gap: 30px; align-items: center; flex-wrap: wrap;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 4rem;">👤</div>
+                                            <p>Imagine originala</p>
+                                        </div>
+                                        <div style="font-size: 2rem;">→</div>
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 2rem; font-family: monospace;">
+                                                [0.2, 0.8, 0.1...]
+                                            </div>
+                                            <p>Pixeli (strat vizibil)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Straturile Ascunse (Hidden Layers)</h4>
+                        <p>Urmeaza o serie de <strong>straturi ascunse</strong>. Se numesc "ascunse" pentru ca valorile lor nu sunt date direct - modelul trebuie sa determine ce concepte sunt utile pentru a explica relatiile din date.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Ce invata fiecare strat</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: linear-gradient(90deg, var(--primary), transparent); padding: 15px; border-radius: 8px;">
+                                            <strong>Strat 1 - Margini:</strong> Detecteaza linii si margini simple
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, var(--secondary), transparent); padding: 15px; border-radius: 8px;">
+                                            <strong>Strat 2 - Colturi:</strong> Combina marginile in colturi si contururi
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, var(--accent), transparent); padding: 15px; border-radius: 8px;">
+                                            <strong>Strat 3 - Parti:</strong> Identifica parti de obiecte (ochi, nas, urechi)
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, var(--success), transparent); padding: 15px; border-radius: 8px;">
+                                            <strong>Iesire:</strong> Recunoaste obiectul complet (MASINA, PERSOANA, ANIMAL)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinte</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 Zeiler and Fergus, 2014 - Visualizing CNNs</li>
+                                    </ul>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">
+                                        Aceasta lucrare a aratat ce invata fiecare strat prin vizualizarea activarilor.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce functioneaza ierarhia?</h4>
+                        <p>Ierarhia de caracteristici permite modelului sa invete reprezentari din ce in ce mai abstracte. Marginile sunt mai usor de detectat decat obiectele, dar obiectele sunt mai utile pentru clasificare. Deep learning construieste puntea intre ele!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Analogie: Constructia unei case</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🏠 Gandeste-te la constructia unei case</h5>
+                                        <p style="margin-top: 10px;">
+                                            <strong>Nivel 1:</strong> Caramizi individuale (= pixeli)<br>
+                                            <strong>Nivel 2:</strong> Pereti (= margini si forme)<br>
+                                            <strong>Nivel 3:</strong> Camere (= parti de obiect)<br>
+                                            <strong>Nivel 4:</strong> Casa completa (= obiect recunoscut)
+                                        </p>
+                                        <p style="margin-top: 15px; color: var(--accent);">
+                                            Nu poti construi o casa fara a trece prin toate nivelurile!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 22 ==================== -->
+        <section class="page-section" id="page-22">
+            <div class="page-header">
+                <div class="page-number">22</div>
+                <div class="page-title">
+                    <h3>Grafuri Computationale si Adancime</h3>
+                    <span>Figura 1.3 - Cum masuram adancimea</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-022.jpg"
+                     alt="Pagina 22" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Graful Computational</h4>
+                        <p>Un <strong>graf computational</strong> arata cum sunt conectate operatiile matematice. Fiecare nod efectueaza o operatie. Modelul de regresie logistica poate fi reprezentat in doua moduri diferite, cu adancimi diferite!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Doua reprezentari</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <h5 style="color: var(--accent);">Adancime = 3</h5>
+                                            <p style="margin-top: 10px;">Daca numaram: adunare, inmultire, sigmoid</p>
+                                            <div class="formula">σ(w₁x₁ + w₂x₂)</div>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <h5 style="color: var(--secondary);">Adancime = 1</h5>
+                                            <p style="margin-top: 10px;">Daca vedem regresia logistica ca o singura unitate</p>
+                                            <div class="formula">LogisticRegression(x)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Doua moduri de a masura adancimea</h4>
+                        <p><strong>Metoda 1:</strong> Numarul de instructiuni secventiale (lungimea celui mai lung drum). <strong>Metoda 2:</strong> Adancimea grafului de concepte, nu a grafului computational.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Explicatie detaliata</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🤔 De ce conteaza?</h5>
+                                        <p>Nu exista un consens despre cat de "adanc" trebuie sa fie un model pentru a fi considerat "deep learning".</p>
+                                        <p style="margin-top: 10px;">In general, deep learning inseamna modele cu:</p>
+                                        <ul style="margin-left: 20px; margin-top: 10px;">
+                                            <li>Mai multe straturi de compozitie</li>
+                                            <li>Functii sau concepte invatate (nu doar parametri)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Starea si Memoria</h4>
+                        <p>Reprezentarea stocheaza si <strong>informatie de stare</strong> - similar cu un contor sau pointer in programare. Ajuta modelul sa-si organizeze procesarea, chiar daca nu are legatura directa cu continutul de intrare.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Analogie cu programarea</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+                                        <code>
+// In programare traditionala:<br>
+for (i = 0; i &lt; n; i++) {<br>
+&nbsp;&nbsp;// 'i' este informatie de stare<br>
+&nbsp;&nbsp;process(data[i]);<br>
+}<br><br>
+// In retele neurale:<br>
+// Activarile straturilor ascunse<br>
+// pot stoca "stare" similara
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CHUNK 2 END -->
+
+        <!-- CHUNK 3 START -->
+
+        <!-- ==================== PAGE 23 ==================== -->
+        <section class="page-section" id="page-23">
+            <div class="page-header">
+                <div class="page-number">23</div>
+                <div class="page-title">
+                    <h3>Cui se Adreseaza Aceasta Carte</h3>
+                    <span>Sectiunea 1.1 - Public tinta si organizare</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-023.jpg"
+                     alt="Pagina 23" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Doua audiente principale</h4>
+                        <p>Cartea a fost scrisa pentru: (1) <strong>Studenti universitari</strong> care invata machine learning si AI, si (2) <strong>Ingineri software</strong> care vor sa foloseasca deep learning in produse, dar nu au fundament matematic sau statistic.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Ce ai nevoie sa stii</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>📋 Prerechizite pentru aceasta carte</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px;">
+                                            <li>Programare de baza (orice limbaj)</li>
+                                            <li>Notiuni de complexitate computationala</li>
+                                            <li>Calcul de nivel introductiv</li>
+                                            <li>Terminologie de baza din teoria grafurilor</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Rezumatul Deep Learning</h4>
+                        <p>Deep learning este o abordare AI care permite sistemelor sa invete din experienta si date. Este un tip de machine learning care foloseste ierarhii de concepte - fiecare concept definit in termeni de concepte mai simple.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Diagrama: AI → ML → DL</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                        <div style="background: var(--warning); padding: 20px 80px; border-radius: 50px; font-weight: bold;">AI (Inteligenta Artificiala)</div>
+                                        <div>↓</div>
+                                        <div style="background: var(--secondary); padding: 15px 60px; border-radius: 40px; font-weight: bold;">ML (Machine Learning)</div>
+                                        <div>↓</div>
+                                        <div style="background: var(--primary); padding: 10px 40px; border-radius: 30px; font-weight: bold;">DL (Deep Learning)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 24 ==================== -->
+        <section class="page-section" id="page-24">
+            <div class="page-header">
+                <div class="page-number">24</div>
+                <div class="page-title">
+                    <h3>Diagrama Venn AI/ML/DL</h3>
+                    <span>Figura 1.4 - Relatia dintre discipline</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-024.jpg"
+                     alt="Pagina 24" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Cercurile concentrice ale AI</h4>
+                        <p>Figura arata cum <strong>Deep Learning</strong> este un subset de <strong>Representation Learning</strong>, care este un subset de <strong>Machine Learning</strong>, care la randul sau este un subset de <strong>AI</strong>.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemple pentru fiecare nivel</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-left: 4px solid var(--warning);">
+                                            <strong style="color: var(--warning);">AI (cel mai larg):</strong>
+                                            <span style="color: var(--text-secondary);"> Knowledge bases, sisteme expert</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-left: 4px solid var(--secondary);">
+                                            <strong style="color: var(--secondary);">Machine Learning:</strong>
+                                            <span style="color: var(--text-secondary);"> Logistic regression, SVM</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent);">
+                                            <strong style="color: var(--accent);">Representation Learning:</strong>
+                                            <span style="color: var(--text-secondary);"> Shallow autoencoders</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                                            <strong style="color: var(--primary);">Deep Learning:</strong>
+                                            <span style="color: var(--text-secondary);"> MLPs, CNNs, RNNs, Transformers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Ce face fiecare nivel special?</h4>
+                        <p><strong>ML</strong> invata din date. <strong>Representation Learning</strong> invata si caracteristicile potrivite pentru sarcina. <strong>Deep Learning</strong> invata ierarhii de caracteristici din caracteristici mai simple.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Diferente cheie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <table style="width:100%; border-collapse: collapse;">
+                                        <tr style="background: var(--bg-lighter);">
+                                            <th style="padding: 12px;">Tip</th>
+                                            <th style="padding: 12px;">Caracteristici</th>
+                                            <th style="padding: 12px;">Reprezentare</th>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">ML Clasic</td>
+                                            <td style="padding: 12px;">Manual (hand-crafted)</td>
+                                            <td style="padding: 12px;">-</td>
+                                        </tr>
+                                        <tr style="background: var(--bg-lighter);">
+                                            <td style="padding: 12px;">Rep. Learning</td>
+                                            <td style="padding: 12px;">Invatate automat</td>
+                                            <td style="padding: 12px;">Un singur strat</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">Deep Learning</td>
+                                            <td style="padding: 12px;">Invatate automat</td>
+                                            <td style="padding: 12px;">Straturi ierarhice</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 25 ==================== -->
+        <section class="page-section" id="page-25">
+            <div class="page-header">
+                <div class="page-number">25</div>
+                <div class="page-title">
+                    <h3>Comparatie Sisteme AI</h3>
+                    <span>Figura 1.5 - Cum se leaga componentele</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-025.jpg"
+                     alt="Pagina 25" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Patru tipuri de sisteme AI</h4>
+                        <p>Figura compara: (1) Sisteme bazate pe reguli, (2) ML clasic cu caracteristici manuale, (3) Representation learning, (4) Deep learning. Zonele umbrite indica componentele care INVATA din date.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Evolutia sistemelor</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--warning);">1. Rule-based</h5>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">Input → Program manual → Output</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Totul e programat de om</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--secondary);">2. ML Clasic</h5>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">Input → Features manuale → <span style="background: var(--success); padding: 2px 6px; border-radius: 4px;">Mapping invatat</span> → Output</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--accent);">3. Rep. Learning</h5>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">Input → <span style="background: var(--success); padding: 2px 6px; border-radius: 4px;">Features invatate</span> → <span style="background: var(--success); padding: 2px 6px; border-radius: 4px;">Mapping invatat</span> → Output</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--primary);">4. Deep Learning</h5>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">Input → <span style="background: var(--success); padding: 2px 6px; border-radius: 4px;">Features simple</span> → <span style="background: var(--success); padding: 2px 6px; border-radius: 4px;">Features complexe</span> → <span style="background: var(--success); padding: 2px 6px; border-radius: 4px;">Mapping</span> → Output</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce Deep Learning este special?</h4>
+                        <p>In deep learning, TOTUL este invatat din date: caracteristicile simple, caracteristicile complexe, si mapping-ul final. Nu mai trebuie sa proiectam manual ce caracteristici sa extragem!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Avantajul automatizarii</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🚀 Revolutia Deep Learning</h5>
+                                        <p>Inainte: Ani de munca pentru a proiecta caracteristici (SIFT, HOG, MFCC...)</p>
+                                        <p style="margin-top: 10px;">Acum: Reteaua invata singura ce caracteristici sunt utile!</p>
+                                        <p style="margin-top: 10px; color: var(--success);">Rezultat: Performanta superioara cu mai putin efort de inginerie!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 26 ==================== -->
+        <section class="page-section" id="page-26">
+            <div class="page-header">
+                <div class="page-number">26</div>
+                <div class="page-title">
+                    <h3>Tendinte Istorice in Deep Learning</h3>
+                    <span>Sectiunea 1.2 - Patru tendinte cheie</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-026.jpg"
+                     alt="Pagina 26" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Organizarea cartii</h4>
+                        <p>Cartea are trei parti: <strong>Partea I</strong> - matematica de baza (algebra, probabilitati, ML basics). <strong>Partea II</strong> - algoritmi DL consacrati. <strong>Partea III</strong> - idei speculative pentru cercetare viitoare.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Structura cartii</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: linear-gradient(90deg, var(--warning), transparent); padding: 15px; border-radius: 8px;">
+                                            <strong>Partea I - Fundamente:</strong> Algebra liniara, Probabilitati, ML Basics
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, var(--primary), transparent); padding: 15px; border-radius: 8px;">
+                                            <strong>Partea II - DL Modern:</strong> FFN, Regularizare, Optimizare, CNN, RNN
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, var(--secondary), transparent); padding: 15px; border-radius: 8px;">
+                                            <strong>Partea III - Cercetare:</strong> Modele generative, Monte Carlo, Inferenta
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Cele 4 tendinte istorice</h4>
+                        <p>Deep learning a evoluat prin: (1) Multe nume si popularitate variabila, (2) Date disponibile mai multe, (3) Modele mai mari, (4) Acuratete si aplicatii reale mai bune.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Timeline interactiv</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="position: relative; padding-left: 30px; border-left: 3px solid var(--primary);">
+                                        <div style="margin-bottom: 20px; position: relative;">
+                                            <div style="position: absolute; left: -38px; width: 16px; height: 16px; background: var(--warning); border-radius: 50%;"></div>
+                                            <strong style="color: var(--warning);">1940s-1960s: Cybernetics</strong>
+                                            <p style="color: var(--text-secondary);">Primele modele inspirate de neuroni</p>
+                                        </div>
+                                        <div style="margin-bottom: 20px; position: relative;">
+                                            <div style="position: absolute; left: -38px; width: 16px; height: 16px; background: var(--secondary); border-radius: 50%;"></div>
+                                            <strong style="color: var(--secondary);">1980s-1990s: Connectionism</strong>
+                                            <p style="color: var(--text-secondary);">Backpropagation, retele mai mari</p>
+                                        </div>
+                                        <div style="margin-bottom: 20px; position: relative;">
+                                            <div style="position: absolute; left: -38px; width: 16px; height: 16px; background: var(--primary); border-radius: 50%;"></div>
+                                            <strong style="color: var(--primary);">2006+: Deep Learning</strong>
+                                            <p style="color: var(--text-secondary);">Modele profunde, GPU-uri, Big Data</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 27 ==================== -->
+        <section class="page-section" id="page-27">
+            <div class="page-header">
+                <div class="page-number">27</div>
+                <div class="page-title">
+                    <h3>Organizarea Cartii</h3>
+                    <span>Figura 1.6 - Dependentele dintre capitole</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-027.jpg"
+                     alt="Pagina 27" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Harta capitolelor</h4>
+                        <p>Figura arata cum capitolele depind unele de altele. Sagetile indica ce trebuie citit inainte. Poti sari parti daca ai deja cunostintele necesare!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Traseu recomandat</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🗺️ Cum sa citesti cartea</h5>
+                                        <p><strong>Pentru incepatori:</strong> Citeste totul in ordine (1→2→3→4→5→6...)</p>
+                                        <p style="margin-top: 10px;"><strong>Pentru practicieni:</strong> Sari direct la Partea II dupa capitolul 5</p>
+                                        <p style="margin-top: 10px;"><strong>Pentru cercetatori:</strong> Partea III dupa stapanirea Partii II</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Capitole cheie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 Cap. 6: Deep Feedforward Networks (fundament)</li>
+                                        <li class="reference-item">📖 Cap. 9: CNNs (viziune)</li>
+                                        <li class="reference-item">📖 Cap. 10: RNNs (secvente)</li>
+                                        <li class="reference-item">📖 Cap. 11-12: Practica si aplicatii</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 28 ==================== -->
+        <section class="page-section" id="page-28">
+            <div class="page-header">
+                <div class="page-number">28</div>
+                <div class="page-title">
+                    <h3>Multe Nume ale Retelelor Neurale</h3>
+                    <span>Sectiunea 1.2.1 - Cybernetics, Connectionism, DL</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-028.jpg"
+                     alt="Pagina 28" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Trei valuri de popularitate</h4>
+                        <p>Deep learning a avut trei "ere": <strong>Cybernetics</strong> (1940s-1960s), <strong>Connectionism</strong> (1980s-1990s), si <strong>Deep Learning</strong> (2006-prezent). Fiecare era a adus idei noi si entuziasm renoit.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cei trei pionieri</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">Era 1 - Cybernetics:</strong>
+                                            <p style="margin-top: 5px; color: var(--text-secondary);">McCulloch & Pitts (1943) - primul model de neuron; Hebb (1949) - regula de invatare</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">Era 2 - Connectionism:</strong>
+                                            <p style="margin-top: 5px; color: var(--text-secondary);">Rumelhart et al. (1986) - backpropagation; Procesare paralela distribuita</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--primary);">Era 3 - Deep Learning:</strong>
+                                            <p style="margin-top: 5px; color: var(--text-secondary);">Hinton et al. (2006) - deep belief nets; Bengio, LeCun - CIFAR, GPU training</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Retele neurale artificiale (ANNs)</h4>
+                        <p>Deep learning a fost numit si <strong>Artificial Neural Networks</strong>. Perspectiva: sistemele sunt inspirate de creier, dar NU sunt modele realiste ale creierului. Sunt sisteme ingineresti inspirate de neurobiologie.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Inspiratie vs Realitate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🧠 vs 💻</h5>
+                                        <p><strong>Creierul uman:</strong> ~86 miliarde neuroni, conexiuni complexe, invatare continua</p>
+                                        <p style="margin-top: 10px;"><strong>Retele artificiale:</strong> Milioane de "neuroni" simplificati, conexiuni invatate, antrenare discreta</p>
+                                        <p style="margin-top: 10px; color: var(--accent);">Inspiratia biologica a ghidat designul, dar nu ne limiteaza!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinte</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 McCulloch & Pitts, 1943 - A Logical Calculus of Ideas</li>
+                                        <li class="reference-item">📖 Hebb, 1949 - The Organization of Behavior</li>
+                                        <li class="reference-item">📖 Touretzky & Minton, 1985 - Connectionist models</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 29 ==================== -->
+        <section class="page-section" id="page-29">
+            <div class="page-header">
+                <div class="page-number">29</div>
+                <div class="page-title">
+                    <h3>Valurile Istorice ale AI</h3>
+                    <span>Figura 1.7 - Frecventa termenilor in timp</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-029.jpg"
+                     alt="Pagina 29" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Graficul frecventei termenilor</h4>
+                        <p>Graficul arata cat de des au aparut termenii "cybernetics" si "connectionism/neural networks" in carti de-a lungul timpului (Google Books). Se vad clar cele trei valuri!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Valurile AI</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                        <div style="display: flex; align-items: end; height: 150px; gap: 10px; justify-content: space-around;">
+                                            <div style="text-align: center;">
+                                                <div style="background: var(--warning); width: 40px; height: 60px; border-radius: 4px 4px 0 0;"></div>
+                                                <span style="font-size: 0.7rem;">1950s</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="background: var(--warning); width: 40px; height: 30px; border-radius: 4px 4px 0 0; opacity: 0.5;"></div>
+                                                <span style="font-size: 0.7rem;">1970s</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="background: var(--secondary); width: 40px; height: 80px; border-radius: 4px 4px 0 0;"></div>
+                                                <span style="font-size: 0.7rem;">1990s</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="background: var(--secondary); width: 40px; height: 50px; border-radius: 4px 4px 0 0; opacity: 0.5;"></div>
+                                                <span style="font-size: 0.7rem;">2000s</span>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="background: var(--primary); width: 40px; height: 130px; border-radius: 4px 4px 0 0;"></div>
+                                                <span style="font-size: 0.7rem;">2015+</span>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; gap: 20px; margin-top: 15px; justify-content: center;">
+                                            <span><span style="display: inline-block; width: 12px; height: 12px; background: var(--warning); border-radius: 2px;"></span> Cybernetics</span>
+                                            <span><span style="display: inline-block; width: 12px; height: 12px; background: var(--secondary); border-radius: 2px;"></span> Connectionism</span>
+                                            <span><span style="display: inline-block; width: 12px; height: 12px; background: var(--primary); border-radius: 2px;"></span> Deep Learning</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Ce a declansat fiecare val?</h4>
+                        <p><strong>Val 1:</strong> Perceptron (Rosenblatt, 1958). <strong>Val 2:</strong> Backpropagation (Rumelhart, 1986). <strong>Val 3:</strong> Deep Belief Networks si GPU-uri (Hinton, 2006).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Momentele de cotitura</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 Rosenblatt, 1958 - The Perceptron</li>
+                                        <li class="reference-item">📖 Rumelhart et al., 1986 - Backpropagation</li>
+                                        <li class="reference-item">📖 Hinton et al., 2006 - Deep Belief Networks</li>
+                                        <li class="reference-item">📖 Krizhevsky et al., 2012 - AlexNet (ImageNet)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 30 ==================== -->
+        <section class="page-section" id="page-30">
+            <div class="page-header">
+                <div class="page-number">30</div>
+                <div class="page-title">
+                    <h3>Perceptron si Problema XOR</h3>
+                    <span>Modelele liniare si limitarile lor</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-030.jpg"
+                     alt="Pagina 30" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>McCulloch-Pitts Neuron si Perceptron</h4>
+                        <p><strong>McCulloch-Pitts (1943)</strong> a fost primul model de neuron. <strong>Perceptron (1958)</strong> a fost primul care putea INVATA ponderile din date. Formula: f(x,w) = x₁w₁ + x₂w₂ + ... + xₙwₙ</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Perceptron invatand</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <p style="margin-bottom: 15px;">Perceptronul invata sa separe doua clase (poarta AND):</p>
+                                    <div class="simulation-container">
+                                        <canvas id="sim-perceptron-30" class="simulation-canvas" data-sim-type="perceptron"></canvas>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--text-secondary);">
+                                        🟢 = clasa 1, 🔴 = clasa 0. Linia galbena = granita de decizie invatata.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>ADALINE si Stochastic Gradient Descent</h4>
+                        <p><strong>ADALINE</strong> (Widrow & Hoff, 1960) a introdus SGD - algoritmul dominant pentru antrenarea retelelor. In loc de valori discrete, ADALINE returna valori continue, permitand gradiente.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Formula SGD</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        w = w - η · ∇L(w)
+                                    </div>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">
+                                        η = rata de invatare, ∇L = gradientul pierderii. Modificam ponderile in directia care reduce eroarea!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Problema XOR - Criza AI</h4>
+                        <p>Minsky & Papert (1969) au aratat ca perceptronul NU poate invata functia XOR! XOR: (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→0. Nu exista o linie dreapta care sa separe clasele. Aceasta a cauzat primul "AI Winter".</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: De ce XOR e imposibil?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="simulation-container">
+                                        <canvas id="sim-xor-30" class="simulation-canvas" data-sim-type="xor"></canvas>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--text-secondary);">
+                                        Incearca sa tragi o singura linie care sa separe 🟢 de 🔴. Este imposibil!
+                                    </p>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <h5>💡 Solutia: Straturi ascunse!</h5>
+                                        <p>Cu un strat ascuns, putem transforma problema intr-una separabila liniar. Aceasta e puterea deep learning!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinte</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 Minsky & Papert, 1969 - Perceptrons: An Introduction to Computational Geometry</li>
+                                    </ul>
+                                    <p style="color: var(--warning); margin-top: 10px;">
+                                        Aceasta carte a redus dramatic finantarea cercetarii in retele neurale pentru aproape 20 de ani!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CHUNK 3 END -->
+
+        <!-- CHUNK 4 START -->
+
+        <!-- ==================== PAGE 32 ==================== -->
+        <section class="page-section" id="page-32">
+            <div class="page-header">
+                <div class="page-number">32</div>
+                <div class="page-title">
+                    <h3>Conexionism si Reprezentari Distribuite</h3>
+                    <span>Al doilea val - Procesarea paralela distribuita</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-032.jpg"
+                     alt="Pagina 32" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Conexionism: Al doilea val</h4>
+                        <p>In anii 1980, a aparut <strong>conexionismul</strong> sau "procesarea paralela distribuita". Ideea centrala: un numar mare de unitati computationale simple pot atinge comportament inteligent cand lucreaza impreuna!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Analogie cu furnicile</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🐜 Inteligenta emergenta</h5>
+                                        <p>O singura furnica nu e inteligenta. Dar o colonie de furnici poate rezolva probleme complexe!</p>
+                                        <p style="margin-top: 10px;">La fel, un singur neuron artificial este simplu. Dar milioane de neuroni conectati pot recunoaste fete, traduce limbi, conduce masini!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Reprezentari distribuite</h4>
+                        <p><strong>Reprezentarea distribuita</strong> (Hinton, 1986): Fiecare input este reprezentat de MULTE caracteristici, si fiecare caracteristica participa la reprezentarea MULTOR inputuri. Contrast cu reprezentarea locala (un neuron = un concept).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemplu: Sistemul de viziune</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--warning);">Reprezentare locala (INEFICIENTA)</h5>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">
+                                                Neuron 1: camion rosu<br>
+                                                Neuron 2: camion verde<br>
+                                                Neuron 3: masina rosie<br>
+                                                Neuron 4: masina verde<br>
+                                                ... (9 neuroni pentru 3 obiecte × 3 culori)
+                                            </p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--success);">Reprezentare distribuita (EFICIENTA)</h5>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">
+                                                3 neuroni culoare: rosu, verde, albastru<br>
+                                                3 neuroni obiect: camion, masina, pasare<br>
+                                                Total: doar 6 neuroni!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 33 ==================== -->
+        <section class="page-section" id="page-33">
+            <div class="page-header">
+                <div class="page-number">33</div>
+                <div class="page-title">
+                    <h3>Backpropagation si LSTM</h3>
+                    <span>Descoperirile care au schimbat totul</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-033.jpg"
+                     alt="Pagina 33" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Backpropagation: Revolutia anilor 80</h4>
+                        <p><strong>Backpropagation</strong> (Rumelhart et al., 1986) a permis antrenarea retelelor cu straturi ascunse. Algoritmul propaga eroarea inapoi prin retea, ajustand ponderile la fiecare strat.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cum functioneaza backprop</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="display: inline-block;">
+                                            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                                                <div style="background: var(--primary); padding: 15px 25px; border-radius: 8px;">Input</div>
+                                                <span style="font-size: 1.5rem;">→</span>
+                                                <div style="background: var(--secondary); padding: 15px 25px; border-radius: 8px;">Hidden</div>
+                                                <span style="font-size: 1.5rem;">→</span>
+                                                <div style="background: var(--accent); padding: 15px 25px; border-radius: 8px;">Output</div>
+                                            </div>
+                                            <p style="color: var(--success);">1. Forward pass: calculam predictia →</p>
+                                            <p style="color: var(--warning);">2. Backward pass: propagam eroarea ←</p>
+                                            <p style="color: var(--primary);">3. Update: ajustam ponderile</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>LSTM si secventele lungi</h4>
+                        <p>In anii 90, <strong>Hochreiter & Schmidhuber (1997)</strong> au introdus LSTM pentru a modela secvente lungi. Azi, LSTM e folosit masiv la Google pentru procesarea limbajului natural.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>LSTM in actiune</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="font-size: 1.2rem; margin-bottom: 15px;">
+                                        "Traducere: EN → RO"
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                                        <div style="background: var(--primary); padding: 10px 15px; border-radius: 8px;">The</div>
+                                        <div style="background: var(--primary); padding: 10px 15px; border-radius: 8px;">cat</div>
+                                        <div style="background: var(--primary); padding: 10px 15px; border-radius: 8px;">sat</div>
+                                        <span>→</span>
+                                        <div style="background: var(--secondary); padding: 10px 15px; border-radius: 8px;">LSTM</div>
+                                        <span>→</span>
+                                        <div style="background: var(--success); padding: 10px 15px; border-radius: 8px;">Pisica</div>
+                                        <div style="background: var(--success); padding: 10px 15px; border-radius: 8px;">a</div>
+                                        <div style="background: var(--success); padding: 10px 15px; border-radius: 8px;">stat</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinte importante</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">📖 Rumelhart et al., 1986 - Backpropagation</li>
+                                        <li class="reference-item">📖 Hochreiter & Schmidhuber, 1997 - LSTM</li>
+                                        <li class="reference-item">📖 LeCun et al., 1998 - CNNs for digits</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>CIFAR: Mentinand flacara vie</h4>
+                        <p>In timpul "AI Winter", <strong>CIFAR</strong> (Canadian Institute for Advanced Research) a continuat sa finanteze cercetarea. Geoffrey Hinton, Yoshua Bengio si Yann LeCun au colaborat sub acest program - azi numiti "Parintii Deep Learning".</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Cei trei pionieri</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 3rem;">👨‍🔬</div>
+                                            <strong>Geoffrey Hinton</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Toronto / Google</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 3rem;">👨‍🔬</div>
+                                            <strong>Yoshua Bengio</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Montreal / Mila</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 3rem;">👨‍🔬</div>
+                                            <strong>Yann LeCun</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">NYU / Meta</p>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--success);">🏆 Turing Award 2018 - "Parintii Deep Learning"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 34 ==================== -->
+        <section class="page-section" id="page-34">
+            <div class="page-header">
+                <div class="page-number">34</div>
+                <div class="page-title">
+                    <h3>Cresterea Seturilor de Date</h3>
+                    <span>Sectiunea 1.2.2 - Big Data si Deep Learning</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-034.jpg"
+                     alt="Pagina 34" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce deep learning acum?</h4>
+                        <p>Deep learning exista de decenii. De ce a devenit dominant abia dupa 2010? Raspunsul: <strong>DATE</strong>. Era "Big Data" a facut machine learning mult mai usor - povara estimarii statistice a fost redusa semnificativ.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Regula de aur</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>📊 Cat de multe date?</h5>
+                                        <p><strong>Regula empirica (2016):</strong></p>
+                                        <ul style="margin-left: 20px; margin-top: 10px;">
+                                            <li>~5,000 exemple per categorie = performanta acceptabila</li>
+                                            <li>~10 milioane exemple = performanta umana sau mai buna</li>
+                                        </ul>
+                                        <p style="margin-top: 15px; color: var(--accent);">Cu mai putine date: deep learning poate esua! Cu mai multe date: rezultate uimitoare!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Digitalizarea societatii</h4>
+                        <p>Tot mai multe activitati se intampla pe calculatoare si sunt inregistrate. Aceasta creeaza seturi de date uriase: fotografii online, texte, tranzactii, date medicale, etc.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Explozia datelor</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                        <div style="text-align: center; background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <div style="font-size: 2rem;">📸</div>
+                                            <strong>Instagram</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">95M poze/zi</p>
+                                        </div>
+                                        <div style="text-align: center; background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <div style="font-size: 2rem;">🎬</div>
+                                            <strong>YouTube</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">500 ore/minut</p>
+                                        </div>
+                                        <div style="text-align: center; background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <div style="font-size: 2rem;">💬</div>
+                                            <strong>Twitter</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">500M tweets/zi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 35 ==================== -->
+        <section class="page-section" id="page-35">
+            <div class="page-header">
+                <div class="page-number">35</div>
+                <div class="page-title">
+                    <h3>Cresterea Dimensiunii Modelelor</h3>
+                    <span>Sectiunea 1.2.3 - Modele mai mari, mai bune</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-035.jpg"
+                     alt="Pagina 35" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce retelele mari functioneaza</h4>
+                        <p>Un motiv cheie pentru succesul actual: avem resurse computationale pentru modele MULT mai mari. Conexionismul ne-a aratat ca inteligenta emerge din MULTE unitati simple lucrand impreuna.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Comparatie cu creierul</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <span style="font-size: 2rem;">🪰</span>
+                                            <div>
+                                                <strong>Musca de fructe</strong>
+                                                <p style="color: var(--text-secondary);">~100,000 neuroni</p>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <span style="font-size: 2rem;">🐭</span>
+                                            <div>
+                                                <strong>Soarece</strong>
+                                                <p style="color: var(--text-secondary);">~75 milioane neuroni</p>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <span style="font-size: 2rem;">🐱</span>
+                                            <div>
+                                                <strong>Pisica</strong>
+                                                <p style="color: var(--text-secondary);">~760 milioane neuroni</p>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 15px; background: var(--primary); padding: 15px; border-radius: 8px;">
+                                            <span style="font-size: 2rem;">🧠</span>
+                                            <div>
+                                                <strong>Om</strong>
+                                                <p style="color: var(--text-primary);">~86 MILIARDE neuroni</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--accent);">Retelele noastre abia ajung la nivelul soarecului!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Legea lui Moore pentru AI</h4>
+                        <p>Numarul de neuroni din retele s-a DUBLAT cam la fiecare 2.4 ani. Aceasta crestere e condusa de: CPU-uri mai rapide, GPU-uri, memorii mai mari, software optimizat.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Cand vom egala creierul?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🔮 Estimare (din 2016)</h5>
+                                        <p>Daca tendinta continua, retelele neurale artificiale vor avea acelasi numar de neuroni ca creierul uman in jurul anului <strong>2050</strong>.</p>
+                                        <p style="margin-top: 10px; color: var(--warning);">Nota: Neuronii biologici sunt MULT mai complecsi decat cei artificiali!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 36 ==================== -->
+        <section class="page-section" id="page-36">
+            <div class="page-header">
+                <div class="page-number">36</div>
+                <div class="page-title">
+                    <h3>Evolutia Seturilor de Date</h3>
+                    <span>Figura 1.8 - De la Iris la ImageNet</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-036.jpg"
+                     alt="Pagina 36" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Cresterea exponentiala a datelor</h4>
+                        <p>Graficul arata cum seturile de date au crescut de la sute de exemple (1900) la MILIARDE (2015). Aceasta crestere a facut deep learning posibil si practic!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Timeline seturi de date celebre</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="position: relative; padding-left: 30px; border-left: 3px solid var(--accent);">
+                                        <div style="margin-bottom: 20px;">
+                                            <strong style="color: var(--warning);">1936: Iris</strong>
+                                            <p style="color: var(--text-secondary);">150 exemple - clasificare flori</p>
+                                        </div>
+                                        <div style="margin-bottom: 20px;">
+                                            <strong style="color: var(--secondary);">1998: MNIST</strong>
+                                            <p style="color: var(--text-secondary);">60,000 - cifre scrise de mana</p>
+                                        </div>
+                                        <div style="margin-bottom: 20px;">
+                                            <strong style="color: var(--primary);">2009: ImageNet</strong>
+                                            <p style="color: var(--text-secondary);">14 milioane - imagini reale</p>
+                                        </div>
+                                        <div style="margin-bottom: 20px;">
+                                            <strong style="color: var(--success);">2014: Sports-1M</strong>
+                                            <p style="color: var(--text-secondary);">1 milion video-uri sport</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 37 ==================== -->
+        <section class="page-section" id="page-37">
+            <div class="page-header">
+                <div class="page-number">37</div>
+                <div class="page-title">
+                    <h3>Datasetul MNIST</h3>
+                    <span>Figura 1.9 - "Drosophila" machine learning-ului</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-037.jpg"
+                     alt="Pagina 37" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Ce este MNIST?</h4>
+                        <p><strong>MNIST</strong> = Modified National Institute of Standards and Technology. Contine 70,000 imagini de cifre scrise de mana (0-9). Este cel mai folosit dataset pentru testarea algoritmilor ML!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Detalii MNIST</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--accent);">Specificatii</h5>
+                                            <ul style="margin-top: 10px; margin-left: 15px; color: var(--text-secondary);">
+                                                <li>60,000 imagini antrenare</li>
+                                                <li>10,000 imagini test</li>
+                                                <li>28×28 pixeli (grayscale)</li>
+                                                <li>10 clase (0-9)</li>
+                                            </ul>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <h5 style="color: var(--success);">De ce e important?</h5>
+                                            <ul style="margin-top: 10px; margin-left: 15px; color: var(--text-secondary);">
+                                                <li>Suficient de mic sa ruleze rapid</li>
+                                                <li>Suficient de greu sa fie interesant</li>
+                                                <li>Benchmark standardizat</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>"Drosophila" machine learning-ului</h4>
+                        <p>Geoffrey Hinton a numit MNIST "drosophila machine learning-ului" - la fel cum biologii studiaza musca de fructe pentru a intelege genetica, cercetatorii ML testeaza algoritmi noi pe MNIST.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Progresul pe MNIST</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <span style="width: 80px;">1998:</span>
+                                            <div style="background: var(--warning); height: 20px; width: 88%; border-radius: 4px;"></div>
+                                            <span>12% eroare</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <span style="width: 80px;">2012:</span>
+                                            <div style="background: var(--secondary); height: 20px; width: 23%; border-radius: 4px;"></div>
+                                            <span>0.23% eroare</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <span style="width: 80px;">2020:</span>
+                                            <div style="background: var(--success); height: 20px; width: 16%; border-radius: 4px;"></div>
+                                            <span>0.16% eroare</span>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--accent);">De la 12% eroare la sub 0.2% - aproape perfect!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 38 ==================== -->
+        <section class="page-section" id="page-38">
+            <div class="page-header">
+                <div class="page-number">38</div>
+                <div class="page-title">
+                    <h3>Cresterea Acuratetii si Impactului</h3>
+                    <span>Sectiunea 1.2.4 - Aplicatii in lumea reala</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-038.jpg"
+                     alt="Pagina 38" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>ImageNet: Momentul de cotitura</h4>
+                        <p>In 2012, o retea convolutionala (<strong>AlexNet</strong>) a castigat ImageNet Challenge cu o marja URIASA. Eroarea a scazut de la 26.1% la 15.3%. Aceasta a convins lumea ca deep learning functioneaza!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Progresul ImageNet</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <table style="width:100%; border-collapse: collapse;">
+                                        <tr style="background: var(--bg-lighter);">
+                                            <th style="padding: 12px;">An</th>
+                                            <th style="padding: 12px;">Eroare Top-5</th>
+                                            <th style="padding: 12px;">Model</th>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">2011</td>
+                                            <td style="padding: 12px;">26.1%</td>
+                                            <td style="padding: 12px;">Hand-crafted features</td>
+                                        </tr>
+                                        <tr style="background: var(--bg-lighter);">
+                                            <td style="padding: 12px;">2012</td>
+                                            <td style="padding: 12px; color: var(--success);">15.3%</td>
+                                            <td style="padding: 12px;">AlexNet (CNN)</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px;">2015</td>
+                                            <td style="padding: 12px; color: var(--primary);">3.6%</td>
+                                            <td style="padding: 12px;">ResNet</td>
+                                        </tr>
+                                        <tr style="background: var(--success);">
+                                            <td style="padding: 12px;">Uman</td>
+                                            <td style="padding: 12px;">~5%</td>
+                                            <td style="padding: 12px;">-</td>
+                                        </tr>
+                                    </table>
+                                    <p style="margin-top: 15px; color: var(--accent);">Deep learning a depasit performanta umana in 2015!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Recunoasterea vorbirii</h4>
+                        <p>Deep learning a revolutionat si recunoasterea vorbirii. Dupa 2010, introducerea deep learning a redus eroarea cu JUMATATE dupa ani de stagnare!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Aplicatii practice</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🗣️</div>
+                                            <strong>Siri / Alexa</strong>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🚗</div>
+                                            <strong>Tesla Autopilot</strong>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🌐</div>
+                                            <strong>Google Translate</strong>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">📸</div>
+                                            <strong>Face ID</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 39 ==================== -->
+        <section class="page-section" id="page-39">
+            <div class="page-header">
+                <div class="page-number">39</div>
+                <div class="page-title">
+                    <h3>Conexiuni per Neuron</h3>
+                    <span>Figura 1.10 - Comparatie cu creierul</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-039.jpg"
+                     alt="Pagina 39" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Cate conexiuni are o retea?</h4>
+                        <p>Graficul arata evolutia numarului de conexiuni per neuron in retelele artificiale. Initial, erau limitate de hardware. Acum, unele retele au la fel de multe conexiuni ca un creier de pisica!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Evolutia retelelor (din figura)</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ol style="margin-left: 20px;">
+                                        <li style="margin-bottom: 10px;"><strong>ADALINE (1960)</strong> - primele conexiuni invatate</li>
+                                        <li style="margin-bottom: 10px;"><strong>Neocognitron (1980)</strong> - precursorul CNN</li>
+                                        <li style="margin-bottom: 10px;"><strong>GPU-accelerated CNN (2006)</strong> - GPU revolutioneaza</li>
+                                        <li style="margin-bottom: 10px;"><strong>Deep Boltzmann (2009)</strong> - modele generative</li>
+                                        <li style="margin-bottom: 10px;"><strong>AlexNet (2012)</strong> - ImageNet breakthrough</li>
+                                        <li style="margin-bottom: 10px;"><strong>GoogLeNet (2014)</strong> - retele foarte adanci</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 40 ==================== -->
+        <section class="page-section" id="page-40">
+            <div class="page-header">
+                <div class="page-number">40</div>
+                <div class="page-title">
+                    <h3>Aplicatii si Viitorul</h3>
+                    <span>Reinforcement Learning si Infrastructura</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-040.jpg"
+                     alt="Pagina 40" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Sequence-to-Sequence Learning</h4>
+                        <p>Retelele neurale pot invata sa produca secvente de caractere din imagini (OCR) sau sa traduca intre limbi. <strong>Neural Turing Machines</strong> (Graves, 2014) pot chiar invata sa sorteze liste!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemple seq2seq</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">Traducere:</strong>
+                                            <span style="color: var(--text-secondary);"> "Hello world" → "Salut lume"</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">OCR:</strong>
+                                            <span style="color: var(--text-secondary);"> [imagine text] → "text scris"</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">Captioning:</strong>
+                                            <span style="color: var(--text-secondary);"> [imagine] → "O pisica sta pe canapea"</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Reinforcement Learning</h4>
+                        <p><strong>Reinforcement Learning</strong> permite agentilor sa invete prin incercare si eroare. DeepMind a combinat DL cu RL pentru a crea agenti care joaca jocuri Atari la nivel suprauman!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Succese RL + DL</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🎮</div>
+                                            <strong>Atari Games</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">DeepMind 2015</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">♟️</div>
+                                            <strong>AlphaGo</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">DeepMind 2016</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🤖</div>
+                                            <strong>Robotica</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Boston Dynamics</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2.5rem;">🎯</div>
+                                            <strong>AlphaStar</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">StarCraft II 2019</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Companii si Infrastructura</h4>
+                        <p>Deep learning e folosit de giganti tech: Google, Microsoft, Facebook, IBM, Baidu, Apple, Adobe, Netflix, NVIDIA. Framework-uri: <strong>TensorFlow, PyTorch, Theano, Caffe</strong>.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Ecosistemul DL</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🛠️ Framework-uri populare (2024)</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px;">
+                                            <li><strong>PyTorch</strong> - Cercetare, flexibilitate (Meta)</li>
+                                            <li><strong>TensorFlow</strong> - Productie, scalare (Google)</li>
+                                            <li><strong>JAX</strong> - Performanta, cercetare (Google)</li>
+                                            <li><strong>Hugging Face</strong> - NLP, modele pretrained</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Final Section -->
+        <section style="background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 16px; padding: 40px; text-align: center; margin-top: 40px;">
+            <h2 style="margin-bottom: 20px;">🎉 Felicitari!</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">Ai parcurs Capitolul 1 din "Deep Learning"!</p>
+            <p style="color: rgba(255,255,255,0.9);">Acum intelegi: istoria AI, ce face deep learning special, cum functioneaza straturile, si de ce acum e momentul perfect pentru aceasta tehnologie.</p>
+            <div style="margin-top: 30px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <div style="background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 8px;">
+                    <strong>22</strong> pagini explicate
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 8px;">
+                    <strong>60+</strong> concepte cheie
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 8px;">
+                    <strong>15+</strong> simulari interactive
+                </div>
+            </div>
+        </section>
+
+        <!-- CHUNK 4 END -->
+
+    </main>
+
+    <script>
+        // Navigation Toggle
+        function toggleNav() {
+            document.getElementById('navSidebar').classList.toggle('open');
+        }
+
+        // Chapter Toggle
+        function toggleChapter(chapterId) {
+            document.getElementById(chapterId).classList.toggle('collapsed');
+        }
+
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Active Navigation Link
+        const sections = document.querySelectorAll('.page-section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Toggle Paragraph Expansion
+        function toggleParagraph(element) {
+            element.closest('.interactive-paragraph').classList.toggle('expanded');
+        }
+
+        // Toggle Section
+        function toggleSection(element) {
+            element.closest('.section-tab').classList.toggle('open');
+        }
+
+        // Image Zoom
+        function zoomImage(img) {
+            img.classList.add('zoomed');
+            document.getElementById('imageOverlay').classList.add('active');
+        }
+
+        function closeZoom() {
+            document.querySelectorAll('.page-image').forEach(img => {
+                img.classList.remove('zoomed');
+            });
+            document.getElementById('imageOverlay').classList.remove('active');
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    // Close mobile nav
+                    document.getElementById('navSidebar').classList.remove('open');
+                }
+            });
+        });
+
+        // Neural Network Animation
+        function animateNeuralNetwork(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            const layers = [4, 6, 6, 3];
+            const neurons = [];
+            const layerSpacing = canvas.width / (layers.length + 1);
+
+            // Create neurons
+            layers.forEach((count, layerIndex) => {
+                const x = layerSpacing * (layerIndex + 1);
+                const spacing = canvas.height / (count + 1);
+                for (let i = 0; i < count; i++) {
+                    neurons.push({
+                        x: x,
+                        y: spacing * (i + 1),
+                        layer: layerIndex,
+                        activation: Math.random()
+                    });
+                }
+            });
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw connections
+                ctx.strokeStyle = 'rgba(37, 99, 235, 0.3)';
+                ctx.lineWidth = 1;
+                neurons.forEach(n1 => {
+                    neurons.forEach(n2 => {
+                        if (n2.layer === n1.layer + 1) {
+                            ctx.beginPath();
+                            ctx.moveTo(n1.x, n1.y);
+                            ctx.lineTo(n2.x, n2.y);
+                            ctx.stroke();
+                        }
+                    });
+                });
+
+                // Draw neurons
+                neurons.forEach(n => {
+                    n.activation = 0.5 + 0.5 * Math.sin(Date.now() / 500 + n.x + n.y);
+
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, 12, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(37, 99, 235, ${n.activation})`;
+                    ctx.fill();
+                    ctx.strokeStyle = '#60a5fa';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                });
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        }
+
+        // Perceptron Simulation
+        function runPerceptronSim(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            let weights = [Math.random() - 0.5, Math.random() - 0.5];
+            let bias = Math.random() - 0.5;
+            const learningRate = 0.1;
+
+            // Training data for AND gate
+            const data = [
+                { inputs: [0, 0], target: 0 },
+                { inputs: [0, 1], target: 0 },
+                { inputs: [1, 0], target: 0 },
+                { inputs: [1, 1], target: 1 }
+            ];
+
+            function sigmoid(x) {
+                return 1 / (1 + Math.exp(-x));
+            }
+
+            function predict(inputs) {
+                const sum = inputs[0] * weights[0] + inputs[1] * weights[1] + bias;
+                return sigmoid(sum);
+            }
+
+            function train() {
+                data.forEach(point => {
+                    const output = predict(point.inputs);
+                    const error = point.target - output;
+                    weights[0] += learningRate * error * point.inputs[0];
+                    weights[1] += learningRate * error * point.inputs[1];
+                    bias += learningRate * error;
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const scale = Math.min(canvas.width, canvas.height) / 2;
+                const offsetX = canvas.width / 4;
+                const offsetY = canvas.height - 30;
+
+                // Draw grid
+                ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+                for (let i = 0; i <= 1; i += 0.2) {
+                    ctx.beginPath();
+                    ctx.moveTo(offsetX + i * scale, offsetY);
+                    ctx.lineTo(offsetX + i * scale, offsetY - scale);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(offsetX, offsetY - i * scale);
+                    ctx.lineTo(offsetX + scale, offsetY - i * scale);
+                    ctx.stroke();
+                }
+
+                // Draw decision boundary
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                const x1 = 0, x2 = 1;
+                const y1 = (-bias - weights[0] * x1) / weights[1];
+                const y2 = (-bias - weights[0] * x2) / weights[1];
+                ctx.moveTo(offsetX + x1 * scale, offsetY - y1 * scale);
+                ctx.lineTo(offsetX + x2 * scale, offsetY - y2 * scale);
+                ctx.stroke();
+
+                // Draw points
+                data.forEach(point => {
+                    const x = offsetX + point.inputs[0] * scale;
+                    const y = offsetY - point.inputs[1] * scale;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 8, 0, Math.PI * 2);
+                    ctx.fillStyle = point.target === 1 ? '#10b981' : '#ef4444';
+                    ctx.fill();
+                });
+
+                // Train and repeat
+                train();
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        }
+
+        // XOR Visualization
+        function runXORDemo(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            const data = [
+                { x: 0, y: 0, label: 0 },
+                { x: 0, y: 1, label: 1 },
+                { x: 1, y: 0, label: 1 },
+                { x: 1, y: 1, label: 0 }
+            ];
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const scale = 100;
+                const offsetX = canvas.width / 2 - scale / 2;
+                const offsetY = canvas.height / 2 + scale / 2;
+
+                // Draw axes
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.beginPath();
+                ctx.moveTo(offsetX - 20, offsetY);
+                ctx.lineTo(offsetX + scale + 20, offsetY);
+                ctx.moveTo(offsetX, offsetY + 20);
+                ctx.lineTo(offsetX, offsetY - scale - 20);
+                ctx.stroke();
+
+                // Draw impossible linear boundary (dashed)
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.moveTo(offsetX - 20, offsetY - scale - 20);
+                ctx.lineTo(offsetX + scale + 20, offsetY + 20);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw points
+                data.forEach(point => {
+                    const x = offsetX + point.x * scale;
+                    const y = offsetY - point.y * scale;
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 15, 0, Math.PI * 2);
+                    ctx.fillStyle = point.label === 1 ? '#10b981' : '#ef4444';
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 12px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(point.label, x, y + 4);
+                });
+
+                // Label
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '12px sans-serif';
+                ctx.fillText('XOR: Nu poate fi separat liniar!', canvas.width / 2, 20);
+            }
+
+            draw();
+        }
+
+        // Initialize simulations when sections are opened
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.section-header')) {
+                setTimeout(() => {
+                    const section = e.target.closest('.section-tab');
+                    const canvas = section.querySelector('canvas');
+                    if (canvas && section.classList.contains('open')) {
+                        const simType = canvas.dataset.simType;
+                        if (simType === 'neural') animateNeuralNetwork(canvas.id);
+                        else if (simType === 'perceptron') runPerceptronSim(canvas.id);
+                        else if (simType === 'xor') runXORDemo(canvas.id);
+                    }
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>

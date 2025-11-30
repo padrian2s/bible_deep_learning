@@ -1,0 +1,113 @@
+<section class="page-section" id="page-157">
+    <div class="page-header">
+        <div class="page-number">157</div>
+        <div class="page-title">
+            <h3>Gaussian Kernel si Support Vectors</h3>
+            <span>Capitolul 5 - Kernel Machines</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-157.jpg"
+             alt="Pagina 157" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gaussian Kernel (RBF)</h4>
+                <p>Cel mai folosit kernel este <strong>Gaussian kernel</strong> (sau <strong>radial basis function</strong> - RBF):</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    k(u, v) = N(u - v; 0, σ²I)
+                </div>
+                <p>Valoarea sa scade pe masura ce u si v se departeaza (dupa distanta Euclidiana). Gaussian kernel corespunde unui dot product intr-un spatiu infinit-dimensional! Functia kernel este adesea mai eficienta computational decat calcularea explicita a lui φ(x).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Template Matching</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Gaussian Kernel ca Template Matching</h5>
+                                <p>Un exemplu de antrenament x cu label y devine un "template". Cand un punct de test x' este apropiat de x (dupa distanta Euclidiana), kernelul Gaussian da un raspuns mare. Modelul pune un weight mare pe label-ul y asociat.</p>
+                                <p style="margin-top: 10px;">Predictia finala combina multe astfel de template-uri, ponderate dupa similaritate.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Kernel Machines</h4>
+                <p>SVM nu este singurul algoritm care poate fi imbunatatit cu kernel trick. Multe alte modele liniare pot fi enhanced in acelasi mod. Categoria de algoritmi care folosesc kernel trick se numeste <strong>kernel machines</strong> sau <strong>kernel methods</strong> (Williams and Rasmussen 1996; Scholkopf et al. 1999).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte Kernel Methods</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Williams and Rasmussen (1996)</strong> - Gaussian Processes for Machine Learning
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Scholkopf et al. (1999)</strong> - Making large-scale SVM learning practical
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Support Vectors</h4>
+                <p>Un dezavantaj major al kernel machines: costul evaluarii functiei de decizie este <strong>liniar in numarul de exemple de training</strong>, deoarece al i-lea exemplu contribuie cu αᵢk(x, x<sup>(i)</sup>). SVM rezolva asta invatand un vector α care contine <strong>majoritatea zerourilor</strong>. Clasificarea necesita evaluarea kernel-ului doar pentru exemplele cu αᵢ ≠ 0. Aceste exemple se numesc <strong>support vectors</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Support Vectors</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.svm import SVC
+import numpy as np
+
+# Date
+X = np.array([[1, 1], [2, 2], [2, 0], [3, 1],
+              [5, 5], [6, 6], [6, 4], [7, 5]])
+y = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+
+# SVM
+clf = SVC(kernel='rbf')
+clf.fit(X, y)
+
+print(f"Total exemple:    {len(X)}")
+print(f"Support vectors:  {len(clf.support_vectors_)}")
+print(f"Ratio:            {len(clf.support_vectors_)/len(X):.0%}")
+print()
+print("Support vectors (exemple critice):")
+print(clf.support_vectors_)
+print()
+print("=> Doar support vectors conteaza la predictie!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

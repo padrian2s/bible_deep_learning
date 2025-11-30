@@ -1,0 +1,121 @@
+<section class="page-section" id="page-165">
+    <div class="page-header">
+        <div class="page-number">165</div>
+        <div class="page-title">
+            <h3>PCA Disentangles si k-Means Clustering</h3>
+            <span>Capitolul 5 - Sectiunea 5.8.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-165.jpg"
+             alt="Pagina 165" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>PCA Disentangles Factors of Variation</h4>
+                <p>Abilitatea PCA de a transforma datele intr-o reprezentare cu elemente <strong>mutual uncorrelated</strong> este o proprietate foarte importanta. Este un exemplu simplu de reprezentare care incearca sa <strong>disentangle unknown factors of variation</strong> din date. In cazul PCA, "disentangling" ia forma gasirii unei <strong>rotatii</strong> a spatiului de input (descrisa de W) care aliniaza axele principale de varianta cu baza noului spatiu de reprezentare z.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Disentanglement</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Ce inseamna "Disentangle"?</h5>
+                                <p>Factorii de variatie din date sunt "incurcati" - fiecare dimensiune poate fi afectata de mai multi factori.</p>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Entangled (x)</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">x₁ = factor_A + factor_B</p>
+                                        <p style="font-size: 0.9rem;">x₂ = factor_A - factor_B</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">Disentangled (z)</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">z₁ = factor_A</p>
+                                        <p style="font-size: 0.9rem;">z₂ = factor_B</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">PCA face asta pentru factori liniari. Pentru factori nonliniari avem nevoie de modele mai avansate.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Limitarile Corelarii Liniare</h4>
+                <p>Desi corelatia este o categorie importanta de dependenta intre elemente, suntem interesati si in reprezentari care <strong>disentangle forme mai complicate de dependenta</strong>. Pentru asta, vom avea nevoie de mai mult decat o simpla transformare liniara.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.8.2 k-means Clustering</h4>
+                <p>Un alt exemplu de algoritm simplu de representation learning este <strong>k-means clustering</strong>. Algoritmul imparte training set-ul in k clustere diferite de exemple care sunt aproape unul de celalalt. Putem gandi algoritmul ca oferind un vector <strong>one-hot code</strong> k-dimensional h reprezentand inputul x. Daca x apartine clusterului i, atunci hᵢ = 1 si toate celelalte intrari din h sunt zero.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: k-Means ca Representation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.cluster import KMeans
+import numpy as np
+
+np.random.seed(42)
+
+# Date
+X = np.vstack([
+    np.random.randn(30, 2) + [0, 0],
+    np.random.randn(30, 2) + [5, 0],
+    np.random.randn(30, 2) + [2.5, 4]
+])
+
+# k-means
+kmeans = KMeans(n_clusters=3, random_state=42)
+labels = kmeans.fit_predict(X)
+
+# One-hot encoding (reprezentarea h)
+def to_one_hot(labels, k):
+    n = len(labels)
+    one_hot = np.zeros((n, k))
+    one_hot[np.arange(n), labels] = 1
+    return one_hot
+
+H = to_one_hot(labels, k=3)
+
+print("Exemplu de one-hot representation (h):")
+print(f"x[0] = {X[0].round(2)} -> h = {H[0]}")
+print(f"x[30] = {X[30].round(2)} -> h = {H[30]}")
+print(f"x[60] = {X[60].round(2)} -> h = {H[60]}")
+
+print("\nProprietati:")
+print(f"- Input dim: {X.shape[1]}")
+print(f"- Representation dim: {H.shape[1]}")
+print(f"- Sparsity: {(H == 0).sum() / H.size:.1%} zerouri")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul k-Means</h4>
+                <p>Algoritmul initializeaza k centroizi diferiti {μ<sup>(1)</sup>, ..., μ<sup>(k)</sup>}, apoi alterneaza intre doi pasi pana la convergenta: (1) Asigneaza fiecare exemplu de training la clusterul cu cel mai apropiat centroid. (2) Updateaza fiecare centroid la media tuturor exemplelor asignate la acel cluster.</p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,216 @@
+<section class="page-section" id="page-102">
+    <div class="page-header">
+        <div class="page-number">102</div>
+        <div class="page-title">
+            <h3>Curbura si Matricea Hessian</h3>
+            <span>Capitolul 4 - Derivata a Doua</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-102.jpg"
+             alt="Pagina 102" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 4.4: Efectul Curburii</h4>
+                <p>Figura arata cum diferite forme de curbura afecteaza relatia dintre predictia gradientului (linia punctata) si valoarea reala a functiei de cost. Cu <strong>curbura negativa</strong>, functia descreste mai rapid decat indica gradientul. Cu <strong>zero curbura</strong>, gradientul prezice perfect. Cu <strong>curbura pozitiva</strong>, functia descreste mai incet - pasi prea mari pot chiar sa creasca functia!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cele 3 Tipuri de Curbura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <svg viewBox="0 0 100 80" style="width: 80px; height: 60px; margin-bottom: 10px;">
+                                        <path d="M 10,60 Q 50,10 90,60" fill="none" stroke="var(--success)" stroke-width="3"/>
+                                        <line x1="30" y1="45" x2="70" y2="45" stroke="var(--warning)" stroke-width="2" stroke-dasharray="5,5"/>
+                                    </svg>
+                                    <p><strong>f'' < 0</strong></p>
+                                    <p style="font-size: 0.85rem; color: var(--success);">Realitate mai buna decat predictie</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <svg viewBox="0 0 100 80" style="width: 80px; height: 60px; margin-bottom: 10px;">
+                                        <line x1="10" y1="60" x2="90" y2="20" stroke="var(--primary)" stroke-width="3"/>
+                                        <line x1="10" y1="60" x2="90" y2="20" stroke="var(--warning)" stroke-width="2" stroke-dasharray="5,5"/>
+                                    </svg>
+                                    <p><strong>f'' = 0</strong></p>
+                                    <p style="font-size: 0.85rem; color: var(--primary);">Predictie exacta</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <svg viewBox="0 0 100 80" style="width: 80px; height: 60px; margin-bottom: 10px;">
+                                        <path d="M 10,20 Q 50,70 90,20" fill="none" stroke="#ff6464" stroke-width="3"/>
+                                        <line x1="30" y1="35" x2="70" y2="35" stroke="var(--warning)" stroke-width="2" stroke-dasharray="5,5"/>
+                                    </svg>
+                                    <p><strong>f'' > 0</strong></p>
+                                    <p style="font-size: 0.85rem; color: #ff6464;">Realitate mai rea decat predictie</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; text-align: center; color: var(--warning);">Linia punctata = predictia bazata doar pe gradient</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Efectul Curburii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def analyze_curvature(f, f_prime, f_second, x0, step):
+    """Analizeaza efectul curburii"""
+    grad = f_prime(x0)
+    curv = f_second(x0)
+
+    # Predictia liniara (ignorand curbura)
+    predicted_new_f = f(x0) - step * abs(grad)
+
+    # Valoarea reala
+    actual_new_f = f(x0 - step * np.sign(grad))
+
+    return {
+        'gradient': grad,
+        'curvature': curv,
+        'predicted': predicted_new_f,
+        'actual': actual_new_f,
+        'error': actual_new_f - predicted_new_f
+    }
+
+# Functii test
+funcs = [
+    ("x² (f''>0)", lambda x: x**2, lambda x: 2*x, lambda x: 2),
+    ("-x² (f''<0)", lambda x: -x**2, lambda x: -2*x, lambda x: -2),
+    ("2x (f''=0)", lambda x: 2*x, lambda x: 2, lambda x: 0),
+]
+
+print("Analiza curbura la x=2, step=0.5:")
+print("-" * 55)
+for name, f, fp, fpp in funcs:
+    r = analyze_curvature(f, fp, fpp, 2.0, 0.5)
+    print(f"{name:12s}: curv={r['curvature']:+3d}, "
+          f"pred={r['predicted']:+5.2f}, "
+          f"actual={r['actual']:+5.2f}, "
+          f"err={r['error']:+5.2f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Matricea Hessian</h4>
+                <p>Cand functia noastra are mai multe dimensiuni de input, exista multe derivate de ordin doi. Le colectam intr-o matrice numita <strong>Hessian</strong>. Matricea Hessian H(f)(x) este definita astfel:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0;">
+                    H(f)(x)ᵢⱼ = ∂²f / ∂xᵢ∂xⱼ
+                </div>
+                <p>Echivalent, Hessianul este Jacobianul gradientului. Oriunde derivatele partiale sunt continue, operatorii diferentiali comuta: ∂²f/∂xᵢ∂xⱼ = ∂²f/∂xⱼ∂xᵢ, deci Hᵢⱼ = Hⱼᵢ - Hessianul este <strong>simetric</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Calculul Hessianului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import torch
+from torch.autograd.functional import hessian
+
+# f(x,y) = x² + 3xy + 2y²
+def f(x):
+    return x[0]**2 + 3*x[0]*x[1] + 2*x[1]**2
+
+x = torch.tensor([1.0, 2.0])
+H = hessian(f, x)
+
+print("f(x,y) = x² + 3xy + 2y²")
+print(f"\nLa punctul {x.tolist()}, Hessian H =")
+print(H.numpy())
+
+print("""
+Calcul manual:
+∂f/∂x = 2x + 3y      →  ∂²f/∂x² = 2,  ∂²f/∂x∂y = 3
+∂f/∂y = 3x + 4y      →  ∂²f/∂y∂x = 3, ∂²f/∂y² = 4
+
+H = | 2  3 |
+    | 3  4 |
+""")
+
+# Verificam simetria
+print(f"Simetric? H = Hᵀ: {torch.allclose(H, H.T)}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Relatia Gradient-Jacobian-Hessian</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                                    <div style="text-align: center; padding: 15px; background: var(--primary); border-radius: 8px;">
+                                        <strong>f(x)</strong>
+                                        <p style="font-size: 0.85rem;">Functia</p>
+                                        <p style="font-size: 0.85rem;">scalar</p>
+                                    </div>
+                                    <div>→<br>∂/∂x</div>
+                                    <div style="text-align: center; padding: 15px; background: var(--secondary); border-radius: 8px;">
+                                        <strong>∇f(x)</strong>
+                                        <p style="font-size: 0.85rem;">Gradient</p>
+                                        <p style="font-size: 0.85rem;">vector n×1</p>
+                                    </div>
+                                    <div>→<br>∂/∂x</div>
+                                    <div style="text-align: center; padding: 15px; background: var(--accent); border-radius: 8px;">
+                                        <strong>H(x)</strong>
+                                        <p style="font-size: 0.85rem;">Hessian</p>
+                                        <p style="font-size: 0.85rem;">matrice n×n</p>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px;">Hessian = Jacobianul gradientului!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura Hessianului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="text-align: center; margin-bottom: 15px;">Hessian pentru f: ℝⁿ → ℝ</p>
+                                <pre style="text-align: center; font-family: monospace;">
+H = | ∂²f/∂x₁²    ∂²f/∂x₁∂x₂  ...  ∂²f/∂x₁∂xₙ |
+    | ∂²f/∂x₂∂x₁  ∂²f/∂x₂²    ...  ∂²f/∂x₂∂xₙ |
+    |    ...         ...      ...      ...     |
+    | ∂²f/∂xₙ∂x₁  ∂²f/∂xₙ∂x₂  ...  ∂²f/∂xₙ²   |
+                                </pre>
+                                <p style="text-align: center; margin-top: 15px; color: var(--success);">Matricea este simetrica: Hᵢⱼ = Hⱼᵢ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,153 @@
+<section class="page-section" id="page-219">
+    <div class="page-header">
+        <div class="page-number">219</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5 Back-Propagation si Algoritmi de Diferentiere</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-219.jpg"
+             alt="Pagina 219" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Forward Propagation si Back-Propagation</h4>
+                <p>Cand folosim o retea feedforward pentru a accepta un input x si a produce un output ŷ, informatia curge inainte prin retea. Inputurile x furnizeaza informatia initiala care se propaga pana la unitatile ascunse la fiecare strat si in final produce ŷ. Aceasta se numeste forward propagation. In timpul antrenarii, propagarea continua pana produce un cost scalar J(θ).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Forward vs Backward</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Forward Propagation →</strong>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">x → h₁ → h₂ → ... → ŷ → J(θ)</p>
+                                    <ul style="font-size: 0.85rem; margin-top: 10px;">
+                                        <li>Calculeaza activarile</li>
+                                        <li>Produce predictia</li>
+                                        <li>Calculeaza costul</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Back-Propagation ←</strong>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">∇J → ∇h₂ → ∇h₁ → ∇W, ∇b</p>
+                                    <ul style="font-size: 0.85rem; margin-top: 10px;">
+                                        <li>Calculeaza gradientii</li>
+                                        <li>Propaga eroarea inapoi</li>
+                                        <li>Permite actualizarea W, b</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul Back-Propagation (Rumelhart et al., 1986a)</h4>
+                <p>Algoritmul de back-propagation, adesea numit simplu backprop, permite informatiei de la cost sa curga inapoi prin retea pentru a calcula gradientul. Calcularea unei expresii analitice pentru gradient este directa, dar evaluarea numerica a unei astfel de expresii poate fi costisitoare computational. Backprop o face printr-o procedura simpla si eficienta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu Simplu de Backprop</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Retea simpla
+model = nn.Sequential(
+    nn.Linear(10, 5),
+    nn.ReLU(),
+    nn.Linear(5, 1)
+)
+
+# Forward propagation
+x = torch.randn(1, 10)
+y_true = torch.randn(1, 1)
+
+# Forward: x -> h -> y_pred
+y_pred = model(x)  # Activarile sunt salvate intern
+
+# Cost
+loss = nn.MSELoss()(y_pred, y_true)
+
+# Back-propagation: calculeaza toti gradientii
+loss.backward()
+
+# Acum avem gradientii pentru fiecare parametru
+for name, param in model.named_parameters():
+    print(f"{name}: grad shape = {param.grad.shape}")
+
+# Output:
+# 0.weight: grad shape = torch.Size([5, 10])
+# 0.bias: grad shape = torch.Size([5])
+# 2.weight: grad shape = torch.Size([1, 5])
+# 2.bias: grad shape = torch.Size([1])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Clarificari Importante despre Backprop</h4>
+                <p>Termenul back-propagation este adesea inteles gresit ca insemnand intregul algoritm de invatare pentru retele multi-strat. De fapt, back-propagation se refera DOAR la metoda de calcul al gradientului, in timp ce un alt algoritm, cum ar fi SGD, este folosit pentru a efectua invatarea folosind acest gradient. Mai mult, backprop nu este specific retelelor neuronale - poate calcula derivate pentru orice functie!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce ESTE si ce NU ESTE Backprop</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: rgba(39, 174, 96, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--success);">
+                                    <strong style="color: var(--success);">Backprop ESTE:</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Algoritm de calcul al gradientului</li>
+                                        <li>Aplicare eficienta a regulii lantului</li>
+                                        <li>General - functioneaza pentru orice functie</li>
+                                        <li>Poate calcula Jacobieni, Hessieni</li>
+                                    </ul>
+                                </div>
+                                <div style="background: rgba(231, 76, 60, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--warning);">
+                                    <strong style="color: var(--warning);">Backprop NU ESTE:</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Un algoritm de invatare complet</li>
+                                        <li>Specific pentru retele neuronale</li>
+                                        <li>Sinonim cu gradient descent</li>
+                                        <li>Limitat la functii de cost</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Formula cheie:</strong> ∇<sub>θ</sub>J(θ) - gradientul costului in raport cu parametrii
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

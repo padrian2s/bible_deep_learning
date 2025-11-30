@@ -1,0 +1,145 @@
+<section class="page-section" id="page-231">
+    <div class="page-header">
+        <div class="page-number">231</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5.6 Operatia bprop</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-231.jpg"
+             alt="Pagina 231" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Operatia bprop pentru Fiecare Op</h4>
+                <p>Fiecare operatie op este de asemenea asociata cu o operatie bprop. Aceasta bprop poate calcula un produs Jacobian-vector conform ecuatiei 6.47. Aceasta este modul in care algoritmul de back-propagation reuseste sa obtina o generalitate mare. Fiecare operatie este responsabila de a sti cum sa back-propageze prin muchiile din graful in care participa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Exemplu: Inmultire Matriceala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Pentru C = AB, gradientii sunt:</strong>
+                                <div style="margin-top: 15px; font-family: monospace;">
+                                    <p>Daca G = ∂L/∂C (gradientul pe output):</p>
+                                    <p style="margin-top: 10px; color: var(--success);">∂L/∂A = G · B<sup>T</sup></p>
+                                    <p style="margin-top: 5px; color: var(--accent);">∂L/∂B = A<sup>T</sup> · G</p>
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+
+class MatMulOp:
+    """Operatie de inmultire matriceala cu bprop"""
+
+    @staticmethod
+    def forward(A, B):
+        return A @ B
+
+    @staticmethod
+    def bprop(A, B, G):
+        """
+        A, B = inputuri
+        G = gradient pe output (∂L/∂C)
+        Returns: gradientii pe A si B
+        """
+        grad_A = G @ B.T      # ∂L/∂A = G * B^T
+        grad_B = A.T @ G      # ∂L/∂B = A^T * G
+        return grad_A, grad_B
+
+# Verificare:
+A = torch.randn(3, 4, requires_grad=True)
+B = torch.randn(4, 5, requires_grad=True)
+C = A @ B
+loss = C.sum()
+loss.backward()
+
+print(f"grad_A shape: {A.grad.shape}")  # (3, 4)
+print(f"grad_B shape: {B.grad.shape}")  # (4, 5)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Generala pentru bprop</h4>
+                <p>Formal, op.bprop(inputs, X, G) trebuie sa returneze suma peste toate outputurile i a lui (∇ₓop.f(inputs)ᵢ)Gᵢ, unde inputs este lista de inputuri furnizate operatiei, op.f este functia matematica pe care operatia o implementeaza, X este inputul al carui gradient il vrem sa calculam, si G este gradientul pe outputul operatiei.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatia 6.54</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="text-align: center; font-size: 1.2rem; padding: 20px; background: var(--bg-lighter); border-radius: 8px;">
+                                op.bprop(inputs, X, G) = Σᵢ (∇ₓ op.f(inputs)ᵢ) Gᵢ
+                            </div>
+                            <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">Aceasta este exact implementarea regulii lantului din ecuatia 6.47.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Inputuri Distincte pentru bprop</h4>
+                <p>Metoda op.bprop ar trebui intotdeauna sa pretinda ca toate inputurile sale sunt distincte unul de altul, chiar daca nu sunt. De exemplu, daca operatorul mul primeste doua copii ale lui x pentru a calcula x², metoda op.bprop ar trebui totusi sa returneze x ca derivata fata de ambele inputuri. Algoritmul de backprop va aduna mai tarziu ambele argumente pentru a obtine 2x, care este derivata totala corecta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemplu: x * x</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+
+x = torch.tensor([3.0], requires_grad=True)
+
+# z = x * x = x^2
+# mul vede 2 inputuri "diferite", ambele = x
+z = x * x
+
+z.backward()
+
+# mul.bprop returneaza:
+# - grad pentru input1: x (=3)
+# - grad pentru input2: x (=3)
+#
+# Backprop SUMEAZA: 3 + 3 = 6
+# Corect! d(x^2)/dx = 2x = 2*3 = 6
+
+print(f"dz/dx = {x.grad.item()}")  # 6.0
+
+# De ce functioneaza:
+# z = a * b unde a = b = x
+# dz/da = b = x, dz/db = a = x
+# dz/dx = dz/da * da/dx + dz/db * db/dx
+#       = x * 1 + x * 1 = 2x
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

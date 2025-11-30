@@ -1,0 +1,119 @@
+<section class="page-section" id="page-318">
+    <div class="page-header">
+        <div class="page-number">318</div>
+        <div class="page-title">
+            <h3>Xavier/Glorot Initialization</h3>
+            <span>Normalized Initialization</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-318.jpg"
+             alt="Pagina 318" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Euristica Clasica: 1/√m</h4>
+                <p>O euristica simpla: pentru un layer fully connected cu m inputs si n outputs, initializeaza weights din U(-1/√m, 1/√m). Aceasta pastreaza varianta activarilor aproximativ constanta prin retea.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Intuitie: De Ce √m?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Daca aduni m variabile aleatoare independente cu varianta σ², suma are varianta m·σ². Pentru a pastra varianta totala ≈ 1, fiecare weight trebuie sa aiba varianta 1/m, deci std ≈ 1/√m.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Glorot/Xavier Initialization</h4>
+                <p><strong>Glorot & Bengio (2010)</strong> au propus o varianta imbunatatita care ia in calcul si numarul de outputs n, nu doar inputs m. Formula face un compromis intre pastrarea variantei activarilor si pastrarea variantei gradientilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula Xavier Init</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="font-size: 1.1rem;">
+                                W<sub>i,j</sub> ~ U(-√(6/(m+n)), √(6/(m+n)))
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">m (fan_in)</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Numar de inputs la layer</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">n (fan_out)</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Numar de outputs din layer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Cod PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Xavier/Glorot initialization (default pentru Linear)
+layer = nn.Linear(128, 64)
+nn.init.xavier_uniform_(layer.weight)
+nn.init.zeros_(layer.bias)
+
+# Sau pentru ReLU (He initialization):
+nn.init.kaiming_uniform_(layer.weight, nonlinearity='relu')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Saxe et al.: Matrici Ortogonale + Gain</h4>
+                <p><strong>Saxe et al. (2013)</strong> recomanda initializare cu matrici <strong>ortogonale</strong> aleatoare, scalate cu un factor de "gain" g care compenseaza pentru nonliniaritate. Aceasta garanteaza ca numarul de iteratii pana la convergenta e independent de adancimea retelei!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Gain Factor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Factor-ul de gain g depinde de nonliniaritatea folosita:</p>
+                            <ul style="color: var(--text-secondary); margin-top: 10px;">
+                                <li>Linear: g = 1</li>
+                                <li>ReLU: g = √2</li>
+                                <li>Tanh: g ≈ 1.67</li>
+                            </ul>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Sussillo (2014) a aratat ca cu gain corect, chiar retele foarte deep pot fi antrenate stabil.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

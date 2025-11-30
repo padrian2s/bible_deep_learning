@@ -1,0 +1,139 @@
+<section class="page-section" id="page-118">
+    <div class="page-header">
+        <div class="page-number">118</div>
+        <div class="page-title">
+            <h3>Denoising, Estimarea Densitatii, Masuri de Performanta</h3>
+            <span>Capitolul 5 - Sectiunea 5.1.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-118.jpg"
+             alt="Pagina 118" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Denoising (Eliminarea Zgomotului)</h4>
+                <p>In acest task, algoritmului ML i se da un <strong>exemplu corupt</strong> x̃ ∈ ℝⁿ obtinut printr-un proces necunoscut de corupere din exemplul curat x ∈ ℝⁿ. Learner-ul trebuie sa prezica exemplul curat x din versiunea corupta x̃, sau mai general, sa prezica distributia conditionata <strong>p(x | x̃)</strong>. Aceasta tehnica este fundamentala in pre-antrenarea modelelor deep learning.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Denoising Autoencoder</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Simulare conceptuala denoising
+def add_noise(x, noise_level=0.3):
+    """Corupem exemplul cu zgomot gaussian"""
+    return x + np.random.normal(0, noise_level, x.shape)
+
+def simple_denoiser(x_noisy, original_samples):
+    """Denoising simplu: gaseste cel mai similar exemplu curat"""
+    distances = [np.linalg.norm(x_noisy - x) for x in original_samples]
+    return original_samples[np.argmin(distances)]
+
+# Date curate (imagine 4x4 simplificata ca vector)
+x_clean = np.array([0.9, 0.1, 0.1, 0.9,
+                    0.1, 0.9, 0.9, 0.1,
+                    0.1, 0.9, 0.9, 0.1,
+                    0.9, 0.1, 0.1, 0.9])  # Pattern X
+
+x_noisy = add_noise(x_clean)
+
+print("Original:", x_clean[:4].round(2))
+print("Cu zgomot:", x_noisy[:4].round(2))
+print("\nTask: Recupereaza originalul din versiunea corupta!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Estimarea Densitatii (Density Estimation)</h4>
+                <p>In problema estimarii densitatii, algoritmul trebuie sa invete o functie <strong>p<sub>model</sub>: ℝⁿ → ℝ</strong>, unde p<sub>model</sub>(x) poate fi interpretata ca functie de densitate de probabilitate (daca x continuu) sau functie de masa de probabilitate (daca x discret). Algoritmul trebuie sa invete structura datelor - unde exemplele se grupeaza si unde sunt mai putin probabile. Majoritatea task-urilor descrise anterior necesita implicit capturarea structurii distributiei de probabilitate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Density Estimation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce este fundamentala?</h5>
+                                <p>Estimarea densitatii este "mama" multor task-uri ML:</p>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <strong>Imputare:</strong> p(x<sub>i</sub> | x<sub>-i</sub>)
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <strong>Sampling:</strong> x ~ p(x)
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <strong>Denoising:</strong> p(x | x̃)
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <strong>Anomaly:</strong> p(x) < threshold
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.1.2 Masura de Performanta, P</h4>
+                <p>Pentru a evalua abilitatile unui algoritm ML, trebuie sa proiectam o masura cantitativa a performantei. De obicei, aceasta masura P este specifica task-ului T. Pentru clasificare, transcriptie si task-uri similare, masuram frecvent <strong>acuratetea</strong> - proportia de exemple pentru care modelul produce output-ul corect. Echivalent, putem masura <strong>rata de eroare</strong> - proportia de exemple cu output incorect.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Accuracy vs Error Rate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Predictii si etichete reale
+predictions = np.array([1, 0, 1, 1, 0, 1, 0, 0, 1, 1])
+true_labels = np.array([1, 0, 0, 1, 0, 1, 1, 0, 1, 0])
+
+# Calcul acuratete si error rate
+correct = (predictions == true_labels)
+accuracy = np.mean(correct)
+error_rate = 1 - accuracy
+
+print("Predictions:", predictions)
+print("True labels:", true_labels)
+print("Correct?   :", correct.astype(int))
+print()
+print(f"Accuracy:   {accuracy:.1%} ({correct.sum()}/{len(correct)})")
+print(f"Error rate: {error_rate:.1%} ({(~correct).sum()}/{len(correct)})")
+print()
+print("Nota: accuracy + error_rate = 1 (100%)")
+print("0-1 Loss: 0 daca corect, 1 daca gresit")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

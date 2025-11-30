@@ -1,0 +1,125 @@
+<section class="page-section" id="page-376">
+    <div class="page-header">
+        <div class="page-number">376</div>
+        <div class="page-title">
+            <h3>Tabelul 9.1: Tipuri de Date CNN</h3>
+            <span>1D, 2D si 3D Convolutions</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-376.jpg"
+             alt="Pagina 376" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutii 1D, 2D si 3D</h4>
+                <p>Tabelul 9.1 prezinta exemple de date pentru fiecare dimensionalitate. Convolutia 1D e pentru serii temporale (audio, text), 2D pentru imagini, si 3D pentru volume (CT scans, video). Fiecare poate avea un singur canal sau multiple canale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Tabel: Tipuri de Date</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                <tr style="background: var(--bg-lighter);">
+                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--primary);">Dim</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--primary);">Single Channel</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--primary);">Multi Channel</th>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; border-bottom: 1px solid var(--bg-lighter); font-weight: bold; color: var(--primary);">1D</td>
+                                    <td style="padding: 12px; border-bottom: 1px solid var(--bg-lighter);">Audio waveform (amplitudine vs timp)</td>
+                                    <td style="padding: 12px; border-bottom: 1px solid var(--bg-lighter);">Animatie schelet (unghiuri articulatii vs timp)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; border-bottom: 1px solid var(--bg-lighter); font-weight: bold; color: var(--accent);">2D</td>
+                                    <td style="padding: 12px; border-bottom: 1px solid var(--bg-lighter);">Spectrogram audio (frecventa × timp)</td>
+                                    <td style="padding: 12px; border-bottom: 1px solid var(--bg-lighter);">Imagine color RGB (3 canale × H × W)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; font-weight: bold; color: var(--success);">3D</td>
+                                    <td style="padding: 12px;">Volum CT/MRI (grayscale × D × H × W)</td>
+                                    <td style="padding: 12px;">Video color (RGB × T × H × W)</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Echivarianta in Fiecare Dimensiune</h4>
+                <p>Convolutia 1D pe audio ofera echivarianta la translatii in <strong>timp</strong> - un sunet recunoscut la t=0 va fi recunoscut si la t=5s. Convolutia 2D pe spectrograme ofera echivarianta in timp SI frecventa - aceeasi melodie cantata la o octava diferita va produce aceeasi reprezentare (dar decalata pe axa frecventei).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Conv1D pentru Audio</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Audio: 1 canal (mono), 16000 samples (1 sec @ 16kHz)
+audio = torch.randn(8, 1, 16000)  # batch=8
+
+# Conv1D pentru extragere features
+conv1d = nn.Sequential(
+    nn.Conv1d(1, 64, kernel_size=80, stride=4),  # ~5ms window
+    nn.ReLU(),
+    nn.Conv1d(64, 128, kernel_size=3),
+    nn.ReLU(),
+    nn.AdaptiveAvgPool1d(1)  # Global pooling
+)
+
+features = conv1d(audio)
+print("Audio features:", features.shape)  # [8, 128, 1]
+
+# Alternativ: WaveNet, Wav2Vec folosesc convolutii dilatate
+# pentru receptive field foarte mare (secunde de audio)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cand sa folosesti Conv1D vs Conv2D?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Conv1D pentru:</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Serii temporale, text (caractere/embeddings), raw audio waveforms</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Conv2D pentru:</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Imagini, spectrograme, heatmaps, orice date cu structura grila 2D</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Conv3D pentru:</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Video, imagini medicale volumetrice (CT, MRI), point clouds voxelizate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

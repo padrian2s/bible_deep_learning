@@ -1,0 +1,77 @@
+<section class="page-section" id="page-336">
+    <div class="page-header">
+        <div class="page-number">336</div>
+        <div class="page-title">
+            <h3>Coordinate Descent si Limitari</h3>
+            <span>Cand NU Functioneaza</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-336.jpg"
+             alt="Pagina 336" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand NU Functioneaza Coordinate Descent</h4>
+                <p>Coordinate descent nu e bun cand variabilele sunt <strong>puternic cuplate</strong>. Exemplu: f(x) = (x₁-x₂)² + α(x₁²+x₂²). Primul termen vrea x₁ = x₂, al doilea vrea x₁ = x₂ = 0. Daca α e mic, coordinate descent face progres extrem de lent!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Exemplu Vizual</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Minimul e la (0,0). Dar coordinate descent poate schimba x₁ doar putin fara a schimba x₂ (si invers), pentru ca termenul (x₁-x₂)² penalizeaza diferentele.</p>
+                                <p style="color: var(--warning); margin-top: 10px;">Newton rezolva instant - coordinate descent face mii de pasi!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.7.3 Polyak Averaging</h4>
+                <p><strong>Polyak averaging</strong> (Polyak & Juditsky, 1992) mediaza parametrii vizitati de-a lungul traiectoriei de optimizare. In loc sa folosim θ<sup>(t)</sup> final, folosim media: θ̄ = (1/t)Σθ<sup>(i)</sup>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Intuitie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">SGD oscileaza in jurul minimului din cauza zgomotului. Mediind pozitiile vizitate, oscilatiile se anuleaza si obtinem o estimare mai precisa a minimului!</p>
+                            <div class="formula" style="margin: 15px 0;">
+                                θ̄<sup>(t)</sup> = αθ̄<sup>(t-1)</sup> + (1-α)θ<sup>(t)</sup>
+                            </div>
+                            <p style="color: var(--text-secondary);">Varianta cu decay exponential e mai practica pentru probleme non-convexe.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Moderne: EMA</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Exponential Moving Average (EMA) e folosit in multe aplicatii moderne: GANs (pentru discriminator stabil), self-supervised learning, diffusion models. Szegedy et al. (2015) il foloseste pentru ImageNet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

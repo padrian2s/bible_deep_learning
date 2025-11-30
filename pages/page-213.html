@@ -1,0 +1,137 @@
+<section class="page-section" id="page-213">
+    <div class="page-header">
+        <div class="page-number">213</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.4.1 Teorema Aproximarii Universale si Adancime</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-213.jpg"
+             alt="Pagina 213" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Consideratii Arhitecturale Principale</h4>
+                <p>In aceste arhitecturi bazate pe lanturi, consideratiile arhitecturale principale sunt alegerea adancimii retelei si a latimii fiecarui strat. Vom vedea ca o retea cu chiar si un singur strat ascuns este suficienta pentru a se potrivi setului de antrenare. Retelele mai profunde folosesc adesea mult mai putine unitati per strat si mult mai putini parametri totali, generalizand frecvent mai bine pe setul de test.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Depth vs Width Trade-off</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Retea Lata (Shallow)</strong>
+                                    <ul style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>1-2 straturi ascunse</li>
+                                        <li>Multe unitati per strat</li>
+                                        <li>Multi parametri</li>
+                                        <li>Greu de generalizat</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Retea Adanca (Deep)</strong>
+                                    <ul style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>Multe straturi</li>
+                                        <li>Putine unitati per strat</li>
+                                        <li>Mai putini parametri</li>
+                                        <li>Generalizeaza mai bine</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Teorema Aproximarii Universale</h4>
+                <p>Teorema aproximarii universale (Hornik et al., 1989; Cybenko, 1989) afirma ca o retea feedforward cu un strat linear de output si cel putin un strat ascuns cu orice functie de activare "squashing" (cum ar fi logistic sigmoid) poate aproxima orice functie masurabila Borel de la un spatiu finit-dimensional la altul cu orice grad de eroare non-zero, cu conditia ca reteaua sa aiba suficiente unitati ascunse.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce spune teorema</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Universal Approximation Theorem:</strong>
+                                <p style="margin-top: 10px;">Un MLP cu un singur strat ascuns suficient de larg poate aproxima orice functie continua pe un compact cu precizie arbitrara.</p>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                <p><strong style="color: var(--success);">Ce POATE face:</strong></p>
+                                <ul style="color: var(--text-secondary); font-size: 0.9rem;">
+                                    <li>Reprezenta orice functie cu suficiente neuroni</li>
+                                    <li>Functioneaza si cu ReLU (Leshno et al., 1993)</li>
+                                </ul>
+                                <p style="margin-top: 10px;"><strong style="color: var(--warning);">Ce NU garanteaza:</strong></p>
+                                <ul style="color: var(--text-secondary); font-size: 0.9rem;">
+                                    <li>Ca algoritmul de antrenare va GASI acei parametri</li>
+                                    <li>Ca nu va face overfitting</li>
+                                    <li>Cat de mare trebuie sa fie reteaua</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Limitarile Teoremei</h4>
+                <p>Teorema inseamna ca indiferent de ce functie incercam sa invatam, stim ca un MLP mare va putea reprezenta aceasta functie. Totusi, nu suntem garantati ca algoritmul de antrenare va putea invata acea functie. Invatarea poate esua din doua motive: (1) optimizatorul nu poate gasi parametrii corecti, sau (2) algoritmul ar putea alege functia gresita din cauza overfitting-ului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Demonstratie: Reprezentare vs Invatare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Teorema garanteaza: exista W si b astfel incat
+# reteaua aproximeaza f* cu eroare < ε
+
+# DAR in practica:
+# 1. Nu stim cat de mare trebuie sa fie reteaua
+# 2. Gradient descent poate sa nu gaseasca solutia
+# 3. Chiar daca gaseste, poate face overfitting
+
+# Exemplu: O retea cu 1M neuroni POATE reprezenta
+# orice functie, dar:
+model = nn.Sequential(
+    nn.Linear(10, 1000000),  # 1M unitati ascunse
+    nn.ReLU(),
+    nn.Linear(1000000, 1)
+)
+# - Antrenarea e extrem de costisitoare
+# - Va face overfitting sigur pe seturi mici
+# - Parametri: ~10M - nu e practic
+
+# Solutia: DEPTH, nu WIDTH
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

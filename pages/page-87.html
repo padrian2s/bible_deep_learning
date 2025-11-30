@@ -1,0 +1,201 @@
+        <section class="page-section" id="page-87">
+            <div class="page-header">
+                <div class="page-number">87</div>
+                <div class="page-title">
+                    <h3>Schimbarea de Variabile si Jacobianul</h3>
+                    <span>Transformari de distributii</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-087.jpg"
+                     alt="Pagina 87" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Problema Transformarii de Variabile</h4>
+                        <p>Daca avem doua variabile x si y legate printr-o functie determinista invertibila y = g(x), am putea crede ca p_y(y) = p_x(g⁻¹(y)). Dar aceasta e GRESIT! De exemplu, daca y = x/2 si x ~ Uniform(0,1), atunci y ∈ [0, 0.5]. Daca am folosi formula naiva, ∫p_y(y)dy = 1/2 ≠ 1. Problema: transformarea "comprima" sau "dilata" spatiul.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Problema</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: center;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong>x ~ U(0, 1)</strong>
+                                            <div style="width: 100%; height: 40px; background: var(--accent); margin: 10px 0;"></div>
+                                            <p style="font-size: 0.8rem;">Interval [0, 1]</p>
+                                            <p style="font-size: 0.8rem;">p(x) = 1</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p>y = x/2</p>
+                                            <p style="font-size: 1.5rem;">→</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong>y ~ ?</strong>
+                                            <div style="width: 50%; height: 80px; background: var(--secondary); margin: 10px auto;"></div>
+                                            <p style="font-size: 0.8rem;">Interval [0, 0.5]</p>
+                                            <p style="font-size: 0.8rem;">p(y) = 2 (nu 1!)</p>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; text-align: center; color: var(--warning); font-size: 0.85rem;">
+                                        Densitatea CRESTE cand spatiul se "comprima"!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Formula Corecta: Jacobianul</h4>
+                        <p>Formula corecta tine cont de cat de mult se dilata/contracta spatiul. Pentru scalari: p_y(y) = p_x(g⁻¹(y)) × |∂g⁻¹(y)/∂y| sau echivalent p_x(x) = p_y(g(x)) × |∂g(x)/∂x|. Factorul |∂g/∂x| (sau inversa lui) corecteaza pentru "distorsiunea" introdusa de transformare.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Verificare formula</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# x ~ Uniform(0, 1)
+# y = g(x) = x/2, deci g^{-1}(y) = 2y
+
+# p_x(x) = 1 pentru x in [0, 1]
+# |dg/dx| = |1/2| = 0.5
+# |dg^{-1}/dy| = |2| = 2
+
+# Formula: p_y(y) = p_x(g^{-1}(y)) * |dg^{-1}/dy|
+#                 = 1 * 2 = 2 pentru y in [0, 0.5]
+
+# Verificare prin sampling
+np.random.seed(42)
+x_samples = np.random.uniform(0, 1, 100000)
+y_samples = x_samples / 2  # y = g(x)
+
+# Histograma ar trebui sa arate densitate 2 pe [0, 0.5]
+counts, bins = np.histogram(y_samples, bins=50, density=True)
+print(f"Densitatea medie pe [0, 0.5]: {counts.mean():.2f}")  # ≈ 2
+
+# Verificare integrala = 1
+# Aria = baza * inaltime = 0.5 * 2 = 1 ✓
+print(f"Verificare: 0.5 * 2 = {0.5 * 2}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Cazul Multidimensional: Matricea Jacobiana</h4>
+                        <p>In dimensiuni mai mari, derivata devine <strong>matricea Jacobiana</strong> J cu J_{i,j} = ∂xᵢ/∂yⱼ. Formula de schimbare de variabile devine: p_x(<strong>x</strong>) = p_y(g(<strong>x</strong>)) × |det(∂g(<strong>x</strong>)/∂<strong>x</strong>)|. Determinantul Jacobianului masoara cat de mult se schimba "volumul" local prin transformare.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Jacobian</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.1rem; margin-bottom: 15px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        p_x(<strong>x</strong>) = p_y(g(<strong>x</strong>)) × |det(J)|
+                                    </div>
+                                    <div class="key-concept">
+                                        <strong>Jacobianul:</strong>
+                                        <div style="font-family: monospace; margin: 10px 0; background: var(--bg-dark); padding: 10px; border-radius: 6px;">
+                                            J = ∂g/∂x = [∂g₁/∂x₁  ∂g₁/∂x₂]<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[∂g₂/∂x₁  ∂g₂/∂x₂]
+                                        </div>
+                                        <p style="color: var(--text-secondary); font-size: 0.85rem;">|det(J)| = factorul de scalare a volumului</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Aplicatii in Deep Learning</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>🌊</span>
+                                            <div><strong>Normalizing Flows</strong> - Modele generative care transforma distributii simple in complexe folosind Jacobieni</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🔄</span>
+                                            <div><strong>Reparametrization Trick (VAE)</strong> - z = μ + σ*ε permite backprop prin sampling</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📊</span>
+                                            <div><strong>Change of Variables in Integration</strong> - MCMC, importance sampling</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Jacobian 2D</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Transformare 2D: rotatie + scalare
+theta = np.pi / 4  # 45 grade
+scale = 2
+
+# g(x) = A @ x unde A e matricea transformarii
+A = scale * np.array([
+    [np.cos(theta), -np.sin(theta)],
+    [np.sin(theta),  np.cos(theta)]
+])
+
+print("Matrice transformare A:")
+print(A.round(3))
+
+# Jacobianul = A (pentru transformari liniare)
+jacobian = A
+det_J = np.linalg.det(jacobian)
+
+print(f"\ndet(J) = {det_J:.2f}")
+print(f"|det(J)| = {abs(det_J):.2f}")
+
+# Interpretare: aria creste de |det(J)| = 4 ori
+# Deci densitatea scade de 4 ori!
+# p_y(y) = p_x(A^{-1}y) / |det(A)|
+
+# Pentru Normalizing Flows, alegem transformari
+# cu Jacobieni usor de calculat (triangulari, etc.)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

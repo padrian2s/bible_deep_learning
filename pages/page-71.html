@@ -1,0 +1,261 @@
+        <section class="page-section" id="page-71">
+            <div class="page-header">
+                <div class="page-number">71</div>
+                <div class="page-title">
+                    <h3>3.2 Variabile Aleatoare</h3>
+                    <span>3.3 Distributii de Probabilitate - Introducere</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-071.jpg"
+                     alt="Pagina 71" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.2 Variabile Aleatoare</h4>
+                        <p>O <strong>variabila aleatoare</strong> este o variabila care poate lua diferite valori aleatoriu. Notam variabila cu litera mica (ex: x) si valorile pe care le poate lua cu litera mica cursiva (ex: x₁, x₂). Pentru vectori, folosim <strong>x</strong> pentru variabila si <strong><em>x</em></strong> pentru valori. O variabila aleatoare singura e doar o descriere a starilor posibile - trebuie cuplata cu o <strong>distributie de probabilitate</strong> care specifica cat de probabila e fiecare stare.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Notatie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">Scalari</strong>
+                                            <div style="margin-top: 10px; font-family: serif; font-size: 1.1rem;">
+                                                <div>Variabila: <em>x</em></div>
+                                                <div>Valori: x₁, x₂, ...</div>
+                                            </div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px;">Ex: x = varsta, valori posibile: 0, 1, 2, ...</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">Vectori</strong>
+                                            <div style="margin-top: 10px; font-family: serif; font-size: 1.1rem;">
+                                                <div>Variabila: <strong>x</strong></div>
+                                                <div>Valori: <strong><em>x</em></strong></div>
+                                            </div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px;">Ex: <strong>x</strong> = [varsta, greutate, inaltime]</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Variabile aleatoare in Python</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Variabila aleatoare scalara
+# x = rezultatul unui zar (valori posibile: 1-6)
+dice = stats.randint(1, 7)  # Definim distributia
+samples = dice.rvs(size=10)  # Esantionam valori
+print(f"Esantioane zar: {samples}")
+
+# Variabila aleatoare vectoriala
+# x = [temperatura, umiditate]
+mean = [20, 60]  # Grade Celsius, procent
+cov = [[5, 2], [2, 100]]  # Covariance
+weather = stats.multivariate_normal(mean, cov)
+sample = weather.rvs()
+print(f"Esantion vreme: temp={sample[0]:.1f}°C, umid={sample[1]:.0f}%")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Variabile Discrete vs Continue</h4>
+                        <p>Variabilele aleatoare pot fi <strong>discrete</strong> sau <strong>continue</strong>. O variabila <strong>discreta</strong> are un numar finit sau numarabil infinit de stari - acestea nu trebuie sa fie neaparat numere intregi, pot fi si stari nominale (ex: "rosu", "verde", "albastru"). O variabila <strong>continua</strong> este asociata cu valori reale.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Discret vs Continuu</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                            <h5 style="color: var(--accent); margin-bottom: 15px;">📊 Discret</h5>
+                                            <div style="display: flex; justify-content: space-around; margin: 15px 0;">
+                                                <div style="text-align: center;">
+                                                    <div style="width: 10px; height: 60px; background: var(--accent); margin: 0 auto;"></div>
+                                                    <span style="font-size: 0.8rem;">1</span>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <div style="width: 10px; height: 80px; background: var(--accent); margin: 0 auto;"></div>
+                                                    <span style="font-size: 0.8rem;">2</span>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <div style="width: 10px; height: 100px; background: var(--accent); margin: 0 auto;"></div>
+                                                    <span style="font-size: 0.8rem;">3</span>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <div style="width: 10px; height: 70px; background: var(--accent); margin: 0 auto;"></div>
+                                                    <span style="font-size: 0.8rem;">4</span>
+                                                </div>
+                                            </div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Valori separate, numarabile</p>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: Nr. clienti, zar, culori</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                            <h5 style="color: var(--secondary); margin-bottom: 15px;">📈 Continuu</h5>
+                                            <div style="height: 80px; background: linear-gradient(90deg, transparent, var(--secondary), var(--secondary), transparent); border-radius: 50% 50% 0 0; margin: 15px 0;"></div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Orice valoare in interval</p>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: Temperatura, greutate, timp</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Exemple din ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>📊</span>
+                                            <div><strong>Clasificare</strong> - Output discret: clase precum "spam/nu spam", "pisica/caine/pasare"</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📈</span>
+                                            <div><strong>Regresie</strong> - Output continuu: pret casa, temperatura, probabilitate</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🔤</span>
+                                            <div><strong>NLP</strong> - Tokeni discreti, dar embeddings continue</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🖼️</span>
+                                            <div><strong>Imagini</strong> - Pixeli discreti (0-255), dar adesea tratati ca valori continue [0,1]</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.3 Distributii de Probabilitate</h4>
+                        <p>O <strong>distributie de probabilitate</strong> descrie cat de probabila e fiecare stare (sau regiune de stari) a unei variabile aleatoare. Modul in care descriem distributia depinde de tipul variabilei: pentru variabile <strong>discrete</strong> folosim <strong>functia de masa de probabilitate (PMF)</strong>, iar pentru variabile <strong>continue</strong> folosim <strong>functia de densitate de probabilitate (PDF)</strong>.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: PMF vs PDF</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                            <strong style="color: var(--accent);">PMF - Probability Mass Function</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 10px 0;">Pentru variabile DISCRETE</p>
+                                            <div class="formula">P(x = k)</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px;">"Probabilitatea ca x sa fie exact k"</p>
+                                            <p style="font-size: 0.8rem; color: var(--success); margin-top: 5px;">Valori intre 0 si 1</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                            <strong style="color: var(--secondary);">PDF - Probability Density Function</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 10px 0;">Pentru variabile CONTINUE</p>
+                                            <div class="formula">p(x) sau f(x)</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px;">"Densitatea probabilitatii la punctul x"</p>
+                                            <p style="font-size: 0.8rem; color: var(--warning); margin-top: 5px;">Poate fi > 1!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.3.1 Variabile Discrete si Functia de Masa (PMF)</h4>
+                        <p>O distributie de probabilitate peste variabile discrete poate fi descrisa folosind o <strong>functie de masa de probabilitate (PMF)</strong>. Notam PMF cu P majuscul. PMF-ul mapeaza fiecare stare a variabilei la probabilitatea ca variabila sa ia acea stare. Probabilitatea ca x = x₁ se scrie P(x = x₁) sau prescurtat P(x₁).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: PMF pentru un zar</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+import matplotlib.pyplot as plt
+
+# PMF pentru un zar corect
+def pmf_dice(k):
+    """P(X = k) pentru zar cu 6 fete"""
+    if k in [1, 2, 3, 4, 5, 6]:
+        return 1/6
+    return 0
+
+# Verificam proprietatile PMF
+values = [1, 2, 3, 4, 5, 6]
+probs = [pmf_dice(k) for k in values]
+
+print("PMF pentru zar:")
+for k, p in zip(values, probs):
+    print(f"  P(X = {k}) = {p:.4f}")
+
+print(f"\nSuma probabilitatilor: {sum(probs):.4f}")  # = 1.0
+print(f"Toate >= 0: {all(p >= 0 for p in probs)}")  # True
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Notatie importanta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Conventii de notatie:</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>P(x)</strong> - PMF, notam distributia cu variabila (P(x) ≠ P(y) de obicei)</li>
+                                            <li><strong>P(x = x₁)</strong> - Probabilitatea exacta ca x sa ia valoarea x₁</li>
+                                            <li><strong>x ~ P(x)</strong> - "x este distribuit conform P"</li>
+                                            <li><strong>P(x, y)</strong> - Distributie comuna (joint) peste x SI y</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

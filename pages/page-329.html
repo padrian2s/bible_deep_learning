@@ -1,0 +1,70 @@
+<section class="page-section" id="page-329">
+    <div class="page-header">
+        <div class="page-number">329</div>
+        <div class="page-title">
+            <h3>Figura 8.6: Steepest Descent vs Conjugate Gradients</h3>
+            <span>Directii Conjugate</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-329.jpg"
+             alt="Pagina 329" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 8.6: Zig-Zag vs Direct</h4>
+                <p>Aceasta figura ilustreaza diferenta dramatica intre steepest descent (care face zig-zag) si conjugate gradients (care merge direct). Pe o functie quadratica, steepest descent oscileaza inainte-inapoi, in timp ce conjugate gradients converge in n pasi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretarea Figurii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Contururile eliptice arata o functie quadratica cu curbura diferita pe cele doua axe. Traiectoria rosie (steepest descent cu line search) face zig-zag, in timp ce conjugate gradients ar merge direct pe axele principale.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Directiei Conjugate</h4>
+                <p>Directia de cautare in conjugate gradients combina gradientul curent cu directia anterioara: d<sub>t</sub> = ∇J(θ) + β<sub>t</sub>d<sub>t-1</sub>. Coeficientul β<sub>t</sub> e ales astfel incat d<sub>t</sub> si d<sub>t-1</sub> sa fie conjugate (d<sub>t</sub>ᵀHd<sub>t-1</sub> = 0).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Metode de Calcul β</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Fletcher-Reeves:</strong>
+                                    <div class="formula" style="margin-top: 10px;">β<sub>t</sub> = g<sub>t</sub>ᵀg<sub>t</sub> / g<sub>t-1</sub>ᵀg<sub>t-1</sub></div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Polak-Ribière:</strong>
+                                    <div class="formula" style="margin-top: 10px;">β<sub>t</sub> = (g<sub>t</sub> - g<sub>t-1</sub>)ᵀg<sub>t</sub> / g<sub>t-1</sub>ᵀg<sub>t-1</sub></div>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Ambele formule nu necesita calculul explicit al Hessianului!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

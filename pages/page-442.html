@@ -1,0 +1,204 @@
+<section class="page-section" id="page-442">
+    <div class="page-header">
+        <div class="page-number">442</div>
+        <div class="page-title">
+            <h3>Date vs Algoritm si Hiperparametri</h3>
+            <span>Sectiunile 11.3-11.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-442.jpg"
+             alt="Pagina 442" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand Merita sa Aduni Mai Multe Date?</h4>
+                <p>Daca performanta pe test set este mult mai slaba decat pe training set, <strong>adunarea mai multor date</strong> este una dintre cele mai eficiente solutii. Consideratiile cheie sunt: (1) costul si fezabilitatea colectarii datelor, (2) costul altor metode de reducere a erorii, si (3) cantitatea de date necesara pentru a imbunatati semnificativ performanta. La companii mari cu milioane de utilizatori, colectarea datelor este adesea mai ieftina decat alternativele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Learning Curves</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Learning curves: Cat de mult ajuta mai multe date?
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def estimate_data_benefit(current_train_sizes, current_errors):
+    """
+    Extrapoleaza cat de mult ar ajuta mai multe date
+
+    Tehnica: antreneaza pe subseturi crescatoare,
+    ploteaza eroarea, extrapoleaza curba
+    """
+    # Eroarea de generalizare scade ~O(1/sqrt(n))
+    # sau O(1/n) pentru modele simple
+
+    # Exemplu: daca la 10k samples ai 15% error,
+    # la 100k samples ai poate 8% error
+
+    # REGULA PRACTICA (Ng):
+    # Pentru reducere semnificativa a erorii,
+    # ai nevoie de ~10x mai multe date
+
+    pass
+
+# EXPERIMENT PRACTIC:
+"""
+Training size | Train Error | Test Error | Gap
+-------------|-------------|------------|-----
+    1,000     |    2%       |    25%     | 23%
+   10,000     |    3%       |    15%     | 12%
+  100,000     |    5%       |     8%     |  3%
+1,000,000     |    6%       |     7%     |  1%
+
+Observatii:
+- Training error creste (model underfit pe date mici)
+- Test error scade substantial
+- Gap se micsoreaza
+- Extrapolarea ajuta sa decizi daca merita investitia
+"""
+
+# Cand NU merita mai multe date:
+# 1. Gap train-test deja mic
+# 2. Training error > target (problema e capacitatea)
+# 3. Date de calitate proasta (noise > signal)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context: Scalare la Big Tech</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Realitate Big Tech:</strong> La companii cu miliarde de utilizatori (Google, Meta, etc.), costul colectarii datelor este aproape zero. Raspunsul la "mai multe date?" este aproape mereu "DA".
+                            </div>
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>ImageNet:</strong> Dezvoltarea dataseturilor mari a fost unul din factorii cheie in succesul deep learning pentru object recognition
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Medical AI:</strong> Colectarea datelor poate fi costisitoare (teste invazive) sau chiar daunatoare - aici algoritmul trebuie imbunatatit
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand sa Imbunatatesti Algoritmul</h4>
+                <p>Daca colectarea mai multor date nu este fezabila, singura alternativa pentru a imbunatati eroarea de generalizare este <strong>imbunatatirea algoritmului de invatare</strong>. Aceasta devine domeniul cercetarii, nu al practicii aplicate. Practicianul ar trebui sa se concentreze pe: regularizare mai buna, hyperparameter tuning, si posibil date de calitate mai buna (mai curate sau cu features mai bogati).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Optiuni Practician</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4caf50; font-weight: bold;">1. Mai Multe Date (daca posibil)</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Cea mai sigura metoda - aproape mereu ajuta</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b3d4d, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #03dac6; font-weight: bold;">2. Regularizare</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Dropout, weight decay, early stopping, data augmentation</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ffd93d; font-weight: bold;">3. Hyperparameter Tuning</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Learning rate, arhitectura, batch size</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b4d, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #bb86fc; font-weight: bold;">4. Date Mai Curate</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Elimina noise, corecteaza labele, features mai buni</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #f44336; font-weight: bold;">5. Algoritm Nou (cercetare)</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Ultima optiune - necesita expertiza in cercetare</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>11.4 Selectarea Hiperparametrilor</h4>
+                <p>Majoritatea algoritmilor de deep learning vin cu multi <strong>hiperparametri</strong> care controleaza diferite aspecte: unii afecteaza costul computational (timpul si memoria), altii afecteaza calitatea modelului invatat si capacitatea de generalizare. Exista doua abordari de baza: <strong>alegere manuala</strong> si <strong>alegere automata</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Tipuri de Hiperparametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Categorii de hiperparametri
+
+HYPERPARAMETERS = {
+    # ARHITECTURA
+    "architecture": {
+        "num_layers": [2, 3, 4, 5],
+        "hidden_size": [64, 128, 256, 512],
+        "activation": ["relu", "leaky_relu", "gelu"],
+        "dropout_rate": [0.0, 0.1, 0.3, 0.5],
+    },
+
+    # OPTIMIZARE
+    "optimization": {
+        "learning_rate": [1e-4, 1e-3, 1e-2, 1e-1],  # CRUCIAL!
+        "batch_size": [32, 64, 128, 256],
+        "optimizer": ["sgd", "adam", "adamw"],
+        "momentum": [0.9, 0.99],
+        "weight_decay": [0, 1e-5, 1e-4, 1e-3],
+    },
+
+    # REGULARIZARE
+    "regularization": {
+        "dropout": [0.0, 0.1, 0.3, 0.5],
+        "weight_decay": [0, 1e-5, 1e-4],
+        "label_smoothing": [0.0, 0.1],
+        "early_stopping_patience": [5, 10, 20],
+    },
+
+    # COMPUTATIONAL
+    "computational": {
+        "num_epochs": "affects training time",
+        "batch_size": "affects memory & speed",
+        "precision": ["fp32", "fp16", "bf16"],
+    }
+}
+
+# Manual: necesita intelegere profunda
+# Automatic: grid search, random search, Bayesian opt
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

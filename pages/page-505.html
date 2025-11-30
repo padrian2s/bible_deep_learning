@@ -1,0 +1,76 @@
+<section class="page-section" id="page-505">
+    <div class="page-header">
+        <div class="page-number">505</div>
+        <div class="page-title">
+            <h3>Figura 13.1 si Factor Analysis</h3>
+            <span>Graful Directed al Linear Factor Models</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-505.jpg"
+             alt="Pagina 505" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 13.1: Graful Linear Factor Model</h4>
+                <p>Figura arata structura grafica a linear factor models: factori latenti h<sub>i</sub> (independenti) genereaza variabilele observate x<sub>i</sub> printr-o combinatie liniara plus zgomot. Zgomotul e diagonal (independent intre dimensiuni).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretare Vizuala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Factorii h<sub>i</sub></strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Variabile latente independente, nu observate direct</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Observatiile x<sub>i</sub></strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Date observate = Wh + b + noise</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Dependentele</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">h explica corelatiile intre x<sub>i</sub>; dat fiind h, x<sub>i</sub> sunt independente</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>13.1 Probabilistic PCA si Factor Analysis</h4>
+                <p><strong>Factor Analysis</strong> foloseste prior Gaussian pe h: h ~ N(0, I). Zgomotul are varianta diagonala diferita per dimensiune: psi = diag(sigma<sub>1</sub>², ..., sigma<sub>n</sub>²). Rezultat: x ~ N(b, WW<sup>T</sup> + psi).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formulele Factor Analysis</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                h ~ N(h; 0, I)<br><br>
+                                x | h ~ N(x; Wh + b, psi)<br><br>
+                                x ~ N(x; b, WW<sup>T</sup> + psi)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Rolul factorilor latenti: <strong>captureaza dependentele</strong> intre variabilele observate x<sub>i</sub>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

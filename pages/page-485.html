@@ -1,0 +1,133 @@
+<section class="page-section" id="page-485">
+    <div class="page-header">
+        <div class="page-number">485</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4.3.3 Importance Sampling - Gradientul</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-485.jpg"
+             alt="Pagina 485" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Descompunerea Gradientului</h4>
+                <p>Gradientul log-likelihood-ului pentru softmax poate fi scris ca suma a doua termeni: un termen <strong>positive phase</strong> care impinge scorul cuvantului corect in sus, si un termen <strong>negative phase</strong> care impinge scorurile tuturor cuvintelor in jos, ponderat cu probabilitatile lor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Positive vs Negative Phase</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                ∂log P(y|C)/∂θ = ∂aᵧ/∂θ - Σᵢ P(y=i|C) × ∂aᵢ/∂θ
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Positive Phase</strong>
+                                    <div class="formula" style="margin-top: 10px; font-size: 0.9rem;">∂aᵧ/∂θ</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">Impinge scorul cuvantului corect y IN SUS</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Negative Phase</strong>
+                                    <div class="formula" style="margin-top: 10px; font-size: 0.9rem;">-Σᵢ P(i|C) × ∂aᵢ/∂θ</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">Impinge scorurile tuturor cuvintelor IN JOS</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Problema: Suma peste |V|</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section_content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema:</strong> Negative phase este o expectatie peste toate cuvintele. Am putea estima cu Monte Carlo sampling din model, dar asta necesita calculul P(i|C) pentru toate i - exact ce vrem sa evitam!
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);"><strong>Solutie:</strong> In loc sa esantionam din model, esantionam dintr-o alta distributie q (proposal distribution) si corectam cu importance weights.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Importance Sampling pentru Negative Phase</h4>
+                <p>Esantionam cuvinte "negative" dintr-o distributie propunere q (ex: unigram sau bigram din training set), apoi corectam cu <strong>importance weights</strong> pᵢ/qᵢ. Din pacate, importance sampling exact necesita tot calculul lui pᵢ = P(i|C).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Biased Importance Sampling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Biased Importance Sampling pentru NLM
+# Bengio & Senecal (2003, 2008)
+
+def biased_importance_sampling(model, context, target, q_dist, m=100):
+    """
+    m: numarul de esantioane negative
+    q_dist: proposal distribution (ex: unigram frequencies)
+    """
+    # Esantioneaza m cuvinte negative din q
+    negative_words = q_dist.sample(m)
+
+    # Calculeaza scores (un-normalized log probs)
+    a_target = model.score(context, target)
+    a_negatives = [model.score(context, w) for w in negative_words]
+
+    # Importance weights (normalizate sa sumeze la 1)
+    # w_i = exp(a_i) / q_i / sum_j exp(a_j) / q_j
+    unnorm_weights = [torch.exp(a) / q_dist.prob(w)
+                      for a, w in zip(a_negatives, negative_words)]
+    weights = normalize(unnorm_weights)
+
+    # Gradient estimate
+    grad_positive = model.grad_score(context, target)
+    grad_negative = sum(w * model.grad_score(context, n)
+                        for w, n in zip(weights, negative_words))
+
+    return grad_positive - grad_negative
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Importance Sampling pentru NLM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bengio & Senecal (2003, 2008)</strong> - Biased importance sampling pentru NLM</div></li>
+                            </ul>
+                            <div class="formula" style="margin-top: 15px;">
+                                wᵢ = (pₙᵢ/qₙᵢ) / Σⱼ (pₙⱼ/qₙⱼ)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Un unigram sau bigram functioneaza bine ca proposal distribution q - e usor de estimat si de esantionat eficient.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

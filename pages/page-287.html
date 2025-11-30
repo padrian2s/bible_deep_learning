@@ -1,0 +1,76 @@
+<section class="page-section" id="page-287">
+    <div class="page-header">
+        <div class="page-number">287</div>
+        <div class="page-title">
+            <h3>7.14 Figura 7.9 - Manifold Tangent Classifier</h3>
+            <span>Vectori Tangenti si Normali</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-287.jpg"
+             alt="Pagina 287" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 7.9: Tangent vs Normal</h4>
+                <p>Figura ilustreaza ideea din tangent prop si manifold tangent classifier. Fiecare curba reprezinta manifold-ul unei clase diferite. Pentru un punct pe manifold, avem:</p>
+                <ul style="margin-top: 10px;">
+                    <li><strong style="color: var(--success);">Tangent</strong> (verde): directie de-a lungul manifold-ului - clasificarea NU ar trebui sa se schimbe</li>
+                    <li><strong style="color: var(--primary);">Normal</strong> (albastru): directie perpendiculara - clasificarea SE poate schimba</li>
+                </ul>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Intuitie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Clasificatorul trebuie sa fie <strong>constant de-a lungul manifold-ului</strong> dar sa se schimbe rapid in directia <strong>normala</strong> (pentru a separa clase).</p>
+                            </div>
+                            <p style="margin-top: 15px;">In multiple dimensiuni, pot fi multi vectori tangenti si multi vectori normali. Clasificarea se schimba rapid cand ne miscam normal la manifold-ul clasei curente (spre alta clasa).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Manifold Tangent Classifier</h4>
+                <p><strong>Manifold Tangent Classifier</strong> (Rifai et al., 2011c) elimina necesitatea de a specifica manual vectorii tangenti! In schimb:</p>
+                <ol style="margin-top: 10px;">
+                    <li>Antreneaza un <strong>autoencoder</strong> pentru a invata structura manifold-ului din date</li>
+                    <li>Estimeaza vectorii tangenti din autoencoder</li>
+                    <li>Regularizeaza clasificatorul cu acesti tangenti invatati</li>
+                </ol>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Avantajul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>In loc de a specifica manual transformari "valide" (translatie, rotatie, scalare...), autoencoderul poate invata:</p>
+                            <ul style="margin-top: 10px;">
+                                <li>Invariante clasice (geometrie)</li>
+                                <li>Invariante specifice obiectului (ex: miscari ale partilor corpului)</li>
+                                <li>Orice alte factori de variatie prezenti in date</li>
+                            </ul>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Autoencoderii pentru estimarea manifold-urilor vor fi descrisi in Capitolul 14.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

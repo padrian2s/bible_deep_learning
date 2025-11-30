@@ -1,0 +1,152 @@
+        <section class="page-section" id="page-86">
+            <div class="page-header">
+                <div class="page-number">86</div>
+                <div class="page-title">
+                    <h3>3.12 Detalii Tehnice: Variabile Continue</h3>
+                    <span>Teoria Masurii si "Aproape Peste Tot"</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-086.jpg"
+                     alt="Pagina 86" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Bayes in Machine Learning</h4>
+                        <p>Regula lui Bayes e fundamentul multor tehnici ML. Formula se deriva direct din definitia probabilitatii conditionate, dar e util sa o cunoastem pe nume. In ML, adesea x sunt parametrii modelului si y sunt datele. <strong>Bayesian inference</strong> inseamna calculul posterior-ului P(parametri|date) din prior P(parametri) si likelihood P(date|parametri).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Bayes in ML context</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Interpretare ML:</strong>
+                                        <div class="formula" style="margin: 15px 0;">P(θ | D) = P(θ) × P(D | θ) / P(D)</div>
+                                        <ul style="color: var(--text-secondary);">
+                                            <li><strong>θ</strong> = parametrii modelului (weights)</li>
+                                            <li><strong>D</strong> = datele de antrenare</li>
+                                            <li><strong>P(θ)</strong> = prior (ex: Gaussian → L2 regularization)</li>
+                                            <li><strong>P(D|θ)</strong> = likelihood (cat de bine modelul explica datele)</li>
+                                            <li><strong>P(θ|D)</strong> = posterior (ce stim despre θ dupa training)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.12 Teoria Masurii - Context</h4>
+                        <p>O intelegere formala a variabilelor continue necesita <strong>teoria masurii</strong> - o ramura a matematicii care depaseste scopul acestei carti. Dar putem schia cateva probleme pe care teoria masurii le rezolva. De exemplu, unele seturi S pot fi construite astfel incat p(x∈S₁) + p(x∈S₂) > 1 chiar daca S₁ ∩ S₂ = ∅! Teoria masurii caracterizeaza ce seturi permit calculul probabilitatilor fara paradoxuri.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>De ce conteaza pentru ML?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Vestea buna:</strong>
+                                        <p style="margin-top: 10px;">In practica ML, lucram cu seturi "bine comportate" (intervale, reuniuni de intervale, etc.) unde teoria masurii nu creeaza probleme. Seturile patologice apar doar in constructii matematice artificiale.</p>
+                                        <p style="margin-top: 10px;">Trebuie doar sa stim ca exista fundamente riguroase pentru calculele pe care le facem cu PDF-uri!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Masura Zero si "Aproape Peste Tot"</h4>
+                        <p>Un set are <strong>masura zero</strong> daca nu ocupa "volum" in spatiul pe care il masuram. De exemplu, in ℝ², o linie are masura zero (dar un poligon plin are masura pozitiva). Un punct individual are mereu masura zero. Orice reuniune numarabila de seturi de masura zero are tot masura zero (ex: multimea numerelor rationale are masura zero in ℝ!).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Masura zero</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--success);">Masura Pozitiva</strong>
+                                            <div style="width: 80px; height: 80px; background: var(--success); opacity: 0.5; margin: 15px auto; border-radius: 8px;"></div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Patrat plin in ℝ²</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">Masura Zero</strong>
+                                            <div style="width: 80px; height: 80px; margin: 15px auto; display: flex; align-items: center; justify-content: center;">
+                                                <div style="width: 100%; height: 2px; background: var(--warning);"></div>
+                                            </div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Linie in ℝ²</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>"Aproape Peste Tot" (Almost Everywhere)</h4>
+                        <p>O proprietate este adevarata <strong>aproape peste tot</strong> daca exceptiile formeaza un set de masura zero. De exemplu, "PDF-urile sunt continue aproape peste tot" inseamna ca pot avea discontinuitati, dar doar pe un set de masura zero. In practica, rezultatele care sunt adevarate "aproape peste tot" sunt la fel de bune ca cele adevarate "peste tot" - exceptiile sunt neglijabile probabilistic.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Exemplu practic</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Functie cu discontinuitate la x=0
+def f_discontinuous(x):
+    """f(x) = 0 pentru x < 0, 1 pentru x >= 0"""
+    return (x >= 0).astype(float)
+
+# Esantionare uniforma din [-1, 1]
+np.random.seed(42)
+samples = np.random.uniform(-1, 1, 1000000)
+
+# Cat de des "nimereste" exact x = 0?
+exact_zero = np.sum(samples == 0.0)
+print(f"Esantioane exact la x=0: {exact_zero}")  # = 0!
+
+# Probabilitatea de a nimeri un punct specific e 0
+# Discontinuitatile pe seturi de masura zero nu conteaza
+# pentru integrale (sperante, probabilitati pe intervale)
+
+# Integrala e aceeasi ca pentru step function continua:
+mean_f = f_discontinuous(samples).mean()
+expected = 0.5  # P(x >= 0) pentru Uniform(-1, 1)
+print(f"\nE[f(x)] empiric: {mean_f:.4f}")
+print(f"E[f(x)] teoretic: {expected}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

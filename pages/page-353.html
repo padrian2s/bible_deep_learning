@@ -1,0 +1,140 @@
+<section class="page-section" id="page-353">
+    <div class="page-header">
+        <div class="page-number">353</div>
+        <div class="page-title">
+            <h3>Figura 9.5: Parameter Sharing</h3>
+            <span>Partajarea Parametrilor si Echivarianta</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-353.jpg"
+             alt="Pagina 353" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Vizualizarea Partajarii Parametrilor</h4>
+                <p>Figura 9.5 ilustreaza diferenta dintre CNN si fully connected in termeni de utilizare a parametrilor. In CNN (sus), sagetile negre arata conexiunile care folosesc acelasi parametru - elementul central al kernelului este folosit la TOATE pozitiile inputului. In reteaua fully connected (jos), fiecare conexiune are propriul parametru unic - parametrul central e folosit o singura data.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Reutilizarea Ponderilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">CNN - Tied Weights</strong>
+                                    <div style="margin-top: 15px; text-align: center;">
+                                        <div style="display: flex; justify-content: center; gap: 5px; margin-bottom: 10px;">
+                                            <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">s₁</div>
+                                            <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">s₂</div>
+                                            <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">s₃</div>
+                                        </div>
+                                        <div style="color: var(--accent); font-size: 1.5rem;">↓w ↓w ↓w</div>
+                                        <div style="display: flex; justify-content: center; gap: 5px; margin-top: 10px;">
+                                            <div style="background: var(--accent); padding: 8px 12px; border-radius: 4px;">x₁</div>
+                                            <div style="background: var(--accent); padding: 8px 12px; border-radius: 4px;">x₂</div>
+                                            <div style="background: var(--accent); padding: 8px 12px; border-radius: 4px;">x₃</div>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 10px; font-size: 0.85rem; text-align: center;">Aceeasi pondere <strong>w</strong> peste tot!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">FC - Unique Weights</strong>
+                                    <div style="margin-top: 15px; text-align: center;">
+                                        <div style="display: flex; justify-content: center; gap: 5px; margin-bottom: 10px;">
+                                            <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">s₁</div>
+                                            <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">s₂</div>
+                                            <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">s₃</div>
+                                        </div>
+                                        <div style="color: var(--warning); font-size: 1.2rem;">↓w₁ ↓w₂ ↓w₃</div>
+                                        <div style="display: flex; justify-content: center; gap: 5px; margin-top: 10px;">
+                                            <div style="background: var(--warning); padding: 8px 12px; border-radius: 4px;">x₁</div>
+                                            <div style="background: var(--warning); padding: 8px 12px; border-radius: 4px;">x₂</div>
+                                            <div style="background: var(--warning); padding: 8px 12px; border-radius: 4px;">x₃</div>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 10px; font-size: 0.85rem; text-align: center;">Ponderi diferite w₁, w₂, w₃</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Echivarianta la Translatii</h4>
+                <p>Partajarea parametrilor confera CNN-urilor o proprietate importanta: <strong>echivarianta la translatii</strong>. O functie f este echivarianta la transformarea g daca f(g(x)) = g(f(x)). Pentru convolutie: daca mutam obiectul in imagine cu un offset, detectia se muta cu acelasi offset in feature map. Practic, CNN-ul detecteaza un pattern oriunde ar fi el in imagine!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Echivarianta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Imagine cu o "muchie" la pozitia 2
+img1 = torch.tensor([[[[0., 0., 1., 1., 0., 0.]]]])
+
+# Aceeasi "muchie" translatata la pozitia 4
+img2 = torch.tensor([[[[0., 0., 0., 0., 1., 1.]]]])
+
+# Kernel detecteaza tranzitia 0->1
+kernel = torch.tensor([[[[-1., 1.]]]])
+
+# Aplicam convolutia
+out1 = F.conv2d(img1, kernel)
+out2 = F.conv2d(img2, kernel)
+
+print("Detectie img1:", out1.squeeze().numpy())
+# [0, 1, 0, -1, 0] - detectie la pozitia 2
+
+print("Detectie img2:", out2.squeeze().numpy())
+# [0, 0, 0, 1, -1] - detectie la pozitia 4
+
+# Detectia s-a mutat cu acelasi offset ca inputul!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Echivarianta vs Invarianta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong style="color: var(--primary);">Echivarianta</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">f(g(x)) = g(f(x))</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Output-ul se transforma "la fel" ca input-ul. Convolutia este echivarianta la translatii.</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Invarianta</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">f(g(x)) = f(x)</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Output-ul NU se schimba la transformare. Pooling-ul adauga invarianta aproximativa.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

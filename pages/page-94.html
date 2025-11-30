@@ -1,0 +1,243 @@
+        <section class="page-section" id="page-94">
+            <div class="page-header">
+                <div class="page-number">94</div>
+                <div class="page-title">
+                    <h3>Figura 3.8: Model Undirected</h3>
+                    <span>Concluzii Capitolul 3</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-094.jpg"
+                     alt="Pagina 94" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Figura 3.8: Model Grafic Undirected</h4>
+                        <p>Acelasi set de variabile (a, b, c, d, e) poate fi reprezentat si ca model <strong>undirected</strong>. Factorizarea devine: p(a,b,c,d,e) = (1/Z) ψ⁽¹⁾(a,b,c) × ψ⁽²⁾(b,d) × ψ⁽³⁾(c,e). Observam ca: a si c interactioneaza direct (sunt in aceeasi clica), dar a si e interactioneaza doar indirect prin c.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Graful Undirected</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                                        <svg width="200" height="200" viewBox="0 0 200 200">
+                                            <!-- Nodes -->
+                                            <circle cx="60" cy="30" r="20" fill="var(--accent)" stroke="white" stroke-width="2"/>
+                                            <circle cx="140" cy="30" r="20" fill="var(--accent)" stroke="white" stroke-width="2"/>
+                                            <circle cx="60" cy="100" r="20" fill="var(--secondary)" stroke="white" stroke-width="2"/>
+                                            <circle cx="140" cy="100" r="20" fill="var(--secondary)" stroke="white" stroke-width="2"/>
+                                            <circle cx="60" cy="170" r="20" fill="var(--warning)" stroke="white" stroke-width="2"/>
+                                            <!-- Labels -->
+                                            <text x="60" y="35" fill="white" font-size="14" text-anchor="middle" font-weight="bold">a</text>
+                                            <text x="140" y="35" fill="white" font-size="14" text-anchor="middle" font-weight="bold">b</text>
+                                            <text x="60" y="105" fill="white" font-size="14" text-anchor="middle" font-weight="bold">c</text>
+                                            <text x="140" y="105" fill="white" font-size="14" text-anchor="middle" font-weight="bold">d</text>
+                                            <text x="60" y="175" fill="white" font-size="14" text-anchor="middle" font-weight="bold">e</text>
+                                            <!-- Undirected edges -->
+                                            <line x1="75" y1="40" x2="125" y2="40" stroke="white" stroke-width="2"/>
+                                            <line x1="60" y1="50" x2="60" y2="80" stroke="white" stroke-width="2"/>
+                                            <line x1="75" y1="45" x2="125" y2="85" stroke="white" stroke-width="2"/>
+                                            <line x1="140" y1="50" x2="140" y2="80" stroke="white" stroke-width="2"/>
+                                            <line x1="60" y1="120" x2="60" y2="150" stroke="white" stroke-width="2"/>
+                                            <!-- Clique highlight -->
+                                            <path d="M 60 30 L 140 30 L 60 100 Z" fill="var(--accent)" fill-opacity="0.15" stroke="var(--accent)" stroke-width="1" stroke-dasharray="5,5"/>
+                                        </svg>
+                                    </div>
+                                    <div class="formula" style="text-align: center; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        p(a,b,c,d,e) = (1/Z) · ψ⁽¹⁾(a,b,c) · ψ⁽²⁾(b,d) · ψ⁽³⁾(c,e)
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center; font-size: 0.85rem;">
+                                            <strong style="color: var(--accent);">Clica 1</strong>
+                                            <p style="color: var(--text-secondary);">{a, b, c}</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center; font-size: 0.85rem;">
+                                            <strong style="color: var(--secondary);">Clica 2</strong>
+                                            <p style="color: var(--text-secondary);">{b, d}</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center; font-size: 0.85rem;">
+                                            <strong style="color: var(--warning);">Clica 3</strong>
+                                            <p style="color: var(--text-secondary);">{c, e}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Directed vs Undirected: Nu sunt exclusive!</h4>
+                        <p>Un punct important: reprezentarile <strong>directed</strong> si <strong>undirected</strong> nu sunt familii mutual exclusive de distributii. Orice distributie de probabilitate poate fi descrisa in AMBELE moduri! Alegerea e o chestiune de <strong>convenabilitate</strong> si de ce proprietati vrem sa exprimam mai natural. Unele relatii sunt mai usor de exprimat intr-un mod decat in celalalt.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Cand alegem Directed vs Undirected</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">Alege DIRECTED cand:</strong>
+                                            <ul style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">
+                                                <li>Exista o relatie cauzala clara</li>
+                                                <li>Vrei sampling usor (ancestral)</li>
+                                                <li>Factorii sunt natural probabilitati conditionate</li>
+                                                <li>Ex: generative models, causal inference</li>
+                                            </ul>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">Alege UNDIRECTED cand:</strong>
+                                            <ul style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">
+                                                <li>Relatiile sunt simetrice</li>
+                                                <li>Vrei sa exprimi "soft constraints"</li>
+                                                <li>Nu exista directie cauzala naturala</li>
+                                                <li>Ex: image segmentation, sequence labeling</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Sumar Capitolul 3: Probabilitate si Teoria Informatiei</h4>
+                        <p>Acest capitol a acoperit conceptele fundamentale de <strong>probabilitate</strong> relevante pentru deep learning. In Partile I si II ale cartii, modelele probabilistice structurate vor fi folosite ca un <strong>limbaj</strong> pentru descrierea relatiilor probabilistice in algoritmi ML. In Partea III, vom explora aceste modele in mult mai mult detaliu. Urmatorul capitol: <strong>metode numerice</strong>.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Recapitulare: Ce am invatat</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                            <strong>Fundamente</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Variabile aleatoare, PMF, PDF, probabilitati conditionate, regula lantului</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(124, 58, 237, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);">
+                                            <strong>Distributii</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Bernoulli, Gaussian, Exponential, Laplace, Dirac, Mixturi (GMM)</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                            <strong>Functii Utile</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Sigmoid, Softplus, Softmax, Bayes' Rule</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                            <strong>Teoria Informatiei</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Entropia Shannon, KL Divergence, Cross-Entropy</p>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                            <strong>Modele Structurate</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Directed (Bayesian Networks), Undirected (MRF), Factorizare, Partition Function</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Ce urmeaza: Capitolul 4</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Metode Numerice pentru Deep Learning:</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>Gradient Descent</strong> - optimizarea iterativa a functiilor</li>
+                                            <li><strong>Overflow/Underflow</strong> - probleme numerice si solutii</li>
+                                            <li><strong>Conditioning</strong> - sensibilitatea la erori</li>
+                                            <li><strong>Constrained Optimization</strong> - Lagrange multipliers</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Sumar concepte cheie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# =========================
+# SUMAR CAPITOLUL 3
+# =========================
+
+# 1. DISTRIBUTII
+bernoulli = stats.bernoulli(p=0.7)
+gaussian = stats.norm(loc=0, scale=1)
+print(f"Bernoulli(0.7) - media: {bernoulli.mean():.2f}")
+print(f"Gaussian(0,1) - media: {gaussian.mean():.2f}, std: {gaussian.std():.2f}")
+
+# 2. ENTROPIA SHANNON
+def entropy(p):
+    p = np.array(p)
+    p = p[p > 0]  # 0*log(0) = 0
+    return -np.sum(p * np.log(p))
+
+print(f"\nEntropia [0.5, 0.5]: {entropy([0.5, 0.5]):.4f} (max)")
+print(f"Entropia [0.9, 0.1]: {entropy([0.9, 0.1]):.4f} (low)")
+
+# 3. KL DIVERGENCE
+def kl_div(p, q):
+    p, q = np.array(p), np.array(q)
+    mask = p > 0
+    return np.sum(p[mask] * np.log(p[mask] / q[mask]))
+
+P = [0.4, 0.6]
+Q = [0.5, 0.5]
+print(f"\nKL(P||Q) = {kl_div(P, Q):.4f}")
+print(f"KL(Q||P) = {kl_div(Q, P):.4f}  (asimetric!)")
+
+# 4. CROSS-ENTROPY
+def cross_entropy(p_true, q_pred):
+    q_pred = np.clip(q_pred, 1e-15, 1-1e-15)
+    return -np.sum(p_true * np.log(q_pred))
+
+y_true = [1, 0, 0]  # one-hot
+y_pred = [0.7, 0.2, 0.1]
+print(f"\nCross-entropy loss: {cross_entropy(y_true, y_pred):.4f}")
+
+# 5. FUNCTII UTILE
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def softplus(x):
+    return np.log(1 + np.exp(x))
+
+print(f"\nsigmoid(0) = {sigmoid(0):.2f}")
+print(f"softplus(0) = {softplus(0):.4f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

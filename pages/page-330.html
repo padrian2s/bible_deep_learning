@@ -1,0 +1,60 @@
+<section class="page-section" id="page-330">
+    <div class="page-header">
+        <div class="page-number">330</div>
+        <div class="page-title">
+            <h3>Nonlinear Conjugate Gradients</h3>
+            <span>Adaptari pentru Retele Neurale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-330.jpg"
+             alt="Pagina 330" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conjugate Gradients pe Functii Non-Quadratice</h4>
+                <p>Pentru functii non-quadratice (cum sunt retelele neurale), directiile conjugate nu mai garanteaza progres permanent. Solutia: <strong>nonlinear conjugate gradients</strong> - periodic "resetam" algoritmul, reincepand de la gradientul pur.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicare in Deep Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Practionierii raporteaza rezultate rezonabile cu nonlinear conjugate gradients pe retele neurale. E benefic sa incepi cu cateva iteratii de SGD inainte, pentru a ajunge intr-o regiune buna. (Le et al., 2011; Moller, 1993)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conjugate Gradients: Batch vs Minibatch</h4>
+                <p>Traditional, conjugate gradients e un algoritm <strong>batch</strong> - necesita gradient exact. Dar versiuni minibatch au fost dezvoltate cu succes pentru retele neurale. Scaled conjugate gradients (Moller, 1993) e o varianta populara.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cand Folosim CG?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Conjugate gradients e mai putin popular decat Adam/SGD in deep learning modern. E util cand: (1) ai resurse pentru batch mare, (2) problema e aproape convexa, (3) vrei convergenta precisa pe un model mic.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

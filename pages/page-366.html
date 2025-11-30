@@ -1,0 +1,140 @@
+<section class="page-section" id="page-366">
+    <div class="page-header">
+        <div class="page-number">366</div>
+        <div class="page-title">
+            <h3>Figura 9.13: Efectul Zero-Padding</h3>
+            <span>Adancimea Retelei si Padding</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-366.jpg"
+             alt="Pagina 366" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Fara Padding: Reteaua se "Micsoreaza"</h4>
+                <p>Figura 9.13 (sus) arata ce se intampla fara zero-padding: cu kernel de 6 pixeli, reprezentarea se micsoreaza cu 5 pixeli la fiecare layer! Pornind de la 16 pixeli, dupa 3 layere ajungem la doar 1 pixel. Practic, putem avea maxim 3 layere convolutionale inainte ca dimensiunea sa devina prea mica.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Shrinking Network</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                    <div>
+                                        <strong>Fara Padding (kernel=6)</strong>
+                                    </div>
+                                    <div style="display: flex; gap: 2px;">
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--primary); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                    </div>
+                                    <div style="font-size: 0.8rem;">Input: 16 pixeli ↓ conv (k=6)</div>
+                                    <div style="display: flex; gap: 2px;">
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--accent); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                    </div>
+                                    <div style="font-size: 0.8rem;">Layer 1: 11 pixeli ↓ conv</div>
+                                    <div style="display: flex; gap: 2px;">
+                                        <div style="background: var(--success); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--success); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--success); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--success); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--success); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                        <div style="background: var(--success); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                    </div>
+                                    <div style="font-size: 0.8rem;">Layer 2: 6 pixeli ↓ conv</div>
+                                    <div style="display: flex; gap: 2px;">
+                                        <div style="background: var(--warning); width: 12px; height: 30px; border-radius: 2px;"></div>
+                                    </div>
+                                    <div style="font-size: 0.8rem;">Layer 3: 1 pixel <span style="color: var(--warning);">(STOP!)</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cu Padding: Retea Arbitrar de Adanca</h4>
+                <p>Figura 9.13 (jos) arata solutia: adaugand 5 zerouri (padding = kernel_size - 1) la fiecare layer, dimensiunea ramane constanta! Aceasta permite construirea de retele arbitrar de adanci. In practica, folosim padding = kernel_size // 2 pentru kerneluri impare, ceea ce mentine exact aceeasi dimensiune.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Deep Network cu Padding</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Fara padding - dimensiunea scade rapid
+class NoPaddingNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers = nn.Sequential(*[
+            nn.Conv2d(64, 64, kernel_size=3, padding=0)
+            for _ in range(5)
+        ])
+
+# Cu padding - dimensiunea ramane constanta
+class WithPaddingNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers = nn.Sequential(*[
+            nn.Conv2d(64, 64, kernel_size=3, padding=1)  # same padding
+            for _ in range(50)  # Putem avea 50 layere!
+        ])
+
+x = torch.randn(1, 64, 32, 32)
+
+no_pad = NoPaddingNet()
+print("Fara padding:", no_pad.layers[0](x).shape)  # 30x30
+# Dupa 5 layere: 32 - 5*2 = 22x22
+
+with_pad = WithPaddingNet()
+print("Cu padding:", with_pad(x).shape)  # Tot 32x32!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

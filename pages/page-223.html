@@ -1,0 +1,131 @@
+<section class="page-section" id="page-223">
+    <div class="page-header">
+        <div class="page-number">223</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5.3 Evitarea Subexpresiilor Repetate</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-223.jpg"
+             alt="Pagina 223" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trade-off: Stocare vs Recalculare</h4>
+                <p>Va trebui sa alegem daca sa stocam aceste subexpresii sau sa le recalculam de mai multe ori. Un exemplu de cum apar subexpresiile repetate este dat in Figura 6.9. In unele cazuri, calcularea aceleiasi subexpresii de doua ori ar fi pur si simplu irosire. Pentru grafuri complicate, pot exista exponential de multe astfel de calcule irosite, facand o implementare naiva a regulii lantului infezabila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Explozia Exponentiala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--warning); margin-bottom: 15px;">Problema cu Calculul Naiv:</h5>
+                                <p style="font-size: 0.9rem; margin-bottom: 15px;">Pentru o retea cu L straturi, calculul naiv al gradientului poate necesita:</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Naiv (fara stocare)</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 10px;">O(2^L) calcule - exponential!</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">Backprop (cu stocare)</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 10px;">O(L) calcule - liniar!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Structura Grafului pentru Backprop</h4>
+                <p>Consideram un graf computational care descrie cum sa calculam un scalar u⁽ⁿ⁾ (de exemplu loss pe un exemplu de antrenare). Vrem sa obtinem gradientul fata de nodurile de input u⁽¹⁾ pana la u⁽ⁿᵢ⁾. Fiecare nod u⁽ⁱ⁾ este asociat cu o operatie f⁽ⁱ⁾ si este calculat evaluand functia u⁽ⁱ⁾ = f(A⁽ⁱ⁾), unde A⁽ⁱ⁾ este setul tuturor nodurilor care sunt parinti ai lui u⁽ⁱ⁾.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Notatia pentru Graf</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Notatia grafului computational:
+#
+# u^(1), ..., u^(ni) = inputuri (x si parametri)
+# u^(ni+1), ..., u^(n) = noduri intermediare si output
+# u^(n) = output final (loss scalar)
+#
+# Pa(u^(i)) = set de parinti ai nodului i
+# A^(i) = {u^(j) | j in Pa(u^(i))}
+# u^(i) = f^(i)(A^(i))
+
+# Exemplu pentru retea simpla:
+# u^(1) = x (input)
+# u^(2) = W (weights)
+# u^(3) = b (bias)
+# u^(4) = u^(2) @ u^(1) + u^(3)  # linear
+# u^(5) = relu(u^(4))             # activare
+# u^(6) = loss(u^(5), y)          # output
+
+# Pa(u^(4)) = {1, 2, 3}  (depinde de x, W, b)
+# Pa(u^(5)) = {4}        (depinde doar de u^(4))
+# Pa(u^(6)) = {5}        (depinde doar de u^(5))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Subgraful de Back-Propagation B</h4>
+                <p>Pentru a efectua back-propagation, putem construi un graf computational care depinde de G si adauga un set suplimentar de noduri. Acestea formeaza un subgraf B cu un nod per nod din G. Calculul in B procedeaza in ordinea INVERSA a calculului din G, si fiecare nod din B calculeaza derivata ∂u⁽ⁿ⁾/∂u⁽ⁱ⁾ asociata cu nodul corespunzator din forward graph.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Forward Graph G vs Backward Graph B</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: rgba(52, 152, 219, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Forward Graph G</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Calculeaza u⁽¹⁾ → u⁽ⁿ⁾</li>
+                                        <li>Ordine: de la inputuri la output</li>
+                                        <li>Stocheaza activarile intermediare</li>
+                                    </ul>
+                                </div>
+                                <div style="background: rgba(231, 76, 60, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--warning);">
+                                    <strong style="color: var(--warning);">Backward Graph B</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Calculeaza ∂u⁽ⁿ⁾/∂u⁽ⁱ⁾</li>
+                                        <li>Ordine: de la output la inputuri</li>
+                                        <li>Foloseste activarile salvate</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

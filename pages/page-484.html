@@ -1,0 +1,88 @@
+<section class="page-section" id="page-484">
+    <div class="page-header">
+        <div class="page-number">484</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Analiza Hierarchical Softmax si 12.4.3.3 Importance Sampling</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-484.jpg"
+             alt="Pagina 484" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Analiza Trade-off-urilor</h4>
+                <p>In practica, economiile computationale de la hierarchical softmax nu merita efortul - calculul probabilitatilor de output este doar o parte din calculul total al NLM. Cu nₕ unitati ascunse si nᵦ biti pentru a identifica un cuvant, activarile ascunse cresc ca O(lnₕ²), iar outputul ca O(nₕnᵦ).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Alternative la Binary Tree</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Binary Tree (depth log₂|V|)</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Adancime ~20 pentru 1M cuvinte</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">Captureaza beneficiul computational</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Tree depth 2, branching √|V|</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Clase mutual exclusive de cuvinte</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem;">Approach mai simplu</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Dezavantaje ale Hierarchical Softmax</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>⚠️</span><div>Definirea claselor de cuvinte ramane o intrebare deschisa</div></li>
+                                <li class="reference-item"><span>⚠️</span><div>Ierarhia poate fi invatata, dar e intractabila (discret)</div></li>
+                                <li class="reference-item"><span>⚠️</span><div>Calculul probabilitatii TUTUROR cuvintelor ramane costisitor</div></li>
+                                <li class="reference-item"><span>⚠️</span><div>In practica, rezultate mai slabe decat sampling-based methods</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.3.3 Importance Sampling</h4>
+                <p>O modalitate de a accelera antrenarea NLM este sa evitam calculul explicit al contributiei gradientului de la <strong>toate cuvintele</strong> din vocabular. Este posibil sa esantionam doar un subset de cuvinte si sa folosim <strong>importance sampling</strong> pentru a corecta bias-ul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Idee: Positive vs Negative Phase</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                Fiecare cuvant incorect trebuie sa aiba probabilitate mica. E costisitor sa enumeram toate. In schimb, <strong>esantionam</strong> un subset de "cuvinte negative" si corectam pentru bias-ul de sampling.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

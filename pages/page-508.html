@@ -1,0 +1,87 @@
+<section class="page-section" id="page-508">
+    <div class="page-header">
+        <div class="page-number">508</div>
+        <div class="page-title">
+            <h3>ICA Nonliniar si Generalizari</h3>
+            <span>Extensii ale ICA</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-508.jpg"
+             alt="Pagina 508" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ICA Nonliniar si NICE</h4>
+                <p>ICA poate fi generalizat la transformari <strong>nonliniare</strong>. <strong>NICE</strong> (Nonlinear Independent Components Estimation, Dinh et al. 2014) foloseste transformari invertibile cu Jacobian usor de calculat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>NICE: Idee Cheie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">NICE foloseste o serie de transformari (encoder stages) unde:</p>
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li>Fiecare transformare e invertibila</li>
+                                <li>Determinantul Jacobianului e usor de calculat</li>
+                                <li>Spatiul latent are distributie factorizata</li>
+                            </ul>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Aceasta permite calculul exact al likelihood-ului si sampling usor!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Independent Subspace Analysis</h4>
+                <p>Alta generalizare: <strong>independent subspace analysis</strong>. In loc sa cerem independenta intre unitati individuale, cerem independenta intre <strong>grupuri</strong> de unitati. In interiorul unui grup, dependenta e permisa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Topographic ICA</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);"><strong>Topographic ICA</strong> asigneaza coordonate spatiale fiecarei unitati, formand grupuri din unitati vecine. Aplicat pe imagini naturale, invata filtre Gabor cu orientari/frecvente similare in aceeasi regiune - similar cu cortexul V1!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>13.3 Slow Feature Analysis (SFA)</h4>
+                <p><strong>Slow Feature Analysis</strong> e un linear factor model care invata features din semnale temporale. Principiul: caracteristicile importante ale unei scene se schimba <strong>incet</strong> comparativ cu pixelii individuali.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Slowness Principle</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Exemplu: O zebra trece prin cadru. Pixelii individuali se schimba rapid (dungi albe/negre). Dar feature-ul "e o zebra in imagine" ramane constant!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

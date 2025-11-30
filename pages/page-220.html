@@ -1,0 +1,151 @@
+<section class="page-section" id="page-220">
+    <div class="page-header">
+        <div class="page-number">220</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5.1 Grafuri Computationale si 6.5.2 Regula Lantului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-220.jpg"
+             alt="Pagina 220" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.5.1 Grafuri Computationale</h4>
+                <p>Pana acum am discutat retelele neuronale cu un limbaj grafic relativ informal. Pentru a descrie algoritmul de back-propagation mai precis, este util sa avem un limbaj de graf computational mai precis. Folosim fiecare nod in graf pentru a indica o variabila (scalar, vector, matrice, tensor). O operatie este o functie simpla de una sau mai multe variabile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Elementele unui Graf Computational</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Noduri (Variabile)</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li><strong>Scalar:</strong> x, y, z</li>
+                                        <li><strong>Vector:</strong> x, h</li>
+                                        <li><strong>Matrice:</strong> W, X</li>
+                                        <li><strong>Tensor:</strong> orice dimensiune</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Muchii (Operatii)</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li><strong>Aritmetice:</strong> +, -, ×, /</li>
+                                        <li><strong>Matrice:</strong> matmul, dot</li>
+                                        <li><strong>Activari:</strong> relu, sigmoid</li>
+                                        <li><strong>Reduceri:</strong> sum, mean</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conventii in Grafuri Computationale</h4>
+                <p>Definim o operatie sa returneze doar o singura variabila de output (nu pierdem generalitate deoarece outputul poate fi un vector). Daca o variabila y este calculata aplicand o operatie pe variabila x, atunci desenam o muchie directionata de la x la y. Uneori adnotam nodul de output cu numele operatiei, alteori omitem eticheta cand operatia este clara din context.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Construirea unui Graf Computational</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# PyTorch construieste grafuri automat!
+import torch
+
+# Variabile de input (frunze)
+x = torch.tensor([2.0], requires_grad=True)
+y = torch.tensor([3.0], requires_grad=True)
+
+# Operatii - construiesc graful
+u = x * y      # Op: multiplicare
+v = u + x      # Op: adunare
+z = v ** 2     # Op: ridicare la patrat
+
+# Graful arata asa:
+#    x ----+----> * ----> u ----> + ----> v ----> ** ----> z
+#          |               ^      ^
+#    y ----+               |      |
+#                          +------+
+#                          (x merge si la +)
+
+print(f"z = {z.item()}")  # z = (2*3 + 2)^2 = 64
+
+# Backward pass calculeaza gradientii
+z.backward()
+print(f"dz/dx = {x.grad.item()}")  # 56
+print(f"dz/dy = {y.grad.item()}")  # 32
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.5.2 Regula Lantului din Calcul</h4>
+                <p>Regula lantului din calcul (a nu se confunda cu regula lantului din probabilitate) este folosita pentru a calcula derivatele functiilor formate prin compunerea altor functii ale caror derivate sunt cunoscute. Back-propagation este un algoritm care calculeaza regula lantului, cu o ordine specifica a operatiilor care este foarte eficienta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Regula Lantului pentru Scalari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Regula Lantului (Scalar):</strong>
+                                <p style="margin-top: 10px;">Fie x un numar real, si y = g(x) si z = f(g(x)) = f(y). Atunci:</p>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.3rem; text-align: center;">
+                                    dz/dx = (dz/dy) · (dy/dx)
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# Exemplu: z = sin(x^2)
+# y = x^2, z = sin(y)
+
+import numpy as np
+
+def f(y): return np.sin(y)   # z = f(y)
+def g(x): return x**2        # y = g(x)
+
+x = 2.0
+y = g(x)        # y = 4
+z = f(y)        # z = sin(4)
+
+# Derivate:
+dy_dx = 2*x     # d(x^2)/dx = 2x = 4
+dz_dy = np.cos(y)  # d(sin(y))/dy = cos(y) = cos(4)
+
+# Regula lantului:
+dz_dx = dz_dy * dy_dx  # = cos(4) * 4 ≈ -2.61
+print(f"dz/dx = {dz_dx:.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

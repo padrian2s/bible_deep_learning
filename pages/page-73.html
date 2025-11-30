@@ -1,0 +1,214 @@
+        <section class="page-section" id="page-73">
+            <div class="page-header">
+                <div class="page-number">73</div>
+                <div class="page-title">
+                    <h3>3.3.2 Variabile Continue si PDF</h3>
+                    <span>3.4 Probabilitate Marginala</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-073.jpg"
+                     alt="Pagina 73" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.3.2 Functia de Densitate de Probabilitate (PDF)</h4>
+                        <p>Pentru variabile aleatoare continue, folosim <strong>functia de densitate de probabilitate (PDF)</strong> in loc de PMF. O functie p este un PDF valid daca: (1) domeniul e setul tuturor starilor posibile, (2) ∀x: p(x) ≥ 0 (atentie: p(x) POATE fi mai mare ca 1!), (3) ∫p(x)dx = 1. PDF-ul NU da probabilitatea directa a unui punct - probabilitatea ca x sa fie exact o valoare specifica e 0! In schimb, p(x)δx da probabilitatea ca x sa cada intr-o regiune infinitezimala de volum δx.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: PMF vs PDF</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                            <h5 style="color: var(--accent); margin-bottom: 10px;">PMF (Discret)</h5>
+                                            <div class="formula">P(x = k) ∈ [0, 1]</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Probabilitatea <em>exacta</em> a unei valori</p>
+                                            <p style="font-size: 0.85rem; color: var(--success);">Σ P(x) = 1</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                            <h5 style="color: var(--secondary); margin-bottom: 10px;">PDF (Continuu)</h5>
+                                            <div class="formula">p(x) ≥ 0 (poate fi > 1!)</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;"><em>Densitatea</em> probabilitatii la un punct</p>
+                                            <p style="font-size: 0.85rem; color: var(--success);">∫ p(x)dx = 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <strong>Atentie!</strong> Pentru PDF, probabilitatea unui punct EXACT e mereu 0. Calculam probabilitati doar pentru <em>intervale</em>: P(a ≤ x ≤ b) = ∫ₐᵇ p(x)dx
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: PDF si calculul probabilitatilor</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+from scipy.integrate import quad
+
+# Distributia normala standard (Gaussiana)
+normal = stats.norm(loc=0, scale=1)
+
+# PDF la diferite puncte
+print("Valori PDF (pot fi > 1 pentru distributii inguste!):")
+print(f"p(0) = {normal.pdf(0):.4f}")    # ~0.3989
+print(f"p(1) = {normal.pdf(1):.4f}")    # ~0.2420
+
+# Probabilitatea unui interval
+# P(-1 < x < 1) = ∫_{-1}^{1} p(x)dx
+prob_interval = normal.cdf(1) - normal.cdf(-1)
+print(f"\nP(-1 < x < 1) = {prob_interval:.4f}")  # ~0.6827
+
+# Verificare normalizare: ∫p(x)dx = 1
+total_prob, _ = quad(normal.pdf, -np.inf, np.inf)
+print(f"\n∫p(x)dx = {total_prob:.6f}")  # = 1.0
+
+# PDF poate fi > 1! Exemplu: Uniform(0, 0.5)
+narrow_uniform = stats.uniform(loc=0, scale=0.5)
+print(f"\nUniform(0, 0.5): p(0.25) = {narrow_uniform.pdf(0.25):.1f}")  # = 2.0!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Distributia Uniforma Continua</h4>
+                        <p>Un exemplu de PDF este distributia uniforma continua pe intervalul [a, b], notata x ~ U(a, b). Densitatea este constanta: u(x; a, b) = 1/(b-a) pentru x ∈ [a, b] si 0 in rest. Putem verifica ca integreaza la 1: (b-a) × 1/(b-a) = 1.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Uniform Continuu</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                        u(x; a, b) = 1/(b-a) pentru x ∈ [a, b], 0 altfel
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; position: relative; height: 120px;">
+                                        <div style="position: absolute; bottom: 20px; left: 15%; right: 15%; height: 60px; background: var(--accent); opacity: 0.7;"></div>
+                                        <div style="position: absolute; bottom: 15px; left: 10%; font-size: 0.8rem;">a</div>
+                                        <div style="position: absolute; bottom: 15px; right: 10%; font-size: 0.8rem;">b</div>
+                                        <div style="position: absolute; left: 5%; top: 35px; font-size: 0.8rem; color: var(--text-secondary);">1/(b-a)</div>
+                                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--text-secondary);"></div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px; color: var(--text-secondary); font-size: 0.85rem;">Aria dreptunghiului = (b-a) × 1/(b-a) = 1 ✓</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Distributia uniforma continua</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Uniform continuu pe [2, 5]
+a, b = 2, 5
+uniform = stats.uniform(loc=a, scale=b-a)
+
+print(f"U({a}, {b}):")
+print(f"  Densitate constanta: {uniform.pdf(3):.4f}")  # 1/(5-2) = 0.333
+print(f"  Media: {uniform.mean():.2f}")  # (a+b)/2 = 3.5
+print(f"  Varianta: {uniform.var():.4f}")  # (b-a)²/12 = 0.75
+
+# Probabilitate interval
+# P(2.5 < x < 4) = (4 - 2.5) / (5 - 2) = 0.5
+p = uniform.cdf(4) - uniform.cdf(2.5)
+print(f"  P(2.5 < x < 4) = {p:.4f}")
+
+# Initializare Xavier/Glorot foloseste Uniform
+def xavier_init(fan_in, fan_out):
+    limit = np.sqrt(6 / (fan_in + fan_out))
+    return np.random.uniform(-limit, limit, (fan_in, fan_out))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.4 Probabilitatea Marginala</h4>
+                        <p>Uneori cunoastem distributia comuna P(x, y) dar vrem sa aflam distributia doar pentru x - aceasta se numeste <strong>distributie marginala</strong>. Numele vine de la calculul "in marja" paginii cand scriem tabelul de probabilitati. Pentru variabile discrete, folosim <strong>regula sumei</strong>: P(x) = Σᵧ P(x, y). "Marginalizam" y sumand peste toate valorile lui.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Marginalizare</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Distributie comuna P(X, Y) - exemplu: vreme si transport
+# X: transport (0=bicicleta, 1=masina)
+# Y: vreme (0=soare, 1=ploaie)
+joint = np.array([
+    [0.40, 0.05],  # X=bicicleta: [soare, ploaie]
+    [0.20, 0.35]   # X=masina: [soare, ploaie]
+])
+
+print("Distributie comuna P(X, Y):")
+print(joint)
+print(f"Suma totala: {joint.sum():.2f}")  # = 1.0
+
+# Marginala P(X) - sumam peste Y (coloane)
+p_x = joint.sum(axis=1)
+print(f"\nP(X) - marginala: {p_x}")  # [0.45, 0.55]
+print("  P(bicicleta) = 0.45, P(masina) = 0.55")
+
+# Marginala P(Y) - sumam peste X (randuri)
+p_y = joint.sum(axis=0)
+print(f"\nP(Y) - marginala: {p_y}")  # [0.60, 0.40]
+print("  P(soare) = 0.60, P(ploaie) = 0.40")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>De ce "marginala"?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Originea numelui:</strong> Cand scriem P(x, y) intr-un tabel cu x pe randuri si y pe coloane, calculam P(x) sumand pe fiecare rand si scriind rezultatul in <em>marginea</em> din dreapta tabelului. Similar pentru P(y) in marginea de jos.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

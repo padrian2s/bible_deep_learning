@@ -1,0 +1,151 @@
+<section class="page-section" id="page-186">
+    <div class="page-header">
+        <div class="page-number">186</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.1 Exemplu: Invatarea XOR</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-186.jpg"
+             alt="Pagina 186" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Structura Capitolului 6</h4>
+                <p>Acest capitol incepe cu un exemplu simplu de retea feedforward: invatarea functiei XOR. Apoi acopera deciziile de design: alegerea optimizatorului, functiei de cost, formei unitatilor de output, functiilor de activare, arhitecturii retelei (cate straturi, cate unitati, cum sunt conectate). Capitolul se incheie cu algoritmul de back-propagation si perspectiva istorica.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Roadmap Capitolul 6</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div style="display: grid; gap: 10px;">
+                                    <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                        <span style="background: var(--primary); color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;">6.1</span>
+                                        <span>Exemplu XOR - de ce avem nevoie de straturi ascunse</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                        <span style="background: var(--accent); color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;">6.2</span>
+                                        <span>Gradient-Based Learning - cost functions, output units</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                        <span style="background: var(--success); color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;">6.3</span>
+                                        <span>Hidden Units - ReLU, sigmoid, tanh, softplus</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                        <span style="background: var(--warning); color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;">6.4</span>
+                                        <span>Architecture Design - depth, width, connections</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                        <span style="background: #e91e63; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;">6.5</span>
+                                        <span>Back-Propagation - calculul gradientilor</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema XOR</h4>
+                <p>Functia XOR ("exclusive or") este o operatie pe doua valori binare x₁ si x₂. Cand exact una dintre aceste valori binare este egala cu 1, functia XOR returneaza 1. Altfel returneaza 0. Functia XOR furnizeaza functia tinta y = f*(x) pe care vrem sa o invatam. Modelul nostru ofera o functie y = f(x; θ) si algoritmul de invatare va adapta θ pentru a face f cat mai similar cu f*.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Tabel de Adevar XOR</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <table style="width: 100%; border-collapse: collapse; background: var(--bg-lighter); border-radius: 8px; overflow: hidden;">
+                                        <tr style="background: var(--primary);">
+                                            <th style="padding: 12px;">x₁</th>
+                                            <th style="padding: 12px;">x₂</th>
+                                            <th style="padding: 12px;">XOR</th>
+                                        </tr>
+                                        <tr><td style="padding: 12px; text-align: center;">0</td><td style="padding: 12px; text-align: center;">0</td><td style="padding: 12px; text-align: center; color: var(--warning);">0</td></tr>
+                                        <tr style="background: var(--bg-dark);"><td style="padding: 12px; text-align: center;">0</td><td style="padding: 12px; text-align: center;">1</td><td style="padding: 12px; text-align: center; color: var(--success);">1</td></tr>
+                                        <tr><td style="padding: 12px; text-align: center;">1</td><td style="padding: 12px; text-align: center;">0</td><td style="padding: 12px; text-align: center; color: var(--success);">1</td></tr>
+                                        <tr style="background: var(--bg-dark);"><td style="padding: 12px; text-align: center;">1</td><td style="padding: 12px; text-align: center;">1</td><td style="padding: 12px; text-align: center; color: var(--warning);">0</td></tr>
+                                    </table>
+                                </div>
+                                <div style="display: flex; flex-direction: column; justify-content: center;">
+                                    <div class="code-block">
+# XOR in Python
+def xor(x1, x2):
+    return int(x1 != x2)
+
+# sau cu operatori
+x1 ^ x2  # XOR bitwise
+
+# Setul complet X
+X = [[0,0], [0,1], [1,0], [1,1]]
+y = [0, 1, 1, 0]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Abordare: Problema de Regresie cu MSE</h4>
+                <p>In acest exemplu simplu, nu ne vom preocupa de generalizarea statistica. Vrem ca reteaua sa performeze corect pe toate cele patru puncte X = {[0,0]ᵀ, [0,1]ᵀ, [1,0]ᵀ, [1,1]ᵀ}. Vom antrena reteaua pe toate patru puncte. Singura provocare este sa ne potrivim setului de antrenare. Tratam aceasta ca o problema de regresie si folosim mean squared error ca functie de cost.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Functia de Cost MSE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="font-size: 1.3rem; text-align: center; padding: 20px; background: var(--bg-lighter); border-radius: 8px; margin-bottom: 15px;">
+                                J(θ) = (1/4) Σ (f*(x) - f(x; θ))²
+                            </div>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Date XOR
+X = torch.tensor([[0., 0.], [0., 1.], [1., 0.], [1., 1.]])
+y = torch.tensor([[0.], [1.], [1.], [0.]])
+
+# MSE Loss
+criterion = nn.MSELoss()
+
+# Daca modelul prezice [0.5, 0.5, 0.5, 0.5]:
+pred = torch.tensor([[0.5], [0.5], [0.5], [0.5]])
+loss = criterion(pred, y)
+print(f"MSE = {loss.item():.4f}")  # 0.25
+
+# Nota: MSE nu e ideal pentru clasificare binara,
+# dar simplifica matematica pentru acest exemplu
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,177 @@
+<section class="page-section" id="page-384">
+    <div class="page-header">
+        <div class="page-number">384</div>
+        <div class="page-title">
+            <h3>9.10 Celule Complexe ca Quadrature Pair</h3>
+            <span>Interpretarea Matematica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-384.jpg"
+             alt="Pagina 384" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea Parametrilor Gabor</h4>
+                <p>Functia Gabor are doua componente multiplicative: (1) <strong>Gaussian</strong> exp(-β<sub>x</sub>x'² - β<sub>y</sub>y'²) care actioneaza ca un "gate" - filtrul raspunde doar la valori apropiate de centru (x₀, y₀), si (2) <strong>Cosinus</strong> cos(f·x' + φ) care controleaza raspunsul la schimbari de luminozitate de-a lungul axei x'.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Componentele Filtrului Gabor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 10px;">🎯</div>
+                                    <strong style="color: var(--primary);">Gaussian Envelope</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 10px;">exp(-β<sub>x</sub>x'² - β<sub>y</sub>y'²)</p>
+                                    <ul style="font-size: 0.8rem; text-align: left; margin-top: 10px;">
+                                        <li>Localizeaza receptive field</li>
+                                        <li>α = magnitudinea raspunsului</li>
+                                        <li>β<sub>x</sub>, β<sub>y</sub> = cat de repede scade</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 10px;">〰️</div>
+                                    <strong style="color: var(--accent);">Sinusoida</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 10px;">cos(f·x' + φ)</p>
+                                    <ul style="font-size: 0.8rem; text-align: left; margin-top: 10px;">
+                                        <li>f = frecventa spatiala</li>
+                                        <li>φ = offset-ul fazei</li>
+                                        <li>Detecteaza bare la orientare τ</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Celulele Simple: Selectivitate la Faza</h4>
+                <p>O celula simpla raspunde maxim cand "unda" de luminozitate din imagine are <strong>aceeasi faza</strong> cu filtrul. Cand imaginea e luminoasa unde filtrul are ponderi pozitive si intunecata unde are ponderi negative, raspunsul e maxim. Cand faza e inversata (180° decalata), celula e <strong>inhibata</strong> maxim.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Sensibilitate la Faza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def simple_cell_demo():
+    # Filtru Gabor cu faza φ=0
+    x = np.linspace(-1, 1, 20)
+    filter_phi0 = np.cos(4 * np.pi * x)  # [+, -, +, -, ...]
+
+    # Stimul "in faza"
+    stimulus_aligned = np.cos(4 * np.pi * x)  # Aceeasi faza
+    response_aligned = np.dot(filter_phi0, stimulus_aligned)
+    print(f"In faza: {response_aligned:.2f}")  # MARE SI POZITIV
+
+    # Stimul "out of phase" (decalat 180°)
+    stimulus_opposite = np.cos(4 * np.pi * x + np.pi)  # Opus
+    response_opposite = np.dot(filter_phi0, stimulus_opposite)
+    print(f"180° decalat: {response_opposite:.2f}")  # MARE SI NEGATIV
+
+    # Stimul "90° out of phase"
+    stimulus_quad = np.cos(4 * np.pi * x + np.pi/2)
+    response_quad = np.dot(filter_phi0, stimulus_quad)
+    print(f"90° decalat: {response_quad:.2f}")  # ~0 (ortogonal)
+
+# Problema: celula simpla e sensibila la pozitia EXACTA!
+# Mici translatii => schimbari mari de raspuns
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Celule Complexe: Quadrature Pair</h4>
+                <p>O celula complexa calculeaza <strong>norma L²</strong> a raspunsurilor a doua celule simple: c(I) = √(s₀(I)² + s₁(I)²). Trucul: s₁ are aceiasi parametri ca s₀ EXCEPTAND faza φ, care e decalata cu 90° (<strong>quadrature pair</strong>). Rezultatul: celula complexa raspunde la frecventa f si orientare τ, dar e <strong>invarianta la faza</strong>!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Quadrature Pair</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def complex_cell_quadrature():
+    x = np.linspace(-1, 1, 100)
+    f = 4 * np.pi  # frecventa
+
+    # Doua filtre Gabor in quadrature (90° diferenta de faza)
+    gabor_cos = np.cos(f * x)  # φ = 0
+    gabor_sin = np.sin(f * x)  # φ = 90° (sin = cos decalat)
+
+    # Testam mai multe faze ale stimulului
+    for phase in [0, np.pi/4, np.pi/2, np.pi]:
+        stimulus = np.cos(f * x + phase)
+
+        s0 = np.dot(gabor_cos, stimulus)  # Celula simpla 1
+        s1 = np.dot(gabor_sin, stimulus)  # Celula simpla 2
+
+        # Celula complexa = norma L2
+        complex_response = np.sqrt(s0**2 + s1**2)
+
+        print(f"Faza={phase:.2f}: s0={s0:.1f}, s1={s1:.1f}, "
+              f"complex={complex_response:.1f}")
+
+    # Output: complex_response e CONSTANT indiferent de faza!
+    # Invarianta la translatii mici (care schimba faza)
+
+complex_cell_quadrature()
+# Faza=0.00: s0=50.0, s1=0.0, complex=50.0
+# Faza=0.79: s0=35.4, s1=35.4, complex=50.0
+# Faza=1.57: s0=0.0, s1=50.0, complex=50.0
+# Faza=3.14: s0=-50.0, s1=0.0, complex=50.0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Analogia cu Max Pooling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Quadrature pair vs Max pooling:</strong><br><br>
+                                Ambele creeaza invarianta la translatii mici, dar diferit:
+                                <ul style="margin-top: 10px;">
+                                    <li><strong>Quadrature pair</strong>: invarianta la <em>faza</em> = translatii de-a lungul directiei de detectie</li>
+                                    <li><strong>Max pooling</strong>: invarianta la translatii in <em>orice directie</em> in spatial pool region</li>
+                                </ul>
+                                <p style="margin-top: 10px;">In CNN-uri moderne, folosim max pooling care e mai general si mai usor de implementat. Dar quadrature pair apare natural in V1!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

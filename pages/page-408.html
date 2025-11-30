@@ -1,0 +1,81 @@
+<section class="page-section" id="page-408">
+    <div class="page-header">
+        <div class="page-number">408</div>
+        <div class="page-title">
+            <h3>Figura 10.10 - Conditional RNN Complet</h3>
+            <span>Sequence-to-Sequence cu Output Feedback</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-408.jpg"
+             alt="Pagina 408" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.10 - RNN cu Output→Hidden</h4>
+                <p>Aceasta arhitectura mapeaza <strong>secventa x → secventa y</strong> de aceeasi lungime, permitand dependente arbitrare intre y-uri. Conexiunea R de la output la hidden face ca fiecare y<sup>(t)</sup> sa depinda de toate y-urile anterioare, nu doar de x-uri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Full Architecture</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
+                                <div style="margin-bottom: 10px;">
+                                    y<sup>(t-1)</sup>&nbsp;&nbsp;&nbsp;y<sup>(t)</sup>&nbsp;&nbsp;&nbsp;y<sup>(t+1)</sup><br>
+                                    &nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>
+                                    L<sup>(t-1)</sup>&nbsp;&nbsp;L<sup>(t)</sup>&nbsp;&nbsp;&nbsp;L<sup>(t+1)</sup>
+                                </div>
+                                <div style="color: var(--warning);">
+                                    &nbsp;&nbsp;&nbsp;↘ <span style="color: var(--accent);">R</span>&nbsp;&nbsp;&nbsp;↘ <span style="color: var(--accent);">R</span>&nbsp;&nbsp;&nbsp;↘ <span style="color: var(--accent);">R</span>
+                                </div>
+                                <div>
+                                    o<sup>(t-1)</sup> &nbsp; o<sup>(t)</sup> &nbsp; o<sup>(t+1)</sup><br>
+                                    &nbsp;&nbsp;↑ V&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ V&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ V
+                                </div>
+                                <div style="color: var(--success);">
+                                    h<sup>(...)</sup> →W→ h<sup>(t-1)</sup> →W→ h<sup>(t)</sup> →W→ h<sup>(t+1)</sup>
+                                </div>
+                                <div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ U<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x<sup>(t-1)</sup>&nbsp;&nbsp;&nbsp;x<sup>(t)</sup>&nbsp;&nbsp;&nbsp;x<sup>(t+1)</sup>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">
+                                <span style="color: var(--accent);">R</span> conecteaza output-ul anterior la starea curenta - permite dependente y→y!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Comparatie cu Fig 10.3</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Fig 10.3</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">y-urile sunt conditional independente date x-urile</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Fig 10.10</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">y-urile pot avea dependente arbitrare intre ele</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,186 @@
+<section class="page-section" id="page-450">
+    <div class="page-header">
+        <div class="page-number">450</div>
+        <div class="page-title">
+            <h3>Optimizare Bayesiana a Hiperparametrilor</h3>
+            <span>Sectiunea 11.4.5 - Model-Based HP Optimization</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-450.jpg"
+             alt="Pagina 450" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>11.4.5 Optimizare Model-Based (Bayesiana)</h4>
+                <p>Cautarea hiperparametrilor buni poate fi formulata ca o <strong>problema de optimizare</strong>: variabilele de decizie sunt hiperparametrii, costul de optimizat este eroarea de validare. In setari simplificate unde putem calcula gradientul erorii fata de hiperparametri, am putea folosi gradient descent. Din pacate, in practica acest gradient este de obicei <strong>indisponibil</strong> (cost computational mare, HP discreti, interactiuni non-diferentiabile).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Bayesian Optimization</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #bb86fc; font-weight: bold; margin-bottom: 10px;">Ideea Centrala</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">
+                                        1. Construieste un <strong>model</strong> (surrogate) al functiei obiectiv<br>
+                                        2. Foloseste modelul pentru a <strong>prezice</strong> eroarea pentru HP-uri netestate<br>
+                                        3. Alege urmatorul experiment bazat pe <strong>exploration vs exploitation</strong><br>
+                                        4. Evalueaza, update-uieste modelul, repeta
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                                    <div style="background: #1b4d1b; padding: 10px; border-radius: 8px; text-align: center;">
+                                        <div style="color: #4caf50; font-weight: bold;">Exploitation</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Testeaza HP-uri aproape de cele care au functionat</div>
+                                    </div>
+                                    <div style="background: #1b3d4d; padding: 10px; border-radius: 8px; text-align: center;">
+                                        <div style="color: #03dac6; font-weight: bold;">Exploration</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Testeaza HP-uri unde incertitudinea e mare</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Modelul Surrogate: Gaussian Process</h4>
+                <p>Majoritatea algoritmilor pentru HP optimization folosesc un <strong>model de regresie Bayesiana</strong> pentru a estima atat <strong>valoarea asteptata</strong> a erorii de validare pentru fiecare configuratie, cat si <strong>incertitudinea</strong> acestei estimari. Optimizarea implica apoi un trade-off intre explorare (regiuni cu incertitudine mare) si exploatare (regiuni cu valoare asteptata mica).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Bayesian Optimization cu Optuna</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Bayesian Optimization cu Optuna (modern, popular)
+
+import optuna
+
+def objective(trial):
+    """
+    Optuna sugereaza HP-uri bazat pe istoricul experimentelor
+    """
+    # Defineste spatiul de cautare
+    lr = trial.suggest_float('lr', 1e-5, 1e-1, log=True)
+    hidden_units = trial.suggest_int('hidden_units', 32, 512, log=True)
+    dropout = trial.suggest_float('dropout', 0.0, 0.5)
+    weight_decay = trial.suggest_float('wd', 1e-6, 1e-2, log=True)
+    n_layers = trial.suggest_int('n_layers', 1, 5)
+
+    # Construieste si antreneaza modelul
+    model = build_model(hidden_units, n_layers, dropout)
+    val_error = train_and_evaluate(model, lr, weight_decay)
+
+    return val_error  # Optuna minimizeaza
+
+# Creeaza studiu cu sampler TPE (Tree-Parzen Estimator)
+study = optuna.create_study(
+    direction='minimize',
+    sampler=optuna.samplers.TPESampler()  # Bayesian!
+)
+
+# Ruleaza optimizarea
+study.optimize(objective, n_trials=100)
+
+print(f"Best params: {study.best_params}")
+print(f"Best value: {study.best_value}")
+
+# ALTE LIBRARII POPULARE:
+# - Hyperopt (Python, TPE)
+# - Spearmint (Gaussian Process)
+# - BOHB (Bayesian + Bandit)
+# - Ray Tune (distributed, multiple algorithms)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Bayesian Optimization</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Bengio et al. (1999, 2000)</strong> - Gradient-based hyperparameter optimization
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Maclaurin et al. (2015)</strong> - Reversible learning pentru HP gradients
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Snoek et al. (2012)</strong> - "Practical Bayesian Optimization" - Paper fundamental
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Bergstra et al. (2011)</strong> - TPE (Tree-Parzen Estimator)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand sa Folosesti Fiecare Metoda</h4>
+                <p>In practica: (1) <strong>Manual tuning</strong> cand ai experienta cu probleme similare si 1-3 HP critici. (2) <strong>Grid search</strong> pentru 2-3 HP cu valori bine definite. (3) <strong>Random search</strong> ca default pentru 3+ HP sau cand nu stii ce conteaza. (4) <strong>Bayesian optimization</strong> cand fiecare experiment e foarte costisitor si vrei maximaeficienta per experiment.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Ghid de Alegere</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                                <div style="background: linear-gradient(135deg, #1b3d4d, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #03dac6; font-weight: bold;">Manual / Grid</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.85em; margin: 10px 0; padding-left: 20px;">
+                                        <li>Putini HP (1-3)</li>
+                                        <li>Ai experienta</li>
+                                        <li>Compute ieftin</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ffd93d; font-weight: bold;">Random Search</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.85em; margin: 10px 0; padding-left: 20px;">
+                                        <li>Multi HP (4+)</li>
+                                        <li>Nu stii ce conteaza</li>
+                                        <li>Default recomandat</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b4d, #1a1a2e); padding: 15px; border-radius: 10px; grid-column: span 2;">
+                                    <div style="color: #bb86fc; font-weight: bold;">Bayesian Optimization</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.85em; margin: 10px 0; padding-left: 20px;">
+                                        <li>Fiecare experiment e FOARTE scump (ore/zile)</li>
+                                        <li>Vrei maxima eficienta per experiment</li>
+                                        <li>Ai tool-uri setup (Optuna, Ray Tune, etc.)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

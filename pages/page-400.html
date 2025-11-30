@@ -1,0 +1,107 @@
+<section class="page-section" id="page-400">
+    <div class="page-header">
+        <div class="page-number">400</div>
+        <div class="page-title">
+            <h3>BPTT - Ecuatiile Gradientului</h3>
+            <span>Ecuatiile 10.17-10.21</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-400.jpg"
+             alt="Pagina 400" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gradientul in raport cu Output-ul</h4>
+                <p>Incepem de la loss. Presupunem ca output-ul o<sup>(t)</sup> produce probabilitati prin softmax, iar loss-ul este negative log-likelihood. Gradientul ∂L/∂L<sup>(t)</sup> = 1 (trivial), iar gradientul in raport cu o<sup>(t)</sup> este diferenta dintre predictie si target.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile 10.17-10.18</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <div class="formula" style="margin: 10px 0;">
+                                    ∂L / ∂L<sup>(t)</sup> = 1
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.17)</span>
+                                </div>
+                                <div class="formula" style="margin: 10px 0;">
+                                    (∇<sub>o<sup>(t)</sup></sub>L)<sub>i</sub> = ŷ<sub>i</sub><sup>(t)</sup> - 1<sub>i,y<sup>(t)</sup></sub>
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.18)</span>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">
+                                <strong>1<sub>i,y</sub></strong> = indicator function: 1 daca i = y (clasa corecta), 0 altfel
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Propagarea Inapoi prin Starea Ascunsa</h4>
+                <p>La ultimul pas τ, gradientul pentru h<sup>(τ)</sup> vine doar de la output. Pentru pasii anteriori, gradientul trebuie sa ia in calcul SI influenta asupra starilor viitoare - aici intervine recurenta in BPTT!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile 10.19-10.21</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--accent); margin-bottom: 10px;"><strong>La timpul final τ:</strong></p>
+                                <div class="formula" style="margin: 10px 0;">
+                                    ∇<sub>h<sup>(τ)</sup></sub>L = V<sup>⊤</sup> ∇<sub>o<sup>(τ)</sup></sub>L
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.19)</span>
+                                </div>
+                                <p style="color: var(--success); margin: 15px 0 10px 0;"><strong>Pentru t < τ (propagare inapoi):</strong></p>
+                                <div class="formula" style="margin: 10px 0; font-size: 0.9rem;">
+                                    ∇<sub>h<sup>(t)</sup></sub>L = (∂h<sup>(t+1)</sup>/∂h<sup>(t)</sup>)<sup>⊤</sup> ∇<sub>h<sup>(t+1)</sup></sub>L + (∂o<sup>(t)</sup>/∂h<sup>(t)</sup>)<sup>⊤</sup> ∇<sub>o<sup>(t)</sup></sub>L
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.20)</span>
+                                </div>
+                                <div class="formula" style="margin: 10px 0; font-size: 0.9rem;">
+                                    = W<sup>⊤</sup> ∇<sub>h<sup>(t+1)</sup></sub>L · diag(1 - (h<sup>(t+1)</sup>)<sup>2</sup>) + V<sup>⊤</sup> ∇<sub>o<sup>(t)</sup></sub>L
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.21)</span>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>diag(1 - h<sup>2</sup>) = Jacobianul lui tanh</h5>
+                                <p>Derivata lui tanh(x) este 1 - tanh<sup>2</sup>(x)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Gradient Flow</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="font-family: monospace; background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                <p style="color: var(--warning);">∇L<sup>(τ)</sup> ← ∇o<sup>(τ)</sup> ← ∇h<sup>(τ)</sup></p>
+                                <p style="margin: 5px 0;">↙ V<sup>⊤</sup> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↙ W<sup>⊤</sup></p>
+                                <p style="color: var(--warning);">∇L<sup>(t)</sup> ← ∇o<sup>(t)</sup> ← ∇h<sup>(t)</sup></p>
+                                <p style="margin: 5px 0;">↙ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↙</p>
+                                <p>... continua pana la t=1 ...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

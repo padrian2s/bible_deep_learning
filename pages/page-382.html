@@ -1,0 +1,137 @@
+<section class="page-section" id="page-382">
+    <div class="page-header">
+        <div class="page-number">382</div>
+        <div class="page-title">
+            <h3>9.10 Diferente si Limitari</h3>
+            <span>CNN vs Sistemul Vizual Biologic</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-382.jpg"
+             alt="Pagina 382" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Saccade si Atentie</h4>
+                <p>Creierul foloseste miscari rapide ale ochilor numite <strong>saccade</strong> pentru a "scana" partile importante ale scenei. Incorporarea mecanismelor de atentie similare in deep learning este o directie activa de cercetare! In practica, <strong>attention mechanisms</strong> au avut cel mai mare succes in NLP (Transformers), iar pentru viziune exista modele cu foveation dar nu sunt inca dominante.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Visual Attention in Deep Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Soft Attention</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Pondereaza toate regiunile diferentiat (ex: image captioning)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Hard Attention</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Selecteaza discret regiuni (necesita RL pentru antrenare)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Vision Transformers (ViT)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Self-attention pe patch-uri de imagine - succes recent!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alte Diferente Importante</h4>
+                <p>Sistemul vizual este integrat cu alte simturi (auz, dispozitie), proceseaza scene complexe cu relatii 3D intre obiecte, si foloseste <strong>feedback</strong> extensiv de la niveluri superioare. Chiar si V1 primeste feedback de la niveluri mai inalte! CNN-urile standard sunt pur feedforward, desi exista cercetari pe recurrent CNNs.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ce Lipseste CNN-urilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                <tr style="background: var(--bg-lighter);">
+                                    <th style="padding: 12px; text-align: left;">Caracteristica</th>
+                                    <th style="padding: 12px; text-align: left;">Creier</th>
+                                    <th style="padding: 12px; text-align: left;">CNN</th>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter);">Multimodalitate</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); color: var(--success);">Da (viziune+auz+...)</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); color: var(--warning);">De obicei nu</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter);">Feedback loops</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); color: var(--success);">Extensiv</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); color: var(--warning);">Feedforward pur</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter);">Intelegere 3D</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); color: var(--success);">Nativa</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); color: var(--warning);">Limitata</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;">Atentie activa</td>
+                                    <td style="padding: 10px; color: var(--success);">Saccade</td>
+                                    <td style="padding: 10px; color: var(--warning);">Static</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Istoria CNN: De la Neocognitron la Backpropagation</h4>
+                <p>Neurostiinta ne-a spus <em>ce</em> sa construim, dar nu <em>cum</em> sa antrenam. Structurile cu parameter sharing existau de la <strong>Neocognitron</strong> (Fukushima, 1980), dar acesta folosea clustering nesupervizat pe layere. Marele breakthrough: <strong>backpropagation</strong> prin convolutii (Lang & Hinton, 1988 pentru 1D; LeCun, 1989 pentru 2D pe imagini).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Timeline: Evolutia CNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="position: relative; padding-left: 20px; background: linear-gradient(90deg, rgba(37, 99, 235, 0.2) 0%, transparent 15%);">
+                                <div style="margin-bottom: 15px;">
+                                    <strong style="color: var(--primary);">1962</strong> - Hubel & Wiesel descopera celule simple/complexe
+                                </div>
+                                <div style="margin-bottom: 15px;">
+                                    <strong style="color: var(--primary);">1976</strong> - Marr & Poggio: modele conexioniste cu parameter sharing
+                                </div>
+                                <div style="margin-bottom: 15px;">
+                                    <strong style="color: var(--primary);">1980</strong> - Neocognitron (Fukushima): arhitectura CNN, dar fara backprop
+                                </div>
+                                <div style="margin-bottom: 15px;">
+                                    <strong style="color: var(--accent);">1988</strong> - TDNNs (Lang & Hinton): backprop pe convolutii 1D (audio)
+                                </div>
+                                <div style="margin-bottom: 15px;">
+                                    <strong style="color: var(--success);">1989</strong> - LeCun: backprop pe Conv2D pentru imagini (LeNet)
+                                </div>
+                                <div>
+                                    <strong style="color: var(--success);">2012</strong> - AlexNet: CNN-uri pe GPU-uri castiga ImageNet
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

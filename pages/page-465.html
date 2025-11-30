@@ -1,0 +1,161 @@
+<section class="page-section" id="page-465">
+    <div class="page-header">
+        <div class="page-number">465</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Mixture of Experts si Mecanisme de Atentie</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-465.jpg"
+             alt="Pagina 465" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gater si Mixture of Experts</h4>
+                <p>In acelasi spirit cu cascade, putem folosi o retea neurala numita <strong>gater</strong> pentru a selecta care dintre mai multe <strong>retele expert</strong> va fi folosita pentru a calcula output-ul. Prima versiune a acestei idei este <strong>mixture of experts</strong>, unde gater-ul produce weights (via softmax) pentru combinarea output-urilor expertilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Mixture of Experts</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div style="background: var(--accent); display: inline-block; padding: 15px 30px; border-radius: 8px; color: var(--bg-dark);">
+                                        <strong>Input x</strong>
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
+                                    <div style="background: var(--success); padding: 15px; border-radius: 8px; text-align: center; color: var(--bg-dark);">
+                                        <strong>Expert 1</strong>
+                                        <div style="font-size: 0.8rem;">w₁ = 0.6</div>
+                                    </div>
+                                    <div style="background: var(--warning); padding: 15px; border-radius: 8px; text-align: center; color: var(--bg-dark);">
+                                        <strong>Expert 2</strong>
+                                        <div style="font-size: 0.8rem;">w₂ = 0.3</div>
+                                    </div>
+                                    <div style="background: var(--primary); padding: 15px; border-radius: 8px; text-align: center; color: white; opacity: 0.5;">
+                                        <strong>Expert 3</strong>
+                                        <div style="font-size: 0.8rem;">w₃ = 0.1</div>
+                                    </div>
+                                    <div style="background: var(--text-secondary); padding: 15px; border-radius: 8px; text-align: center; color: var(--bg-dark); opacity: 0.3;">
+                                        <strong>Expert 4</strong>
+                                        <div style="font-size: 0.8rem;">w₄ = 0.0</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="color: var(--text-secondary);">↓ Weighted combination ↓</div>
+                                    <div style="background: var(--primary); display: inline-block; padding: 15px 30px; border-radius: 8px; color: white; margin-top: 10px;">
+                                        <strong>Output = Σ wᵢ · Expertᵢ(x)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Soft vs Hard Mixture</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Mixture of Experts (Nowlan 1990, Jacobs et al. 1991)
+
+class MixtureOfExperts(nn.Module):
+    def __init__(self, n_experts):
+        self.experts = [Expert() for _ in range(n_experts)]
+        self.gater = Gater()  # produce softmax weights
+
+    def forward(self, x):
+        # Soft mixture: toate expertii contribuie
+        weights = self.gater(x)  # [n_experts], sum = 1
+        outputs = [e(x) for e in self.experts]
+        return sum(w * o for w, o in zip(weights, outputs))
+
+# Hard mixture: doar un expert (Collobert et al. 2001, 2002)
+class HardMixtureOfExperts(nn.Module):
+    def forward(self, x):
+        weights = self.gater(x)
+        selected = torch.argmax(weights)  # UN singur expert
+        return self.experts[selected](x)  # Mai rapid!
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Trade-off:</strong> Soft mixture nu ofera reducere de cost computational. Hard mixture accelereaza dar necesita tehnici speciale pentru antrenament (e.g., reinforcement learning, conditional dropout).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: MoE si Gating</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Nowlan (1990); Jacobs et al. (1991)</strong> - Mixture of Experts original</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Collobert et al. (2001, 2002)</strong> - Hard mixture pentru accelerare</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Bengio et al. (2013b)</strong> - Gradient estimators pentru gating combinatorial</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Bacon et al. (2015); Bengio et al. (2015a)</strong> - RL pentru conditional dropout</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Switch si Attention</h4>
+                <p>Un alt tip de structura dinamica este un <strong>switch</strong>, unde o unitate ascunsa poate primi input de la diferite unitati in functie de context. Aceasta abordare de rutare dinamica poate fi interpretata ca un <strong>mecanism de atentie</strong>. Mecanismele moderne de atentie folosesc weighted average in loc de hard switch.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Obstacol: Paralelism Redus</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema:</strong> Sistemele cu structura dinamica au paralelism redus - diferite exemple urmeaza cai de cod diferite, deci nu pot fi descrise eficient ca inmultiri matriceale sau convolutii pe batch.
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <strong style="color: var(--warning);">Solutie partiala:</strong>
+                                <p style="color: var(--text-secondary); margin-top: 10px;">Partitionam exemplele in grupuri care urmeaza aceeasi cale si le procesam pe grupuri. Totusi, in setari real-time, aceasta poate cauza probleme de load-balancing intre masini.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Attention Mechanisms</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Olshausen et al. (1993)</strong> - Interpretarea routingului dinamic ca atentie</div></li>
+                            </ul>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Hard switch nu s-a dovedit eficient la scara mare. Abordarile contemporane folosesc weighted average si sunt descrise in sectiunea 12.4.5.1.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,142 @@
+<section class="page-section" id="page-203">
+    <div class="page-header">
+        <div class="page-number">203</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2.4 Invatarea Variantei - Modele Heteroscedastice</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-203.jpg"
+             alt="Pagina 203" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Reteaua ca Outputand Parametri de Distributie</h4>
+                <p>In general, putem gandi reteaua neuronala ca reprezentand o functie f(x; θ). Output-urile acestei functii nu sunt predictii directe ale valorii y. In schimb, f(x; θ) = ω furnizeaza parametrii pentru o distributie peste y. Functia noastra de cost poate fi interpretata ca -log p(y; ω(x)). De exemplu, putem dori sa invatam varianta unui Gaussian conditional.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Regresie cu Varianta Invatata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class GaussianOutputNet(nn.Module):
+    """Retea care prezice atat media cat si varianta"""
+    def __init__(self, input_dim, hidden_dim):
+        super().__init__()
+        self.shared = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU()
+        )
+        # Output pentru medie (neconstrans)
+        self.mean_head = nn.Linear(hidden_dim, 1)
+        # Output pentru log-varianta (pentru stabilitate)
+        self.logvar_head = nn.Linear(hidden_dim, 1)
+
+    def forward(self, x):
+        h = self.shared(x)
+        mean = self.mean_head(h)
+        logvar = self.logvar_head(h)  # log(σ²)
+        return mean, logvar
+
+def gaussian_nll_loss(y, mean, logvar):
+    """Negative log-likelihood pentru Gaussian"""
+    var = torch.exp(logvar)
+    return 0.5 * (logvar + (y - mean)**2 / var).mean()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Modele Heteroscedastice vs Homoscedastice</h4>
+                <p>Daca varianta nu depinde de input, avem un model homoscedastic - varianta este o constanta globala. Daca dorim ca modelul sa prezica o cantitate diferita de varianta in y pentru diferite valori de x, acesta se numeste model heteroscedastic. Pur si simplu facem ca specificarea variantei sa fie una din valorile outputate de f(x; θ).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Homo vs Heteroscedastic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">Homoscedastic</strong>
+                                    <div style="margin: 15px 0; font-size: 2rem;">═══════</div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Varianta constanta pentru toate x</p>
+                                    <p style="font-size: 0.85rem;">σ²(x) = σ² (constanta)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">Heteroscedastic</strong>
+                                    <div style="margin: 15px 0; font-size: 2rem;">─═══─</div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Varianta depinde de x</p>
+                                    <p style="font-size: 0.85rem;">σ²(x) = f(x; θ)</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">Exemplu: Predictia pretului caselor - incertitudinea creste pentru case mai scumpe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Parametrizare: Varianta vs Precizie</h4>
+                <p>O modalitate tipica de a face aceasta este formularea distributiei Gaussian folosind precizie, mai degraba decat varianta. Precizia este inversul variantei: β = 1/σ². Aceasta formulare functioneaza bine cu gradient descent deoarece log-likelihood-ul implica doar inmultire si adunare cu log β, evitand impartirea care devine instabila aproape de zero.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De ce Precizie sau Log-Varianta?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Problema cu parametrizarea directa a variantei:
+# σ² trebuie sa fie > 0
+# Daca reteaua outputeaza σ² → poate deveni negativ!
+
+# Solutie 1: Softplus pentru varianta
+# σ² = softplus(raw_output) = log(1 + exp(raw))
+# Garanteaza σ² > 0
+
+# Solutie 2: Exp pentru varianta (log-varianta)
+# σ² = exp(log_var)
+# Reteaua outputeaza log(σ²), exp il face pozitiv
+
+# Solutie 3: Precizie cu softplus
+# β = softplus(raw) > 0
+# σ² = 1/β
+
+# In log-likelihood:
+# log p(y|x) ∝ log(β) - β(y-μ)²/2
+# Doar inmultire cu β, nu impartire!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

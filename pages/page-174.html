@@ -1,0 +1,102 @@
+<section class="page-section" id="page-174">
+    <div class="page-header">
+        <div class="page-number">174</div>
+        <div class="page-title">
+            <h3>Voronoi Diagram - Figura 5.10</h3>
+            <span>Capitolul 5 - Sectiunea 5.11.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-174.jpg"
+             alt="Pagina 174" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.10: Nearest Neighbor Regions</h4>
+                <p>Ilustratie a modului in care <strong>nearest neighbor</strong> imparte spatiul de input in regiuni. Un exemplu (reprezentat de un cerc) in fiecare regiune defineste <strong>region boundary</strong> (reprezentat prin linii). Valoarea y asociata cu fiecare exemplu defineste care ar trebui sa fie output-ul pentru toate punctele din regiunea corespunzatoare. Regiunile definite de nearest neighbor matching formeaza un pattern geometric numit <strong>Voronoi diagram</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Voronoi Diagram</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Proprietati Voronoi</h5>
+                                <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong>Definitie:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Regiunea Voronoi pentru punctul p = toate punctele mai aproape de p decat de orice alt punct</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong>Boundary:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Linii drepte (perpendicular bisector intre puncte vecine)</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong>Numar regiuni:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Exact n regiuni pentru n puncte</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Voronoi Regions</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+
+np.random.seed(42)
+
+# 3 puncte de training
+X_train = np.array([[1, 2], [3, 1], [2, 3]])
+y_train = np.array([0, 1, 2])  # fiecare punct = regiune separata
+
+# 1-NN classifier
+knn = KNeighborsClassifier(n_neighbors=1)
+knn.fit(X_train, y_train)
+
+# Grid de test
+x_range = np.linspace(0, 4, 10)
+y_range = np.linspace(0, 4, 10)
+
+print("Voronoi regions (regiune pentru fiecare punct):")
+print()
+for y in reversed(y_range):
+    row = ""
+    for x in x_range:
+        region = knn.predict([[x, y]])[0]
+        row += str(region) + " "
+    print(row)
+
+print()
+print("Legend: 0, 1, 2 = regions defined by")
+print("        the 3 training points")
+print()
+print("=> Fiecare exemplu controleaza O SINGURA regiune")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Limitarea Fundamentala</h4>
+                <p>Numarul de <strong>regiuni contigue</strong> (Voronoi cells) nu poate creste mai repede decat numarul de exemple de training. In timp ce aceasta figura ilustreaza comportamentul nearest neighbor specific, alte algoritmi ML care se bazeaza exclusiv pe <strong>local smoothness prior</strong> pentru generalizare exhiba comportamente similare: fiecare exemplu de training informeaza learner-ul doar despre cum sa generalizeze in vecinatatea imediata a acelui exemplu.</p>
+            </div>
+        </div>
+    </div>
+</section>

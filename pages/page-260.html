@@ -1,0 +1,114 @@
+<section class="page-section" id="page-260">
+    <div class="page-header">
+        <div class="page-number">260</div>
+        <div class="page-title">
+            <h3>7.7 Multi-Task Learning - Figura 7.2</h3>
+            <span>Arhitectura si Factorii Partajati</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-260.jpg"
+             alt="Pagina 260" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 7.2: Arhitectura Multi-Task</h4>
+                <p>Figura ilustreaza o arhitectura comuna pentru multi-task learning. Task-urile diferite (predictia y⁽¹⁾ si y⁽²⁾) partajeaza acelasi input x si o reprezentare intermediara h<sup>(shared)</sup>. Layerele de sus (h⁽¹⁾, h⁽²⁾, h⁽³⁾) sunt task-specific.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Explicatie Arhitectura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <div style="text-align: center; margin-bottom: 15px;">
+                                    <div style="display: inline-block; padding: 10px 20px; background: var(--bg-dark); border-radius: 8px; margin: 5px;">
+                                        <strong>y⁽¹⁾</strong> <span style="color: var(--text-secondary);">Task 1 output</span>
+                                    </div>
+                                    <div style="display: inline-block; padding: 10px 20px; background: var(--bg-dark); border-radius: 8px; margin: 5px;">
+                                        <strong>y⁽²⁾</strong> <span style="color: var(--text-secondary);">Task 2 output</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; margin-bottom: 10px;">↑ Task-specific heads</div>
+                                <div style="text-align: center; margin-bottom: 15px;">
+                                    <div style="display: inline-block; padding: 10px 15px; background: var(--primary); color: white; border-radius: 8px; margin: 5px;">h⁽¹⁾</div>
+                                    <div style="display: inline-block; padding: 10px 15px; background: var(--accent); color: white; border-radius: 8px; margin: 5px;">h⁽²⁾</div>
+                                    <div style="display: inline-block; padding: 10px 15px; background: var(--warning); color: white; border-radius: 8px; margin: 5px;">h⁽³⁾</div>
+                                </div>
+                                <div style="text-align: center; margin-bottom: 10px;">↑ Hidden layers</div>
+                                <div style="text-align: center; margin-bottom: 15px;">
+                                    <div style="display: inline-block; padding: 15px 40px; background: var(--success); color: white; border-radius: 8px;">
+                                        <strong>h<sup>(shared)</sup></strong>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; margin-bottom: 10px;">↑ Shared representation</div>
+                                <div style="text-align: center;">
+                                    <div style="display: inline-block; padding: 10px 30px; background: var(--bg-dark); border-radius: 8px;">
+                                        <strong>x</strong> <span style="color: var(--text-secondary);">Input</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Factorii Partajati si Generalizare</h4>
+                <p>Presupunerea de baza: exista un pool comun de factori care explica variatiile din input x, fiecare task folosind un subset. h<sup>(shared)</sup> captureaza acesti factori comuni. Chiar si h⁽³⁾, care nu e asociat cu niciun output, poate captura factori relevanti pentru variatiile din x dar nu pentru y⁽¹⁾ sau y⁽²⁾.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Beneficii Statistice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Baxter (1995): Generalizarea imbunatatita si bound-urile pe eroarea de generalizare pot fi obtinute datorita parametrilor partajati, pentru care puterea statistica poate fi crescuta proportional cu datele pooled din toate task-urile.</p>
+                            </div>
+                            <ul style="margin-top: 15px;">
+                                <li><strong>Mai multe date</strong> pentru layerele shared</li>
+                                <li><strong>Regularizare implicita</strong> - constrangere de a invata features utile pentru multiple task-uri</li>
+                                <li><strong>Transfer learning</strong> - cunostinte din task-uri auxiliare ajuta task-ul principal</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemple Practice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong>NLP:</strong> Un encoder BERT shared pentru sentiment analysis + named entity recognition + question answering
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong>Vision:</strong> Backbone CNN shared pentru object detection + segmentation + depth estimation
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <strong>Self-driving:</strong> Shared perception pentru lane detection + object detection + traffic sign recognition
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

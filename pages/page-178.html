@@ -1,0 +1,100 @@
+<section class="page-section" id="page-178">
+    <div class="page-header">
+        <div class="page-number">178</div>
+        <div class="page-title">
+            <h3>Uniform Noise vs Real Images - Figura 5.12</h3>
+            <span>Capitolul 5 - Sectiunea 5.11.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-178.jpg"
+             alt="Pagina 178" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.12: Random Noise Images</h4>
+                <p>Sampling imagini <strong>uniform at random</strong> (prin alegerea fiecarui pixel aleator dintr-o distributie uniforma) produce imagini zgomotoase. Desi exista o probabilitate non-zero de a genera o imagine a unei fete sau oricarui alt obiect intalnit frecvent in AI applications, <strong>nu observam asta niciodata</strong> in practica. Aceasta sugereaza ca imaginile intalnite in aplicatii AI ocupa o <strong>proportie neglijabila</strong> din volumul spatiului de imagini - ele stau pe un manifold!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Random vs Real Images</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+np.random.seed(42)
+
+# Spatiul imaginilor 28x28 grayscale
+H, W = 28, 28
+n_pixels = H * W  # 784 pixeli
+
+# Cate imagini posibile exista?
+n_values = 256  # valori per pixel (0-255)
+total_images = n_values ** n_pixels
+# = 256^784 ≈ 10^1887 imagini posibile!
+
+print("Spatiul imaginilor 28x28:")
+print(f"  Pixeli: {n_pixels}")
+print(f"  Valori/pixel: {n_values}")
+print(f"  Imagini posibile: 256^784 ≈ 10^1887")
+print()
+
+# Cat e un sample random?
+random_img = np.random.randint(0, 256, (H, W))
+print("Imagine random (sample):")
+print("  => TV static / noise")
+print("  => NU seamana cu nimic recognoscibil")
+print()
+
+# MNIST are ~60,000 imagini
+mnist_size = 60000
+print(f"MNIST dataset: ~{mnist_size:,} imagini")
+print(f"  Fractiunea din spatiu: ~10^-1882")
+print()
+print("=> Imaginile REALE sunt pe un MANIFOLD")
+print("   extrem de mic in spatiul total!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Dovada 2: Conectivitate prin Transformari</h4>
+                <p>Desigur, distributiile concentrate nu sunt suficiente pentru a arata ca datele stau pe un numar rezonabil de manifolduri. Trebuie sa stabilim si ca exemplele pe care le intalnim sunt <strong>conectate intre ele</strong> prin alte exemple foarte similare, care pot fi atinse aplicand <strong>transformari</strong> pentru a traversa manifold-ul. Al doilea argument in favoarea manifold hypothesis este ca putem imagina astfel de vecinatati si transformari, cel putin informal.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Image Transformations</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Transformari pe Manifold-ul Imaginilor</h5>
+                                <p>Putem trece smooth de la o imagine la alta prin:</p>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; font-size: 0.9rem;">Dim/brighten lights</div>
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; font-size: 0.9rem;">Rotate objects</div>
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; font-size: 0.9rem;">Move objects</div>
+                                    <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; font-size: 0.9rem;">Change colors</div>
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">Nota: Manifold-ul fetelor umane poate sa nu fie conectat cu cel al fetelor de pisici - pot exista <strong>multiple manifolds</strong>!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

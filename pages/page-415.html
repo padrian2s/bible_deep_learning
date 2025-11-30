@@ -1,0 +1,86 @@
+<section class="page-section" id="page-415">
+    <div class="page-header">
+        <div class="page-number">415</div>
+        <div class="page-title">
+            <h3>10.6 Recursive Neural Networks</h3>
+            <span>Retele Neuronale Recursive (Tree Structure)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-415.jpg"
+             alt="Pagina 415" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.14 - Recursive Network</h4>
+                <p><strong>Recursive neural networks</strong> (NU recurrent!) generalizeaza RNN-urile de la lanturi la <strong>arbori</strong>. In loc de o secventa liniara, procesam o structura arboresecnta. Adancimea scade de la O(τ) la O(log τ) pentru un arbore binar balansat!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Chain vs Tree</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">RNN (Chain)</strong>
+                                    <div style="font-family: monospace; margin: 10px 0;">
+                                        x₁ → x₂ → x₃ → x₄ → y
+                                    </div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Depth = O(τ)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Recursive (Tree)</strong>
+                                    <div style="font-family: monospace; margin: 10px 0;">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y<br>
+                                        &nbsp;&nbsp;&nbsp;/&nbsp;\<br>
+                                        &nbsp;&nbsp;h&nbsp;&nbsp;&nbsp;h<br>
+                                        &nbsp;/\&nbsp;&nbsp;/\<br>
+                                        x₁ x₂ x₃ x₄
+                                    </div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Depth = O(log τ)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aplicatii Recursive Networks</h4>
+                <p>Recursive networks sunt utile cand datele au o <strong>structura arborescenta naturala</strong>, cum ar fi arborele de parsare al unei propozitii. Procesarea dupa structura sintactica poate fi mai potrivita decat procesarea secventiala.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte si Aplicatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📖</span><div><strong>Pollack, 1990</strong> - Introducerea ideii</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Socher et al., 2011-2013</strong> - Sentiment analysis pe parse trees</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>NLP:</strong> Procesare dupa structura sintactica</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Computer Vision:</strong> Scene parsing (Socher et al., 2011)</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Provocare:</h5>
+                                <p>Cum determinam structura arborelui? Poate fi dat (parse tree) sau invatat automat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

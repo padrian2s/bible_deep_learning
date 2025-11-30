@@ -1,0 +1,172 @@
+<section class="page-section" id="page-190">
+    <div class="page-header">
+        <div class="page-number">190</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Figura 6.3: Functia de Activare ReLU</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-190.jpg"
+             alt="Pagina 190" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ReLU: Rectified Linear Unit</h4>
+                <p>Functia de activare ReLU g(z) = max{0, z} este recomandata implicit pentru majoritatea retelelor feedforward. Aplicand aceasta functie la output-ul unei transformari liniare produce o transformare neliniara. Totusi, functia ramane foarte aproape de liniara - este o functie liniara pe portiuni (piecewise linear) cu doua segmente.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Graficul ReLU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                <svg width="300" height="200" viewBox="-50 -10 150 110" style="background: var(--bg-dark); border-radius: 8px;">
+                                    <!-- Axes -->
+                                    <line x1="0" y1="80" x2="100" y2="80" stroke="#666" stroke-width="1"/>
+                                    <line x1="50" y1="100" x2="50" y2="0" stroke="#666" stroke-width="1"/>
+                                    <!-- ReLU function -->
+                                    <line x1="0" y1="80" x2="50" y2="80" stroke="#00d4ff" stroke-width="3"/>
+                                    <line x1="50" y1="80" x2="100" y2="30" stroke="#00d4ff" stroke-width="3"/>
+                                    <!-- Labels -->
+                                    <text x="95" y="95" fill="#888" font-size="10">z</text>
+                                    <text x="5" y="15" fill="#888" font-size="10">g(z)</text>
+                                    <text x="50" y="95" fill="#888" font-size="8">0</text>
+                                </svg>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.3rem;">
+                                    g(z) = max(0, z) = { 0 daca z ≤ 0; z daca z > 0 }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementari ReLU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import torch
+
+# NumPy
+def relu_numpy(z):
+    return np.maximum(0, z)
+
+# PyTorch - mai multe variante
+x = torch.tensor([-2., -1., 0., 1., 2.])
+
+# Varianta 1: torch.relu
+print(torch.relu(x))  # [0., 0., 0., 1., 2.]
+
+# Varianta 2: F.relu
+import torch.nn.functional as F
+print(F.relu(x))  # [0., 0., 0., 1., 2.]
+
+# Varianta 3: nn.ReLU (pentru Sequential)
+relu = torch.nn.ReLU()
+print(relu(x))  # [0., 0., 0., 1., 2.]
+
+# Varianta 4: Manual
+print(torch.maximum(torch.zeros_like(x), x))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce ReLU functioneaza atat de bine?</h4>
+                <p>Deoarece unitatile liniare rectificate sunt aproape liniare, ele pastreaza multe din proprietatile care fac modelele liniare usor de optimizat cu metode bazate pe gradient. De asemenea, pastreaza proprietatile care ajuta modelele liniare sa generalizeze bine. Un principiu comun in informatica este ca putem construi sisteme complicate din componente minimale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Avantajele ReLU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Computational Eficient</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px;">max(0, z) - o singura comparatie, fara exponentiala sau alte operatii costisitoare</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong style="color: var(--primary);">Gradient Neatenuat</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px;">Derivata = 1 pentru z > 0, evita vanishing gradient problem</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">Sparse Activations</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px;">Multi neuroni outputeaza 0, ducand la reprezentari sparse (eficiente)</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Biological Plausible</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px;">Similar cu neuronii biologici care "se activeaza" doar peste un prag</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aproximator Universal de Functii</h4>
+                <p>Similar cu o masina Turing care trebuie doar sa poata stoca 0 sau 1, putem construi un aproximator universal de functii din unitati liniare rectificate. Combinand suficiente astfel de unitati simple, putem aproxima orice functie continua cu precizie arbitrara. Aceasta este baza teoretica a puterii retelelor neuronale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Aproximare cu ReLU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;">Orice functie continua poate fi aproximata prin combinatii de ReLU:</p>
+                                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">∠</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">1 ReLU</div>
+                                    </div>
+                                    <span style="color: var(--accent);">+</span>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">∠</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">1 ReLU</div>
+                                    </div>
+                                    <span style="color: var(--accent);">=</span>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">⌒</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Tent</div>
+                                    </div>
+                                    <span style="color: var(--accent);">→</span>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px;">∿</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Orice!</div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">Combinand multe "tente" cu diferite pozitii si inaltimi, putem aproxima orice curba!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

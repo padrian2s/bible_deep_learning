@@ -1,0 +1,82 @@
+<section class="page-section" id="page-275">
+    <div class="page-header">
+        <div class="page-number">275</div>
+        <div class="page-title">
+            <h3>7.12 Figura 7.6 - Toate Sub-retelele</h3>
+            <span>Ensemble-ul Implicit al Dropout-ului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-275.jpg"
+             alt="Pagina 275" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 7.6: Ensemble de Sub-retele</h4>
+                <p>Figura ilustreaza cum dropout antreneaza un ensemble. Reteaua de baza are 2 unitati de input (x₁, x₂), 2 unitati hidden (h₁, h₂) si 1 output (y). Sunt <strong>16 sub-retele posibile</strong> (2⁴ combinatii de a pastra/elimina cele 4 unitati non-output). Figura arata toate cele 16.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Numar de Sub-retele</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                                Numar sub-retele = 2<sup>n</sup><br>
+                                unde n = numar de unitati non-output
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                    <strong>n = 4</strong><br>
+                                    <span style="font-size: 1.2rem;">16</span>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                    <strong>n = 100</strong><br>
+                                    <span style="font-size: 1.2rem;">10³⁰</span>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; text-align: center;">
+                                    <strong>n = 1000</strong><br>
+                                    <span style="font-size: 1.2rem;">10³⁰¹</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Retelelor Mici</h4>
+                <p>In exemplul mic din figura, multe sub-retele nu au cale de la input la output (ex: cand ambele h₁ si h₂ sunt eliminate, sau ambele x₁ si x₂). Aceasta problema devine nesemnificativa pentru retele cu layere mai late, unde probabilitatea de a "taia" toate caile este neglijabila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De ce nu e problema in practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Retea reala: 1024 unitati per layer, p=0.5
+# Probabilitate ca TOATE unitatile sa fie dropped:
+p_all_dropped = 0.5 ** 1024
+# = 10^(-308) ≈ 0
+
+# Practic imposibil sa nu existe nicio cale activa
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

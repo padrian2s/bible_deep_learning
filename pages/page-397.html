@@ -1,0 +1,153 @@
+<section class="page-section" id="page-397">
+    <div class="page-header">
+        <div class="page-number">397</div>
+        <div class="page-title">
+            <h3>10.2.1 Teacher Forcing</h3>
+            <span>Antrenare cu Output-uri Target</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-397.jpg"
+             alt="Pagina 397" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce este Teacher Forcing?</h4>
+                <p><strong>Teacher Forcing</strong> este o tehnica de antrenare unde, in loc sa folosim output-ul prezis de model, folosim <strong>output-ul corect (ground truth)</strong> ca input pentru urmatorul pas. "Profesorul" (datele de antrenare) "forteaza" modelul sa vada input-uri corecte.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Teacher Forcing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Fara Teacher Forcing:</strong>
+                                    <div style="font-family: monospace; margin: 10px 0; font-size: 0.85rem;">
+                                        x → h → ŷ₁ → h → ŷ₂ → h → ŷ₃<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↗<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ŷ₀&nbsp;&nbsp;&nbsp;&nbsp;ŷ₁&nbsp;&nbsp;&nbsp;&nbsp;ŷ₂
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Foloseste predictiile proprii (pot fi gresite!)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Cu Teacher Forcing:</strong>
+                                    <div style="font-family: monospace; margin: 10px 0; font-size: 0.85rem;">
+                                        x → h → ŷ₁ → h → ŷ₂ → h → ŷ₃<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↗<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--success);">y₀*</span>&nbsp;&nbsp;&nbsp;<span style="color: var(--success);">y₁*</span>&nbsp;&nbsp;&nbsp;<span style="color: var(--success);">y₂*</span>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Foloseste ground truth (mereu corect!)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Teacher Forcing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>def train_step_teacher_forcing(model, x_seq, y_seq_target):
+    """
+    x_seq: secventa de input
+    y_seq_target: secventa de output-uri corecte (ground truth)
+    """
+    h = model.init_hidden()
+    loss = 0
+
+    for t in range(len(x_seq)):
+        # Input: x_t SI output-ul CORECT anterior (nu cel prezis!)
+        if t == 0:
+            y_prev = start_token
+        else:
+            y_prev = y_seq_target[t-1]  # TEACHER FORCING!
+
+        # Forward pass
+        y_pred, h = model(x_seq[t], y_prev, h)
+
+        # Loss
+        loss += criterion(y_pred, y_seq_target[t])
+
+    return loss / len(x_seq)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.5 - RNN cu Output Unic</h4>
+                <p>A treia arhitectura importanta: RNN-ul care citeste o <strong>secventa intreaga</strong> si produce <strong>un singur output</strong> la final. Perfect pentru clasificare de documente, sentiment analysis, sau orice task unde trebuie sa "rezumi" o secventa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Sequence to One</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                <div style="font-family: monospace;">
+                                    <div style="margin-bottom: 10px;">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--warning);">L<sup>(τ)</sup></span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--accent);">y<sup>(τ)</sup></span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--accent);">o<sup>(τ)</sup></span>
+                                    </div>
+                                    <div>
+                                        <span style="color: var(--success);">h<sup>(t-1)</sup></span> →W→
+                                        <span style="color: var(--success);">h<sup>(t)</sup></span> →W→ ... →W→
+                                        <span style="color: var(--success);">h<sup>(τ)</sup></span>
+                                    </div>
+                                    <div style="margin-top: 5px;">
+                                        ↑U &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↑U &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↑U
+                                    </div>
+                                    <div>
+                                        <span style="color: var(--primary);">x<sup>(t-1)</sup></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span style="color: var(--primary);">x<sup>(t)</sup></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... &nbsp;&nbsp;&nbsp;
+                                        <span style="color: var(--primary);">x<sup>(τ)</sup></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">h<sup>(τ)</sup> contine un "rezumat" al intregii secvente - pe baza lui se face predictia finala.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Sequence-to-One</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>😊</span><div><strong>Sentiment Analysis</strong> - Review → Pozitiv/Negativ</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Document Classification</strong> - Articol → Categorie</div></li>
+                                <li class="reference-item"><span>🔍</span><div><strong>Spam Detection</strong> - Email → Spam/Not Spam</div></li>
+                                <li class="reference-item"><span>🎭</span><div><strong>Intent Detection</strong> - Comanda vocala → Actiune</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

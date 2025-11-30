@@ -1,0 +1,102 @@
+<section class="page-section" id="page-402">
+    <div class="page-header">
+        <div class="page-number">402</div>
+        <div class="page-title">
+            <h3>10.2.3 RNN ca Model Grafic Directionat</h3>
+            <span>Recurrent Networks as Directed Graphical Models</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-402.jpg"
+             alt="Pagina 402" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>RNN si Modelele Grafice Probabilistice</h4>
+                <p>Putem interpreta RNN-ul ca un <strong>model grafic directionat</strong> (directed graphical model). Loss-urile L<sup>(t)</sup> sunt cross-entropy intre predictie si target. Pentru log-likelihood training, RNN-ul invata sa estimeze distributia conditionata a urmatorului element.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile 10.29-10.30</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--accent); margin-bottom: 10px;"><strong>Modelul predictiv (fara conexiuni y→h):</strong></p>
+                                <div class="formula" style="margin: 10px 0;">
+                                    log p(y<sup>(t)</sup> | x<sup>(1)</sup>, ..., x<sup>(t)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.29)</span>
+                                </div>
+                                <p style="color: var(--success); margin: 15px 0 10px 0;"><strong>Modelul cu output recurrence:</strong></p>
+                                <div class="formula" style="margin: 10px 0;">
+                                    log p(y<sup>(t)</sup> | x<sup>(1)</sup>, ..., x<sup>(t)</sup>, y<sup>(1)</sup>, ..., y<sup>(t-1)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.30)</span>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">
+                                In primul caz, output-urile y sunt <strong>conditional independente</strong> date fiind x-urile. In al doilea, y<sup>(t)</sup> depinde si de y-urile anterioare.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Distributia Jointă a Secventei</h4>
+                <p>RNN-ul parametrizeaza distributia joint over secventa de output-uri Y = {y<sup>(1)</sup>, ..., y<sup>(τ)</sup>}. Folosind regula lantului (chain rule) din probabilitati, putem descompune probabilitatea joint in produs de conditionale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatia 10.31 - Chain Rule</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Distributia joint:</h5>
+                                <div class="formula" style="margin: 10px 0;">
+                                    P(Y) = P(y<sup>(1)</sup>, ..., y<sup>(τ)</sup>) = ∏<sub>t=1</sub><sup>τ</sup> P(y<sup>(t)</sup> | y<sup>(t-1)</sup>, ..., y<sup>(1)</sup>)
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                <p><strong>Exemplu - Language Model:</strong></p>
+                                <p style="color: var(--text-secondary); margin-top: 5px;">P("the cat sat") = P("the") × P("cat"|"the") × P("sat"|"the cat")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Grafuri cu/fara Muchii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Fara y→h edges:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Output-urile y sunt conditonal independente date x. Graful nu are muchii intre y<sup>(i)</sup> si y<sup>(t)</sup>.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Cu y→h edges:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Graful directionat contine muchii de la toate y<sup>(i)</sup> anterioare la y<sup>(t)</sup> curent.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

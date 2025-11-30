@@ -1,0 +1,115 @@
+<section class="page-section" id="page-494">
+    <div class="page-header">
+        <div class="page-number">494</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Collaborative Filtering si Matrix Factorization</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-494.jpg"
+             alt="Pagina 494" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Bilinear Prediction</h4>
+                <p>Metodele parametrice se bazeaza pe invatarea unei <strong>reprezentari distribuite</strong> (embedding) pentru fiecare utilizator si pentru fiecare item. <strong>Bilinear prediction</strong> este o metoda simpla si foarte de succes: predictia este obtinuta prin dot product intre embedding-ul user-ului si embedding-ul item-ului, corectate cu biases.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Formula: Bilinear Prediction</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                R̂ᵤ,ᵢ = bᵤ + cᵢ + Σⱼ Aᵤ,ⱼ Bⱼ,ᵢ
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <p style="color: var(--text-secondary);">Unde:</p>
+                                <ul style="color: var(--text-secondary); font-size: 0.9rem;">
+                                    <li><strong>R̂</strong> - matricea de predictii (ratings)</li>
+                                    <li><strong>A</strong> - user embeddings (rows)</li>
+                                    <li><strong>B</strong> - item embeddings (columns)</li>
+                                    <li><strong>bᵤ</strong> - bias per user (cat de "critic" e)</li>
+                                    <li><strong>cᵢ</strong> - bias per item (popularitate generala)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Matrix Factorization</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class MatrixFactorization(nn.Module):
+    def __init__(self, n_users, n_items, embed_dim):
+        super().__init__()
+        # Embeddings pentru users si items
+        self.user_embed = nn.Embedding(n_users, embed_dim)
+        self.item_embed = nn.Embedding(n_items, embed_dim)
+        # Biases
+        self.user_bias = nn.Embedding(n_users, 1)
+        self.item_bias = nn.Embedding(n_items, 1)
+
+    def forward(self, user_ids, item_ids):
+        # Dot product + biases
+        user_emb = self.user_embed(user_ids)
+        item_emb = self.item_embed(item_ids)
+
+        dot = (user_emb * item_emb).sum(dim=1)
+        bias = self.user_bias(user_ids).squeeze() + \
+               self.item_bias(item_ids).squeeze()
+
+        return dot + bias
+
+# Loss: MSE intre predictii si ratings reale
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Netflix Prize</h4>
+                <p>SVD si bilinear prediction au performat foarte bine in competitia <strong>Netflix Prize</strong>, care a avut loc intre 2006 si 2009. Scopul era sa prezici rating-uri pentru filme bazandu-te pe rating-uri anterioare de la utilizatori anonimi. SVD simplu a fost o componenta in majoritatea ensemble-urilor castigatoare!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Netflix Prize</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bennett & Lanning (2007)</strong> - Netflix Prize challenge</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Toscher et al. (2009); Koren (2009)</strong> - Solutiile castigatoare</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Salakhutdinov et al. (2007)</strong> - RBM pentru collaborative filtering</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                Competitia a ridicat nivelul cercetarii in sisteme de recomandare si a aratat ca abordari simple (SVD/bilinear) combinat cu ensemble learning pot fi foarte puternice.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

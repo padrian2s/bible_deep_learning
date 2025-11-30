@@ -1,0 +1,92 @@
+<section class="page-section" id="page-250">
+    <div class="page-header">
+        <div class="page-number">250</div>
+        <div class="page-title">
+            <h3>7.1.2 Analiza L¹ - Solutia Sparse</h3>
+            <span>Efectul L¹ asupra Parametrilor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-250.jpg"
+             alt="Pagina 250" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gradientul L¹ si Subgradientul</h4>
+                <p>Gradientul (sau subgradientul, deoarece |w| nu e diferentiabil in 0) este:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    ∇<sub>w</sub>J̃(w; X, y) = α·sign(w) + ∇<sub>w</sub>J(X, y; w)
+                </div>
+                <p>Observatia critica: contributia regularizarii la gradient <strong>nu mai scaleaza liniar</strong> cu wᵢ - este doar sign(wᵢ), adica ±1 sau 0. Aceasta diferenta fundamentala face L¹ sa produca solutii sparse.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Analiza cu Hessian Diagonal</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Presupunem Hessianul H diagonal (features decorelate, ex: dupa PCA). Aproximarea patratica a obiectivului L¹ regularizat se descompune in sume independente:</p>
+                            <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                Ĵ(w; X, y) = J(w*) + Σᵢ [½Hᵢᵢ(wᵢ - wᵢ*)² + α|wᵢ|]
+                            </div>
+                            <p style="margin-top: 10px;">Solutia analitica pentru fiecare dimensiune:</p>
+                            <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                wᵢ = sign(wᵢ*) · max{|wᵢ*| - α/Hᵢᵢ, 0}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Soft Thresholding - Operatorul de Sparsificare</h4>
+                <p>Formula wᵢ = sign(wᵢ*) · max{|wᵢ*| - α/Hᵢᵢ, 0} se numeste "soft thresholding". Are doua cazuri distincte:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Cele doua cazuri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Cazul 1: |wᵢ*| ≤ α/Hᵢᵢ</strong>
+                                    <div class="formula" style="margin: 10px 0;">wᵢ = 0</div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Regularizarea "castiga" - parametrul devine exact zero!</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Cazul 2: |wᵢ*| > α/Hᵢᵢ</strong>
+                                    <div class="formula" style="margin: 10px 0;">wᵢ = wᵢ* - α/Hᵢᵢ·sign(wᵢ*)</div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Se deplaseaza spre zero cu α/Hᵢᵢ dar ramane nenul</p>
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# Soft thresholding in NumPy
+def soft_threshold(w_star, alpha, H_diag):
+    threshold = alpha / H_diag
+    return np.sign(w_star) * np.maximum(np.abs(w_star) - threshold, 0)
+
+# Exemplu
+w_star = np.array([0.5, 0.1, -0.3, 2.0])
+H_diag = np.array([1, 1, 1, 1])
+alpha = 0.2
+# Rezultat: [0.3, 0, -0.1, 1.8] - al doilea devine 0!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

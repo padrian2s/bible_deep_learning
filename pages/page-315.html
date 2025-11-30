@@ -1,0 +1,113 @@
+<section class="page-section" id="page-315">
+    <div class="page-header">
+        <div class="page-number">315</div>
+        <div class="page-title">
+            <h3>8.3.3 Nesterov Momentum</h3>
+            <span>Momentum Accelerat</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-315.jpg"
+             alt="Pagina 315" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Nesterov Accelerated Gradient (NAG)</h4>
+                <p><strong>Sutskever et al. (2013)</strong> au adaptat metoda accelerata a lui Nesterov (1983, 2004) pentru deep learning. Diferenta fata de momentum standard: calculam gradientul la pozitia <strong>viitoare</strong> (dupa aplicarea velocity-ului), nu la cea curenta!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula Nesterov</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                v ← αv - ε∇<sub>θ</sub>J(θ + αv)<br><br>
+                                θ ← θ + v
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Observa: gradientul e evaluat la <strong>θ + αv</strong>, nu la θ!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Intuitie: "Look Ahead"</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);"><strong>Momentum standard:</strong> "Unde e gradientul ACUM?"</p>
+                                <p style="color: var(--success); margin-top: 10px;"><strong>Nesterov:</strong> "Unde va fi gradientul DUPA ce aplic velocity-ul curent?"</p>
+                                <p style="color: var(--text-secondary); margin-top: 10px;">E ca si cum "priveste inainte" si anticipeaza unde va fi, apoi corecteaza din timp.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 8.3: SGD cu Nesterov Momentum</h4>
+                <p>Implementarea practica: (1) aplica velocity pentru a obtine pozitia "interim", (2) calculeaza gradientul la acea pozitie, (3) actualizeaza velocity, (4) actualizeaza parametrii finali.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudo-cod Nesterov</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 8.3: Nesterov Momentum
+while not converged:
+    # 1. Look-ahead: unde am fi daca aplicam v?
+    θ_interim = θ + α * v
+
+    # 2. Compute gradient la pozitia viitoare
+    g = gradient_at(θ_interim)
+
+    # 3. Update velocity
+    v = α * v - ε * g
+
+    # 4. Update parameters
+    θ = θ + v
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convergenta: Batch vs Stochastic</h4>
+                <p>Pentru cazul <strong>batch</strong> (gradient exact) pe functii convexe, Nesterov imbunatateste convergenta de la O(1/k) la <strong>O(1/k²)</strong>! Din pacate, pentru <strong>stochastic</strong> gradient descent, aceasta imbunatatire nu se mentine - zgomotul o anuleaza.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>In Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Desi garantiile teoretice nu se mentin in cazul stochastic, Nesterov momentum ofera adesea imbunatatiri practice. Multe implementari moderne (ex: PyTorch SGD cu nesterov=True) il includ ca optiune.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

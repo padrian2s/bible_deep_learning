@@ -1,0 +1,144 @@
+<section class="page-section" id="page-132">
+    <div class="page-header">
+        <div class="page-number">132</div>
+        <div class="page-title">
+            <h3>Figura 5.4: Efectul Dimensiunii Training Set</h3>
+            <span>Capitolul 5 - Training Set Size si Optimal Capacity</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-132.jpg"
+             alt="Pagina 132" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.4: Doua Grafice Importante</h4>
+                <p>Figura arata efectul dimensiunii training set asupra erorii si capacity-ului optim. <strong>Sus:</strong> MSE pe train si test pentru doua modele - unul quadratic (capacity fixa) si unul cu capacity optima (selectata automat). Pentru modelul quadratic, training error creste iar test error scade pe masura ce avem mai multe date - se intalnesc la Bayes error. <strong>Jos:</strong> Capacity optima (gradul polinomului) creste cu numarul de exemple!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Training Size Effect</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import make_pipeline
+
+# Functia adevarata: polinom grad 5 + zgomot
+np.random.seed(42)
+
+def true_function(x):
+    return 0.5*x**5 - 2*x**3 + x + np.random.randn(len(x))*2
+
+# Diferite dimensiuni de training set
+training_sizes = [10, 50, 100, 500, 1000]
+
+print("Training Size | Best Degree | Test MSE")
+print("-" * 45)
+
+for n in training_sizes:
+    X = np.random.uniform(-2, 2, n).reshape(-1, 1)
+    y = true_function(X.flatten())
+
+    # Gaseste gradul optim prin cross-validation
+    best_degree = 1
+    best_score = -np.inf
+
+    for degree in range(1, 15):
+        model = make_pipeline(
+            PolynomialFeatures(degree),
+            LinearRegression()
+        )
+        scores = cross_val_score(model, X, y, cv=min(5, n//2))
+        if scores.mean() > best_score:
+            best_score = scores.mean()
+            best_degree = degree
+
+    print(f"{n:13d} | {best_degree:11d} | {-best_score:8.2f}")
+
+print("\n=> Cu mai multe date, putem folosi modele mai complexe!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea Graficului Superior</h4>
+                <p><strong>Model Quadratic (capacity fixa):</strong> Training error creste cu mai multe date (mai greu de memorat), dar test error scade. Ambele converg spre Bayes error. Modelul nu are capacity suficienta, deci test error ramane peste Bayes. <strong>Model Optimal Capacity:</strong> Test error scade mai rapid si ajunge mai aproape de Bayes error. Training error poate scadea sub Bayes (memorare) dar apoi creste. Diferenta: modelul optimal se adapteaza la cantitatea de date!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Convergenta la Bayes Error</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 15px;">
+                                    <div style="width: 20px; height: 3px; background: #ff6b6b;"></div>
+                                    <span>Bayes Error (limita inferioara)</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                    <div style="border: 2px solid var(--primary); padding: 15px; border-radius: 8px;">
+                                        <strong>n mic</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 10px;">Train ↓↓ (memorare)</p>
+                                        <p style="font-size: 0.9rem;">Test ↑↑ (overfit)</p>
+                                        <p style="font-size: 0.9rem;">Gap MARE</p>
+                                    </div>
+                                    <div style="border: 2px solid var(--success); padding: 15px; border-radius: 8px;">
+                                        <strong>n → ∞</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 10px;">Train → Bayes</p>
+                                        <p style="font-size: 0.9rem;">Test → Bayes</p>
+                                        <p style="font-size: 0.9rem;">Gap → 0</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Graficul Inferior: Optimal Capacity Creste</h4>
+                <p>Graficul inferior arata ca <strong>capacity optima creste cu dimensiunea training set</strong>. Cu 10 exemple, poate grad 2-3 e optim. Cu 10000 exemple, poate grad 15 e optim. Aceasta are sens intuitiv: cu mai multe date, putem "permite" modele mai complexe fara a risca overfitting. Capacity optima se stabilizeaza dupa ce atinge complexitatea suficienta pentru task (aici, functia adevarata e polinom grad 5).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Regula Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Mai multe date = Mai multa capacity permisa</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li>Cu date putine → model simplu (evita overfit)</li>
+                                    <li>Cu date multe → model complex (captureaza detalii)</li>
+                                    <li>Deep Learning functioneaza bine cu BIG DATA</li>
+                                </ul>
+                                <p style="margin-top: 15px; color: var(--warning);">De aceea companiile mari cu multe date (Google, Facebook) au succes cu modele foarte mari!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

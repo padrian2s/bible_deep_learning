@@ -1,0 +1,114 @@
+<section class="page-section" id="page-182">
+    <div class="page-header">
+        <div class="page-number">182</div>
+        <div class="page-title">
+            <h3>Introducere la Partea II</h3>
+            <span>Deep Networks: Modern Practices</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-182.jpg"
+             alt="Pagina 182" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Starea Actuala a Deep Learning</h4>
+                <p>Aceasta parte a cartii sumarizeaza <strong>starea moderna a deep learning</strong> asa cum este folosit pentru rezolvarea aplicatiilor practice. Deep learning are o istorie lunga si multe aspiratii. Au fost propuse mai multe abordari care inca nu au dat roade complet. Mai multe obiective ambitioase mai trebuie realizate - aceste ramuri mai putin dezvoltate apar in partea finala a cartii.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Focus: Tehnologii Functionale</h4>
+                <p>Aceasta parte se concentreaza doar pe acele abordari care sunt <strong>tehnologii esentialmente functionale</strong>, deja foarte utilizate in industrie. Deep learning modern ofera un framework foarte puternic pentru <strong>supervised learning</strong>. Adaugand mai multe layers si mai multe units in fiecare layer, o retea profunda poate reprezenta functii de complexitate crescatoare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Ce poate Deep Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Capacitatile Deep Learning-ului Modern</h5>
+                                <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">Posibil acum:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Mapping input vector → output vector, cu suficiente date si model mare</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Inca dificil:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Tasks care necesita "gandire" si reflectie extinsa</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Continutul Partii II</h4>
+                <p>Aceasta parte descrie <strong>core parametric function approximation technology</strong> care sta la baza aproape tuturor aplicatiilor practice moderne ale deep learning. Incepem prin descrierea modelului <strong>feedforward deep network</strong> care reprezinta aceste functii. Apoi prezentam tehnici avansate pentru <strong>regularization</strong> si <strong>optimization</strong>. Scaling la imagini de rezolutie mare sau secvente temporale lungi necesita specializare - introducem <strong>convolutional networks</strong> si <strong>recurrent neural networks</strong>. In final, prezentam ghiduri practice pentru designing, building si configuring aplicatiilor deep learning.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Pentru Cine Este Aceasta Parte</h4>
+                <p>Aceste capitole sunt <strong>cele mai importante pentru un practitioner</strong> - cineva care vrea sa inceapa sa implementeze si sa foloseasca algoritmi deep learning pentru a rezolva probleme din lumea reala astazi!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Deep Learning Pipeline</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Pipeline tipic Deep Learning (Partea II)
+
+# 1. MODEL (Cap. 6, 9, 10)
+import torch.nn as nn
+
+model = nn.Sequential(
+    nn.Linear(784, 256),    # Feedforward
+    nn.ReLU(),
+    nn.Linear(256, 10)
+)
+
+# 2. REGULARIZATION (Cap. 7)
+# Dropout, weight decay, data augmentation
+
+# 3. OPTIMIZATION (Cap. 8)
+optimizer = torch.optim.Adam(model.parameters())
+loss_fn = nn.CrossEntropyLoss()
+
+# 4. TRAINING LOOP
+for epoch in range(epochs):
+    for x, y in dataloader:
+        pred = model(x)
+        loss = loss_fn(pred, y)
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+
+# 5. PRACTICAL METHODOLOGY (Cap. 11)
+# Hyperparameter tuning, debugging, deployment
+
+print("=> Partea II acopera TOT acest pipeline!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

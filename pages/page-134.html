@@ -1,0 +1,107 @@
+<section class="page-section" id="page-134">
+    <div class="page-header">
+        <div class="page-number">134</div>
+        <div class="page-title">
+            <h3>Weight Decay si Figura 5.5</h3>
+            <span>Capitolul 5 - Regularizare L2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-134.jpg"
+             alt="Pagina 134" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Weight Decay (L2 Regularization)</h4>
+                <p>Pentru regresia liniara cu weight decay, minimizam o suma care cuprinde atat MSE pe training data cat si un criteriu J(w) care exprima preferinta pentru weights cu norma L² mai mica:</p>
+                <div class="formula" style="text-align: center; font-size: 1.4rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    J(w) = MSE<sub>train</sub> + λw<sup>T</sup>w
+                </div>
+                <p>unde λ este o valoare aleasa inainte de antrenament care controleaza forta preferintei noastre pentru weights mici. Cand λ = 0, nu avem preferinta. λ mai mare forteaza weights sa fie mai mici.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Efectul lui λ</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.linear_model import Ridge
+from sklearn.preprocessing import PolynomialFeatures
+import numpy as np
+
+# Date: functie quadratica
+np.random.seed(42)
+X = np.linspace(-1, 1, 10).reshape(-1, 1)
+y = 0.5 * X.flatten()**2 + np.random.randn(10) * 0.1
+
+# Polynomial features (grad 9)
+poly = PolynomialFeatures(9)
+X_poly = poly.fit_transform(X)
+
+print("Efectul lui λ (alpha in sklearn):")
+print("-" * 50)
+
+for alpha in [0, 0.001, 0.1, 1, 10]:
+    model = Ridge(alpha=alpha)
+    model.fit(X_poly, y)
+
+    weights_norm = np.sum(model.coef_**2)
+    train_mse = np.mean((model.predict(X_poly) - y)**2)
+
+    print(f"λ = {alpha:5.3f}: ||w||² = {weights_norm:8.2f}, "
+          f"MSE = {train_mse:.4f}")
+
+print("\n=> λ mare -> weights mici -> model mai smooth")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.5: Efectul Weight Decay</h4>
+                <p>Figura arata un model polinomial de grad ridicat antrenat pe aceleasi date din Figura 5.2, dar cu diferite valori ale weight decay. <strong>Stanga (λ excesiv):</strong> Modelul underfit - este fortat sa invete o functie fara panta (constanta) deoarece weights sunt fortati spre zero. <strong>Centru (λ mediu):</strong> Modelul recupereaza forma corecta cu coefficienti mici. <strong>Dreapta (λ → 0):</strong> Modelul overfit exact ca in Figura 5.2.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Spectrul λ</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
+                                <div style="background: #4a90d9; padding: 15px; border-radius: 8px;">
+                                    <strong>λ mare</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Weights → 0</p>
+                                    <p style="font-size: 0.9rem;">Functie constanta</p>
+                                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">UNDERFIT</p>
+                                </div>
+                                <div style="background: var(--success); padding: 15px; border-radius: 8px;">
+                                    <strong>λ optim</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Weights moderate</p>
+                                    <p style="font-size: 0.9rem;">Forma corecta</p>
+                                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">PERFECT</p>
+                                </div>
+                                <div style="background: #d94a4a; padding: 15px; border-radius: 8px;">
+                                    <strong>λ → 0</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Weights nelimitate</p>
+                                    <p style="font-size: 0.9rem;">Oscilatii</p>
+                                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">OVERFIT</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,73 @@
+<section class="page-section" id="page-265">
+    <div class="page-header">
+        <div class="page-number">265</div>
+        <div class="page-title">
+            <h3>7.8 Cum functioneaza Early Stopping ca Regularizare</h3>
+            <span>Conexiunea Teoretica cu L²</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-265.jpg"
+             alt="Pagina 265" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Mecanismul de Regularizare</h4>
+                <p>Pana acum am aratat doar empiric (prin curbe U-shaped) ca early stopping regularizeaza. Care este mecanismul actual? Bishop (1995a) si Sjoberg & Ljung (1995) au argumentat ca early stopping restrictioneaza procedura de optimizare la un volum mic de spatiul parametrilor, in vecinatatea valorii initiale θ₀.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Intuitia: Capacitate Efectiva</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Imaginati-va ca luam τ pasi de optimizare cu learning rate ε. Produsul <strong>ετ</strong> poate fi vazut ca o masura a capacitatii efective. Restrictionand atat numarul de iteratii cat si learning rate-ul, limitam volumul spatiului parametrilor accesibil din θ₀.</p>
+                            </div>
+                            <p style="margin-top: 15px;">In acest sens, <strong>ετ se comporta ca reciproca coeficientului de weight decay!</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Demonstratie: Early Stopping ≈ L² Regularization</h4>
+                <p>Putem arata formal ca pentru un model liniar simplu cu functie cost patratica si gradient descent simplu, early stopping este echivalent cu regularizarea L². Consideram aproximarea patratica a lui J in jurul optimului w*:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    Ĵ(θ) = J(w*) + ½(w - w*)⊤H(w - w*)
+                </div>
+                <p>Unde H este Hessianul (pozitiv semidefinit). Gradientul este:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    ∇<sub>w</sub>Ĵ(w) = H(w - w*)
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pasii Demonstratiei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ol style="line-height: 2;">
+                                <li>Presupunem w⁽⁰⁾ = 0 (initializare la origine)</li>
+                                <li>Gradient descent: w⁽τ⁾ = w⁽τ⁻¹⁾ - ε∇Ĵ(w⁽τ⁻¹⁾)</li>
+                                <li>Substituim: w⁽τ⁾ = w⁽τ⁻¹⁾ - εH(w⁽τ⁻¹⁾ - w*)</li>
+                                <li>Rearanjam: w⁽τ⁾ - w* = (I - εH)(w⁽τ⁻¹⁾ - w*)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

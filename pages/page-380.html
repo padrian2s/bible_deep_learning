@@ -1,0 +1,167 @@
+<section class="page-section" id="page-380">
+    <div class="page-header">
+        <div class="page-number">380</div>
+        <div class="page-title">
+            <h3>9.10 Cortexul Vizual Primar (V1)</h3>
+            <span>Cele Trei Proprietati ale V1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-380.jpg"
+             alt="Pagina 380" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cortexul Vizual Primar (V1)</h4>
+                <p>In viziunea simplificata a neurostiintei, ne concentram pe <strong>V1</strong> (cortexul vizual primar) - prima zona cerebrala care proceseaza serios inputul vizual. Imaginea parcurge un drum lung: lumina → retina → nervul optic → nucleul geniculat lateral → V1 (in spatele capului). Retina face putina preprocesare, dar reprezentarea imaginii ramane relativ neschimbata pana la V1.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Calea Vizuala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                    <div style="text-align: center; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                        <div style="font-size: 2rem;">👁️</div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">Retina</div>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                        <div style="font-size: 1.5rem;">🔌</div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">Nerv Optic</div>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                        <div style="font-size: 1.5rem;">🔀</div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">LGN</div>
+                                    </div>
+                                    <div style="font-size: 1.5rem;">→</div>
+                                    <div style="text-align: center; padding: 15px; background: var(--primary); border-radius: 8px;">
+                                        <div style="font-size: 2rem;">🧠</div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px; font-weight: bold;">V1</div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">LGN = Lateral Geniculate Nucleus (releu fara procesare majora)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Proprietatea 1: Structura Spatiala 2D</h4>
+                <p>V1 este organizat ca o <strong>harta spatiala</strong> care oglindeste structura imaginii din retina. Lumina care ajunge in jumatatea inferioara a retinei afecteaza doar jumatatea corespunzatoare din V1. CNN-urile captureaza aceasta proprietate prin feature maps 2D - fiecare neuron "vede" o regiune localizata din imagine.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Retinotopie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Maparea Retinotopica:</strong><br><br>
+                                Punctele vecine din campul vizual sunt procesate de neuroni vecini in V1. Aceasta organizare spatiala se numeste <em>retinotopie</em> si este exact ceea ce CNN-urile implementeaza prin convolutie - fiecare filtru se aplica la pozitii spatiale corespunzatoare, producand feature maps care pastreaza relatiile spatiale.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Proprietatea 2: Celule Simple</h4>
+                <p>V1 contine multe <strong>celule simple</strong> ale caror activitate poate fi caracterizata printr-o functie liniara a imaginii intr-un receptive field mic si localizat. Unitatile detector din CNN (neuronii dupa convolutie, inainte de activare) sunt proiectate exact pentru a emula aceasta proprietate!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Celula Simpla ca Convolutie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Celula simpla = functie liniara pe receptive field local
+# Exact ce face un neuron convolutional!
+
+def simple_cell_response(image_patch, weights):
+    """
+    Raspunsul unei celule simple = suma ponderata (produs scalar)
+
+    image_patch: [H, W] - portiunea de imagine din receptive field
+    weights: [H, W] - "preferred stimulus" al celulei
+    """
+    return (image_patch * weights).sum()  # Functie liniara!
+
+# In CNN, acest lucru e exact Conv2d:
+conv = nn.Conv2d(1, 1, kernel_size=3, bias=False)
+# output[x,y] = sum(input[x:x+3, y:y+3] * kernel)
+
+# Celulele simple din V1 detecteaza bare orientate
+# => Kernelurile primelor layere CNN invata filtre similare!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Proprietatea 3: Celule Complexe</h4>
+                <p>V1 contine si multe <strong>celule complexe</strong> care raspund la features similare cu cele ale celulelor simple, dar sunt <strong>invariante la mici deplasari de pozitie</strong>. Aceasta inspira unitatile de pooling din CNN! Celulele complexe sunt de asemenea invariante la unele schimbari de iluminare - ceea ce a inspirat strategii precum cross-channel pooling si maxout.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analogia Celula Complexa - Pooling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Celula Complexa (Biologic)</strong>
+                                    <ul style="font-size: 0.85rem; margin-top: 10px;">
+                                        <li>Detecteaza orientare specifica</li>
+                                        <li>Toleranta la pozitie exacta</li>
+                                        <li>Invarianta la unele schimbari de iluminare</li>
+                                        <li>Combina input de la mai multe celule simple</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Max Pooling (CNN)</strong>
+                                    <ul style="font-size: 0.85rem; margin-top: 10px;">
+                                        <li>Pastreaza feature detectat</li>
+                                        <li>Ignora pozitia exacta in pool region</li>
+                                        <li>Robustete la mici translatii</li>
+                                        <li>Agrega output de la mai multi neuroni</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

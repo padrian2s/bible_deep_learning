@@ -1,0 +1,137 @@
+<section class="page-section" id="page-131">
+    <div class="page-header">
+        <div class="page-number">131</div>
+        <div class="page-title">
+            <h3>Bayes Error si No Free Lunch Theorem</h3>
+            <span>Capitolul 5 - Sectiunea 5.2.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-131.jpg"
+             alt="Pagina 131" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Bayes Error</h4>
+                <p>Modelul ideal este un <strong>oracol</strong> care cunoaste distributia adevarata p(x, y). Chiar si un astfel de model va avea totusi eroare pe multe probleme, deoarece poate exista zgomot in distributie. In supervised learning, maparea de la x la y poate fi inerent stocastica, sau y poate fi o functie determinista care depinde si de alte variabile decat cele din x. Eroarea pe care o are un oracol facand predictii din distributia adevarata se numeste <strong>Bayes error</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Bayes Error</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Bayes Error = Eroarea Ireductibila</h5>
+                                <p>Chiar cu model perfect si date infinite, nu putem scadea sub Bayes error!</p>
+                                <div style="margin-top: 15px; background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <p>Test Error = Bayes Error + Model Error</p>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">Model error → 0 cu mai multe date si capacity optima</p>
+                                    <p style="color: var(--warning);">Bayes error ramane constant!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Efectul Dimensiunii Training Set</h4>
+                <p>Training error si generalization error variaza cu dimensiunea training set-ului. Expected generalization error nu poate creste niciodata pe masura ce numarul de exemple creste. Pentru modele non-parametrice, mai multe date duc la generalizare mai buna pana la atingerea Bayes error. Pentru modele parametrice cu capacity fixa, orice model sub-optim va avea test error care asimptoteaza la o valoare peste Bayes error. Training error poate scadea sub Bayes error datorita capacitatii de memorare!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Comportamentul Asimptotic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Training Error</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Poate scadea sub Bayes error (memorare)</p>
+                                    <p style="font-size: 0.9rem;">Creste cu mai multe date (mai greu de memorat)</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Test Error</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Mereu ≥ Bayes error</p>
+                                    <p style="font-size: 0.9rem;">Scade cu mai multe date</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.2.1 No Free Lunch Theorem</h4>
+                <p>Learning theory sustine ca un algoritm ML poate generaliza bine dintr-un set finit de exemple. Aceasta pare sa contrazica principii logice de baza - inductia (inferarea regulilor generale din exemple limitate) nu este logic valida. Pt a inferi logic o regula despre fiecare membru al unui set, trebuie informatie despre fiecare membru. ML evita problema oferind doar reguli <strong>probabiliste</strong> - care sunt probabil corecte despre majoritatea membrilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: No Free Lunch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section_content">
+                        <div class="section-body">
+                            <div class="code-block">
+# No Free Lunch Theorem (Wolpert, 1996)
+#
+# "Mediat peste TOATE distributiile de date posibile,
+#  orice algoritm de clasificare are aceeasi eroare
+#  pe puncte nevazute"
+#
+# Interpretare:
+# - NU exista un algoritm universal cel mai bun
+# - Fiecare algoritm face asumptii implicite
+# - Algoritmul X bate Y pe unele probleme
+#   dar Y bate X pe altele
+#
+# Consecinta practica:
+# - Trebuie sa alegem algoritmi potriviti pt problema noastra
+# - Asumptiile trebuie sa se potriveasca cu realitatea
+
+print("No Free Lunch Theorem:")
+print("=" * 50)
+print("Mediat peste TOATE problemele posibile,")
+print("niciun algoritm nu e mai bun decat altul.")
+print()
+print("DAR: Noi nu ne intereseaza TOATE problemele!")
+print("     Ne intereseaza problemele REALE.")
+print()
+print("=> Alegem algoritmi cu asumptii potrivite")
+print("   pentru distributia reala a datelor noastre.")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta: Wolpert 1996</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-item">
+                                <strong>Wolpert (1996)</strong> - "The Lack of A Priori Distinctions Between Learning Algorithms" - Demonstreaza riguros ca nu exista algoritm universal optimal.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,226 @@
+<section class="page-section" id="page-112">
+    <div class="page-header">
+        <div class="page-number">112</div>
+        <div class="page-title">
+            <h3>Solutia Least Squares si Concluzie</h3>
+            <span>Capitolul 4 - Finalul Preliminariilor Matematice</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-112.jpg"
+             alt="Pagina 112" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Solutia pentru Least Squares Constrans</h4>
+                <p>Solutia cu cea mai mica norma pentru problema neconstransa poate fi gasita folosind pseudoinversa Moore-Penrose: <strong>x = A⁺b</strong>. Daca acest punct este fezabil (||A⁺b|| ≤ 1), atunci este si solutia problemei constransei. Altfel, trebuie sa gasim o solutie unde constrangerea este activa. Diferentiind Lagrangianul in raport cu x si egaland cu zero:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    AᵀAx - Aᵀb + 2λx = 0
+                </div>
+                <p>Solutia are forma:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    x = (AᵀA + 2λI)⁻¹Aᵀb
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Gasirea lui λ</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def solve_constrained_ls_with_lambda_search(A, b, max_norm=1.0):
+    """
+    Rezolva least squares constrans prin gradient ascent pe λ
+    """
+    ATA = A.T @ A
+    ATb = A.T @ b
+    n = A.shape[1]
+
+    def x_given_lambda(lam):
+        # x(λ) = (AᵀA + 2λI)⁻¹Aᵀb
+        return np.linalg.solve(ATA + 2*lam*np.eye(n), ATb)
+
+    def dL_dlambda(lam):
+        # ∂L/∂λ = xᵀx - 1
+        x = x_given_lambda(lam)
+        return x @ x - max_norm**2
+
+    # Gradient ascent pe λ
+    lam = 0.0
+    lr = 0.1
+
+    print("Gradient ascent pentru a gasi λ*:")
+    for i in range(50):
+        x = x_given_lambda(lam)
+        grad = dL_dlambda(lam)
+        norm_x = np.linalg.norm(x)
+
+        if abs(norm_x - max_norm) < 1e-6:
+            break
+
+        # Crestem λ daca norma e prea mare
+        if norm_x > max_norm:
+            lam += lr * abs(grad)
+        else:
+            break
+
+        if i % 10 == 0:
+            print(f"  Iter {i}: λ={lam:.4f}, ||x||={norm_x:.4f}")
+
+    x_final = x_given_lambda(lam)
+    return x_final, lam
+
+# Test
+np.random.seed(42)
+A = np.random.randn(10, 5)
+b = 10 * np.random.randn(10)
+
+x_opt, lam_opt = solve_constrained_ls_with_lambda_search(A, b)
+print(f"\nSolutie finala:")
+print(f"λ* = {lam_opt:.4f}")
+print(f"||x*|| = {np.linalg.norm(x_opt):.6f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Intuitia Derivatei dupa λ</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>∂L/∂λ = xᵀx - 1</h5>
+                                <p>Cand norma lui x depaseste 1, aceasta derivata este pozitiva. Pentru a maximiza L in raport cu λ, crestem λ. Cresterea lui λ amplifica penalizarea pe norma, ceea ce face solutia pentru x sa aiba norma mai mica. Procesul continua pana cand x are exact norma 1 si derivata este 0.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Concluzia Capitolului 4</h4>
+                <p>Aceasta incheie preliminariile matematice pe care le folosim pentru a dezvolta algoritmi de machine learning. Acum suntem pregatiti sa construim si sa analizam sisteme de invatare complete!</p>
+                <div class="key-concept" style="margin-top: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 25px; border-radius: 12px;">
+                    <h5 style="margin-bottom: 15px; font-size: 1.2rem;">Ce am invatat in Capitolul 4:</h5>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                        <div>
+                            <strong>Stabilitate Numerica</strong>
+                            <ul style="margin-left: 15px; margin-top: 5px; font-size: 0.9rem;">
+                                <li>Overflow si Underflow</li>
+                                <li>Softmax stabil numeric</li>
+                                <li>Conditionarea matricilor</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong>Optimizare Gradientului</strong>
+                            <ul style="margin-left: 15px; margin-top: 5px; font-size: 0.9rem;">
+                                <li>Gradient si derivata directionala</li>
+                                <li>Steepest descent</li>
+                                <li>Learning rate si convergenta</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong>Derivate de Ordin Superior</strong>
+                            <ul style="margin-left: 15px; margin-top: 5px; font-size: 0.9rem;">
+                                <li>Jacobian si Hessian</li>
+                                <li>Curbura si Taylor expansion</li>
+                                <li>Metoda Newton</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong>Optimizare Constransa</strong>
+                            <ul style="margin-left: 15px; margin-top: 5px; font-size: 0.9rem;">
+                                <li>Lagrangian generalizat</li>
+                                <li>Conditiile KKT</li>
+                                <li>Complementary slackness</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Harta Capitolului 4</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+                                    <div style="background: var(--primary); padding: 15px 30px; border-radius: 8px;">
+                                        <strong>Calcul Numeric</strong>
+                                    </div>
+                                    <div>↓</div>
+                                    <div style="display: flex; gap: 20px;">
+                                        <div style="background: var(--secondary); padding: 10px 20px; border-radius: 8px; text-align: center;">
+                                            Overflow<br>Underflow
+                                        </div>
+                                        <div style="background: var(--secondary); padding: 10px 20px; border-radius: 8px; text-align: center;">
+                                            Conditionare
+                                        </div>
+                                    </div>
+                                    <div>↓</div>
+                                    <div style="background: var(--accent); padding: 15px 30px; border-radius: 8px;">
+                                        <strong>Gradient Descent</strong>
+                                    </div>
+                                    <div>↓</div>
+                                    <div style="display: flex; gap: 20px;">
+                                        <div style="background: var(--warning); padding: 10px 20px; border-radius: 8px; text-align: center;">
+                                            Hessian<br>Curbura
+                                        </div>
+                                        <div style="background: var(--warning); padding: 10px 20px; border-radius: 8px; text-align: center;">
+                                            Newton's<br>Method
+                                        </div>
+                                    </div>
+                                    <div>↓</div>
+                                    <div style="background: var(--success); padding: 15px 30px; border-radius: 8px;">
+                                        <strong>Optimizare Constransa (KKT)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce urmeaza?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Capitolul 5:</strong> Machine Learning Basics - Cum invatam din date
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Capitolul 6:</strong> Deep Feedforward Networks - Prima retea neuronala
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Capitolul 7:</strong> Regularization - Cum evitam overfitting
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; text-align: center; color: var(--success); font-size: 1.1rem;">
+                                Acum ai bazele matematice pentru Deep Learning!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

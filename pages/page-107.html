@@ -1,0 +1,237 @@
+<section class="page-section" id="page-107">
+    <div class="page-header">
+        <div class="page-number">107</div>
+        <div class="page-title">
+            <h3>Metoda Newton si Lipschitz</h3>
+            <span>Capitolul 4 - Optimizare de Ordin 2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-107.jpg"
+             alt="Pagina 107" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Metoda Newton</h4>
+                <p>Cea mai simpla metoda pentru a folosi informatia din Hessian este <strong>metoda Newton</strong>. Se bazeaza pe expansiunea Taylor de ordinul 2 a functiei f(x) in jurul punctului curent x⁽⁰⁾. Rezolvand pentru punctul critic al acestei aproximari, obtinem:</p>
+                <div class="formula" style="text-align: center; font-size: 1.4rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    x* = x⁽⁰⁾ - H(f)(x⁽⁰⁾)⁻¹ ∇ₓf(x⁽⁰⁾)
+                </div>
+                <p>Pentru o functie patratica pozitiv definita, metoda Newton sare direct la minim intr-un singur pas! Pentru functii non-patratice dar local aproximabile ca patratice, aplicam formula iterativ.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Newton vs Gradient Descent</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Functie patratica cu conditionare 10
+A = np.diag([10, 1])
+
+def f(x): return 0.5 * x @ A @ x
+def grad_f(x): return A @ x
+def hess_f(x): return A
+
+x0 = np.array([10.0, 10.0])
+
+# Gradient Descent
+x_gd = x0.copy()
+gd_history = [np.linalg.norm(x_gd)]
+for _ in range(50):
+    x_gd = x_gd - 0.1 * grad_f(x_gd)
+    gd_history.append(np.linalg.norm(x_gd))
+
+# Newton's Method
+x_newton = x0.copy()
+newton_history = [np.linalg.norm(x_newton)]
+for _ in range(5):
+    H_inv = np.linalg.inv(hess_f(x_newton))
+    x_newton = x_newton - H_inv @ grad_f(x_newton)
+    newton_history.append(np.linalg.norm(x_newton))
+
+print("Comparatie: |x| dupa fiecare iteratie")
+print("Iter | Gradient Descent | Newton")
+print("-" * 42)
+for i in range(6):
+    gd = gd_history[i] if i < len(gd_history) else gd_history[-1]
+    newton = newton_history[i] if i < len(newton_history) else 0
+    print(f"{i:4d} | {gd:16.6f} | {newton:.6f}")
+
+print(f"\nGD dupa 50 iteratii: {gd_history[-1]:.6f}")
+print("Newton converge in 1 iteratie pentru f patratica!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Probleme cu Metoda Newton</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(255, 100, 100, 0.35) 0%, rgba(255, 100, 100, 0.15) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(255, 100, 100, 0.15);">
+                                    <strong>Cost Computational</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Calculul H⁻¹ este O(n³). Pentru retele cu milioane de parametri, imposibil!</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(255, 100, 100, 0.35) 0%, rgba(255, 100, 100, 0.15) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(255, 100, 100, 0.15);">
+                                    <strong>Memorie</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Stocarea H necesita O(n²). Pentru n=10⁶, ar fi 10¹² elemente!</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(255, 100, 100, 0.35) 0%, rgba(255, 100, 100, 0.15) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(255, 100, 100, 0.15);">
+                                    <strong>Saddle Points</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Metoda Newton este atrasa de saddle points (nu doar minime).</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(255, 100, 100, 0.35) 0%, rgba(255, 100, 100, 0.15) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(255, 100, 100, 0.15);">
+                                    <strong>H nedefinit pozitiv</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Daca H nu e pozitiv definit, poate merge in directia gresita.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>First-Order vs Second-Order Optimization</h4>
+                <p>Algoritmii care folosesc doar gradientul (ca gradient descent) se numesc <strong>first-order optimization algorithms</strong>. Algoritmii care folosesc si matricea Hessian (ca metoda Newton) se numesc <strong>second-order optimization algorithms</strong>. In deep learning, se folosesc aproape exclusiv algoritmi de ordinul intai datorita costului prohibitiv al calcularii si stocarii Hessianului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Comparatie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">First-Order (GD, SGD, Adam)</strong>
+                                    <p style="margin: 15px 0;">x' = x - ε∇f(x)</p>
+                                    <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                                        <div>
+                                            <span style="color: var(--success);">✓</span> O(n) per iteratie
+                                        </div>
+                                        <div>
+                                            <span style="color: var(--success);">✓</span> O(n) memorie
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--warning);">Mai multe iteratii necesare</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--secondary);">Second-Order (Newton, L-BFGS)</strong>
+                                    <p style="margin: 15px 0;">x' = x - H⁻¹∇f(x)</p>
+                                    <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                                        <div>
+                                            <span style="color: #ff6464;">✗</span> O(n³) per iteratie
+                                        </div>
+                                        <div>
+                                            <span style="color: #ff6464;">✗</span> O(n²) memorie
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--success);">Mai putine iteratii</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Continuitatea Lipschitz</h4>
+                <p>In deep learning, obtinem cateva garantii restrangandu-ne la functii care sunt <strong>Lipschitz continue</strong> sau au derivate Lipschitz continue. O functie f este Lipschitz continua daca rata de schimbare este marginita de o <strong>constanta Lipschitz</strong> L:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    ∀x, ∀y: |f(x) - f(y)| ≤ L||x - y||₂
+                </div>
+                <p>Aceasta proprietate ne permite sa cuantificam ca o mica schimbare in input (de ex. prin gradient descent) va produce o mica schimbare in output.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Constanta Lipschitz</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def estimate_lipschitz(f, domain_samples=1000, dim=1):
+    """Estimeaza constanta Lipschitz prin sampling"""
+    # Generam puncte aleatorii
+    if dim == 1:
+        points = np.linspace(-5, 5, domain_samples)
+    else:
+        points = np.random.randn(domain_samples, dim) * 5
+
+    max_ratio = 0
+    for i in range(len(points)):
+        for j in range(i+1, min(i+100, len(points))):
+            x, y = points[i], points[j]
+            if dim == 1:
+                diff_f = abs(f(x) - f(y))
+                diff_x = abs(x - y)
+            else:
+                diff_f = abs(f(x) - f(y))
+                diff_x = np.linalg.norm(x - y)
+            if diff_x > 1e-10:
+                max_ratio = max(max_ratio, diff_f / diff_x)
+    return max_ratio
+
+# Exemple
+functions = [
+    ("f(x) = x", lambda x: x),           # L = 1
+    ("f(x) = 2x", lambda x: 2*x),        # L = 2
+    ("f(x) = sin(x)", np.sin),           # L = 1
+    ("f(x) = x²", lambda x: x**2),       # L nedefinit global!
+]
+
+print("Estimari constanta Lipschitz:")
+for name, f in functions:
+    L = estimate_lipschitz(f)
+    print(f"{name:15s}: L ≈ {L:.2f}")
+
+print("\nNota: x² nu are L finita pe R (creste nelimitat)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii in Deep Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Unde apare Lipschitz?</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Convergenta SGD:</strong> Se demonstreaza presupunand gradient Lipschitz</li>
+                                    <li><strong>Spectral Normalization:</strong> Constrange reteaua sa fie 1-Lipschitz</li>
+                                    <li><strong>WGAN:</strong> Necesita critic Lipschitz pentru stabilitate</li>
+                                    <li><strong>Gradient clipping:</strong> Forteaza margine pe gradient</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

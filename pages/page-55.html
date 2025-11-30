@@ -1,0 +1,171 @@
+        <section class="page-section" id="page-55">
+            <div class="page-header">
+                <div class="page-number">55</div>
+                <div class="page-title">
+                    <h3>Alte Norme si Matrici Speciale</h3>
+                    <span>L¹, L∞, Frobenius, Sectiunea 2.6</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-055.jpg"
+                     alt="Pagina 55" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Norma L¹ (Manhattan)</h4>
+                        <p>Norma L¹ este suma valorilor absolute: ||x||₁ = Σ|xᵢ|. Se numeste "Manhattan" pentru ca masoara distanta pe un grid de strazi (mergi doar N-S si E-V). E folosita pentru <strong>sparsitate</strong> - impinge weights spre zero!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>L¹ vs L² vizual</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div class="formula">||x||₁ = |3| + |4| = 7</div>
+                                            <p style="color: var(--warning); margin-top: 10px;">Drum prin strazi: 3 Est + 4 Nord</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div class="formula">||x||₂ = √(9+16) = 5</div>
+                                            <p style="color: var(--accent); margin-top: 10px;">Drum direct: linie dreapta</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Aplicatie: L1 Regularization (Lasso)</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        Loss = MSE + λ · ||w||₁
+                                    </div>
+                                    <p style="color: var(--text-secondary); margin: 15px 0;">L¹ regularization impinge unele weights EXACT la 0 → feature selection automat!</p>
+                                    <div class="code-block">
+                                        <code>
+from sklearn.linear_model import Lasso<br><br>
+# Lasso = Linear Regression + L1 penalty<br>
+model = Lasso(alpha=0.1)  # alpha = λ<br>
+model.fit(X_train, y_train)<br><br>
+# Multe weights vor fi exact 0!<br>
+print(f"Weights non-zero: {np.sum(model.coef_ != 0)}")
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Norma Max (L∞)</h4>
+                        <p>Norma L∞ (infinit) este pur si simplu cea mai mare valoare absoluta din vector: ||x||∞ = maxᵢ |xᵢ|. Folosita pentru a limita magnitudinea maxima (ex: gradient clipping).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Comparatie norme</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 10px;">Pentru x = [3, -4, 2]:</p>
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: var(--bg-lighter); padding: 10px 15px; border-radius: 8px;">
+                                            <strong style="color: var(--primary);">||x||₁</strong> = |3| + |-4| + |2| = <strong>9</strong>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 10px 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">||x||₂</strong> = √(9 + 16 + 4) = <strong>5.39</strong>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 10px 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">||x||∞</strong> = max(3, 4, 2) = <strong>4</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Norma Frobenius (pentru Matrici)</h4>
+                        <p>Pentru a masura "dimensiunea" unei matrici, folosim <strong>norma Frobenius</strong>: ||A||_F = √(Σᵢ,ⱼ Aᵢⱼ²). E ca norma L² dar pentru toate elementele matricei.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Aplicatie: Weight Decay</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        Loss = CrossEntropy + λ · ||W||²_F
+                                    </div>
+                                    <p style="color: var(--text-secondary); margin: 15px 0;">
+                                        Weight decay (L2 regularization) penalizeaza weights mari folosind norma Frobenius.
+                                    </p>
+                                    <div class="code-block">
+                                        <code>
+import torch.nn as nn<br><br>
+# Weight decay in PyTorch<br>
+optimizer = torch.optim.Adam(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model.parameters(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lr=0.001,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;weight_decay=0.01  # λ = 0.01<br>
+)
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.6 Tipuri Speciale de Matrici</h4>
+                        <p>Sectiunea 2.6 introduce matrici cu structuri speciale: <strong>diagonale</strong> (non-zero doar pe diagonala), simetrice, ortogonale. Fiecare are proprietati care simplifica calculele!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Matrici Diagonale</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        D = diag(d) unde Dᵢ,ⱼ = 0 pentru i ≠ j
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <h5>💡 De ce sunt utile?</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                                            <li>Inmultirea diag(d) · x = d ⊙ x (element-wise!) → O(n) nu O(n²)</li>
+                                            <li>Inversa e usoara: diag(d)⁻¹ = diag(1/d)</li>
+                                            <li>Apar in SVD, eigendecomposition</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

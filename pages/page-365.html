@@ -1,0 +1,127 @@
+<section class="page-section" id="page-365">
+    <div class="page-header">
+        <div class="page-number">365</div>
+        <div class="page-title">
+            <h3>Figura 9.12: Strided Convolution</h3>
+            <span>Downsampling Eficient</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-365.jpg"
+             alt="Pagina 365" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Strided Convolution = Convolutie + Downsampling</h4>
+                <p>Figura 9.12 compara doua moduri de a obtine acelasi rezultat. <strong>Sus:</strong> Strided convolution cu stride=2 - direct calculam outputul la pozitii impare. <strong>Jos:</strong> Convolutie normala (stride=1) urmata de downsampling - calculam toate pozitiile, apoi pastram doar jumatate. Ambele produc acelasi rezultat, dar strided convolution e mai eficienta!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Comparatie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Strided Convolution</strong>
+                                    <p style="font-size: 0.85rem; margin: 10px 0;">stride=2, calcul direct</p>
+                                    <div style="text-align: center; font-family: monospace;">
+                                        <div>[s₁] &nbsp;&nbsp;&nbsp; [s₂] &nbsp;&nbsp;&nbsp; [s₃]</div>
+                                        <div style="margin: 10px 0;">↑ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↑ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↑</div>
+                                        <div>[x₁][x₂][x₃][x₄][x₅]</div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; color: var(--success); margin-top: 10px;">3 calcule = 3 outputuri</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Conv + Downsampling</strong>
+                                    <p style="font-size: 0.85rem; margin: 10px 0;">stride=1 apoi selectie</p>
+                                    <div style="text-align: center; font-family: monospace;">
+                                        <div>[s₁][<span style="opacity:0.3">s'</span>][s₂][<span style="opacity:0.3">s'</span>][s₃]</div>
+                                        <div style="margin: 10px 0;">↓ downsample ↓</div>
+                                        <div>[s₁] &nbsp;&nbsp;&nbsp; [s₂] &nbsp;&nbsp;&nbsp; [s₃]</div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; color: var(--warning); margin-top: 10px;">5 calcule → 3 outputuri (2 pierdute)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Eficienta Computationala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import time
+
+x = torch.randn(32, 64, 224, 224)  # Batch mare
+
+# Metoda 1: Strided convolution
+conv_strided = nn.Conv2d(64, 128, 3, stride=2, padding=1)
+start = time.time()
+for _ in range(100):
+    out1 = conv_strided(x)
+print(f"Strided: {time.time()-start:.3f}s, shape {out1.shape}")
+
+# Metoda 2: Conv + Downsample (ineficient!)
+conv_normal = nn.Conv2d(64, 128, 3, stride=1, padding=1)
+downsample = nn.MaxPool2d(2, 2)  # sau slice [::2, ::2]
+start = time.time()
+for _ in range(100):
+    out2 = downsample(conv_normal(x))
+print(f"Conv+Down: {time.time()-start:.3f}s, shape {out2.shape}")
+
+# Strided e ~2x mai rapid! (calculeaza doar ce trebuie)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand sa folosesti Strided Convolution vs Pooling?</h4>
+                <p>Ambele reduc dimensiunea, dar sunt diferite: <strong>Strided conv</strong> invata CE sa pastreze (parametri antrenabili). <strong>Pooling</strong> are o regula fixa (max, avg). In arhitecturile moderne (ResNet, EfficientNet), strided convolution e preferata in locul pooling-ului pentru primele downsampling-uri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ghid de Alegere</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Strided Convolution cand:</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Vrei ca reteaua sa invete cum sa downsample-eze. Generator de imagini, encoder-uri.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Max Pooling cand:</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Vrei invarianta explicita la translatii mici. Clasificare de imagini clasica.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Average Pooling cand:</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Global pooling la final. Reduce agresiv fara a pierde prea mult.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

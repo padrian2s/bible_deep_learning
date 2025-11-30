@@ -1,0 +1,94 @@
+<section class="page-section" id="page-128">
+    <div class="page-header">
+        <div class="page-number">128</div>
+        <div class="page-title">
+            <h3>Figura 5.2 si Representational Capacity</h3>
+            <span>Capitolul 5 - Capacity in Practica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-128.jpg"
+             alt="Pagina 128" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.2: Underfitting, Potrivire Corecta, Overfitting</h4>
+                <p>Figura arata trei modele antrenate pe date generate de o functie quadratica. <strong>Stanga (Underfitting):</strong> Functia liniara nu poate captura curbura din date. <strong>Centru (Appropriate capacity):</strong> Functia quadratica se potriveste perfect cu structura reala a datelor. <strong>Dreapta (Overfitting):</strong> Polinomul de grad 9 trece prin toate punctele dar creeaza oscilatii false - folosind pseudoinversa Moore-Penrose pentru sistemul subdeterminat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Vizualizare Overfitting</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+
+# Date: functie quadratica + zgomot
+np.random.seed(0)
+X = np.sort(np.random.uniform(-1, 1, 10))
+y = 0.5 * X**2 + np.random.randn(10) * 0.1
+
+# Testam pe puncte noi (pentru a vedea generalizarea)
+X_test = np.linspace(-1.2, 1.2, 100)
+y_test_true = 0.5 * X_test**2
+
+for degree, label in [(1, "Underfit"), (2, "Perfect"), (9, "Overfit")]:
+    poly = PolynomialFeatures(degree)
+    X_poly = poly.fit_transform(X.reshape(-1,1))
+    X_test_poly = poly.transform(X_test.reshape(-1,1))
+
+    model = LinearRegression()
+    model.fit(X_poly, y)
+
+    y_pred = model.predict(X_test_poly)
+    test_error = np.mean((y_pred - y_test_true)**2)
+
+    print(f"Grad {degree} ({label:8s}): Test MSE = {test_error:.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Representational Capacity vs Effective Capacity</h4>
+                <p>Capacity nu este determinata doar de alegerea modelului. Modelul specifica ce familie de functii algoritmul poate alege cand variaza parametrii pentru a reduce obiectivul de antrenament - aceasta este <strong>representational capacity</strong>. In practica, gasirea celei mai bune functii din aceasta familie este o problema de optimizare foarte dificila. Algoritmul poate gasi doar o functie care reduce eroarea, nu neaparat cea mai buna - aceasta este <strong>effective capacity</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Doua Tipuri de Capacity</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.2) 0%, var(--bg-dark) 20%); padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong>Representational Capacity</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Familia completa de functii pe care modelul O POATE reprezenta teoretic</p>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">Ex: Toate polinoamele de grad ≤ 9</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.2) 0%, var(--bg-dark) 20%); padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong>Effective Capacity</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Functiile pe care algoritmul de optimizare LE POATE GASI in practica</p>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">Limitata de optimizare, timp, etc.</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; text-align: center;">Effective Capacity ≤ Representational Capacity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,139 @@
+<section class="page-section" id="page-224">
+    <div class="page-header">
+        <div class="page-number">224</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Algoritmul 6.1: Forward Propagation</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-224.jpg"
+             alt="Pagina 224" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 6.1: Procedura Forward Propagation</h4>
+                <p>O procedura care efectueaza computatiile mapand nᵢ inputuri u⁽¹⁾ pana la u⁽ⁿᵢ⁾ la un output u⁽ⁿ⁾. Aceasta defineste un graf computational in care fiecare nod calculeaza valoarea numerica u⁽ⁱ⁾ aplicand o functie f⁽ⁱ⁾ setului de argumente A⁽ⁱ⁾ care cuprinde valorile nodurilor anterioare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudocod Forward Propagation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algoritmul 6.1: Forward Propagation
+# Input: x (vector de input)
+# Output: u^(n) (scalar - de obicei loss)
+
+def forward_propagation(x, n_inputs, n_nodes):
+    u = {}
+
+    # Pas 1: Seteaza inputurile
+    for i in range(1, n_inputs + 1):
+        u[i] = x[i-1]  # u^(i) <- x_i
+
+    # Pas 2: Calculeaza nodurile intermediare
+    for i in range(n_inputs + 1, n_nodes + 1):
+        # A^(i) = {u^(j) | j in Pa(u^(i))}
+        parents = get_parents(i)
+        A_i = {j: u[j] for j in parents}
+
+        # u^(i) <- f^(i)(A^(i))
+        u[i] = f[i](A_i)
+
+    return u[n_nodes]  # return u^(n)
+
+# Exemplu concret in PyTorch:
+import torch
+
+def forward_pass(x, W1, b1, W2, b2, y_true):
+    # u^(1) = x, u^(2) = W1, u^(3) = b1, etc.
+    h = torch.relu(x @ W1 + b1)  # hidden layer
+    y_pred = h @ W2 + b2          # output
+    loss = ((y_pred - y_true)**2).mean()  # MSE loss
+    return loss
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regula Lantului pentru Calcul Gradientilor</h4>
+                <p>Folosind regula lantului fata de outputul scalar u⁽ⁿ⁾, obtinem formula fundamentala pentru calculul gradientilor in backprop. Subgraful B contine exact o muchie pentru fiecare muchie de la nodul u⁽ʲ⁾ la nodul u⁽ⁱ⁾ din G.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Formula Fundamentala Backprop</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Regula Lantului (Ecuatia 6.49):</strong>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.2rem; text-align: center;">
+                                    ∂u⁽ⁿ⁾/∂u⁽ʲ⁾ = Σᵢ:ⱼ∈Pa(u⁽ⁱ⁾) (∂u⁽ⁿ⁾/∂u⁽ⁱ⁾)(∂u⁽ⁱ⁾/∂u⁽ʲ⁾)
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">Suma se face peste TOATE nodurile i pentru care j este parinte.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Complexitatea Algoritmului</h4>
+                <p>Cantitatea de calcul necesara pentru backprop scaleaza LINIAR cu numarul de muchii din G, unde calculul pentru fiecare muchie corespunde calcularii unei derivate partiale (a unui nod fata de unul din parintii sai) precum si efectuarii unei inmultiri si adunari. Backprop efectueaza aproximativ un produs Jacobian per nod din graf.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Analiza Complexitatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                    <tr style="background: var(--primary);">
+                                        <th style="padding: 10px;">Operatie</th>
+                                        <th style="padding: 10px;">Complexitate</th>
+                                    </tr>
+                                    <tr style="background: var(--bg-dark);">
+                                        <td style="padding: 10px;">Forward Pass</td>
+                                        <td style="padding: 10px;">O(|E|) - liniar in muchii</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px;">Backward Pass</td>
+                                        <td style="padding: 10px;">O(|E|) - acelasi ordin!</td>
+                                    </tr>
+                                    <tr style="background: var(--bg-dark);">
+                                        <td style="padding: 10px;">Memorie (activari)</td>
+                                        <td style="padding: 10px;">O(|V|) - liniar in noduri</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Rezultat important:</strong> Backprop are aceeasi complexitate ca forward pass!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

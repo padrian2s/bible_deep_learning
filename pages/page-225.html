@@ -1,0 +1,134 @@
+<section class="page-section" id="page-225">
+    <div class="page-header">
+        <div class="page-number">225</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Algoritmul 6.2: Backpropagation Simplificat</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-225.jpg"
+             alt="Pagina 225" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 6.2: Versiune Simplificata de Backprop</h4>
+                <p>Versiune simplificata a algoritmului de back-propagation pentru calculul derivatelor lui u⁽ⁿ⁾ fata de variabilele din graf. Acest exemplu arata cazul simplificat in care toate variabilele sunt scalari. Costul computational al acestui algoritm este proportional cu numarul de muchii din graf, presupunand ca derivata partiala asociata cu fiecare muchie necesita timp constant.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudocod Algorithm 6.2</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algoritmul 6.2: Backpropagation Simplificat
+
+def backprop_simplified(n, n_inputs, forward_graph):
+    # Ruleaza forward propagation pentru activari
+    u = forward_propagation(...)
+
+    # Initializeaza grad_table
+    # grad_table[i] va stoca ∂u^(n)/∂u^(i)
+    grad_table = {}
+
+    # Gradientul outputului fata de el insusi = 1
+    grad_table[n] = 1  # ∂u^(n)/∂u^(n) = 1
+
+    # Itereaza INVERS de la n-1 la 1
+    for j in range(n - 1, 0, -1):
+        # Suma peste toti copiii nodului j
+        # (nodurile i pentru care j este parinte)
+        grad_table[j] = sum(
+            grad_table[i] * partial_derivative(u[i], u[j])
+            for i in children_of(j)
+        )
+
+    # Returneaza gradientii pentru inputuri
+    return {i: grad_table[i] for i in range(1, n_inputs + 1)}
+
+# Ecuatia cheie:
+# grad_table[j] = Σ_{i: j∈Pa(u^(i))} grad_table[i] * ∂u^(i)/∂u^(j)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Structura de Date grad_table</h4>
+                <p>Initializam grad_table, o structura de date care va stoca derivatele care au fost calculate. Intrarea grad_table[u⁽ⁱ⁾] va stoca valoarea calculata a lui ∂u⁽ⁿ⁾/∂u⁽ⁱ⁾. Fiecare ∂u⁽ⁱ⁾/∂u⁽ʲ⁾ este o functie a parintilor u⁽ʲ⁾ ai lui u⁽ⁱ⁾, legand astfel nodurile din forward graph de cele din backward graph.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare grad_table</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;"><strong>Evolutia grad_table pentru o retea cu 3 straturi:</strong></p>
+                                <div style="font-family: monospace; font-size: 0.9rem;">
+                                    <p style="color: var(--success);">// Initial (la output)</p>
+                                    <p>grad_table[loss] = 1.0</p>
+                                    <p style="color: var(--success); margin-top: 10px;">// Dupa primul pas backward</p>
+                                    <p>grad_table[y_pred] = ∂loss/∂y_pred</p>
+                                    <p style="color: var(--success); margin-top: 10px;">// Dupa al doilea pas</p>
+                                    <p>grad_table[h2] = grad_table[y_pred] * ∂y_pred/∂h2</p>
+                                    <p style="color: var(--success); margin-top: 10px;">// ... continuam pana la inputuri</p>
+                                    <p>grad_table[W1] = ... (gradientul pentru weights)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.5.4 Backprop in MLP Fully-Connected</h4>
+                <p>Pentru a clarifica definitia de mai sus a backprop, sa consideram graful specific asociat cu un MLP multi-layer fully-connected. Algoritmul 6.3 arata forward propagation, care mapeaza parametrii la loss L(ŷ,y) asociat cu un singur exemplu de antrenare (x, y). Algoritmul 6.4 arata calculul corespunzator de backprop.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De la Abstract la Concret</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Trecerea la MLP concret:</strong>
+                                <p style="margin-top: 10px;">Algoritmii 6.1-6.2 sunt abstracti - functioneaza pentru orice graf. Algoritmii 6.3-6.4 arata implementarea specifica pentru MLP standard cu straturi dense.</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# Structura tipica MLP:
+#
+# Input: x
+# Layer 1: h^(1) = f(W^(1)x + b^(1))
+# Layer 2: h^(2) = f(W^(2)h^(1) + b^(2))
+# ...
+# Layer L: y_hat = h^(L)
+# Loss: J = L(y_hat, y) + λ*Ω(θ)
+#
+# Parametri: θ = {W^(1), b^(1), ..., W^(L), b^(L)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

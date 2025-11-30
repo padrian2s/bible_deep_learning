@@ -1,0 +1,107 @@
+<section class="page-section" id="page-176">
+    <div class="page-header">
+        <div class="page-number">176</div>
+        <div class="page-title">
+            <h3>Manifold Learning - Figura 5.11</h3>
+            <span>Capitolul 5 - Sectiunea 5.11.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-176.jpg"
+             alt="Pagina 176" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.11.3 Manifold Learning</h4>
+                <p>Un concept important care sta la baza multor idei in ML este cel de <strong>manifold</strong>. Un manifold este o regiune conectata. Matematic, este un set de puncte, asociat cu o vecinatate in jurul fiecarui punct. De la orice punct dat, manifold-ul local pare a fi un <strong>spatiu Euclidian</strong>. In viata de zi cu zi, experimentam suprafata lumii ca un plan 2D, dar de fapt este un manifold sferic in spatiul 3D.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Ce este un Manifold</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Exemple de Manifolds</h5>
+                                <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong>Suprafata Pamantului:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">2D manifold embedded in 3D space</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong>Cifra 8:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">1D manifold (mostly), dar 2D la intersectie</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                        <strong>Imagini de fete:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Low-dim manifold in spatiul pixelilor (high-dim)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Manifolds in Machine Learning</h4>
+                <p>Desi exista o definitie matematica formala, in ML termenul "manifold" este folosit mai lejer pentru a desemna un <strong>set conectat de puncte</strong> care poate fi aproximat bine considerand doar un numar mic de <strong>degrees of freedom</strong> sau dimensiuni, embedded in spatiu de dimensiune mai mare. Fiecare dimensiune corespunde unei <strong>directii locale de variatie</strong>. Vezi Figura 5.11 pentru un exemplu de date de training aproape de un manifold 1D embedded in spatiu 2D.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.11: Manifold 1D in 2D</h4>
+                <p>Date sample-uite dintr-o distributie in spatiu 2D care este de fapt concentrata aproape de un <strong>manifold 1D</strong>, ca un string rasucit. Linia solida indica manifold-ul pe care learner-ul ar trebui sa-l infereze. In contextul ML, permitem dimensionalitatea manifold-ului sa varieze de la punct la punct - de exemplu, o cifra 8 are o singura dimensiune in majoritatea locurilor, dar doua dimensiuni la intersectia din centru.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: 1D Manifold in 2D</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+np.random.seed(42)
+
+# Generam date pe un manifold 1D (spirala) in 2D
+t = np.linspace(0, 4*np.pi, 100)
+x1_manifold = t * np.cos(t)
+x2_manifold = t * np.sin(t)
+
+# Adaugam noise mic perpendicular pe manifold
+noise = 0.3
+x1 = x1_manifold + noise * np.random.randn(100)
+x2 = x2_manifold + noise * np.random.randn(100)
+
+print("Datele par 2D, dar:")
+print(f"  Dimensiune aparenta: 2")
+print(f"  Dimensiune intrinseca: 1 (de-a lungul spiralei)")
+print()
+print("Statistici:")
+print(f"  Varianta totala 2D: {np.var(x1) + np.var(x2):.2f}")
+print()
+print("=> Manifold learning gaseste")
+print("   structura low-dimensional!")
+
+# PCA ar gasi 2 componente importante
+# Dar manifold e curbat - avem nevoie de
+# metode nonlineare (t-SNE, UMAP, autoencoders)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

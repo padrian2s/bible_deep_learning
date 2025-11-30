@@ -1,0 +1,82 @@
+<section class="page-section" id="page-429">
+    <div class="page-header">
+        <div class="page-number">429</div>
+        <div class="page-title">
+            <h3>Figura 10.17 - Gradient Clipping</h3>
+            <span>Vizualizare si Ecuatii</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-429.jpg"
+             alt="Pagina 429" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.17 - Efectul Clipping</h4>
+                <p>Figura compara gradient descent cu si fara clipping pe o suprafata cu "cliff". <strong>Fara clipping</strong>: gradientul mare arunca parametrii departe. <strong>Cu clipping</strong>: pasul este limitat, ramanem in vecinatatea solutiei.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Without Clipping</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">Gradient mare → Salt catastrofal peste cliff → Parametri instabili</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">With Clipping</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">Gradient clipat → Pas moderat → Convergenta stabila</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ecuatiile 10.48-10.49 - Gradient Clipping</h4>
+                <p>Doua variante de clipping: (1) <strong>element-wise</strong> - clip fiecare componenta separat (Mikolov, 2012), sau (2) <strong>norm clipping</strong> - scaleaza vectorul gradient daca norma depaseste threshold (Pascanu et al., 2013).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Norm Clipping</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <div class="formula" style="margin: 10px 0;">
+                                    if ||g|| > v:
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.48)</span>
+                                </div>
+                                <div class="formula" style="margin: 10px 0;">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;g ← (g·v) / ||g||
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.49)</span>
+                                </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre># PyTorch - o singura linie!
+torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
+
+# Valori tipice: v = 1.0, 5.0, sau 10.0</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

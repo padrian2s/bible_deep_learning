@@ -1,0 +1,256 @@
+<section class="page-section" id="page-438">
+    <div class="page-header">
+        <div class="page-number">438</div>
+        <div class="page-title">
+            <h3>Precision si Recall</h3>
+            <span>Sectiunea 11.1 - Performance Metrics (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-438.jpg"
+             alt="Pagina 438" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Costuri Asimetrice ale Erorilor</h4>
+                <p>Adesea, un tip de greseala este mult mai costisitor decat altul. De exemplu, un sistem de detectie spam poate face doua tipuri de erori: (1) clasificarea unui email legitim ca spam, si (2) permiterea unui spam in inbox. Este mult mai rau sa <strong>blochezi un mesaj legitim</strong> decat sa lasi un spam sa treaca. In loc sa masuram rata de eroare simpla, am putea masura un <strong>cost total</strong> unde blocarea mesajelor legitime are un cost mai mare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Matrice de Confuzie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Matrice de Confuzie si Costuri Asimetrice
+
+import numpy as np
+from sklearn.metrics import confusion_matrix
+
+# Predictii pentru detectie spam
+y_true = [0, 0, 1, 1, 0, 1, 0, 1, 0, 0]  # 0=legitim, 1=spam
+y_pred = [0, 1, 1, 1, 0, 0, 0, 1, 0, 1]
+
+cm = confusion_matrix(y_true, y_pred)
+print("Matrice de Confuzie:")
+print("                 Predicted")
+print("              Legitim  Spam")
+print(f"Actual Legitim   {cm[0,0]}      {cm[0,1]}  <- False Positive (FOARTE RAU!)")
+print(f"Actual Spam      {cm[1,0]}      {cm[1,1]}")
+print(f"                 ^")
+print(f"                 False Negative (mai putin rau)")
+
+# Costuri asimetrice
+cost_FP = 10   # Blocarea email legitim = foarte costisitor
+cost_FN = 1    # Spam in inbox = enervant dar acceptabil
+cost_TP = 0    # Corect
+cost_TN = 0    # Corect
+
+total_cost = (cm[0,1] * cost_FP +   # False Positives
+              cm[1,0] * cost_FN)     # False Negatives
+
+print(f"\nCost total ponderat: {total_cost}")
+print(f"(vs eroare simpla: {cm[0,1] + cm[1,0]} greseli)")
+
+# Pentru a minimiza costul asimetric:
+# - Creste threshold pentru clasificare ca spam
+# - Accepta mai multi FN pentru a reduce FP
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tipuri de Erori</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: #1b4d1b; padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #4caf50; font-weight: bold; font-size: 1.2em;">True Positive (TP)</div>
+                                    <div style="color: #a0a0a0; margin-top: 5px;">Spam detectat corect</div>
+                                    <div style="font-size: 2em; margin-top: 10px;">✅</div>
+                                </div>
+                                <div style="background: #1b4d1b; padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #4caf50; font-weight: bold; font-size: 1.2em;">True Negative (TN)</div>
+                                    <div style="color: #a0a0a0; margin-top: 5px;">Legitim identificat corect</div>
+                                    <div style="font-size: 2em; margin-top: 10px;">✅</div>
+                                </div>
+                                <div style="background: #4d1b1b; padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #f44336; font-weight: bold; font-size: 1.2em;">False Positive (FP)</div>
+                                    <div style="color: #a0a0a0; margin-top: 5px;">Legitim marcat ca spam</div>
+                                    <div style="font-size: 2em; margin-top: 10px;">🚨</div>
+                                    <div style="color: #ff6b6b; font-size: 0.85em;">FOARTE COSTISITOR!</div>
+                                </div>
+                                <div style="background: #4d3d1b; padding: 15px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #ff9800; font-weight: bold; font-size: 1.2em;">False Negative (FN)</div>
+                                    <div style="color: #a0a0a0; margin-top: 5px;">Spam ajunge in inbox</div>
+                                    <div style="font-size: 2em; margin-top: 10px;">⚠️</div>
+                                    <div style="color: #ffd93d; font-size: 0.85em;">Acceptabil</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Precision si Recall: Metrici pentru Evenimente Rare</h4>
+                <p>Cand vrem sa detectam evenimente rare (ex: o boala rara), <strong>accuracy</strong> nu este o metrica buna. Daca doar 1 din 1 milion are boala, un clasificator care spune mereu "nu are boala" obtine 99.9999% accuracy! Solutia: folosim <strong>precision</strong> (fractia detectiilor corecte) si <strong>recall</strong> (fractia evenimentelor reale detectate).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Precision vs Recall</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Precision vs Recall - Intuitive
+
+"""
+PRECISION = "Din tot ce am detectat, cat e corect?"
+           = TP / (TP + FP)
+
+RECALL = "Din tot ce exista, cat am detectat?"
+       = TP / (TP + FN)
+"""
+
+from sklearn.metrics import precision_score, recall_score
+
+# Exemplu: Detectie boala rara (1 in 1000)
+# 1000 pacienti: 1 bolnav, 999 sanatosi
+y_true = [0] * 999 + [1]  # 1 = bolnav
+
+# Clasificator "conservator" - spune mereu "sanatos"
+y_pred_lazy = [0] * 1000
+print("Clasificator LAZY (spune mereu 'sanatos'):")
+print(f"  Accuracy: {sum(t==p for t,p in zip(y_true, y_pred_lazy))/1000:.1%}")
+print(f"  Precision: undefined (nu detecteaza nimic)")
+print(f"  Recall: 0% - RATEZ TOT!")
+
+# Clasificator care incearca sa detecteze
+# Gaseste pe cel bolnav dar si 5 false positives
+y_pred_trying = [0] * 994 + [1] * 6  # ultimii 6 = pozitiv
+# Presupunem ca cel bolnav e printre ei
+print("\nClasificator care INCEARCA:")
+print(f"  Detectii pozitive: 6")
+print(f"  True Positives: 1 (pacientul bolnav)")
+print(f"  False Positives: 5 (sanatosi marcati gresit)")
+print(f"  Precision: 1/6 = 16.7%")
+print(f"  Recall: 1/1 = 100% - AM GASIT PE CEL BOLNAV!")
+
+# Trade-off:
+# - High precision, low recall = conservator
+# - Low precision, high recall = agresiv
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Formule</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(135deg, #1a237e, #1a1a2e); padding: 20px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #7c4dff; font-weight: bold; font-size: 1.3em; margin-bottom: 15px;">PRECISION</div>
+                                    <div class="formula" style="font-size: 1.4em; color: white;">
+                                        P = TP / (TP + FP)
+                                    </div>
+                                    <div style="color: #b388ff; margin-top: 15px; font-size: 0.9em;">
+                                        "Cat de precise sunt detectiile mele?"
+                                    </div>
+                                    <div style="color: #666; margin-top: 10px; font-size: 0.85em;">
+                                        Detector care spune "toti au boala" → Precision = 0.0001%
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b5e20, #1a1a2e); padding: 20px; border-radius: 10px; text-align: center;">
+                                    <div style="color: #69f0ae; font-weight: bold; font-size: 1.3em; margin-bottom: 15px;">RECALL</div>
+                                    <div class="formula" style="font-size: 1.4em; color: white;">
+                                        R = TP / (TP + FN)
+                                    </div>
+                                    <div style="color: #b9f6ca; margin-top: 15px; font-size: 0.9em;">
+                                        "Cat din realitate am capturat?"
+                                    </div>
+                                    <div style="color: #666; margin-top: 10px; font-size: 0.85em;">
+                                        Detector care spune "nimeni n-are boala" → Recall = 0%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Curba PR (Precision-Recall)</h4>
+                <p>Cand folosim precision si recall, este comun sa tracem o <strong>curba PR</strong> cu precision pe axa y si recall pe axa x. Clasificatorul genereaza un scor (ex: probabilitatea de boala) si alegem un <strong>threshold</strong> pentru detectie. Variind threshold-ul, obtinem diferite puncte pe curba PR, ilustrand trade-off-ul dintre cele doua metrici.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Curba Precision-Recall</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Generarea curbei Precision-Recall
+
+import numpy as np
+from sklearn.metrics import precision_recall_curve, auc
+import matplotlib.pyplot as plt
+
+# Scoruri de la model (probabilitati)
+y_true = np.array([0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1])
+y_scores = np.array([0.1, 0.2, 0.65, 0.8, 0.3, 0.9, 0.4, 0.7, 0.15, 0.25, 0.85, 0.6])
+
+# Calculeaza precision, recall pentru diferite thresholds
+precision, recall, thresholds = precision_recall_curve(y_true, y_scores)
+
+# Area Under PR Curve (AUC-PR)
+auc_pr = auc(recall, precision)
+print(f"AUC-PR: {auc_pr:.3f}")
+
+# Vizualizare conceptuala a trade-off-ului:
+"""
+Threshold SCAZUT (ex: 0.2):
+  - Detectam aproape tot → HIGH RECALL
+  - Multe false positives → LOW PRECISION
+
+Threshold RIDICAT (ex: 0.9):
+  - Detectam doar cazuri evidente → LOW RECALL
+  - Putine greseli → HIGH PRECISION
+
+Clasificator ideal: Precision = Recall = 1
+  (curba trece prin coltul din dreapta-sus)
+
+Clasificator random: linie orizontala la P = % pozitive
+"""
+
+# Pentru comparare modele: AUC-PR mai mare = model mai bun
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

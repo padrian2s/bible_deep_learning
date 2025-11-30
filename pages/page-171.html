@@ -1,0 +1,113 @@
+<section class="page-section" id="page-171">
+    <div class="page-header">
+        <div class="page-number">171</div>
+        <div class="page-title">
+            <h3>Curse of Dimensionality - Figura 5.9</h3>
+            <span>Capitolul 5 - Sectiunea 5.11.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-171.jpg"
+             alt="Pagina 171" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.9: Cresterea Exponentiala</h4>
+                <p>Pe masura ce numarul de dimensiuni relevante creste (de la stanga la dreapta), numarul de configuratii de interes poate creste <strong>exponential</strong>. <strong>(Stanga)</strong> 1D - avem o variabila pentru care ne pasa doar sa distingem 10 regiuni. <strong>(Centru)</strong> 2D - avem nevoie de 10×10=100 regiuni. <strong>(Dreapta)</strong> 3D - avem nevoie de 10³=1000 regiuni. Pentru d dimensiuni si v valori per axa, avem nevoie de <strong>O(v<sup>d</sup>)</strong> regiuni si exemple! (Figura de Nicolas Chapados)</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cresterea Regiunilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Numarul de Regiuni Creste Exponential</h5>
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>1D</strong>
+                                        <p style="font-size: 2rem; margin: 10px 0; color: var(--success);">10</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">regiuni</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>2D</strong>
+                                        <p style="font-size: 2rem; margin: 10px 0; color: var(--warning);">100</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">regiuni</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>3D</strong>
+                                        <p style="font-size: 2rem; margin: 10px 0; color: var(--accent);">1000</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">regiuni</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center;">Formula: <strong>v<sup>d</sup></strong> regiuni pentru d dimensiuni</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Statistical Challenge</h4>
+                <p>O provocare a curse of dimensionality este una <strong>statistica</strong>. Dupa cum e ilustrat in Figura 5.9, numarul de configuratii posibile ale lui x este <strong>mult mai mare</strong> decat numarul de exemple de training. Pentru a intelege, consideram spatiul de input organizat intr-un grid. Putem descrie un spatiu low-dimensional cu putine celule ocupate de date. Cand generalizam la un nou punct, putem privi la exemple de training din aceeasi celula. Dar pentru celulele fara exemple? In spatii high-dimensional, o celula tipica <strong>nu are niciun exemplu</strong> de training!</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Solutia Algoritmilor Traditionali</h4>
+                <p>Ce putem spune semnificativ despre aceste configuratii noi? Multi algoritmi ML traditionali presupun simplu ca output-ul la un nou punct ar trebui sa fie <strong>aproximativ acelasi</strong> ca output-ul la cel mai apropiat training point. Aceasta este abordarea k-nearest neighbors si a multor alte metode. Dar functioneaza?</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Empty Cells Problem</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+np.random.seed(42)
+
+# Cat din spatiu este "acoperit" de date?
+n_samples = 1000  # Numar fix de exemple
+
+for d in [2, 5, 10, 20]:
+    # Generam date uniforme in [0,1]^d
+    X = np.random.rand(n_samples, d)
+
+    # Discretizam in 10 bins per dimensiune
+    bins = 10
+    X_binned = (X * bins).astype(int)
+
+    # Cate celule unice sunt ocupate?
+    unique_cells = len(set(map(tuple, X_binned)))
+
+    # Total celule posibile
+    total_cells = bins ** d
+
+    coverage = unique_cells / total_cells * 100
+
+    print(f"d={d:2d}: {unique_cells:5d} / {total_cells:>15,d} "
+          f"celule ocupate ({coverage:.2e}%)")
+
+print()
+print("=> Cu dimensiuni mari, aproape toate celulele")
+print("   sunt GOALE chiar cu 1000 de exemple!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

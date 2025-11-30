@@ -1,0 +1,109 @@
+        <section class="page-section" id="page-66">
+            <div class="page-header">
+                <div class="page-number">66</div>
+                <div class="page-title">
+                    <h3>Derivarea PCA cu Trace</h3>
+                    <span>Demonstratie Formala</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-066.jpg"
+                     alt="Pagina 66" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Folosirea Normei Frobenius si Trace</h4>
+                        <p>Pentru a deriva PCA riguros, exprimam eroarea folosind norma Frobenius: ||X - Xddᵀ||²_F = Tr(...). Apoi folosim proprietatile trace-ului pentru a simplifica expresia!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Pasii derivarii</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px; font-size: 0.9rem;">
+                                        <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                            <strong>1.</strong> ||X - Xddᵀ||²_F = Tr((X - Xddᵀ)ᵀ(X - Xddᵀ))
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                            <strong>2.</strong> = Tr(XᵀX) - 2Tr(XᵀXddᵀ) + Tr(ddᵀXᵀXddᵀ)
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                            <strong>3.</strong> Folosind dᵀd = 1 si proprietatea ciclica a trace...
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                            <strong>4.</strong> = Tr(XᵀX) - Tr(XᵀXddᵀ)
+                                        </div>
+                                        <div style="background: var(--success); padding: 12px; border-radius: 8px; color: white;">
+                                            <strong>5.</strong> Minimizare eroare ⟺ Maximizare Tr(dᵀXᵀXd)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Trickuri cu Trace folosite</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🔑 Proprietati exploatate</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                                            <li>||A||²_F = Tr(AᵀA) = Tr(AAᵀ)</li>
+                                            <li>Tr(ABC) = Tr(CAB) (proprietatea ciclica)</li>
+                                            <li>Tr(AB) = Tr(BA) chiar daca dimensiunile difera</li>
+                                            <li>dᵀXᵀXd este scalar = Tr(dᵀXᵀXd)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Problema de Maximizare cu Constrangere</h4>
+                        <p>Am ajuns la: max_d dᵀXᵀXd cu constrangerea dᵀd = 1. Aceasta e o problema clasica de <strong>optimizare cu constrangeri</strong> - se rezolva cu multiplicatori Lagrange sau recunoscand-o ca problema de eigenvalue.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Solutia via eigendecomposition</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                                        Maximul lui dᵀAd cu ||d|| = 1 este atins cand d e eigenvectorul lui A cu cea mai mare eigenvalue!
+                                    </p>
+                                    <div class="formula">
+                                        d* = eigenvector(XᵀX) cu λ_max
+                                    </div>
+                                    <div class="code-block" style="margin-top: 15px;">
+                                        <code>
+# In practica, folosim SVD (mai stabil)<br>
+U, S, Vt = np.linalg.svd(X, full_matrices=False)<br><br>
+# Primele l coloane ale V sunt componentele principale<br>
+D = Vt[:l].T  # sau Vt.T[:, :l]<br><br>
+# Eigenvalues ale XᵀX = S² (singular values la patrat)<br>
+explained_variance = S[:l]**2 / sum(S**2)
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

@@ -1,0 +1,151 @@
+<section class="page-section" id="page-392">
+    <div class="page-header">
+        <div class="page-number">392</div>
+        <div class="page-title">
+            <h3>Avantajele Unfolding-ului</h3>
+            <span>Ecuatiile 10.6-10.7 si Generalizare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-392.jpg"
+             alt="Pagina 392" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Doua Moduri de a Reprezenta Recurenta</h4>
+                <p>Putem reprezenta recurenta in doua forme echivalente: (1) Cu o functie g<sup>(t)</sup> care ia TOT istoricul: h<sup>(t)</sup> = g<sup>(t)</sup>(x<sup>(t)</sup>, x<sup>(t-1)</sup>, ..., x<sup>(1)</sup>), sau (2) Cu o functie f care ia doar starea anterioara: h<sup>(t)</sup> = f(h<sup>(t-1)</sup>, x<sup>(t)</sup>; θ). Forma (2) este preferata - parametri constanti indiferent de lungimea secventei!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie: g vs f</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Functia g<sup>(t)</sup> (Eq 10.6)</strong>
+                                    <div class="formula" style="margin: 10px 0; font-size: 0.9rem;">
+                                        h<sup>(t)</sup> = g<sup>(t)</sup>(x<sup>(t)</sup>, ..., x<sup>(1)</sup>)
+                                    </div>
+                                    <ul style="color: var(--text-secondary); font-size: 0.85rem; margin-left: 15px;">
+                                        <li>Functie diferita pentru fiecare t</li>
+                                        <li>Numarul de parametri creste cu t</li>
+                                        <li>Nu generalizeaza la secvente mai lungi</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Functia f (Eq 10.7)</strong>
+                                    <div class="formula" style="margin: 10px 0; font-size: 0.9rem;">
+                                        h<sup>(t)</sup> = f(h<sup>(t-1)</sup>, x<sup>(t)</sup>; θ)
+                                    </div>
+                                    <ul style="color: var(--text-secondary); font-size: 0.85rem; margin-left: 15px;">
+                                        <li>Aceeasi functie la toti t</li>
+                                        <li>Parametri constanti (θ)</li>
+                                        <li>Generalizeaza la ORICE lungime!</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cele 2 Avantaje Majore ale Unfolding</h4>
+                <p>Procesul de unfolding (factorizarea g in aplicari repetate ale f) ofera doua avantaje cruciale care fac RNN-urile practice si puternice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Avantaj 1: Dimensiune Input Fixa</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Input de dimensiune constanta</h5>
+                                <p>Modelul are <strong>acelasi numar de inputuri</strong> indiferent de lungimea secventei: doar h<sup>(t-1)</sup> si x<sup>(t)</sup>.</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre># Procesam secvente de orice lungime cu aceeasi retea!
+def process_sequence(rnn_cell, sequence, h0):
+    h = h0
+    for x_t in sequence:  # lungime arbitrara
+        h = rnn_cell(h, x_t)  # mereu 2 inputuri
+    return h
+
+# Functioneaza pentru secvente de 10, 100, sau 1000!
+h_final = process_sequence(cell, long_sequence, h0)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Avantaj 2: Aceeasi Functie f</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Aceeasi tranzitie la fiecare pas</h5>
+                                <p>Folosim <strong>aceeasi functie f cu aceiasi parametri θ</strong> la toti pasii temporali.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong>Beneficiu 1:</strong> <span style="color: var(--text-secondary);">Un singur model pentru secvente de orice lungime</span>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong>Beneficiu 2:</strong> <span style="color: var(--text-secondary);">Generalizeaza la lungimi nevazute in antrenament</span>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <strong>Beneficiu 3:</strong> <span style="color: var(--text-secondary);">Mai putini parametri de invatat</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Graful Unfolded - Descriere Explicita</h4>
+                <p>Graful desfasurat ofera o <strong>descriere explicita</strong> a calculelor. Putem vedea clar cum informatia curge in timp (forward) si cum gradientii se propaga inapoi (backward). Aceasta claritate este esentiala pentru algoritmul BPTT (Backpropagation Through Time).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Forward vs Backward Flow</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Forward Pass →</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Informatia curge de la stanga la dreapta, calculand output-uri si loss</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Backward Pass ←</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Gradientii curg de la dreapta la stanga pentru a actualiza parametrii</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

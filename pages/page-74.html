@@ -1,0 +1,247 @@
+        <section class="page-section" id="page-74">
+            <div class="page-header">
+                <div class="page-number">74</div>
+                <div class="page-title">
+                    <h3>3.5 Probabilitate Conditionata</h3>
+                    <span>3.6 Regula Lantului</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-074.jpg"
+                     alt="Pagina 74" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Marginalizare pentru Variabile Continue</h4>
+                        <p>Pentru variabile continue, regula sumei devine o integrala: p(x) = ∫ p(x, y) dy. Conceptul e identic: "integram afara" (marginalizam) variabila pe care nu o vrem.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Suma vs Integrala</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--accent);">Discret</strong>
+                                            <div class="formula" style="margin: 15px 0;">P(x) = Σᵧ P(x, y)</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Sumam peste toate valorile lui y</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--secondary);">Continuu</strong>
+                                            <div class="formula" style="margin: 15px 0;">p(x) = ∫ p(x, y) dy</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Integram peste toate valorile lui y</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.5 Probabilitatea Conditionata</h4>
+                        <p>Adesea vrem sa stim probabilitatea unui eveniment, <em>stiind</em> ca alt eveniment s-a intamplat. Aceasta este <strong>probabilitatea conditionata</strong>. Notam "probabilitatea ca y = y, dat fiind ca x = x" ca P(y = y | x = x). Formula este: P(y | x) = P(x, y) / P(x). Atentie: probabilitatea conditionata e definita doar cand P(x) > 0!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Probabilitate conditionata</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.3rem; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        P(y = y | x = x) = P(y = y, x = x) / P(x = x)
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; text-align: center;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <div style="font-size: 0.9rem; color: var(--secondary);">P(y, x)</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Prob. comuna</p>
+                                        </div>
+                                        <div style="font-size: 2rem; color: var(--text-secondary); line-height: 60px;">÷</div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <div style="font-size: 0.9rem; color: var(--accent);">P(x)</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Prob. marginala</p>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
+                                        Intuitie: "Restrangem universul" doar la cazurile unde x s-a intamplat
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Probabilitate conditionata</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Continuam exemplul vreme-transport
+joint = np.array([
+    [0.40, 0.05],  # bicicleta: [soare, ploaie]
+    [0.20, 0.35]   # masina: [soare, ploaie]
+])
+
+# P(transport | vreme=ploaie)
+# P(bicicleta | ploaie) = P(bicicleta, ploaie) / P(ploaie)
+p_ploaie = joint[:, 1].sum()  # 0.05 + 0.35 = 0.40
+p_bici_ploaie = joint[0, 1]   # 0.05
+p_bici_given_ploaie = p_bici_ploaie / p_ploaie
+
+print(f"P(ploaie) = {p_ploaie:.2f}")
+print(f"P(bicicleta, ploaie) = {p_bici_ploaie:.2f}")
+print(f"P(bicicleta | ploaie) = {p_bici_given_ploaie:.3f}")  # 0.125
+
+# Comparam cu P(bicicleta) neconditionat
+p_bici = joint[0, :].sum()  # 0.45
+print(f"\nP(bicicleta) = {p_bici:.2f}")
+print(f"P(bicicleta | ploaie) = {p_bici_given_ploaie:.3f}")
+print("→ Mult mai putin probabil sa iei bicicleta cand ploua!")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Conditionare vs Interventie</h4>
+                        <p>Este important sa NU confundam probabilitatea conditionata cu ce s-ar intampla daca am <em>interveni</em>. P(german | din Germania) este mare, dar asta nu inseamna ca daca inveti pe cineva germana, ii schimbi tara de origine! Calculul consecintelor interventiilor se numeste <strong>causal modeling</strong> - un domeniu separat pe care aceasta carte nu il exploreaza.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinta: Cauzalitate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Correlation ≠ Causation</strong>
+                                        <p style="margin-top: 10px;">Probabilitatea conditionata masoara <em>asocierea</em> intre variabile, nu cauzalitatea. Pentru inferenta cauzala, vezi lucrarile lui Judea Pearl ("The Book of Why", 2018) si framework-ul do-calculus.</p>
+                                        <p style="margin-top: 10px; color: var(--warning);">In ML, acest lucru conteaza pentru: fairness, interpretabilitate, robustete la distribution shift.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.6 Regula Lantului (Chain Rule)</h4>
+                        <p>Orice distributie comuna peste mai multe variabile poate fi descompusa in probabilitati conditionate: P(x⁽¹⁾, ..., x⁽ⁿ⁾) = P(x⁽¹⁾) × ∏ᵢ₌₂ⁿ P(x⁽ⁱ⁾ | x⁽¹⁾, ..., x⁽ⁱ⁻¹⁾). Aceasta este <strong>regula lantului</strong> sau <strong>regula produsului</strong>. Rezulta direct din aplicarea repetata a definitiei probabilitatii conditionate.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Regula lantului</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                        <p style="color: var(--text-secondary); margin-bottom: 15px;">Exemplu cu 3 variabile:</p>
+                                        <div class="formula" style="margin: 10px 0;">P(a, b, c) = P(a | b, c) × P(b, c)</div>
+                                        <div class="formula" style="margin: 10px 0;">P(b, c) = P(b | c) × P(c)</div>
+                                        <div style="border-top: 2px solid var(--accent); margin: 15px 0; padding-top: 15px;">
+                                            <div class="formula" style="color: var(--success);">P(a, b, c) = P(a | b, c) × P(b | c) × P(c)</div>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.85rem;">
+                                        <strong>Intuitie:</strong> Construim distributia comuna pas cu pas, conditionand pe ce "stim deja"
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Chain rule in practica</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Chain rule e fundamentul modelelor autoregresive!
+# Exemplu: Model de limba genereaza cuvant cu cuvant
+
+# P(fraza) = P(w1) * P(w2|w1) * P(w3|w1,w2) * ...
+
+# Simulare simplificata
+vocab = ["the", "cat", "sat", "on", "mat"]
+# Probabilitati fictive
+p_w1 = {"the": 0.4, "cat": 0.2, "sat": 0.1, "on": 0.15, "mat": 0.15}
+p_w2_given_w1 = {
+    "the": {"cat": 0.5, "mat": 0.3, "sat": 0.1, "on": 0.05, "the": 0.05}
+}
+p_w3_given_w1w2 = {
+    ("the", "cat"): {"sat": 0.7, "on": 0.1, "the": 0.1, "cat": 0.05, "mat": 0.05}
+}
+
+# P("the cat sat") folosind chain rule
+p_the = p_w1["the"]
+p_cat_given_the = p_w2_given_w1["the"]["cat"]
+p_sat_given_the_cat = p_w3_given_w1w2[("the", "cat")]["sat"]
+
+p_sentence = p_the * p_cat_given_the * p_sat_given_the_cat
+print(f'P("the cat sat") = {p_the} × {p_cat_given_the} × {p_sat_given_the_cat}')
+print(f'                 = {p_sentence:.4f}')
+
+# Aceasta este exact ce fac GPT, LLaMA, etc.!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Aplicatii majore in ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>🤖</span>
+                                            <div><strong>Language Models (GPT, LLaMA)</strong> - Genereaza text token cu token folosind chain rule</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🖼️</span>
+                                            <div><strong>Autoregressive Image Models</strong> - PixelCNN genereaza imagini pixel cu pixel</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🎵</span>
+                                            <div><strong>WaveNet</strong> - Genereaza audio esantion cu esantion</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📊</span>
+                                            <div><strong>Bayesian Networks</strong> - Factorizeaza distributii complexe</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

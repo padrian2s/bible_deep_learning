@@ -1,0 +1,93 @@
+<section class="page-section" id="page-267">
+    <div class="page-header">
+        <div class="page-number">267</div>
+        <div class="page-title">
+            <h3>7.8 Echivalenta Early Stopping ≈ L²</h3>
+            <span>Concluzia Matematica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-267.jpg"
+             alt="Pagina 267" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Traiectoria Parametrilor dupa τ Update-uri</h4>
+                <p>Presupunand w⁽⁰⁾ = 0 si ε suficient de mic incat |1-ελᵢ| < 1, traiectoria parametrilor dupa τ update-uri este:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    Q⊤w⁽τ⁾ = [I - (I - εΛ)^τ]Q⊤w*
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatia Finala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Comparand cu expresia pentru L² regularization:</p>
+                            <div class="formula" style="margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                Q⊤ŵ = [I - (Λ + αI)⁻¹α]Q⊤w*
+                            </div>
+                            <p style="margin-top: 15px;">Daca alegem ε, α si τ astfel incat:</p>
+                            <div class="formula" style="margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                (I - εΛ)^τ = (Λ + αI)⁻¹α
+                            </div>
+                            <p>Atunci early stopping si L² sunt echivalente!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Relatia Simplificata: τ ≈ 1/(εα)</h4>
+                <p>Folosind aproximarea log(1+x) ≈ x pentru x mic, daca toate λᵢ sunt mici (ελᵢ << 1 si λᵢ/α << 1), obtinem:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center; font-size: 1.2rem;">
+                    τ ≈ 1/(εα)  sau echivalent  α ≈ 1/(τε)
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Interpretare Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Numarul de iteratii τ joaca rolul invers coeficientului de weight decay!</strong></p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Mai multe iteratii (τ mare)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">≈ Weight decay mic (α mic)</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Mai putina regularizare</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Mai putine iteratii (τ mic)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">≈ Weight decay mare (α mare)</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Mai multa regularizare</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantajul Early Stopping</h4>
+                <p>Parametrii corespunzatori directiilor cu curbura semnificativa (valori proprii mari ale Hessianului) sunt regularizati mai putin. In contextul early stopping, acesti parametri se invata mai devreme. Early stopping are avantajul ca <strong>determina automat</strong> cantitatea corecta de regularizare, in timp ce weight decay necesita multe experimente cu diferite valori ale hiperparametrului.</p>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,103 @@
+<section class="page-section" id="page-413">
+    <div class="page-header">
+        <div class="page-number">413</div>
+        <div class="page-title">
+            <h3>10.5 Deep Recurrent Networks</h3>
+            <span>Adancime in RNN-uri</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-413.jpg"
+             alt="Pagina 413" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cele 3 Blocuri ale unui RNN</h4>
+                <p>Calculele in RNN pot fi descompuse in <strong>3 blocuri</strong> de transformari: (1) input→hidden, (2) hidden→hidden (recurenta), (3) hidden→output. In RNN-ul standard (Fig 10.3), fiecare bloc este o transformare "shallow" (un singur layer).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: 3 Blocuri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="color: var(--accent); font-size: 1.5rem; margin-bottom: 10px;">1</div>
+                                    <strong>Input→Hidden</strong>
+                                    <div style="font-family: monospace; margin-top: 10px;">x → U → h</div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="color: var(--success); font-size: 1.5rem; margin-bottom: 10px;">2</div>
+                                    <strong>Hidden→Hidden</strong>
+                                    <div style="font-family: monospace; margin-top: 10px;">h<sup>(t-1)</sup> → W → h<sup>(t)</sup></div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="color: var(--warning); font-size: 1.5rem; margin-bottom: 10px;">3</div>
+                                    <strong>Hidden→Output</strong>
+                                    <div style="font-family: monospace; margin-top: 10px;">h → V → o</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Deep RNN?</h4>
+                <p>Experimentele arata ca adaugarea de <strong>adancime</strong> in aceste blocuri imbunatateste performanta (Graves et al., 2013; Pascanu et al., 2014a). Intuitie: transformari mai complexe pot captura pattern-uri mai subtile. Similar cu de ce deep networks bat shallow networks!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte Deep RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📖</span><div><strong>Schmidhuber, 1992</strong> - Early deep RNN ideas</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>El Hihi & Bengio, 1996</strong> - Hierarchical RNNs</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Jaeger, 2007</strong> - Deep reservoir networks</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Graves et al., 2013</strong> - Stacked LSTM pentru speech</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Stacked RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>import torch.nn as nn
+
+# Deep RNN cu 3 layere stacked
+deep_rnn = nn.LSTM(
+    input_size=256,
+    hidden_size=512,
+    num_layers=3,      # 3 layere de LSTM
+    dropout=0.2        # dropout intre layere
+)
+
+# Output-ul layer-ului 1 → input layer 2 → etc.</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,131 @@
+<section class="page-section" id="page-125">
+    <div class="page-header">
+        <div class="page-number">125</div>
+        <div class="page-title">
+            <h3>Capacity, Overfitting si Underfitting</h3>
+            <span>Capitolul 5 - Sectiunea 5.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-125.jpg"
+             alt="Pagina 125" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regresia Liniara: Un Punct de Plecare</h4>
+                <p>Regresia liniara este, desigur, un algoritm extrem de simplu si limitat, dar ofera un exemplu de cum functioneaza un algoritm de invatare. In sectiunile urmatoare vom descrie principiile de baza care stau la baza design-ului algoritmilor de invatare si vom demonstra cum aceste principii pot fi folosite pentru a construi algoritmi mai complexi - inclusiv deep learning.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De la Simplu la Complex</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                <div style="background: var(--bg-dark); padding: 10px 15px; border-radius: 8px;">Linear Regression</div>
+                                <span>→</span>
+                                <div style="background: var(--bg-dark); padding: 10px 15px; border-radius: 8px;">Polynomial</div>
+                                <span>→</span>
+                                <div style="background: var(--bg-dark); padding: 10px 15px; border-radius: 8px;">Neural Networks</div>
+                                <span>→</span>
+                                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 10px 15px; border-radius: 8px;">Deep Learning</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.2 Capacity, Overfitting si Underfitting</h4>
+                <p>Provocarea centrala in machine learning este ca modelul trebuie sa performeze bine pe input-uri <strong>noi, nevazute</strong> - nu doar pe cele pe care a fost antrenat. Abilitatea de a performa bine pe input-uri neobservate anterior se numeste <strong>generalizare</strong>. Antrenam modelul pe un training set si masuram eroarea pe acesta (<strong>training error</strong>), dar ne intereseaza de fapt <strong>generalization error</strong> (sau <strong>test error</strong>) - eroarea asteptata pe un input nou.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Train vs Test Error</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <h5 style="color: var(--success);">Training Error</h5>
+                                    <p style="font-size: 3rem;">📊</p>
+                                    <p>Eroarea pe datele de antrenament</p>
+                                    <p style="color: var(--text-secondary);">Ce optimizam direct</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <h5 style="color: var(--warning);">Test Error</h5>
+                                    <p style="font-size: 3rem;">🎯</p>
+                                    <p>Eroarea pe date nevazute</p>
+                                    <p style="color: var(--text-secondary);">Ce ne intereseaza de fapt!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Estimarea Generalization Error</h4>
+                <p>De obicei estimam generalization error masurand performanta pe un <strong>test set</strong> - exemple colectate separat de training set. In exemplul regresiei liniare, am antrenat minimizand training error, dar ne intereseaza test error:</p>
+                <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <p>Train error: (1/m<sup>train</sup>)||X<sup>train</sup>w - y<sup>train</sup>||²</p>
+                    <p style="margin-top: 10px;">Test error: (1/m<sup>test</sup>)||X<sup>test</sup>w - y<sup>test</sup>||²</p>
+                </div>
+                <p>Cum putem afecta performanta pe test set daca doar observam training set?</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Train vs Test Error</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Generam date
+np.random.seed(42)
+X = np.random.randn(100, 5)
+y = X @ np.array([1, 2, 0, -1, 0.5]) + np.random.randn(100) * 0.5
+
+# Split train/test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Antrenare
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Erori
+train_pred = model.predict(X_train)
+test_pred = model.predict(X_test)
+
+train_mse = np.mean((train_pred - y_train)**2)
+test_mse = np.mean((test_pred - y_test)**2)
+
+print(f"Training MSE: {train_mse:.4f}")
+print(f"Test MSE:     {test_mse:.4f}")
+print(f"\nDiferenta:    {test_mse - train_mse:.4f}")
+print("\n⚠️ Test error >= Train error (de obicei)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

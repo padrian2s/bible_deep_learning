@@ -1,0 +1,106 @@
+<section class="page-section" id="page-177">
+    <div class="page-header">
+        <div class="page-number">177</div>
+        <div class="page-title">
+            <h3>Manifold Hypothesis</h3>
+            <span>Capitolul 5 - Sectiunea 5.11.3 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-177.jpg"
+             alt="Pagina 177" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Manifold Learning Algorithms</h4>
+                <p>Multe probleme de ML par fara speranta daca ne asteptam ca algoritmul sa invete functii cu variatii interesante peste tot in R<sup>n</sup>. Algoritmii de <strong>manifold learning</strong> depasesc acest obstacol presupunand ca majoritatea lui R<sup>n</sup> consista din <strong>inputs invalide</strong>, si ca inputs-urile interesante apar doar de-a lungul unui manifold sau o colectie de manifolduri. Variatiile interesante in output-ul functiei invatate apar <strong>doar in directiile pe manifold</strong>, sau cand ne mutam de la un manifold la altul.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Manifold Hypothesis</h4>
+                <p>Asumptia ca datele se afla pe un <strong>manifold low-dimensional</strong> poate sa nu fie intotdeauna corecta sau utila. Argumentam ca in contextul task-urilor AI - cum ar fi procesarea imaginilor, sunetelor sau textului - <strong>manifold assumption</strong> este cel putin aproximativ corecta. Dovada in favoarea acestei asumptii consta din doua categorii de observatii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Dovezi pentru Manifold Hypothesis</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Doua Tipuri de Dovezi</h5>
+                                <div style="display: grid; gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--primary);">1. Probability Concentration</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">Distributia de probabilitate peste imagini, text strings si sunete este <strong>foarte concentrata</strong>. Uniform noise nu seamana niciodata cu inputs structurate reale.</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--secondary);">2. Local Connectivity</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">Putem trece smooth de la un exemplu la altul prin transformari continue (rotatie, scalare, etc.) - indicand un manifold conectat.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Probability Concentration</h4>
+                <p>Prima observatie in favoarea <strong>manifold hypothesis</strong> este ca distributia de probabilitate peste imagini, text strings si sunete din viata reala este <strong>foarte concentrata</strong>. Uniform noise nu seamana niciodata cu inputs structurate din aceste domenii. Figura 5.12 arata cum punctele uniform sampled arata ca static-ul de pe un TV analogic fara semnal. Similar, daca generezi un document alegand litere uniform at random, ce probabilitate e sa fie un text English cu sens? Aproape zero - majoritatea secventelor lungi de litere nu corespund limbajului natural.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Random vs Structured Data</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import string
+
+np.random.seed(42)
+
+# Imagini: Random pixels vs real images
+print("=== IMAGINI ===")
+random_img = np.random.randint(0, 256, size=(28, 28))
+print("Random pixels: TV static/noise")
+print("Real image: Structura, edges, patterns")
+print()
+
+# Text: Random characters vs real text
+print("=== TEXT ===")
+chars = string.ascii_lowercase + ' '
+random_text = ''.join(np.random.choice(list(chars), 50))
+print(f"Random: '{random_text}'")
+print(f"Real:   'the quick brown fox jumps over the lazy dog'")
+print()
+
+# Probabilitatea
+print("=== PROBABILITATI ===")
+# Spatiul posibil pentru imagine 28x28 grayscale
+img_space = 256 ** (28*28)
+print(f"Spatiu imagini 28x28: 256^784 ≈ 10^1880")
+print(f"Imagini 'reale' (citibile): << 10^10")
+print()
+print("=> Datele reale ocupa o FRACTIUNE")
+print("   infima din spatiul total!")
+print("   Ele stau pe un MANIFOLD.")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

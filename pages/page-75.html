@@ -1,0 +1,215 @@
+        <section class="page-section" id="page-75">
+            <div class="page-header">
+                <div class="page-number">75</div>
+                <div class="page-title">
+                    <h3>3.7 Independenta si Independenta Conditionata</h3>
+                    <span>3.8 Speranta Matematica (Expectation)</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-075.jpg"
+                     alt="Pagina 75" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.7 Independenta</h4>
+                        <p>Doua variabile x si y sunt <strong>independente</strong> daca distributia lor comuna poate fi scrisa ca produsul marginalelor: P(x, y) = P(x)P(y). Notam x ⊥ y. Independenta inseamna ca a sti valoarea lui x nu iti spune nimic despre y (si viceversa). In ML, presupunerea de independenta este adesea folosita pentru a simplifica modelele.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Independenta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.2rem; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        x ⊥ y ⟺ P(x, y) = P(x) × P(y)
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">Independente</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Rezultatul zarului #1 si zarului #2 (aruncari separate)</p>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">P(zar1=6, zar2=6) = 1/6 × 1/6 = 1/36</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">Dependente</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Temperatura si vanzari de inghetata</p>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">P(cald, vanzari_mari) ≠ P(cald) × P(vanzari_mari)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Test de independenta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def test_independence(joint, tol=0.01):
+    """Verifica daca P(x,y) ≈ P(x)P(y)"""
+    p_x = joint.sum(axis=1, keepdims=True)  # marginala x
+    p_y = joint.sum(axis=0, keepdims=True)  # marginala y
+
+    # Daca independente, joint = outer product
+    expected_if_indep = p_x @ p_y
+
+    diff = np.abs(joint - expected_if_indep).max()
+    return diff < tol, diff
+
+# Exemplu 1: Doua zaruri (independente)
+joint_dice = np.ones((6, 6)) / 36  # Uniform
+is_indep, diff = test_independence(joint_dice)
+print(f"Zaruri independente? {is_indep} (diff={diff:.6f})")
+
+# Exemplu 2: Vreme-transport (dependente)
+joint_weather = np.array([
+    [0.40, 0.05],  # bicicleta
+    [0.20, 0.35]   # masina
+])
+is_indep, diff = test_independence(joint_weather)
+print(f"Vreme-transport independente? {is_indep} (diff={diff:.4f})")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Independenta Conditionata</h4>
+                        <p>Doua variabile x si y sunt <strong>independent conditionate</strong> de z daca, odata ce stim z, distributia conditionata factorizeaza: P(x, y | z) = P(x | z) × P(y | z). Notam x ⊥ y | z. Aceasta este o proprietate MAI slaba decat independenta completa - variabilele pot fi dependente in general, dar devin independente odata ce "fixam" z.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Independenta conditionata</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.1rem; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        x ⊥ y | z ⟺ P(x, y | z) = P(x | z) × P(y | z)
+                                    </div>
+                                    <div class="key-concept">
+                                        <strong>Exemplu clasic:</strong>
+                                        <p style="margin-top: 10px;">Inteligenta unui student (I) si difucultatea examenului (D) sunt independente. Dar ambele afecteaza nota (N).</p>
+                                        <p style="margin-top: 10px;">I ⊥ D (independente)</p>
+                                        <p>Dar I si D devin dependente DACA stim N! (explainaway)</p>
+                                        <p style="margin-top: 10px; color: var(--accent);">Daca nota e slaba, fie studentul nu e inteligent, fie examenul a fost greu - a sti una ne spune despre cealalta!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Aplicatii in ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>🔗</span>
+                                            <div><strong>Naive Bayes</strong> - Presupune ca feature-urile sunt independent conditionate de clasa</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🌐</span>
+                                            <div><strong>Hidden Markov Models</strong> - Observatiile sunt indep. cond. de starea ascunsa</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📊</span>
+                                            <div><strong>Bayesian Networks</strong> - Structura grafului codifica independente conditionate</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.8 Speranta Matematica (Expectation)</h4>
+                        <p><strong>Speranta</strong> (expected value) a unei functii f(x) relativ la o distributie P(x) este media ponderata a lui f, unde ponderile sunt probabilitatile. Pentru variabile discrete: 𝔼ₓ~P[f(x)] = Σₓ P(x)f(x). Pentru continue: 𝔼ₓ~p[f(x)] = ∫ p(x)f(x)dx. E fundamentala in ML - loss functions, gradienti, etc.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Speranta matematica</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--accent);">Discret</strong>
+                                            <div class="formula" style="margin: 15px 0;">𝔼[f(x)] = Σₓ P(x) · f(x)</div>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--secondary);">Continuu</strong>
+                                            <div class="formula" style="margin: 15px 0;">𝔼[f(x)] = ∫ p(x) · f(x) dx</div>
+                                        </div>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <strong>Intuitie:</strong> Daca repetam experimentul de multe ori si calculam media lui f(x), convergem catre 𝔼[f(x)].
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Calculul sperantei</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Discret: E[X] pentru un zar
+values = np.array([1, 2, 3, 4, 5, 6])
+probs = np.ones(6) / 6  # uniform
+
+expected_value = np.sum(probs * values)
+print(f"E[zar] = {expected_value:.2f}")  # 3.5
+
+# E[X²] pentru zar
+expected_x_squared = np.sum(probs * values**2)
+print(f"E[zar²] = {expected_x_squared:.2f}")  # 15.17
+
+# Continuu: E[X] pentru Normal(μ=5, σ=2)
+normal = stats.norm(loc=5, scale=2)
+print(f"\nE[Normal(5,2)] = {normal.mean():.2f}")  # 5.0
+
+# Monte Carlo estimation (aproximare prin sampling)
+samples = normal.rvs(size=100000)
+mc_estimate = samples.mean()
+print(f"MC estimate: {mc_estimate:.4f}")
+
+# In ML: Loss function este o speranta!
+# L = E_{(x,y)~data}[loss(model(x), y)]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

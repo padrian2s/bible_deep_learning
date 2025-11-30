@@ -1,0 +1,130 @@
+<section class="page-section" id="page-246">
+    <div class="page-header">
+        <div class="page-number">246</div>
+        <div class="page-title">
+            <h3>7.1.1 Regularizare L² (Weight Decay)</h3>
+            <span>L² Parameter Regularization</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-246.jpg"
+             alt="Pagina 246" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regularizarea L² - Weight Decay</h4>
+                <p>Cea mai comuna penalizare pe norma parametrilor este regularizarea L², cunoscuta si ca <strong>weight decay</strong>, <strong>ridge regression</strong> sau <strong>regularizare Tikhonov</strong>. Aceasta strategie "impinge" weights-urile mai aproape de origine adaugand termenul Ω(θ) = ½||w||² la functia obiectiv:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center; font-size: 1.1rem;">
+                    J̃(w; X, y) = (α/2)w⊤w + J(w; X, y)
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Weight Decay in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.optim as optim
+
+# Metoda 1: Direct in optimizer
+optimizer = optim.SGD(
+    model.parameters(),
+    lr=0.01,
+    weight_decay=0.001  # α = 0.001
+)
+
+# Metoda 2: Manual (pentru mai mult control)
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+for epoch in range(epochs):
+    loss = criterion(model(X), y)
+
+    # Adaugam L2 penalty manual
+    l2_reg = sum(p.pow(2).sum() for p in model.parameters())
+    loss = loss + 0.001 * l2_reg
+
+    loss.backward()
+    optimizer.step()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gradientul si Regula de Update</h4>
+                <p>Gradientul functiei obiectiv regularizate este:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    ∇<sub>w</sub>J̃(w; X, y) = αw + ∇<sub>w</sub>J(w; X, y)
+                </div>
+                <p>La fiecare pas de gradient, update-ul devine:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    w ← w - ε(αw + ∇<sub>w</sub>J(w; X, y))
+                </div>
+                <p>Sau echivalent:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    w ← (1 - εα)w - ε∇<sub>w</sub>J(w; X, y)
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce "Weight Decay"?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Observa factorul <strong>(1 - εα)</strong> care inmulteste w inainte de gradient step. Acest factor este < 1, deci la fiecare pas weights-urile sunt "micrate" (decay). De aici numele "weight decay".</p>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                <strong>Exemplu numeric:</strong>
+                                <ul style="margin-top: 10px; font-family: monospace;">
+                                    <li>ε = 0.01 (learning rate)</li>
+                                    <li>α = 0.1 (weight decay)</li>
+                                    <li>Factor: 1 - 0.01×0.1 = 0.999</li>
+                                    <li>La fiecare pas, w → 0.999 × w</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Alte nume pentru L²</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📊</span>
+                                    <div><strong>Ridge Regression</strong> - In statistica, pentru regresie liniara</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🔬</span>
+                                    <div><strong>Tikhonov Regularization</strong> - In matematica aplicata si probleme inverse</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🧠</span>
+                                    <div><strong>Weight Decay</strong> - In deep learning, datorita efectului de "diminuare"</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

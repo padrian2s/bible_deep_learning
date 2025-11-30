@@ -1,0 +1,141 @@
+        <section class="page-section" id="page-61">
+            <div class="page-header">
+                <div class="page-number">61</div>
+                <div class="page-title">
+                    <h3>Pseudoinversa si Operatorul Trace</h3>
+                    <span>Sectiunea 2.10</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-061.jpg"
+                     alt="Pagina 61" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Pseudoinversa prin SVD</h4>
+                        <p>Formula practica pentru pseudoinversa foloseste SVD: <strong>A⁺ = V D⁺ Uᵀ</strong>. D⁺ se obtine inversand elementele non-zero de pe diagonala lui D si transpunand rezultatul. Elegant si numeric stabil!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Formula detaliata</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">A⁺ = lim(α→0) (AᵀA + αI)⁻¹Aᵀ</div>
+                                    <p style="color: var(--text-secondary); margin: 15px 0;">Sau prin SVD (mai practic):</p>
+                                    <div class="formula">A⁺ = V D⁺ Uᵀ</div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <h5>📐 Cum calculam D⁺?</h5>
+                                        <ol style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                                            <li>Luam D (diagonala cu singular values)</li>
+                                            <li>Inversam fiecare element non-zero: σᵢ → 1/σᵢ</li>
+                                            <li>Transpunem rezultatul</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Cazuri: tall vs wide</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">A mai "inalta" (m > n)</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                                Mai multe ecuatii decat necunoscute.<br>
+                                                A⁺y → solutia <strong>least squares</strong><br>
+                                                Minimizeaza ||Ax - y||₂
+                                            </p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">A mai "lata" (m < n)</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                                Mai multe necunoscute decat ecuatii.<br>
+                                                A⁺y → solutia cu <strong>norma minima</strong><br>
+                                                Minimizeaza ||x||₂
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.10 Operatorul Trace (Urma)</h4>
+                        <p><strong>Trace</strong> este suma elementelor de pe diagonala principala a unei matrici: Tr(A) = Σᵢ Aᵢ,ᵢ. Pare simplu, dar are proprietati incredibil de utile pentru manipulari algebrice in ML!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Definitia Trace</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">Tr(A) = Σᵢ Aᵢ,ᵢ = A₁,₁ + A₂,₂ + ... + Aₙ,ₙ</div>
+                                    <div style="display: flex; justify-content: center; margin: 20px 0;">
+                                        <div style="border: 2px solid var(--accent); border-radius: 8px; padding: 15px;">
+                                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;">
+                                                <div style="background: var(--success); padding: 12px 18px; border-radius: 4px; text-align: center;">5</div>
+                                                <div style="background: var(--bg-lighter); padding: 12px 18px; border-radius: 4px; text-align: center;">2</div>
+                                                <div style="background: var(--bg-lighter); padding: 12px 18px; border-radius: 4px; text-align: center;">1</div>
+                                                <div style="background: var(--bg-lighter); padding: 12px 18px; border-radius: 4px; text-align: center;">3</div>
+                                                <div style="background: var(--success); padding: 12px 18px; border-radius: 4px; text-align: center;">7</div>
+                                                <div style="background: var(--bg-lighter); padding: 12px 18px; border-radius: 4px; text-align: center;">4</div>
+                                                <div style="background: var(--bg-lighter); padding: 12px 18px; border-radius: 4px; text-align: center;">6</div>
+                                                <div style="background: var(--bg-lighter); padding: 12px 18px; border-radius: 4px; text-align: center;">8</div>
+                                                <div style="background: var(--success); padding: 12px 18px; border-radius: 4px; text-align: center;">9</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); text-align: center;">
+                                        Tr(A) = <span style="color: var(--success);">5 + 7 + 9</span> = 21
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Conexiune cu norma Frobenius</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">||A||_F = √(Tr(AAᵀ))</div>
+                                    <p style="color: var(--text-secondary); margin: 15px 0;">
+                                        Norma Frobenius poate fi scrisa elegant folosind trace!
+                                    </p>
+                                    <div class="code-block">
+                                        <code>
+import numpy as np<br><br>
+A = np.array([[1, 2], [3, 4]])<br><br>
+# Metoda 1: direct<br>
+frob1 = np.linalg.norm(A, 'fro')<br><br>
+# Metoda 2: prin trace<br>
+frob2 = np.sqrt(np.trace(A @ A.T))<br><br>
+print(f"Frobenius: {frob1:.4f} = {frob2:.4f}")
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

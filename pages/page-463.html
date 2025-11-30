@@ -1,0 +1,135 @@
+<section class="page-section" id="page-463">
+    <div class="page-header">
+        <div class="page-number">463</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.1.4 Comprimarea Modelelor (continuare) si 12.1.5 Structura Dinamica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-463.jpg"
+             alt="Pagina 463" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Comprimarea Modelelor: Strategia Completa</h4>
+                <p>Ideea de baza a <strong>model compression</strong> este sa inlocuim modelul original costisitor cu un model mai mic care necesita mai putina memorie si timp de rulare. Modelele mari sunt necesare de obicei pentru a preveni overfitting-ul, dar dupa antrenament putem transfera cunostintele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Knowledge Distillation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Knowledge Distillation (Hinton et al., 2014, 2015)
+# Model mare invata functia f(x)
+teacher_model = LargeModel()  # Multe parametri
+teacher_output = teacher_model(x)  # Distributie posterioara
+
+# Generam date de antrenament pentru modelul mic
+# Metoda 1: Corupem exemplele de training existente
+augmented_x = corrupt(training_data)
+
+# Metoda 2: Cream exemple din model generativ
+synthetic_x = generative_model.sample()
+
+# Antrenam modelul mic sa imite teacher-ul
+student_model = SmallModel()  # Putini parametri
+# Nu doar clasele corecte, ci DISTRIBUTIA posterioara!
+loss = KL_divergence(student_output, teacher_output)
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Insight:</strong> Modelul mic invata nu doar clasele corecte, ci si distributia probabilitatilor pe clasele incorecte - aceasta contine informatie valoroasa despre similaritatea dintre clase!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Model Compression</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bucila et al. (2006)</strong> - Conceptul original de model compression</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Hinton et al. (2014, 2015)</strong> - Knowledge Distillation cu "dark knowledge"</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.1.5 Structura Dinamica in Calcul</h4>
+                <p>O strategie pentru accelerarea sistemelor de procesare a datelor este sa construim sisteme cu <strong>structura dinamica</strong> in graful care descrie calculul. Sistemul poate determina dinamic ce subset de retele neurale trebuie rulat pentru un input dat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Conditional Computation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <h5 style="color: var(--accent); margin-bottom: 15px;">Calcul Static vs Dinamic</h5>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div style="border: 2px solid var(--warning); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Static</strong>
+                                        <div style="margin-top: 10px; text-align: center;">
+                                            <div style="background: var(--bg-dark); padding: 10px; margin: 5px 0;">Input → Layer 1</div>
+                                            <div style="color: var(--text-secondary);">↓</div>
+                                            <div style="background: var(--bg-dark); padding: 10px; margin: 5px 0;">→ Layer 2</div>
+                                            <div style="color: var(--text-secondary);">↓</div>
+                                            <div style="background: var(--bg-dark); padding: 10px; margin: 5px 0;">→ Layer 3</div>
+                                        </div>
+                                        <p style="color: var(--text-secondary); font-size: 0.8rem;">Toate layer-urile mereu</p>
+                                    </div>
+                                    <div style="border: 2px solid var(--success); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">Dinamic</strong>
+                                        <div style="margin-top: 10px; text-align: center;">
+                                            <div style="background: var(--bg-dark); padding: 10px; margin: 5px 0;">Input → Gate</div>
+                                            <div style="color: var(--text-secondary);">↓ decide ↓</div>
+                                            <div style="display: flex; gap: 5px;">
+                                                <div style="background: var(--success); padding: 10px; flex: 1; border-radius: 4px; color: var(--bg-dark);">Expert A</div>
+                                                <div style="background: var(--bg-dark); padding: 10px; flex: 1; opacity: 0.3;">Expert B</div>
+                                            </div>
+                                        </div>
+                                        <p style="color: var(--text-secondary); font-size: 0.8rem;">Doar ce e necesar</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Conditional Computation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bengio (2013); Bengio et al. (2013b)</strong> - Conditional computation in retele neurale</div></li>
+                            </ul>
+                            <p style="margin-top: 10px; color: var(--text-secondary);">Deoarece multe componente ale arhitecturii pot fi relevante doar pentru o cantitate mica de input-uri posibile, sistemul poate rula mai rapid calculand aceste caracteristici doar cand sunt necesare.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

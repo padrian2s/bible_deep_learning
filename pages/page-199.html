@@ -1,0 +1,125 @@
+<section class="page-section" id="page-199">
+    <div class="page-header">
+        <div class="page-number">199</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2.3 Unitati Softmax pentru Distributii Multinoulli</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-199.jpg"
+             alt="Pagina 199" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Sigmoid + MSE nu functioneaza bine</h4>
+                <p>Cand folosim alte functii de cost decat log-likelihood, cum ar fi mean squared error, loss-ul poate satura ori de cate ori σ(z) satureaza. Functia de activare sigmoid satureaza la 0 cand z este foarte negativ si la 1 cand z este foarte pozitiv. Gradientul poate deveni prea mic pentru invatare eficienta, indiferent daca modelul este corect sau gresit!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie: BCE vs MSE cu Sigmoid</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">BCE (Recomandat)</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Loss = -y·log(σ(z)) - (1-y)·log(1-σ(z))</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 5px;">Log anuleaza saturarea sigmoid</p>
+                                    <p style="color: var(--success); font-size: 0.85rem; margin-top: 5px;">Gradient liniar in z cand greseste!</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">MSE (Problematic)</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Loss = (y - σ(z))²</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 5px;">Sigmoid satureaza → gradient mic</p>
+                                    <p style="color: var(--warning); font-size: 0.85rem; margin-top: 5px;">Invatare lenta chiar si cand greseste!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Clasificare Multi-Clasa: Distributia Multinoulli</h4>
+                <p>Ori de cate ori vrem sa reprezentam o distributie de probabilitate peste o variabila discreta cu n valori posibile, putem folosi functia softmax. Aceasta poate fi vazuta ca o generalizare a functiei sigmoid care era folosita pentru a reprezenta o distributie de probabilitate peste o variabila binara.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Bernoulli vs Multinoulli (Categorical)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Bernoulli (2 clase)</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">y ∈ {0, 1}</p>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">P(y=1) = σ(z)</p>
+                                    <p style="font-size: 0.9rem;">Output: 1 scalar z</p>
+                                    <p style="font-size: 0.85rem; color: var(--accent); margin-top: 10px;">Spam / Nu spam</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Multinoulli (n clase)</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">y ∈ {0, 1, ..., n-1}</p>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">P(y=i) = softmax(z)ᵢ</p>
+                                    <p style="font-size: 0.9rem;">Output: vector z de n elemente</p>
+                                    <p style="font-size: 0.85rem; color: var(--accent); margin-top: 10px;">Pisica / Caine / Pasare / ...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cerinta: Output Valid ca Distributie de Probabilitate</h4>
+                <p>Pentru clasificare cu n clase, avem nevoie de un vector y_hat, cu y_hat_i = P(y = i | x). Cerem nu doar ca fiecare element y_hat_i sa fie intre 0 si 1, dar si ca intregul vector sa sumeze la 1 pentru a reprezenta o distributie de probabilitate valida. Aceeasi abordare care a functionat pentru Bernoulli se generalizeaza la Multinoulli.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De la Logits la Probabilitati</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Reteaua outputeaza logits (nenormalizate)
+z = torch.tensor([2.0, 1.0, 0.1])  # pentru 3 clase
+
+# Softmax le transforma in probabilitati
+probs = F.softmax(z, dim=0)
+print(probs)  # tensor([0.659, 0.242, 0.099])
+print(probs.sum())  # tensor(1.0) ✓
+
+# Verificam proprietatile:
+# 1. Toate valorile in (0, 1) ✓
+# 2. Suma = 1 ✓
+# 3. Clasa cu cel mai mare logit → cea mai mare prob ✓
+
+# Formula: softmax(z)_i = exp(z_i) / Σ exp(z_j)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

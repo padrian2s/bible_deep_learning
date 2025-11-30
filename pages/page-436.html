@@ -1,0 +1,227 @@
+<section class="page-section" id="page-436">
+    <div class="page-header">
+        <div class="page-number">436</div>
+        <div class="page-title">
+            <h3>Metodologie Practica</h3>
+            <span>Capitolul 11 - Practical Methodology</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-436.jpg"
+             alt="Pagina 436" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Avem Nevoie de Metodologie Practica?</h4>
+                <p>Aplicarea cu succes a tehnicilor de deep learning necesita mai mult decat cunoasterea algoritmilor si principiilor teoretice. Un practician bun trebuie sa stie cum sa <strong>aleaga algoritmul potrivit</strong> pentru o aplicatie, cum sa <strong>monitorizeze</strong> si sa <strong>raspunda la feedback</strong> din experimente. In practica zilnica, trebuie sa decizi: ai nevoie de mai multe date? Trebuie sa cresti sau sa scazi capacitatea modelului? Sa adaugi regularizare? Sa schimbi optimizatorul?</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Workflow ML Practician</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Workflow tipic al unui practician ML
+
+class MLPractitioner:
+    def __init__(self, problem):
+        self.problem = problem
+        self.metrics = None
+        self.baseline = None
+        self.current_model = None
+
+    def step1_define_goals(self):
+        """Determina metrica de eroare si target-ul"""
+        # Ce vrem sa optimizam?
+        # - Accuracy? Precision? Recall? F1?
+        # Ce nivel de performanta e acceptabil?
+        self.metrics = {
+            'primary': 'accuracy',
+            'target': 0.95,
+            'secondary': ['latency', 'memory']
+        }
+
+    def step2_establish_baseline(self):
+        """Pipeline end-to-end cat mai repede"""
+        # Nu optimiza prematur!
+        # Fa ceva care functioneaza, apoi imbunatateste
+        self.baseline = SimpleModel()
+        self.baseline.fit(data)
+        print(f"Baseline: {self.baseline.score()}")
+
+    def step3_instrument_and_diagnose(self):
+        """Gaseste bottleneck-urile"""
+        # Overfitting? Underfitting?
+        # Problema in date? In model? In optimizare?
+        train_error = self.current_model.train_error()
+        val_error = self.current_model.val_error()
+
+        if train_error > target:
+            return "UNDERFITTING - creste capacitatea"
+        elif val_error >> train_error:
+            return "OVERFITTING - regularizeaza"
+
+    def step4_iterate(self):
+        """Schimbari incrementale bazate pe diagnostic"""
+        # Mai multe date?
+        # Hyperparameter tuning?
+        # Arhitectura diferita?
+        pass
+
+# Cheia: metodologie simpla aplicata corect
+# > algoritm sofisticat aplicat prost
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Andrew Ng's ML Advice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Ng (2015)</strong> - Sfaturile din acest capitol sunt adaptate din cursul lui Andrew Ng - unul dintre cei mai influenti educatori in ML
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Principiu cheie:</strong> "Aplicarea corecta a unui algoritm comun bate aplicarea neglijenta a unuia obscur"
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Goodfellow et al. (2014d)</strong> - Exemplul Street View pentru transcrierea numerelor de adresa - aplicatie practica a metodologiei
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Procesul de Design</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                                <div style="background: linear-gradient(90deg, rgba(78, 205, 196, 0.3) 0%, transparent 15%), linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; box-shadow: 0 0 15px rgba(78, 205, 196, 0.15);">
+                                    <div style="color: #4ecdc4; font-weight: bold;">1. DEFINESTE OBIECTIVELE</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Ce metrica? Ce target? Ce problema rezolva?</div>
+                                </div>
+                                <div style="text-align: center; color: #666;">▼</div>
+                                <div style="background: linear-gradient(90deg, rgba(255, 107, 107, 0.3) 0%, transparent 15%), linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; box-shadow: 0 0 15px rgba(255, 107, 107, 0.15);">
+                                    <div style="color: #ff6b6b; font-weight: bold;">2. STABILESTE BASELINE</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Pipeline end-to-end functional cat mai rapid</div>
+                                </div>
+                                <div style="text-align: center; color: #666;">▼</div>
+                                <div style="background: linear-gradient(90deg, rgba(255, 217, 61, 0.3) 0%, transparent 15%), linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; box-shadow: 0 0 15px rgba(255, 217, 61, 0.15);">
+                                    <div style="color: #ffd93d; font-weight: bold;">3. INSTRUMENTEAZA & DIAGNOSTICA</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Unde sunt bottleneck-urile? Over/underfitting?</div>
+                                </div>
+                                <div style="text-align: center; color: #666;">▼</div>
+                                <div style="background: linear-gradient(90deg, rgba(149, 225, 211, 0.3) 0%, transparent 15%), linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; box-shadow: 0 0 15px rgba(149, 225, 211, 0.15);">
+                                    <div style="color: #95e1d3; font-weight: bold;">4. ITEREAZA INCREMENTAL</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Schimbari mici bazate pe feedback masurat</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu Practic: Street View Address Transcription</h4>
+                <p>Ca exemplu concret, autorii folosesc sistemul de <strong>transcriere a numerelor de adresa</strong> din Street View (Goodfellow et al., 2014d). Masinile Street View fotografiaza cladirile si inregistreaza coordonatele GPS. O <strong>retea convolutionala</strong> recunoaste numarul adresei din fiecare fotografie, permitand adaugarea acesteia pe Google Maps. Dezvoltarea acestei aplicatii comerciale ilustreaza perfect metodologia recomandata.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Street View Pipeline</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Simplificare a pipeline-ului Street View
+
+import torch
+import torch.nn as nn
+
+class StreetViewAddressReader(nn.Module):
+    """
+    CNN pentru citirea numerelor de adresa
+    din fotografii Street View
+    """
+    def __init__(self):
+        super().__init__()
+        # Convolutii pentru extragere features
+        self.conv_layers = nn.Sequential(
+            nn.Conv2d(3, 48, 5, stride=2),
+            nn.ReLU(),
+            nn.Conv2d(48, 64, 5, stride=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            # ... mai multe layere
+        )
+
+        # Output: predictie pentru fiecare cifra
+        # Plus un output pentru "lungimea numarului"
+        self.digit_classifiers = nn.ModuleList([
+            nn.Linear(1024, 10) for _ in range(5)  # max 5 cifre
+        ])
+        self.length_classifier = nn.Linear(1024, 6)  # 1-5 cifre sau invalid
+
+    def forward(self, x):
+        features = self.conv_layers(x)
+        features = features.flatten(1)
+
+        length = self.length_classifier(features)
+        digits = [clf(features) for clf in self.digit_classifiers]
+
+        return length, digits
+
+# Workflow:
+# 1. Fotografii Street View -> GPS coordinates
+# 2. Crop regiune cu numarul adresei
+# 3. CNN predictie numar
+# 4. Daca confident -> adauga pe Maps
+# 5. Daca nu -> trimite la human operator
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context: SVHN Dataset</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>SVHN (Street View House Numbers)</strong> - Dataset public derivat din acest proiect, folosit frecvent pentru benchmarking in computer vision. Contine peste 600,000 imagini cu numere de case din Street View.
+                            </div>
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Scala:</strong> Miliarde de fotografii procesate pentru Google Maps
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Provocare:</strong> Varietate enorma de fonturi, unghiuri, iluminare, obstructii
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

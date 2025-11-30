@@ -1,0 +1,93 @@
+<section class="page-section" id="page-306">
+    <div class="page-header">
+        <div class="page-number">306</div>
+        <div class="page-title">
+            <h3>8.2.7 Corespondenta Slaba Local-Global</h3>
+            <span>Cand Directia Locala Nu Ajuta</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-306.jpg"
+             alt="Pagina 306" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema: Directia Locala vs Solutia Globala</h4>
+                <p>Multe probleme discutate pana acum se refera la comportamentul local al loss-ului: ill-conditioning, cliff-uri, saddle points. Dar e posibil sa depasim toate aceste probleme si tot sa nu gasim o solutie buna! Directia care imbunatateste local poate sa nu duca spre regiuni cu cost <strong>global</strong> scazut.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare Problema</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">Goodfellow et al. (2015) argumenteaza ca mare parte din timpul de antrenare e petrecut:</p>
+                                <ol style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                    <li>Traversand un arc larg in jurul unui "munte"</li>
+                                    <li>Ocolind obstacole prin cai indirecte</li>
+                                    <li>Nu din cauza problemelor locale, ci din cauza structurii globale</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cercetarea Concentrata pe Puncte Critice</h4>
+                <p>Multa cercetare s-a concentrat pe intrebarea: ajungem la minim global, local, sau saddle point? Dar Figura 8.1 arata ca in practica, retelele neurale adesea <strong>nu ajung la niciun punct critic</strong>! Gradientul ramane mare, dar loss-ul scade incet.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Functii Fara Puncte Critice Accesibile</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Functia -log p(y|x; θ) pentru clasificare poate:</p>
+                            <ul style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                <li>Sa nu aiba minim global finit (asimptoteaza spre -∞)</li>
+                                <li>Sa aiba minim global la infinit (cand β → ∞)</li>
+                                <li>Negative log-likelihood nu atinge niciodata exact 0, chiar daca clasificam perfect</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Importanta Initializarii</h4>
+                <p>Daca problemele majore sunt legate de structura globala, atunci alegerea <strong>punctului de start</strong> devine cruciala. Cercetarea actuala se concentreaza pe gasirea de initializari bune care plaseaza learning-ul intr-o regiune unde local descent poate gasi o solutie acceptabila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Strategii de Initializare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Sectiunea 8.4 discuta strategii de initializare. Ideea: daca exista o regiune "buna" conectata la solutie printr-un path de local descent, sa incepem din acea regiune!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,134 @@
+<section class="page-section" id="page-401">
+    <div class="page-header">
+        <div class="page-number">401</div>
+        <div class="page-title">
+            <h3>Gradientii Parametrilor</h3>
+            <span>Ecuatiile 10.22-10.28</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-401.jpg"
+             alt="Pagina 401" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gradientul pentru Parametrii Shared</h4>
+                <p>Parametrii (U, V, W, b, c) sunt <strong>shared</strong> peste toti pasii temporali. Gradientul total pentru un parametru este <strong>suma gradientilor</strong> de la fiecare pas. Introducem notatia W<sup>(t)</sup> pentru a denota "copia" lui W la timpul t.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile pentru c, b, V</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--accent); margin-bottom: 10px;"><strong>Bias output (c):</strong></p>
+                                <div class="formula" style="margin: 5px 0; font-size: 0.9rem;">
+                                    ∇<sub>c</sub>L = Σ<sub>t</sub> (∂o<sup>(t)</sup>/∂c)<sup>⊤</sup> ∇<sub>o<sup>(t)</sup></sub>L = Σ<sub>t</sub> ∇<sub>o<sup>(t)</sup></sub>L
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.22)</span>
+                                </div>
+                                <p style="color: var(--success); margin: 15px 0 10px 0;"><strong>Bias hidden (b):</strong></p>
+                                <div class="formula" style="margin: 5px 0; font-size: 0.9rem;">
+                                    ∇<sub>b</sub>L = Σ<sub>t</sub> diag(1 - (h<sup>(t)</sup>)<sup>2</sup>) ∇<sub>h<sup>(t)</sup></sub>L
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.23)</span>
+                                </div>
+                                <p style="color: var(--warning); margin: 15px 0 10px 0;"><strong>Hidden→Output (V):</strong></p>
+                                <div class="formula" style="margin: 5px 0; font-size: 0.9rem;">
+                                    ∇<sub>V</sub>L = Σ<sub>t</sub> (∇<sub>o<sup>(t)</sup></sub>L) h<sup>(t)⊤</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.24)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile pentru W, U</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--accent); margin-bottom: 10px;"><strong>Hidden→Hidden (W):</strong></p>
+                                <div class="formula" style="margin: 5px 0; font-size: 0.9rem;">
+                                    ∇<sub>W</sub>L = Σ<sub>t</sub> diag(1 - (h<sup>(t)</sup>)<sup>2</sup>) (∇<sub>h<sup>(t)</sup></sub>L) h<sup>(t-1)⊤</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.25-10.26)</span>
+                                </div>
+                                <p style="color: var(--success); margin: 15px 0 10px 0;"><strong>Input→Hidden (U):</strong></p>
+                                <div class="formula" style="margin: 5px 0; font-size: 0.9rem;">
+                                    ∇<sub>U</sub>L = Σ<sub>t</sub> diag(1 - (h<sup>(t)</sup>)<sup>2</sup>) (∇<sub>h<sup>(t)</sup></sub>L) x<sup>(t)⊤</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.27-10.28)</span>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Observatie importanta:</h5>
+                                <p>Nu calculam gradientul pentru x<sup>(t)</sup> - acesta este input, nu parametru trainabil!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Implementare: Gradient Accumulation</h4>
+                <p>In practica, acumulam gradientii peste toti pasii temporali inainte de a actualiza parametrii. Fiecare pas contribuie la gradientul total.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: BPTT Manual</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>def bptt_gradients(h_states, o_states, targets, W, V, U):
+    """
+    Calculeaza gradientii pentru toti parametrii.
+    h_states: [h(1), h(2), ..., h(τ)]
+    o_states: [o(1), o(2), ..., o(τ)]
+    """
+    tau = len(h_states)
+
+    # Initializeaza gradientii
+    dW, dU, dV = zeros_like(W), zeros_like(U), zeros_like(V)
+
+    # Gradientul pentru h la timpul final
+    dh_next = V.T @ (softmax(o_states[-1]) - one_hot(targets[-1]))
+
+    # Backward pass prin timp
+    for t in reversed(range(tau)):
+        # Gradient output
+        do = softmax(o_states[t]) - one_hot(targets[t])
+        dV += outer(do, h_states[t])  # Eq 10.24
+
+        # Gradient hidden (cu tanh derivative)
+        dh = dh_next
+        tanh_deriv = 1 - h_states[t]**2
+        dh_raw = dh * tanh_deriv
+
+        dW += outer(dh_raw, h_states[t-1])  # Eq 10.26
+        dU += outer(dh_raw, x_states[t])    # Eq 10.28
+
+        # Propaga gradient la pasul anterior
+        dh_next = W.T @ dh_raw + V.T @ do
+
+    return dW, dU, dV</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

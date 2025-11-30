@@ -1,0 +1,137 @@
+<section class="page-section" id="page-355">
+    <div class="page-header">
+        <div class="page-number">355</div>
+        <div class="page-title">
+            <h3>Figura 9.6: Eficienta Detectiei de Muchii</h3>
+            <span>Comparatie Convolutie vs Matrice</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-355.jpg"
+             alt="Pagina 355" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu Practic: Detectia Muchiilor Verticale</h4>
+                <p>Figura 9.6 arata o imagine originala (caine) si rezultatul aplicarii unui kernel de detectie a muchiilor verticale. Kernelul simplu [-1, 1] (scade pixelul vecin din cel curent) este suficient pentru a extrage toate muchiile verticale. Imaginea este 320x280 pixeli, iar transformarea necesita doar ~267,960 operatii cu convolutie vs. peste 8 MILIARDE cu inmultire de matrice!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Detectia Muchiilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy import ndimage
+import matplotlib.pyplot as plt
+
+# Incarcam imaginea (grayscale)
+# image = plt.imread('dog.jpg')
+# Pentru exemplu, simulam o imagine
+image = np.random.rand(280, 320)
+
+# Kernel pentru muchii verticale
+kernel_vertical = np.array([[-1, 1]])
+
+# Aplicam convolutia
+edges_vertical = ndimage.convolve(image, kernel_vertical)
+
+# Calcul operatii
+ops_conv = 319 * 280 * 2  # 178,640 operatii
+ops_matrix = 320 * 280 * 319 * 280  # 8+ miliarde!
+
+print(f"Operatii convolutie: {ops_conv:,}")
+print(f"Operatii matrice: {ops_matrix:,}")
+print(f"Convolutia e {ops_matrix/ops_conv:,.0f}x mai eficienta!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Comparatie Eficienta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Convolutie</strong>
+                                    <div style="font-size: 2.5rem; margin: 15px 0; color: var(--success);">~268K</div>
+                                    <p style="font-size: 0.85rem;">operatii in virgula mobila</p>
+                                    <div style="background: var(--success); height: 10px; border-radius: 5px; margin-top: 10px;"></div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Matrice (naiv)</strong>
+                                    <div style="font-size: 2.5rem; margin: 15px 0; color: var(--warning);">16B+</div>
+                                    <p style="font-size: 0.85rem;">operatii in virgula mobila</p>
+                                    <div style="background: var(--warning); height: 200px; border-radius: 5px; margin-top: 10px;"></div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Concluzie:</strong> Convolutia este ~60,000x mai eficienta pentru aceasta transformare!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce este Convolutia atat de Eficienta?</h4>
+                <p>Convolutia este ideala pentru transformari care aplica aceeasi operatie locala peste tot. Chiar daca am folosi reprezentarea matriceala sparse, tot am avea ~178,640 intrari non-zero (2 × 319 × 280). Convolutia descrie aceeasi transformare cu doar 2 parametri (kernelul [-1, 1])! Aceasta este puterea partajarii parametrilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Kerneluri Clasice de Detectie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">Sobel X</strong>
+                                    <div class="code-block" style="font-size: 0.75rem; margin-top: 10px;">
+[-1  0  1]
+[-2  0  2]
+[-1  0  1]
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 8px;">Muchii verticale</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">Sobel Y</strong>
+                                    <div class="code-block" style="font-size: 0.75rem; margin-top: 10px;">
+[-1 -2 -1]
+[ 0  0  0]
+[ 1  2  1]
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 8px;">Muchii orizontale</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Laplacian</strong>
+                                    <div class="code-block" style="font-size: 0.75rem; margin-top: 10px;">
+[0  1  0]
+[1 -4  1]
+[0  1  0]
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 8px;">Toate muchiile</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

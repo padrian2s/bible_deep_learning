@@ -1,0 +1,73 @@
+<section class="page-section" id="page-430">
+    <div class="page-header">
+        <div class="page-number">430</div>
+        <div class="page-title">
+            <h3>10.11.2 Regularizing Information Flow</h3>
+            <span>Incurajarea Fluxului de Informatie</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-430.jpg"
+             alt="Pagina 430" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Clipping vs Vanishing</h4>
+                <p>Gradient clipping rezolva <strong>exploding gradients</strong> dar nu ajuta la <strong>vanishing gradients</strong>. Pentru vanishing, avem nevoie de alte abordari: LSTM/GRU sau <strong>regularizare</strong> care incurajeaza fluxul de informatie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ideea Regularizarii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Ce vrem sa obtinem:</h5>
+                                <p>Vrem ca produsul (∇<sub>h<sup>(t)</sup></sub>L) · (∂h<sup>(t)</sup>/∂h<sup>(t-1)</sup>) sa ramana aproape de ∇<sub>h<sup>(t)</sup></sub>L - adica informatia sa nu se piarda!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Norm Clipping - Detalii</h4>
+                <p>Norm clipping pastreaza <strong>directia</strong> gradientului dar limiteaza <strong>magnitudinea</strong>. E preferabila fata de element-wise clipping care poate schimba directia. In practica, threshold-ul v se seteaza empiric (tipic 1-10).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie Clipping Methods</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Element-wise:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Fiecare g<sub>i</sub> clipat independent → poate schimba directia</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Norm:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Scaleaza uniform → pastreaza directia</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <strong>Nota:</strong> Random step cand gradient = Inf sau NaN (Mikolov, 2012)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

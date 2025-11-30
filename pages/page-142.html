@@ -1,0 +1,134 @@
+<section class="page-section" id="page-142">
+    <div class="page-header">
+        <div class="page-number">142</div>
+        <div class="page-title">
+            <h3>Estimatorii Variantei si Variance</h3>
+            <span>Capitolul 5 - Sectiunea 5.4.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-142.jpg"
+             alt="Pagina 142" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Estimatorii Variantei - Biased vs Unbiased</h4>
+                <p>Comparam doi estimatori pentru varianta σ² a unei distributii Gaussiene. <strong>Sample variance</strong> (biased):</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 10px 0; padding: 10px; background: var(--warning); border-radius: 8px; color: black;">
+                    σ̂²<sub>m</sub> = (1/m) Σᵢ (x<sup>(i)</sup> - μ̂<sub>m</sub>)²
+                </div>
+                <p>Se poate arata ca E[σ̂²<sub>m</sub>] = ((m-1)/m)σ², deci bias = -σ²/m (underestimation!)</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Biased Sample Variance</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+sigma_true = 2.0
+sigma2_true = sigma_true ** 2  # varianta = 4
+
+np.random.seed(42)
+n_experiments = 10000
+
+print(f"Varianta adevarata: σ² = {sigma2_true}")
+print("-" * 50)
+
+for m in [5, 10, 50, 100]:
+    estimates = []
+    for _ in range(n_experiments):
+        samples = np.random.normal(0, sigma_true, m)
+        # Sample variance (biased): impartim la m
+        var_biased = np.sum((samples - np.mean(samples))**2) / m
+        estimates.append(var_biased)
+
+    mean_estimate = np.mean(estimates)
+    expected = (m-1)/m * sigma2_true
+    bias = mean_estimate - sigma2_true
+
+    print(f"m = {m:3d}: E[σ̂²] ≈ {mean_estimate:.3f}, "
+          f"bias = {bias:+.3f}, expected bias = {-sigma2_true/m:+.3f}")
+
+print("\n=> Biased: subestimeaza sistematic varianta!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Unbiased Sample Variance</h4>
+                <p><strong>Unbiased sample variance</strong> corecteaza prin impartirea la (m-1) in loc de m:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--success); border-radius: 8px;">
+                    σ̃²<sub>m</sub> = (1/(m-1)) Σᵢ (x<sup>(i)</sup> - μ̂<sub>m</sub>)²
+                </div>
+                <p>Se poate demonstra ca E[σ̃²<sub>m</sub>] = σ², deci acest estimator este <strong>unbiased</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce m-1? (Bessel's Correction)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Intuitie</h5>
+                                <p>Folosim sample mean μ̂ in loc de media adevarata μ. Aceasta introduce dependenta intre termeni si reduce "libertatea" estimarii.</p>
+                                <p style="margin-top: 10px;"><strong>Degrees of freedom:</strong> Avem m esantioane dar am "consumat" 1 grad de libertate calculand μ̂, deci ramn m-1 pentru varianta.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.4.3 Variance and Standard Error</h4>
+                <p>Alta proprietate importanta a unui estimator este cat de mult variaza in functie de esantionul de date. Asa cum am calculat expectatia pentru a determina bias-ul, putem calcula <strong>varianta</strong> estimatorului:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    Var(θ̂)
+                </div>
+                <p>unde variabila aleatoare este training set-ul. Radacina patrata a variantei se numeste <strong>standard error</strong>, notata SE(θ̂). Este o masura a incertitudinii estimarii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Bias vs Variance</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; text-align: center;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <strong>Bias</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Cat de departe este MEDIA estimatelor de valoarea adevarata</p>
+                                    <p style="font-size: 2rem; margin: 10px 0;">🎯</p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Eroare sistematica</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <strong>Variance</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Cat de IMPRASTIATE sunt estimatele in jurul mediei lor</p>
+                                    <p style="font-size: 2rem; margin: 10px 0;">📊</p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Eroare aleatoare</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

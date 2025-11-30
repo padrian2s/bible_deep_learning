@@ -1,0 +1,127 @@
+<section class="page-section" id="page-289">
+    <div class="page-header">
+        <div class="page-number">289</div>
+        <div class="page-title">
+            <h3>Capitolul 8: Optimizare pentru Antrenarea Modelelor Deep</h3>
+            <span>Introducere in Optimizare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-289.jpg"
+             alt="Pagina 289" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Este Optimizarea Atat de Importanta?</h4>
+                <p>Algoritmii de deep learning implica optimizare in multe contexte. Antrenarea unei retele neurale este probabil cea mai dificila problema de optimizare din intregul domeniu ML. Poate dura zile sau luni pe sute de masini pentru a rezolva o singura instanta! Din acest motiv, s-au dezvoltat tehnici specializate pentru aceasta problema.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Contextele Optimizarii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">PCA - Optimizare Analitica:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Inferenta in modele precum PCA implica rezolvarea unei probleme de optimizare - dar solutia poate fi gasita analitic (prin descompunere proprie).</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Retele Neurale - Optimizare Iterativa:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Antrenarea NN nu are solutie analitica. Trebuie sa folosim metode iterative bazate pe gradient care pot dura foarte mult timp.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Design Algoritmi:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Optimizarea analitica e folosita si pentru a demonstra sau deriva algoritmi noi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Capitolul 4</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Daca nu esti familiar cu principiile de baza ale optimizarii bazate pe gradient, reciteste <strong>Capitolul 4</strong> care ofera o trecere in revista a optimizarii numerice in general.</p>
+                            </div>
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Numerical Optimization</strong> - Nocedal & Wright - Referinta clasica</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Convex Optimization</strong> - Boyd & Vandenberghe - Pentru fundamente teoretice</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Scopul Capitolului: Gasirea Parametrilor θ</h4>
+                <p>Acest capitol se concentreaza pe un caz particular de optimizare: gasirea parametrilor <strong>θ</strong> ai unei retele neurale care reduc semnificativ functia de cost <strong>J(θ)</strong>. Aceasta functie include de obicei o masura de performanta pe setul de antrenare plus termeni de regularizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura lui J(θ)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                J(θ) = Performance pe Training + Regularizare
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; color: var(--accent);">Loss(θ)</div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Cat de bine prezice modelul pe datele de training</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; color: var(--warning);">λR(θ)</div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Penalizare pentru complexitate (L1, L2, etc.)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Structura Capitolului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ol style="color: var(--text-secondary); line-height: 1.8;">
+                                <li><strong>8.1</strong> - Cum difera invatarea de optimizarea pura</li>
+                                <li><strong>8.2</strong> - Provocari concrete in optimizarea NN</li>
+                                <li><strong>8.3</strong> - Algoritmi practici (SGD, Momentum, etc.)</li>
+                                <li><strong>8.4</strong> - Strategii de initializare a parametrilor</li>
+                                <li><strong>8.5</strong> - Algoritmi cu rate de invatare adaptive</li>
+                                <li><strong>8.6</strong> - Metode aproximative de ordin doi</li>
+                                <li><strong>8.7</strong> - Strategii de optimizare si meta-algoritmi</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

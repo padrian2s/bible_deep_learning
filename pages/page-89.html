@@ -1,0 +1,199 @@
+        <section class="page-section" id="page-89">
+            <div class="page-header">
+                <div class="page-number">89</div>
+                <div class="page-title">
+                    <h3>Entropia Shannon si Divergenta KL</h3>
+                    <span>Masurarea incertitudinii si diferentei</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-089.jpg"
+                     alt="Pagina 89" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Entropia Shannon</h4>
+                        <p>Self-information masoara surpriza unui singur eveniment. Dar adesea vrem sa cuantificam incertitudinea <em>intregii distributii</em>. <strong>Entropia Shannon</strong> face exact asta: H(x) = 𝔼ₓ~P[I(x)] = -𝔼ₓ~P[log P(x)] = -Σₓ P(x) log P(x). Este cantitatea <em>medie</em> de informatie asteptata cand esantionam din distributie. Sau: limita inferioara a numarului de biti necesari pentru a encoda esantioane.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Entropia Shannon</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.2rem; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        H(P) = -Σₓ P(x) log P(x) = 𝔼[-log P(x)]
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--success);">Entropie MICA</strong>
+                                            <p style="margin: 10px 0; font-size: 0.85rem;">Distributie concentrata</p>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: P = [0.99, 0.01]</p>
+                                            <p style="font-size: 0.8rem; color: var(--success);">Predictibil</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">Entropie MARE</strong>
+                                            <p style="margin: 10px 0; font-size: 0.85rem;">Distributie uniforma</p>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: P = [0.5, 0.5]</p>
+                                            <p style="font-size: 0.8rem; color: var(--warning);">Impredictibil</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Entropia Shannon</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def entropy(p):
+    """H(P) = -sum(p * log(p))"""
+    p = np.array(p)
+    # Conventie: 0 * log(0) = 0
+    p = p[p > 0]
+    return -np.sum(p * np.log(p))
+
+# Exemple pentru distributie binara P = [p, 1-p]
+print("Entropia pentru distributie binara:")
+print(f"{'p':^8} {'H(p)':^12}")
+print("-" * 22)
+
+for p in [0.01, 0.1, 0.3, 0.5, 0.7, 0.9, 0.99]:
+    h = entropy([p, 1-p])
+    print(f"{p:^8.2f} {h:^12.4f}")
+
+# Entropia maxima = uniform
+n_classes = 10
+uniform = [1/n_classes] * n_classes
+print(f"\nUniform({n_classes} clase): H = {entropy(uniform):.4f}")
+print(f"log({n_classes}) = {np.log(n_classes):.4f}")
+# Entropia maxima = log(n) pentru n clase
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Divergenta Kullback-Leibler (KL)</h4>
+                        <p>Daca avem doua distributii P(x) si Q(x), <strong>divergenta KL</strong> masoara cat de diferite sunt: D_KL(P||Q) = 𝔼ₓ~P[log(P(x)/Q(x))] = 𝔼ₓ~P[log P(x) - log Q(x)]. Intuitie: numarul EXTRA de biti necesari pentru a encoda esantioane din P folosind un cod optimizat pentru Q.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: KL Divergence</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.1rem; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        D_KL(P || Q) = Σₓ P(x) log(P(x) / Q(x))
+                                    </div>
+                                    <div class="key-concept">
+                                        <strong>Proprietati KL:</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>Non-negativa:</strong> D_KL(P||Q) ≥ 0</li>
+                                            <li><strong>Zero doar pentru P = Q:</strong> D_KL(P||Q) = 0 ⟺ P = Q</li>
+                                            <li><strong>ASIMETRICA:</strong> D_KL(P||Q) ≠ D_KL(Q||P)!</li>
+                                            <li><strong>Nu e distanta:</strong> Nu satisface inegalitatea triunghiului</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: KL Divergence</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def kl_divergence(p, q):
+    """D_KL(P || Q) = sum(P * log(P/Q))"""
+    p, q = np.array(p), np.array(q)
+    # Evita log(0) - doar unde p > 0
+    mask = p > 0
+    return np.sum(p[mask] * np.log(p[mask] / q[mask]))
+
+# Exemplu
+P = [0.4, 0.6]
+Q = [0.5, 0.5]
+
+kl_pq = kl_divergence(P, Q)
+kl_qp = kl_divergence(Q, P)
+
+print("KL Divergence:")
+print(f"P = {P}")
+print(f"Q = {Q}")
+print(f"\nD_KL(P || Q) = {kl_pq:.4f}")
+print(f"D_KL(Q || P) = {kl_qp:.4f}")
+print(f"\nAsimetric! {kl_pq:.4f} ≠ {kl_qp:.4f}")
+
+# In ML: KL divergence in loss functions
+# Cross-entropy loss = H(P) + D_KL(P || Q)
+# Minimizing cross-entropy = minimizing KL divergence!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>KL Divergence in Machine Learning</h4>
+                        <p>KL divergence este esentiala in ML. Cand antrenam un model sa aproximeze distributia reala P cu distributia modelului Q, minimizam adesea D_KL(P||Q). Aceasta e echivalenta cu minimizarea cross-entropy loss! In VAE, minimizam D_KL(q(z|x)||p(z)) pentru a forta distributia latenta q sa fie aproape de prior-ul p.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Utilizari in Deep Learning</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>📉</span>
+                                            <div><strong>Cross-Entropy Loss</strong> - Minimizeaza D_KL(date || model)</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🔮</span>
+                                            <div><strong>VAE</strong> - KL term regularizeaza spatiul latent</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📚</span>
+                                            <div><strong>Knowledge Distillation</strong> - Student mimeaza teacher prin KL</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🤖</span>
+                                            <div><strong>Policy Gradient (RL)</strong> - KL constraint in PPO/TRPO</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

@@ -1,0 +1,129 @@
+        <section class="page-section" id="page-52">
+            <div class="page-header">
+                <div class="page-number">52</div>
+                <div class="page-title">
+                    <h3>Dependenta Liniara si Span</h3>
+                    <span>Sectiunea 2.4</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-052.jpg"
+                     alt="Pagina 52" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.4 Dependenta Liniara si Span</h4>
+                        <p>Pentru ca A⁻¹ sa existe, ecuatia Ax = b trebuie sa aiba <strong>exact o solutie</strong> pentru orice b. Dar uneori avem zero solutii, o solutie, sau infinit de multe! Conceptele de span si independenta liniara ne ajuta sa intelegem cand.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Tipuri de solutii</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">0️⃣</div>
+                                            <strong style="color: var(--warning);">Zero solutii</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px;">b nu e in span(A) - sistemul e imposibil</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center; border: 2px solid var(--success);">
+                                            <div style="font-size: 2rem;">1️⃣</div>
+                                            <strong style="color: var(--success);">O solutie</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px;">A⁻¹ exista - cazul ideal!</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">∞</div>
+                                            <strong style="color: var(--secondary);">Infinite solutii</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px;">Coloane dependente - underdetermined</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Combinatia Liniara</h4>
+                        <p>O <strong>combinatie liniara</strong> a vectorilor {v¹, v², ..., vⁿ} este suma lor ponderata cu coeficienti scalari: Σᵢ cᵢv⁽ⁱ⁾. Inmultirea Ax poate fi vazuta ca o combinatie liniara a coloanelor lui A!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Ax ca combinatie de coloane</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        Ax = Σᵢ xᵢ · A:,ᵢ
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; margin-top: 15px;">
+                                        <p style="color: var(--accent); font-weight: bold;">Intuitie geometrica:</p>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                            Fiecare coloana a lui A este o "directie" in spatiu. Vectorul x spune cat de departe mergem in fiecare directie. Produsul Ax ne duce la destinatia finala!
+                                        </p>
+                                    </div>
+                                    <div class="code-block" style="margin-top: 15px;">
+                                        <code>
+# Exemplu vizual<br>
+A = np.array([[1, 0],   # coloana 1: directia Est<br>
+              [0, 1]])  # coloana 2: directia Nord<br><br>
+x = np.array([3, 2])    # 3 pasi Est, 2 pasi Nord<br>
+print(A @ x)  # [3, 2] - destinatia finala
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Span - Toate Punctele Accesibile</h4>
+                        <p><strong>Span</strong>-ul unui set de vectori este multimea tuturor punctelor la care putem ajunge folosind combinatii liniare ale acelor vectori. Pentru Ax = b, intrebarea e: b se afla in span-ul coloanelor lui A?</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Exemplu 2D: Span</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">Span 2D (plan intreg)</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                                v₁ = [1, 0], v₂ = [0, 1]<br>
+                                                Span = tot planul ℝ²<br>
+                                                Orice punct e accesibil!
+                                            </p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">Span 1D (doar o linie)</strong>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                                v₁ = [1, 0], v₂ = [2, 0]<br>
+                                                Span = axa X (o linie)<br>
+                                                v₂ e dependent de v₁!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

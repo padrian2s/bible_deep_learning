@@ -1,0 +1,230 @@
+<section class="page-section" id="page-185">
+    <div class="page-header">
+        <div class="page-number">185</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Trei Abordari pentru Alegerea φ</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-185.jpg"
+             alt="Pagina 185" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Extinderea Modelelor Liniare cu φ(x)</h4>
+                <p>Pentru a extinde modelele liniare sa reprezinte functii neliniare de x, putem aplica modelul liniar nu la x direct, ci la un input transformat φ(x), unde φ este o transformare neliniara. Putem gandi φ ca oferind un set de caracteristici care descriu x, sau ca oferind o noua reprezentare pentru x. Intrebarea este cum sa alegem maparea φ.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Transformarea φ</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 1.2rem; color: var(--primary); margin-bottom: 10px;">Spatiul Original</div>
+                                        <div style="width: 120px; height: 120px; background: var(--bg-dark); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative;">
+                                            <span style="position: absolute; top: 20%; left: 20%; color: red;">●</span>
+                                            <span style="position: absolute; top: 70%; right: 20%; color: red;">●</span>
+                                            <span style="position: absolute; top: 20%; right: 20%; color: blue;">●</span>
+                                            <span style="position: absolute; top: 70%; left: 20%; color: blue;">●</span>
+                                        </div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Nu e liniar separabil</div>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--accent);">φ(x) →</div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 1.2rem; color: var(--success); margin-bottom: 10px;">Spatiul Transformat</div>
+                                        <div style="width: 120px; height: 120px; background: var(--bg-dark); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative;">
+                                            <span style="position: absolute; top: 30%; left: 30%; color: red;">●</span>
+                                            <span style="position: absolute; top: 30%; right: 30%; color: red;">●</span>
+                                            <span style="position: absolute; top: 70%; left: 50%; color: blue;">●</span>
+                                            <span style="position: absolute; top: 70%; right: 50%; color: blue;">●</span>
+                                            <div style="position: absolute; top: 50%; left: 0; right: 0; border-top: 2px dashed var(--success);"></div>
+                                        </div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Acum e liniar separabil!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Optiunea 1: φ Foarte Generic (Kernel)</h4>
+                <p>O optiune este sa folosesti un φ foarte generic, cum ar fi φ infinit-dimensional folosit implicit de kernel machines bazate pe kernel RBF. Daca φ(x) are dimensiune suficient de mare, putem intotdeauna avea suficienta capacitate sa se potriveasca setului de antrenare, dar generalizarea pe setul de test ramane adesea slaba. Maparile de caracteristici foarte generice se bazeaza doar pe principiul netemii locale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Kernel RBF</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.svm import SVC
+import numpy as np
+
+# Kernel RBF - transformare implicita infinit-dimensionala
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([0, 1, 1, 0])  # XOR
+
+# SVM cu kernel RBF rezolva XOR
+svm = SVC(kernel='rbf', gamma='auto')
+svm.fit(X, y)
+print(svm.predict(X))  # [0, 1, 1, 0] - Corect!
+
+# DAR: Kernel methods nu scaleaza bine
+# si nu invata reprezentari reutilizabile
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Problema:</strong> Kernel methods pot rezolva probleme, dar nu invata reprezentari transferabile. Fiecare predictie noua necesita comparatie cu toate punctele de antrenare - foarte costisitor computational.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Optiunea 2: Inginerie Manuala a Caracteristicilor</h4>
+                <p>O alta optiune este sa inginerim manual φ. Pana la aparitia deep learning-ului, aceasta era abordarea dominanta. Aceasta abordare necesita decenii de efort uman pentru fiecare sarcina separata, cu practicieni specializati in diferite domenii precum recunoasterea vorbirii sau viziune computationala, cu transfer limitat intre domenii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemple Istorice de Feature Engineering</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>🖼️</span>
+                                    <div><strong>SIFT, HOG</strong> - Caracteristici manuale pentru imagini (histograme de gradiente, keypoints)</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🗣️</span>
+                                    <div><strong>MFCC</strong> - Mel-frequency cepstral coefficients pentru audio/speech</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📝</span>
+                                    <div><strong>Bag of Words, TF-IDF</strong> - Reprezentari manuale pentru text</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>🧬</span>
+                                    <div><strong>Molecular fingerprints</strong> - Caracteristici chimice pentru drug discovery</div>
+                                </li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Dezavantaj:</strong> Ani de expertiza pentru fiecare domeniu. Caracteristicile bune pentru imagini nu functioneaza pentru text!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Optiunea 3: Invatarea lui φ (Deep Learning!)</h4>
+                <p>Strategia deep learning este sa invatam φ. Avem un model y = f(x; θ, w) = φ(x; θ)ᵀw. Avem acum parametri θ pe care ii folosim pentru a invata φ dintr-o clasa larga de functii, si parametri w care mapeaza de la φ(x) la output-ul dorit. Aceasta este singura abordare care renunta la convexitate, dar beneficiile depasesc costurile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Invatarea Reprezentarilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+class LearnedFeatures(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # θ - parametrii care invata φ(x; θ)
+        self.feature_extractor = nn.Sequential(
+            nn.Linear(2, 4),
+            nn.ReLU(),
+            nn.Linear(4, 2),
+            nn.ReLU()
+        )
+        # w - parametrii pentru clasificare
+        self.classifier = nn.Linear(2, 1)
+
+    def forward(self, x):
+        # φ(x; θ) - reprezentare invatata
+        features = self.feature_extractor(x)
+        # φ(x; θ)ᵀw - clasificare liniara pe features
+        output = self.classifier(features)
+        return output
+
+# Ambele (θ si w) sunt invatate simultan prin backprop!
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Avantaj:</strong> Reteaua invata automat cea mai buna reprezentare φ(x) pentru problema data. Nu mai e nevoie de expertiza de domeniu pentru feature engineering!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie: Cele 3 Abordari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-top: 3px solid var(--warning);">
+                                    <strong style="color: var(--warning);">Kernel Methods</strong>
+                                    <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>φ foarte generic</li>
+                                        <li>Infinit dimensional</li>
+                                        <li>Nu scaleaza</li>
+                                        <li>Fara reprezentari transferabile</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-top: 3px solid var(--accent);">
+                                    <strong style="color: var(--accent);">Feature Engineering</strong>
+                                    <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>φ manual proiectat</li>
+                                        <li>Expertiza de domeniu</li>
+                                        <li>Ani de dezvoltare</li>
+                                        <li>Non-transferabil</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-top: 3px solid var(--success);">
+                                    <strong style="color: var(--success);">Deep Learning</strong>
+                                    <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>φ invatat automat</li>
+                                        <li>End-to-end training</li>
+                                        <li>Transfer learning</li>
+                                        <li>Scaleaza cu date</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

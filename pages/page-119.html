@@ -1,0 +1,132 @@
+<section class="page-section" id="page-119">
+    <div class="page-header">
+        <div class="page-number">119</div>
+        <div class="page-title">
+            <h3>Test Set si Alegerea Masurii de Performanta</h3>
+            <span>Capitolul 5 - Evaluarea Modelelor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-119.jpg"
+             alt="Pagina 119" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Evaluarea pe Test Set</h4>
+                <p>De obicei ne intereseaza cat de bine performeaza algoritmul ML pe date pe care <strong>nu le-a vazut inainte</strong>, deoarece aceasta determina cum va functiona in lumea reala. Prin urmare, evaluam masurile de performanta folosind un <strong>test set</strong> - date separate de cele folosite pentru antrenare. Pentru estimarea densitatii, nu are sens sa masuram acuratetea sau error rate - folosim in schimb <strong>log-probabilitatea medie</strong> pe care modelul o asigneaza datelor de test.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Train vs Test Split</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+import numpy as np
+
+# Date sintetice
+np.random.seed(42)
+X = np.random.randn(100, 2)
+y = (X[:, 0] + X[:, 1] > 0).astype(int)
+
+# Impartire train/test
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+print(f"Train: {len(X_train)} exemple")
+print(f"Test:  {len(X_test)} exemple")
+
+# Antrenare
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Evaluare
+train_acc = model.score(X_train, y_train)
+test_acc = model.score(X_test, y_test)
+
+print(f"\nTrain accuracy: {train_acc:.1%}")
+print(f"Test accuracy:  {test_acc:.1%}")
+print("\n⚠️ Test accuracy este cea care conteaza!")
+print("   Reflecta performanta pe date NEVAZUTE")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alegerea Masurii de Performanta</h4>
+                <p>Alegerea masurii de performanta poate parea simpla si obiectiva, dar este adesea dificil sa alegi o masura care corespunde cu comportamentul dorit al sistemului. De exemplu, pentru transcriptie: masuram acuratetea pe secvente intregi sau dam credit partial pentru elemente corecte? Pentru regresie: penalizam mai mult greselile medii frecvente sau cele rare dar foarte mari? Aceste decizii de design depind de aplicatie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Trade-offs in Metrici</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>MSE (Mean Squared Error)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Penalizeaza greselile mari MULT mai mult decat cele mici</p>
+                                    <p style="color: var(--warning);">Sensibil la outliers</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>MAE (Mean Absolute Error)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Penalizeaza toate greselile proportional</p>
+                                    <p style="color: var(--success);">Robust la outliers</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Intrebare cheie:</h5>
+                                <p>Ce tip de greseli sunt mai costisitoare in aplicatia ta?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Masuri Intractabile</h4>
+                <p>In unele cazuri, stim ce cantitate am vrea ideal sa masuram, dar masurarea este imposibila practic. Aceasta apare frecvent in estimarea densitatii - multe dintre cele mai bune modele probabilistice reprezinta distributiile doar <strong>implicit</strong>. Calculul probabilitatii exacte pentru un punct specific este intractabil. In aceste cazuri, trebuie sa proiectam un criteriu alternativ care aproximeaza obiectivul dorit.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemple de Metrici Proxy</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>ELBO (Evidence Lower Bound)</strong> - Aproximare pentru log-likelihood in VAE
+                                </div>
+                                <div class="reference-item">
+                                    <strong>FID (Frechet Inception Distance)</strong> - Masoara calitatea imaginilor generate
+                                </div>
+                                <div class="reference-item">
+                                    <strong>BLEU Score</strong> - Aproximeaza calitatea traducerilor automate
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

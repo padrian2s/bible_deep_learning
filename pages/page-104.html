@@ -1,0 +1,202 @@
+<section class="page-section" id="page-104">
+    <div class="page-header">
+        <div class="page-number">104</div>
+        <div class="page-title">
+            <h3>Testul Derivatei a Doua si Conditionare</h3>
+            <span>Capitolul 4 - Clasificarea Punctelor Critice</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-104.jpg"
+             alt="Pagina 104" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Testul Derivatei a Doua in Mai Multe Dimensiuni</h4>
+                <p>Derivata a doua poate determina daca un punct critic este minim, maxim sau punct saddle. La un punct critic unde ∇f(x) = 0, examinam valorile proprii ale Hessianului:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Toate pozitive (H pozitiv definit)</strong> → minim local</li>
+                    <li><strong>Toate negative (H negativ definit)</strong> → maxim local</li>
+                    <li><strong>Unele pozitive, unele negative</strong> → punct saddle</li>
+                    <li><strong>Cel putin una este zero</strong> → test neconcludent</li>
+                </ul>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Clasificare Puncte Critice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def classify_critical_point(H):
+    """Clasifica un punct critic folosind Hessianul"""
+    eigenvalues = np.linalg.eigvals(H)
+    eigenvalues = np.real(eigenvalues)  # Pentru siguranta numerica
+
+    if np.all(eigenvalues > 0):
+        return "MINIM LOCAL (H pozitiv definit)"
+    elif np.all(eigenvalues < 0):
+        return "MAXIM LOCAL (H negativ definit)"
+    elif np.any(eigenvalues > 0) and np.any(eigenvalues < 0):
+        return "PUNCT SADDLE (eigenvalues mixte)"
+    else:
+        return "NECONCLUDENT (cel putin un eigenvalue = 0)"
+
+# Exemple
+examples = [
+    ("f=x²+y² la (0,0)", np.array([[2, 0], [0, 2]])),
+    ("f=-x²-y² la (0,0)", np.array([[-2, 0], [0, -2]])),
+    ("f=x²-y² la (0,0)", np.array([[2, 0], [0, -2]])),
+    ("f=x²+xy+y² la (0,0)", np.array([[2, 1], [1, 2]])),
+]
+
+print("Clasificare puncte critice:")
+print("-" * 60)
+for name, H in examples:
+    eigvals = np.linalg.eigvals(H)
+    result = classify_critical_point(H)
+    print(f"\n{name}")
+    print(f"  Eigenvalues: {eigvals}")
+    print(f"  → {result}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Hessian si Tipul Punctului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: rgba(0,200,100,0.15); padding: 20px; border-radius: 8px; text-align: center; border: 2px solid var(--success);">
+                                    <strong style="color: var(--success);">H Pozitiv Definit</strong>
+                                    <p style="margin: 10px 0;">λ₁ > 0, λ₂ > 0, ...</p>
+                                    <div style="font-size: 2rem;">∪</div>
+                                    <p>MINIM LOCAL</p>
+                                    <p style="font-size: 0.85rem;">Functia se curbeaza in sus in toate directiile</p>
+                                </div>
+                                <div style="background: rgba(255,100,100,0.15); padding: 20px; border-radius: 8px; text-align: center; border: 2px solid #ff6464;">
+                                    <strong style="color: #ff6464;">H Negativ Definit</strong>
+                                    <p style="margin: 10px 0;">λ₁ < 0, λ₂ < 0, ...</p>
+                                    <div style="font-size: 2rem;">∩</div>
+                                    <p>MAXIM LOCAL</p>
+                                    <p style="font-size: 0.85rem;">Functia se curbeaza in jos in toate directiile</p>
+                                </div>
+                                <div style="grid-column: span 2; background: rgba(255,200,0,0.15); padding: 20px; border-radius: 8px; text-align: center; border: 2px solid var(--warning);">
+                                    <strong style="color: var(--warning);">H Indefinit (mixed eigenvalues)</strong>
+                                    <p style="margin: 10px 0;">λ₁ > 0, λ₂ < 0 (sau invers)</p>
+                                    <div style="font-size: 2rem;">🐴</div>
+                                    <p>PUNCT SADDLE</p>
+                                    <p style="font-size: 0.85rem;">Minim pe o directie, maxim pe alta</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conditionarea Hessianului si Gradient Descent</h4>
+                <p>In dimensiuni multiple, exista o derivata a doua diferita pentru fiecare directie. <strong>Numarul de conditionare</strong> al Hessianului masoara cat de mult difera aceste derivate: κ = λ_max/λ_min. Cand Hessianul are conditionare slaba (κ mare), gradient descent performeaza prost. Aceasta deoarece derivata pe o directie creste rapid, iar pe alta lent - pasul trebuie sa fie suficient de mic pentru directia rapida, ceea ce face progres foarte lent pe directia lenta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Efect Conditionare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def gradient_descent_steps(H, start, lr, n_steps=20):
+    """GD pentru f(x) = 0.5 * x^T H x (forma patratica)"""
+    x = np.array(start, dtype=float)
+    trajectory = [x.copy()]
+    for _ in range(n_steps):
+        grad = H @ x
+        x = x - lr * grad
+        trajectory.append(x.copy())
+    return trajectory
+
+# Comparam doua probleme cu conditionare diferita
+H_good = np.array([[2, 0], [0, 1]])   # κ = 2
+H_bad = np.array([[100, 0], [0, 1]])  # κ = 100
+
+start = [1.0, 1.0]
+
+print("Conditionare BUNA (κ=2):")
+traj = gradient_descent_steps(H_good, start, lr=0.3, n_steps=10)
+for i, x in enumerate(traj[:6]):
+    print(f"  Iter {i}: x={x}, |x|={np.linalg.norm(x):.4f}")
+
+print("\nConditionare REA (κ=100), lr=0.3:")
+traj = gradient_descent_steps(H_bad, start, lr=0.01, n_steps=100)
+print(f"  Iter 0: {traj[0]}, |x|={np.linalg.norm(traj[0]):.4f}")
+print(f"  Iter 50: {traj[50]}, |x|={np.linalg.norm(traj[50]):.4f}")
+print(f"  Iter 100: {traj[100]}, |x|={np.linalg.norm(traj[100]):.4f}")
+print("  → Convergenta MULT mai lenta!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Traiectoria GD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Bine conditionat (κ ≈ 1)</strong>
+                                    <svg viewBox="0 0 100 100" style="width: 80px; height: 80px; margin: 10px auto; display: block;">
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                        <circle cx="50" cy="50" r="25" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                        <circle cx="50" cy="50" r="10" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                        <path d="M 85,30 L 65,40 L 55,48 L 52,50" fill="none" stroke="var(--success)" stroke-width="2"/>
+                                        <circle cx="50" cy="50" r="3" fill="var(--success)"/>
+                                    </svg>
+                                    <p style="font-size: 0.85rem;">Drum direct spre minim</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Slab conditionat (κ >> 1)</strong>
+                                    <svg viewBox="0 0 100 100" style="width: 80px; height: 80px; margin: 10px auto; display: block;">
+                                        <ellipse cx="50" cy="50" rx="45" ry="15" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                        <ellipse cx="50" cy="50" rx="30" ry="10" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                        <ellipse cx="50" cy="50" rx="15" ry="5" fill="none" stroke="var(--bg-lighter)" stroke-width="1"/>
+                                        <path d="M 90,50 L 80,45 L 70,55 L 60,48 L 55,52 L 52,49" fill="none" stroke="var(--warning)" stroke-width="2"/>
+                                        <circle cx="50" cy="50" r="3" fill="var(--warning)"/>
+                                    </svg>
+                                    <p style="font-size: 0.85rem;">Zigzag lent (oscillation)</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Solutii pentru Conditionare Slaba</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Preconditionare:</strong> Transforma problema pentru a avea κ ≈ 1</li>
+                                    <li><strong>Adam/RMSprop:</strong> Adapteaza learning rate per-parametru</li>
+                                    <li><strong>Batch Normalization:</strong> Imbunatateste conditionarea in retele neuronale</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

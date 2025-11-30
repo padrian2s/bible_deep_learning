@@ -1,0 +1,109 @@
+<section class="page-section" id="page-140">
+    <div class="page-header">
+        <div class="page-number">140</div>
+        <div class="page-title">
+            <h3>Estimatori Unbiased - Exemple</h3>
+            <span>Capitolul 5 - Bernoulli si Sample Mean</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-140.jpg"
+             alt="Pagina 140" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Estimator Unbiased vs Asymptotically Unbiased</h4>
+                <p>Un estimator θ̂<sub>m</sub> este <strong>unbiased</strong> daca bias(θ̂<sub>m</sub>) = 0, adica E(θ̂<sub>m</sub>) = θ. Un estimator este <strong>asymptotically unbiased</strong> daca lim<sub>m→∞</sub> bias(θ̂<sub>m</sub>) = 0, ceea ce implica lim<sub>m→∞</sub> E(θ̂<sub>m</sub>) = θ. Estimatorii asymptotically unbiased devin unbiased pe masura ce avem mai multe date.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tipuri de Estimatori</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <span style="width: 150px;">Unbiased:</span>
+                                    <div style="flex: 1; height: 4px; background: var(--success);"></div>
+                                    <span style="margin-left: 10px;">bias = 0 pentru orice m</span>
+                                </div>
+                                <div style="display: flex; align-items: center;">
+                                    <span style="width: 150px;">Asymp. Unbiased:</span>
+                                    <div style="flex: 1; height: 4px; background: linear-gradient(to right, var(--warning), var(--success));"></div>
+                                    <span style="margin-left: 10px;">bias → 0 cand m → ∞</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu: Distributia Bernoulli</h4>
+                <p>Consideram un set de esantioane {x<sup>(1)</sup>, ..., x<sup>(m)</sup>} i.i.d. dintr-o distributie Bernoulli cu media θ (probabilitatea de succes). Distributia Bernoulli: P(x<sup>(i)</sup>; θ) = θ<sup>x<sup>(i)</sup></sup>(1-θ)<sup>(1-x<sup>(i)</sup>)</sup>. Un estimator comun pentru θ este <strong>media esantionului</strong>:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    θ̂<sub>m</sub> = (1/m) Σᵢ x<sup>(i)</sup>
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Bernoulli Estimation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Parametrul adevarat al distributiei Bernoulli
+theta_true = 0.7
+
+# Simulam estimarea pentru diferite dimensiuni de sample
+np.random.seed(42)
+
+print("Estimarea lui θ = 0.7 cu sample mean:")
+print("-" * 45)
+
+for m in [10, 100, 1000, 10000]:
+    # Generam m esantioane Bernoulli
+    samples = np.random.binomial(1, theta_true, m)
+
+    # Estimam theta cu media
+    theta_hat = np.mean(samples)
+    bias = theta_hat - theta_true
+
+    print(f"m = {m:5d}: θ̂ = {theta_hat:.4f}, bias = {bias:+.4f}")
+
+print()
+print("=> Media esantionului este un estimator UNBIASED")
+print("   (bias-ul variaza aleator in jurul lui 0)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Demonstratia ca Sample Mean este Unbiased</h4>
+                <p>Pentru a verifica daca estimatorul nostru este biased, substituim in definitia bias-ului:</p>
+                <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 1.1rem;">
+                    <p>bias(θ̂<sub>m</sub>) = E[θ̂<sub>m</sub>] - θ</p>
+                    <p style="margin-top: 10px;">= E[(1/m)Σᵢ x<sup>(i)</sup>] - θ</p>
+                    <p style="margin-top: 10px;">= (1/m)Σᵢ E[x<sup>(i)</sup>] - θ</p>
+                    <p style="margin-top: 10px;">= (1/m) · m · θ - θ = θ - θ = 0</p>
+                </div>
+                <p>Deoarece bias(θ̂) = 0, estimatorul nostru θ̂ este <strong>unbiased</strong>.</p>
+            </div>
+        </div>
+    </div>
+</section>

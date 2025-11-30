@@ -1,0 +1,168 @@
+<section class="page-section" id="page-122">
+    <div class="page-header">
+        <div class="page-number">122</div>
+        <div class="page-title">
+            <h3>Date Heterogene si Introducere in Regresia Liniara</h3>
+            <span>Capitolul 5 - Sectiunea 5.1.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-122.jpg"
+             alt="Pagina 122" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Reprezentari Alternative pentru Date Heterogene</h4>
+                <p>Pentru a descrie un dataset ca design matrix, trebuie sa putem descrie fiecare exemplu ca un vector de aceeasi lungime. Aceasta nu e intotdeauna posibila - de exemplu, fotografii cu dimensiuni diferite au numar diferit de pixeli. In aceste cazuri, descriem dataset-ul ca un set de m elemente: <strong>{x⁽¹⁾, x⁽²⁾, ..., x⁽ᵐ⁾}</strong>. Aceasta notatie nu implica ca vectorii au aceeasi dimensiune. Sectiunile 9.7 si capitolul 10 descriu cum se trateaza astfel de date.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Date cu Dimensiuni Variabile</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="width: 60px; height: 80px; background: var(--primary); margin: 0 auto; border-radius: 4px;"></div>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">200×300 px</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="width: 80px; height: 60px; background: var(--secondary); margin: 0 auto; border-radius: 4px;"></div>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">400×300 px</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="width: 70px; height: 70px; background: var(--accent); margin: 0 auto; border-radius: 4px;"></div>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">500×500 px</p>
+                                </div>
+                            </div>
+                            <p style="text-align: center; margin-top: 15px; color: var(--text-secondary);">Nu pot fi stocate direct intr-o design matrix cu coloane fixe!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Labels in Supervised Learning</h4>
+                <p>In cazul supervised learning, exemplul contine si un label sau target pe langa features. De exemplu, pentru recunoasterea obiectelor din fotografii, specificam obiectul din fiecare fotografie cu un cod numeric (0=persoana, 1=masina, 2=pisica, etc.). Cand lucram cu design matrix X, furnizam si un vector de labels <strong>y</strong>, unde y<sub>i</sub> este label-ul pentru exemplul i. Uneori label-ul poate fi mai mult decat un singur numar - de exemplu, pentru speech recognition, label-ul este o secventa de cuvinte.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Features + Labels</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Dataset supervised complet
+# X = design matrix (features)
+# y = vector de labels
+
+# Exemplu: clasificare animale din features
+X = np.array([
+    [4, 1, 0],  # 4 picioare, blana, nu zboara
+    [2, 0, 1],  # 2 picioare, fara blana, zboara
+    [4, 1, 0],  # 4 picioare, blana, nu zboara
+    [0, 0, 1],  # 0 picioare(?), fara blana, zboara
+])
+
+y = np.array([0, 1, 0, 1])  # 0=mamifer, 1=pasare
+
+feature_names = ['picioare', 'blana', 'zboara']
+label_names = ['mamifer', 'pasare']
+
+print("Design Matrix X (features):")
+print(X)
+print(f"\nLabels y: {y}")
+print(f"         {[label_names[i] for i in y]}")
+
+print(f"\nNotatie completa dataset:")
+print(f"  D = {{(x⁽¹⁾, y⁽¹⁾), ..., (x⁽ᵐ⁾, y⁽ᵐ⁾)}}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.1.4 Exemplu: Regresia Liniara</h4>
+                <p>Definitia noastra de algoritm ML ca unul care imbunatateste performanta la un task prin experienta este oarecum abstracta. Pentru a face lucrurile concrete, prezentam un exemplu simplu: <strong>regresia liniara</strong>. Vom reveni la acest exemplu pe parcursul cartii pentru a introduce concepte ML. Scopul este sa construim un sistem care primeste un vector <strong>x ∈ ℝⁿ</strong> si prezice o valoare scalara <strong>y ∈ ℝ</strong>. Output-ul este o functie liniara a input-ului:</p>
+                <div class="formula" style="text-align: center; font-size: 1.5rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    ŷ = w<sup>T</sup>x
+                </div>
+                <p>unde <strong>w ∈ ℝⁿ</strong> este un vector de <strong>parametri</strong> (sau <strong>weights</strong>).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Regresia Liniara Simpla</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Regresia liniara: y_hat = w^T * x
+
+# Parametrii modelului (weights)
+w = np.array([2.5, -1.0, 0.5])  # 3 features
+
+# Un exemplu de input
+x = np.array([10, 3, 8])  # suprafata, varsta, etaj
+
+# Predictie
+y_hat = np.dot(w, x)  # w^T * x
+
+print("Model: ŷ = w^T · x")
+print(f"\nWeights w = {w}")
+print(f"Input x   = {x}")
+print(f"\nCalcul:")
+print(f"  ŷ = {w[0]}×{x[0]} + ({w[1]})×{x[1]} + {w[2]}×{x[2]}")
+print(f"  ŷ = {w[0]*x[0]} + {w[1]*x[1]} + {w[2]*x[2]}")
+print(f"  ŷ = {y_hat}")
+
+print(f"\nInterpretare weights:")
+print(f"  w₁ = +2.5: fiecare mp adauga 2.5 la pret")
+print(f"  w₂ = -1.0: fiecare an scade 1.0 din pret")
+print(f"  w₃ = +0.5: fiecare etaj adauga 0.5")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Terminologie: Parametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Parametri (Weights)</h5>
+                                <p><strong>Parametrii</strong> sunt valori care controleaza comportamentul sistemului. In acest caz, w<sub>i</sub> este coeficientul cu care inmultim feature x<sub>i</sub> inainte de a suma contributiile tuturor features.</p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>w<sub>i</sub> pozitiv: feature creste predictia</li>
+                                    <li>w<sub>i</sub> negativ: feature scade predictia</li>
+                                    <li>|w<sub>i</sub>| mare: feature are impact puternic</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,117 @@
+<section class="page-section" id="page-172">
+    <div class="page-header">
+        <div class="page-number">172</div>
+        <div class="page-title">
+            <h3>Local Constancy si Smoothness Prior</h3>
+            <span>Capitolul 5 - Sectiunea 5.11.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-172.jpg"
+             alt="Pagina 172" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.11.2 Local Constancy and Smoothness Regularization</h4>
+                <p>Pentru a generaliza bine, algoritmii de ML trebuie sa fie ghidati de <strong>prior beliefs</strong> despre ce fel de functie ar trebui sa invete. Am vazut aceste priors incorporate ca distributii de probabilitate explicite peste parametri sau ca algoritmi care sunt biased spre anumite clase de functii. Putem discuta informal aceste prior beliefs ca influentand <strong>functia direct</strong> (nu doar prin efectul lor asupra parametrilor).</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Smoothness Prior (Local Constancy Prior)</h4>
+                <p>Printre cele mai folosite priors implicite este <strong>smoothness prior</strong> sau <strong>local constancy prior</strong>. Acest prior stabileste ca functia pe care o invatam nu ar trebui sa se schimbe foarte mult intr-o regiune mica. Multi algoritmi mai simpli se bazeaza <strong>exclusiv</strong> pe acest prior pentru a generaliza, si ca rezultat esueaza sa scaleaze la provocarile statistice din task-urile AI. Deep learning introduce priors <strong>aditionale</strong> (explicite si implicite) pentru a reduce eroarea de generalizare pe task-uri sofisticate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Smoothness Prior</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Ce inseamna "Smooth"?</h5>
+                                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    f*(x) ≈ f*(x + ε)
+                                </div>
+                                <p style="text-align: center;">pentru majoritatea configuratiilor x si schimbari mici ε</p>
+                                <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">Pro:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">Putem interpola intre exemple apropiate</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Con:</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 8px;">Nu functioneaza pentru functii complicate!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpolation si Averaging</h4>
+                <p>Exista multe moduri de a exprima implicit sau explicit credinta ca functia invatata ar trebui sa fie <strong>smooth sau local constant</strong>. Toate aceste metode diferite sunt proiectate sa incurajeze procesul de invatare sa invete o functie f* care satisface:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    f*(x) ≈ f*(x + ε)
+                </div>
+                <p>pentru majoritatea configuratiilor x si schimbari mici ε. Cu alte cuvinte, daca stim un raspuns bun pentru input-ul x, acel raspuns e probabil bun si in vecinatatea lui x. Daca avem mai multe raspunsuri bune in vecinatate, le putem combina (averaging sau interpolation) pentru a produce un raspuns care e de acord cu cat mai multe din ele.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>k-Nearest Neighbors ca Exemplu Extrem</h4>
+                <p>Un exemplu extrem al abordarii local constancy este familia <strong>k-nearest neighbors</strong>. Acesti predictori sunt literalmente constanti peste fiecare regiune care contine toate punctele care au acelasi set de k nearest neighbors.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: k-NN Local Constancy</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.neighbors import KNeighborsRegressor
+
+np.random.seed(42)
+
+# Date 1D
+X_train = np.array([[0], [1], [2], [3], [4]])
+y_train = np.array([0, 1, 0, 1, 0])
+
+# k-NN cu k=1
+knn = KNeighborsRegressor(n_neighbors=1)
+knn.fit(X_train, y_train)
+
+# Predictii dense
+X_test = np.linspace(-0.5, 4.5, 20).reshape(-1, 1)
+y_pred = knn.predict(X_test)
+
+print("k-NN (k=1) este piecewise constant:")
+print()
+for x, y in zip(X_test.flatten()[::4], y_pred[::4]):
+    print(f"  x={x:.2f} -> f(x)={y:.1f}")
+
+print()
+print("=> Functia este CONSTANTA in fiecare regiune")
+print("   Voronoi (unde cel mai apropiat vecin")
+print("   ramane acelasi)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,101 @@
+<section class="page-section" id="page-145">
+    <div class="page-header">
+        <div class="page-number">145</div>
+        <div class="page-title">
+            <h3>Figura 5.6 si Consistenta</h3>
+            <span>Capitolul 5 - Sectiunea 5.4.5</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-145.jpg"
+             alt="Pagina 145" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.6: Bias-Variance Tradeoff si Capacity</h4>
+                <p>Figura arata relatia dintre bias, variance si generalization error in functie de capacity. Pe masura ce capacity creste (axa x): <strong>Bias</strong> (linia punctata) tinde sa scada; <strong>Variance</strong> (linia punctata dreapta) tinde sa creasca. Rezultatul: <strong>Generalization error</strong> (curba solida) are forma de U, cu un optim la o capacity intermediara. Aceasta relatie este similara cu cea discutata in sectiunea 5.2 si Figura 5.3.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Curba U Completa</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                                    <span style="color: #4a90d9;">Underfitting</span>
+                                    <span style="color: var(--success);">Optimal</span>
+                                    <span style="color: #d94a4a;">Overfitting</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 0.9rem;">
+                                    <div>
+                                        <p>Bias: <strong>MARE</strong></p>
+                                        <p>Variance: <strong>MICA</strong></p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p>Bias: <strong>MEDIE</strong></p>
+                                        <p>Variance: <strong>MEDIE</strong></p>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <p>Bias: <strong>MICA</strong></p>
+                                        <p>Variance: <strong>MARE</strong></p>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; color: var(--warning);">Gen. Error = Bias² + Variance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.4.5 Consistency</h4>
+                <p>Pana acum am discutat proprietati ale estimatorilor pentru un training set de dimensiune fixa. De obicei, ne intereseaza si comportamentul estimatorului pe masura ce cantitatea de date creste. In particular, dorim ca pe masura ce m creste, estimatele noastre sa convearga la valoarea adevarata:</p>
+                <div class="formula" style="text-align: center; font-size: 1.4rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    plim<sub>m→∞</sub> θ̂<sub>m</sub> = θ
+                </div>
+                <p>Simbolul plim indica <strong>convergenta in probabilitate</strong>: pentru orice ε > 0, P(|θ̂<sub>m</sub> - θ| > ε) → 0 cand m → ∞. Aceasta proprietate se numeste <strong>consistenta</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Consistenta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+theta_true = 0.7
+np.random.seed(42)
+
+print("Demonstrarea consistentei:")
+print("Pe masura ce m creste, estimatul converge la theta_true")
+print("-" * 50)
+
+for m in [10, 100, 1000, 10000, 100000]:
+    samples = np.random.binomial(1, theta_true, m)
+    theta_hat = np.mean(samples)
+    error = abs(theta_hat - theta_true)
+
+    print(f"m = {m:6d}: θ̂ = {theta_hat:.5f}, |θ̂ - θ| = {error:.5f}")
+
+print()
+print("=> Eroarea scade pe masura ce m creste")
+print("   Estimatorul este CONSISTENT")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

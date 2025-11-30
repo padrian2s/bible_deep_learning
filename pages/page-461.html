@@ -1,0 +1,166 @@
+<section class="page-section" id="page-461">
+    <div class="page-header">
+        <div class="page-number">461</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Programare GPU si Biblioteci de Deep Learning</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-461.jpg"
+             alt="Pagina 461" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Complexitatea Programarii GPU</h4>
+                <p>Scrierea codului eficient pentru GP-GPU ramane o sarcina dificila, cel mai bine lasata specialistilor. Tehnicile pentru performanta buna pe GPU sunt foarte diferite de cele pentru CPU. Pe GPU, locatiile de memorie scriabile nu sunt cached, iar operatiile de memorie sunt mai rapide cand pot fi <strong>coalesced</strong> (unite).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Coalesced Memory Access</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <h5 style="color: var(--warning);">❌ Acces Ne-coalesced</h5>
+                                    <div style="font-family: monospace; margin-top: 10px; font-size: 0.8rem;">
+                                        Thread 0 → Byte 0<br>
+                                        Thread 1 → Byte 100<br>
+                                        Thread 2 → Byte 200<br>
+                                        Thread 3 → Byte 300
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">4 tranzactii separate de memorie</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <h5 style="color: var(--success);">✓ Acces Coalesced</h5>
+                                    <div style="font-family: monospace; margin-top: 10px; font-size: 0.8rem;">
+                                        Thread 0 → Byte 0<br>
+                                        Thread 1 → Byte 4<br>
+                                        Thread 2 → Byte 8<br>
+                                        Thread 3 → Byte 12
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">1 tranzactie unita de memorie</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                Operatiile de memorie sunt mai rapide cand thread-urile din acelasi warp acceseaza bytes adiacenti (byte i + j pentru thread-ul i, unde j este multiplu de 2).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Diferente CPU vs GPU Programming</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; color: var(--text-secondary);">
+                                <tr style="border-bottom: 1px solid var(--bg-lighter);">
+                                    <th style="padding: 10px; text-align: left; color: var(--accent);">Aspect</th>
+                                    <th style="padding: 10px; text-align: left; color: var(--warning);">CPU</th>
+                                    <th style="padding: 10px; text-align: left; color: var(--success);">GPU</th>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--bg-lighter);">
+                                    <td style="padding: 10px;">Cache</td>
+                                    <td style="padding: 10px;">Citeste din cache</td>
+                                    <td style="padding: 10px;">Recalculeaza</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--bg-lighter);">
+                                    <td style="padding: 10px;">Threading</td>
+                                    <td style="padding: 10px;">Multi-threaded cu lock-uri</td>
+                                    <td style="padding: 10px;">Lock-free, coordonat</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;">Branching</td>
+                                    <td style="padding: 10px;">Eficient</td>
+                                    <td style="padding: 10px;">Costisitor (warps)</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Biblioteci de Deep Learning</h4>
+                <p>Din cauza dificultatii scrierii codului GPU performant, cercetatorii isi structureaza workflow-ul pentru a evita scrierea de cod GPU nou. Construiesc o biblioteca software de operatii de inalta performanta (convolutie, inmultire matriceala), apoi specifica modelele in termeni de apeluri la aceasta biblioteca.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Ecosistemul de Biblioteci</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #ff6b35, #ff8c42); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 5px;">🔥</div>
+                                    <strong style="color: white;">Theano</strong>
+                                    <p style="color: rgba(255,255,255,0.8); font-size: 0.8rem; margin-top: 5px;">Bergstra et al., 2010</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #ff8f00, #ffa726); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 5px;">📊</div>
+                                    <strong style="color: white;">TensorFlow</strong>
+                                    <p style="color: rgba(255,255,255,0.8); font-size: 0.8rem; margin-top: 5px;">Abadi et al., 2015</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #ee4c2c, #ff6f61); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 5px;">🔦</div>
+                                    <strong style="color: white;">Torch</strong>
+                                    <p style="color: rgba(255,255,255,0.8); font-size: 0.8rem; margin-top: 5px;">Collobert et al., 2011</p>
+                                </div>
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <strong style="color: var(--accent);">Pylearn2</strong> (Goodfellow et al., 2013c) - Specifica algoritmi ML folosind apeluri la Theano
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                                <strong style="color: var(--accent);">cuda-convnet</strong> (Krizhevsky, 2010) - Operatii high-performance pentru CNN-uri
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Abstractizarea Hardware</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Acelasi cod Theano/TensorFlow ruleaza pe CPU sau GPU
+import theano
+import theano.tensor as T
+
+# Definire model (independent de hardware)
+x = T.matrix('x')
+W = theano.shared(np.random.randn(784, 10))
+y = T.nnet.softmax(T.dot(x, W))
+
+# Compilare - biblioteca alege automat CPU/GPU
+predict = theano.function([x], y)
+
+# Acelasi program, hardware diferit!
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Avantaj:</strong> Abordarea factorizata usureaza suportul pentru multiple tipuri de hardware. Acelasi program Theano poate rula pe CPU sau GPU fara modificari ale apelurilor.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

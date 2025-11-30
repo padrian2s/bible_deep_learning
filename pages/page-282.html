@@ -1,0 +1,76 @@
+<section class="page-section" id="page-282">
+    <div class="page-header">
+        <div class="page-number">282</div>
+        <div class="page-title">
+            <h3>7.12 Intuitia Dropout: Analogia Genetica</h3>
+            <span>De ce functioneaza: Gene Swapping</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-282.jpg"
+             alt="Pagina 282" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Vedere Alternativa: Ensemble de Hidden Units</h4>
+                <p>Dropout antreneaza nu doar un ensemble de modele, ci un <strong>ensemble de modele care partajeaza hidden units</strong>. Fiecare hidden unit trebuie sa poata performa bine <em>indiferent de ce alte hidden units sunt prezente</em>. Unitatile trebuie sa fie pregatite sa fie "schimbate" intre modele.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analogia Biologica: Reproductia Sexuala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Hinton et al. (2012c) s-au inspirat din biologie: <strong>reproductia sexuala</strong> implica schimbul de gene intre organisme diferite. Aceasta creeaza presiune evolutiva pentru gene sa fie nu doar "bune", ci sa functioneze bine in <em>orice combinatie</em> cu alte gene.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Gene/Hidden Units</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Trebuie sa fie robuste la schimbari in "mediul" lor</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Mediu</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">= Celelalte gene/hidden units prezente</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Rezultat: Features Mai Bune, nu doar Ensemble</h4>
+                <p>Dropout regularizeaza fiecare hidden unit sa invete nu doar un feature "bun", ci un feature care functioneaza <strong>bine in multe contexte diferite</strong>. Warde-Farley et al. (2014) au comparat: dropout ofera imbunatatiri de generalizare DINCOLO de ce ofera ensemble-uri de modele independente.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Detector de Fete</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Presupunem un model care detecteaza fete si are un hidden unit h<sub>nas</sub> care detecteaza nasul:</p>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Fara dropout:</strong> h<sub>nas</sub> poate deveni prea dependent de alte unitati (ex: ochi)</li>
+                                <li><strong>Cu dropout:</strong> Cand unitatile pentru "ochi" sunt eliminate, h<sub>nas</sub> trebuie sa functioneze singur</li>
+                                <li><strong>Rezultat:</strong> h<sub>nas</sub> invata sa detecteze nasul <em>robust</em>, sau modelul invata si alte unitati redundante</li>
+                            </ul>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Zgomotul pe hidden units (dropout) sterge informatia despre nas in mod inteligent, fortand invatarea de features redundante/robuste.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

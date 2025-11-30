@@ -1,0 +1,120 @@
+<section class="page-section" id="page-188">
+    <div class="page-header">
+        <div class="page-number">188</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.1 XOR: Transformarea Spatiului de Caracteristici</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-188.jpg"
+             alt="Pagina 188" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.1: Rezolvarea XOR prin Invatarea unei Reprezentari</h4>
+                <p>Aceasta figura ilustreaza cum reteaua neuronala rezolva problema XOR. In spatiul original x, un model liniar nu poate separa clasele deoarece punctele cu output 1 (la (0,1) si (1,0)) si cele cu output 0 (la (0,0) si (1,1)) nu sunt liniar separabile. In spatiul transformat h, invatat de retea, problema devine liniar separabila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Transformarea Spatiului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <h5 style="color: var(--primary); margin-bottom: 15px;">Spatiul Original x</h5>
+                                    <div style="display: grid; grid-template-columns: repeat(2, 50px); gap: 10px; justify-content: center;">
+                                        <div style="background: var(--warning); padding: 10px; border-radius: 8px; font-weight: bold;">0</div>
+                                        <div style="background: var(--success); padding: 10px; border-radius: 8px; font-weight: bold;">1</div>
+                                        <div style="background: var(--success); padding: 10px; border-radius: 8px; font-weight: bold;">1</div>
+                                        <div style="background: var(--warning); padding: 10px; border-radius: 8px; font-weight: bold;">0</div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">Nu se poate separa cu o linie!</p>
+                                </div>
+                                <div style="font-size: 3rem; color: var(--accent);">→</div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <h5 style="color: var(--success); margin-bottom: 15px;">Spatiul Invatat h</h5>
+                                    <div style="position: relative; height: 100px;">
+                                        <div style="position: absolute; bottom: 10px; left: 20px; background: var(--warning); padding: 8px; border-radius: 50%; font-weight: bold; font-size: 0.8rem;">0</div>
+                                        <div style="position: absolute; bottom: 10px; left: 60px; background: var(--success); padding: 8px; border-radius: 50%; font-weight: bold; font-size: 0.8rem;">1</div>
+                                        <div style="position: absolute; top: 10px; right: 20px; background: var(--warning); padding: 8px; border-radius: 50%; font-weight: bold; font-size: 0.8rem;">0</div>
+                                        <div style="border-top: 2px dashed var(--accent); position: absolute; top: 50%; left: 0; right: 0;"></div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;">Acum se poate separa liniar!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Colapsarea Punctelor in Spatiul Feature</h4>
+                <p>In solutia noastra, cele doua puncte care trebuie sa outputeze 1, x = [1,0]ᵀ si x = [0,1]ᵀ, au fost colapsate intr-un singur punct in spatiul feature, h = [1,0]ᵀ. Caracteristicile neliniare au mapat ambele puncte la aceeasi reprezentare. Modelul liniar poate acum descrie functia ca fiind crescatoare in h₁ si descrescatoare in h₂.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Maparea x → h</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Transformarea invatata de retea
+def transform_to_h(x, W, c):
+    """h = ReLU(xW + c)"""
+    return np.maximum(0, x @ W + c)
+
+# Parametrii invatati
+W = np.array([[1, 1],
+              [1, 1]])
+c = np.array([0, -1])
+
+# Toate punctele XOR
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+
+# Transformare
+H = transform_to_h(X, W, c)
+print("x → h:")
+print("[0,0] →", H[0])  # [0, 0]
+print("[0,1] →", H[1])  # [1, 0]  ← COLAPSATE
+print("[1,0] →", H[2])  # [1, 0]  ← LA ACELASI PUNCT!
+print("[1,1] →", H[3])  # [2, 1]
+
+# Acum in spatiul h, clasele sunt separabile!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Intuitive: De ce functioneaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Ideea cheie:</strong> Reteaua invata o reprezentare in care punctele similare (din perspectiva task-ului) sunt apropiate, iar punctele diferite sunt departate. XOR: (0,1) si (1,0) sunt "similare" (ambele → 1), deci reteaua le mapeaza aproape in spatiul h.
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">In aplicatii reale, reprezentarile invatate ajuta si la generalizare - nu doar la potrivirea datelor de antrenare. Imaginile de pisici vor fi mapate aproape in spatiul feature, chiar daca pixelii sunt foarte diferiti.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

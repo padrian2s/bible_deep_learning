@@ -1,0 +1,142 @@
+<section class="page-section" id="page-229">
+    <div class="page-header">
+        <div class="page-number">229</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Figura 6.10: Symbol-to-Symbol Differentiation</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-229.jpg"
+             alt="Pagina 229" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 6.10: Abordarea Symbol-to-Symbol</h4>
+                <p>Un exemplu al abordarii symbol-to-symbol pentru calculul derivatelor. In aceasta abordare, algoritmul de backprop nu trebuie niciodata sa acceseze valori numerice specifice reale. In schimb, adauga noduri la un graf computational care descrie cum sa calculeze aceste derivate. Un engine generic de evaluare a grafului poate calcula mai tarziu derivatele pentru orice valori numerice specifice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Graful Original vs Extins</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Graf Original (Left)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">z = f(f(f(w)))</p>
+                                    <div style="text-align: center; margin-top: 15px;">
+                                        <p style="font-family: monospace;">w → x → y → z</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Fiecare sageata = aplicarea lui f</p>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Graf Extins (Right)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">+ noduri pentru derivate</p>
+                                    <div style="text-align: center; margin-top: 15px;">
+                                        <p style="font-family: monospace; color: var(--success);">dz/dy, dz/dx, dz/dw</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">Noduri verzi = derivate adaugate</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Doua Abordari pentru Backprop</h4>
+                <p>Exista doua abordari principale. Symbol-to-number ia un graf computational si valori numerice pentru inputuri, apoi returneaza un set de valori numerice descriind gradientul (Torch, Caffe). Symbol-to-symbol ia un graf si adauga noduri care furnizeaza o descriere simbolica a derivatelor dorite (Theano, TensorFlow).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie: Torch vs TensorFlow</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# SYMBOL-TO-NUMBER (stil Torch/Caffe)
+# Gradientii sunt calcule numerice imediate
+
+import torch
+x = torch.tensor([2.0], requires_grad=True)
+y = x ** 2
+y.backward()  # Calculeaza numeric ACUM
+print(x.grad)  # tensor([4.])  <- valoare numerica
+
+# SYMBOL-TO-SYMBOL (stil TensorFlow 1.x / Theano)
+# Gradientii sunt noduri in graf
+
+# import tensorflow as tf (TF 1.x style)
+# x = tf.placeholder(tf.float32)
+# y = x ** 2
+# grad_y_x = tf.gradients(y, x)  # <- NOD in graf!
+#
+# with tf.Session() as sess:
+#     result = sess.run(grad_y_x, feed_dict={x: 2.0})
+#     print(result)  # [4.0]
+
+# PyTorch 2.0+ suporta ambele prin torch.compile!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantajul Symbol-to-Symbol: Derivate de Ordin Superior</h4>
+                <p>Avantajul principal al acestei abordari este ca derivatele sunt descrise in acelasi limbaj ca expresia originala. Deoarece derivatele sunt doar alt graf computational, este posibil sa rulam backprop din nou, diferentiind derivatele pentru a obtine derivate de ordin superior. Calculul derivatelor de ordin superior este descris in sectiunea 6.5.10.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Derivate de Ordin Superior</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>De ce avem nevoie de derivate de ordin superior?</strong>
+                                <ul style="margin-top: 10px; font-size: 0.9rem;">
+                                    <li><strong>Hessian:</strong> Optimizare de ordin 2 (Newton's method)</li>
+                                    <li><strong>Meta-learning:</strong> Gradientii gradientilor</li>
+                                    <li><strong>Physics-Informed NN:</strong> Ecuatii diferentiale</li>
+                                </ul>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+
+x = torch.tensor([2.0], requires_grad=True)
+
+# Prima derivata
+y = x ** 3  # y = x^3
+dy_dx = torch.autograd.grad(y, x, create_graph=True)[0]
+print(f"dy/dx = {dy_dx.item()}")  # 3*x^2 = 12
+
+# A doua derivata (derivata derivatei!)
+d2y_dx2 = torch.autograd.grad(dy_dx, x)[0]
+print(f"d2y/dx2 = {d2y_dx2.item()}")  # 6*x = 12
+
+# Posibil doar cu symbol-to-symbol!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

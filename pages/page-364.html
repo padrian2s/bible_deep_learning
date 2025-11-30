@@ -1,0 +1,167 @@
+<section class="page-section" id="page-364">
+    <div class="page-header">
+        <div class="page-number">364</div>
+        <div class="page-title">
+            <h3>9.5 Zero-Padding</h3>
+            <span>Valid, Same si Full Convolution</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-364.jpg"
+             alt="Pagina 364" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema: Dimensiunea Output-ului Scade</h4>
+                <p>Fara padding, fiecare layer convolutional reduce dimensiunea spatiala cu (kernel_size - 1). Pentru o imagine 32x32 cu kernel 3x3, output-ul e 30x30. Dupa cateva layere, dimensiunea devine prea mica. <strong>Zero-padding</strong> rezolva aceasta problema adaugand zerouri in jurul inputului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Trei Tipuri de Padding</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">VALID (padding=0)</strong>
+                                    <div style="margin: 15px 0; text-align: center;">
+                                        <div style="display: inline-grid; grid-template-columns: repeat(5, 20px); gap: 2px;">
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                        </div>
+                                        <div style="margin-top: 5px;">↓ kernel 3</div>
+                                        <div style="display: inline-grid; grid-template-columns: repeat(3, 20px); gap: 2px;">
+                                            <div style="background: var(--success); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 20px; border-radius: 2px;"></div>
+                                        </div>
+                                    </div>
+                                    <p style="font-size: 0.8rem;">5 → 3<br>Output shrinks!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">SAME (padding=k//2)</strong>
+                                    <div style="margin: 15px 0; text-align: center;">
+                                        <div style="display: inline-grid; grid-template-columns: repeat(7, 20px); gap: 2px;">
+                                            <div style="background: var(--bg-dark); height: 20px; border-radius: 2px; border: 1px dashed var(--text-secondary);"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--bg-dark); height: 20px; border-radius: 2px; border: 1px dashed var(--text-secondary);"></div>
+                                        </div>
+                                        <div style="margin-top: 5px;">↓ kernel 3</div>
+                                        <div style="display: inline-grid; grid-template-columns: repeat(5, 20px); gap: 2px;">
+                                            <div style="background: var(--success); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 20px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 20px; border-radius: 2px;"></div>
+                                        </div>
+                                    </div>
+                                    <p style="font-size: 0.8rem;">5 → 5<br>Same size!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">FULL (padding=k-1)</strong>
+                                    <div style="margin: 15px 0; text-align: center;">
+                                        <div style="display: inline-grid; grid-template-columns: repeat(9, 14px); gap: 1px; font-size: 0.7rem;">
+                                            <div style="background: var(--bg-dark); height: 14px; border-radius: 2px; border: 1px dashed var(--text-secondary);"></div>
+                                            <div style="background: var(--bg-dark); height: 14px; border-radius: 2px; border: 1px dashed var(--text-secondary);"></div>
+                                            <div style="background: var(--primary); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--primary); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--bg-dark); height: 14px; border-radius: 2px; border: 1px dashed var(--text-secondary);"></div>
+                                            <div style="background: var(--bg-dark); height: 14px; border-radius: 2px; border: 1px dashed var(--text-secondary);"></div>
+                                        </div>
+                                        <div style="margin-top: 5px;">↓ kernel 3</div>
+                                        <div style="display: inline-grid; grid-template-columns: repeat(7, 14px); gap: 1px;">
+                                            <div style="background: var(--success); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 14px; border-radius: 2px;"></div>
+                                            <div style="background: var(--success); height: 14px; border-radius: 2px;"></div>
+                                        </div>
+                                    </div>
+                                    <p style="font-size: 0.8rem;">5 → 7<br>Output grows!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trade-off-uri ale Padding-ului</h4>
+                <p><strong>Valid:</strong> Pixelii de margine "vad" mai putine date, comportament mai regulat, dar dimensiunea scade. <strong>Same:</strong> Cel mai popular - mentine dimensiunea, dar pixelii de margine sunt "subreprezentati" (vad mai multe zerouri). <strong>Full:</strong> Fiecare pixel contribuie egal la toate pozitiile posibile, dar outputul e mai mare si margini "artificiale".</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Padding in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+x = torch.randn(1, 3, 32, 32)  # Input 32x32
+
+# VALID - no padding
+conv_valid = nn.Conv2d(3, 64, kernel_size=5, padding=0)
+print("Valid:", conv_valid(x).shape)  # [1, 64, 28, 28]
+
+# SAME - padding = kernel_size // 2
+conv_same = nn.Conv2d(3, 64, kernel_size=5, padding=2)
+print("Same:", conv_same(x).shape)  # [1, 64, 32, 32]
+
+# SAME (automatic in PyTorch)
+conv_same_auto = nn.Conv2d(3, 64, kernel_size=5, padding='same')
+print("Same auto:", conv_same_auto(x).shape)  # [1, 64, 32, 32]
+
+# FULL - padding = kernel_size - 1
+conv_full = nn.Conv2d(3, 64, kernel_size=5, padding=4)
+print("Full:", conv_full(x).shape)  # [1, 64, 36, 36]
+
+# Formula generala:
+# output_size = (input_size + 2*padding - kernel_size) / stride + 1
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Regula Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>In majoritatea cazurilor, foloseste padding='same' (sau padding=k//2 pentru kernel de dimensiune k).</strong><br><br>
+                                Aceasta permite stivuirea oricarui numar de convolutii fara grija pentru dimensiuni. Downsampling-ul se face explicit prin stride sau pooling, nu prin "pierdere accidentala" de dimensiune.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

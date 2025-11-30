@@ -1,0 +1,103 @@
+<section class="page-section" id="page-490">
+    <div class="page-header">
+        <div class="page-number">490</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4.5.1 Attention Mechanism - Figura 12.6</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-490.jpg"
+             alt="Pagina 490" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Provocarea Reprezentarii de Lungime Fixa</h4>
+                <p>E util sa invatam o reprezentare in care propozitiile cu acelasi sens au reprezentari similare, indiferent daca sunt scrise in limba sursa sau tinta. Totusi, folosirea unei reprezentari de <strong>lungime fixa</strong> pentru a captura toate detaliile semantice ale unei propozitii foarte lungi (ex: 60 de cuvinte) este foarte dificila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Solutie: Attention</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Ideea:</strong> In loc sa comprimam toata propozitia intr-un singur vector fix, citim propozitia complet (pentru context), apoi producem cuvintele traduse unul cate unul, de fiecare data <strong>concentrandu-ne pe o parte diferita</strong> a propozitiei de input pentru detaliile semantice necesare.
+                            </div>
+                            <ul class="reference-list" style="margin-top: 15px;">
+                                <li class="reference-item"><span>📄</span><div><strong>Bahdanau et al. (2015)</strong> - Mecanismul de atentie modern</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 12.6: Mecanismul de Atentie</h4>
+                <p>Mecanismul modern de atentie este esential un <strong>weighted average</strong>. Un vector de context c este format prin luarea unei medii ponderate a vectorilor de feature h⁽ᵗ⁾ cu weights α⁽ᵗ⁾. Weights-urile sunt produse aplicand o functie softmax pe scorurile de relevanta emise de alta parte a modelului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Attention Weights</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div style="display: inline-block; background: var(--success); padding: 15px 30px; border-radius: 50%; color: var(--bg-dark);">
+                                        <strong>c</strong>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">Context vector</p>
+                                </div>
+                                <div style="display: flex; justify-content: center; gap: 30px;">
+                                    <div style="text-align: center;">
+                                        <div style="opacity: 0.3;">α⁽ᵗ⁻¹⁾ = 0.1</div>
+                                        <div style="background: var(--accent); padding: 10px; border-radius: 8px; margin-top: 5px;">h⁽ᵗ⁻¹⁾</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="color: var(--success); font-weight: bold;">α⁽ᵗ⁾ = 0.7</div>
+                                        <div style="background: var(--success); padding: 10px; border-radius: 8px; margin-top: 5px; color: var(--bg-dark);">h⁽ᵗ⁾</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="opacity: 0.3;">α⁽ᵗ⁺¹⁾ = 0.2</div>
+                                        <div style="background: var(--accent); padding: 10px; border-radius: 8px; margin-top: 5px;">h⁽ᵗ⁺¹⁾</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formula" style="margin-top: 15px;">
+                                c = Σₜ α⁽ᵗ⁾ × h⁽ᵗ⁾
+                            </div>
+                            <p style="margin-top: 10px; color: var(--text-secondary);">Weights-urile α sunt in [0, 1] si sunt proiectate sa se concentreze pe un singur time step precis.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De ce Attention e Diferentiabil?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Problema cu hard indexing:</strong> Daca am selecta direct h⁽ᵗ⁾ dorit, operatia nu ar fi diferentiabila (nu putem face gradient descent pe un index discret).
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);"><strong>Solutia:</strong> Weighted average este o aproximare smooth, diferentiabila a hard selection. E mai scumpa computational decat indexarea directa, dar poate fi antrenata end-to-end cu gradient descent.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,206 @@
+<section class="page-section" id="page-434">
+    <div class="page-header">
+        <div class="page-number">434</div>
+        <div class="page-title">
+            <h3>Content-Based vs Location-Based Addressing</h3>
+            <span>Mecanisme de Adresare a Memoriei</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-434.jpg"
+             alt="Pagina 434" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Content-Based Addressing</h4>
+                <p>In <strong>content-based addressing</strong>, ponderea de citire depinde de <strong>continutul</strong> celulei. Cautam o celula al carei continut se potriveste cu un pattern - ca si cum ai cauta versurile unui cantec dupa melodie. Exemplu: "Gaseste celula care contine 'yellow submarine'".</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare Content-Based</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre># Content-based addressing
+import torch
+import torch.nn.functional as F
+
+def content_addressing(memory, query, beta=1.0):
+    """
+    Adresare bazata pe similaritate cu query-ul
+
+    memory: [N, D] - N celule de memorie
+    query: [D] - vectorul de cautare (key)
+    beta: scalar - "sharpness" (cat de focalizata e atentia)
+
+    return: [N] - ponderi de atentie
+    """
+    # Cosine similarity intre query si fiecare celula
+    # similarity[i] = cos(query, memory[i])
+    memory_norm = F.normalize(memory, dim=1)
+    query_norm = F.normalize(query, dim=0)
+
+    similarity = torch.matmul(memory_norm, query_norm)
+
+    # Softmax cu temperatura beta
+    # beta mare = atentie focalizata pe best match
+    # beta mic = atentie distribuita
+    weights = F.softmax(beta * similarity, dim=0)
+
+    return weights
+
+# Exemplu utilizare
+memory = torch.randn(100, 64)  # 100 celule x 64 dim
+query = torch.randn(64)         # Ce cautam
+
+weights = content_addressing(memory, query, beta=10.0)
+read_value = torch.matmul(weights, memory)</pre>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Analogie:</h5>
+                                <p>"Gaseste cantecul care are chorus-ul 'We all live in a yellow submarine'" - cautam dupa continut semantic, nu dupa numarul de index!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Location-Based Addressing</h4>
+                <p><strong>Location-based addressing</strong> nu depinde de continut - accesam memoria prin <strong>pozitie</strong>. Exemplu: "Citeste celula 347". Util cand memoria e mica sau cand ordinea conteaza (stiva, coada).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie Addressing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Content-Based</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>"Gaseste X care se potriveste cu Y"</li>
+                                        <li>Necesita vectori mari pentru cautare semantica</li>
+                                        <li>Bun pentru: Q&A, retrieval</li>
+                                        <li>Costisitor pentru memorii mari</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Location-Based</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>"Citeste pozitia 347"</li>
+                                        <li>Nu depinde de continut</li>
+                                        <li>Bun pentru: stive, cozi, secvente</li>
+                                        <li>Efficient dar mai putin flexibil</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <strong>NTM foloseste ambele!</strong> Content-based pentru cautare semantica, location-based pentru operatii secventiale (shift, iterate).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantajul Memoriei Explicite</h4>
+                <p>De ce memoria explicita ajuta la <strong>long-term dependencies</strong>? Daca informatia din celula e copiata (nu uitata) la fiecare pas, gradientii pot fi propagati inapoi <strong>fara vanishing sau exploding</strong>! Informatia "sare" peste timp prin memorie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Gradient Flow prin Memorie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="margin-bottom: 10px;"><strong>Problema RNN standard:</strong></p>
+                                <div class="formula" style="margin: 10px 0; font-size: 0.9rem;">
+                                    ∂h<sup>(T)</sup>/∂h<sup>(1)</sup> = ∏<sub>t=2</sub><sup>T</sup> W · diag(f'(h<sup>(t-1)</sup>))
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem;">Produsul de T-1 matrice → vanish sau explode</p>
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                                <p style="margin-bottom: 10px;"><strong>Cu memorie explicita:</strong></p>
+                                <div class="formula" style="margin: 10px 0; font-size: 0.9rem;">
+                                    M<sup>(T)</sup>[i] = M<sup>(1)</sup>[i] (daca celula i nu e scrisa)
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem;">Gradientul trece direct de la T la 1 prin celula neschimbata!</p>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Rezultat:</h5>
+                                <p>Informatia si gradientii pot "sari" peste sute de time steps fara degradare - exact ce nu poate face LSTM/GRU standard!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Soft vs Hard (Stochastic) Attention</h4>
+                <p>Alternativa la soft attention: <strong>hard attention</strong> - alegi o singura celula stochastic. Avantaj: mai efficient. Dezavantaj: nu poti face backprop direct (trebuie REINFORCE sau alte metode). In practica, soft attention e preferat pentru stabilitate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Soft vs Hard Attention</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Soft Attention</strong>
+                                    <div class="formula" style="margin: 10px 0; font-size: 0.85rem;">
+                                        r = Σ<sub>i</sub> w<sub>i</sub> · M[i]
+                                    </div>
+                                    <ul style="color: var(--text-secondary); font-size: 0.85rem;">
+                                        <li>Medie ponderata</li>
+                                        <li>Diferentiabil ✓</li>
+                                        <li>Citeste toate celulele</li>
+                                        <li>Antrenare stabila</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Hard Attention</strong>
+                                    <div class="formula" style="margin: 10px 0; font-size: 0.85rem;">
+                                        r = M[i*] unde i* ~ Cat(w)
+                                    </div>
+                                    <ul style="color: var(--text-secondary); font-size: 0.85rem;">
+                                        <li>Sampling stochastic</li>
+                                        <li>Nedferentiabil ✗</li>
+                                        <li>Citeste o celula</li>
+                                        <li>Necesita REINFORCE</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                <strong>Referinta:</strong> Zaremba & Sutskever (2015) - varianta stocastica pentru NTM
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

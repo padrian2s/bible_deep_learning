@@ -1,0 +1,102 @@
+<section class="page-section" id="page-407">
+    <div class="page-header">
+        <div class="page-number">407</div>
+        <div class="page-title">
+            <h3>Figura 10.9 - RNN cu Context Fix</h3>
+            <span>Arhitectura Image Captioning</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-407.jpg"
+             alt="Pagina 407" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.9 - Vector x ca Bias</h4>
+                <p>Figura 10.9 arata o arhitectura eleganta: vectorul de context x este transformat intr-un bias pentru unitatile ascunse prin <strong>x<sup>⊤</sup>R</strong>. Acest produs x<sup>⊤</sup>R este adaugat la fiecare pas, functionand ca un "bias conditionat".</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Arhitectura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
+                                <div style="margin-bottom: 15px;">
+                                    y<sup>(t-1)</sup>&nbsp;&nbsp;&nbsp;y<sup>(t)</sup>&nbsp;&nbsp;&nbsp;y<sup>(t+1)</sup><br>
+                                    &nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>
+                                    L<sup>(t-1)</sup>&nbsp;&nbsp;L<sup>(t)</sup>&nbsp;&nbsp;&nbsp;L<sup>(t+1)</sup><br>
+                                    &nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>
+                                    o<sup>(t-1)</sup>&nbsp;&nbsp;o<sup>(t)</sup>&nbsp;&nbsp;&nbsp;o<sup>(t+1)</sup>
+                                </div>
+                                <div>
+                                    h<sup>(...)</sup> →W→ h<sup>(t-1)</sup> →W→ h<sup>(t)</sup> →W→ h<sup>(t+1)</sup><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑ R<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└──────────<span style="color: var(--accent);">x</span>──────────┘
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">
+                                <strong>R</strong> transforma x intr-un bias care influenteaza toate h<sup>(t)</sup>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conditional Independence si Ecuatia 10.35</h4>
+                <p>Daca nu avem conexiuni y→h, output-urile y sunt <strong>conditional independente</strong> date x. Pentru a permite dependente intre y-uri, adaugam conexiuni de la output la hidden (ca in Figura 10.10).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatia 10.35</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <div class="formula" style="margin: 10px 0;">
+                                    ∏<sub>t</sub> P(y<sup>(t)</sup> | x<sup>(1)</sup>, ..., x<sup>(t)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.35)</span>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">
+                                Fara conexiuni output→hidden, fiecare y<sup>(t)</sup> depinde doar de x-uri, nu de y-uri anterioare.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatie: Image Captioning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Pipeline tipic:</h5>
+                                <ol style="margin-top: 10px; color: var(--text-secondary);">
+                                    <li>CNN encodeaza imaginea → vector x</li>
+                                    <li>x initializeaza RNN sau este dat ca bias</li>
+                                    <li>RNN genereaza cuvinte y<sup>(1)</sup>, y<sup>(2)</sup>, ...</li>
+                                    <li>Stop la &lt;EOS&gt; token</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

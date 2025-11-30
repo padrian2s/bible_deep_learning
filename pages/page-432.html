@@ -1,0 +1,71 @@
+<section class="page-section" id="page-432">
+    <div class="page-header">
+        <div class="page-number">432</div>
+        <div class="page-title">
+            <h3>Figura 10.18 - Neural Turing Machine</h3>
+            <span>Arhitectura cu Memorie Externa</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-432.jpg"
+             alt="Pagina 432" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Neural Turing Machine Architecture</h4>
+                <p>Figura 10.18 arata o arhitectura cu <strong>memorie explicita</strong>. Componentele: (1) <strong>Memory cells</strong> - un "array" de vectori, (2) <strong>Task network</strong> - un RNN care controleaza memoria, (3) <strong>Read/Write mechanisms</strong> - mecanisme de acces la memorie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Componente NTM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">Memory Cells</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Matrice M de dimensiune N×D: N locatii, fiecare de D dimensiuni</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Task Network (Controller)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">RNN/LSTM care decide ce/unde sa citeasca si sa scrie</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Attention Mechanism</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Soft addressing - ponderare continua a locatiilor de memorie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte Memory Networks</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📖</span><div><strong>Neural Turing Machines</strong> - Graves et al., 2014</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Memory Networks</strong> - Weston et al., 2014</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>Differentiable Computer</strong> - Graves et al., 2016</div></li>
+                                <li class="reference-item"><span>📖</span><div><strong>End-to-End Memory Networks</strong> - Sukhbaatar et al., 2015</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Importanta:</h5>
+                                <p>Aceste arhitecturi au inspirat mecanismele de atentie moderne, inclusiv Transformers!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

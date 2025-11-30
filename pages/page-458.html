@@ -1,0 +1,126 @@
+<section class="page-section" id="page-458">
+    <div class="page-header">
+        <div class="page-number">458</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Introducere si 12.1 Deep Learning la Scara Mare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-458.jpg"
+             alt="Pagina 458" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Capitolul 12: Aplicatii - Introducere</h4>
+                <p>Acest capitol descrie cum se foloseste deep learning pentru a rezolva aplicatii din <strong>computer vision</strong>, <strong>recunoasterea vorbirii</strong>, <strong>procesarea limbajului natural</strong> si alte domenii de interes comercial. Incepem cu discutia despre implementarile la scara mare necesare pentru aplicatiile AI serioase.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Domenii de Aplicare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">👁️ Computer Vision</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Procesarea unui numar mare de pixeli per exemplu de input</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">🎤 Speech Recognition</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Modelarea secventelor audio temporale</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">📝 NLP</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Modelarea unui numar mare de valori posibile (vocabular)</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong style="color: var(--primary);">🔧 Alte Aplicatii</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Recomandari, medicina, robotica, etc.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context: De ce specializare?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Desi un scop al deep learning este sa proiectam algoritmi capabili sa rezolve o varietate larga de task-uri, pana acum este necesara o anumita specializare:</p>
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📊</span><div>Task-urile de viziune necesita procesarea multor pixeli</div></li>
+                                <li class="reference-item"><span>📖</span><div>Task-urile de limbaj necesita modelarea vocabularului mare</div></li>
+                                <li class="reference-item"><span>⚡</span><div>Fiecare domeniu are particularitati arhitecturale</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.1 Deep Learning la Scara Mare</h4>
+                <p>Deep learning se bazeaza pe filosofia <strong>conexionismului</strong>: desi un neuron individual sau o caracteristica individuala nu este inteligenta, o populatie mare de neuroni sau caracteristici actionand impreuna poate exhiba comportament inteligent. Numarul de neuroni trebuie sa fie <em>mare</em>!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cresterea Retelelor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary); margin-bottom: 15px;">Dimensiunea retelelor a crescut exponential in ultimele 3 decenii:</p>
+                                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 1.5rem; color: var(--warning);">1980s</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">~100 neuroni</div>
+                                    </div>
+                                    <div style="color: var(--accent);">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 1.5rem; color: var(--accent);">2010s</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">~10⁸ neuroni</div>
+                                    </div>
+                                    <div style="color: var(--success);">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 1.5rem; color: var(--success);">Creier insecta</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">~10⁵ neuroni</div>
+                                    </div>
+                                </div>
+                                <p style="color: var(--accent); margin-top: 15px; font-style: italic;">Retelele neurale artificiale sunt acum la dimensiunea sistemului nervos al insectelor!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Scalare si Performanta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Factorul Cheie al Imbunatatirii:</strong> Cresterea dramatica a dimensiunii retelelor intre anii 1980 si prezent este unul dintre factorii cheie responsabili pentru imbunatatirea acuratetei si complexitatii task-urilor pe care le pot rezolva.
+                            </div>
+                            <p style="margin-top: 10px; color: var(--text-secondary);">Deoarece dimensiunea retelelor neurale este de importanta capitala, deep learning necesita infrastructura hardware si software de inalta performanta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

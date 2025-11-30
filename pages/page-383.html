@@ -1,0 +1,150 @@
+<section class="page-section" id="page-383">
+    <div class="page-header">
+        <div class="page-number">383</div>
+        <div class="page-title">
+            <h3>9.10 Reverse Correlation</h3>
+            <span>Functii Gabor si Analiza Neuronilor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-383.jpg"
+             alt="Pagina 383" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cum Analizam Neuronii Biologici?</h4>
+                <p>In CNN-uri putem vizualiza direct kernel-urile. Dar in creier nu avem acces la "ponderi"! Solutia: <strong>reverse correlation</strong> - punem un electrod in neuron, afisam imagini aleatoare (white noise), si vedem care imagini il activeaza cel mai mult. Apoi fitam un model liniar pentru a estima "kernel-ul" neuronului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Reverse Correlation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def reverse_correlation(neuron_responses, stimuli):
+    """
+    Estimeaza receptive field-ul unui neuron prin reverse correlation
+
+    neuron_responses: [N] - firing rate pentru fiecare stimulus
+    stimuli: [N, H, W] - imagini white noise prezentate
+    """
+    # Metoda simpla: media ponderata a stimulilor
+    weighted_sum = np.zeros_like(stimuli[0])
+    for i, (response, stimulus) in enumerate(zip(neuron_responses, stimuli)):
+        weighted_sum += response * stimulus
+
+    receptive_field = weighted_sum / len(stimuli)
+    return receptive_field
+
+# Rezultat: o imagine care arata la ce "prefera" neuronul
+# Pentru celulele simple din V1: bare orientate (Gabor-like!)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Functii Gabor</h4>
+                <p>Reverse correlation arata ca majoritatea celulelor V1 au receptive fields descrise de <strong>functii Gabor</strong>. O functie Gabor descrie raspunsul la un punct (x,y) din imagine si are forma: s(I) = ΣΣ w(x,y)·I(x,y), unde w(x,y) este filtrul Gabor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Formula Gabor (Eq. 9.15-9.17)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <strong>Raspunsul celulei simple (Eq. 9.15):</strong><br>
+                                <div style="font-size: 1.1rem; margin: 10px 0; text-align: center;">
+                                    s(I) = Σ<sub>x∈X</sub> Σ<sub>y∈Y</sub> w(x,y) · I(x,y)
+                                </div>
+                            </div>
+                            <div class="formula" style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <strong>Functia Gabor (Eq. 9.16):</strong><br>
+                                <div style="font-size: 1rem; margin: 10px 0; text-align: center;">
+                                    w(x,y; α, β<sub>x</sub>, β<sub>y</sub>, f, φ, x₀, y₀, τ) = α·exp(-β<sub>x</sub>x'² - β<sub>y</sub>y'²)·cos(f·x' + φ)
+                                </div>
+                            </div>
+                            <div class="formula" style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <strong>Rotatia coordonatelor (Eq. 9.17-9.18):</strong><br>
+                                <div style="font-size: 1rem; margin: 10px 0; text-align: center;">
+                                    x' = (x - x₀)cos(τ) + (y - y₀)sin(τ)<br>
+                                    y' = -(x - x₀)sin(τ) + (y - y₀)cos(τ)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Parametrii Gabor</h4>
+                <p>Fiecare parametru controleaza o proprietate: <strong>(x₀, y₀)</strong> = centrul receptive field-ului, <strong>τ</strong> = orientarea (rotatie), <strong>f</strong> = frecventa spatiala (cat de "fina" e bara), <strong>φ</strong> = faza (offset-ul sinusoidei), <strong>α</strong> = amplitudine, <strong>β<sub>x</sub>, β<sub>y</sub></strong> = cat de repede scade receptive field-ul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Generare Filtre Gabor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import matplotlib.pyplot as plt
+
+def gabor_filter(size, x0, y0, tau, f, phi, alpha, beta_x, beta_y):
+    """Genereaza un filtru Gabor 2D"""
+    x = np.linspace(-size//2, size//2, size)
+    y = np.linspace(-size//2, size//2, size)
+    X, Y = np.meshgrid(x, y)
+
+    # Rotatia coordonatelor
+    X_rot = (X - x0) * np.cos(tau) + (Y - y0) * np.sin(tau)
+    Y_rot = -(X - x0) * np.sin(tau) + (Y - y0) * np.cos(tau)
+
+    # Gaussian envelope
+    gaussian = alpha * np.exp(-beta_x * X_rot**2 - beta_y * Y_rot**2)
+
+    # Sinusoida
+    sinusoid = np.cos(f * X_rot + phi)
+
+    return gaussian * sinusoid
+
+# Exemplu: filtru vertical
+gabor = gabor_filter(
+    size=32, x0=0, y0=0,
+    tau=0,           # 0 = vertical
+    f=0.5,           # frecventa
+    phi=0,           # faza
+    alpha=1,
+    beta_x=0.05, beta_y=0.01  # mai lat pe y
+)
+
+# Primul layer CNN invata filtre foarte similare!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

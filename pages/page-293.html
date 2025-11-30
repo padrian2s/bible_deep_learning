@@ -1,0 +1,145 @@
+<section class="page-section" id="page-293">
+    <div class="page-header">
+        <div class="page-number">293</div>
+        <div class="page-title">
+            <h3>Batch, Minibatch si Stochastic</h3>
+            <span>Terminologie si Trade-offs</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-293.jpg"
+             alt="Pagina 293" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cele 3 Tipuri de Gradient Descent</h4>
+                <p>Exista trei variante principale de gradient descent, definite de cate exemple folosim pentru a calcula fiecare update. Terminologia poate fi confuza - "batch" se foloseste uneori pentru ambele extreme!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cele 3 Metode</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">BATCH (Deterministic)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Foloseste <strong>toate</strong> exemplele pentru fiecare update</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">+ Gradient exact | - Foarte lent, memorie mare</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">MINIBATCH (cel mai comun)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Foloseste un <strong>subset mic</strong> de exemple (tipic 32-256)</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">+ Echilibru bun | Cel mai folosit in practica</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">STOCHASTIC (Online)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Foloseste <strong>1 singur</strong> exemplu per update</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">+ Foarte rapid | - Gradient zgomotos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Nota despre Terminologie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-warning">
+                                <p><strong>Atentie la confuzie!</strong> "Batch gradient descent" = tot datasetul. Dar "batch size" = marimea minibatch-ului. "Stochastic" se foloseste uneori si pentru minibatch, desi strict vorbind inseamna n=1.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Factori Care Influenteaza Batch Size</h4>
+                <p>Alegerea marimii minibatch-ului e influentata de mai multi factori. Nu exista o valoare "corecta" - depinde de hardware, model si problema.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Factorii de Decizie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong style="color: var(--accent);">Precizie gradient:</strong> Batch mai mare = estimare mai precisa, dar cu diminishing returns (√n)</li>
+                                <li><strong style="color: var(--accent);">Paralelism hardware:</strong> GPU-urile sunt subutilizate cu batch prea mic. Exista o marime minima sub care nu e mai rapid.</li>
+                                <li><strong style="color: var(--accent);">Memorie:</strong> Tot batch-ul trebuie sa incapa in memoria GPU. Batch mare = mai multa memorie.</li>
+                                <li><strong style="color: var(--accent);">Puteri ale lui 2:</strong> GPU-urile prefera batch sizes de 32, 64, 128, 256... pentru eficienta.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Small Batches = Regularizare!</h4>
+                <p>Un efect surprinzator: batch-urile mici pot oferi un efect de <strong>regularizare</strong>! Zgomotul din estimarea gradientului adauga variatie care poate ajuta generalizarea. Wilson & Martinez (2003) au aratat ca eroarea de generalizare e adesea minima pentru batch size = 1.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Trade-off: Zgomot vs Stabilitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Batch Mic:</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Gradient zgomotos</li>
+                                        <li>Efect regularizare</li>
+                                        <li>Poate scapa de minime locale</li>
+                                        <li>Learning rate trebuie mic</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Batch Mare:</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Gradient precis</li>
+                                        <li>Convergenta mai stabila</li>
+                                        <li>Poate ramane blocat</li>
+                                        <li>Runtime mai mare</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinta: Wilson & Martinez 2003</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Studiul lor a aratat ca zgomotul din gradientul stochastic poate ajuta modelul sa gaseasca solutii care generalizeaza mai bine, probabil prin efectul de regularizare implicit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

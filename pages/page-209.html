@@ -1,0 +1,120 @@
+<section class="page-section" id="page-209">
+    <div class="page-header">
+        <div class="page-number">209</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.3.1 Maxout: Invatarea Functiei de Activare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-209.jpg"
+             alt="Pagina 209" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Maxout ca "Invatare a Functiei de Activare"</h4>
+                <p>O unitate maxout poate invata o functie liniara pe portiuni, convexa, cu pana la k segmente. Maxout poate fi vazut ca invata functia de activare insasi, nu doar relatia dintre unitati. Cu k suficient de mare, o unitate maxout poate invata sa aproximeze orice functie convexa cu precizie arbitrara. Poate implementa ReLU, absolute value rectification, leaky ReLU sau functii complet diferite.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Functii pe Portiuni</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <p style="margin-bottom: 15px;">Maxout cu diferite valori de k:</p>
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <div style="font-size: 2rem;">∠</div>
+                                        <strong>k=2</strong>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">ReLU, |x|</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <div style="font-size: 2rem;">∠∠</div>
+                                        <strong>k=3</strong>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Functii mai complexe</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <div style="font-size: 2rem;">∿</div>
+                                        <strong>k=∞</strong>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Orice convexa</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantaje Statistice si Computationale</h4>
+                <p>Fiecare unitate maxout este acum parametrizata de k vectori de ponderi in loc de doar unul, deci maxout necesita de obicei mai multa regularizare. Pot functiona bine fara regularizare daca training set-ul e mare si numarul de segmente per unitate e mic. Maxout ofera avantaje computationale: daca caracteristicile capturate de n filtre diferite pot fi sumarizate luand max peste grupuri de k, stratul urmator poate folosi de k ori mai putine ponderi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Maxout si Catastrophic Forgetting</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Catastrophic Forgetting:</strong> Fenomen in care retelele neuronale uita cum sa rezolve task-urile pe care au fost antrenate in trecut cand invata task-uri noi.
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Deoarece fiecare unitate este condusa de mai multe filtre, unitatile maxout au o redundanta care le ajuta sa reziste la acest fenomen (Goodfellow et al., 2014a). Filtrul "castigator" se poate schimba pentru diferite inputuri, permitand memorarea mai multor patternuri.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Principiul General: Comportament Liniar = Optimizare Usoara</h4>
+                <p>Unitatile liniare rectificate si toate generalizarile lor se bazeaza pe principiul ca modelele sunt mai usor de optimizat daca comportamentul lor este mai apropiat de liniar. Acest principiu general de utilizare a comportamentului liniar pentru a obtine optimizare mai usoara se aplica si in alte contexte - de exemplu, LSTM propaga informatia prin timp folosind sumarea, un tip direct de activare liniara.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De ce Liniaritatea Ajuta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Comportament Liniar</strong>
+                                    <ul style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>Gradient constant</li>
+                                        <li>Nu satureaza</li>
+                                        <li>Usor de backpropagate</li>
+                                        <li>ReLU, Maxout, LSTM gates</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Comportament Neliniar</strong>
+                                    <ul style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">
+                                        <li>Gradient variabil</li>
+                                        <li>Poate satura</li>
+                                        <li>Vanishing/exploding gradient</li>
+                                        <li>Sigmoid, Tanh</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

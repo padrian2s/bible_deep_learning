@@ -1,0 +1,94 @@
+<section class="page-section" id="page-259">
+    <div class="page-header">
+        <div class="page-number">259</div>
+        <div class="page-title">
+            <h3>7.7 Multi-Task Learning</h3>
+            <span>Invatare Multi-Sarcina</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-259.jpg"
+             alt="Pagina 259" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Semi-Supervised Learning (continuare)</h4>
+                <p>Salakhutdinov & Hinton (2008) descriu o metoda de invatare a functiei kernel pentru o masina kernel folosita la regresie, unde exemplele neetichetate pentru modelarea P(x) imbunatatesc semnificativ P(y|x). Vezi Chapelle et al. (2006) pentru mai multe informatii despre semi-supervised learning.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Multi-Task Learning</h4>
+                <p><strong>Multi-task learning</strong> (Caruana, 1993) este o metoda de imbunatatire a generalizarii prin pooling-ul exemplelor din mai multe task-uri. La fel cum exemplele suplimentare pun mai multa presiune pe parametri spre valori care generalizeaza, cand o parte din model e partajata intre task-uri, acea parte e mai constrangersa spre valori bune, ceea ce duce la generalizare mai buna.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Structura Multi-Task</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Modelul se imparte in doua tipuri de parametri:</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong style="color: var(--primary);">Task-Specific</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Layere de sus - beneficiaza doar de exemplele task-ului respectiv</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Shared (Generic)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Layere de jos - beneficiaza de datele TUTUROR task-urilor</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Multi-Task Model</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+class MultiTaskModel(nn.Module):
+    def __init__(self, input_dim, shared_dim, task_dims):
+        super().__init__()
+
+        # Shared layers (invatate din toate task-urile)
+        self.shared = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, shared_dim),
+            nn.ReLU()
+        )
+
+        # Task-specific heads
+        self.task_heads = nn.ModuleList([
+            nn.Linear(shared_dim, dim) for dim in task_dims
+        ])
+
+    def forward(self, x, task_id):
+        h_shared = self.shared(x)  # Reprezentare comuna
+        return self.task_heads[task_id](h_shared)
+
+# Training
+model = MultiTaskModel(784, 128, [10, 5, 2])  # 3 task-uri
+for x, y, task_id in multi_task_loader:
+    out = model(x, task_id)
+    loss = criterion(out, y)
+    # Gradientii pentru shared layers vin din toate task-urile!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

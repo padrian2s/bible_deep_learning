@@ -1,0 +1,145 @@
+        <section class="page-section" id="page-67">
+            <div class="page-header">
+                <div class="page-number">67</div>
+                <div class="page-title">
+                    <h3>Concluzia PCA si Capitolul 2</h3>
+                    <span>Rezultatul Final</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-067.jpg"
+                     alt="Pagina 67" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Rezultatul Final PCA</h4>
+                        <p>Problema de optimizare se reduce la gasirea eigenvectorilor matricei XᵀX! Pentru l componente principale, luam cei l eigenvectori cu cele mai mari eigenvalues. Eigenvalues reprezinta varianta explicata de fiecare componenta.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Algoritmul PCA complet</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 10px;">
+                                        <div style="background: var(--primary); padding: 15px; border-radius: 8px; color: white;">
+                                            <strong>1. Centreaza datele</strong>
+                                            <p style="font-size: 0.85rem; opacity: 0.9;">X ← X - mean(X)</p>
+                                        </div>
+                                        <div style="background: var(--secondary); padding: 15px; border-radius: 8px; color: white;">
+                                            <strong>2. Calculeaza SVD sau eigendecomposition</strong>
+                                            <p style="font-size: 0.85rem; opacity: 0.9;">XᵀX = VΛVᵀ sau X = USVᵀ</p>
+                                        </div>
+                                        <div style="background: var(--accent); padding: 15px; border-radius: 8px; color: white;">
+                                            <strong>3. Selecteaza primii l eigenvectori</strong>
+                                            <p style="font-size: 0.85rem; opacity: 0.9;">D = V[:, :l] (sortati dupa eigenvalue descrescator)</p>
+                                        </div>
+                                        <div style="background: var(--success); padding: 15px; border-radius: 8px; color: white;">
+                                            <strong>4. Proiecteaza datele</strong>
+                                            <p style="font-size: 0.85rem; opacity: 0.9;">Z = XD (coordonate in noul spatiu l-dimensional)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod complet PCA</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+                                        <code>
+import numpy as np<br><br>
+def pca(X, n_components):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;# 1. Centreaza<br>
+&nbsp;&nbsp;&nbsp;&nbsp;X_centered = X - X.mean(axis=0)<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;# 2. SVD (mai stabil decat eigendecomposition)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;U, S, Vt = np.linalg.svd(X_centered, full_matrices=False)<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;# 3. Primele n componente<br>
+&nbsp;&nbsp;&nbsp;&nbsp;components = Vt[:n_components]<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;# 4. Proiecteaza<br>
+&nbsp;&nbsp;&nbsp;&nbsp;X_transformed = X_centered @ components.T<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;# Varianta explicata<br>
+&nbsp;&nbsp;&nbsp;&nbsp;explained_var = (S[:n_components]**2) / (S**2).sum()<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;return X_transformed, components, explained_var<br><br>
+# Exemplu: MNIST 784D → 50D<br>
+X_reduced, comps, var = pca(X_mnist, 50)<br>
+print(f"Varianta pastrata: {var.sum():.1%}")  # ~95%
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Concluzia Capitolului 2: Algebra Liniara</h4>
+                        <p>Algebra liniara este una din disciplinele matematice fundamentale pentru deep learning. Urmatoarea zona cheie este <strong>teoria probabilitatilor</strong>, prezentata in capitolul urmator!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Rezumat Capitolul 2</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🎓 Ce am invatat in Capitolul 2</h5>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--primary);">Fundamente</strong>
+                                                <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 15px; margin-top: 5px;">
+                                                    <li>Scalari, Vectori, Matrici, Tensori</li>
+                                                    <li>Inmultire matriciala</li>
+                                                    <li>Transpusa, Inversa</li>
+                                                </ul>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--secondary);">Concepte avansate</strong>
+                                                <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 15px; margin-top: 5px;">
+                                                    <li>Norme (L¹, L², Frobenius)</li>
+                                                    <li>Eigendecomposition</li>
+                                                    <li>SVD</li>
+                                                </ul>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Operatori</strong>
+                                                <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 15px; margin-top: 5px;">
+                                                    <li>Trace</li>
+                                                    <li>Determinant</li>
+                                                    <li>Pseudoinversa</li>
+                                                </ul>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--success);">Aplicatie</strong>
+                                                <ul style="font-size: 0.85rem; color: var(--text-secondary); margin-left: 15px; margin-top: 5px;">
+                                                    <li>PCA - reducere dimensionalitate</li>
+                                                    <li>Folosind doar algebra liniara!</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; color: white;">
+                                        <p style="font-size: 1.1rem;">🎉 Felicitari! Ai terminat Capitolul 2!</p>
+                                        <p style="opacity: 0.9; font-size: 0.9rem;">Urmeaza: Capitolul 3 - Probabilitati si Teoria Informatiei</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

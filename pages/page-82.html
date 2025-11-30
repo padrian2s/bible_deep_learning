@@ -1,0 +1,224 @@
+        <section class="page-section" id="page-82">
+            <div class="page-header">
+                <div class="page-number">82</div>
+                <div class="page-title">
+                    <h3>Gaussian Mixture Models si Variabile Latente</h3>
+                    <span>3.10 Functii Utile - Sigmoid</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-082.jpg"
+                     alt="Pagina 82" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Variabile Latente</h4>
+                        <p>Modelul de mixtura introduce un concept crucial: <strong>variabila latenta</strong>. Variabila c (care componenta e aleasa) este o variabila aleatoare pe care NU o observam direct. Distributia P(c) si distributiile P(x|c) pentru fiecare componenta determina forma lui P(x), chiar daca putem descrie P(x) fara a mentiona c. Variabilele latente vor fi fundamentale in capitolele despre generative models!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Latent vs Observat</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 15px; align-items: center;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 50%; text-align: center;">
+                                            <strong style="color: var(--warning);">c</strong>
+                                            <p style="font-size: 0.7rem; color: var(--text-secondary);">Latent</p>
+                                        </div>
+                                        <div style="text-align: center; font-size: 1.5rem;">→</div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--success);">x</strong>
+                                            <p style="font-size: 0.7rem; color: var(--text-secondary);">Observat</p>
+                                        </div>
+                                        <div></div>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <p><strong>Prior:</strong> P(c) - credinta inainte de a vedea x</p>
+                                        <p><strong>Posterior:</strong> P(c|x) - credinta DUPA ce vedem x</p>
+                                        <p style="color: var(--accent); margin-top: 10px;">Inferenta = calculul posterior-ului din prior si likelihood</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Exemple de variabile latente in ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>🔤</span>
+                                            <div><strong>Topic Models (LDA)</strong> - Topic-ul unui document e latent</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🖼️</span>
+                                            <div><strong>VAE</strong> - Codul z din spatiul latent e latent</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🎭</span>
+                                            <div><strong>Hidden Markov Models</strong> - Starile ascunse sunt latente</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🧬</span>
+                                            <div><strong>Factor Analysis/PCA</strong> - Factorii sunt latenti</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Gaussian Mixture Model (GMM)</h4>
+                        <p>Un tip foarte puternic de mixtura este <strong>Gaussian Mixture Model</strong>: fiecare componenta p(x|c=i) este o Gaussiana cu propriile μ⁽ⁱ⁾ si Σ⁽ⁱ⁾. GMM este un <strong>aproximator universal</strong> de densitati - cu suficiente componente, poate aproxima orice densitate smooth cu precizie arbitrara! GMM-urile sunt antrenate cu algoritmul EM (Expectation-Maximization).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Gaussian Mixture Model</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from sklearn.mixture import GaussianMixture
+
+# Generam date din 3 clustere
+np.random.seed(42)
+n_samples = 300
+
+# Cluster 1
+c1 = np.random.multivariate_normal([0, 0], [[1, 0], [0, 1]], 100)
+# Cluster 2
+c2 = np.random.multivariate_normal([4, 4], [[1, 0.5], [0.5, 1]], 100)
+# Cluster 3
+c3 = np.random.multivariate_normal([0, 4], [[0.5, 0], [0, 0.5]], 100)
+
+X = np.vstack([c1, c2, c3])
+
+# Fit GMM
+gmm = GaussianMixture(n_components=3, random_state=42)
+gmm.fit(X)
+
+print("GMM Parameters:")
+print(f"Weights (π): {gmm.weights_.round(3)}")
+print(f"Means:\n{gmm.means_.round(2)}")
+
+# Predict cluster assignments (posterior argmax)
+labels = gmm.predict(X)
+print(f"\nCluster sizes: {np.bincount(labels)}")
+
+# Sample new data
+new_samples, _ = gmm.sample(10)
+print(f"\nNew samples shape: {new_samples.shape}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.10 Proprietati Utile ale Functiilor Comune</h4>
+                        <p>Anumite functii apar frecvent cand lucram cu distributii de probabilitate in deep learning. Una dintre cele mai importante este <strong>functia sigmoid logistica</strong>: σ(x) = 1/(1 + exp(-x)). Sigmoid-ul transforma orice numar real in intervalul (0, 1) - perfect pentru a produce parametrul φ al unei distributii Bernoulli!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Functia Sigmoid</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.2rem; margin-bottom: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        σ(x) = 1 / (1 + e⁻ˣ)
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                        <svg width="280" height="100" viewBox="0 0 280 100" style="max-width: 100%; display: block; margin: 0 auto;">
+                                            <line x1="20" y1="50" x2="260" y2="50" stroke="var(--text-secondary)" stroke-width="1" stroke-dasharray="5,5"/>
+                                            <line x1="140" y1="10" x2="140" y2="90" stroke="var(--text-secondary)" stroke-width="1"/>
+                                            <path d="M 20 85 Q 60 85 100 75 Q 120 65 140 50 Q 160 35 180 25 Q 220 15 260 15" stroke="var(--accent)" stroke-width="3" fill="none"/>
+                                            <text x="265" y="18" fill="var(--text-secondary)" font-size="10">1</text>
+                                            <text x="265" y="88" fill="var(--text-secondary)" font-size="10">0</text>
+                                            <text x="140" y="98" fill="var(--text-secondary)" font-size="10" text-anchor="middle">0</text>
+                                        </svg>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
+                                        <div style="text-align: center; padding: 10px; background: var(--bg-dark); border-radius: 6px;">
+                                            <p style="font-size: 0.8rem;">σ(-∞) → 0</p>
+                                        </div>
+                                        <div style="text-align: center; padding: 10px; background: var(--bg-dark); border-radius: 6px;">
+                                            <p style="font-size: 0.8rem;">σ(0) = 0.5</p>
+                                        </div>
+                                        <div style="text-align: center; padding: 10px; background: var(--bg-dark); border-radius: 6px;">
+                                            <p style="font-size: 0.8rem;">σ(+∞) → 1</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Sigmoid si proprietati</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def sigmoid(x):
+    """Functia sigmoid logistica"""
+    return 1 / (1 + np.exp(-x))
+
+# Proprietati
+print("Proprietati sigmoid:")
+print(f"σ(-10) = {sigmoid(-10):.6f}")  # ≈ 0
+print(f"σ(0) = {sigmoid(0):.1f}")      # = 0.5
+print(f"σ(10) = {sigmoid(10):.6f}")    # ≈ 1
+
+# Proprietate importanta: derivata simpla!
+def sigmoid_derivative(x):
+    s = sigmoid(x)
+    return s * (1 - s)  # σ(x)(1 - σ(x))
+
+print(f"\nσ'(0) = {sigmoid_derivative(0):.2f}")  # = 0.25 (maxim)
+
+# In PyTorch
+import torch
+x = torch.tensor([0.0], requires_grad=True)
+y = torch.sigmoid(x)
+y.backward()
+print(f"PyTorch: dσ/dx at x=0: {x.grad.item():.2f}")
+
+# Utilizare: Output layer pentru clasificare binara
+logits = np.array([-2, 0, 2, 5])
+probs = sigmoid(logits)
+print(f"\nLogits → Probabilitati:")
+for l, p in zip(logits, probs):
+    print(f"  {l:+d} → {p:.3f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

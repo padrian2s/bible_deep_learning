@@ -1,0 +1,187 @@
+<section class="page-section" id="page-443">
+    <div class="page-header">
+        <div class="page-number">443</div>
+        <div class="page-title">
+            <h3>Tuning Manual al Hiperparametrilor</h3>
+            <span>Sectiunea 11.4.1 - Manual Hyperparameter Tuning</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-443.jpg"
+             alt="Pagina 443" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Intelegerea Relatiilor: Cheia Tuning-ului Manual</h4>
+                <p>Pentru a seta hiperparametrii manual, trebuie sa intelegi <strong>relatia</strong> dintre hiperparametri, eroarea de training, eroarea de generalizare si resursele computationale. Algoritmii automatici reduc nevoia acestei intelegeri, dar sunt adesea <strong>mult mai costisitori computational</strong>. Scopul tuning-ului manual este sa gasesti cea mai mica eroare de generalizare, respectand un buget de timp si memorie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Trade-off-uri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4ecdc4; font-weight: bold; margin-bottom: 10px;">Training Error</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Cat de bine fit-uieste modelul datele de training</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ff6b6b; font-weight: bold; margin-bottom: 10px;">Generalization Gap</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">Diferenta test - train (masoara overfitting)</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ffd93d; font-weight: bold; margin-bottom: 10px;">Test Error</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em;">= Train Error + Gap (ce optimizam)</div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Obiectiv:</strong> Minimizeaza Test Error = Training Error + Generalization Gap. Trebuie sa balansezi capacitatea modelului pentru a obtine ambele mici.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Capacitatea Efectiva si Curba U</h4>
+                <p>Scopul principal al tuning-ului manual este sa ajustezi <strong>capacitatea efectiva</strong> a modelului pentru a se potrivi cu complexitatea task-ului. Capacitatea efectiva depinde de: (1) capacitatea reprezentationala a modelului, (2) abilitatea algoritmului de invatare de a minimiza cost function, si (3) gradul in care regularizarea limiteaza modelul. Eroarea de generalizare urmeaza tipic o <strong>curba in forma de U</strong> in functie de capacitate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Curba U</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 20px; border-radius: 10px;">
+                                <div style="height: 180px; display: flex; align-items: flex-end; justify-content: space-around; border-bottom: 2px solid #444; border-left: 2px solid #444; padding: 10px; position: relative;">
+                                    <div style="position: absolute; left: -60px; top: 50%; transform: rotate(-90deg) translateX(50%); color: #888; font-size: 0.85em;">Generalization Error</div>
+                                    <div style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); color: #888; font-size: 0.85em;">Model Capacity / Hyperparameter Value</div>
+
+                                    <!-- U-curve visualization -->
+                                    <div style="width: 10%; display: flex; flex-direction: column; align-items: center;">
+                                        <div style="height: 140px; width: 25px; background: linear-gradient(to top, #4ecdc4, transparent); border-radius: 5px 5px 0 0;"></div>
+                                        <div style="color: #ff6b6b; font-size: 0.7em; margin-top: 5px;">Under</div>
+                                    </div>
+                                    <div style="width: 10%; display: flex; flex-direction: column; align-items: center;">
+                                        <div style="height: 100px; width: 25px; background: linear-gradient(to top, #4ecdc4, transparent); border-radius: 5px 5px 0 0;"></div>
+                                    </div>
+                                    <div style="width: 10%; display: flex; flex-direction: column; align-items: center;">
+                                        <div style="height: 60px; width: 25px; background: linear-gradient(to top, #4caf50, transparent); border-radius: 5px 5px 0 0;"></div>
+                                        <div style="color: #4caf50; font-size: 0.7em; margin-top: 5px;">Optim</div>
+                                    </div>
+                                    <div style="width: 10%; display: flex; flex-direction: column; align-items: center;">
+                                        <div style="height: 80px; width: 25px; background: linear-gradient(to top, #ffd93d, transparent); border-radius: 5px 5px 0 0;"></div>
+                                    </div>
+                                    <div style="width: 10%; display: flex; flex-direction: column; align-items: center;">
+                                        <div style="height: 120px; width: 25px; background: linear-gradient(to top, #ff6b6b, transparent); border-radius: 5px 5px 0 0;"></div>
+                                        <div style="color: #ff6b6b; font-size: 0.7em; margin-top: 5px;">Over</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 10px; color: #666; font-size: 0.8em; padding: 0 20px;">
+                                    <span>Capacitate mica</span>
+                                    <span>Capacitate mare</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; color: #a0a0a0; font-size: 0.9em;">
+                                <strong>Stanga:</strong> Underfitting - training error mare<br>
+                                <strong>Dreapta:</strong> Overfitting - gap mare intre train si test<br>
+                                <strong>Mijloc:</strong> Sweet spot - eroare de generalizare minima
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Hiperparametri si Capacitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Cum afecteaza hiperparametrii capacitatea efectiva
+
+CAPACITY_EFFECTS = {
+    # CRESC CAPACITATEA (risc overfitting)
+    "increase_capacity": {
+        "num_layers": "↑ mai multe layere = ↑ capacitate",
+        "hidden_units": "↑ mai multi neuroni = ↑ capacitate",
+        "learning_rate": "↑ LR mai mare poate = ↑ capacitate",
+        "epochs": "↑ mai multe epoci = ↑ fit pe training",
+    },
+
+    # SCAD CAPACITATEA (risc underfitting)
+    "decrease_capacity": {
+        "dropout": "↑ dropout mai mare = ↓ capacitate efectiva",
+        "weight_decay": "↑ L2 mai mare = ↓ capacitate efectiva",
+        "early_stopping": "↑ patience mic = ↓ capacitate",
+        "batch_norm": "introduce noise = ↓ capacitate (usor)",
+    },
+
+    # HIPERPARAMETRI CARE NU EXPLOREAZA TOATA CURBA U
+    "limited_exploration": {
+        "num_units": "discreti - nu poti explora continuu",
+        "binary_switches": "doar 2 puncte pe curba",
+        "weight_decay_min_0": "nu poti merge sub 0 (max capacity)",
+    }
+}
+
+# EXEMPLU PRACTIC:
+# Daca model overfit:
+#   - Creste dropout: 0.3 -> 0.5
+#   - Creste weight_decay: 1e-4 -> 1e-3
+#   - Early stopping mai agresiv
+
+# Daca model underfit:
+#   - Creste hidden_units: 256 -> 512
+#   - Adauga layere: 2 -> 4
+#   - Scade regularizarea
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tipuri de Hiperparametri si Limitari</h4>
+                <p>Nu orice hiperparametru poate explora intreaga curba U. Multi hiperparametri sunt <strong>discreti</strong> (numarul de unitati, numarul de layere) - poti vizita doar cateva puncte. Unii sunt <strong>binari</strong> (folosesti sau nu batch normalization) - doar doua puncte. Altii au <strong>limite minime/maxime</strong>: weight decay nu poate fi negativ, deci nu poti explora regiunea de capacitate maxima prin el. Unii hiperparametri pot doar <strong>scadea</strong> capacitatea (dropout, weight decay).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Best Practices</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Regula generala:</strong> Incepe cu un model suficient de mare sa fit-uiasca datele, apoi regularizeaza
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Nu poti intra in regimul de overfitting doar prin weight decay</strong> - trebuie sa cresti arhitectura
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Figura 5.3:</strong> Exemplu clasic de curba U pentru polynomial regression
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

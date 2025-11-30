@@ -1,0 +1,157 @@
+        <section class="page-section" id="page-84">
+            <div class="page-header">
+                <div class="page-number">84</div>
+                <div class="page-title">
+                    <h3>Graficele Sigmoid si Softplus</h3>
+                    <span>Figurile 3.3 si 3.4</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-084.jpg"
+                     alt="Pagina 84" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Figura 3.3: Functia Sigmoid Logistica</h4>
+                        <p>Graficul arata forma caracteristica "S" a sigmoid-ului. Observa cum functia trece lin de la ~0 pentru valori foarte negative, prin 0.5 la x=0, pana la ~1 pentru valori foarte pozitive. Zonele plate la extremitati sunt <strong>regiunile de saturatie</strong> - aici gradientul este aproape zero.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Sigmoid detaliat</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; align-items: center;">
+                                            <div>
+                                                <svg width="200" height="120" viewBox="0 0 200 120" style="max-width: 100%;">
+                                                    <line x1="10" y1="60" x2="190" y2="60" stroke="var(--text-secondary)" stroke-width="1"/>
+                                                    <line x1="100" y1="10" x2="100" y2="110" stroke="var(--text-secondary)" stroke-width="1"/>
+                                                    <!-- Sigmoid curve -->
+                                                    <path d="M 10 105 Q 40 105 60 100 Q 80 90 100 60 Q 120 30 140 20 Q 160 15 190 15" stroke="var(--accent)" stroke-width="3" fill="none"/>
+                                                    <!-- Asymptotes -->
+                                                    <line x1="10" y1="15" x2="190" y2="15" stroke="var(--success)" stroke-width="1" stroke-dasharray="5,5"/>
+                                                    <line x1="10" y1="105" x2="190" y2="105" stroke="var(--warning)" stroke-width="1" stroke-dasharray="5,5"/>
+                                                    <text x="195" y="18" fill="var(--success)" font-size="10">1</text>
+                                                    <text x="195" y="108" fill="var(--warning)" font-size="10">0</text>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                                                    <strong style="color: var(--warning);">Saturatie stanga:</strong> σ(-10) ≈ 0.00005<br>
+                                                    <strong style="color: var(--accent);">Zona liniara:</strong> σ(0) = 0.5<br>
+                                                    <strong style="color: var(--success);">Saturatie dreapta:</strong> σ(10) ≈ 0.99995
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Utilizari ale sigmoid</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>🎯</span>
+                                            <div><strong>Output layer clasificare binara</strong> - Transforma logits in probabilitati</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🚪</span>
+                                            <div><strong>Gate-uri in LSTM/GRU</strong> - Controleaza fluxul de informatie (0-1)</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>⚠️</span>
+                                            <div><strong>NU pentru hidden layers</strong> - Vanishing gradient! Foloseste ReLU</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Figura 3.4: Functia Softplus</h4>
+                        <p>Softplus arata ca o versiune netezita a ReLU. Pentru x negativ mare, se apropie de 0 (dar niciodata nu atinge exact 0). Pentru x pozitiv mare, se apropie de linia y = x. Diferenta fata de ReLU e vizibila in jurul lui x = 0: softplus e smooth, ReLU are un colt ascutit.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Comparatie softplus/ReLU/sigmoid</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-np.clip(x, -500, 500)))
+
+def softplus(x):
+    return np.where(x > 20, x, np.log1p(np.exp(np.clip(x, -500, 500))))
+
+def relu(x):
+    return np.maximum(0, x)
+
+# Tabel comparativ
+print("x      | sigmoid | softplus | ReLU")
+print("-" * 40)
+for x in [-5, -2, -1, 0, 1, 2, 5]:
+    print(f"{x:+5.1f}  | {sigmoid(x):7.4f} | {softplus(x):8.4f} | {relu(x):4.1f}")
+
+# Proprietati cheie:
+print("\nProprietati:")
+print("• sigmoid: (0, 1) - pentru probabilitati")
+print("• softplus: (0, ∞) - pentru scale/variance")
+print("• ReLU: [0, ∞) - pentru activari (dar cu 0 exact)")
+
+# Conexiunea: d/dx softplus(x) = sigmoid(x)
+print("\n∂softplus/∂x = sigmoid:")
+x = np.array([0.0])
+h = 1e-5
+numerical = (softplus(x + h) - softplus(x)) / h
+print(f"  Numeric: {numerical[0]:.6f}")
+print(f"  σ(0): {sigmoid(0):.6f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Cand folosim softplus?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Utilizari softplus:</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>Parametri pozitivi:</strong> σ, β, variance in VAE decoder</li>
+                                            <li><strong>Activare smooth:</strong> Alternativa la ReLU (dar mai scumpa computational)</li>
+                                            <li><strong>Log-space computation:</strong> log(1+exp(x)) e utila in log-sum-exp tricks</li>
+                                        </ul>
+                                        <p style="margin-top: 10px; color: var(--warning);">In practica, ReLU e preferata in hidden layers - mai rapida si functioneaza la fel de bine!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

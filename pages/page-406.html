@@ -1,0 +1,86 @@
+<section class="page-section" id="page-406">
+    <div class="page-header">
+        <div class="page-number">406</div>
+        <div class="page-title">
+            <h3>10.2.4 Modeling Sequences Conditioned on Context</h3>
+            <span>RNN Conditionat pe Input Fix</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-406.jpg"
+             alt="Pagina 406" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>RNN Conditionat pe Context x</h4>
+                <p>Pana acum am discutat RNN-uri care modeleaza P(y). Acum extindem la <strong>P(y | x)</strong> - distributia conditionata pe un context fix x. Aceasta permite task-uri ca image captioning (x = imagine → y = descriere text).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De la P(y) la P(y|x)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Unconditional P(y)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Language model pur - genereaza text "din nimic"</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Conditional P(y|x)</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Genereaza text bazat pe context (imagine, document, etc.)</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Reinterpretare:</h5>
+                                <p>Modelul P(y; θ) devine P(y | ω) unde ω = f(x) este o functie de input!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cum Introducem Contextul x?</h4>
+                <p>Daca x este un vector fix (nu secventa), avem mai multe optiuni pentru a-l "injecta" in RNN. Alegerea influenteaza cum modelul "vede" contextul pe parcursul generarii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>3 Metode de a Introduce x</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">1. Extra Input la Fiecare Pas</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">h<sup>(t)</sup> = f(h<sup>(t-1)</sup>, y<sup>(t-1)</sup>, <strong>x</strong>)</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">x este concatenat la input-ul de la fiecare pas</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">2. Initial Hidden State</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">h<sup>(0)</sup> = g(x)</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">x initializeaza starea ascunsa</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">3. Ambele</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Combina metodele 1 si 2 pentru maximum context</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

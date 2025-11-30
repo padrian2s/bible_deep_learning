@@ -1,0 +1,113 @@
+<section class="page-section" id="page-138">
+    <div class="page-header">
+        <div class="page-number">138</div>
+        <div class="page-title">
+            <h3>Algorithm 5.1: K-Fold Cross-Validation</h3>
+            <span>Capitolul 5 - Pseudocod CV</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-138.jpg"
+             alt="Pagina 138" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul K-Fold Cross-Validation (Formal)</h4>
+                <p>Algorithm 5.1 prezinta pseudocodul pentru k-fold cross-validation. Se poate folosi pentru a estima eroarea de generalizare a unui algoritm de invatare A cand dataset-ul D este prea mic pentru un simplu train/test split. Dataset-ul D contine exemple z<sup>(i)</sup>, care pot fi perechi (x<sup>(i)</sup>, y<sup>(i)</sup>) pentru supervised learning sau doar x<sup>(i)</sup> pentru unsupervised. Algoritmul returneaza vectorul de erori e pentru fiecare exemplu, a carui medie este estimatul generalization error.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Algoritmul in Python</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def k_fold_cv(D, A, L, k):
+    """
+    K-Fold Cross-Validation
+    D: dataset (liste de exemple z)
+    A: algoritm de invatare (functie: dataset -> model)
+    L: loss function (functie: model, exemplu -> scalar)
+    k: numar de fold-uri
+    """
+    n = len(D)
+    indices = np.arange(n)
+    np.random.shuffle(indices)
+
+    # Split in k fold-uri
+    folds = np.array_split(indices, k)
+    errors = []
+
+    for i in range(k):
+        # D_i = fold i (test), D \ D_i = restul (train)
+        test_idx = folds[i]
+        train_idx = np.concatenate([folds[j] for j in range(k) if j != i])
+
+        D_train = [D[j] for j in train_idx]
+        D_test = [D[j] for j in test_idx]
+
+        # Antreneaza pe D \ D_i
+        f_i = A(D_train)
+
+        # Evalueaza pe D_i
+        for z in D_test:
+            e_j = L(f_i, z)
+            errors.append(e_j)
+
+    return np.array(errors)
+
+# Eroarea medie = estimated generalization error
+# mean(errors), std(errors) pentru confidence interval
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Compararea Algoritmilor cu Confidence Intervals</h4>
+                <p>Erorile individuale pe exemple pot fi folosite pentru a calcula un <strong>confidence interval</strong> in jurul mediei (ecuatia 5.47). Desi aceste confidence intervals nu sunt perfect justificate dupa cross-validation, practica comuna este sa declaram ca algoritmul A este mai bun decat B <strong>doar daca</strong> confidence interval-ul erorii lui A este complet sub cel al lui B (nu se intersecteaza).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Comparare Algoritmi</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="margin-bottom: 15px;">Algoritmul A (mean ± 95% CI):</p>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span>Error:</span>
+                                    <div style="flex: 1; height: 20px; position: relative;">
+                                        <div style="position: absolute; left: 10%; right: 50%; height: 100%; background: var(--success); border-radius: 4px;"></div>
+                                        <div style="position: absolute; left: 30%; width: 4px; height: 100%; background: white;"></div>
+                                    </div>
+                                </div>
+                                <p style="margin: 15px 0;">Algoritmul B (mean ± 95% CI):</p>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span>Error:</span>
+                                    <div style="flex: 1; height: 20px; position: relative;">
+                                        <div style="position: absolute; left: 40%; right: 20%; height: 100%; background: var(--warning); border-radius: 4px;"></div>
+                                        <div style="position: absolute; left: 60%; width: 4px; height: 100%; background: white;"></div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; color: var(--success);">✓ A este semnificativ mai bun (intervalele nu se intersecteaza)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

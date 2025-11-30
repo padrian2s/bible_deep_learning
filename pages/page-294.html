@@ -1,0 +1,116 @@
+<section class="page-section" id="page-294">
+    <div class="page-header">
+        <div class="page-number">294</div>
+        <div class="page-title">
+            <h3>Metode de Ordin 2 si Batch Size</h3>
+            <span>Hessian si Dimensiunea Minibatch</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-294.jpg"
+             alt="Pagina 294" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gradient vs Hessian: Sensibilitatea la Batch Size</h4>
+                <p>Diferite tipuri de algoritmi sunt mai mult sau mai putin sensibile la eroarea de sampling din minibatch. Metodele care folosesc doar gradientul sunt relativ robuste cu batch-uri mici (ex: 100). Dar metodele de ordin 2 care folosesc si <strong>matricea Hessiană H</strong> necesită batch-uri mult mai mari!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie: Batch Size Necesar</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Metode Ordin 1 (gradient)</strong>
+                                    <div style="font-size: 2rem; color: var(--success); margin: 10px 0;">~100</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Calculeaza doar g = ∇J</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Metode Ordin 2 (Hessian)</strong>
+                                    <div style="font-size: 2rem; color: var(--warning); margin: 10px 0;">~10,000</div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Calculeaza H⁻¹g</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce Hessian e mai sensibil?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Chiar daca H este estimat perfect, daca are un <strong>condition number slab</strong>, erori mici in estimarea lui g se pot amplifica enorm in H⁻¹g. Inmultirea cu inversa Hessianului poate amplifica zgomotul!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Importanta Shuffle-ului pentru Minibatch</h4>
+                <p>Este crucial ca minibatch-urile sa fie selectate <strong>aleator</strong>! Pentru o estimare nebiasată a gradientului, sample-urile trebuie să fie independente. Dorim si ca două minibatch-uri consecutive să fie independente - deci datele trebuie amestecate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Exemplu: Date Medicale Corelate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);"><strong>Scenariul:</strong> Dataset medical cu probe de sange, sortate pe pacienti.</p>
+                                <ul style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                    <li>Pacient 1: probe 1-5</li>
+                                    <li>Pacient 2: probe 6-8</li>
+                                    <li>Pacient 3: probe 9-12</li>
+                                    <li>...</li>
+                                </ul>
+                                <p style="color: var(--warning); margin-top: 10px;"><strong>Problema:</strong> Fara shuffle, un minibatch ar putea contine doar probe de la un singur pacient - estimare biasata!</p>
+                                <p style="color: var(--success); margin-top: 10px;"><strong>Solutia:</strong> Amesteca datele o data la inceput, apoi pastreaza ordinea shuffle-uita.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Shuffle O Data vs La Fiecare Epoca</h4>
+                <p>Pentru dataset-uri foarte mari (miliarde de exemple), poate fi impracticabil sa samplez uniform la fiecare minibatch. Solutia practica: shuffle dataset-ul o singura data la inceput, apoi foloseste minibatch-uri consecutive din aceasta ordine. Toate modelele antrenate dupa vor folosi aceeasi ordine.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Impact Practic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-success">
+                                <p>Devierea de la sampling-ul aleator pur nu pare sa aiba un efect negativ semnificativ in practica. Dar <strong>a nu shuffle deloc</strong> poate reduce serios eficacitatea algoritmului!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

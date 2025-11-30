@@ -1,0 +1,260 @@
+<section class="page-section" id="page-98">
+    <div class="page-header">
+        <div class="page-number">98</div>
+        <div class="page-title">
+            <h3>Gradient Descent si Puncte Critice</h3>
+            <span>Capitolul 4 - Derivata si Optimizare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-098.jpg"
+             alt="Pagina 98" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 4.1: Gradient Descent in Actiune</h4>
+                <p>Figura ilustreaza cum algoritmul gradient descent foloseste derivatele pentru a urma functia in jos spre un minim. Pentru functia f(x) = ½x², derivata este f'(x) = x. Cand x < 0, derivata este negativa, deci ne miscam spre dreapta (spre zero). Cand x > 0, derivata este pozitiva, deci ne miscam spre stanga. La x = 0, derivata este zero si algoritmul se opreste - am gasit minimul global!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Vizualizare Pas cu Pas</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def gradient_descent_trace(f, f_prime, x0, lr, n_steps):
+    """Gradient descent cu tracking complet"""
+    x = x0
+    history = [(x, f(x), f_prime(x))]
+
+    for _ in range(n_steps):
+        grad = f_prime(x)
+        x = x - lr * grad
+        history.append((x, f(x), f_prime(x)))
+
+    return history
+
+# f(x) = 0.5 * x^2
+f = lambda x: 0.5 * x**2
+f_prime = lambda x: x
+
+# Din x=-2, cu lr=0.3
+trace = gradient_descent_trace(f, f_prime, x0=-2.0, lr=0.3, n_steps=10)
+
+print("Pas | x       | f(x)    | f'(x)")
+print("-" * 40)
+for i, (x, fx, fpx) in enumerate(trace):
+    print(f"{i:3d} | {x:7.4f} | {fx:7.4f} | {fpx:7.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Parabola si Gradientul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <svg viewBox="0 0 400 200" style="width: 100%; max-width: 400px; display: block; margin: 0 auto;">
+                                    <!-- Axe -->
+                                    <line x1="50" y1="180" x2="350" y2="180" stroke="var(--text-secondary)" stroke-width="2"/>
+                                    <line x1="200" y1="20" x2="200" y2="180" stroke="var(--text-secondary)" stroke-width="2"/>
+                                    <!-- Parabola -->
+                                    <path d="M 50,170 Q 125,50 200,20 Q 275,50 350,170" fill="none" stroke="var(--primary)" stroke-width="3"/>
+                                    <!-- Punct pe stanga -->
+                                    <circle cx="100" cy="120" r="8" fill="var(--warning)"/>
+                                    <text x="70" y="105" fill="var(--warning)" font-size="12">x&lt;0</text>
+                                    <text x="110" y="130" fill="var(--success)" font-size="14">→</text>
+                                    <!-- Punct pe dreapta -->
+                                    <circle cx="300" cy="120" r="8" fill="var(--warning)"/>
+                                    <text x="310" y="105" fill="var(--warning)" font-size="12">x&gt;0</text>
+                                    <text x="275" y="130" fill="var(--success)" font-size="14">←</text>
+                                    <!-- Minim -->
+                                    <circle cx="200" cy="20" r="10" fill="var(--success)"/>
+                                    <text x="210" y="35" fill="var(--success)" font-size="12">minim</text>
+                                    <!-- Labels -->
+                                    <text x="360" y="185" fill="var(--text-secondary)" font-size="12">x</text>
+                                    <text x="205" y="15" fill="var(--text-secondary)" font-size="12">f(x)</text>
+                                </svg>
+                                <p style="text-align: center; margin-top: 15px; color: var(--accent);">Gradient descent converge la minim de la orice punct!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Puncte Critice (Stationare)</h4>
+                <p>Cand f'(x) = 0, derivata nu ofera informatii despre directia de miscare. Astfel de puncte se numesc <strong>puncte critice</strong> sau <strong>puncte stationare</strong>. Un <strong>minim local</strong> este un punct unde f(x) este mai mic decat la toti vecinii - nu putem reduce f(x) cu pasi infinitezimali. Un <strong>maxim local</strong> este unde f(x) este mai mare decat la toti vecinii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Gasirea Punctelor Critice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy.optimize import minimize_scalar
+
+# Functie cu multiple puncte critice
+# f(x) = x^4 - 2x^2 + 0.5
+def f(x):
+    return x**4 - 2*x**2 + 0.5
+
+def f_prime(x):
+    return 4*x**3 - 4*x
+
+# Puncte critice: 4x³ - 4x = 0 → x(x²-1) = 0
+# Solutii: x = 0, x = 1, x = -1
+
+critical_points = [-1, 0, 1]
+print("Puncte critice pentru f(x) = x⁴ - 2x² + 0.5:")
+print("-" * 45)
+for x in critical_points:
+    fx = f(x)
+    f_second = 12*x**2 - 4  # f''(x)
+    if f_second > 0:
+        tip = "minim local"
+    elif f_second < 0:
+        tip = "maxim local"
+    else:
+        tip = "punct de inflexiune"
+    print(f"x = {x:2d}: f(x) = {fx:.2f}, f''(x) = {f_second:3d} → {tip}")
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Folosim derivata a doua pentru a clasifica punctele critice!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Clasificarea Punctelor Critice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--success); background: rgba(0,200,100,0.2); padding: 15px; border-radius: 8px; text-align: center; border: 2px solid var(--success);">
+                                    <div style="font-size: 2rem;">∪</div>
+                                    <strong>Minim Local</strong>
+                                    <p style="font-size: 0.85rem;">f'(x) = 0</p>
+                                    <p style="font-size: 0.85rem;">f''(x) > 0</p>
+                                </div>
+                                <div style="background: rgba(255,100,100,0.2); padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #ff6464;">
+                                    <div style="font-size: 2rem;">∩</div>
+                                    <strong>Maxim Local</strong>
+                                    <p style="font-size: 0.85rem;">f'(x) = 0</p>
+                                    <p style="font-size: 0.85rem;">f''(x) < 0</p>
+                                </div>
+                                <div style="background: rgba(255,200,0,0.2); padding: 15px; border-radius: 8px; text-align: center; border: 2px solid var(--warning);">
+                                    <div style="font-size: 2rem;">~</div>
+                                    <strong>Saddle Point</strong>
+                                    <p style="font-size: 0.85rem;">f'(x) = 0</p>
+                                    <p style="font-size: 0.85rem;">f''(x) = 0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Minim Local vs Minim Global</h4>
+                <p>Un punct care obtine valoarea absolut cea mai mica a lui f(x) este un <strong>minim global</strong>. Poate exista un singur minim global sau mai multe. Pot exista si <strong>minime locale</strong> care nu sunt optime global. In contextul deep learning, optimizam functii care pot avea multe minime locale si multe puncte saddle inconjurate de regiuni foarte plate. Toate acestea fac optimizarea foarte dificila, mai ales cand inputul este multidimensional.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Minime Locale vs Global</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Functie cu multiple minime
+def f(x):
+    return np.sin(x) + 0.1*x**2
+
+def f_prime(x):
+    return np.cos(x) + 0.2*x
+
+# Gradient descent din diferite puncte de start
+starts = [-5, -2, 0, 2, 5]
+lr = 0.1
+
+print("Convergenta din diferite puncte de start:")
+print("-" * 50)
+for x0 in starts:
+    x = x0
+    for _ in range(100):
+        x = x - lr * f_prime(x)
+    print(f"Start: {x0:3d} → Converge la x = {x:.4f}, "
+          f"f(x) = {f(x):.4f}")
+
+# Gasim minimul global prin cautare exhaustiva
+x_range = np.linspace(-10, 10, 1000)
+idx = np.argmin(f(x_range))
+print(f"\nMinim global: x* = {x_range[idx]:.4f}, "
+      f"f(x*) = {f(x_range[idx]):.4f}")
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Problema in Deep Learning</h5>
+                                <p>Retelele neuronale au miliarde de parametri → imposibil de cautat exhaustiv. Ne multumim cu minime locale "suficient de bune".</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Peisaj de Optimizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <svg viewBox="0 0 400 150" style="width: 100%; display: block; margin: 0 auto;">
+                                    <!-- Curba cu multiple minime -->
+                                    <path d="M 20,100 Q 60,40 100,80 Q 140,120 180,60 Q 220,10 260,50 Q 300,90 340,30 Q 380,70 390,100"
+                                          fill="none" stroke="var(--primary)" stroke-width="3"/>
+                                    <!-- Minime locale -->
+                                    <circle cx="100" cy="80" r="6" fill="var(--warning)"/>
+                                    <text x="85" y="100" fill="var(--warning)" font-size="10">local</text>
+                                    <circle cx="260" cy="50" r="6" fill="var(--warning)"/>
+                                    <text x="245" y="70" fill="var(--warning)" font-size="10">local</text>
+                                    <!-- Minim global -->
+                                    <circle cx="340" cy="30" r="8" fill="var(--success)"/>
+                                    <text x="320" y="50" fill="var(--success)" font-size="10">GLOBAL</text>
+                                    <!-- Maxim local -->
+                                    <circle cx="180" cy="60" r="5" fill="#ff6464"/>
+                                    <text x="170" y="55" fill="#ff6464" font-size="9">max</text>
+                                </svg>
+                                <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">Gradient descent poate ramane blocat in minime locale!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,140 @@
+<section class="page-section" id="page-352">
+    <div class="page-header">
+        <div class="page-number">352</div>
+        <div class="page-title">
+            <h3>Figura 9.3-9.4: Receptive Field</h3>
+            <span>Campul Receptiv si Straturile Adanci</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-352.jpg"
+             alt="Pagina 352" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conectivitate Sparse - Perspectiva "De Sus"</h4>
+                <p>Figura 9.3 arata aceeasi comparatie, dar privind de la input spre output. Evidentiind un output s₃, vedem ce inputuri il afecteaza. In CNN cu kernel de dimensiune 3, doar x₂, x₃, x₄ contribuie la s₃ - acesta este <strong>receptive field</strong>-ul (campul receptiv) lui s₃. In reteaua fully connected, TOATE inputurile afecteaza s₃.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Receptive Field</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; padding: 20px; background: var(--bg-lighter); border-radius: 12px;">
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Output neuron s₃</strong>
+                                </div>
+                                <div style="display: inline-block; background: var(--accent); padding: 20px; border-radius: 50%; font-size: 1.5rem; margin-bottom: 15px;">s₃</div>
+                                <div style="font-size: 1.5rem; margin: 10px 0;">↙ ↓ ↘</div>
+                                <div style="display: flex; justify-content: center; gap: 10px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 4px; opacity: 0.3;">x₁</div>
+                                    <div style="background: var(--success); padding: 15px; border-radius: 4px;">x₂</div>
+                                    <div style="background: var(--success); padding: 15px; border-radius: 4px;">x₃</div>
+                                    <div style="background: var(--success); padding: 15px; border-radius: 4px;">x₄</div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 4px; opacity: 0.3;">x₅</div>
+                                </div>
+                                <div style="margin-top: 15px; padding: 10px; background: var(--success); border-radius: 8px; display: inline-block;">
+                                    <strong>Receptive Field = {x₂, x₃, x₄}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Receptive Field Creste cu Adancimea</h4>
+                <p>Figura 9.4 arata un concept crucial: in straturile mai adanci ale CNN-ului, unitatile au un <strong>receptive field indirect</strong> mult mai mare. Chiar daca conexiunile directe sunt sparse, un neuron din stratul g poate fi conectat INDIRECT la o regiune mare din input x. Aceasta este magia CNN-urilor: straturi simple cu conexiuni locale pot captura dependente globale!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cresterea Receptive Field</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                                    <div>
+                                        <strong style="color: var(--primary);">Layer 1</strong>
+                                        <div style="background: var(--primary); height: 40px; margin: 10px auto; width: 60px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">RF=3</div>
+                                    </div>
+                                    <div>
+                                        <strong style="color: var(--accent);">Layer 2</strong>
+                                        <div style="background: var(--accent); height: 40px; margin: 10px auto; width: 100px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">RF=5</div>
+                                    </div>
+                                    <div>
+                                        <strong style="color: var(--success);">Layer 3</strong>
+                                        <div style="background: var(--success); height: 40px; margin: 10px auto; width: 140px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">RF=7</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 15px; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <div style="display: flex; justify-content: center; gap: 3px;">
+                                        <div style="background: var(--text-secondary); width: 20px; height: 20px; border-radius: 2px;"></div>
+                                        <div style="background: var(--text-secondary); width: 20px; height: 20px; border-radius: 2px;"></div>
+                                        <div style="background: var(--text-secondary); width: 20px; height: 20px; border-radius: 2px;"></div>
+                                        <div style="background: var(--text-secondary); width: 20px; height: 20px; border-radius: 2px;"></div>
+                                        <div style="background: var(--text-secondary); width: 20px; height: 20px; border-radius: 2px;"></div>
+                                        <div style="background: var(--text-secondary); width: 20px; height: 20px; border-radius: 2px;"></div>
+                                        <div style="background: var(--text-secondary); width: 20px; height: 20px; border-radius: 2px;"></div>
+                                    </div>
+                                    <div style="text-align: center; margin-top: 5px; font-size: 0.85rem;">Input Image</div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Formula:</strong> RF(layer n) = RF(layer n-1) + (kernel_size - 1)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Calculul Receptive Field</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def calculate_receptive_field(layers):
+    """
+    Calculeaza receptive field pentru o stiva de convolutii.
+    layers = lista de (kernel_size, stride) pentru fiecare layer
+    """
+    rf = 1  # receptive field initial
+    stride_product = 1
+
+    for kernel_size, stride in layers:
+        rf = rf + (kernel_size - 1) * stride_product
+        stride_product *= stride
+
+    return rf
+
+# VGG-style: 3 layere cu kernel 3x3
+layers = [(3, 1), (3, 1), (3, 1)]
+rf = calculate_receptive_field(layers)
+print(f"3 layere conv 3x3: RF = {rf}")  # RF = 7
+
+# Cu pooling (stride=2)
+layers_pool = [(3, 1), (2, 2), (3, 1), (2, 2), (3, 1)]
+rf_pool = calculate_receptive_field(layers_pool)
+print(f"Cu pooling: RF = {rf_pool}")  # RF = 23
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

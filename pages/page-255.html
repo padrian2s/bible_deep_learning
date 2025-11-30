@@ -1,0 +1,130 @@
+<section class="page-section" id="page-255">
+    <div class="page-header">
+        <div class="page-number">255</div>
+        <div class="page-title">
+            <h3>7.4 Dataset Augmentation</h3>
+            <span>Augmentarea Datelor de Antrenament</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-255.jpg"
+             alt="Pagina 255" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Pseudoinversa ca Limita Weight Decay</h4>
+                <p>Moore-Penrose pseudoinversa X⁺ poate fi definita ca:</p>
+                <div class="formula" style="margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px; text-align: center;">
+                    X⁺ = lim<sub>α→0</sub> (X⊤X + αI)⁻¹X⊤
+                </div>
+                <p>Aceasta e exact solutia ridge regression cand α → 0. Pseudoinversa poate fi interpretata ca stabilizarea problemelor sub-determinate prin regularizare.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Dataset Augmentation - Cea Mai Buna Regularizare</h4>
+                <p>Cel mai bun mod de a face un model sa generalizeze mai bine este sa-l antrenam pe <strong>mai multe date</strong>. In practica, cantitatea de date este limitata. O solutie: cream date "false" si le adaugam la setul de antrenament. Aceasta abordare e cea mai usoara pentru clasificare, unde trebuie doar sa transformam input-urile x pastrandu-le etichetele y.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Augmentare Imagini</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torchvision.transforms as T
+
+# Augmentari standard pentru imagini
+train_transform = T.Compose([
+    T.RandomHorizontalFlip(p=0.5),
+    T.RandomRotation(degrees=15),
+    T.RandomResizedCrop(224, scale=(0.8, 1.0)),
+    T.ColorJitter(brightness=0.2, contrast=0.2),
+    T.ToTensor(),
+    T.Normalize(mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225])
+])
+
+# La test - fara augmentare!
+test_transform = T.Compose([
+    T.Resize(256),
+    T.CenterCrop(224),
+    T.ToTensor(),
+    T.Normalize(mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225])
+])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ce transformari sunt valide?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Atentie:</strong> Transformarile nu trebuie sa schimbe clasa corecta!</p>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">OK pentru imagini</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Translatii mici</li>
+                                        <li>Rotatii mici</li>
+                                        <li>Scalari</li>
+                                        <li>Flip orizontal (de obicei)</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Problematic</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Flip orizontal pt 'b' vs 'd'</li>
+                                        <li>Rotatie 180° pt '6' vs '9'</li>
+                                        <li>Orice transforma clasa</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Augmentare pentru Object Recognition</h4>
+                <p>Dataset augmentation a fost foarte eficienta pentru recunoasterea obiectelor. Imaginile sunt high-dimensional si includ o varietate enorma de factori de variatie, multi usor de simulat. Translatii de cativa pixeli pot imbunatati semnificativ generalizarea, chiar daca modelul are deja convolutii si pooling pentru invarianta la translatie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Augmentare pentru Speech</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Dataset augmentation functioneaza si pentru speech recognition (Jaitly & Hinton, 2013):</p>
+                            <ul style="margin-top: 10px;">
+                                <li>Adaugare zgomot de fundal</li>
+                                <li>Variatie de viteza (speed perturbation)</li>
+                                <li>Schimbari de pitch</li>
+                                <li>SpecAugment - mascarea spectrogram-ului</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

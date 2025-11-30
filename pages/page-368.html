@@ -1,0 +1,147 @@
+<section class="page-section" id="page-368">
+    <div class="page-header">
+        <div class="page-number">368</div>
+        <div class="page-title">
+            <h3>Figura 9.14: Comparatie Conexiuni</h3>
+            <span>Local vs Convolutional vs Full</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-368.jpg"
+             alt="Pagina 368" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trei Tipuri de Conectivitate</h4>
+                <p>Figura 9.14 compara vizual cele trei tipuri de layere. <strong>Sus:</strong> Locally connected - fiecare conexiune are litera unica (a, b, c, d...) = ponderi diferite. <strong>Mijloc:</strong> Convolutional - aceleasi litere (a, b) se repeta = partajare. <strong>Jos:</strong> Fully connected - toate inputurile conectate la toate outputurile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Matricea de Ponderi</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; font-family: monospace; font-size: 0.8rem;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Locally Connected</strong>
+                                    <div style="margin-top: 10px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; text-align: center;">
+                                        <div style="background: var(--primary); padding: 5px; border-radius: 2px;">a</div>
+                                        <div style="background: var(--primary); padding: 5px; border-radius: 2px;">b</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="background: var(--accent); padding: 5px; border-radius: 2px;">c</div>
+                                        <div style="background: var(--accent); padding: 5px; border-radius: 2px;">d</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="background: var(--success); padding: 5px; border-radius: 2px;">e</div>
+                                        <div style="background: var(--success); padding: 5px; border-radius: 2px;">f</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                    </div>
+                                    <p style="font-size: 0.75rem; margin-top: 10px;">Sparse + Unique weights</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Convolutional</strong>
+                                    <div style="margin-top: 10px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; text-align: center;">
+                                        <div style="background: var(--success); padding: 5px; border-radius: 2px;">a</div>
+                                        <div style="background: var(--success); padding: 5px; border-radius: 2px;">b</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="background: var(--success); padding: 5px; border-radius: 2px;">a</div>
+                                        <div style="background: var(--success); padding: 5px; border-radius: 2px;">b</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                        <div style="background: var(--success); padding: 5px; border-radius: 2px;">a</div>
+                                        <div style="background: var(--success); padding: 5px; border-radius: 2px;">b</div>
+                                        <div style="opacity: 0.2; padding: 5px;">0</div>
+                                    </div>
+                                    <p style="font-size: 0.75rem; margin-top: 10px;">Sparse + Shared weights</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Fully Connected</strong>
+                                    <div style="margin-top: 10px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; text-align: center;">
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w1</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w2</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w3</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w4</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w5</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w6</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w7</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w8</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w9</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w10</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w11</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w12</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w13</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w14</div>
+                                        <div style="background: var(--warning); padding: 5px; border-radius: 2px; font-size: 0.6rem;">w15</div>
+                                    </div>
+                                    <p style="font-size: 0.75rem; margin-top: 10px;">Dense + Unique weights</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Spectrul de la Local la Global</h4>
+                <p>Putem vedea aceste trei tipuri ca puncte pe un spectru. Locally connected = slab prior (doar localitate), Convolutional = prior puternic (localitate + partajare), Fully connected = cel mai slab prior (orice conexiune posibila). Alegerea depinde de cat de mult stim despre structura datelor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Sumar Comparativ</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                <tr style="background: var(--bg-lighter);">
+                                    <th style="padding: 10px; text-align: left;">Tip</th>
+                                    <th style="padding: 10px;">Conectivitate</th>
+                                    <th style="padding: 10px;">Partajare</th>
+                                    <th style="padding: 10px;">Parametri</th>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter);">Locally Connected</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); text-align: center;">Locala</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); text-align: center;">NU</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); text-align: center;">Multi</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter);">Convolutional</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); text-align: center;">Locala</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); text-align: center;">DA</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid var(--bg-lighter); text-align: center;">Putini</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;">Fully Connected</td>
+                                    <td style="padding: 10px; text-align: center;">Globala</td>
+                                    <td style="padding: 10px; text-align: center;">NU</td>
+                                    <td style="padding: 10px; text-align: center;">Foarte multi</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

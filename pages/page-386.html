@@ -1,0 +1,149 @@
+<section class="page-section" id="page-386">
+    <div class="page-header">
+        <div class="page-number">386</div>
+        <div class="page-title">
+            <h3>9.11 CNN si Istoria Deep Learning</h3>
+            <span>De la Check Reading la ImageNet</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-386.jpg"
+             alt="Pagina 386" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 9.19: Features Invatate vs V1</h4>
+                <p>Figura compara features invatate de algoritmi ML cu cele din V1. <strong>Stanga:</strong> ponderi invatate de sparse coding nesupervizat pe patch-uri de imagini. <strong>Dreapta:</strong> kerneluri din primul layer al unui CNN maxout supervizat. Ambele arata detectori de margini orientate - remarcabil de similari cu celulele simple din cortexul vizual!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Vizualizarea Filtrelor CNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torchvision.models as models
+import matplotlib.pyplot as plt
+
+# Incarcam un model pretrained
+model = models.resnet18(pretrained=True)
+
+# Extragem filtrele din primul layer conv
+first_conv = model.conv1.weight.data  # [64, 3, 7, 7]
+
+# Vizualizam primele 16 filtre
+fig, axes = plt.subplots(4, 4, figsize=(8, 8))
+for i, ax in enumerate(axes.flat):
+    # Normalizam pentru vizualizare
+    filt = first_conv[i].permute(1, 2, 0).numpy()
+    filt = (filt - filt.min()) / (filt.max() - filt.min())
+    ax.imshow(filt)
+    ax.axis('off')
+
+plt.suptitle('Primele filtre Conv1 din ResNet-18')
+# Rezultat: multe filtre Gabor-like (margini, bare orientate)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sectiunea 9.11: CNN in Istoria Deep Learning</h4>
+                <p>CNN-urile au jucat un rol crucial in istoria deep learning! Ele sunt un exemplu de succes al aplicarii insights-urilor din neurostiinta la ML. Au fost printre primele modele "deep" care au functionat bine, mult inainte ca modelele deep arbitrare sa fie considerate viabile. Si au fost printre primele retele neuronale cu aplicatii comerciale importante!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Comerciale Istorice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="position: relative; padding-left: 20px; background: linear-gradient(90deg, rgba(16, 185, 129, 0.2) 0%, transparent 15%);">
+                                <div style="margin-bottom: 15px;">
+                                    <strong style="color: var(--success);">Anii '90: AT&T</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">CNN pentru citirea cecurilor bancare. La sfarsitul anilor '90, sistemul NEC citea >10% din toate cecurile din SUA!</p>
+                                </div>
+                                <div style="margin-bottom: 15px;">
+                                    <strong style="color: var(--success);">Ani '90-2000: OCR</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Sisteme de recunoastere a scrisului de mana (Microsoft, NEC) bazate pe CNN-uri</p>
+                                </div>
+                                <div style="margin-bottom: 15px;">
+                                    <strong style="color: var(--accent);">2012: AlexNet</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Krizhevsky et al. castiga ImageNet cu un CNN pe GPU - momentul "big bang" al deep learning modern</p>
+                                </div>
+                                <div>
+                                    <strong style="color: var(--primary);">2012+: Explozia</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Computer vision, self-driving cars, medical imaging, face recognition...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ImageNet: Punctul de Cotitura</h4>
+                <p>CNN-urile castigasera deja competitii de computer vision cu ani inainte. Dar intensitatea actuala a interesului comercial a inceput cand <strong>Krizhevsky et al. (2012)</strong> au castigat ImageNet object recognition challenge. Aceasta a demonstrat ca deep learning functioneaza la scala mare si a declansat revolutia AI moderna.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>AlexNet: Arhitectura care a schimbat totul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <table style="width: 100%; font-size: 0.85rem;">
+                                    <tr>
+                                        <td style="padding: 8px; font-weight: bold;">Input:</td>
+                                        <td style="padding: 8px;">224×224×3 RGB</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; font-weight: bold;">Arhitectura:</td>
+                                        <td style="padding: 8px;">5 Conv + 3 FC layers</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; font-weight: bold;">Parametri:</td>
+                                        <td style="padding: 8px;">~60 milioane</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; font-weight: bold;">Activare:</td>
+                                        <td style="padding: 8px;">ReLU (nou la acea vreme!)</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; font-weight: bold;">Regularizare:</td>
+                                        <td style="padding: 8px;">Dropout, Data augmentation</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; font-weight: bold;">Hardware:</td>
+                                        <td style="padding: 8px;">2× GTX 580 GPUs</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; font-weight: bold; color: var(--success);">Top-5 Error:</td>
+                                        <td style="padding: 8px; color: var(--success);">15.3% (vs 26.2% runner-up!)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

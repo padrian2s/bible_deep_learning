@@ -1,0 +1,137 @@
+<section class="page-section" id="page-239">
+    <div class="page-header">
+        <div class="page-number">239</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5.10 Derivate de Ordin Superior si 6.6 Note Istorice</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-239.jpg"
+             alt="Pagina 239" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.5.10 Derivate de Ordin Superior</h4>
+                <p>Unele framework-uri software suporta utilizarea derivatelor de ordin superior. Printre framework-urile de deep learning, aceasta include cel putin Theano si TensorFlow. Aceste biblioteci folosesc acelasi tip de structura de date pentru a descrie expresiile pentru derivate ca si pentru functia originala diferentiata. Aceasta inseamna ca masinaria de diferentiere simbolica poate fi aplicata derivatelor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Problema Hessianului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Matricea Hessiana:</strong>
+                                <p style="margin-top: 10px;">Pentru f: R^n → R, Hessianul H este o matrice n×n. In aplicatiile tipice de deep learning, n poate fi numarul de parametri (miliarde!). Intreaga matrice Hessiana este infezabil de reprezentat.</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# Model cu 1 milion de parametri
+n = 1_000_000
+
+# Dimensiunea Hessianului:
+# H ∈ R^(n×n) = R^(10^6 × 10^6)
+# = 10^12 elemente
+# = 4 TB (float32)!
+
+# INFEZABIL de stocat sau calculat direct!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Metodele Krylov si Hessian-Vector Products</h4>
+                <p>In loc de a calcula explicit Hessianul, abordarea tipica in deep learning este sa folosim metode Krylov. Metodele Krylov sunt un set de tehnici iterative pentru a efectua diverse operatii precum inversarea aproximativa a unei matrici sau gasirea aproximativa a eigenvectorilor sau eigenvalues, fara sa foloseasca nicio operatie alta decat produse matrice-vector.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatia 6.59: Hessian-Vector Product</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Formula pentru Hv (Ecuatia 6.59):</strong>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.1rem; text-align: center;">
+                                    Hv = ∇ₓ[(∇ₓf(x))ᵀ v]
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">Ambele computatii gradient pot fi calculate automat de biblioteca software!</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+import torch
+
+def hessian_vector_product(loss_fn, x, v):
+    """
+    Calculeaza Hv fara a construi H explicit!
+    """
+    x = x.detach().requires_grad_(True)
+
+    # Primul gradient
+    loss = loss_fn(x)
+    grad = torch.autograd.grad(loss, x, create_graph=True)[0]
+
+    # Produs scalar cu v
+    grad_v = torch.sum(grad * v)
+
+    # Al doilea gradient (Hv)
+    Hv = torch.autograd.grad(grad_v, x)[0]
+
+    return Hv
+
+# Exemplu:
+x = torch.randn(100, requires_grad=True)
+v = torch.randn(100)
+loss_fn = lambda x: (x**2).sum()
+
+Hv = hessian_vector_product(loss_fn, x, v)
+# Cost: O(n), nu O(n^2)!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.6 Note Istorice</h4>
+                <p>Retelele feedforward pot fi vazute ca aproximatoare eficiente de functii neliniare bazate pe folosirea gradient descent pentru a minimiza eroarea intr-o aproximare de functie. Din acest punct de vedere, reteaua feedforward moderna este punctul culminant al secolelor de progres in problema generala de aproximare a functiilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Radacinile Istorice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <h5 style="color: var(--primary); margin-bottom: 15px;">Timeline:</h5>
+                                <ul style="font-size: 0.9rem;">
+                                    <li style="margin-bottom: 10px;"><strong>Sec. 17:</strong> Regula lantului (Leibniz, L'Hôpital)</li>
+                                    <li style="margin-bottom: 10px;"><strong>Sec. 19:</strong> Gradient descent (Cauchy, 1847)</li>
+                                    <li style="margin-bottom: 10px;"><strong>1943:</strong> Primul model neuronal (McCulloch & Pitts)</li>
+                                    <li style="margin-bottom: 10px;"><strong>1958:</strong> Perceptron (Rosenblatt)</li>
+                                    <li style="margin-bottom: 10px;"><strong>1969:</strong> Critica XOR (Minsky & Papert)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

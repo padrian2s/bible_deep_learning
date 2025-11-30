@@ -1,0 +1,130 @@
+<section class="page-section" id="page-476">
+    <div class="page-header">
+        <div class="page-number">476</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4 Natural Language Processing</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-476.jpg"
+             alt="Pagina 476" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4 Natural Language Processing</h4>
+                <p><strong>NLP</strong> (Natural Language Processing) este folosirea limbajelor umane, cum ar fi engleza sau romana, de catre computere. Programele citesc si emit limbaj natural. Aplicatiile includ <strong>machine translation</strong>, question answering, sentiment analysis si multe altele. Multe aplicatii NLP se bazeaza pe <strong>language models</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Aplicatii NLP</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">🌐 Machine Translation</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">EN → RO, FR → DE, etc.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">❓ Question Answering</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Raspunsuri la intrebari</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">😊 Sentiment Analysis</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Pozitiv/Negativ/Neutru</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">📝 Text Generation</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Completare, sumarizare</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Provocari in NLP</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>De ce e dificil NLP:</strong> Limbajele naturale sunt adesea ambigue si sfideaza descrierea formala. Tehnicile generice de retele neurale pot fi aplicate cu succes, dar sunt necesare strategii domain-specific pentru scalare la aplicatii mari.
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Numarul total de cuvinte posibile este atat de mare incat modelele word-based trebuie sa opereze pe un spatiu discret extrem de inalt-dimensional si rar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.4.1 n-grams</h4>
+                <p>Un <strong>language model</strong> defineste o distributie de probabilitate peste secvente de tokens intr-un limbaj natural. Token-ul poate fi un cuvant, caracter sau chiar byte. Primele modele de succes se bazau pe <strong>n-grams</strong> - secvente de n tokens consecutive.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: n-gram Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <p style="color: var(--text-secondary);">Propozitia: <strong>"THE DOG RAN AWAY"</strong></p>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">Unigram (n=1)</strong>
+                                    <div style="font-family: monospace; font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                                        THE<br>DOG<br>RAN<br>AWAY
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Bigram (n=2)</strong>
+                                    <div style="font-family: monospace; font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                                        THE DOG<br>DOG RAN<br>RAN AWAY
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Trigram (n=3)</strong>
+                                    <div style="font-family: monospace; font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                                        THE DOG RAN<br>DOG RAN AWAY
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula: n-gram Probability</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                P(x₁, ..., xτ) = P(x₁, ..., xₙ₋₁) × ∏ₜ₌ₙᵗ P(xₜ | xₜ₋ₙ₊₁, ..., xₜ₋₁)
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Probabilitatea unei secvente este produsul probabilitatilor conditionale, unde fiecare token depinde doar de cele n-1 anterioare.</p>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Chain Rule Decomposition:</strong> Modelul foloseste regula lantului pentru a descompune probabilitatea secventei in produse de probabilitati conditionale.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

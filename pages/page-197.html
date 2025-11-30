@@ -1,0 +1,170 @@
+<section class="page-section" id="page-197">
+    <div class="page-header">
+        <div class="page-number">197</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.2.2.2 Unitati Sigmoid pentru Distributii Bernoulli</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-197.jpg"
+             alt="Pagina 197" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Clasificare Binara: Distributie Bernoulli</h4>
+                <p>Multe task-uri necesita prezicerea valorii unei variabile binare y. Problemele de clasificare cu doua clase pot fi puse in aceasta forma. Abordarea maximum-likelihood este sa definim o distributie Bernoulli peste y conditionat de x. O distributie Bernoulli este definita de un singur numar - reteaua trebuie sa prezica doar P(y = 1 | x), care trebuie sa fie in intervalul [0, 1].</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Distributia Bernoulli</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p><strong>Distributia Bernoulli:</strong></p>
+                                <p style="margin-top: 10px;">P(y = 1 | x) = p</p>
+                                <p>P(y = 0 | x) = 1 - p</p>
+                                <p style="margin-top: 10px;">Unde p ∈ [0, 1] - o singura valoare!</p>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Reteaua trebuie sa outputeze o probabilitate valida in [0, 1]. Cum garantam aceasta constrangere?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema cu Clipping Simplu</h4>
+                <p>Daca am folosi o unitate liniara si am trunchia (clip) valoarea pentru a obtine o probabilitate valida, P(y = 1 | x) = max{0, min{1, wᵀh + b}}, am avea probleme cu antrenarea. Ori de cate ori wᵀh + b iese din intervalul [0, 1], gradientul output-ului fata de parametri ar fi 0. Cu gradient 0, algoritmul de invatare nu mai are ghid pentru imbunatatirea parametrilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Problema Gradientului Zero</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div class="code-block" style="margin-bottom: 15px;">
+# Abordare GRESITA - clipping
+def bad_output(z):
+    return max(0, min(1, z))
+
+# Problema: gradientul este 0 in afara [0,1]
+# z = 2.5 → output = 1, d_output/d_z = 0
+# z = -0.5 → output = 0, d_output/d_z = 0
+
+# Modelul nu stie CUM sa se corecteze!
+                                </div>
+                                <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem; color: var(--warning);">📉</div>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">z < 0: output = 0<br/>gradient = 0</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem; color: var(--success);">📈</div>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">0 ≤ z ≤ 1<br/>gradient = 1</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem; color: var(--warning);">📉</div>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">z > 1: output = 1<br/>gradient = 0</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Solutia: Functia Sigmoid</h4>
+                <p>In schimb, este mai bine sa folosim o abordare diferita care asigura intotdeauna un gradient puternic ori de cate ori modelul greseste raspunsul. Aceasta abordare este bazata pe folosirea unitatilor de output sigmoid combinate cu maximum likelihood. Unitatea sigmoid este definita de: y_hat = σ(wᵀh + b), unde σ este functia logistica.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare: Sigmoid + BCE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Functia sigmoid
+def sigmoid(z):
+    return 1 / (1 + torch.exp(-z))
+
+# σ(z) ∈ (0, 1) pentru orice z ∈ R
+# σ(0) = 0.5
+# σ(+∞) → 1
+# σ(-∞) → 0
+
+# In PyTorch: Binary Cross-Entropy with Logits
+# (combina sigmoid + cross-entropy pentru stabilitate)
+model = nn.Sequential(
+    nn.Linear(10, 64),
+    nn.ReLU(),
+    nn.Linear(64, 1)  # output = logit (inainte de sigmoid)
+)
+
+# BCEWithLogitsLoss aplica sigmoid intern!
+criterion = nn.BCEWithLogitsLoss()
+
+# Echivalent cu:
+# pred = sigmoid(model(x))
+# loss = -y*log(pred) - (1-y)*log(1-pred)
+
+# Avantaj: stabilitate numerica superioara
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Graficul Functiei Sigmoid</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                <svg width="300" height="150" viewBox="-60 -10 150 80" style="background: var(--bg-dark); border-radius: 8px;">
+                                    <!-- Axes -->
+                                    <line x1="0" y1="60" x2="90" y2="60" stroke="#666" stroke-width="1"/>
+                                    <line x1="45" y1="70" x2="45" y2="0" stroke="#666" stroke-width="1"/>
+                                    <!-- Sigmoid curve (approximated) -->
+                                    <path d="M 0,58 Q 20,58 30,55 Q 40,45 45,30 Q 50,15 60,5 Q 70,2 90,2" stroke="#00d4ff" stroke-width="2" fill="none"/>
+                                    <!-- Labels -->
+                                    <text x="88" y="72" fill="#888" font-size="8">z</text>
+                                    <text x="48" y="8" fill="#888" font-size="8">1</text>
+                                    <text x="48" y="62" fill="#888" font-size="8">0</text>
+                                    <text x="44" y="35" fill="#888" font-size="6">0.5</text>
+                                    <!-- Dashed lines -->
+                                    <line x1="0" y1="30" x2="90" y2="30" stroke="#666" stroke-width="0.5" stroke-dasharray="3,3"/>
+                                </svg>
+                                <div class="formula" style="margin-top: 10px;">
+                                    σ(z) = 1 / (1 + e<sup>-z</sup>)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,142 @@
+<section class="page-section" id="page-459">
+    <div class="page-header">
+        <div class="page-number">459</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.1.1 Implementari CPU Rapide si 12.1.2 Implementari GPU</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-459.jpg"
+             alt="Pagina 459" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.1.1 Implementari CPU Rapide</h4>
+                <p>Traditional, retelele neurale erau antrenate folosind CPU-ul unei singure masini. Astazi, aceasta abordare este considerata insuficienta - folosim GPU computing sau CPU-uri in retea. Totusi, optimizarea atenta pentru CPU-uri specifice poate aduce imbunatatiri semnificative.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Fixed-Point vs Floating-Point</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Exemplu: Diferenta de performanta
+# Vanhoucke et al. (2011) - speedup 3x cu fixed-point
+
+# Floating-point (traditional)
+weights_float = np.array([0.123456, 0.789012], dtype=np.float32)
+
+# Fixed-point (optimizat pentru CPU)
+# Reprezentare ca intregi scalati
+scale = 2**16
+weights_fixed = (weights_float * scale).astype(np.int32)
+
+# Operatiile cu intregi sunt mai rapide pe anumite CPU-uri
+                            </div>
+                            <div style="margin-top: 15px; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <strong style="color: var(--accent);">Optimizari importante:</strong>
+                                <ul style="color: var(--text-secondary); margin-top: 10px;">
+                                    <li>Aritmetica fixed-point vs floating-point</li>
+                                    <li>Optimizarea structurilor de date pentru cache</li>
+                                    <li>Folosirea instructiunilor vectoriale (SIMD)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Cercetare CPU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Vanhoucke et al. (2011)</strong> - Speedup 3x cu implementare fixed-point tuned</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Principiu Important:</strong> Specializarea atenta a rutinelor de calcul numeric poate aduce beneficii mari. Cand performanta implementarii restrictioneaza dimensiunea modelului, acuratetea modelului sufera.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.1.2 Implementari GPU</h4>
+                <p>Majoritatea implementarilor moderne de retele neurale se bazeaza pe <strong>GPU-uri</strong> (Graphics Processing Units). Aceste componente hardware specializate au fost dezvoltate initial pentru aplicatii grafice, dar caracteristicile lor de performanta sunt benefice si pentru retelele neurale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: CPU vs GPU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; border-top: 3px solid var(--warning);">
+                                    <h5 style="color: var(--warning);">CPU</h5>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>Clock speed mare</li>
+                                        <li>Branching sofisticat</li>
+                                        <li>Cache mare</li>
+                                        <li>Putine core-uri (~8-16)</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; border-top: 3px solid var(--success);">
+                                    <h5 style="color: var(--success);">GPU</h5>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>Paralelism masiv</li>
+                                        <li>Bandwidth memorie mare</li>
+                                        <li>Clock speed mai mic</li>
+                                        <li>Mii de core-uri (~1000+)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--accent);">Retelele neurale beneficiaza de paralelismul GPU deoarece neuronii dintr-un layer pot fi procesati independent!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce GPU pentru Neural Networks?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Algoritmii de retele neurale au aceleasi caracteristici de performanta ca algoritmii grafici in timp real:</p>
+                            <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <span style="color: var(--success);">✓</span> Buffer-e mari de parametri, activari si gradienti
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <span style="color: var(--success);">✓</span> Actualizari complete la fiecare pas de antrenament
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <span style="color: var(--success);">✓</span> Nu necesita branching complex
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 8px;">
+                                    <span style="color: var(--success);">✓</span> Procesare independenta per neuron
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

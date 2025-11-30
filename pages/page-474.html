@@ -1,0 +1,136 @@
+<section class="page-section" id="page-474">
+    <div class="page-header">
+        <div class="page-number">474</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.3 Speech Recognition - Revolutia Deep Learning</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-474.jpg"
+             alt="Pagina 474" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Istoric: Retele Neurale in ASR (1980s-1990s)</h4>
+                <p>Speech recognition a fost de fapt una dintre primele arii unde retelele neurale au fost aplicate. Numeroase sisteme ASR din anii 1980 si inceputul anilor 1990 foloseau retele neurale. La acel moment, performanta ASR bazat pe retele neurale era aproximativ egala cu GMM-HMM.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Primele sisteme NN-ASR</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bourlard & Wellekens (1989)</strong> - Primele experimente NN pentru ASR</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Waibel et al. (1989)</strong> - Time-delay neural networks</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Robinson & Fallside (1991)</strong> - 26% phoneme error pe TIMIT</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>De ce industria nu a trecut la NN:</strong> Complexitatea ingineriei software din sistemele GMM-HMM existente si efortul investit in ele nu justifica trecerea la retele neurale care ofereau performanta similara.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Revolutia Deep Learning in ASR (2009-2012)</h4>
+                <p>Incepand din 2009, cercetatorii in speech au aplicat deep learning bazat pe <strong>unsupervised pretraining</strong> cu <strong>Restricted Boltzmann Machines</strong> (RBM). Retelele preluau reprezentari spectrale si preziceau probabilitatile conditionale ale starilor HMM. Rezultatele au fost impresionante!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Breakthrough-ul TIMIT</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <h5 style="color: var(--accent); margin-bottom: 15px;">Phoneme Error Rate pe TIMIT</h5>
+                                <div style="display: flex; align-items: flex-end; gap: 20px; height: 150px;">
+                                    <div style="display: flex; flex-direction: column; align-items: center;">
+                                        <div style="background: var(--warning); width: 50px; height: 100px;"></div>
+                                        <span style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">GMM-HMM</span>
+                                        <span style="color: var(--warning); font-weight: bold;">26%</span>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: center;">
+                                        <div style="background: var(--accent); width: 50px; height: 80px;"></div>
+                                        <span style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">DNN 2009</span>
+                                        <span style="color: var(--accent); font-weight: bold;">20.7%</span>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: center;">
+                                        <div style="background: var(--success); width: 50px; height: 60px;"></div>
+                                        <span style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Deep RNN</span>
+                                        <span style="color: var(--success); font-weight: bold;">17.7%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">~30% improvement! Dupa 10 ani de stagnare cu GMM-HMM, in ciuda cresterii continue a seturilor de date.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Deep Learning ASR</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Mohamed et al. (2009, 2012a)</strong> - DNN pentru TIMIT: 26% → 20.7% error</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Mohamed et al. (2011)</strong> - Speaker-adaptive features</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Dahl et al. (2012)</strong> - Extindere la large-vocabulary ASR</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Hinton et al. (2012a)</strong> - Overview al breakthrough-urilor, adoptate in telefoane mobile</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De la Pretraining la End-to-End</h4>
+                <p>Ulterior, pe masura ce grupurile au explorat dataset-uri mai mari si au incorporat metode de initializare si arhitecturi mai bune, s-a realizat ca faza de <strong>unsupervised pretraining nu mai era necesara</strong>. Breakthrough-urile in word error rate erau fara precedent (~30% improvement).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Evolutia Tehnicilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--warning); padding: 5px 15px; border-radius: 4px; color: var(--bg-dark); min-width: 80px; text-align: center;">2009</div>
+                                    <span style="color: var(--text-secondary);">RBM pretraining + DNN</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--accent); padding: 5px 15px; border-radius: 4px; color: var(--bg-dark); min-width: 80px; text-align: center;">2013</div>
+                                    <span style="color: var(--text-secondary);">ReLU + Dropout (fara pretraining)</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--success); padding: 5px 15px; border-radius: 4px; color: var(--bg-dark); min-width: 80px; text-align: center;">2015+</div>
+                                    <span style="color: var(--text-secondary);">End-to-end LSTM/Transformer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

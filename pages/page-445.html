@@ -1,0 +1,183 @@
+<section class="page-section" id="page-445">
+    <div class="page-header">
+        <div class="page-number">445</div>
+        <div class="page-title">
+            <h3>Figura 11.1 si Optimizarea Capacitatii</h3>
+            <span>Sectiunea 11.4.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-445.jpg"
+             alt="Pagina 445" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 11.1: Curba Learning Rate</h4>
+                <p>Figura 11.1 ilustreaza relatia tipica dintre <strong>learning rate</strong> si <strong>training error</strong>. Observa cresterea brusca a erorii cand learning rate-ul depaseste valoarea optima - pentru un timp fix de antrenare, un learning rate mai mic poate doar incetini training-ul, dar unul prea mare poate face gradient descent sa creasca eroarea in loc s-o scada!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Efect LR pe Training</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Demonstratie: Efectul learning rate-ului
+
+import numpy as np
+
+def quadratic_loss(x):
+    """Functie simpla cu minim la x=0"""
+    return x ** 2
+
+def gradient(x):
+    return 2 * x
+
+def train_with_lr(lr, initial_x=10.0, steps=50):
+    """Simuleaza gradient descent"""
+    x = initial_x
+    losses = []
+
+    for _ in range(steps):
+        losses.append(quadratic_loss(x))
+        x = x - lr * gradient(x)
+
+    return losses
+
+# Compara diferite learning rates
+print("Learning Rate | Final Loss | Comportament")
+print("-" * 50)
+
+for lr in [0.01, 0.1, 0.5, 0.9, 1.0, 1.1]:
+    losses = train_with_lr(lr)
+    final = losses[-1] if not np.isnan(losses[-1]) else float('inf')
+    trend = "converge" if final < 1 else "lent" if final < 100 else "diverge"
+    print(f"    {lr:.2f}      |  {final:.4f}   | {trend}")
+
+# OUTPUT TIPIC:
+# lr=0.01: converge lent (dupa 50 pasi, inca > 0)
+# lr=0.1:  converge bine
+# lr=0.5:  converge rapid (optimal pt quadratic)
+# lr=0.9:  converge cu oscilatii
+# lr=1.0:  EXACT la limita - oscileaza
+# lr=1.1:  DIVERGE - loss creste!
+
+# Pentru functii complexe (non-convexe),
+# efectele sunt si mai dramatice!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context: Regularizare si Generalizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Nota importanta:</strong> Curba pentru generalization error e mai complicata. Poate fi afectata de regularizare, learning rate mic/mare, si interactiuni subtile. Puncte cu training error echivalent pot avea generalization error diferit!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Optimizarea Test Error-ului</h4>
+                <p>Test error = Training error + Generalization gap. Retelele neuronale performeaza cel mai bine cand training error e <strong>foarte mic</strong> (capacitate mare) si test error e controlat in principal de <strong>gap</strong>. Obiectivul tau este sa <strong>reduci gap-ul fara sa cresti training error mai rapid decat scade gap-ul</strong>. Ideal: model mare, bine regularizat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Model Mare + Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #4d1b1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ff6b6b; font-weight: bold; margin-bottom: 10px;">Abordare Naiva</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-bottom: 10px;">Model mic pentru a evita overfitting</div>
+                                    <div style="display: grid; gap: 5px;">
+                                        <div style="background: #333; padding: 5px; border-radius: 3px;">Train Error: 8%</div>
+                                        <div style="background: #333; padding: 5px; border-radius: 3px;">Gap: 2%</div>
+                                        <div style="background: #4d1b1b; padding: 5px; border-radius: 3px; font-weight: bold;">Test Error: 10%</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4caf50; font-weight: bold; margin-bottom: 10px;">Abordare Buna</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-bottom: 10px;">Model mare + regularizare puternica</div>
+                                    <div style="display: grid; gap: 5px;">
+                                        <div style="background: #333; padding: 5px; border-radius: 3px;">Train Error: 3%</div>
+                                        <div style="background: #333; padding: 5px; border-radius: 3px;">Gap: 4%</div>
+                                        <div style="background: #1b4d1b; padding: 5px; border-radius: 3px; font-weight: bold;">Test Error: 7%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Insight cheie:</strong> Un model mare cu dropout puternic poate fi mai bun decat un model mic fara regularizare, chiar daca ambele au acelasi numar efectiv de parametri "activi".
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tabelul 11.1: Ghid pentru Hiperparametri</h4>
+                <p>Majoritatea hiperparametrilor pot fi rationalizati in termeni de: <strong>cresc</strong> sau <strong>scad</strong> capacitatea modelului. Tabelul 11.1 (prezentat pe pagina urmatoare) ofera exemple concrete. Cheia: nu pierde din vedere obiectivul final - <strong>performanta buna pe test set</strong>. Adaugarea de regularizare este doar o metoda de a atinge acest obiectiv.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Preview: Efecte Hiperparametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Efectele hiperparametrilor pe capacitate (preview Tabel 11.1)
+
+HYPERPARAMETER_EFFECTS = """
+| Hiperparametru    | Valoare Creste | Efect pe Capacitate |
+|-------------------|----------------|---------------------|
+| num_hidden_units  | ↑              | ↑ Creste            |
+| num_layers        | ↑              | ↑ Creste            |
+| learning_rate     | ↑              | Curba U (optimal)   |
+| conv_kernel_size  | ↑              | ↑ Creste            |
+| weight_decay      | ↑              | ↓ Scade             |
+| dropout_prob      | ↑              | ↓ Scade             |
+| batch_size        | ↑              | ↓ Scade (indirect)  |
+| implicit_zero_pad | on             | ↓ Scade             |
+| weight_sharing    | mai mult       | ↓ Scade             |
+"""
+print(HYPERPARAMETER_EFFECTS)
+
+# STRATEGIA RECOMANDATA:
+# 1. Incepe cu model mare (capacitate > necesara)
+# 2. Obtine training error mic
+# 3. Adauga regularizare progresiv pana gap e mic
+# 4. Repeta pana test error < target
+
+# "Brute force way to practically guarantee success:
+#  continually increase model capacity and training
+#  set size until the task is solved"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

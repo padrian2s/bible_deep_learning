@@ -1,0 +1,100 @@
+<section class="page-section" id="page-403">
+    <div class="page-header">
+        <div class="page-number">403</div>
+        <div class="page-title">
+            <h3>Figurile 10.7 si 10.8 - Grafuri Probabilistice</h3>
+            <span>Full Connectivity vs RNN Efficiency</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-403.jpg"
+             alt="Pagina 403" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.7 - Graful Complet Conectat</h4>
+                <p>In teoria grafurilor probabilistice, un model care capteaza TOATE dependentele intre variabile ar avea muchii intre fiecare pereche y<sup>(i)</sup> si y<sup>(t)</sup> (pentru i < t). Aceasta "fully connected" structura ar necesita <strong>O(k<sup>τ</sup>)</strong> parametri - imposibil de scalat!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Full Connectivity</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-family: monospace; line-height: 1.8;">
+                                    <span style="color: var(--text-secondary);">toate muchiile posibile:</span><br>
+                                    y<sup>(1)</sup> ──→ y<sup>(2)</sup> ──→ y<sup>(3)</sup> ──→ y<sup>(4)</sup> ──→ y<sup>(5)</sup><br>
+                                    &nbsp;└────────→ &nbsp;└────────→ &nbsp;└────────→<br>
+                                    &nbsp;└──────────────────→ &nbsp;└──────────────────→<br>
+                                    &nbsp;└────────────────────────────────────────→
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">
+                                Fiecare y<sup>(t)</sup> primeste muchii de la TOATE y-urile anterioare - exponential in lungimea secventei!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.8 - Eficienta RNN cu Stare Ascunsa</h4>
+                <p>Solutia RNN: introducem variabila intermediara h<sup>(t)</sup>. Aceasta "decupleaza" trecutul de viitor - h<sup>(t)</sup> contine toata informatia relevanta din y<sup>(1)</sup>...y<sup>(t-1)</sup>. Acum avem doar <strong>O(1)</strong> parametri per pas!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: RNN Structure</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center; font-family: monospace;">
+                                <div style="margin-bottom: 10px;">
+                                    h<sup>(1)</sup> → h<sup>(2)</sup> → h<sup>(3)</sup> → h<sup>(4)</sup> → h<sup>(5)</sup><br>
+                                    &nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                                    y<sup>(1)</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y<sup>(2)</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y<sup>(3)</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y<sup>(4)</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y<sup>(5)</sup>
+                                </div>
+                                <span style="color: var(--success);">Structura uniforma la fiecare pas!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ecuatiile 10.32-10.33</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <div class="formula" style="margin: 10px 0;">
+                                    L = Σ<sub>t</sub> L<sup>(t)</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.32)</span>
+                                </div>
+                                <div class="formula" style="margin: 10px 0;">
+                                    L<sup>(t)</sup> = -log P(y<sup>(t)</sup> = y<sup>(t)</sup> | y<sup>(t-1)</sup>, ..., y<sup>(1)</sup>)
+                                    <span style="color: var(--text-secondary); font-size: 0.85rem;"> (10.33)</span>
+                                </div>
+                            </div>
+                            <p style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                RNN-ul aproximeaza intreaga conditionare prin starea h - parametri constanti indiferent de lungime!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

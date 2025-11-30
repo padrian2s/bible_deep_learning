@@ -1,0 +1,81 @@
+<section class="page-section" id="page-503">
+    <div class="page-header">
+        <div class="page-number">503</div>
+        <div class="page-title">
+            <h3>Partea III: Deep Learning Research</h3>
+            <span>Intractable Inference si Normalization</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-503.jpg"
+             alt="Pagina 503" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Intractable Inference</h4>
+                <p>Provocarea computationala asociata cu distributii high-dimensional apare deoarece multi algoritmi pentru invatare sau utilizarea unui model antrenant implica computatii intractabile. Una dintre probleme este <strong>intractable inference</strong>: inferenta se refera la estimarea valorilor probabile ale unor variabile <strong>a</strong>, date fiind alte variabile <strong>b</strong> si <strong>c</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Problema: Sumarea peste variabile</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                Pentru a calcula probabilitati conditionale, trebuie sa sumam peste valorile variabilelor c, precum si sa calculam o constanta de normalizare care sumeaza peste valorile lui a si c. Aceste sume pot fi intractabile daca variabilele sunt continue sau au multe valori discrete.
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Inferenta este discutata in principal in capitolul 19.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Intractable Normalization Constants</h4>
+                <p>A doua problema este <strong>constanta de normalizare intractabila</strong> (functia de partitie). Normalizarea constantelor de probabilitate apare atat in inferenta cat si in invatare. Multi modele probabilistice implica o astfel de constanta. Antrenarea unui astfel de model necesita adesea calculul gradientului log-ului functiei de partitie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>MCMC Methods</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);"><strong>Monte Carlo Markov Chain</strong> (MCMC) methods (capitolul 17) sunt adesea folosite pentru a aproxima functia de partitie. Din pacate, metodele MCMC sufera cand modurile distributiei sunt numeroase si bine separate, mai ales in spatii high-dimensional (sectiunea 17.5).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Abordari in Partea III</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Solutii:</strong>
+                                <ul style="margin-top: 10px;">
+                                    <li>Aproximari ale computatiilor intractabile</li>
+                                    <li>Design de modele care evita complet aceste computatii</li>
+                                    <li>Modele generative care nu necesita partition function (Cap. 20)</li>
+                                </ul>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--accent);"><strong>Partea III este cea mai importanta pentru un cercetator</strong> care doreste sa inteleaga breadth-ul perspectivelor aduse in domeniul deep learning si sa impinga domeniul catre adevarata inteligenta artificiala.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

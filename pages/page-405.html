@@ -1,0 +1,114 @@
+<section class="page-section" id="page-405">
+    <div class="page-header">
+        <div class="page-number">405</div>
+        <div class="page-title">
+            <h3>Stationarity si Sampling din RNN</h3>
+            <span>Generarea Secventelor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-405.jpg"
+             alt="Pagina 405" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Stationarity - Independenta de Timp</h4>
+                <p>Parameter sharing in RNN implica <strong>stationarity</strong>: relatia dintre pasii t si t+1 este aceeasi pentru orice t. Modelul "nu stie" ce ora este - trateaza toate pozitiile uniform. Daca vrem dependenta de t, trebuie sa-l dam explicit ca input.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Time-Aware RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre># RNN standard - nu stie pozitia
+h_t = tanh(W @ h_{t-1} + U @ x_t)
+
+# RNN cu pozitie explicita
+h_t = tanh(W @ h_{t-1} + U @ x_t + P @ embed(t))
+# sau
+h_t = tanh(W @ h_{t-1} + U @ concat(x_t, t))</pre>
+                            </div>
+                            <p style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                Transformers folosesc "positional encoding" pentru exact acest motiv!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sampling din RNN - Generare de Secvente</h4>
+                <p>Pentru a genera secvente, <strong>sampluim</strong> din distributia conditionata la fiecare pas. Problema: cum stim cand sa ne oprim? Exista mai multe solutii pentru a determina lungimea secventei generate.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Metode pentru End-of-Sequence</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">1. Special EOS Token</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Adauga &lt;EOS&gt; in vocabular. Cand modelul genereaza &lt;EOS&gt;, ne oprim. (Schmidhuber, 2012)</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">2. Bernoulli "Continue?" Output</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Un neuron sigmoid extra decide daca sa continue sau sa se opreasca.</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 12px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">3. Predict τ Directly</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Modelul prezice lungimea τ inainte de generare. (Goodfellow et al., 2014)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Sampling Loop</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>def generate_sequence(model, start_token, max_len=100):
+    tokens = [start_token]
+    h = model.init_hidden()
+
+    for _ in range(max_len):
+        # Forward pass
+        logits, h = model(tokens[-1], h)
+        probs = softmax(logits)
+
+        # Sample from distribution
+        next_token = torch.multinomial(probs, 1)
+
+        # Check for EOS
+        if next_token == EOS_TOKEN:
+            break
+
+        tokens.append(next_token)
+
+    return tokens</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

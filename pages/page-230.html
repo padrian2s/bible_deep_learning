@@ -1,0 +1,143 @@
+<section class="page-section" id="page-230">
+    <div class="page-header">
+        <div class="page-number">230</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.5.6 Back-Propagation Generalizat</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-230.jpg"
+             alt="Pagina 230" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.5.6 General Back-Propagation</h4>
+                <p>Algoritmul de back-propagation este foarte simplu. Pentru a calcula gradientul unui scalar z fata de unul din stramosii sai x din graf, incepem prin a observa ca gradientul fata de z este dat de dz/dz = 1. Putem apoi calcula gradientul fata de fiecare parinte al lui z in graf inmultind gradientul curent cu Jacobianul operatiei care a produs z.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Algoritmul General</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <ol style="font-size: 0.9rem;">
+                                    <li style="margin-bottom: 10px;"><strong>Start:</strong> dz/dz = 1</li>
+                                    <li style="margin-bottom: 10px;"><strong>Pentru fiecare parinte p al lui z:</strong> dz/dp = dz/dz · Jacobian(z, p)</li>
+                                    <li style="margin-bottom: 10px;"><strong>Continua recursiv</strong> pana ajungem la x</li>
+                                    <li style="margin-bottom: 10px;"><strong>Daca multiple cai:</strong> SUMEAZA gradientii din toate caile</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Noduri cu Multiple Cai</h4>
+                <p>Pentru orice nod care poate fi atins de la z prin doua sau mai multe cai, pur si simplu sumam gradientii care sosesc din cai diferente la acel nod. Mai formal, fiecare nod din graf G corespunde unei variabile. Descriem variabila ca fiind un tensor V. Tensorii pot avea in general orice numar de dimensiuni - scalari, vectori si matrici.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Suma Gradientilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+
+# Variabila w folosita in 2 locuri (2 cai catre loss)
+w = torch.tensor([2.0], requires_grad=True)
+
+# Calea 1: prin y1
+y1 = w * 3  # dy1/dw = 3
+
+# Calea 2: prin y2
+y2 = w * 5  # dy2/dw = 5
+
+# Output comun
+z = y1 + y2  # z = 3w + 5w = 8w
+
+# Gradient total = suma din ambele cai
+z.backward()
+print(f"dz/dw = {w.grad.item()}")  # 8 = 3 + 5
+
+# Backprop automat SUMEAZA gradientii
+# din toate caile!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>API-ul pentru Grafuri Computationale</h4>
+                <p>Presupunem ca fiecare variabila V este asociata cu urmatoarele subrutine: get_operation(V) returneaza operatia care calculeaza V, get_consumers(V, G) returneaza lista variabilelor care sunt copii ai lui V in graful G, si get_inputs(V, G) returneaza lista variabilelor care sunt parinti ai lui V.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Functiile API</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                    <tr style="background: var(--primary);">
+                                        <th style="padding: 10px;">Functie</th>
+                                        <th style="padding: 10px;">Returneaza</th>
+                                        <th style="padding: 10px;">Exemplu</th>
+                                    </tr>
+                                    <tr style="background: var(--bg-dark);">
+                                        <td style="padding: 10px;"><code>get_operation(V)</code></td>
+                                        <td style="padding: 10px;">Operatia care produce V</td>
+                                        <td style="padding: 10px;">MatMul, ReLU, Add</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px;"><code>get_consumers(V, G)</code></td>
+                                        <td style="padding: 10px;">Copiii lui V</td>
+                                        <td style="padding: 10px;">Cine foloseste V</td>
+                                    </tr>
+                                    <tr style="background: var(--bg-dark);">
+                                        <td style="padding: 10px;"><code>get_inputs(V, G)</code></td>
+                                        <td style="padding: 10px;">Parintii lui V</td>
+                                        <td style="padding: 10px;">De cine depinde V</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# Exemplu conceptual in PyTorch
+# (API-ul real e diferit, dar ideea e aceeasi)
+
+class ComputationalGraph:
+    def get_operation(self, v):
+        return v.grad_fn  # ReLUBackward, AddBackward, etc.
+
+    def get_inputs(self, v):
+        if v.grad_fn:
+            return v.grad_fn.next_functions
+        return []
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,107 @@
+        <section class="page-section" id="page-64">
+            <div class="page-header">
+                <div class="page-number">64</div>
+                <div class="page-title">
+                    <h3>Optimizarea PCA</h3>
+                    <span>Gasirea Codului Optim</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-064.jpg"
+                     alt="Pagina 64" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Problema de Optimizare PCA</h4>
+                        <p>Obiectivul PCA: gaseste codul c* care minimizeaza eroarea de reconstructie ||x - g(c)||₂. Cu alte cuvinte, vrem x̂ = Dc cat mai aproape de x original.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Derivarea solutiei</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">c* = argmin_c ||x - Dc||₂²</div>
+                                    <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                        <p style="color: var(--text-secondary);">Expandam norma L² patratica:</p>
+                                        <div class="formula" style="font-size: 0.9rem; margin: 10px 0;">
+                                            ||x - Dc||₂² = (x - Dc)ᵀ(x - Dc)
+                                        </div>
+                                        <div class="formula" style="font-size: 0.9rem; margin: 10px 0;">
+                                            = xᵀx - 2xᵀDc + cᵀDᵀDc
+                                        </div>
+                                        <div class="formula" style="font-size: 0.9rem; margin: 10px 0;">
+                                            = xᵀx - 2xᵀDc + cᵀc (deoarece DᵀD = I)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Solutia: c* = Dᵀx</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 15px;">Derivam si egalam cu zero:</p>
+                                    <div style="display: grid; gap: 10px;">
+                                        <div class="formula">∇_c(xᵀx - 2xᵀDc + cᵀc) = 0</div>
+                                        <div class="formula">-2Dᵀx + 2c = 0</div>
+                                        <div class="formula" style="background: var(--success); color: white; padding: 15px;">c* = Dᵀx</div>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 15px;">
+                                        <h5>💡 Interpretare</h5>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                            Codul optim e pur si simplu proiectia lui x pe coloanele lui D! Functia de encoding e liniara: f(x) = Dᵀx
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Reconstructia</h4>
+                        <p>Cu c* = Dᵀx, reconstructia devine: r(x) = g(f(x)) = D(Dᵀx) = <strong>DDᵀ</strong>x. Matricea DDᵀ este o <strong>matrice de proiectie</strong> pe subspatiulgenerat de coloanele lui D.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Proprietati ale proiectiei</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">P = DDᵀ (matricea de proiectie)</div>
+                                    <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">P² = P</strong>
+                                            <span style="color: var(--text-secondary); font-size: 0.85rem;"> (idempotenta - proiectia de 2x = o data)</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">Pᵀ = P</strong>
+                                            <span style="color: var(--text-secondary); font-size: 0.85rem;"> (simetrica - proiectie ortogonala)</span>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                            <strong style="color: var(--warning);">rank(P) = l</strong>
+                                            <span style="color: var(--text-secondary); font-size: 0.85rem;"> (proiecteaza pe subspatiu l-dimensional)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

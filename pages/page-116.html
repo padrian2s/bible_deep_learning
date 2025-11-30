@@ -1,0 +1,160 @@
+<section class="page-section" id="page-116">
+    <div class="page-header">
+        <div class="page-number">116</div>
+        <div class="page-title">
+            <h3>Regresie, Transcriptie, Traducere, Output Structurat</h3>
+            <span>Capitolul 5 - Tipuri de Task-uri ML</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-116.jpg"
+             alt="Pagina 116" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regresie (Regression)</h4>
+                <p>In acest tip de task, programul trebuie sa prezica o valoare numerica data un input. Algoritmul invata o functie <strong>f: ℝⁿ → ℝ</strong>. Este similara clasificarii, dar formatul output-ului este diferit - un numar continuu in loc de o categorie. Un exemplu este predictia sumei pe care o va plati o asigurare pentru un asigurat, sau predictia preturilor actiunilor - folosite in trading algoritmic.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Regresie Liniara</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Predictia pretului unei case bazat pe features
+# Features: [suprafata_mp, nr_camere, varsta_ani, distanta_centru_km]
+X_train = np.array([
+    [50, 2, 10, 5],
+    [80, 3, 5, 3],
+    [120, 4, 2, 8],
+    [60, 2, 15, 2],
+])
+y_train = np.array([150000, 250000, 350000, 180000])  # Preturi in EUR
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predictie pentru o casa noua
+casa_noua = [[100, 3, 8, 4]]
+pret_prezis = model.predict(casa_noua)[0]
+
+print(f"Casa: 100mp, 3 camere, 8 ani, 4km de centru")
+print(f"Pret prezis: {pret_prezis:,.0f} EUR")
+print(f"\nCoeficienti (importanta features):")
+for feat, coef in zip(['Suprafata', 'Camere', 'Varsta', 'Distanta'], model.coef_):
+    print(f"  {feat}: {coef:+.0f} EUR per unitate")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Transcriptie</h4>
+                <p>In acest task, sistemul ML observa o reprezentare relativ nestructurata a datelor si trebuie sa o transcrie intr-o forma discreta, textuala. Exemple: <strong>OCR</strong> (optical character recognition) - unde input-ul este o fotografie cu text si output-ul este o secventa de caractere; <strong>speech recognition</strong> - unde input-ul este o forma de unda audio si output-ul este secventa de cuvinte rostite. Google Street View foloseste deep learning pentru a procesa numere de adrese din fotografii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Majore</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Goodfellow et al. (2014d)</strong> - Recunoasterea numerelor de adrese pentru Google Street View
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Hinton et al. (2012b)</strong> - Speech recognition cu deep learning la Microsoft, IBM, Google
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Traducere Automata (Machine Translation)</h4>
+                <p>In machine translation, input-ul este deja o secventa de simboluri intr-o limba, iar programul trebuie sa o converteasca intr-o secventa de simboluri in alta limba. Aplicat frecvent pentru traducerea limbajelor naturale, cum ar fi traducerea din engleza in franceza. Deep learning a inceput recent sa aiba un impact important asupra acestui task.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Arhitecturi Seq2Seq</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Sutskever et al. (2014)</strong> - Sequence to Sequence Learning with Neural Networks
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Bahdanau et al. (2015)</strong> - Attention mechanism pentru traducere - revolutionar!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Output Structurat (Structured Output)</h4>
+                <p>Task-urile cu output structurat implica output-uri care sunt vectori sau structuri de date cu relatii importante intre elemente. Aceasta categorie larga include transcriptia si traducerea. Un exemplu este <strong>parsing</strong> - transformarea unei propozitii intr-un arbore gramatical. Alt exemplu este <strong>segmentarea imaginilor</strong> - unde programul asigneaza fiecare pixel unei categorii specifice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tipuri de Output</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <p style="font-size: 2rem;">🏷️</p>
+                                    <strong>Clasificare</strong>
+                                    <p style="font-size: 0.9rem;">Un singur label</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <p style="font-size: 2rem;">📊</p>
+                                    <strong>Regresie</strong>
+                                    <p style="font-size: 0.9rem;">Un numar</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <p style="font-size: 2rem;">🌳</p>
+                                    <strong>Structurat</strong>
+                                    <p style="font-size: 0.9rem;">Arbori, secvente, grafe</p>
+                                </div>
+                            </div>
+                            <div class="reference-item" style="margin-top: 15px;">
+                                <strong>Collobert (2011)</strong> - Deep learning pentru parsing sintactic
+                            </div>
+                            <div class="reference-item">
+                                <strong>Mnih and Hinton (2010)</strong> - Segmentare de drumuri din imagini aeriene
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,159 @@
+<section class="page-section" id="page-227">
+    <div class="page-header">
+        <div class="page-number">227</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Algoritmul 6.3: Forward Pass in MLP</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-227.jpg"
+             alt="Pagina 227" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 6.3: Forward Propagation in Deep Neural Network</h4>
+                <p>Forward propagation printr-o retea neurala profunda tipica si calculul functiei de cost. Loss L(ŷ, y) depinde de output ŷ si de target y. Pentru a obtine costul total J, loss-ul poate fi adunat cu un regularizator Ω(θ), unde θ contine toti parametrii (weights si biases). Algoritmul 6.4 arata cum sa calculam gradientii lui J fata de parametrii W si b.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritmul 6.3 in Cod</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algoritmul 6.3: Forward Propagation
+# Require: l (adancimea retelei)
+# Require: W^(i), b^(i) pentru i = 1...l
+# Require: x (input), y (target)
+
+def forward_propagation_mlp(x, y, weights, biases, l,
+                            loss_fn, regularizer, lambda_reg):
+    """
+    Forward pass complet pentru un MLP cu l straturi.
+    """
+    # h^(0) = x (inputul este "activarea" stratului 0)
+    h = [x]  # h[0] = x
+    a = [None]  # pre-activations (pentru backward)
+
+    # Pentru fiecare strat k = 1, ..., l
+    for k in range(1, l + 1):
+        W_k = weights[k]  # W^(k)
+        b_k = biases[k]   # b^(k)
+        h_prev = h[k-1]   # h^(k-1)
+
+        # a^(k) = b^(k) + W^(k) * h^(k-1)
+        a_k = b_k + W_k @ h_prev
+        a.append(a_k)
+
+        # h^(k) = f(a^(k))  (activare, ex: ReLU)
+        h_k = activation_fn(a_k)
+        h.append(h_k)
+
+    # y_hat = h^(l) (output-ul retelei)
+    y_hat = h[l]
+
+    # J = L(y_hat, y) + λ * Ω(θ)
+    loss = loss_fn(y_hat, y)
+    reg = regularizer(weights)
+    J = loss + lambda_reg * reg
+
+    return J, h, a  # returnam si activarile pentru backprop
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Componentele Forward Pass</h4>
+                <p>La fiecare strat k, calculam pre-activarea a⁽ᵏ⁾ = b⁽ᵏ⁾ + W⁽ᵏ⁾h⁽ᵏ⁻¹⁾ si apoi activarea h⁽ᵏ⁾ = f(a⁽ᵏ⁾). Functia de activare f poate fi ReLU, sigmoid, sau alta. Outputul final ŷ = h⁽ˡ⁾ este folosit pentru a calcula loss-ul. Aplicatiile practice folosesc minibatch-uri, nu exemple individuale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Fluxul de Date</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div style="display: flex; flex-direction: column; gap: 15px;">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="background: var(--primary); padding: 10px 20px; border-radius: 8px; color: white;">x = h⁽⁰⁾</div>
+                                        <span>→</span>
+                                        <div style="background: var(--bg-dark); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">W⁽¹⁾, b⁽¹⁾</div>
+                                        <span>→</span>
+                                        <div style="background: var(--accent); padding: 10px 20px; border-radius: 8px;">h⁽¹⁾</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px; padding-left: 140px;">
+                                        <span>→</span>
+                                        <div style="background: var(--bg-dark); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">W⁽²⁾, b⁽²⁾</div>
+                                        <span>→</span>
+                                        <div style="background: var(--accent); padding: 10px 20px; border-radius: 8px;">h⁽²⁾</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px; padding-left: 280px;">
+                                        <span>→ ... →</span>
+                                        <div style="background: var(--success); padding: 10px 20px; border-radius: 8px;">ŷ = h⁽ˡ⁾</div>
+                                        <span>→</span>
+                                        <div style="background: var(--warning); padding: 10px 20px; border-radius: 8px;">J</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>6.5.5 Derivate Symbol-to-Symbol</h4>
+                <p>Expresiile algebrice si grafurile computationale opereaza ambele pe simboluri, sau variabile care nu au valori specifice. Aceste reprezentari algebrice si graph-based se numesc reprezentari simbolice. Cand folosim sau antrenam efectiv o retea neurala, trebuie sa atribuim valori specifice acestor simboluri - de exemplu, inlocuim inputul simbolic x cu o valoare numerica specifica precum [1.2, 3.765, -1.8]⊤.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Simbolic vs Numeric</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Reprezentare Simbolica</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Grafuri si expresii cu variabile abstracte</p>
+                                    <div class="code-block" style="margin-top: 10px; font-size: 0.85rem;">
+y = W @ x + b
+z = relu(y)
+loss = mse(z, target)
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Reprezentare Numerica</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Valori concrete atribuite variabilelor</p>
+                                    <div class="code-block" style="margin-top: 10px; font-size: 0.85rem;">
+x = [1.2, 3.7, -1.8]
+W = [[0.1, 0.2, 0.3],
+     [0.4, 0.5, 0.6]]
+# Calcule cu numere reale
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

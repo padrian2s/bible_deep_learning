@@ -1,0 +1,119 @@
+<section class="page-section" id="page-256">
+    <div class="page-header">
+        <div class="page-number">256</div>
+        <div class="page-title">
+            <h3>7.4 Noise Injection ca Augmentare</h3>
+            <span>Injectarea de Zgomot si Compararea Algoritmilor</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-256.jpg"
+             alt="Pagina 256" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Injectarea de Zgomot in Input</h4>
+                <p>Injectarea de zgomot random in input-uri poate fi vazuta ca o forma de data augmentation (Sietsma & Dow, 1991). Pentru multe task-uri de clasificare si regresie, sarcina ar trebui sa fie rezolvabila chiar daca se adauga zgomot mic. Totusi, retelele neurale nu sunt foarte robuste la zgomot (Tang & Eliasmith, 2010). O metoda simpla: antreneaza reteaua cu zgomot random pe inputuri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Noise Injection</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+
+class NoisyInput(torch.nn.Module):
+    def __init__(self, noise_std=0.1):
+        super().__init__()
+        self.noise_std = noise_std
+
+    def forward(self, x):
+        if self.training:
+            noise = torch.randn_like(x) * self.noise_std
+            return x + noise
+        return x
+
+# In model
+model = nn.Sequential(
+    NoisyInput(noise_std=0.1),  # Adauga zgomot la train
+    nn.Linear(784, 256),
+    nn.ReLU(),
+    # ...
+)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Zgomot pe Hidden Units</h4>
+                <p>Injectarea de zgomot functioneaza si pe unitatile ascunse - poate fi vazuta ca augmentare la nivele de abstractie mai inalte. Poole et al. (2014) au aratat ca aceasta abordare poate fi foarte eficienta daca magnitudinea zgomotului e ajustata corect. <strong>Dropout</strong> (Sectiunea 7.12) este o strategie puternica de regularizare care poate fi vazuta ca un proces de construire a noi inputuri prin <em>inmultire</em> cu zgomot.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Denoising Autoencoders</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Injectarea de zgomot in hidden units e baza pentru <strong>Denoising Autoencoders</strong> (Vincent et al., 2008) - algoritmi unsupervised care invata reprezentari prin a reconstrui inputul curat din versiunea zgomotoasa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Atentie la Compararea Algoritmilor!</h4>
+                <p>Cand comparam rezultate de benchmark ML, e important sa consideram efectul augmentarii. Schema de augmentare poate reduce dramatic eroarea de generalizare. Daca algoritmul A fara augmentare pare mai slab decat B cu augmentare, diferenta poate veni din augmentare, nu din algoritm! Experimentele trebuie controlate: comparam A vs B cu aceeasi augmentare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce se considera "augmentare"?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Parte din algoritm</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">(aplicabila general)</p>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Zgomot Gaussian pe input</li>
+                                        <li>Dropout</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong>Pre-processing separat</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">(specifica domeniului)</p>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Random crop imagini</li>
+                                        <li>Color jitter</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

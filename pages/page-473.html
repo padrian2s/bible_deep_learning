@@ -1,0 +1,146 @@
+<section class="page-section" id="page-473">
+    <div class="page-header">
+        <div class="page-number">473</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.2.1.2 Dataset Augmentation si 12.3 Speech Recognition</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-473.jpg"
+             alt="Pagina 473" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.2.1.2 Dataset Augmentation pentru Computer Vision</h4>
+                <p>Object recognition este un task de clasificare care este deosebit de potrivit pentru dataset augmentation deoarece clasa este invarianta la atatea transformari geometrice ale input-ului. Pe langa translatii, rotatii si flip-uri, se folosesc si <strong>perturbari de culoare</strong> si <strong>distorsiuni geometrice nonliniare</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Augmentari Avansate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Augmentari avansate pentru computer vision
+from torchvision import transforms
+
+advanced_augmentation = transforms.Compose([
+    # Geometric transforms
+    transforms.RandomRotation(15),
+    transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
+    transforms.RandomHorizontalFlip(),
+
+    # Color perturbation (Krizhevsky et al., 2012)
+    transforms.ColorJitter(
+        brightness=0.2, contrast=0.2,
+        saturation=0.2, hue=0.1
+    ),
+
+    # Nonlinear geometric distortions (LeCun et al., 1998b)
+    transforms.RandomPerspective(distortion_scale=0.2),
+
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                        std=[0.229, 0.224, 0.225])
+])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Augmentation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Krizhevsky et al. (2012)</strong> - Color perturbation pentru ImageNet</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>LeCun et al. (1998b)</strong> - Distorsiuni geometrice nonliniare pentru cifre</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.3 Speech Recognition</h4>
+                <p>Task-ul de <strong>speech recognition</strong> este de a mapa un semnal acustic continand o exprimare in limbaj natural in secventa corespunzatoare de cuvinte. Fie X = (x⁽¹⁾, x⁽²⁾, ..., x⁽ᵀ⁾) secventa de vectori acustici (audio impartit in frame-uri de 20ms), si y = (y₁, y₂, ..., yₙ) secventa target de cuvinte sau caractere.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: ASR Pipeline</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                <div style="background: var(--accent); padding: 15px; border-radius: 8px; color: var(--bg-dark); text-align: center;">
+                                    <div style="font-size: 1.5rem;">🎤</div>
+                                    <strong>Audio</strong>
+                                </div>
+                                <div style="color: var(--text-secondary);">→</div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Features</strong>
+                                    <p style="font-size: 0.7rem; color: var(--text-secondary);">MFCC / Spectrograme</p>
+                                </div>
+                                <div style="color: var(--text-secondary);">→</div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Model</strong>
+                                    <p style="font-size: 0.7rem; color: var(--text-secondary);">DNN/RNN/Transformer</p>
+                                </div>
+                                <div style="color: var(--text-secondary);">→</div>
+                                <div style="background: var(--success); padding: 15px; border-radius: 8px; color: var(--bg-dark); text-align: center;">
+                                    <div style="font-size: 1.5rem;">📝</div>
+                                    <strong>Text</strong>
+                                </div>
+                            </div>
+                            <div class="formula" style="margin-top: 20px;">
+                                f*_ASR(X) = arg max_y P*(y | X = X)
+                            </div>
+                            <p style="margin-top: 10px; color: var(--text-secondary);">Gasim secventa de cuvinte y cel mai probabila data fiind input-ul acustic X.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Istoric: GMM-HMM Systems</h4>
+                <p>Din anii 1980 pana in 2009-2012, sistemele ASR de stat-of-the-art combinau <strong>Hidden Markov Models</strong> (HMM) cu <strong>Gaussian Mixture Models</strong> (GMM). HMM-urile modelau secventa de foneme, iar GMM-urile asociau caracteristicile acustice cu foneme sau stari sub-fonemice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: ASR Traditional</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Bahl et al. (1987)</strong> - GMM-HMM pentru recunoasterea vorbirii</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Cum functionau GMM-HMM:</strong> HMM genereaza o secventa de foneme si stari sub-fonemice (inceput, mijloc, sfarsit), apoi GMM transforma fiecare simbol discret intr-un segment scurt de forma de unda audio.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

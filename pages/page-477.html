@@ -1,0 +1,180 @@
+<section class="page-section" id="page-477">
+    <div class="page-header">
+        <div class="page-number">477</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4.1 n-grams - Antrenament si Smoothing</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-477.jpg"
+             alt="Pagina 477" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Antrenarea Modelelor n-gram</h4>
+                <p>Antrenarea modelelor n-gram este simpla deoarece estimarea maximum likelihood poate fi calculata prin simpla <strong>numarare</strong> a frecventei fiecarui n-gram in setul de antrenament. Modelele n-gram au fost blocul de baza al modelarii statistice a limbajului timp de decenii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Training n-gram</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from collections import Counter
+
+def train_ngram(corpus, n=3):
+    """
+    Antreneaza un model n-gram prin numarare.
+    """
+    ngram_counts = Counter()
+    context_counts = Counter()
+
+    for sentence in corpus:
+        tokens = sentence.split()
+        for i in range(len(tokens) - n + 1):
+            ngram = tuple(tokens[i:i+n])
+            context = ngram[:-1]
+
+            ngram_counts[ngram] += 1
+            context_counts[context] += 1
+
+    return ngram_counts, context_counts
+
+def probability(ngram, ngram_counts, context_counts):
+    """
+    P(word | context) = count(ngram) / count(context)
+    """
+    context = ngram[:-1]
+    return ngram_counts[ngram] / context_counts[context]
+                            </div>
+                            <div class="formula" style="margin-top: 15px;">
+                                P(xₜ | xₜ₋ₙ₊₁, ..., xₜ₋₁) = Pₙ(xₜ₋ₙ₊₁, ..., xₜ) / Pₙ₋₁(xₜ₋ₙ₊₁, ..., xₜ₋₁)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: n-gram Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Jelinek & Mercer (1980)</strong> - Fundamente n-gram LM</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Katz (1987)</strong> - Backoff smoothing</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Chen & Goodman (1999)</strong> - Comparatie tehnici smoothing</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema: Zero Counts si Smoothing</h4>
+                <p>O limitare fundamentala a modelelor n-gram cu maximum likelihood este ca Pₙ estimat din count-uri poate fi <strong>zero</strong> in multe cazuri, chiar daca tuple (xₜ₋ₙ₊₁, ..., xₜ) poate aparea in setul de test. Aceasta poate cauza doua tipuri de rezultate catastrofale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Problema Zero Counts</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Caz 1: Pₙ₋₁ = 0</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Context-ul nu a fost vazut niciodata → ratio undefined (0/0)</p>
+                                    <p style="color: var(--warning); font-size: 0.8rem; margin-top: 5px;">Modelul nu poate produce output sensibil!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);">
+                                    <strong style="color: var(--warning);">Caz 2: Pₙ₋₁ > 0, Pₙ = 0</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Context vazut, dar nu cu acest cuvant → P = 0</p>
+                                    <p style="color: var(--warning); font-size: 0.8rem; margin-top: 5px;">log-likelihood = -∞ pe test set!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Tehnici de Smoothing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Smoothing pentru a evita probabilitati zero
+
+def laplace_smoothing(ngram_count, context_count, vocab_size, alpha=1):
+    """
+    Add-alpha (Laplace) smoothing.
+    Adauga alpha la toate count-urile.
+    """
+    return (ngram_count + alpha) / (context_count + alpha * vocab_size)
+
+def backoff_smoothing(ngram, ngram_counts, context_counts, n):
+    """
+    Katz backoff: daca n-gram nu exista, foloseste (n-1)-gram.
+    """
+    if ngram in ngram_counts:
+        return ngram_counts[ngram] / context_counts[ngram[:-1]]
+    else:
+        # Backoff la n-gram mai scurt
+        shorter = ngram[1:]  # elimina primul token
+        return backoff_weight * probability(shorter, ...)
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Smoothing:</strong> Pentru a evita rezultate catastrofale, majoritatea modelelor n-gram folosesc o forma de <strong>smoothing</strong> - redistribuie masa de probabilitate de la n-gram-uri frecvente la cele rare sau nevazute.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu: Trigram Model</h4>
+                <p>Sa vedem cum calculeaza un model trigram probabilitatea propozitiei "THE DOG RAN AWAY". Primele cuvinte nu pot fi tratate cu formula conditionala standard, asa ca folosim probabilitatea marginala.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Calcul Pas cu Pas</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                P(THE DOG RAN AWAY) = P₃(THE DOG RAN) × P(AWAY | DOG RAN)
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <p style="color: var(--text-secondary);">Unde:</p>
+                                <div class="formula" style="margin-top: 10px;">
+                                    P(AWAY | DOG RAN) = P₃(DOG RAN AWAY) / P₂(DOG RAN)
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Modelul cauta in tabelele de count-uri pre-calculate pentru a gasi aceste valori.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,161 @@
+<section class="page-section" id="page-290">
+    <div class="page-header">
+        <div class="page-number">290</div>
+        <div class="page-title">
+            <h3>8.1 Cum Difera Invatarea de Optimizarea Pura</h3>
+            <span>Sectiunea 8.1 - Empirical Risk</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-290.jpg"
+             alt="Pagina 290" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Optimizare Indirecta vs Directa</h4>
+                <p>In machine learning, nu optimizam direct ceea ce ne intereseaza! Ne pasa de performanta pe <strong>setul de test</strong> (masura P), dar optimizam <strong>functia de cost J(θ)</strong> pe setul de training, sperind ca acest lucru va imbunatati P. Aceasta e o diferenta cruciala fata de optimizarea pura, unde minimizam direct obiectivul care ne intereseaza.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Directa vs Indirecta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Optimizare Pura:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">Minimizeaza J → J scade<br>Obiectivul este direct J</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong style="color: var(--warning);">Machine Learning:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 10px;">Minimizeaza J(training) → Speram ca P(test) scade<br>Obiectivul real e P, dar optimizam J</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce conteaza diferenta?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Algoritmii de optimizare pentru deep learning au specializari pentru structura specifica a functiilor obiectiv din ML - nu sunt doar algoritmi generici de optimizare!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Functia de Cost ca Medie</h4>
+                <p>Functia de cost se poate scrie ca o medie peste setul de training. Formula (8.1) arata ca J(θ) este expectatia loss-ului L peste distributia empirica a datelor. Aici L este loss-ul per-exemplu, f(x;θ) este output-ul modelului, iar y e target-ul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula: Functia de Cost</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="font-size: 1.1rem;">
+                                J(θ) = E<sub>(x,y)~p̂<sub>data</sub></sub> [L(f(x; θ), y)]
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 5px;">
+                                    <code style="color: var(--accent);">L</code> - Functia de loss per exemplu (ex: cross-entropy)
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 5px;">
+                                    <code style="color: var(--accent);">f(x; θ)</code> - Predictia modelului pentru input x
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 10px; border-radius: 5px;">
+                                    <code style="color: var(--accent);">p̂<sub>data</sub></code> - Distributia empirica (datele de training)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Extensii ale Formulei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Formula se poate extinde pentru:</p>
+                            <ul style="color: var(--text-secondary); margin-top: 10px;">
+                                <li><strong>Regularizare:</strong> adaugam θ sau x ca argumente la L</li>
+                                <li><strong>Unsupervised learning:</strong> excludem y din argumente</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.1.1 Empirical Risk Minimization</h4>
+                <p>Scopul ML e sa reducem <strong>riscul</strong> - eroarea de generalizare asteptata peste distributia reala p<sub>data</sub>. Dar nu cunoastem p<sub>data</sub>! Asa ca minimizam <strong>riscul empiric</strong> - media loss-ului pe setul de training, sperind ca riscul real scade si el.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula: Risk vs Empirical Risk</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Risc Real (ce vrem):</strong>
+                                    <div class="formula" style="margin-top: 10px;">
+                                        J*(θ) = E<sub>(x,y)~p<sub>data</sub></sub> [L(f(x; θ), y)]
+                                    </div>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Peste distributia reala - imposibil de calculat!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Risc Empiric (ce minimizam):</strong>
+                                    <div class="formula" style="margin-top: 10px;">
+                                        J(θ) = (1/m) Σ<sub>i=1</sub><sup>m</sup> L(f(x<sup>(i)</sup>; θ), y<sup>(i)</sup>)
+                                    </div>
+                                    <p style="color: var(--text-secondary); margin-top: 5px; font-size: 0.9rem;">Media pe cele m exemple de training</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Problema: Overfitting</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-warning">
+                                <p><strong>Atentie:</strong> Empirical risk minimization e predispusa la overfitting. Modele cu capacitate mare pot pur si simplu memora setul de training!</p>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Rezultate teoretice garanteaza ca riscul real scade sub anumite conditii, dar in practica avem nevoie de regularizare.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

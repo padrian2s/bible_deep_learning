@@ -1,0 +1,121 @@
+<section class="page-section" id="page-516">
+    <div class="page-header">
+        <div class="page-number">516</div>
+        <div class="page-title">
+            <h3>Concluzia Capitolului 13</h3>
+            <span>Linear Factor Models - Sumar</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-516.jpg"
+             alt="Pagina 516" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Concluzie: Linear Factor Models</h4>
+                <p>Linear factor models sunt printre cele mai simple modele generative care invata o reprezentare a datelor. Asa cum clasificatorii si regresoarele liniare pot fi extinsi la retele deep, <strong>linear factor models pot fi extinsi la autoencoder networks</strong> si modele probabilistice deep.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Sumar Modele</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">PCA / Factor Analysis</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">Prior Gaussian, captureaza varianta maxima</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">ICA</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">Prior non-Gaussian, features independente</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">SFA</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">Features care se schimba lent in timp</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Sparse Coding</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9em;">Prior sparse (Laplace), reprezentari sparse</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce Urmeaza: Modele Mai Puternice</h4>
+                <p>Capitolele urmatoare extind aceste idei la modele mai expresive: <strong>autoencoders</strong> (Cap. 14), <strong>representation learning</strong> (Cap. 15), si <strong>deep generative models</strong> (Cap. 20).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Extensii Deep</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Ideea cheie: linear factor models sunt fundamentul. Inlocuind transformarile liniare cu retele neurale, obtinem modele mult mai puternice care pot invata reprezentari complexe!</p>
+                            </div>
+                            <ul style="color: var(--text-secondary); line-height: 2; margin-top: 15px;">
+                                <li>PCA -> Autoencoder (Cap. 14)</li>
+                                <li>Sparse Coding -> Sparse Autoencoder</li>
+                                <li>Factor Analysis -> VAE (Cap. 20)</li>
+                                <li>ICA -> Normalizing Flows</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Takeaways</h4>
+                <p>Linear factor models introduc concepte fundamentale: variabile latente, encoders/decoders, priors pe reprezentari, si tradeoff-ul intre reconstructie si regularizare. Aceste concepte sunt esentiale pentru intelegerea deep generative models.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod Rezumat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Linear Factor Model general
+# x = Wh + b + noise
+
+# PCA/Factor Analysis: h ~ N(0, I)
+from sklearn.decomposition import PCA, FactorAnalysis
+
+# ICA: h ~ non-Gaussian independent
+from sklearn.decomposition import FastICA
+
+# Sparse Coding: h ~ Laplace (sparse)
+from sklearn.decomposition import SparseCoder
+
+# Toate au structura:
+# Encoder: h = f(x)
+# Decoder: x_hat = g(h) = Wh + b
+# Loss: reconstruction + prior
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

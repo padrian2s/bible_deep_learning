@@ -1,0 +1,208 @@
+<section class="page-section" id="page-349">
+    <div class="page-header">
+        <div class="page-number">349</div>
+        <div class="page-title">
+            <h3>Figura 9.1: Convolutie 2D</h3>
+            <span>Exemplu Vizual</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-349.jpg"
+             alt="Pagina 349" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Anatomia unei Convolutii 2D</h4>
+                <p>Figura 9.1 prezinta un exemplu de convolutie 2D fara rasturnarea kernelului ("valid" convolution). Avem o imagine de intrare 3x4 cu valori literale (a-l), un kernel 2x2 (w,x,y,z), si outputul 2x3. Fiecare element din output este suma produselor dintre kernel si regiunea corespunzatoare din input.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare Interactiva: Calculul Output-ului</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <strong style="color: var(--primary);">Input (3x4)</strong>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 40px); gap: 3px; margin-top: 10px;">
+                                        <div style="background: var(--accent); padding: 10px; text-align: center; border-radius: 4px;">a</div>
+                                        <div style="background: var(--accent); padding: 10px; text-align: center; border-radius: 4px;">b</div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; text-align: center; border-radius: 4px;">c</div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; text-align: center; border-radius: 4px;">d</div>
+                                        <div style="background: var(--accent); padding: 10px; text-align: center; border-radius: 4px;">e</div>
+                                        <div style="background: var(--accent); padding: 10px; text-align: center; border-radius: 4px;">f</div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; text-align: center; border-radius: 4px;">g</div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; text-align: center; border-radius: 4px;">h</div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; text-align: center; border-radius: 4px;">i</div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; text-align: center; border-radius: 4px;">j</div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; text-align: center; border-radius: 4px;">k</div>
+                                        <div style="background: var(--bg-lighter); padding: 10px; text-align: center; border-radius: 4px;">l</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong style="color: var(--success);">Kernel (2x2)</strong>
+                                    <div style="display: grid; grid-template-columns: repeat(2, 40px); gap: 3px; margin-top: 10px;">
+                                        <div style="background: var(--success); padding: 10px; text-align: center; border-radius: 4px;">w</div>
+                                        <div style="background: var(--success); padding: 10px; text-align: center; border-radius: 4px;">x</div>
+                                        <div style="background: var(--success); padding: 10px; text-align: center; border-radius: 4px;">y</div>
+                                        <div style="background: var(--success); padding: 10px; text-align: center; border-radius: 4px;">z</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 20px;">
+                                <strong style="color: var(--warning);">Output (2x3)</strong>
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; font-size: 0.8rem;">
+                                        <strong>aw+bx</strong><br>+ey+fz
+                                    </div>
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; font-size: 0.8rem;">
+                                        <strong>bw+cx</strong><br>+fy+gz
+                                    </div>
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; font-size: 0.8rem;">
+                                        <strong>cw+dx</strong><br>+gy+hz
+                                    </div>
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; font-size: 0.8rem;">
+                                        <strong>ew+fx</strong><br>+iy+jz
+                                    </div>
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; font-size: 0.8rem;">
+                                        <strong>fw+gx</strong><br>+jy+kz
+                                    </div>
+                                    <div style="background: var(--warning); padding: 10px; border-radius: 4px; font-size: 0.8rem;">
+                                        <strong>gw+hx</strong><br>+ky+lz
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Implementare in Python</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def conv2d_valid(image, kernel):
+    """Convolutie 2D 'valid' - fara padding"""
+    ih, iw = image.shape
+    kh, kw = kernel.shape
+    oh, ow = ih - kh + 1, iw - kw + 1
+
+    output = np.zeros((oh, ow))
+    for i in range(oh):
+        for j in range(ow):
+            # Extragem regiunea din imagine
+            region = image[i:i+kh, j:j+kw]
+            # Inmultim element-wise si sumam
+            output[i, j] = np.sum(region * kernel)
+
+    return output
+
+# Exemplu din figura
+image = np.array([
+    [1, 2, 3, 4],   # a, b, c, d
+    [5, 6, 7, 8],   # e, f, g, h
+    [9, 10, 11, 12] # i, j, k, l
+])
+
+kernel = np.array([
+    [1, 2],  # w, x
+    [3, 4]   # y, z
+])
+
+output = conv2d_valid(image, kernel)
+print("Output:\n", output)
+# [[ 44  54  64]
+#  [ 84  94 104]]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Valid Convolution - Restrictia Kernelului</h4>
+                <p>In "valid" convolution, outputul este calculat doar in pozitiile unde kernelul se incadreaza complet in imagine. Aceasta inseamna ca outputul este MAI MIC decat inputul: pentru input HxW si kernel KhxKw, outputul are dimensiunea (H-Kh+1) x (W-Kw+1). In exemplul nostru: 3x4 input, 2x2 kernel → 2x3 output.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Tipuri de Padding</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="display: flex; gap: 15px; align-items: start; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="background: var(--primary); color: white; padding: 10px 15px; border-radius: 4px; font-weight: bold;">VALID</div>
+                                    <div>
+                                        <strong>Fara padding</strong>
+                                        <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">Output mai mic. Folosit cand nu vrem informatii "de margine".</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 15px; align-items: start; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="background: var(--success); color: white; padding: 10px 15px; border-radius: 4px; font-weight: bold;">SAME</div>
+                                    <div>
+                                        <strong>Padding cu zerouri</strong>
+                                        <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">Output = Input size. Cel mai comun in CNN-uri moderne.</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 15px; align-items: start; background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <div style="background: var(--accent); color: white; padding: 10px 15px; border-radius: 4px; font-weight: bold;">FULL</div>
+                                    <div>
+                                        <strong>Padding maxim</strong>
+                                        <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">Output mai mare. Fiecare pixel participa in toate pozitiile posibile ale kernelului.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Comparatie Padding</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+x = torch.randn(1, 1, 5, 5)  # Input 5x5
+kernel = torch.randn(1, 1, 3, 3)  # Kernel 3x3
+
+# Valid (padding=0)
+out_valid = F.conv2d(x, kernel, padding=0)
+print("Valid:", out_valid.shape)  # [1,1,3,3]
+
+# Same (padding=1 pentru kernel 3x3)
+out_same = F.conv2d(x, kernel, padding=1)
+print("Same:", out_same.shape)   # [1,1,5,5]
+
+# Full (padding=2 pentru kernel 3x3)
+out_full = F.conv2d(x, kernel, padding=2)
+print("Full:", out_full.shape)   # [1,1,7,7]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

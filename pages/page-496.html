@@ -1,0 +1,94 @@
+<section class="page-section" id="page-496">
+    <div class="page-header">
+        <div class="page-number">496</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Exploration vs Exploitation Trade-off</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-496.jpg"
+             alt="Pagina 496" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exploration vs Exploitation</h4>
+                <p>Reinforcement learning necesita alegerea unui trade-off intre <strong>exploration</strong> si <strong>exploitation</strong>. Exploitation inseamna sa luam actiunile care stim ca vor aduce reward mare. Exploration inseamna sa incercam actiuni noi pentru a colecta mai multe date de antrenament.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Trade-off</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">Exploitation</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Actiunea <strong>a</strong> da reward 1. Continuam sa o luam.</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Pro: Reward garantat</p>
+                                    <p style="color: var(--warning); font-size: 0.8rem;">Con: Poate exista <strong>a'</strong> cu reward 2!</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">Exploration</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Incercam actiunea <strong>a'</strong>. Nu stim ce reward vom primi.</p>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Pro: Descoperim optiuni mai bune</p>
+                                    <p style="color: var(--warning); font-size: 0.8rem;">Con: Risc de reward 0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Factori de Decizie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);"><strong>Time horizon:</strong></p>
+                                <ul style="color: var(--text-secondary); font-size: 0.9rem;">
+                                    <li>Timp scurt → mai multa exploitation</li>
+                                    <li>Timp lung → incepem cu exploration, apoi exploitation</li>
+                                </ul>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>In supervised learning:</strong> Nu exista trade-off - semnalul de supervizare ne spune mereu care e output-ul corect. Nu trebuie sa "exploram" pentru a descoperi alternative.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Dificultatea Evaluarii</h4>
+                <p>O alta dificultate in contextul RL este evaluarea si compararea diferitelor politici. Feedback loop-ul inseamna ca distributia input-urilor depinde de actiunile learner-ului. Nu putem evalua direct pe un test set fix deoarece policy-ul insusi determina ce input-uri vom vedea.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Evaluare Bandits</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Dudik et al. (2011)</strong> - Tehnici pentru evaluarea contextual bandits</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

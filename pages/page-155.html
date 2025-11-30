@@ -1,0 +1,79 @@
+<section class="page-section" id="page-155">
+    <div class="page-header">
+        <div class="page-number">155</div>
+        <div class="page-title">
+            <h3>Algoritmi Supervised si Logistic Regression</h3>
+            <span>Capitolul 5 - Sectiunea 5.7</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-155.jpg"
+             alt="Pagina 155" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.7 Supervised Learning Algorithms</h4>
+                <p>Reamintim din sectiunea 5.1.3 ca algoritmii supervised learning sunt cei care invata sa asocieze un input x cu un output y, dat fiind un training set de exemple. In multe cazuri, output-urile y trebuie furnizate de un "supervizor" uman, dar termenul se aplica si cand target-urile sunt colectate automat.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.7.1 Probabilistic Supervised Learning</h4>
+                <p>Majoritatea algoritmilor supervised din aceasta carte sunt bazati pe estimarea unei distributii de probabilitate p(y | x). Folosim MLE pentru a gasi cel mai bun vector de parametri θ pentru o familie parametrica de distributii p(y | x; θ). Am vazut ca regresia liniara corespunde familiei:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    p(y | x; θ) = N(y; θ<sup>T</sup>x, I)
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Logistic Regression</h4>
+                <p>Putem generaliza la clasificare definind o familie diferita de distributii. Pentru clasificare binara (clase 0 si 1), trebuie sa specificam probabilitatea clasei 1 - clasa 0 e determinata automat (probabilitatile sumeaza la 1). Distributia normala e parametrizata de medie, dar media unei variabile binare trebuie sa fie intre 0 si 1. Solutia: folosim <strong>functia sigmoid</strong> σ pentru a "comprima" output-ul liniar in (0, 1):</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    p(y = 1 | x; θ) = σ(θ<sup>T</sup>x)
+                </div>
+                <p>Aceasta abordare se numeste <strong>logistic regression</strong> (desi este folosita pentru clasificare!).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Logistic Regression</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+
+# Date pentru clasificare binara
+X = np.array([[1, 2], [2, 3], [3, 1], [4, 3], [5, 2], [6, 4]])
+y = np.array([0, 0, 0, 1, 1, 1])
+
+# Antrenare
+clf = LogisticRegression()
+clf.fit(X, y)
+
+# Predictii
+X_test = np.array([[2.5, 2], [4.5, 3]])
+probs = clf.predict_proba(X_test)
+
+print("Logistic Regression: p(y=1|x) = σ(θᵀx)")
+print()
+for i, (x, p) in enumerate(zip(X_test, probs)):
+    print(f"x = {x}: P(y=0) = {p[0]:.3f}, P(y=1) = {p[1]:.3f}")
+
+# Nu are closed-form solution!
+print("\n=> Optimizat cu gradient descent (nu normal equations)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

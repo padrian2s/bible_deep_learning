@@ -1,0 +1,137 @@
+<section class="page-section" id="page-211">
+    <div class="page-header">
+        <div class="page-number">211</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.3.3 Alte Unitati Ascunse</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-211.jpg"
+             alt="Pagina 211" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Varietatea Functiilor de Activare</h4>
+                <p>Multe alte tipuri de unitati ascunse sunt posibile, dar sunt folosite mai rar. In general, o varietate larga de functii diferentiabile performeaza acceptabil. Multe functii de activare nepublicate functioneaza la fel de bine ca cele populare. Noile tipuri sunt de obicei publicate doar daca demonstreaza clar o imbunatatire semnificativa fata de practica standard.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Activare Cosinus</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Exemplu exotic: h = cos(Wx + b)
+# Testat pe MNIST - error rate < 1%!
+
+class CosineActivation(nn.Module):
+    def forward(self, x):
+        return torch.cos(x)
+
+# Arhitectura cu cosinus
+model = nn.Sequential(
+    nn.Linear(784, 256),
+    CosineActivation(),  # in loc de ReLU
+    nn.Linear(256, 10)
+)
+
+# Functioneaza! Dar nu mai bine decat ReLU
+# Aceasta arata ca multe functii "merg"
+# - nu exista "activarea perfecta"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Unitati Liniare (Fara Activare)</h4>
+                <p>O posibilitate este sa nu ai deloc activare g(z), tratand aceasta ca folosind functia identitate. Am vazut deja ca o unitate liniara poate fi utila ca output. Poate fi folosita si ca unitate ascunsa. Daca fiecare strat al retelei consta doar din transformari liniare, atunci reteaua ca intreg va fi liniara. Totusi, este acceptabil ca unele straturi sa fie pur liniare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Unitati Liniare pentru Reducerea Parametrilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Factorizare low-rank:</strong> In loc de h = g(Wx + b) cu W de dimensiune n×p (np parametri), putem scrie h = g(VᵀUᵀx + b) unde U si V impreuna au doar (n+p)q parametri pentru q mic.
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+# Reducerea parametrilor cu strat liniar
+
+# Direct: 1000 -> 1000 = 1,000,000 params
+direct = nn.Linear(1000, 1000)
+
+# Factorizat: 1000 -> 100 -> 1000 = 200,000 params
+factorized = nn.Sequential(
+    nn.Linear(1000, 100),  # U: fara activare
+    nn.Linear(100, 1000),  # V: cu activare
+    nn.ReLU()
+)
+
+# 80% mai putini parametri, performanta similara!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Softmax ca Unitate Ascunsa</h4>
+                <p>Unitatile softmax sunt un alt tip de unitate care este de obicei folosita ca output (descrisa in 6.2.2.3) dar poate fi uneori folosita ca unitate ascunsa. Unitatile softmax reprezinta natural o distributie de probabilitate peste o variabila discreta cu k valori posibile, deci pot fi folosite ca un fel de "switch". Aceste tipuri sunt folosite de obicei doar in arhitecturi mai avansate care invata explicit sa manipuleze memoria.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Softmax in Attention Mechanisms</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Softmax ca "attention weights" (hidden unit)
+def attention(query, keys, values):
+    """
+    Softmax ca unitate ascunsa pentru atentie
+    """
+    # Calculeaza scores
+    scores = torch.matmul(query, keys.T)
+
+    # Softmax transforma in probabilitati/weights
+    # Aceasta e o "hidden unit" cu softmax!
+    weights = F.softmax(scores, dim=-1)
+
+    # Weighted sum of values
+    return torch.matmul(weights, values)
+
+# Folosit in Transformers, Neural Turing Machines, etc.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

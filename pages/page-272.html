@@ -1,0 +1,118 @@
+<section class="page-section" id="page-272">
+    <div class="page-header">
+        <div class="page-number">272</div>
+        <div class="page-title">
+            <h3>7.11 Figura 7.5 - Bagging Ilustrat</h3>
+            <span>Bootstrap Sampling si Diversitate</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-272.jpg"
+             alt="Pagina 272" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 7.5: Cum functioneaza Bagging</h4>
+                <p>Presupunem ca antrenam un detector de "8" pe un dataset cu 8, 6 si 9. Prin <strong>bootstrap sampling</strong> (sampling cu inlocuire), cream k dataset-uri diferite, fiecare lipsind unele exemple si duplicand altele. Fiecare model invata reguli putin diferite:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Exemplu din Figura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Dataset Original:</strong> {8, 6, 9}
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong>Resample 1:</strong> {8, 6, 8}<br>
+                                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Lipseste 9, repeta 8</span><br>
+                                        <p style="margin-top: 10px;">Model 1 invata: "8 = bucla sus"</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong>Resample 2:</strong> {9, 9, 8}<br>
+                                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Lipseste 6, repeta 9</span><br>
+                                        <p style="margin-top: 10px;">Model 2 invata: "8 = bucla jos"</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 15px; padding: 10px; background: var(--success); color: white; border-radius: 8px; text-align: center;">
+                                    <strong>Ensemble:</strong> Detecteaza 8 cand are AMBELE bucle!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Bagging pentru Neural Networks</h4>
+                <p>Specific, bagging construieste k dataset-uri diferite, fiecare cu acelasi numar de exemple ca originalul, dar obtinute prin sampling cu inlocuire. In medie, ~2/3 din exemplele originale apar in fiecare dataset resampled. Modelul i este antrenat pe dataset-ul i.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Bagging</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def bagging_train(X, y, n_models=5):
+    models = []
+    n_samples = len(X)
+
+    for i in range(n_models):
+        # Bootstrap sample (cu inlocuire)
+        indices = np.random.choice(n_samples, n_samples, replace=True)
+        X_boot, y_boot = X[indices], y[indices]
+
+        # Antreneaza model pe acest subset
+        model = NeuralNetwork()
+        model.fit(X_boot, y_boot)
+        models.append(model)
+
+    return models
+
+def bagging_predict(models, X):
+    # Media predictiilor tuturor modelelor
+    predictions = [m.predict(X) for m in models]
+    return np.mean(predictions, axis=0)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Surse de Diversitate in NN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Neural networks ajung la solutii suficient de diverse pentru a beneficia de model averaging chiar fara bootstrap:</p>
+                            <ul style="margin-top: 10px;">
+                                <li>Initializari random diferite</li>
+                                <li>Selectia aleatorie a minibatch-urilor</li>
+                                <li>Hiperparametri diferiti</li>
+                                <li>Non-determinism in implementari</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

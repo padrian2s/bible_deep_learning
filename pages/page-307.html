@@ -1,0 +1,97 @@
+<section class="page-section" id="page-307">
+    <div class="page-header">
+        <div class="page-number">307</div>
+        <div class="page-title">
+            <h3>Figura 8.4: Local Descent Fara Solutie</h3>
+            <span>Cand Gradientul Nu Ajunge la Minim</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-307.jpg"
+             alt="Pagina 307" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 8.4: Un Exemplu Revelator</h4>
+                <p>Aceasta figura arata cum optimizarea bazata pe miscari locale poate esua <strong>chiar fara saddle points sau minime locale</strong>! Functia de cost asimptoteaza catre valori joase dar nu le atinge niciodata. Daca suntem initializati pe partea gresita a "muntelui", nu putem ajunge la minim.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretarea Figurii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section_content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <ul style="color: var(--text-secondary); line-height: 2;">
+                                    <li><strong>Linia solida:</strong> Functia de cost J(θ)</li>
+                                    <li><strong>Linia punctata:</strong> Traiectoria gradient descent</li>
+                                    <li><strong>Problema:</strong> "Muntele" in mijloc blocheaza accesul la minimul global</li>
+                                    <li><strong>Nu sunt</strong> saddle points sau minime locale - doar o bariera!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Spatii de Dimensiuni Mari: E Mai Bine!</h4>
+                <p>Vestea buna: in spatii de dimensiuni mari (milioane de parametri), algoritmii pot adesea <strong>ocoli</strong> astfel de obstacole. Dar traiectoria poate fi foarte lunga, ceea ce explica de ce antrenarea dureaza atat de mult chiar si cand pare sa functioneze corect.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Analogie: Escalada 2D vs 1000D</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">2D:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Un munte blocheaza complet. Trebuie sa urci peste sau esti blocat.</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">1000D:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Exista probabil o "vale" intr-una din cele 998 directii ramase. Poti ocoli muntele!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Directii de Cercetare</h4>
+                <p>Exista doua abordari principale pentru aceasta problema: (1) gaseste initializari bune care plaseaza learning-ul in regiuni conectate la solutie, sau (2) dezvolta algoritmi care fac miscari non-locale. Prima abordare e mai matura; a doua e un domeniu activ de cercetare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce Nu Stim Inca</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-warning">
+                                <p>Nu intelegem complet care din problemele enumerate sunt cele mai importante pentru antrenarea retelelor neurale. Este un domeniu activ de cercetare!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,200 @@
+        <section class="page-section" id="page-81">
+            <div class="page-header">
+                <div class="page-number">81</div>
+                <div class="page-title">
+                    <h3>Distributia Empirica</h3>
+                    <span>3.9.6 Mixturi de Distributii</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-081.jpg"
+                     alt="Pagina 81" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Distributia Empirica</h4>
+                        <p>O utilizare comuna a deltei Dirac este <strong>distributia empirica</strong>: p̂(<strong>x</strong>) = (1/m) × Σᵢ δ(<strong>x</strong> - <strong>x</strong>⁽ⁱ⁾), unde <strong>x</strong>⁽¹⁾, ..., <strong>x</strong>⁽ᵐ⁾ sunt m puncte de antrenare. Aceasta pune probabilitate egala 1/m pe fiecare punct de date. Este distributia din care esantionam cand facem training cu mini-batch-uri!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Distributia empirica</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                        p̂(<strong>x</strong>) = (1/m) Σᵢ₌₁ᵐ δ(<strong>x</strong> - <strong>x</strong>⁽ⁱ⁾)
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                        <div style="display: flex; justify-content: space-around; align-items: flex-end; height: 80px;">
+                                            <div style="width: 4px; height: 60px; background: var(--accent);"></div>
+                                            <div style="width: 4px; height: 60px; background: var(--accent);"></div>
+                                            <div style="width: 4px; height: 60px; background: var(--accent);"></div>
+                                            <div style="width: 4px; height: 60px; background: var(--accent);"></div>
+                                            <div style="width: 4px; height: 60px; background: var(--accent);"></div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-around; margin-top: 5px;">
+                                            <span style="font-size: 0.7rem;">x⁽¹⁾</span>
+                                            <span style="font-size: 0.7rem;">x⁽²⁾</span>
+                                            <span style="font-size: 0.7rem;">x⁽³⁾</span>
+                                            <span style="font-size: 0.7rem;">x⁽⁴⁾</span>
+                                            <span style="font-size: 0.7rem;">x⁽⁵⁾</span>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+                                        Fiecare "spike" are greutate 1/m (= 1/5 in acest exemplu)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Distributia empirica in ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Dataset de antrenare
+X_train = np.array([1.2, 2.5, 1.8, 3.1, 2.9])
+m = len(X_train)
+
+# "Esantionare" din distributia empirica = alegere uniforma
+def sample_empirical(X, n_samples):
+    """Esantioneaza din distributia empirica"""
+    indices = np.random.choice(len(X), size=n_samples, replace=True)
+    return X[indices]
+
+# Mini-batch sampling (ce facem la fiecare epoca!)
+batch_size = 3
+mini_batch = sample_empirical(X_train, batch_size)
+print(f"Mini-batch: {mini_batch}")
+
+# Aceasta este exact ce face DataLoader in PyTorch!
+# torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True)
+
+# Proprietate: Media estimata din esantioane converge la
+# media distributiei empirice = media datelor
+means = [sample_empirical(X_train, 1000).mean() for _ in range(100)]
+print(f"\nMedia empirica: {X_train.mean():.3f}")
+print(f"Media estimata: {np.mean(means):.3f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Conexiuni importante</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Distributia empirica in ML:</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>Training:</strong> Minimizam loss-ul asteptat sub distributia empirica</li>
+                                            <li><strong>Maximum Likelihood:</strong> Distributia empirica maximizeaza likelihood-ul</li>
+                                            <li><strong>Generalizare:</strong> Vrem ca modelul sa functioneze pe distributia REALA, nu doar pe cea empirica</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.9.6 Mixturi de Distributii</h4>
+                        <p>Putem crea distributii mai complexe <strong>combinand</strong> distributii mai simple. O <strong>mixtura</strong> esantioneaza mai intai o <em>componenta</em> c dintr-o distributie Multinoulli, apoi esantioneaza x din distributia componenta selectata: P(x) = Σᵢ P(c = i) × P(x | c = i). Componentele pot fi oricare distributii - Gaussiane, Laplace, etc.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Mixtura de distributii</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                        P(x) = Σᵢ πᵢ × P(x | component i)
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                        <div style="display: flex; gap: 10px; justify-content: center; align-items: flex-end; height: 80px;">
+                                            <div style="flex: 1;">
+                                                <div style="height: 50px; background: var(--accent); border-radius: 50% 50% 0 0; opacity: 0.7;"></div>
+                                                <span style="font-size: 0.7rem;">π₁=0.3</span>
+                                            </div>
+                                            <div style="font-size: 1.5rem; color: var(--text-secondary);">+</div>
+                                            <div style="flex: 1;">
+                                                <div style="height: 70px; background: var(--secondary); border-radius: 50% 50% 0 0; opacity: 0.7;"></div>
+                                                <span style="font-size: 0.7rem;">π₂=0.5</span>
+                                            </div>
+                                            <div style="font-size: 1.5rem; color: var(--text-secondary);">+</div>
+                                            <div style="flex: 1;">
+                                                <div style="height: 30px; background: var(--warning); border-radius: 50% 50% 0 0; opacity: 0.7;"></div>
+                                                <span style="font-size: 0.7rem;">π₃=0.2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Mixtura simpla</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Mixtura de 3 Gaussiane
+# Parametri
+weights = [0.3, 0.5, 0.2]  # πi (trebuie sa insumeze 1)
+means = [-2, 1, 4]
+stds = [0.5, 1.0, 0.3]
+
+def sample_mixture(n_samples):
+    """Esantioneaza din mixtura"""
+    samples = []
+    for _ in range(n_samples):
+        # 1. Alege componenta
+        component = np.random.choice(3, p=weights)
+        # 2. Esantioneaza din acea componenta
+        sample = np.random.normal(means[component], stds[component])
+        samples.append(sample)
+    return np.array(samples)
+
+def mixture_pdf(x):
+    """Calculeaza PDF-ul mixturii"""
+    pdf = 0
+    for w, mu, sigma in zip(weights, means, stds):
+        pdf += w * stats.norm.pdf(x, mu, sigma)
+    return pdf
+
+# Verifica
+samples = sample_mixture(10000)
+print(f"Sample mean: {samples.mean():.3f}")
+print(f"Expected: {sum(w*m for w, m in zip(weights, means)):.3f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

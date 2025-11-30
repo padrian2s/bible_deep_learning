@@ -1,0 +1,231 @@
+        <section class="page-section" id="page-70">
+            <div class="page-header">
+                <div class="page-number">70</div>
+                <div class="page-title">
+                    <h3>3.1 De ce Probabilitati? (continuare)</h3>
+                    <span>Reguli simple vs complexe, Frequentist vs Bayesian</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-070.jpg"
+                     alt="Pagina 70" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Reguli Simple vs Complexe: Compromisul Practic</h4>
+                        <p>Adesea este mai practic sa folosim o regula simpla dar incerta decat una complexa dar certa. De exemplu, regula "Majoritatea pasarilor zboara" e ieftina de dezvoltat si utila. O regula ca "Pasarile zboara, cu exceptia celor foarte tinere, bolnave, ranite, sau a speciilor precum strutul, casowarul, kiwi..." e scumpa de dezvoltat, greu de mentinut, si fragila.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Trade-off complexitate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: linear-gradient(135deg, #1a4a1a, var(--bg-dark)); padding: 20px; border-radius: 12px;">
+                                            <div style="text-align: center; margin-bottom: 15px;">
+                                                <span style="font-size: 2rem;">🐦</span>
+                                                <strong style="color: var(--success); display: block;">Regula Simpla + Probabilitate</strong>
+                                            </div>
+                                            <div class="code-block">
+P(zboara | pasare) ≈ 0.95
+# Simplu, util, robust
+                                            </div>
+                                            <div style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">
+                                                ✓ Usor de invatat<br>
+                                                ✓ Generalizeaza bine<br>
+                                                ✓ Tolerant la exceptii
+                                            </div>
+                                        </div>
+                                        <div style="background: linear-gradient(135deg, #4a1a1a, var(--bg-dark)); padding: 20px; border-radius: 12px;">
+                                            <div style="text-align: center; margin-bottom: 15px;">
+                                                <span style="font-size: 2rem;">📚</span>
+                                                <strong style="color: var(--warning); display: block;">Regula Complexa Determinista</strong>
+                                            </div>
+                                            <div class="code-block" style="font-size: 0.75rem;">
+if pasare AND NOT strut AND
+   NOT kiwi AND NOT pinguin AND
+   varsta > 3_saptamani AND
+   NOT ranita AND ...
+                                            </div>
+                                            <div style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">
+                                                ✗ Greu de completat<br>
+                                                ✗ Fragil la cazuri noi<br>
+                                                ✗ Mentenanta costisitoare
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Conexiune: Occam's Razor in ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Principiul lui Occam in Machine Learning:</strong>
+                                        <p style="margin-top: 10px;">Modele mai simple cu incertitudine bine calibrata sunt adesea superioare modelelor complexe care incearca sa fie 100% precise. Aceasta idee sta la baza:</p>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>Regularizare</strong> - Penalizam complexitatea modelului</li>
+                                            <li><strong>Dropout</strong> - Introducem intentionat incertitudine</li>
+                                            <li><strong>Bayesian Deep Learning</strong> - Distributii peste ponderi, nu valori fixe</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Probabilitate Frequentista vs Bayesiana</h4>
+                        <p>Exista doua interpretari ale probabilitatii. <strong>Probabilitatea frequentista</strong> e legata de ratele la care evenimentele apar - daca arunci o moneda de infinite ori, proportia de steme converge spre 0.5. <strong>Probabilitatea Bayesiana</strong> reprezinta un grad de incredere - cand doctorul spune "40% sanse de gripa", nu inseamna ca poti "repeta experimentul", ci exprima increderea lui bazata pe simptome.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Frequentist vs Bayesian</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; border-top: 4px solid var(--accent);">
+                                            <h5 style="color: var(--accent); margin-bottom: 15px;">🎲 Frequentist</h5>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem;"><strong>Definitie:</strong> Limita frecventei relative cand n → ∞</p>
+                                            <div style="margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 6px; text-align: center;">
+                                                <div class="formula">P(stema) = lim(n→∞) n_steme/n</div>
+                                            </div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;"><strong>Exemplu:</strong> "Daca arunc moneda de 1000 ori, ~500 vor fi steme"</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;"><strong>Limita:</strong> Evenimentele trebuie sa fie repetabile</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; border-top: 4px solid var(--secondary);">
+                                            <h5 style="color: var(--secondary); margin-bottom: 15px;">🧠 Bayesian</h5>
+                                            <p style="color: var(--text-secondary); font-size: 0.9rem;"><strong>Definitie:</strong> Grad de incredere/certitudine subiectiva</p>
+                                            <div style="margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 6px; text-align: center;">
+                                                <div class="formula">P(gripa|simptome) = 0.4</div>
+                                            </div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;"><strong>Exemplu:</strong> "Cred ca ai 40% sanse de gripa bazat pe ce stiu"</p>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 10px;"><strong>Avantaj:</strong> Functioneaza si pentru evenimente unice</p>
+                                        </div>
+                                    </div>
+                                    <div class="key-concept" style="margin-top: 20px;">
+                                        <strong>Vestea buna:</strong> Matematica este IDENTICA! Aceleasi formule (Bayes, marginalizare, etc.) functioneaza indiferent de interpretare. In ML folosim frecvent ambele perspective.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Cele doua perspective</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# FREQUENTIST: Estimam probabilitatea prin frecventa
+def frequentist_probability(n_trials=10000):
+    """Aruncam moneda de n ori, numararm stemele"""
+    results = np.random.binomial(1, 0.5, n_trials)
+    freq_estimate = results.mean()
+    print(f"Estimare frequentista: P(stema) = {freq_estimate:.4f}")
+    return freq_estimate
+
+# BAYESIAN: Actualizam credinta cu date noi
+def bayesian_update(prior_alpha=1, prior_beta=1, heads=7, tails=3):
+    """
+    Folosim distributia Beta ca prior
+    Beta(1,1) = uniform (nu stim nimic)
+    Dupa date, posterior devine Beta(alpha+heads, beta+tails)
+    """
+    posterior_alpha = prior_alpha + heads
+    posterior_beta = prior_beta + tails
+
+    # Media distributiei Beta
+    posterior_mean = posterior_alpha / (posterior_alpha + posterior_beta)
+
+    print(f"Prior: Beta({prior_alpha}, {prior_beta}) -> E[P] = 0.5")
+    print(f"Date: {heads} steme, {tails} pajuri")
+    print(f"Posterior: Beta({posterior_alpha}, {posterior_beta})")
+    print(f"Credinta actualizata: P(stema) ≈ {posterior_mean:.3f}")
+
+frequentist_probability()
+bayesian_update()
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Probabilitatea ca Extensie a Logicii</h4>
+                        <p>Probabilitatea poate fi vazuta ca extensie a logicii pentru a lucra cu incertitudinea. Logica ofera reguli formale pentru a determina daca propozitii sunt adevarate sau false. Teoria probabilitatilor ofera reguli formale pentru a determina <em>cat de probabil</em> e ca o propozitie sa fie adevarata, data fiind probabilitatea altor propozitii. Ramsey (1926) a demonstrat ca aceleasi axiome trebuie sa guverneze ambele interpretari.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Referinta: Ramsey si fundamentele</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Frank P. Ramsey (1926) - "Truth and Probability"</strong>
+                                        <p style="margin-top: 10px;">Ramsey a demonstrat ca daca vrem ca rationamentul nostru despre incertitudine sa fie <em>coerent</em> (sa nu ne contrazicem), atunci TREBUIE sa urmam axiomele probabilitatii - indiferent daca interpretam probabilitatile ca frecvente sau ca grade de credinta.</p>
+                                        <p style="margin-top: 10px; color: var(--accent);">Aceasta unificare teoretica inseamna ca putem folosi aceleasi instrumente matematice in orice context!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Logica → Probabilitate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: center;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">Logica Clasica</strong>
+                                            <div style="margin-top: 10px; font-family: monospace; font-size: 0.85rem;">
+                                                A ∧ B → A (cert)<br>
+                                                A ∨ ¬A = True<br>
+                                                Valori: {0, 1}
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 1.5rem; color: var(--secondary);">⟹</div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">Probabilitate</strong>
+                                            <div style="margin-top: 10px; font-family: monospace; font-size: 0.85rem;">
+                                                P(A,B) ≤ P(A)<br>
+                                                P(A) + P(¬A) = 1<br>
+                                                Valori: [0, 1]
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

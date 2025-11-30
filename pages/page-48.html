@@ -1,0 +1,173 @@
+        <section class="page-section" id="page-48">
+            <div class="page-header">
+                <div class="page-number">48</div>
+                <div class="page-title">
+                    <h3>Tensori si Transpusa</h3>
+                    <span>Structuri Multi-dimensionale</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-048.jpg"
+                     alt="Pagina 48" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Tensori - Generalizarea la N Dimensiuni</h4>
+                        <p>Un <strong>tensor</strong> este un tablou cu oricâte dimensiuni (axe). Scalar = 0D, Vector = 1D, Matrice = 2D, Tensor 3D+ pentru imagini color, video, batch-uri. Framework-urile PyTorch si TensorFlow sunt numite dupa tensori!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Dimensiuni Tensor</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">📍</div>
+                                            <strong>0D - Scalar</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Un singur numar: 42</p>
+                                            <div style="color: var(--accent); font-size: 0.9rem;">shape: ()</div>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">📏</div>
+                                            <strong>1D - Vector</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Sir de numere: [1,2,3]</p>
+                                            <div style="color: var(--accent); font-size: 0.9rem;">shape: (3,)</div>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">📋</div>
+                                            <strong>2D - Matrice</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Tabel: imagine grayscale</p>
+                                            <div style="color: var(--accent); font-size: 0.9rem;">shape: (28, 28)</div>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">🎨</div>
+                                            <strong>3D - Tensor</strong>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Imagine color RGB</p>
+                                            <div style="color: var(--accent); font-size: 0.9rem;">shape: (224, 224, 3)</div>
+                                        </div>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center;">
+                                        <div style="font-size: 1.5rem;">📦</div>
+                                        <strong>4D - Batch de imagini color</strong>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">32 imagini RGB 224x224</p>
+                                        <div style="color: var(--success); font-size: 0.9rem;">shape: (32, 224, 224, 3)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod PyTorch: Tensori</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+                                        <code>
+import torch<br><br>
+# Scalar (0D)<br>
+scalar = torch.tensor(3.14)<br>
+print(scalar.shape)  # torch.Size([])<br><br>
+# Vector (1D)<br>
+vector = torch.tensor([1, 2, 3])<br>
+print(vector.shape)  # torch.Size([3])<br><br>
+# Matrice (2D)<br>
+matrix = torch.randn(28, 28)<br>
+print(matrix.shape)  # torch.Size([28, 28])<br><br>
+# Tensor 4D (batch imagini)<br>
+batch = torch.randn(32, 3, 224, 224)<br>
+print(batch.shape)  # torch.Size([32, 3, 224, 224])
+                                        </code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Transpusa - Oglinda peste Diagonala</h4>
+                        <p>Transpusa unei matrici (<strong>A</strong>ᵀ) schimba randurile cu coloanele. Elementul de pe pozitia (i,j) devine (j,i). Este fundamentala pentru calculele in retele neurale, mai ales la propagarea inapoi (backpropagation)!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Animatie: Transpunere</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        (Aᵀ)ᵢ,ⱼ = Aⱼ,ᵢ
+                                    </div>
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin: 20px 0; flex-wrap: wrap;">
+                                        <div style="text-align: center;">
+                                            <p style="color: var(--text-secondary); margin-bottom: 10px;">Matrice A (3×2)</p>
+                                            <div style="border: 2px solid var(--primary); border-radius: 8px; padding: 10px; display: inline-block;">
+                                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px;">
+                                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">1</div>
+                                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">2</div>
+                                                    <div style="background: var(--secondary); padding: 10px; border-radius: 4px;">3</div>
+                                                    <div style="background: var(--secondary); padding: 10px; border-radius: 4px;">4</div>
+                                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">5</div>
+                                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">6</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 2rem; color: var(--warning);">→</div>
+                                        <div style="text-align: center;">
+                                            <p style="color: var(--text-secondary); margin-bottom: 10px;">Aᵀ (2×3)</p>
+                                            <div style="border: 2px solid var(--success); border-radius: 8px; padding: 10px; display: inline-block;">
+                                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;">
+                                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">1</div>
+                                                    <div style="background: var(--secondary); padding: 10px; border-radius: 4px;">3</div>
+                                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">5</div>
+                                                    <div style="background: var(--primary); padding: 10px; border-radius: 4px;">2</div>
+                                                    <div style="background: var(--secondary); padding: 10px; border-radius: 4px;">4</div>
+                                                    <div style="background: var(--accent); padding: 10px; border-radius: 4px;">6</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
+                                        Observa: Culorile arata cum fiecare <strong>rand</strong> din A devine <strong>coloana</strong> in Aᵀ
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Proprietati cheie</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🔑 Proprietati ale Transpusei</h5>
+                                        <div style="display: grid; gap: 10px; margin-top: 10px;">
+                                            <div class="formula">(Aᵀ)ᵀ = A</div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Transpusa transpusei = original</p>
+                                            <div class="formula">(A + B)ᵀ = Aᵀ + Bᵀ</div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Transpusa sumei = suma transpuselor</p>
+                                            <div class="formula">(AB)ᵀ = BᵀAᵀ</div>
+                                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Atentie la ordine! Se inverseaza</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

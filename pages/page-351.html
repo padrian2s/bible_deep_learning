@@ -1,0 +1,108 @@
+<section class="page-section" id="page-351">
+    <div class="page-header">
+        <div class="page-number">351</div>
+        <div class="page-title">
+            <h3>Figura 9.2: Conectivitate Sparse</h3>
+            <span>Vazuta de Jos</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-351.jpg"
+             alt="Pagina 351" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conectivitate Sparse - Perspectiva "De Jos"</h4>
+                <p>Figura 9.2 compara conectivitatea intr-un strat convolutional vs. unul fully connected, privind de la output spre input. In varianta convolutionala (sus), evidentiind un singur input x₃, vedem ca afecteaza doar 3 outputuri (s₂, s₃, s₄) - cele unde kernelul de dimensiune 3 "atinge" pozitia respectiva. In varianta fully connected (jos), x₃ afecteaza TOATE outputurile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Impact Local vs Global</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">CNN (Kernel size=3)</strong>
+                                    <div style="margin-top: 15px; font-family: monospace; line-height: 2;">
+                                        <div>Output: [s₁] [s₂] [<span style="color: var(--accent);">s₃</span>] [s₄] [s₅]</div>
+                                        <div style="text-align: center;">↑ &nbsp; ↑ &nbsp; ↑</div>
+                                        <div>Input: &nbsp;[x₁] [x₂] [<span style="color: var(--accent); font-weight: bold;">x₃</span>] [x₄] [x₅]</div>
+                                    </div>
+                                    <p style="margin-top: 10px; font-size: 0.85rem; color: var(--success);">x₃ influenteaza doar s₂, s₃, s₄</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Fully Connected</strong>
+                                    <div style="margin-top: 15px; font-family: monospace; line-height: 2;">
+                                        <div>Output: [s₁] [s₂] [s₃] [s₄] [s₅]</div>
+                                        <div style="text-align: center;">↑ &nbsp; ↑ &nbsp; ↑ &nbsp; ↑ &nbsp; ↑</div>
+                                        <div>Input: &nbsp;[x₁] [x₂] [<span style="color: var(--warning); font-weight: bold;">x₃</span>] [x₄] [x₅]</div>
+                                    </div>
+                                    <p style="margin-top: 10px; font-size: 0.85rem; color: var(--warning);">x₃ influenteaza TOATE outputurile</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Numararea Conexiunilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Input: 5 neuroni, Output: 5 neuroni
+
+# Fully Connected
+conexiuni_fc = 5 * 5  # 25 conexiuni
+# Fiecare input -> toate outputurile
+
+# Convolutional (kernel=3)
+conexiuni_conv = 5 * 3  # 15 conexiuni
+# Fiecare input -> doar 3 outputuri vecine
+
+# Dar mai important: PARAMETRI UNICI
+params_fc = 25  # 25 ponderi diferite
+params_conv = 3  # doar 3 ponderi (kernelul), refolosite!
+
+print(f"Conexiuni: FC={conexiuni_fc}, CNN={conexiuni_conv}")
+print(f"Parametri unici: FC={params_fc}, CNN={params_conv}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce conteaza Sparsitatea?</h4>
+                <p>Conexiunile locale (sparse) reduc numarul de calcule necesare si previn overfitting-ul. Cand fiecare neuron "vede" doar o portiune mica din input, reteaua este fortata sa invete caracteristici locale relevante (muchii, texturi) in loc de memorare bruta. Aceasta este o forma de regularizare incorporata in arhitectura.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Analogie: Sistemul Vizual Uman</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Inspiratie biologica:</strong> In cortexul vizual, neuronii din V1 raspund doar la stimuli dintr-o regiune mica a campului vizual - "receptive field". Nu exista neuroni care sa "vada" intreaga imagine simultan. CNN-urile imita aceasta structura ierarhica!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

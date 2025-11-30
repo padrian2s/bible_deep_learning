@@ -1,0 +1,83 @@
+<section class="page-section" id="page-175">
+    <div class="page-header">
+        <div class="page-number">175</div>
+        <div class="page-title">
+            <h3>Deep Learning si Generalizare Non-Locala</h3>
+            <span>Capitolul 5 - Sectiunea 5.11.2 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-175.jpg"
+             alt="Pagina 175" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Smoothness Assumption nu e Suficienta</h4>
+                <p>Smoothness assumption si algoritmii non-parametrici asociati functioneaza extrem de bine atata timp cat sunt suficiente exemple pentru ca algoritmul sa observe high points pe majoritatea peaks si low points pe majoritatea valleys. Aceasta e in general adevarata cand functia este destul de smooth si variaza in putine dimensiuni. In dimensiuni mari, chiar si o functie foarte smooth poate varia intr-un mod diferit de-a lungul fiecarei dimensiuni. Daca functia se comporta diferit in regiuni diferite, poate deveni extrem de complicata de descris cu exemple. Exista vreo speranta sa generalizam bine?</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Key Insight: O(2<sup>k</sup>) Regiuni cu O(k) Exemple</h4>
+                <p>Raspunsul la ambele intrebari - daca e posibil sa reprezentam o functie complicata eficient si daca e posibil sa generalizam la noi inputs - este <strong>DA</strong>. Key insight este ca un numar foarte mare de regiuni, e.g. O(2<sup>k</sup>), poate fi definit cu <strong>O(k) exemple</strong>, atata timp cat introducem <strong>dependente intre regiuni</strong> prin asumptii aditionale despre distributia de date. In acest fel, putem generaliza <strong>non-local</strong> (Bengio and Monperrus 2005; Bengio et al. 2006c).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Exponential Gain</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Castigul Exponential</h5>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong style="color: var(--warning);">Local Methods</strong>
+                                        <p style="font-size: 1.2rem; margin: 10px 0;">O(k) exemple → O(k) regiuni</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Scaling linear</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong style="color: var(--success);">Deep Learning</strong>
+                                        <p style="font-size: 1.2rem; margin: 10px 0;">O(k) exemple → O(2<sup>k</sup>) regiuni</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Scaling exponential!</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center;">Deep learning introduce <strong>dependente structurale</strong> intre regiuni</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte Non-Local Generalization</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Bengio and Monperrus (2005)</strong> - Non-local estimation
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Bengio et al. (2006c)</strong> - Curse of dimensionality problem
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Composition of Factors</h4>
+                <p>Alte abordari ML fac adesea asumptii mai puternice, task-specific. De exemplu, am putea rezolva usor task-ul checkerboard presupunand ca functia target este <strong>periodica</strong>. De obicei nu includem astfel de asumptii puternice in neural networks pentru ca sunt prea complexe si specifice. Task-urile AI au structuri mult prea complicate pentru a fi limitate la proprietati simple precum periodicitatea. Ideea core in deep learning este ca presupunem ca datele au fost generate prin <strong>composition of factors</strong> sau features, potential la multiple niveluri intr-o ierarhie. Aceste asumptii aparent "mild" permit un castig exponential!</p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,120 @@
+        <section class="page-section" id="page-63">
+            <div class="page-header">
+                <div class="page-number">63</div>
+                <div class="page-title">
+                    <h3>Principal Components Analysis</h3>
+                    <span>Sectiunea 2.12 - Introducere PCA</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-063.jpg"
+                     alt="Pagina 63" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.12 PCA - Reducerea Dimensionalitatii</h4>
+                        <p><strong>Principal Components Analysis</strong> (PCA) este un algoritm clasic de ML care poate fi derivat complet din algebra liniara! Scopul: compresia cu pierderi - reprezentam date n-dimensionale in doar l dimensiuni (l < n), pierzand cat mai putina informatie.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Ideea PCA</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">📊</div>
+                                            <strong>Date originale</strong>
+                                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">
+                                                m puncte x⁽¹⁾, ..., x⁽ᵐ⁾ in ℝⁿ<br>
+                                                (ex: imagini 784 pixeli)
+                                            </p>
+                                        </div>
+                                        <div style="text-align: center; font-size: 1.5rem; color: var(--accent);">↓ Encoder f(x) = c</div>
+                                        <div style="background: var(--success); padding: 20px; border-radius: 8px; text-align: center; color: white;">
+                                            <div style="font-size: 2rem;">📦</div>
+                                            <strong>Cod comprimat</strong>
+                                            <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">
+                                                Reprezentare c⁽ⁱ⁾ in ℝˡ<br>
+                                                (ex: doar 50 dimensiuni!)
+                                            </p>
+                                        </div>
+                                        <div style="text-align: center; font-size: 1.5rem; color: var(--warning);">↓ Decoder g(c) ≈ x</div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem;">🔄</div>
+                                            <strong>Reconstructie</strong>
+                                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 5px;">
+                                                x ≈ g(f(x))<br>
+                                                (cat mai aproape de original!)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Encoder si Decoder in PCA</h4>
+                        <p>PCA alege decodorul cel mai simplu: o inmultire matriciala g(c) = Dc, unde D ∈ ℝⁿˣˡ. Coloanele lui D trebuie sa fie ortogonale (si de norma 1). Encodorul devine f(x) = Dᵀx.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Formulele PCA</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--primary);">Encoder:</strong>
+                                            <div class="formula">f(x) = Dᵀx = c</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Proiecteaza x pe cele l directii principale</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--secondary);">Decoder:</strong>
+                                            <div class="formula">g(c) = Dc ≈ x</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">Reconstruieste din cod (cu pierderi)</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">Reconstructie completa:</strong>
+                                            <div class="formula">x̂ = g(f(x)) = DDᵀx</div>
+                                            <p style="font-size: 0.85rem; color: var(--text-secondary);">DDᵀ este matricea de proiectie!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Constrangeri pe D</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>📐 De ce coloane ortonormale?</h5>
+                                        <ul style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>Ortogonale:</strong> Fiecare componenta e independenta (no redundancy)</li>
+                                            <li><strong>Norma 1:</strong> Previne solutii triviale (D mare, c mic)</li>
+                                            <li><strong>Rezultat:</strong> DᵀD = Iₗ (dar DDᵀ ≠ I daca l < n)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

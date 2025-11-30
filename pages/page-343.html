@@ -1,0 +1,105 @@
+<section class="page-section" id="page-343">
+    <div class="page-header">
+        <div class="page-number">343</div>
+        <div class="page-title">
+            <h3>Curriculum Learning</h3>
+            <span>Invatare Progresiva</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-343.jpg"
+             alt="Pagina 343" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Curriculum Learning: O Metoda de Continuare</h4>
+                <p>Bengio et al. (2009) observa ca <strong>curriculum learning</strong> poate fi interpretat ca o metoda de continuation. In loc sa modificam functia cost, modificam <strong>distributia datelor</strong>: incepem cu exemple uoare, apoi adaugam exemple dificile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analogie cu Invatarea Umana</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Ca la scoala: inveti mai intai adunarea, apoi inmultirea, apoi algebra. Nu incepi direct cu ecuatii diferentiale!</p>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Khan et al. (2011) au verificat ca curriculum learning e consistent cu modul in care oamenii predau. Profesorii arata exemple "prototipice" intai.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aplicatii in NLP si Computer Vision</h4>
+                <p>Curriculum learning a avut succes in multe domenii: NLP (Spitkovsky et al., 2010; Collobert et al., 2011; Mikolov et al., 2011), computer vision (Kumar et al., 2010; Lee & Grauman, 2011), si alte aplicatii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemple Concrete</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong>Language Modeling:</strong> Incepem cu propozitii scurte, apoi lungi</li>
+                                <li><strong>Object Detection:</strong> Incepem cu obiecte clare, apoi cu ocluzii</li>
+                                <li><strong>Machine Translation:</strong> Incepem cu perechi simple, apoi complexe</li>
+                                <li><strong>RL/Games:</strong> Incepem cu nivele uoare, apoi dificile</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Stochastic Curriculum</h4>
+                <p>Zaremba & Sutskever (2014) au gasit ca un <strong>stochastic curriculum</strong> functioneaza mai bine decat unul deterministic: mereu un mix de exemple uoare si dificile, dar proportia de exemple dificile creste gradual.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Implementare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Stochastic Curriculum Learning
+def get_curriculum_batch(epoch, max_epochs, dataset):
+    # Proportia de exemple dificile creste cu epoch
+    difficulty_threshold = epoch / max_epochs
+
+    # Sortam dupa dificultate
+    easy = [x for x in dataset if x.difficulty < 0.5]
+    hard = [x for x in dataset if x.difficulty >= 0.5]
+
+    # Mix stochastic
+    n_hard = int(batch_size * difficulty_threshold)
+    n_easy = batch_size - n_hard
+
+    batch = random.sample(easy, n_easy) + \
+            random.sample(hard, n_hard)
+    return shuffle(batch)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Un curriculum deterministic (doar exemple usoare la inceput) nu a aratat imbunatatiri fata de training normal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,204 @@
+        <section class="page-section" id="page-80">
+            <div class="page-header">
+                <div class="page-number">80</div>
+                <div class="page-title">
+                    <h3>3.9.4 Distributiile Exponentiala si Laplace</h3>
+                    <span>3.9.5 Distributia Dirac Delta</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-080.jpg"
+                     alt="Pagina 80" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Matricea de Precizie β</h4>
+                        <p>Pentru Gaussiana multivariata, putem folosi <strong>matricea de precizie</strong> β = Σ⁻¹ in loc de covarianta. Formula devine: 𝒩(<strong>x</strong>; <strong>μ</strong>, β⁻¹) = √(det(β)/(2π)ⁿ) × exp(-½(<strong>x</strong>-<strong>μ</strong>)ᵀβ(<strong>x</strong>-<strong>μ</strong>)). Un caz special simplu este <strong>Gaussiana izotropa</strong> unde Σ = σ²I (matricea identitate scalata) - toate dimensiunile au aceeasi varianta si sunt necorelate.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Cand folosim precizia?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Precizie vs Covarianta:</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li><strong>Sampling:</strong> Covarianta Σ e mai utila (Cholesky decomposition)</li>
+                                            <li><strong>Evaluare PDF:</strong> Precizia β e mai eficienta (evita inversare)</li>
+                                            <li><strong>Gaussian Graphical Models:</strong> β sparse = independente conditionate!</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.9.4 Distributia Exponentiala</h4>
+                        <p>In deep learning adesea vrem o distributie cu un varf ascutit la x = 0. <strong>Distributia exponentiala</strong> face exact asta: p(x; λ) = λ × 1_{x≥0} × exp(-λx). Functia indicator 1_{x≥0} asigneaza probabilitate zero tuturor valorilor negative. Parametrul λ > 0 controleaza cat de rapid scade densitatea.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Distributia exponentiala</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                        p(x; λ) = λ × exp(-λx) pentru x ≥ 0
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                        <div style="height: 80px; background: linear-gradient(90deg, var(--accent), transparent 70%); border-radius: 0 0 0 0;"></div>
+                                        <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                            <span style="color: var(--accent); font-size: 0.8rem;">x=0 (varf)</span>
+                                            <span style="color: var(--text-secondary); font-size: 0.8rem;">→ ∞</span>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">
+                                        Utilizata pentru: timpi de asteptare, dropout rate, regularizare L1
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Distributia exponentiala</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Exponentiala cu λ=2 (scale = 1/λ)
+lam = 2.0
+exponential = stats.expon(scale=1/lam)
+
+print(f"Exponential(λ={lam}):")
+print(f"  E[X] = {exponential.mean():.2f}")  # 1/λ
+print(f"  Var(X) = {exponential.var():.2f}")  # 1/λ²
+print(f"  p(0) = {exponential.pdf(0):.2f}")  # λ (valoarea maxima!)
+
+# Sampling
+samples = exponential.rvs(size=1000)
+print(f"\nSample mean: {samples.mean():.3f}")
+print(f"Min: {samples.min():.4f} (mereu >= 0)")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Distributia Laplace</h4>
+                        <p><strong>Distributia Laplace</strong> permite un varf ascutit la un punct arbitrar μ (nu doar la 0): Laplace(x; μ, γ) = (1/(2γ)) × exp(-|x - μ|/γ). Arata ca doua distributii exponentiale lipite spate-in-spate. Parametrul γ controleaza latimea. Este folosita pentru regularizare L1 (LASSO) - incurajeaza sparsitate!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Laplace vs Gaussian</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--accent);">Gaussian</strong>
+                                            <div style="height: 60px; margin: 15px 0; background: radial-gradient(ellipse at center, var(--accent) 0%, transparent 70%); border-radius: 50%;"></div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Varf rotunjit, cozi usoare</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                            <strong style="color: var(--warning);">Laplace</strong>
+                                            <div style="height: 60px; margin: 15px 0; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--warning);"></div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Varf ascutit, cozi grele</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Laplace si L1 regularization</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Laplace distribution
+mu, gamma = 0, 1
+laplace = stats.laplace(loc=mu, scale=gamma)
+
+print(f"Laplace(μ={mu}, γ={gamma}):")
+print(f"  E[X] = {laplace.mean():.1f}")
+print(f"  Var(X) = {laplace.var():.1f}")  # 2γ²
+
+# Compara cu Gaussian de aceeasi varianta
+gauss = stats.norm(loc=0, scale=np.sqrt(2))  # var = 2
+
+# La origine (varf)
+print(f"\np(0) Laplace: {laplace.pdf(0):.3f}")  # 0.5
+print(f"p(0) Gaussian: {gauss.pdf(0):.3f}")  # ~0.28
+# Laplace are varf mai inalt!
+
+# Conexiune cu L1 regularization:
+# Prior Laplace pe weights ↔ L1 penalty in loss
+# -log p(w) ∝ |w|/γ → penalizeaza |w| (L1)
+# Gaussian prior ↔ L2 penalty: w²/(2σ²)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.9.5 Distributia Dirac Delta</h4>
+                        <p>Uneori vrem ca toata masa de probabilitate sa fie concentrata intr-un singur punct. Folosim <strong>functia delta Dirac</strong>: p(x) = δ(x - μ). Aceasta "functie generalizata" este zero peste tot exceptand x = μ, dar integreaza la 1. Nu e o functie ordinara, ci limita unor functii din ce in ce mai concentrate.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Ce este delta Dirac?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Functia Delta Dirac δ(x):</strong>
+                                        <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                            <li>δ(x) = 0 pentru x ≠ 0</li>
+                                            <li>∫ δ(x)dx = 1</li>
+                                            <li>∫ f(x)δ(x-μ)dx = f(μ) (sampling property)</li>
+                                        </ul>
+                                        <p style="margin-top: 10px;">Intuitie: Limita Gaussianei 𝒩(x; μ, σ²) cand σ → 0</p>
+                                        <p style="margin-top: 10px; color: var(--accent);">Utilizare: Distributia empirica (fiecare punct de date = un delta)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

@@ -1,0 +1,127 @@
+<section class="page-section" id="page-241">
+    <div class="page-header">
+        <div class="page-number">241</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.6 Schimbari Algoritmice Cheie</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-241.jpg"
+             alt="Pagina 241" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Idei de Baza Neschimbate din 1980s</h4>
+                <p>Ideile de baza din spatele retelelor feedforward moderne nu s-au schimbat substantial din anii 1980. Acelasi algoritm de backpropagation si aceleasi abordari la gradient descent sunt inca in uz. Cea mai mare parte a imbunatatirii performantei retelelor neuronale din 1986 pana in 2015 poate fi atribuita la doi factori. Primul, dataset-uri mai mari. Al doilea, retele mai mari datorita hardware-ului mai puternic.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ce S-a Schimbat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: rgba(39, 174, 96, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--success);">
+                                    <strong style="color: var(--success);">Factori de Scalare</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Dataset-uri mai mari</li>
+                                        <li>GPU-uri pentru training</li>
+                                        <li>Modele mai mari</li>
+                                        <li>Mai mult compute</li>
+                                    </ul>
+                                </div>
+                                <div style="background: rgba(52, 152, 219, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Schimbari Algoritmice</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Cross-entropy (nu MSE)</li>
+                                        <li>ReLU (nu sigmoid)</li>
+                                        <li>Batch normalization</li>
+                                        <li>Better optimizers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Schimbarea 1: De la MSE la Cross-Entropy</h4>
+                <p>Una dintre schimbarile algoritmice a fost inlocuirea mean squared error cu familia cross-entropy de functii de loss. Mean squared error era popular in anii 1980-1990, dar a fost treptat inlocuit de cross-entropy loss pe masura ce ideile s-au raspandit intre comunitatea de statistica si cea de machine learning. Utilizarea cross-entropy a imbunatatit semnificativ performanta modelelor cu sigmoid si softmax.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De ce Cross-Entropy?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Problema cu MSE + Sigmoid:
+# Gradientul dispare cand outputul e saturat!
+
+x = torch.tensor([5.0])  # Output mare
+target = 0.0
+
+# Sigmoid output
+sigmoid_out = torch.sigmoid(x)  # ≈ 0.993
+
+# MSE gradient:
+# dL/dx = 2*(sigmoid-target) * sigmoid * (1-sigmoid)
+#       ≈ 2 * 0.993 * 0.993 * 0.007 ≈ 0.014
+# GRADIENT MIC! Invatare lenta.
+
+# Cross-entropy gradient:
+# dL/dx = sigmoid - target ≈ 0.993
+# GRADIENT MARE! Invatare rapida.
+
+# Cross-entropy "anuleaza" saturatia sigmoidului!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Schimbarea 2: Unitati Liniare Rectificate (ReLU)</h4>
+                <p>Cealalta schimbare algoritmica majora a fost inlocuirea unitatilor ascunse sigmoid cu unitati liniare pe portiuni precum rectified linear units. Rectificarea folosind functia max{0, z} a fost introdusa in modelele timpurii de retele neuronale si dateaza cel putin pana la Cognitron si Neocognitron (Fukushima, 1975, 1980). Acestea nu erau folosite pe scara larga pana recent.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Revolutia ReLU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Jarrett et al. (2009):</strong>
+                                <p style="margin-top: 10px;">"Folosirea unei neliniaritati rectificatoare este singurul factor cel mai important in imbunatatirea performantei unui sistem de recunoastere" - mai important decat invatarea weights-urilor!</p>
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <p style="font-size: 0.9rem;"><strong>Observatie surprinzatoare:</strong> Pentru dataset-uri mici, chiar si weights aleatorii prin ReLU sunt suficiente! Stratul final de clasificare invata sa foloseasca features-urile propagate.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

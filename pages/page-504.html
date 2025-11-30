@@ -1,0 +1,85 @@
+<section class="page-section" id="page-504">
+    <div class="page-header">
+        <div class="page-number">504</div>
+        <div class="page-title">
+            <h3>Capitolul 13: Linear Factor Models</h3>
+            <span>Introducere</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-504.jpg"
+             alt="Pagina 504" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Linear Factor Models: Modele Generative Simple</h4>
+                <p>Multe frontiere in deep learning implica construirea de <strong>modele probabilistice</strong> ale input-ului p<sub>model</sub>(x). Aceste modele au variabile latente h, cu p<sub>model</sub>(x) = E<sub>h</sub>[p<sub>model</sub>(x|h)]. Reprezentarile bazate pe variabile latente captureaza avantajele representation learning.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De Ce Linear Factor Models?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Linear factor models sunt printre cele mai simple modele probabilistice cu variabile latente. Ele sunt:</p>
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li>Blocuri de baza pentru modele generative mai complexe</li>
+                                <li>Usor de analizat matematic</li>
+                                <li>Fundamentul pentru deep generative models</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Structura unui Linear Factor Model</h4>
+                <p>Un linear factor model foloseste un <strong>decoder liniar stocastic</strong>: genereaza x prin adaugarea de zgomot la o transformare liniara a lui h. Formula de baza: x = Wh + b + noise.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Procesul de Generare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                h ~ p(h)<br><br>
+                                x = Wh + b + noise
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Unde:</p>
+                            <ul style="color: var(--text-secondary);">
+                                <li><strong>h</strong> - factori latenti (independenti)</li>
+                                <li><strong>W</strong> - matricea de weights (factor loadings)</li>
+                                <li><strong>b</strong> - bias</li>
+                                <li><strong>noise</strong> - zgomot Gaussian diagonal</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Conexiuni</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Linear factor models includ: PCA probabilistic, Factor Analysis, ICA, Sparse Coding. Fiecare face alegeri diferite despre forma zgomotului si prior-ul p(h).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,140 @@
+<section class="page-section" id="page-130">
+    <div class="page-header">
+        <div class="page-number">130</div>
+        <div class="page-title">
+            <h3>Figura 5.3 si Modele Non-Parametrice</h3>
+            <span>Capitolul 5 - Capacity si Nearest Neighbors</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-130.jpg"
+             alt="Pagina 130" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.3: Relatia Capacity-Error</h4>
+                <p>Figura ilustreaza relatia tipica intre capacity si eroare. La capatul stang, training error SI generalization error sunt ambele mari - aceasta este <strong>zona de underfitting</strong>. Pe masura ce crestem capacity, training error scade, dar gap-ul creste. In final, gap-ul depaseste scaderea training error si intram in <strong>zona de overfitting</strong>. Exista o <strong>optimal capacity</strong> intre cele doua zone unde generalization error este minima.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Zonele din Figura 5.3</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                                    <span style="color: #4a90d9;">Underfitting Zone</span>
+                                    <span style="color: var(--success);">Optimal</span>
+                                    <span style="color: #d94a4a;">Overfitting Zone</span>
+                                </div>
+                                <div style="height: 60px; background: linear-gradient(to right, #4a90d9 0%, #4a90d9 30%, var(--success) 50%, #d94a4a 70%, #d94a4a 100%); border-radius: 8px; position: relative;">
+                                    <div style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.9rem;">↑ Optimal Capacity</div>
+                                </div>
+                                <div style="margin-top: 40px; display: flex; justify-content: space-between;">
+                                    <div style="width: 30%;">
+                                        <p style="font-size: 0.85rem;">- - Training Error</p>
+                                        <p style="font-size: 0.85rem;">— Generalization Error</p>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <p style="font-size: 0.85rem;">↕ Generalization Gap</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Modele Non-Parametrice</h4>
+                <p>Pana acum am vazut doar modele <strong>parametrice</strong> - modele care invata o functie descrisa de un vector de parametri a carui dimensiune este fixa inainte de a observa date. <strong>Modelele non-parametrice</strong> nu au aceasta limitare - complexitatea lor poate creste cu datele. Uneori sunt abstractii teoretice, dar pot fi si practice - facandu-si complexitatea functie de dimensiunea training set-ului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Parametric vs Non-Parametric</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Parametric</strong>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px; margin-top: 10px;">
+                                        <li>Nr. parametri fix</li>
+                                        <li>Ex: Linear Regression</li>
+                                        <li>Ex: Neural Networks (fixed arch)</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Non-Parametric</strong>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px; margin-top: 10px;">
+                                        <li>Complexitate creste cu datele</li>
+                                        <li>Ex: KNN</li>
+                                        <li>Ex: Decision Trees</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Nearest Neighbor Regression</h4>
+                <p>Un exemplu de algoritm non-parametric este <strong>nearest neighbor regression</strong>. Spre deosebire de regresia liniara care are un vector de weights de dimensiune fixa, modelul nearest neighbor stocheaza intregul X si y din training set. Cand trebuie sa clasifice un punct de test x, modelul gaseste intrarea cea mai apropiata din training set si returneaza target-ul asociat: ŷ = yᵢ unde i = argmin||Xᵢ - x||²</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Nearest Neighbor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.neighbors import KNeighborsRegressor
+
+# Training data
+X_train = np.array([[1], [2], [3], [4], [5]])
+y_train = np.array([2.1, 4.0, 5.9, 8.1, 10.0])
+
+# Nearest neighbor (k=1)
+knn = KNeighborsRegressor(n_neighbors=1)
+knn.fit(X_train, y_train)
+
+# Predictie pentru punct nou
+X_test = np.array([[2.3], [3.7]])
+
+for x in X_test:
+    pred = knn.predict([x])[0]
+    # Gaseste cel mai apropiat
+    distances = np.abs(X_train.flatten() - x[0])
+    nearest_idx = np.argmin(distances)
+
+    print(f"x = {x[0]:.1f}")
+    print(f"  Cel mai apropiat: X[{nearest_idx}] = {X_train[nearest_idx][0]}")
+    print(f"  Predictie: y = {pred:.1f}")
+    print()
+
+print("Nota: Modelul stocheaza TOATE datele de train!")
+print(f"'Parametri': {len(X_train)} puncte (creste cu datele)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,100 @@
+<section class="page-section" id="page-342">
+    <div class="page-header">
+        <div class="page-number">342</div>
+        <div class="page-title">
+            <h3>8.7.6 Continuation Methods</h3>
+            <span>Metode de Continuare</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-342.jpg"
+             alt="Pagina 342" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Continuation Methods: Ideea de Baza</h4>
+                <p><strong>Continuation methods</strong> fac optimizarea mai usoara prin alegerea punctelor initiale astfel incat local descent petrece majoritatea timpului in regiuni "well-behaved". Construim o serie de functii cost din ce in ce mai dificile: J⁽⁰⁾, J⁽¹⁾, ..., J⁽ⁿ⁾.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Principiul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                J⁽⁰⁾ (usor) → J⁽¹⁾ → ... → J⁽ⁿ⁾ = J(θ) (problema reala)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">J⁽ⁱ⁾ este mai usor decat J⁽ⁱ⁺¹⁾ = "well-behaved over more of θ space". Solutia lui J⁽ⁱ⁾ e un bun punct de start pentru J⁽ⁱ⁺¹⁾.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Blurring the Cost Function</h4>
+                <p>Metodele traditionale de continuation "blur" functia cost pentru a o face mai convexa. Blurring-ul e facut prin <strong>sampling</strong> din vecinatatea lui θ:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula Blurring</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                J⁽ⁱ⁾(θ) = 𝔼<sub>θ'~N(θ, σ⁽ⁱ⁾²)</sub>[J(θ')]
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Intuitie: multe functii non-convexe devin aproximativ convexe cand sunt blurred. Rezolvam versiunea blurred, apoi reducem blur-ul progresiv.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Conexiune cu Simulated Annealing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Continuation methods sunt inrudite cu <strong>simulated annealing</strong> (Kirkpatrick et al., 1983), care adauga zgomot la parametri. Ambele incearca sa evite minime locale prin "smoothing" al landscape-ului.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Limitari</h4>
+                <p>Continuation methods pot esua in trei moduri: (1) seria de functii nu e conectata la minimul global, (2) functia nu devine convexa niciodata, (3) minimul functiei blurred nu corespunde minimului original.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Exemplu de Esec</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                J(θ) = -θᵀθ
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Aceasta functie ramane non-convexa indiferent cat de mult e blurred. Nu exista blur care sa o faca convexa!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

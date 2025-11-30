@@ -1,0 +1,111 @@
+<section class="page-section" id="page-144">
+    <div class="page-header">
+        <div class="page-number">144</div>
+        <div class="page-title">
+            <h3>Bias-Variance Tradeoff</h3>
+            <span>Capitolul 5 - Sectiunea 5.4.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-144.jpg"
+             alt="Pagina 144" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Varianta Estimatorului Bernoulli</h4>
+                <p>Pentru estimatorul θ̂<sub>m</sub> = (1/m)Σᵢ x<sup>(i)</sup> al distributiei Bernoulli, calculam varianta:</p>
+                <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <p>Var(θ̂<sub>m</sub>) = Var((1/m)Σᵢ x<sup>(i)</sup>)</p>
+                    <p style="margin-top: 10px;">= (1/m²) Σᵢ Var(x<sup>(i)</sup>)</p>
+                    <p style="margin-top: 10px;">= (1/m²) · m · θ(1-θ) = θ(1-θ)/m</p>
+                </div>
+                <p>Varianta estimatorului scade cu m. Aceasta este o proprietate comuna a estimatorilor populari, numita <strong>consistenta</strong> (sectiunea 5.4.5).</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.4.4 Trading off Bias and Variance</h4>
+                <p>Bias si variance masoara doua surse diferite de eroare. <strong>Bias</strong> masoara deviatia asteptata de la valoarea adevarata. <strong>Variance</strong> masoara deviatia de la valoarea asteptata a estimatorului pe care orice esantionare particulara a datelor o poate cauza. Ce facem cand avem de ales intre un estimator cu bias mare si unul cu varianta mare?</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Bias vs Variance</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; text-align: center;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>High Bias, Low Variance</strong>
+                                    <p style="font-size: 2rem; margin: 10px 0;">🎯</p>
+                                    <p style="font-size: 0.9rem;">Consistent in gresit</p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: model prea simplu</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Low Bias, High Variance</strong>
+                                    <p style="font-size: 2rem; margin: 10px 0;">📊</p>
+                                    <p style="font-size: 0.9rem;">Imprastiat in jurul tintei</p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Ex: model prea complex</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Mean Squared Error (MSE) Decomposition</h4>
+                <p>Cel mai comun mod de a negocia acest tradeoff este prin cross-validation. Alternativ, comparam <strong>mean squared error</strong> al estimatelor:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    MSE = E[(θ̂<sub>m</sub> - θ)²] = Bias(θ̂<sub>m</sub>)² + Var(θ̂<sub>m</sub>)
+                </div>
+                <p>MSE masoara deviatia totala asteptata intre estimat si valoarea adevarata. Estimatorii doriti sunt cei cu MSE mic - care mentin atat bias cat si variance sub control.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: MSE Decomposition</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Simulam doua estimatoare
+np.random.seed(42)
+theta_true = 5.0
+n_experiments = 10000
+
+# Estimator 1: High bias, low variance
+estimates_1 = np.random.normal(4.0, 0.1, n_experiments)  # biased
+
+# Estimator 2: Low bias, high variance
+estimates_2 = np.random.normal(5.0, 1.0, n_experiments)  # unbiased dar variabil
+
+for name, estimates in [("High Bias", estimates_1), ("High Var", estimates_2)]:
+    bias = np.mean(estimates) - theta_true
+    var = np.var(estimates)
+    mse = np.mean((estimates - theta_true)**2)
+
+    print(f"{name}:")
+    print(f"  Bias² = {bias**2:.4f}")
+    print(f"  Var   = {var:.4f}")
+    print(f"  MSE   = {mse:.4f}")
+    print(f"  Check: Bias² + Var = {bias**2 + var:.4f}")
+    print()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

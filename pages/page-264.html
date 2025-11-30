@@ -1,0 +1,93 @@
+<section class="page-section" id="page-264">
+    <div class="page-header">
+        <div class="page-number">264</div>
+        <div class="page-title">
+            <h3>7.8 Folosirea Tuturor Datelor dupa Early Stop</h3>
+            <span>Algoritmi 7.2 si 7.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-264.jpg"
+             alt="Pagina 264" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Strategia 1 (Algorithm 7.2): Reinitializare si Re-train</h4>
+                <p>Prima strategie: folosim early stopping pentru a afla cate steps (i*) sunt optime, apoi reinitializam modelul si antrenam pe TOATE datele exact i* steps.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algorithm 7.2</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Strategia 1: Reinitializare
+# Pas 1: Early stopping pe subset
+X_sub, X_val = split(X_train)
+y_sub, y_val = split(y_train)
+
+_, i_star = early_stopping(X_sub, y_sub, X_val, y_val)
+print(f"Optimal steps: {i_star}")
+
+# Pas 2: Reinitializeaza si antreneaza pe toate datele
+model = Model()  # Fresh initialization!
+train(model, X_train, y_train, steps=i_star)
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p><strong>Problema:</strong> Nu e clar daca sa folosim acelasi numar de <em>parameter updates</em> sau acelasi numar de <em>passes through data</em>. Training set-ul complet e mai mare, deci fiecare pass dureaza mai mult.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Strategia 2 (Algorithm 7.3): Continua Training</h4>
+                <p>A doua strategie: pastreaza parametrii de la early stopping si <strong>continua</strong> antrenamentul pe toate datele. Nu mai avem validation set pentru monitorizare, deci monitorizam loss-ul mediu pe validation set si continuam pana cand scade sub valoarea la care s-a oprit early stopping.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algorithm 7.3</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Strategia 2: Continua training
+# Pas 1: Early stopping pe subset
+theta, i_star = early_stopping(X_sub, y_sub, X_val, y_val)
+epsilon = train_loss(theta, X_sub, y_sub)  # training loss la stop
+
+# Pas 2: Continua pe TOATE datele
+# Opreste cand loss pe validation (acum parte din train) < epsilon
+while train_loss(theta, X_val, y_val) > epsilon:
+    theta = train_step(theta, X_train, y_train)
+
+return theta
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Aceasta strategie evita costul re-training-ului de la zero, dar nu garanteaza convergenta - obiectivul pe validation set s-ar putea sa nu ajunga niciodata la target.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Reducerea Costului Computational</h4>
+                <p>Early stopping reduce si costul computational total! Pe langa beneficiul de regularizare, oprind antrenamentul devreme economisim timp. Nu trebuie sa rulam pana la convergenta completa a training loss-ului, care poate fi foarte lenta si inutila.</p>
+            </div>
+        </div>
+
+    </div>
+</section>

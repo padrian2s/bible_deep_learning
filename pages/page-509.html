@@ -1,0 +1,89 @@
+<section class="page-section" id="page-509">
+    <div class="page-header">
+        <div class="page-number">509</div>
+        <div class="page-title">
+            <h3>SFA: Formulare Matematica</h3>
+            <span>Slow Feature Analysis</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-509.jpg"
+             alt="Pagina 509" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formularea SFA</h4>
+                <p>SFA adauga un termen de regularizare la cost function care penalizeaza schimbarile rapide ale features. Algoritmul minimizeaza: suma peste t a L(f(x<sup>(t+1)</sup>), f(x<sup>(t)</sup>)).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Problema de Optimizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                min<sub>theta</sub> E<sub>t</sub>[(f(x<sup>(t+1)</sup>)<sub>i</sub> - f(x<sup>(t)</sup>)<sub>i</sub>)²]
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Subject to constraints:</p>
+                            <div class="formula" style="margin-top: 10px;">
+                                E<sub>t</sub>[f(x<sup>(t)</sup>)<sub>i</sub>] = 0 (medie zero)<br><br>
+                                E<sub>t</sub>[f(x<sup>(t)</sup>)<sub>i</sub>²] = 1 (varianta unitara)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Constrangeri de Decorrelatie</h4>
+                <p>Pentru a invata features multiple (nu doar cel mai lent), adaugam constrangerea: features sa fie <strong>decorelate</strong>. Altfel, toate features ar converge la acelasi semnal (cel mai lent).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ordine dupa Slowness</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                Pentru i < j: E<sub>t</sub>[f(x<sup>(t)</sup>)<sub>i</sub> * f(x<sup>(t)</sup>)<sub>j</sub>] = 0
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Ca la PCA, features SFA sunt ordonate - primul feature e cel mai lent, al doilea e al doilea cel mai lent (si decorelat de primul), etc.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>SFA Eficient</h4>
+                <p>Pentru SFA liniar, problema poate fi rezolvata in <strong>forma inchisa</strong> folosind algebra liniara (SVD). E foarte eficient computational!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>SFA Nonliniar</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">SFA nonliniar se obtine aplicand o expansiune de baza (ex: toate produsele x<sub>i</sub>x<sub>j</sub>) inainte de SFA liniar. Deep SFA: aplicam SFA liniar, apoi expansiune, apoi iar SFA, etc.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,94 @@
+<section class="page-section" id="page-147">
+    <div class="page-header">
+        <div class="page-number">147</div>
+        <div class="page-title">
+            <h3>Log-Likelihood si KL Divergence</h3>
+            <span>Capitolul 5 - MLE si Cross-Entropy</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-147.jpg"
+             alt="Pagina 147" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Log-Likelihood</h4>
+                <p>Produsul multor probabilitati poate cauza <strong>numerical underflow</strong>. Pentru a obtine o problema de optimizare mai convenabila, luam logaritmul. Deoarece log e monoton crescator, argmax nu se schimba:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    θ<sub>ML</sub> = argmax<sub>θ</sub> Σᵢ log p<sub>model</sub>(x<sup>(i)</sup>; θ)
+                </div>
+                <p>Putem imparti la m pentru a obtine o expectatie fata de distributia empirica p̂<sub>data</sub>:</p>
+                <div class="formula" style="text-align: center; font-size: 1.2rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    θ<sub>ML</sub> = argmax<sub>θ</sub> E<sub>x~p̂<sub>data</sub></sub>[log p<sub>model</sub>(x; θ)]
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Product vs Sum</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Demonstratie underflow cu product
+probs = np.array([0.1] * 100)  # 100 probabilitati de 0.1
+
+product = np.prod(probs)
+log_sum = np.sum(np.log(probs))
+
+print("Likelihood ca produs vs suma de log:")
+print("-" * 45)
+print(f"Product: {product}")  # Underflow!
+print(f"Sum of logs: {log_sum:.2f}")
+print()
+print("=> Produsul da underflow (prea mic)")
+print("   Suma logaritmilor e stabila numeric!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>MLE ca Minimizare a KL Divergence</h4>
+                <p>Un mod de a interpreta MLE este ca minimizarea <strong>disimilaritatii</strong> intre distributia empirica p̂<sub>data</sub> si distributia modelului p<sub>model</sub>, masurata prin <strong>KL divergence</strong>:</p>
+                <div class="formula" style="text-align: center; font-size: 1.1rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    D<sub>KL</sub>(p̂<sub>data</sub> || p<sub>model</sub>) = E<sub>x~p̂<sub>data</sub></sub>[log p̂<sub>data</sub>(x) - log p<sub>model</sub>(x)]
+                </div>
+                <p>Primul termen depinde doar de date, nu de model. Deci minimizarea KL divergence e echivalenta cu minimizarea <strong>cross-entropy</strong>: -E<sub>x~p̂<sub>data</sub></sub>[log p<sub>model</sub>(x)]</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cross-Entropy Loss</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce "Cross-Entropy"?</h5>
+                                <p>Multi autori folosesc "cross-entropy" pentru negative log-likelihood al unui Bernoulli sau softmax. Dar orice loss de forma negative log-likelihood este cross-entropy intre distributia empirica si model!</p>
+                                <p style="margin-top: 10px;"><strong>Exemplu:</strong> Mean Squared Error = cross-entropy intre distributia empirica si un model Gaussian.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretare: Matching Distributions</h4>
+                <p>MLE poate fi vazut ca o incercare de a face distributia modelului p<sub>model</sub> sa se potriveasca cu distributia empirica p̂<sub>data</sub>. Ideal, am vrea sa potrivim distributia adevarata p<sub>data</sub>, dar nu avem acces direct la ea - avem doar esantioane din ea, care definesc p̂<sub>data</sub>.</p>
+            </div>
+        </div>
+    </div>
+</section>

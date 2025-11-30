@@ -1,0 +1,70 @@
+<section class="page-section" id="page-511">
+    <div class="page-header">
+        <div class="page-number">511</div>
+        <div class="page-title">
+            <h3>13.4 Sparse Coding</h3>
+            <span>Reprezentari Sparse</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-511.jpg"
+             alt="Pagina 511" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sparse Coding: Feature Learning Nesupervizat</h4>
+                <p><strong>Sparse coding</strong> (Olshausen & Field, 1996) e un linear factor model care a fost studiat intens ca metoda de feature extraction nesupervizata. "Sparse coding" se refera atat la inferenta lui h cat si la invatarea modelului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ideea Cheie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Reprezentam input-ul x ca o combinatie liniara de features din dictionar, dar folosind cat mai putine features posibil (sparsitate)!</p>
+                            </div>
+                            <div class="formula" style="margin-top: 15px;">
+                                x = Wh + noise<br><br>
+                                p(h<sub>i</sub>) = Laplace(0, 2/lambda) (prior sparse)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Modelul Generativ</h4>
+                <p>Sparse coding foloseste un decoder liniar cu zgomot Gaussian isotropic: p(x|h) = N(x; Wh + b, (1/beta)I). Prior-ul p(h) e ales sa aiba peak la zero - distributie Laplace sau Student-t.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formule</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                p(h<sub>i</sub>) = Laplace(h<sub>i</sub>; 0, 2/lambda) = (lambda/4) * e<sup>-lambda|h<sub>i</sub>|/2</sup>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">Prior-ul Student-t:</p>
+                            <div class="formula">
+                                p(h<sub>i</sub>) proportional cu 1/(1 + h<sub>i</sub>²/nu)<sup>(nu+1)/2</sup>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

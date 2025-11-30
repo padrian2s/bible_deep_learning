@@ -1,0 +1,195 @@
+<section class="page-section" id="page-103">
+    <div class="page-header">
+        <div class="page-number">103</div>
+        <div class="page-title">
+            <h3>Aproximare Taylor si Pasul Optim</h3>
+            <span>Capitolul 4 - Utilizarea Hessianului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-103.jpg"
+             alt="Pagina 103" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivata a Doua Directionala</h4>
+                <p>Deoarece Hessianul este real si simetric, il putem descompune in valori proprii reale si o baza ortogonala de vectori proprii. Derivata a doua in directia unui vector unitar d este data de <strong>dᵀHd</strong>. Cand d este un vector propriu al lui H, derivata a doua in acea directie este valoarea proprie corespunzatoare. Valoarea proprie maxima determina derivata a doua maxima, iar cea minima determina derivata a doua minima.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Curbura Directionala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Hessian pentru f(x,y) = 2x² + y²
+H = np.array([[4, 0],
+              [0, 2]])
+
+# Valori si vectori proprii
+eigenvalues, eigenvectors = np.linalg.eig(H)
+print(f"Valori proprii: {eigenvalues}")
+print(f"Vectori proprii:\n{eigenvectors}")
+
+# Curbura in diferite directii
+directions = {
+    'x': np.array([1, 0]),
+    'y': np.array([0, 1]),
+    'diagonal': np.array([1, 1]) / np.sqrt(2),
+}
+
+print("\nCurbura (d^T H d) in directii:")
+for name, d in directions.items():
+    curvature = d @ H @ d
+    print(f"  {name:10s}: {curvature:.2f}")
+
+print(f"\nCurbura maxima: {max(eigenvalues):.2f} (pe directia x)")
+print(f"Curbura minima: {min(eigenvalues):.2f} (pe directia y)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aproximarea Taylor de Ordin 2</h4>
+                <p>Putem face o aproximare de ordinul doi a functiei f(x) in jurul punctului curent x⁽⁰⁾:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    f(x) ≈ f(x⁽⁰⁾) + (x - x⁽⁰⁾)ᵀg + ½(x - x⁽⁰⁾)ᵀH(x - x⁽⁰⁾)
+                </div>
+                <p>unde g este gradientul si H este Hessianul la x⁽⁰⁾. Daca folosim un learning rate ε si noul punct este x⁽⁰⁾ - εg, obtinem:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    f(x⁽⁰⁾ - εg) ≈ f(x⁽⁰⁾) - εgᵀg + ½ε²gᵀHg
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Aproximare Taylor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# f(x,y) = x² + 4y²
+def f(x):
+    return x[0]**2 + 4*x[1]**2
+
+def grad(x):
+    return np.array([2*x[0], 8*x[1]])
+
+def hessian(x):
+    return np.array([[2, 0], [0, 8]])
+
+# Punct curent
+x0 = np.array([2.0, 1.0])
+g = grad(x0)
+H = hessian(x0)
+
+print(f"La x0 = {x0}")
+print(f"f(x0) = {f(x0)}")
+print(f"grad = {g}")
+print(f"Hessian:\n{H}")
+
+# Comparam aproximarea Taylor cu valoarea reala
+epsilons = [0.1, 0.2, 0.3, 0.5]
+print("\nε      | Taylor approx | Valoare reala | Eroare")
+print("-" * 55)
+for eps in epsilons:
+    x_new = x0 - eps * g
+    taylor = f(x0) - eps * (g @ g) + 0.5 * eps**2 * (g @ H @ g)
+    real = f(x_new)
+    print(f"{eps:.1f}    | {taylor:12.4f} | {real:12.4f} | {abs(taylor-real):.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Learning Rate Optim</h4>
+                <p>Din aproximarea Taylor avem trei termeni: valoarea originala, imbunatatirea asteptata datorita pantei (-εgᵀg), si corectia pentru curbura (½ε²gᵀHg). Cand gᵀHg este zero sau negativ, crestem ε la infinit pentru a reduce f. Cand gᵀHg > 0, rezolvand pentru pasul optim obtinem:</p>
+                <div class="formula" style="text-align: center; font-size: 1.4rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    ε* = gᵀg / gᵀHg
+                </div>
+                <p>In cel mai rau caz (cand g este aliniat cu vectorul propriu de λ_max), pasul optim este 1/λ_max. Valorile proprii ale Hessianului determina scala learning rate-ului!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Learning Rate Optim</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def optimal_learning_rate(g, H):
+    """Calculeaza learning rate-ul optim"""
+    gHg = g @ H @ g
+    if gHg <= 0:
+        return float('inf')  # Putem face pasi mari
+    return (g @ g) / gHg
+
+# Diferite scenarii
+scenarios = [
+    ("Curbura uniforma", np.array([1.0, 1.0]), np.array([[2, 0], [0, 2]])),
+    ("Curbura mare pe x", np.array([1.0, 1.0]), np.array([[10, 0], [0, 1]])),
+    ("Curbura mare pe y", np.array([1.0, 1.0]), np.array([[1, 0], [0, 10]])),
+    ("Grad aliniat cu max curv", np.array([1.0, 0.0]), np.array([[10, 0], [0, 1]])),
+]
+
+print("Scenario                    | ε*     | 1/λ_max")
+print("-" * 55)
+for name, g, H in scenarios:
+    eps_opt = optimal_learning_rate(g, H)
+    lambda_max = max(np.linalg.eigvals(H))
+    print(f"{name:27s} | {eps_opt:.4f} | {1/lambda_max:.4f}")
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Insight Cheie</h5>
+                                <p>Learning rate-ul maxim sigur este 1/λ_max(H). De aceea functiile cu curbura mare necesita learning rate mic!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Metoda Newton</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Daca folosim Hessianul complet, putem sari direct la minim in aproximarea patratica:</p>
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0;">
+                                x* = x⁽⁰⁾ - H⁻¹g
+                            </div>
+                            <p>Aceasta este <strong>metoda Newton</strong>. Converge mult mai rapid decat gradient descent, dar:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Calculul H⁻¹ este O(n³) - foarte scump pentru retele mari</li>
+                                <li>Stocarea H necesita O(n²) memorie</li>
+                                <li>Necesita Hessian pozitiv definit (altfel merge in directia gresita)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

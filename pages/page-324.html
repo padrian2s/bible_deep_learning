@@ -1,0 +1,98 @@
+<section class="page-section" id="page-324">
+    <div class="page-header">
+        <div class="page-number">324</div>
+        <div class="page-title">
+            <h3>Algoritmii 8.5-8.6: RMSProp si Nesterov</h3>
+            <span>8.5.4 Alegerea Optimizatorului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-324.jpg"
+             alt="Pagina 324" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 8.5: RMSProp Formal</h4>
+                <p>RMSProp mentine o medie mobila exponentiala r a patratelor gradientilor. Update-ul este Δθ = -ε/(δ+√r) ⊙ g, unde impartirea si radacina sunt element-wise.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudo-cod RMSProp</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 8.5: RMSProp
+# ε = learning rate, ρ = decay rate (0.9)
+r = 0
+
+while not converged:
+    g = compute_gradient()
+    r = ρ * r + (1 - ρ) * g ⊙ g
+    Δθ = -ε / (δ + √r) ⊙ g
+    θ = θ + Δθ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Adam vs RMSProp: Bias Correction</h4>
+                <p>RMSProp estimeaza momentul 2 (patratele gradientilor), dar fara bias correction. La primele iteratii, estimarea are un bias mare spre zero. <strong>Adam</strong> corecteaza acest bias, ceea ce il face mai robust la alegerea hiperparametrilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Comparatie Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Adam e in general considerat mai robust decat RMSProp, dar uneori trebuie ajustat learning rate-ul fata de default-ul sugerat (0.001). RMSProp ramane o alegere buna si mai simpla.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.5.4 Care Algoritm Sa Aleg?</h4>
+                <p>Din pacate, <strong>nu exista un algoritm "cel mai bun"</strong>! Schaul et al. (2014) au comparat multi algoritmi pe multe task-uri. Concluzia: familia de algoritmi cu learning rate adaptiv (RMSProp, AdaDelta, Adam) performa solid, dar niciunul nu e universal superior.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Optimizatori Populari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong>SGD cu momentum:</strong> Clasic, necesita tuning atent</li>
+                                <li><strong>RMSProp:</strong> Simplu, eficient</li>
+                                <li><strong>RMSProp + Nesterov:</strong> Combinatie puternica</li>
+                                <li><strong>Adam:</strong> Cel mai popular, robust</li>
+                                <li><strong>AdaDelta:</strong> Similar cu RMSProp, fara learning rate explicit</li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p>Alegerea depinde de: (1) familiaritatea ta cu algoritmul si (2) usurinta de tuning pentru problema ta specifica.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

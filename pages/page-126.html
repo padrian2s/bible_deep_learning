@@ -1,0 +1,124 @@
+<section class="page-section" id="page-126">
+    <div class="page-header">
+        <div class="page-number">126</div>
+        <div class="page-title">
+            <h3>Statistical Learning Theory si i.i.d. Assumptions</h3>
+            <span>Capitolul 5 - Teoria Generalizarii</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-126.jpg"
+             alt="Pagina 126" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Statistical Learning Theory</h4>
+                <p>Cum putem afecta performanta pe test set cand observam doar training set? Daca train si test sunt colectate complet arbitrar, nu putem face nimic. Dar daca facem anumite <strong>asumptii</strong> despre cum sunt colectate datele, putem face progres. Teoria invatarii statistice ofera raspunsuri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Importanta Asumptiilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Fara asumptii despre relatia intre train si test, ML este imposibil! Asumptiile ne permit sa transferam cunostintele de pe train la test.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Asumptiile i.i.d.</h4>
+                <p>Train si test sunt generate de o distributie de probabilitate peste dataset-uri numita <strong>data generating process</strong>. Facem asumptiile <strong>i.i.d.</strong> (independent and identically distributed):</p>
+                <ul style="margin-left: 20px;">
+                    <li>Exemplele din fiecare dataset sunt <strong>independente</strong> unul de altul</li>
+                    <li>Train si test sunt <strong>identic distribuite</strong> - provin din aceeasi distributie</li>
+                </ul>
+                <p>Aceasta distributie comuna se numeste <strong>data generating distribution</strong>, notata p<sub>data</sub>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: i.i.d. Assumptions</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; padding: 20px; background: var(--bg-dark); border-radius: 8px;">
+                                <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 15px; border-radius: 8px; display: inline-block; margin-bottom: 20px;">
+                                    <strong>p<sub>data</sub></strong>
+                                    <p style="font-size: 0.9rem;">Data Generating Distribution</p>
+                                </div>
+                                <div style="display: flex; justify-content: center; gap: 40px;">
+                                    <div>
+                                        <p style="font-size: 2rem;">↓</p>
+                                        <div style="background: var(--success); padding: 10px 20px; border-radius: 8px;">Train Set</div>
+                                    </div>
+                                    <div>
+                                        <p style="font-size: 2rem;">↓</p>
+                                        <div style="background: var(--warning); padding: 10px 20px; border-radius: 8px;">Test Set</div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; color: var(--text-secondary);">Ambele provin din ACEEASI distributie!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Underfitting si Overfitting</h4>
+                <p>Asumptiile i.i.d. ne permit sa studiem matematic relatia intre train error si test error. O conexiune imediata: pentru un model random, expected training error = expected test error (ambele sunt esantioane din aceeasi distributie). Dar noi <strong>alegem</strong> parametrii dupa ce vedem train set! Factorii care determina performanta ML sunt:</p>
+                <ol style="margin-left: 20px;">
+                    <li>Sa facem training error mic</li>
+                    <li>Sa facem gap-ul intre training si test error mic</li>
+                </ol>
+                <p>Acestea corespund celor doua provocari: <strong>underfitting</strong> si <strong>overfitting</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Under vs Overfitting</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: #4a90d9; padding: 20px; border-radius: 8px;">
+                                    <h5>Underfitting</h5>
+                                    <p style="font-size: 0.9rem;">Training error mare</p>
+                                    <p style="font-size: 0.9rem;">Modelul e prea simplu</p>
+                                    <p style="font-size: 0.9rem;">Nu captureaza pattern-urile</p>
+                                    <div style="margin-top: 10px; font-size: 0.8rem; color: rgba(255,255,255,0.7);">
+                                        Solutie: Model mai complex
+                                    </div>
+                                </div>
+                                <div style="background: #d94a4a; padding: 20px; border-radius: 8px;">
+                                    <h5>Overfitting</h5>
+                                    <p style="font-size: 0.9rem;">Gap train-test mare</p>
+                                    <p style="font-size: 0.9rem;">Modelul memorizeaza</p>
+                                    <p style="font-size: 0.9rem;">Nu generalizeaza</p>
+                                    <div style="margin-top: 10px; font-size: 0.8rem; color: rgba(255,255,255,0.7);">
+                                        Solutie: Regularizare, mai multe date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

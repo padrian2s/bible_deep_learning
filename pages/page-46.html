@@ -1,0 +1,111 @@
+        <section class="page-section" id="page-46">
+            <div class="page-header">
+                <div class="page-number">46</div>
+                <div class="page-title">
+                    <h3>Capitolul 2: Algebra Liniara</h3>
+                    <span>Introducere si Sectiunea 2.1</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-046.jpg"
+                     alt="Pagina 46" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>De ce Algebra Liniara pentru Deep Learning?</h4>
+                        <p>Algebra liniara este fundamentul matematicii continue folosite in stiinta si inginerie. Spre deosebire de matematica discreta (pe care informaticienii o cunosc bine), algebra liniara opereaza cu numere reale si transformari continue - exact ceea ce au nevoie retelele neurale!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: De ce conteaza?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--accent);">Fara Algebra Liniara:</strong>
+                                            <p style="color: var(--text-secondary); margin-top: 5px;">Pentru a procesa o imagine 1000x1000, ai avea 1 milion de operatii separate - lent si imposibil de optimizat.</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                            <strong style="color: var(--success);">Cu Algebra Liniara:</strong>
+                                            <p style="color: var(--text-secondary); margin-top: 5px;">Aceeasi imagine devine o matrice, iar GPU-ul poate face milioane de operatii in paralel - de aici vine viteza Deep Learning!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Resurse recomandate</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>📖</span>
+                                            <div><strong>The Matrix Cookbook</strong> - Petersen & Pedersen (2006) - Pentru formule rapide</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📖</span>
+                                            <div><strong>Linear Algebra</strong> - Shilov (1977) - Pentru fundamente solide</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🎥</span>
+                                            <div><strong>3Blue1Brown - Essence of Linear Algebra</strong> - Vizualizari exceptionale pe YouTube</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>2.1 Scalari, Vectori, Matrici si Tensori</h4>
+                        <p>Acestea sunt cele 4 blocuri fundamentale. <strong>Scalarii</strong> sunt numere simple (un singur numar). In Deep Learning, scalarii apar ca rate de invatare, numar de epoci, sau valori de pierdere.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Scalar</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        s ∈ ℝ (scalar real) sau n ∈ ℕ (scalar natural)
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px;">
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem; color: var(--accent);">0.001</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Learning Rate</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem; color: var(--success);">100</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Epochs</p>
+                                        </div>
+                                        <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 2rem; color: var(--warning);">2.34</div>
+                                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Loss Value</p>
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <strong>Conventie:</strong> Scalarii se scriu cu litere mici italice (ex: <em>s</em>, <em>n</em>, <em>x</em>)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

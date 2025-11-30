@@ -1,0 +1,290 @@
+        <section class="page-section" id="page-72">
+            <div class="page-header">
+                <div class="page-number">72</div>
+                <div class="page-title">
+                    <h3>3.3.1 PMF - Proprietati si Distributia Uniforma</h3>
+                    <span>Distributii comune si normalizare</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-072.jpg"
+                     alt="Pagina 72" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Distributia Comuna (Joint Distribution)</h4>
+                        <p>Functiile de masa pot opera pe mai multe variabile simultan - aceasta se numeste <strong>distributie comuna de probabilitate</strong>. P(x = x, y = y) noteaza probabilitatea ca x = x SI y = y simultan. Putem scrie prescurtat P(x, y). Pentru a fi o PMF valida asupra mai multor variabile, trebuie sa satisfacem aceleasi proprietati, dar suma se face peste TOATE combinatiile de valori.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Distributie comuna</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Distributie comuna: 2 zaruri
+# P(X=i, Y=j) = probabilitatea ca primul zar = i, al doilea = j
+
+def joint_pmf_dice(i, j):
+    """Distributie comuna pentru 2 zaruri independente"""
+    if 1 <= i <= 6 and 1 <= j <= 6:
+        return 1/36  # 1/6 * 1/6
+    return 0
+
+# Tabel de probabilitati comune
+print("Distributie comuna P(X, Y) pentru 2 zaruri:")
+print("    Y=1   Y=2   Y=3   Y=4   Y=5   Y=6")
+total = 0
+for i in range(1, 7):
+    row = f"X={i} "
+    for j in range(1, 7):
+        p = joint_pmf_dice(i, j)
+        row += f"{p:.3f} "
+        total += p
+    print(row)
+
+print(f"\nSuma totala: {total:.4f}")  # = 1.0
+
+# Probabilitatea ca suma = 7
+p_sum_7 = sum(joint_pmf_dice(i, 7-i) for i in range(1, 7))
+print(f"P(X + Y = 7) = {p_sum_7:.4f}")  # = 6/36 = 0.1667
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Distributie comuna</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="overflow-x: auto;">
+                                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                                            <tr style="background: var(--bg-lighter);">
+                                                <th style="padding: 8px; border: 1px solid var(--bg-dark);">P(x,y)</th>
+                                                <th style="padding: 8px; border: 1px solid var(--bg-dark);">y=☀️</th>
+                                                <th style="padding: 8px; border: 1px solid var(--bg-dark);">y=🌧️</th>
+                                                <th style="padding: 8px; border: 1px solid var(--bg-dark); color: var(--accent);">P(x)</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); background: var(--bg-lighter);">x=🚴</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center;">0.40</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center;">0.05</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center; color: var(--accent);">0.45</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); background: var(--bg-lighter);">x=🚗</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center;">0.20</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center;">0.35</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center; color: var(--accent);">0.55</td>
+                                            </tr>
+                                            <tr style="background: var(--bg-lighter);">
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); color: var(--secondary);">P(y)</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center; color: var(--secondary);">0.60</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center; color: var(--secondary);">0.40</td>
+                                                <td style="padding: 8px; border: 1px solid var(--bg-dark); text-align: center; color: var(--success);">1.00</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">
+                                        <strong>Marginale:</strong> P(x) = suma pe coloana, P(y) = suma pe rand
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Proprietatile unei PMF Valide</h4>
+                        <p>Pentru ca o functie P sa fie o functie de masa de probabilitate (PMF) valida pentru o variabila x, trebuie sa satisfaca trei proprietati: (1) Domeniul lui P trebuie sa fie setul tuturor starilor posibile ale lui x; (2) Pentru orice x din domeniu, 0 ≤ P(x) ≤ 1; (3) Suma tuturor probabilitatilor trebuie sa fie exact 1 - aceasta proprietate se numeste <strong>normalizare</strong>.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Cele 3 proprietati</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                            <strong style="color: var(--accent);">1. Domeniu Complet</strong>
+                                            <p style="color: var(--text-secondary); margin-top: 5px;">P trebuie definita pentru TOATE starile posibile</p>
+                                            <div class="formula" style="margin-top: 10px;">dom(P) = {toate valorile posibile ale x}</div>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(124, 58, 237, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);">
+                                            <strong style="color: var(--secondary);">2. Non-negativitate si Limitare</strong>
+                                            <p style="color: var(--text-secondary); margin-top: 5px;">Nicio probabilitate negativa, niciuna peste 1</p>
+                                            <div class="formula" style="margin-top: 10px;">∀x ∈ dom(P): 0 ≤ P(x) ≤ 1</div>
+                                        </div>
+                                        <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                            <strong style="color: var(--success);">3. Normalizare</strong>
+                                            <p style="color: var(--text-secondary); margin-top: 5px;">Suma trebuie sa fie exact 1 (ceva TREBUIE sa se intample)</p>
+                                            <div class="formula" style="margin-top: 10px;">∑<sub>x∈dom(P)</sub> P(x) = 1</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Verificare PMF valida</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+def is_valid_pmf(probs, tolerance=1e-9):
+    """Verifica daca o lista de probabilitati formeaza un PMF valid"""
+
+    # Proprietatea 2: Non-negativitate si limitare
+    if not all(0 <= p <= 1 for p in probs):
+        return False, "Probabilitati in afara intervalului [0,1]"
+
+    # Proprietatea 3: Normalizare
+    total = sum(probs)
+    if abs(total - 1.0) > tolerance:
+        return False, f"Suma = {total}, nu 1.0"
+
+    return True, "PMF valid!"
+
+# Exemple
+print("Verificari PMF:")
+print(is_valid_pmf([0.2, 0.3, 0.5]))      # Valid
+print(is_valid_pmf([0.2, 0.3, 0.4]))      # Invalid - suma != 1
+print(is_valid_pmf([0.5, 0.7, -0.2]))     # Invalid - negativ
+print(is_valid_pmf([0.1, 0.1, 1.1, -0.3])) # Invalid - ambele probleme
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Distributia Uniforma Discreta</h4>
+                        <p>Un exemplu simplu este <strong>distributia uniforma</strong>. Pentru o variabila discreta x cu k stari posibile, distributia uniforma asigneaza fiecarei stari aceeasi probabilitate: P(x = xᵢ) = 1/k. Aceasta satisface automat normalizarea: suma de k termeni, fiecare egal cu 1/k, da exact 1.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Distributia Uniforma</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; font-size: 1.2rem; margin-bottom: 20px;">
+                                        P(x = xᵢ) = 1/k pentru toate i ∈ {1, ..., k}
+                                    </div>
+                                    <div style="display: flex; justify-content: space-around; align-items: flex-end; height: 120px; background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                        <div style="text-align: center;">
+                                            <div style="width: 40px; height: 80px; background: var(--accent); border-radius: 4px 4px 0 0;"></div>
+                                            <span style="font-size: 0.8rem;">x₁</span>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 40px; height: 80px; background: var(--accent); border-radius: 4px 4px 0 0;"></div>
+                                            <span style="font-size: 0.8rem;">x₂</span>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 40px; height: 80px; background: var(--accent); border-radius: 4px 4px 0 0;"></div>
+                                            <span style="font-size: 0.8rem;">x₃</span>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 40px; height: 80px; background: var(--accent); border-radius: 4px 4px 0 0;"></div>
+                                            <span style="font-size: 0.8rem;">x₄</span>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 40px; height: 80px; background: var(--accent); border-radius: 4px 4px 0 0;"></div>
+                                            <span style="font-size: 0.8rem;">x₅</span>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px; color: var(--text-secondary);">Toate barele au aceeasi inaltime = 1/k</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Distributia uniforma</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Distributie uniforma discreta: {1, 2, 3, 4, 5, 6}
+k = 6  # numar de stari
+uniform_prob = 1 / k
+
+print(f"Distributie uniforma cu k={k} stari:")
+print(f"P(x = i) = 1/{k} = {uniform_prob:.4f} pentru toate i")
+
+# Verificare normalizare (Ecuatia 3.2 din carte)
+total = sum(1/k for _ in range(k))
+print(f"\nVerificare: Σ P(x=xᵢ) = Σ(1/k) = k/k = {total}")
+
+# Utilizare in practica cu scipy
+uniform_dist = stats.randint(1, k+1)  # randint(low, high) -> [low, high)
+samples = uniform_dist.rvs(size=1000)
+
+print(f"\nDistributie empirica din 1000 esantioane:")
+for i in range(1, k+1):
+    empirical = (samples == i).mean()
+    print(f"  P(x={i}): teoretic={uniform_prob:.3f}, empiric={empirical:.3f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Aplicatii ale distributiei uniforme</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>🎲</span>
+                                            <div><strong>Initializare parametri</strong> - Ponderile retelelor neurale sunt adesea initializate uniform</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🔀</span>
+                                            <div><strong>Random sampling</strong> - Selectia aleatorie a datelor pentru mini-batch</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🤖</span>
+                                            <div><strong>Exploration in RL</strong> - ε-greedy foloseste uniform pentru explorare</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📊</span>
+                                            <div><strong>Prior neinformativ</strong> - Cand nu avem preferinte initiale</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

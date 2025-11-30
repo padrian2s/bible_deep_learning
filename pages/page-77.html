@@ -1,0 +1,268 @@
+        <section class="page-section" id="page-77">
+            <div class="page-header">
+                <div class="page-number">77</div>
+                <div class="page-title">
+                    <h3>Matricea de Covarianta</h3>
+                    <span>3.9 Distributii Comune - Bernoulli si Multinoulli</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-077.jpg"
+                     alt="Pagina 77" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Matricea de Covarianta</h4>
+                        <p>Pentru un vector aleator <strong>x</strong> ∈ ℝⁿ, <strong>matricea de covarianta</strong> este o matrice n×n unde elementul (i,j) este Cov(xᵢ, xⱼ). Pe diagonala avem variantele: Cov(xᵢ, xᵢ) = Var(xᵢ). Matricea de covarianta este intotdeauna simetrica si pozitiv semidefinita.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Matricea de covarianta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                        Cov(<strong>x</strong>)ᵢⱼ = Cov(xᵢ, xⱼ)
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; font-family: monospace; text-align: center;">
+                                        <div style="display: inline-block; text-align: left;">
+                                            ┌                           ┐<br>
+                                            │ <span style="color: var(--accent);">Var(x₁)</span>   Cov(x₁,x₂)  ... │<br>
+                                            │ Cov(x₂,x₁) <span style="color: var(--accent);">Var(x₂)</span>   ... │<br>
+                                            │ ...        ...        ... │<br>
+                                            └                           ┘
+                                        </div>
+                                    </div>
+                                    <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+                                        <span style="color: var(--accent);">Diagonala</span> = Variante | <span style="color: var(--text-secondary);">Off-diagonal</span> = Covariante
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Matricea de covarianta</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+
+# Vector aleator 3D
+np.random.seed(42)
+n_samples = 1000
+
+# Variabile corelate
+x1 = np.random.normal(0, 1, n_samples)
+x2 = 0.8 * x1 + np.random.normal(0, 0.5, n_samples)  # Corelat cu x1
+x3 = np.random.normal(0, 2, n_samples)  # Independent
+
+X = np.vstack([x1, x2, x3])
+
+# Matricea de covarianta
+cov_matrix = np.cov(X)
+print("Matricea de Covarianta:")
+print(np.round(cov_matrix, 3))
+
+print("\nDiagonala (variante):", np.diag(cov_matrix).round(3))
+print("Cov(x1, x2):", cov_matrix[0, 1].round(3), "- corelate!")
+print("Cov(x1, x3):", cov_matrix[0, 2].round(3), "- ~independente")
+
+# Verificare: simetrica si pozitiv semidefinita
+print("\nSimetrica?", np.allclose(cov_matrix, cov_matrix.T))
+print("Eigenvalues:", np.linalg.eigvalsh(cov_matrix).round(3), ">= 0?")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.9 Distributii Comune de Probabilitate</h4>
+                        <p>Cateva distributii simple apar frecvent in Machine Learning. Acestea servesc ca blocuri de constructie pentru modele mai complexe. Sectiunea 3.9 introduce distributiile fundamentale incepand cu cele mai simple: <strong>Bernoulli</strong> si <strong>Multinoulli</strong> (categorica).</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>De ce conteaza aceste distributii?</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <ul class="reference-list">
+                                        <li class="reference-item">
+                                            <span>🎯</span>
+                                            <div><strong>Output layers</strong> - Softmax produce Multinoulli, sigmoid produce Bernoulli</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>📉</span>
+                                            <div><strong>Loss functions</strong> - Binary/Categorical cross-entropy derivate din aceste distributii</div>
+                                        </li>
+                                        <li class="reference-item">
+                                            <span>🔧</span>
+                                            <div><strong>Priors</strong> - Gaussian e cel mai comun prior pentru ponderi (L2 regularization)</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.9.1 Distributia Bernoulli</h4>
+                        <p>Distributia <strong>Bernoulli</strong> este pentru o singura variabila binara (0 sau 1). Are un singur parametru φ ∈ [0, 1] care da probabilitatea ca variabila sa fie 1. Proprietati: P(x=1) = φ, P(x=0) = 1-φ. Media: 𝔼[x] = φ. Varianta: Var(x) = φ(1-φ). Aceasta e distributia pentru clasificare binara!</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Vizualizare: Bernoulli</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                        <div style="text-align: center; margin-bottom: 15px;">
+                                            <strong>Bernoulli(φ = 0.7)</strong>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 40px; align-items: flex-end; height: 120px;">
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 36px; background: var(--warning); border-radius: 4px 4px 0 0;"></div>
+                                                <p style="margin-top: 5px;">x=0</p>
+                                                <p style="font-size: 0.8rem; color: var(--text-secondary);">1-φ = 0.3</p>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div style="width: 60px; height: 84px; background: var(--success); border-radius: 4px 4px 0 0;"></div>
+                                                <p style="margin-top: 5px;">x=1</p>
+                                                <p style="font-size: 0.8rem; color: var(--text-secondary);">φ = 0.7</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formula" style="margin-top: 15px; text-align: center;">
+                                        P(x) = φˣ(1-φ)¹⁻ˣ
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Bernoulli in ML</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy import stats
+
+# Distributia Bernoulli
+phi = 0.7
+bernoulli = stats.bernoulli(phi)
+
+print(f"Bernoulli(φ={phi}):")
+print(f"  P(x=0) = {bernoulli.pmf(0):.2f}")  # 1-φ
+print(f"  P(x=1) = {bernoulli.pmf(1):.2f}")  # φ
+print(f"  E[x] = {bernoulli.mean():.2f}")    # φ
+print(f"  Var(x) = {bernoulli.var():.2f}")   # φ(1-φ)
+
+# In Deep Learning: Binary Cross-Entropy Loss
+def binary_cross_entropy(y_true, y_pred):
+    """
+    BCELoss = -[y*log(p) + (1-y)*log(1-p)]
+    Aceasta e exact -log P(y|Bernoulli(p))!
+    """
+    eps = 1e-7  # pentru stabilitate numerica
+    return -np.mean(
+        y_true * np.log(y_pred + eps) +
+        (1 - y_true) * np.log(1 - y_pred + eps)
+    )
+
+# Sigmoid output = parametrul φ al lui Bernoulli
+y_true = np.array([1, 0, 1, 1, 0])
+y_pred = np.array([0.9, 0.2, 0.8, 0.7, 0.1])  # sigmoid outputs
+print(f"\nBCE Loss: {binary_cross_entropy(y_true, y_pred):.4f}")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>3.9.2 Distributia Multinoulli (Categorica)</h4>
+                        <p>Distributia <strong>Multinoulli</strong> (sau categorica) este generalizarea lui Bernoulli pentru k stari posibile (nu doar 2). Este parametrizata de un vector <strong>p</strong> unde pᵢ da probabilitatea starii i, cu Σpᵢ = 1. Aceasta este distributia pentru clasificare multi-clasa! Output-ul unui layer softmax este exact parametrul p al unei distributii Multinoulli.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Cod: Multinoulli si Softmax</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="code-block">
+import numpy as np
+from scipy.special import softmax
+
+# Softmax converteste logits in probabilitati Multinoulli
+logits = np.array([2.0, 1.0, 0.5])
+probs = softmax(logits)
+
+print(f"Logits: {logits}")
+print(f"Softmax -> p: {probs.round(3)}")
+print(f"Suma: {probs.sum():.4f}")  # = 1.0 (normalizat)
+
+# Categorical Cross-Entropy = -log P(clasa_corecta)
+def categorical_cross_entropy(y_true_idx, probs):
+    """CCE = -log(p[clasa_corecta])"""
+    return -np.log(probs[y_true_idx])
+
+y_true = 0  # Clasa corecta e prima
+cce = categorical_cross_entropy(y_true, probs)
+print(f"\nClasa corecta: {y_true}")
+print(f"P(clasa corecta) = {probs[y_true]:.3f}")
+print(f"CCE Loss = -log({probs[y_true]:.3f}) = {cce:.4f}")
+
+# Murphy (2012) a popularizat termenul "multinoulli"
+# Diferenta: Multinoulli = 1 trial, Multinomial = n trials
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Multinoulli vs Multinomial</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <strong>Clarificare terminologie:</strong>
+                                        <p style="margin-top: 10px;"><strong>Multinoulli</strong> (termenul lui Murphy, 2012): Distributie pentru UN singur trial cu k rezultate posibile. Output: un singur index (sau one-hot vector).</p>
+                                        <p style="margin-top: 10px;"><strong>Multinomial</strong>: Distributie pentru n trials independente, fiecare fiind Multinoulli. Output: vector de counts (cate de fiecare tip).</p>
+                                        <p style="margin-top: 10px; color: var(--warning);">Multi texte folosesc "multinomial" cand se refera de fapt la multinoulli (cazul n=1).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

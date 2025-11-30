@@ -1,0 +1,121 @@
+<section class="page-section" id="page-297">
+    <div class="page-header">
+        <div class="page-number">297</div>
+        <div class="page-title">
+            <h3>Figura 8.1: Gradient Norm in Timp</h3>
+            <span>Ill-Conditioning in Practica</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-297.jpg"
+             alt="Pagina 297" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 8.1: Un Exemplu Concret</h4>
+                <p>Aceasta figura arata ce se intampla in practica la antrenarea unei retele convolutionale pentru detectia obiectelor. Observa ca gradient descent <strong>nu ajunge niciodata</strong> la un punct critic (gradient ≈ 0)!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretarea Graficelor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Grafic Stanga - Gradient Norm:</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Axa X: Training epochs</li>
+                                        <li>Axa Y: ||∇J||</li>
+                                        <li>Punctele: gradient per epoca</li>
+                                        <li>Linia: running average</li>
+                                    </ul>
+                                    <p style="color: var(--warning); margin-top: 10px;">Gradientul <strong>creste</strong> in timp, nu scade!</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Grafic Dreapta - Eroare Clasificare:</strong>
+                                    <ul style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Axa X: Training epochs</li>
+                                        <li>Axa Y: Classification error rate</li>
+                                        <li>Scade frumos!</li>
+                                    </ul>
+                                    <p style="color: var(--success); margin-top: 10px;">Antrenarea e <strong>reusita</strong> desi gradientul creste!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce inseamna asta?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>In multe cazuri, norma gradientului creste pe parcursul antrenarii, dar termenul g<sup>⊤</sup>Hg creste si mai mult. Rezultatul: trebuie learning rate din ce in ce mai mic pentru a compensa curbura puternica.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Newton's Method - Solutie Partiala</h4>
+                <p>Metoda lui Newton e un instrument excelent pentru functii convexe cu Hessian slab conditionat. Dar pentru retele neurale necesita modificari semnificative - vom discuta in sectiunile urmatoare de ce nu se poate aplica direct.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Preview: Probleme cu Newton</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong>Cost computational:</strong> O(n³) pentru a inversa H</li>
+                                <li><strong>Memorie:</strong> O(n²) pentru a stoca H</li>
+                                <li><strong>Saddle points:</strong> Newton merge spre saddle points, nu le evita</li>
+                                <li><strong>Non-convexitate:</strong> Poate face pasi in directia gresita</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.2.2 Local Minima</h4>
+                <p>In optimizarea convexa, orice minim local e si global. La retele neurale, avem multiple minime locale - modelul poate "ramane blocat" intr-un minim care nu e cel mai bun. Dar... este aceasta chiar o problema in practica?</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Perspectiva Moderna</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-success">
+                                <p>Cercetarile recente sugereaza ca pentru retele suficient de mari, majoritatea minimelor locale au o valoare a costului apropiata de minimul global. Nu e crucial sa gasim minimul global - orice minim local bun e suficient!</p>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.9rem;">Referinte: Saxe et al. 2013, Dauphin et al. 2014, Goodfellow et al. 2015, Choromanska et al. 2014</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

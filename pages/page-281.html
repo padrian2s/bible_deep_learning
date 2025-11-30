@@ -1,0 +1,95 @@
+<section class="page-section" id="page-281">
+    <div class="page-header">
+        <div class="page-number">281</div>
+        <div class="page-title">
+            <h3>7.12 Fast Dropout si Dropout Boosting</h3>
+            <span>Variante si Analiza</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-281.jpg"
+             alt="Pagina 281" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Fast Dropout</h4>
+                <p>Wang & Manning (2013) au derivat aproximari analitice la marginalizarea peste masti. Abordarea lor, numita <strong>fast dropout</strong>, converge mai rapid datorita reducerii stocasticitatii in calculul gradientului. Poate fi folosita si la test time ca alternativa la weight scaling.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Rezultate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Fast dropout a reusit sa egaleze performanta dropout-ului standard pe retele neurale mici, dar nu a produs imbunatatiri semnificative sau nu a fost aplicat pe probleme mari.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Dropout Boosting - Stochasticitatea nu e Suficienta</h4>
+                <p>Stochasticitatea din dropout nu e nici necesara, nici suficienta pentru efectul de regularizare. Warde-Farley et al. (2014) au testat <strong>dropout boosting</strong>: acelasi noise ca dropout standard dar antrenat sa maximizeze log-likelihood-ul intregului ensemble (ca boosting-ul traditional).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ce au descoperit</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Dropout boosting nu a aratat aproape niciun efect de regularizare! Aceasta demonstreaza ca interpretarea dropout-ului ca bagging (nu boosting) are valoare - efectul de regularizare vine din faptul ca membrii ensemble-ului sunt antrenati sa performeze bine <strong>independent</strong> unul de altul.</p>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Dropout = robustetea la zgomot, care apare doar cand modelele sunt antrenate sa functioneze independent.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alte Metode Stocastice Inspirate de Dropout</h4>
+                <p>Dropout a inspirat alte abordari pentru ensemble-uri implicite:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Variante</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong>DropConnect</strong> (Wan et al., 2013)
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Elimina conexiuni individuale (weights), nu unitati intregi</p>
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong>Stochastic Pooling</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Pooling random in CNN-uri - fiecare subretea "atentioneaza" locatii diferite</p>
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <strong>Multiplicative Gaussian Noise</strong> (Srivastava et al., 2014)
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">μ ~ N(1, I) in loc de masti binare - poate fi mai bun decat dropout binar!</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

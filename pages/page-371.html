@@ -1,0 +1,115 @@
+<section class="page-section" id="page-371">
+    <div class="page-header">
+        <div class="page-number">371</div>
+        <div class="page-title">
+            <h3>Transpose Convolution</h3>
+            <span>Operatii pentru Backpropagation</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-371.jpg"
+             alt="Pagina 371" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formula Tiled Convolution</h4>
+                <p>Formula matematica pentru tiled convolution foloseste operatorul modulo: <span class="formula">Z[i,j,k] = Σ V[l,j+m-1,k+n-1] × K[i,l,m,n,j%t+1,k%t+1]</span>. Indicii j%t si k%t determina care kernel din setul de t kerneluri este folosit la fiecare pozitie. Cand t=1, formula se reduce la convolutia standard.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Invarianta prin Max-Pooling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Observatie importanta:</strong> Daca tiled convolution cu t kerneluri este urmata de max-pooling, si daca fiecare kernel invata sa detecteze aceeasi caracteristica dar la orientari usor diferite, atunci max-pooling-ul va produce invarianta la acele transformari!
+                            </div>
+                            <p style="margin-top: 15px; font-size: 0.9rem;">Aceasta e exact ideea din Figura 9.9 - filtre pentru cifra "5" la diferite rotatii, combinate prin max pooling.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Transpose Convolution (Deconvolution)</h4>
+                <p>Pentru a antrena CNN-uri, avem nevoie de trei operatii: (1) <strong>Forward</strong> - convolutia propriu-zisa, (2) <strong>Gradient fata de kernel</strong> - pentru a actualiza ponderile, (3) <strong>Gradient fata de input</strong> - pentru backpropagation in straturile anterioare. Aceasta a treia operatie se numeste <strong>transpose convolution</strong> (sau "deconvolution", desi termenul e imprecis).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Cele 3 Operatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+# Setup
+x = torch.randn(1, 3, 8, 8, requires_grad=True)  # Input
+k = torch.randn(16, 3, 3, 3, requires_grad=True)  # Kernel
+
+# 1. FORWARD: convolutie standard
+z = F.conv2d(x, k, padding=1)  # Output shape: [1, 16, 8, 8]
+
+# 2. BACKWARD: calculam gradientii
+loss = z.sum()  # Loss simplu pentru demo
+loss.backward()
+
+# Gradient fata de kernel (pentru update weights)
+print("Grad kernel shape:", k.grad.shape)  # [16, 3, 3, 3]
+
+# Gradient fata de input (pentru backprop)
+print("Grad input shape:", x.grad.shape)  # [1, 3, 8, 8]
+
+# NOTA: x.grad este calculat intern folosind
+# transpose convolution!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Transpose Convolution</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">Conv Forward</strong>
+                                    <div style="margin: 15px 0;">
+                                        <div style="background: var(--primary); padding: 10px; margin: 5px auto; width: 100px; border-radius: 4px;">Input mare</div>
+                                        <div>↓ kernel ↓</div>
+                                        <div style="background: var(--accent); padding: 10px; margin: 5px auto; width: 70px; border-radius: 4px;">Output mic</div>
+                                    </div>
+                                    <small>Reduce dimensiunea</small>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Transpose Conv</strong>
+                                    <div style="margin: 15px 0;">
+                                        <div style="background: var(--accent); padding: 10px; margin: 5px auto; width: 70px; border-radius: 4px;">Input mic</div>
+                                        <div>↓ kernel^T ↓</div>
+                                        <div style="background: var(--success); padding: 10px; margin: 5px auto; width: 100px; border-radius: 4px;">Output mare</div>
+                                    </div>
+                                    <small>Mareste dimensiunea</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

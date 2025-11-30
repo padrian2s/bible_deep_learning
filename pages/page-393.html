@@ -1,0 +1,140 @@
+<section class="page-section" id="page-393">
+    <div class="page-header">
+        <div class="page-number">393</div>
+        <div class="page-title">
+            <h3>10.2 Retele Neuronale Recurente</h3>
+            <span>Recurrent Neural Networks - Design Patterns</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-393.jpg"
+             alt="Pagina 393" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 10.3 - Arhitectura RNN Standard</h4>
+                <p>Figura 10.3 prezinta <strong>arhitectura RNN fundamentala</strong> cu output la fiecare pas. Avem input x, stare ascunsa h, output o, predictie y, si loss L. Matricele de greutati U, V, W conecteaza straturile: U (input→hidden), W (hidden→hidden), V (hidden→output).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Arhitectura RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px; font-family: monospace; text-align: center;">
+                                <div style="margin-bottom: 10px;">
+                                    <span style="color: var(--warning);">y</span> (predictie)
+                                </div>
+                                <div style="margin-bottom: 5px;">↑ softmax</div>
+                                <div style="margin-bottom: 10px;">
+                                    <span style="color: var(--accent);">o</span> (output) ← <span style="color: #888;">V</span>
+                                </div>
+                                <div style="margin-bottom: 5px;">↑</div>
+                                <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center; gap: 20px;">
+                                    <span style="color: var(--success);">h<sup>(t-1)</sup></span>
+                                    →<span style="color: #888;">W</span>→
+                                    <span style="color: var(--success);">h<sup>(t)</sup></span>
+                                    →<span style="color: #888;">W</span>→
+                                    <span style="color: var(--success);">h<sup>(t+1)</sup></span>
+                                </div>
+                                <div style="margin-bottom: 5px;">↑ <span style="color: #888;">U</span></div>
+                                <div>
+                                    <span style="color: var(--primary);">x</span> (input)
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 5px; text-align: center;">
+                                    <strong style="color: #888;">U</strong><br>
+                                    <span style="font-size: 0.8rem; color: var(--text-secondary);">input → hidden</span>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 5px; text-align: center;">
+                                    <strong style="color: #888;">W</strong><br>
+                                    <span style="font-size: 0.8rem; color: var(--text-secondary);">hidden → hidden</span>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 5px; text-align: center;">
+                                    <strong style="color: #888;">V</strong><br>
+                                    <span style="font-size: 0.8rem; color: var(--text-secondary);">hidden → output</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Trei Pattern-uri de Design pentru RNN</h4>
+                <p>Exista trei tipuri principale de arhitecturi RNN, fiecare optimizata pentru sarcini diferite. Diferenta sta in <strong>unde si cum conectam recurenta</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pattern 1: Hidden-to-Hidden (Fig 10.3)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Recurenta intre unitatile ascunse</h5>
+                                <p>Cel mai puternic design - h<sup>(t)</sup> depinde direct de h<sup>(t-1)</sup></p>
+                            </div>
+                            <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                <li>Output la fiecare pas temporal</li>
+                                <li>Poate simula o masina Turing!</li>
+                                <li>Cel mai expresiv, dar si cel mai greu de antrenat</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pattern 2: Output-to-Hidden (Fig 10.4)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Recurenta de la output la hidden</h5>
+                                <p>h<sup>(t)</sup> depinde de o<sup>(t-1)</sup> (output-ul anterior)</p>
+                            </div>
+                            <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                <li>Mai putin expresiv dar mai usor de antrenat</li>
+                                <li>Permite paralelizare mai buna</li>
+                                <li>Nu poate transmite informatii "secrete" prin h</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pattern 3: Single Output (Fig 10.5)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Un singur output la final</h5>
+                                <p>Citeste toata secventa, produce un singur output</p>
+                            </div>
+                            <ul style="margin-top: 10px; color: var(--text-secondary);">
+                                <li>Ideal pentru clasificare de secvente</li>
+                                <li>Sentiment analysis, document classification</li>
+                                <li>h final = "rezumat" al intregii secvente</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,139 @@
+<section class="page-section" id="page-451">
+    <div class="page-header">
+        <div class="page-number">451</div>
+        <div class="page-title">
+            <h3>Limitari Bayesian Opt si Debugging</h3>
+            <span>Sectiunile 11.4.5-11.5</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-451.jpg"
+             alt="Pagina 451" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Limitarile Optimizarii Bayesiene</h4>
+                <p>In prezent, <strong>nu putem recomanda fara rezerve</strong> optimizarea Bayesiana ca instrument consacrat pentru deep learning. Uneori performeaza comparabil cu expertii umani, alteori esueaza catastrofal. Este un domeniu important de cercetare care poate beneficia nu doar ML-ul, ci <strong>ingineria in general</strong>. Un dezavantaj major: necesita ca experimentele sa ruleze pana la final inainte de a extrage informatii, spre deosebire de tuning-ul manual unde poti opri devreme experimentele patologice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Pro vs Contra</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #4caf50; font-weight: bold; margin-bottom: 10px;">Avantaje Bayesian Opt</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.9em; margin: 0; padding-left: 20px;">
+                                        <li>Eficient per experiment</li>
+                                        <li>Exploreaza inteligent</li>
+                                        <li>Functioneaza fara expertiza</li>
+                                        <li>Poate gasi configuratii surprinzatoare</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ff6b6b; font-weight: bold; margin-bottom: 10px;">Dezavantaje</div>
+                                    <ul style="color: #a0a0a0; font-size: 0.9em; margin: 0; padding-left: 20px;">
+                                        <li>Inconsistent - uneori esueaza</li>
+                                        <li>Trebuie sa astepti experimente complete</li>
+                                        <li>Overhead computational</li>
+                                        <li>Nu inca matur pentru productie</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Early Stopping Experiments</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>Swersky et al. (2014)</strong> - Freeze-thaw Bayesian optimization: poate "ingheța" experimente nepromițătoare și le "dezgheață" când devin interesante
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Spearmint, TPE, SMAC:</strong> Abordari contemporane pentru HP optimization
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>11.5 Strategii de Debugging</h4>
+                <p>Cand un sistem ML performeaza slab, de obicei e dificil sa spui daca problema este <strong>intrinseca algoritmului</strong> sau <strong>un bug in implementare</strong>. Sistemele ML sunt greu de debugat din mai multe motive: in cele mai multe cazuri, nu stim a priori care e comportamentul "corect" al algoritmului - de fapt, scopul ML este tocmai sa <strong>descopere comportamente utile</strong> pe care noi nu le putem specifica!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: De Ce E Greu Debugging-ul ML</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                                <div style="background: linear-gradient(135deg, #4d1b1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ff6b6b; font-weight: bold;">1. Nu Stim Output-ul "Corect"</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-top: 5px;">Daca antrenam pe un task nou si obtinem 5% test error, e bine sau e un bug? Nu putem sti fara comparatie.</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d4d1b, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #ffd93d; font-weight: bold;">2. Componente Adaptive</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-top: 5px;">Bug-ul intr-o parte poate fi "compensat" de adaptarea alteia. Modelul poate functiona "OK" chiar cu bug-uri!</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b3d4d, #1a1a2e); padding: 15px; border-radius: 10px;">
+                                    <div style="color: #03dac6; font-weight: bold;">3. Complexitate Enorma</div>
+                                    <div style="color: #a0a0a0; font-size: 0.9em; margin-top: 5px;">Milioane de parametri, mii de linii de cod, multiple componente care interactioneaza.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Bug Compensat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Exemplu: Bug in gradient descent care e compensat
+
+# CODUL CU BUG:
+# Update gresit pentru biases (lipsa gradient!)
+# b <- b - alpha  (GRESIT! ar trebui b <- b - alpha * grad)
+
+# De ce poate functiona totusi?
+# - Weights se adapteaza sa compenseze biases gresite
+# - Modelul poate invata, dar suboptimal
+# - Bug-ul nu e evident din performanta!
+
+# LECTIE:
+# - "Functioneaza" nu inseamna "e corect"
+# - Chiar daca train loss scade, poate exista un bug
+# - Trebuie teste specifice pentru fiecare componenta
+
+# Comparatie cu software traditional:
+# Traditional: input -> output gresit -> bug evident
+# ML: input -> output "ok-ish" -> bug ascuns?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

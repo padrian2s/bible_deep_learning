@@ -1,0 +1,102 @@
+<section class="page-section" id="page-253">
+    <div class="page-header">
+        <div class="page-number">253</div>
+        <div class="page-title">
+            <h3>7.2 Constrangeri Explicite vs Penalizari</h3>
+            <span>Reprojection si Stabilitate</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-253.jpg"
+             alt="Pagina 253" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Constrangeri Explicite?</h4>
+                <p>Uneori preferam constrangeri explicite in loc de penalizari. Algoritmul: (1) facem un pas gradient pe J(θ), (2) proiectam θ inapoi in regiunea fezabila Ω(θ) < k. Aceasta abordare este utila cand stim ce valoare a lui k e potrivita si nu vrem sa cautam α corespunzator.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Gradient + Reprojection</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def train_with_constraint(model, X, y, max_norm=1.0):
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+
+    for epoch in range(epochs):
+        # Pas 1: Gradient step normal
+        loss = criterion(model(X), y)
+        loss.backward()
+        optimizer.step()
+
+        # Pas 2: Reprojection - constrangem norma
+        with torch.no_grad():
+            for param in model.parameters():
+                norm = param.norm()
+                if norm > max_norm:
+                    param.mul_(max_norm / norm)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema "Dead Units" si Stabilitate</h4>
+                <p>Penalizarile pot cauza probleme de optimizare non-convexa. In retele neurale, optimizarea cu penalizari poate ramane blocata in minime locale cu θ mic ("dead units" - unitati cu toate weights-urile aproape de zero). Constrangerile explicite cu reprojection functioneaza mai bine deoarece nu incurajeaza weights-urile sa se apropie de origine - actioneaza doar cand depasesc limita.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Avantaje Reprojection</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">1. Evita minime locale "moarte"</strong><br>
+                                    <span style="color: var(--text-secondary);">Nu impinge activ weights spre 0</span>
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); margin-bottom: 10px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">2. Stabilitate numerica</strong><br>
+                                    <span style="color: var(--text-secondary);">Previne explozia weights cu learning rate mare</span>
+                                </li>
+                                <li style="padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <strong style="color: var(--success);">3. Explorare rapida</strong><br>
+                                    <span style="color: var(--text-secondary);">Hinton (2012): learning rate mare + constrangeri permite explorare agresiva a spatiului parametrilor</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Column Norm Constraint</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Hinton et al. (2012) si Srebro & Shraibman (2005) recomanda constrangerea normei fiecarei <strong>coloane</strong> a matricei de weights, nu norma Frobenius a intregii matrice.</p>
+                            </div>
+                            <p style="margin-top: 15px;">Aceasta previne ca un singur hidden unit sa aiba weights foarte mari. Practic, se implementeaza ca un KKT multiplier separat pentru fiecare coloana.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

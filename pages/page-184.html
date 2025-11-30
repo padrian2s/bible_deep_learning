@@ -1,0 +1,185 @@
+<section class="page-section" id="page-184">
+    <div class="page-header">
+        <div class="page-number">184</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Straturi Ascunse si Adancime</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-184.jpg"
+             alt="Pagina 184" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Adancimea si Stratul de Output</h4>
+                <p>Lungimea lantului de functii compuse determina adancimea modelului - de aici vine termenul "deep learning". Stratul final al retelei feedforward se numeste stratul de output. In timpul antrenarii, conducem f(x) sa se potriveasca cu f*(x). Datele de antrenare ofera exemple aproximative de f*(x) evaluate in diferite puncte.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Adancime vs Latime</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Retea PROFUNDA (multe straturi, putine neuroni)
+class DeepNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(10, 20), nn.ReLU(),
+            nn.Linear(20, 20), nn.ReLU(),
+            nn.Linear(20, 20), nn.ReLU(),
+            nn.Linear(20, 20), nn.ReLU(),
+            nn.Linear(20, 1)  # 5 straturi = ADANC
+        )
+
+# Retea LATA (putine straturi, multi neuroni)
+class WideNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(10, 1000), nn.ReLU(),
+            nn.Linear(1000, 1)  # 2 straturi = PUTIN ADANC
+        )
+
+# Adancimea permite reprezentari ierarhice!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Straturile Ascunse (Hidden Layers)</h4>
+                <p>Comportamentul celorlalte straturi nu este specificat direct de datele de antrenare. Algoritmul de invatare trebuie sa decida cum sa foloseasca aceste straturi pentru a produce output-ul dorit, dar datele de antrenare nu arata ce ar trebui sa produca fiecare strat individual. Aceste straturi se numesc straturi ascunse.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Ce invata straturile ascunse</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center;">
+                                    <div>
+                                        <div style="font-size: 2rem;">📷</div>
+                                        <div style="font-weight: bold; color: var(--primary);">Input</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Pixeli bruti</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 2rem;">📐</div>
+                                        <div style="font-weight: bold; color: var(--accent);">Hidden 1</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Margini, linii</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 2rem;">🔷</div>
+                                        <div style="font-weight: bold; color: var(--accent);">Hidden 2</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Forme, texturi</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 2rem;">🐱</div>
+                                        <div style="font-weight: bold; color: var(--success);">Output</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Pisica!</div>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; color: var(--warning);">Straturile ascunse invata automat reprezentari din ce in ce mai abstracte</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce "Neural" in Retele Neuronale?</h4>
+                <p>Aceste retele se numesc neuronale deoarece sunt inspirate vag de neurostiinta. Fiecare strat ascuns este de obicei un vector. Dimensionalitatea acestor straturi determina latimea modelului. Fiecare element al vectorului poate fi interpretat analog unui neuron. Mai degraba decat sa gandim stratul ca o singura functie vector-la-vector, putem gandi stratul ca fiind compus din multe unitati care actioneaza in paralel.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Analogie Biologica vs Artificial</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Important:</strong> Retelele neuronale artificiale sunt doar vag inspirate de creier. Scopul modern al cercetarii in retele neuronale nu este sa modeleze perfect creierul, ci sa realizeze generalizare statistica. Gandeste-le ca masini de aproximare a functiilor, nu ca simulari ale creierului.
+                            </div>
+                            <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Neuron Biologic</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                        <li>~86 miliarde in creier</li>
+                                        <li>Semnale electro-chimice</li>
+                                        <li>Conexiuni plastice</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Unitate Artificiala</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Suma ponderata + activare</li>
+                                        <li>Operatii matriceale</li>
+                                        <li>Ponderi invatate prin gradient</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Limitarile Modelelor Liniare</h4>
+                <p>O modalitate de a intelege retelele feedforward este sa incepem cu modelele liniare si sa consideram cum sa le depasim limitarile. Modelele liniare, precum regresia logistica si regresia liniara, sunt atractive deoarece pot fi antrenate eficient. Insa au defectul evident ca au capacitatea modelului limitata la functii liniare - nu pot intelege interactiunea dintre doua variabile de input.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Limitarea Liniara</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Problema XOR - nu poate fi rezolvata liniar!
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([0, 1, 1, 0])  # XOR
+
+# Model liniar: y = w1*x1 + w2*x2 + b
+# Nu exista w1, w2, b care sa rezolve XOR!
+
+# De ce? XOR nu e liniar separabil:
+#   (0,0)→0  (1,1)→0  dar sunt pe diagonala opusa
+#   (0,1)→1  (1,0)→1  fata de cealalta diagonala
+
+# Solutia: Transformare neliniara φ(x)
+# care face datele liniar separabile
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

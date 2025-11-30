@@ -1,0 +1,115 @@
+<section class="page-section" id="page-302">
+    <div class="page-header">
+        <div class="page-number">302</div>
+        <div class="page-title">
+            <h3>Figura 8.2: Vizualizarea Suprafetei de Cost</h3>
+            <span>Traiectoria SGD prin Saddle Points</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-302.jpg"
+             alt="Pagina 302" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 8.2: Ce Arata Aceasta Vizualizare</h4>
+                <p>Aceasta figura din <strong>Goodfellow et al. (2015)</strong> arata o proiectie 3D a suprafetei de cost pentru o retea neurala reala. Vizualizari similare apar pentru feedforward nets, CNNs si RNNs pe probleme reale de recunoastere si NLP.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretarea Figurii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Axele X si Y:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Doua proiectii ale spatiului parametrilor θ (din milioane de dimensiuni → 2D)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Axa Z (inaltimea):</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Valoarea functiei de cost J(θ)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Linia albastra:</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Traiectoria SGD de la initializare la convergenta</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Surpriza: Suprafata Nu E Atat de "Scary"!</h4>
+                <p>Inainte de ~2012, se credea ca suprafetele de cost ale retelelor neurale sunt pline de obstacole. Dar aceste vizualizari arata o suprafata relativ <strong>blanda</strong>! Principalul obstacol vizibil e un saddle point de cost ridicat langa initializare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ce Observam in Figura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong style="color: var(--warning);">Saddle point:</strong> Regiune plata de cost ridicat langa punctul de initializare</li>
+                                <li><strong style="color: var(--success);">Traiectoria:</strong> SGD scapa rapid de saddle point</li>
+                                <li><strong style="color: var(--accent);">"Muntele" inalt:</strong> SGD il ocoleste prin vale</li>
+                                <li><strong style="color: var(--text-secondary);">Majoritatea timpului:</strong> Traverseaza o vale relativ plata</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De Ce Dureaza Antrenarea?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Majoritatea timpului de antrenare e petrecut traversand o vale relativ plata. Cauza poate fi: zgomot mare in gradient, ill-conditioning al Hessianului, sau necesitatea de a ocoli obstacole prin cai indirecte.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Alte Tipuri de Puncte Critice</h4>
+                <p>Pe langa minime si saddle points, exista si <strong>maxime</strong> (toate directiile duc in jos - dar algoritmii nu sunt atrasi de ele) si <strong>regiuni plate extinse</strong> unde si gradientul si Hessianul sunt zero. Aceste regiuni degenerate sunt problematice pentru orice algoritm de optimizare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Regiuni Plate: Problema Majora</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">O regiune plata are gradient ≈ 0 si Hessian ≈ 0 pe o zona extinsa.</p>
+                                <p style="color: var(--warning); margin-top: 10px;"><strong>Problema:</strong> In optimizare convexa, o regiune plata = minim global. In non-convexa, poate fi o regiune cu cost <strong>ridicat</strong>!</p>
+                                <p style="color: var(--text-secondary); margin-top: 10px;">Fara gradient, algoritmul nu stie in ce directie sa mearga pentru a scapa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

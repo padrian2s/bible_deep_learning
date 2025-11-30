@@ -1,0 +1,101 @@
+<section class="page-section" id="page-492">
+    <div class="page-header">
+        <div class="page-number">492</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>12.4.6 Perspectiva Istorica (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-492.jpg"
+             alt="Pagina 492" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Evolutia Word Embeddings</h4>
+                <p>Ideea de a forma un embedding pentru un simbol a fost extinsa la embeddings pentru cuvinte de <strong>Deerwester et al. (1990)</strong>, care au invatat embeddings folosind SVD. Ulterior, embeddings au inceput sa fie invatate de retele neurale direct.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Timeline Word Embeddings</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--warning); padding: 5px 15px; border-radius: 4px; color: var(--bg-dark); min-width: 60px; text-align: center;">1986</div>
+                                    <span style="color: var(--text-secondary);">Rumelhart - Distributed representations pentru simboluri</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--accent); padding: 5px 15px; border-radius: 4px; color: var(--bg-dark); min-width: 60px; text-align: center;">1990</div>
+                                    <span style="color: var(--text-secondary);">Deerwester (LSA) - Embeddings din SVD</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--accent); padding: 5px 15px; border-radius: 4px; color: var(--bg-dark); min-width: 60px; text-align: center;">1991</div>
+                                    <span style="color: var(--text-secondary);">Miikkulainen & Dyer - Input ca secventa de caractere</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--success); padding: 5px 15px; border-radius: 4px; color: var(--bg-dark); min-width: 60px; text-align: center;">2001</div>
+                                    <span style="color: var(--text-secondary);">Bengio - Neural Language Model cu word embeddings</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: var(--success); padding: 5px 15px; border-radius: 4px; color: var(--bg-dark); min-width: 60px; text-align: center;">2013</div>
+                                    <span style="color: var(--text-secondary);">Mikolov - Word2Vec, scalare la milioane de cuvinte</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Evolutia NLP</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Miikkulainen & Dyer (1991); Schmidhuber (1996)</strong> - Primele aplicatii NN pentru NLP cu input ca secventa de caractere</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Bengio et al. (2001)</strong> - Word embeddings invatate de NN</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Sutskever et al. (2011); Gillick et al. (2015)</strong> - Character-based si byte-based models</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aplicatii ale Word Embeddings</h4>
+                <p>Ideile din spatele neural language models au fost extinse la multe alte aplicatii NLP: <strong>parsing</strong>, <strong>part-of-speech tagging</strong>, <strong>semantic role labeling</strong>, <strong>chunking</strong>, etc. Uneori, o singura arhitectura multi-task invata embeddings partajate pentru toate task-urile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>t-SNE Visualization</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                Vizualizarile 2D ale embeddings au devenit populare dupa dezvoltarea algoritmului <strong>t-SNE</strong> (van der Maaten & Hinton, 2008) si aplicarea sa la word embeddings de Joseph Turian in 2009.
+                            </div>
+                            <ul class="reference-list" style="margin-top: 15px;">
+                                <li class="reference-item"><span>📄</span><div><strong>Collobert & Weston (2008a); Collobert et al. (2011a)</strong> - Multi-task learning cu embeddings partajate</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Henderson (2003, 2004); Collobert (2011)</strong> - Parsing, tagging, semantic roles</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

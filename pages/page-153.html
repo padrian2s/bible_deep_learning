@@ -1,0 +1,67 @@
+<section class="page-section" id="page-153">
+    <div class="page-header">
+        <div class="page-number">153</div>
+        <div class="page-title">
+            <h3>Posterior Gaussian si MAP Estimation</h3>
+            <span>Capitolul 5 - Sectiunea 5.6.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-153.jpg"
+             alt="Pagina 153" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivarea Posterior-ului Gaussian</h4>
+                <p>Folosind prior-ul Gaussian cu medie μ₀ si matrice de covarinta Λ₀, putem determina distributia <strong>posterior</strong> peste parametrii modelului. Combinand prior-ul cu likelihood-ul prin regula Bayes:</p>
+                <div class="formula" style="text-align: center; font-size: 1.1rem; margin: 15px 0; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                    p(w | X, y) ∝ p(y | X, w) p(w)
+                </div>
+                <p>Definim Λ<sub>m</sub> = (X<sup>T</sup>X + Λ₀<sup>-1</sup>)<sup>-1</sup> si μ<sub>m</sub> = Λ<sub>m</sub>(X<sup>T</sup>y + Λ₀<sup>-1</sup>μ₀). Posterior-ul este tot un Gaussian cu acesti parametri.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conexiunea cu Weight Decay</h4>
+                <p>Examinand acest posterior, putem castiga intuitie pentru efectul inferentei Bayesiene. Daca setam μ₀ = 0 si Λ₀ = (1/α)I, atunci μ<sub>m</sub> da acelasi estimat al lui w ca regresia liniara frequentist cu weight decay αw<sup>T</sup>w. O diferenta: daca α = 0, estimatul Bayesian este nedefinit (prior infinit de larg). Dar diferenta mai importanta: estimatul Bayesian ofera o <strong>matrice de covarianta</strong>, aratand cat de probabile sunt toate valorile diferite ale lui w!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Point vs Distribution</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong>MLE/Frequentist</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Returneaza: w = μ<sub>m</sub></p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Un singur punct</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong>Bayesian</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Returneaza: p(w) = N(μ<sub>m</sub>, Λ<sub>m</sub>)</p>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Distributie completa</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.6.1 Maximum A Posteriori (MAP) Estimation</h4>
+                <p>Desi abordarea cea mai principiata este sa folosim distributia posterior completa pentru predictii, majoritatea operatiilor cu posterior-ul Bayesian sunt <strong>intractabile</strong> pentru modele interesante. Un compromis este sa alegem <strong>maximum a posteriori (MAP)</strong> point estimate - punctul de maxima probabilitate din posterior:</p>
+                <div class="formula" style="text-align: center; font-size: 1.3rem; margin: 15px 0; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 8px;">
+                    θ<sub>MAP</sub> = argmax<sub>θ</sub> p(θ | x) = argmax<sub>θ</sub> [log p(x | θ) + log p(θ)]
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

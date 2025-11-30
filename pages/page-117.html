@@ -1,0 +1,180 @@
+<section class="page-section" id="page-117">
+    <div class="page-header">
+        <div class="page-number">117</div>
+        <div class="page-title">
+            <h3>Detectia Anomaliilor, Sinteza, Imputare</h3>
+            <span>Capitolul 5 - Tipuri de Task-uri ML</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-117.jpg"
+             alt="Pagina 117" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Detectia Anomaliilor (Anomaly Detection)</h4>
+                <p>In acest task, programul filtreaza un set de evenimente sau obiecte si le marcheaza pe cele neobisnuite sau atipice. Un exemplu important este <strong>detectia fraudelor cu carduri de credit</strong>. Modelând obiceiurile tale de cumparare, compania de carduri poate detecta tranzactii suspecte - daca un hot iti fura cardul, achizitiile lui vor proveni dintr-o distributie de probabilitate diferita de a ta. Compania poate preveni frauda punand o retinere pe cont imediat ce o achizitie necaracteristica apare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Detectie Frauda</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.ensemble import IsolationForest
+
+# Tranzactii normale ale utilizatorului
+# Features: [suma, ora, distanta_de_casa_km]
+tranzactii_normale = np.array([
+    [50, 12, 2],    # Pranz, aproape de casa
+    [30, 9, 5],     # Dimineata, la munca
+    [100, 18, 3],   # Seara, shopping
+    [25, 14, 1],    # Dupa-amiaza, local
+])
+
+# Antrenare model de detectie anomalii
+model = IsolationForest(contamination=0.1, random_state=42)
+model.fit(tranzactii_normale)
+
+# Tranzactii noi de verificat
+tranzactii_noi = np.array([
+    [45, 13, 2],      # Normal: similar cu pattern-ul
+    [5000, 3, 500],   # Suspect: suma mare, noapte, departe
+    [60, 19, 4],      # Normal: seara, aproape
+])
+
+predictions = model.predict(tranzactii_noi)
+for i, (trx, pred) in enumerate(zip(tranzactii_noi, predictions)):
+    status = "✅ OK" if pred == 1 else "🚨 SUSPECT"
+    print(f"Tranzactie {i+1}: {trx[0]}€, ora {trx[1]}, {trx[2]}km -> {status}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte Anomaly Detection</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-item">
+                                <strong>Chandola et al. (2009)</strong> - Survey comprehensiv al metodelor de detectie a anomaliilor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sinteza si Esantionare (Synthesis and Sampling)</h4>
+                <p>In acest task, algoritmul ML trebuie sa genereze exemple noi similare cu cele din datele de antrenament. Sinteza poate fi utila pentru aplicatii media unde ar fi costisitor sau plictisitor pentru un artist sa genereze manual volume mari de continut. De exemplu, jocurile video pot genera automat texturi pentru obiecte sau peisaje. In unele cazuri, vrem o procedura de sinteza care sa genereze un anumit tip de output - de exemplu, in sinteza vorbirii, dam o propozitie si cerem programului sa emita o forma de unda audio.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Modele Generative</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Unconditional Generation</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Genereaza exemple aleatorii din distributia invatata</p>
+                                    <p style="color: var(--accent);">Ex: Generate random face</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Conditional Generation</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Genereaza exemple specifice bazate pe input</p>
+                                    <p style="color: var(--accent);">Ex: Text → Speech</p>
+                                </div>
+                            </div>
+                            <div class="reference-item" style="margin-top: 15px;">
+                                <strong>Luo et al. (2013)</strong> - Generare procedurala de texturi pentru jocuri video
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Imputarea Valorilor Lipsa (Imputation)</h4>
+                <p>In acest task, algoritmului ML i se da un exemplu nou x ∈ ℝⁿ, dar cu unele intrari x<sub>i</sub> lipsa. Algoritmul trebuie sa furnizeze o predictie a valorilor lipsa. Aceasta este legata de clasificarea cu input-uri lipsa, dar aici scopul este predictia valorilor in sine, nu clasificarea.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Imputare Date</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.impute import KNNImputer
+
+# Dataset cu valori lipsa (NaN)
+# Columns: [varsta, venit, scor_credit]
+data = np.array([
+    [25, 30000, 650],
+    [35, 50000, 720],
+    [45, np.nan, 680],   # Venit lipsa
+    [30, 40000, np.nan], # Scor lipsa
+    [50, 70000, 750],
+])
+
+print("Date originale (NaN = lipsa):")
+print(data)
+
+# Imputare cu KNN (K-Nearest Neighbors)
+imputer = KNNImputer(n_neighbors=2)
+data_imputed = imputer.fit_transform(data)
+
+print("\nDupa imputare:")
+print(data_imputed.astype(int))
+
+print("\nValori completate:")
+print(f"  Venit persoana 3: {data_imputed[2,1]:,.0f}")
+print(f"  Scor persoana 4: {data_imputed[3,2]:.0f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Metode de Imputare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Strategii comune:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Mean/Median imputation:</strong> Simplu dar ignora corelatiile</li>
+                                    <li><strong>KNN imputation:</strong> Foloseste exemple similare</li>
+                                    <li><strong>Model-based:</strong> Invata relatii intre features</li>
+                                    <li><strong>Deep generative:</strong> VAE, GAN pentru imputare complexa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

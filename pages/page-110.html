@@ -1,0 +1,216 @@
+<section class="page-section" id="page-110">
+    <div class="page-header">
+        <div class="page-number">110</div>
+        <div class="page-title">
+            <h3>Conditiile KKT si Complementary Slackness</h3>
+            <span>Capitolul 4 - Constrangeri Active</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-110.jpg"
+             alt="Pagina 110" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Maximizare Constransa</h4>
+                <p>Pentru a efectua <strong>maximizare constransa</strong>, construim Lagrangianul pentru -f(x), ceea ce duce la:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                    min<sub>x</sub> max<sub>λ, α≥0</sub> -f(x) + Σλᵢg⁽ⁱ⁾(x) + Σαⱼh⁽ʲ⁾(x)
+                </div>
+                <p>Sau echivalent, cu maximizare in bucla exterioara:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                    max<sub>x</sub> min<sub>λ, α≥0</sub> f(x) + Σλᵢg⁽ⁱ⁾(x) - Σαⱼh⁽ʲ⁾(x)
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Semnul Multiplicatorilor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Reguli pentru Semne</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Constrangeri de egalitate (λᵢ):</strong> Pot fi de orice semn - adunare sau scadere nu conteaza</li>
+                                    <li><strong>Constrangeri de inegalitate (αⱼ):</strong> Trebuie αⱼ ≥ 0 pentru minimizare, pentru a "pedepsi" violari</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Constrangeri Active vs Inactive</h4>
+                <p>O constrangere de inegalitate h⁽ⁱ⁾(x) este <strong>activa</strong> daca h⁽ⁱ⁾(x*) = 0 la solutia optima. Daca o constrangere nu este activa (h⁽ⁱ⁾(x*) < 0), atunci solutia gasite fara acea constrangere ar fi aceeasi - constrangerea nu influenteaza solutia. Intuitiv: fie solutia este "lipita" de frontiera constrangerii (activa, αᵢ > 0), fie constrangerea nu joaca niciun rol (inactiva, αᵢ = 0).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Constrangeri Active</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from scipy.optimize import minimize
+
+# Minimizam f(x,y) = (x-2)² + (y-2)²
+# Constrangeri: x >= 0, y >= 0, x + y <= 1
+
+def f(xy):
+    return (xy[0] - 2)**2 + (xy[1] - 2)**2
+
+constraints = [
+    {'type': 'ineq', 'fun': lambda xy: xy[0]},         # x >= 0
+    {'type': 'ineq', 'fun': lambda xy: xy[1]},         # y >= 0
+    {'type': 'ineq', 'fun': lambda xy: 1 - xy[0] - xy[1]}  # x+y <= 1
+]
+
+result = minimize(f, [0.1, 0.1], constraints=constraints)
+x_opt = result.x
+
+print("Minimizam (x-2)² + (y-2)² cu x,y >= 0, x+y <= 1")
+print(f"\nSolutie: x* = {x_opt}")
+print(f"Valoare f(x*) = {f(x_opt):.4f}")
+
+print("\nAnaliza constrangeri:")
+h_values = [
+    ("x >= 0", x_opt[0]),
+    ("y >= 0", x_opt[1]),
+    ("x+y <= 1", 1 - x_opt[0] - x_opt[1])
+]
+for name, val in h_values:
+    status = "ACTIVA (pe frontiera)" if abs(val) < 1e-6 else "inactiva"
+    print(f"  {name}: h = {val:.4f} → {status}")
+
+print("\nIntuitie: optimul fara constrangeri ar fi (2,2)")
+print("Constrangerea x+y<=1 impinge solutia pe frontiera x+y=1")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Active vs Inactive</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--success);">Constrangere Activa</strong>
+                                    <p style="margin: 15px 0;">h(x*) = 0</p>
+                                    <p>Solutia este pe frontiera</p>
+                                    <p style="margin-top: 10px; font-family: monospace;">αⱼ > 0</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Constrangerea "trage" solutia</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Constrangere Inactiva</strong>
+                                    <p style="margin: 15px 0;">h(x*) < 0</p>
+                                    <p>Solutia este in interior</p>
+                                    <p style="margin-top: 10px; font-family: monospace;">αⱼ = 0</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Constrangerea nu afecteaza nimic</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conditiile KKT</h4>
+                <p>Un set simplu de proprietati descrie punctele optime ale problemelor de optimizare constransa. Acestea sunt conditiile <strong>Karush-Kuhn-Tucker (KKT)</strong>. Sunt conditii necesare (dar nu intotdeauna suficiente) pentru ca un punct sa fie optim:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Gradientul Lagrangianului generalizat este zero</li>
+                    <li>Toate constrangerile pe x si pe multiplicatorii KKT sunt satisfacute</li>
+                    <li>Constrangerile de inegalitate exhiba <strong>complementary slackness</strong>: α ⊙ h(x) = 0</li>
+                </ul>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Complementary Slackness</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Complementary Slackness: α_j * h_j(x) = 0 pentru toate j
+# Aceasta inseamna: fie α_j = 0, fie h_j(x) = 0 (sau ambele)
+
+# Interpretare:
+# - Daca h_j(x) < 0 (constrangere inactiva): α_j TREBUIE = 0
+# - Daca α_j > 0 (multiplicator activ): h_j(x) TREBUIE = 0
+
+import numpy as np
+
+# Exemplu: verificam complementary slackness
+cases = [
+    # (α, h, descriere)
+    (0.0, -0.5, "Inactiva: h<0, α=0 ✓"),
+    (2.0, 0.0, "Activa: h=0, α>0 ✓"),
+    (0.0, 0.0, "Pe frontiera dar α=0 ✓"),
+    (2.0, -0.3, "VIOLATA: h<0 dar α>0 ✗"),
+]
+
+print("Complementary Slackness: α · h = 0")
+print("-" * 50)
+for alpha, h, desc in cases:
+    product = alpha * h
+    valid = "✓ OK" if abs(product) < 1e-10 else "✗ VIOLAT"
+    print(f"α={alpha:.1f}, h={h:.1f}: α·h={product:.2f} {valid}")
+    print(f"   {desc}")
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Intuitia Complementary Slackness</h5>
+                                <p>Pentru fiecare constrangere de inegalitate, <em>cel putin una</em> dintre urmatoarele trebuie sa fie adevarata:</p>
+                                <ol style="margin-left: 20px;">
+                                    <li>αⱼ = 0 (multiplicatorul este zero - constrangerea nu conteaza)</li>
+                                    <li>h⁽ʲ⁾(x) = 0 (constrangerea este activa - suntem pe frontiera)</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Rezumat Conditii KKT</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 20px; border-radius: 8px;">
+                                <strong>Conditiile KKT (necesare pentru optimalitate):</strong>
+                                <ol style="margin-left: 20px; margin-top: 15px;">
+                                    <li><strong>Stationaritate:</strong> ∇ₓL = 0</li>
+                                    <li><strong>Fezabilitate primala:</strong> g⁽ⁱ⁾(x) = 0, h⁽ʲ⁾(x) ≤ 0</li>
+                                    <li><strong>Fezabilitate duala:</strong> αⱼ ≥ 0</li>
+                                    <li><strong>Complementary Slackness:</strong> αⱼh⁽ʲ⁾(x) = 0</li>
+                                </ol>
+                            </div>
+                            <div class="reference-list" style="margin-top: 15px;">
+                                <div class="reference-item">
+                                    <strong>Nocedal & Wright (2006):</strong> "Numerical Optimization" - referinta completa pentru KKT
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

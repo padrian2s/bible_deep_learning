@@ -1,0 +1,86 @@
+<section class="page-section" id="page-431">
+    <div class="page-header">
+        <div class="page-number">431</div>
+        <div class="page-title">
+            <h3>Regularizare si 10.12 Explicit Memory</h3>
+            <span>Ecuatiile 10.50-10.52 si Memorie Externa</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-431.jpg"
+             alt="Pagina 431" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ecuatiile 10.50-10.52 - Regularizer</h4>
+                <p>Pascanu et al. (2013) propun un regularizer care incurajeaza produsul gradient × Jacobian sa ramana constant. Ideea: gradientul la timpul t ar trebui sa se pastreze cand se propaga inapoi la t-1.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Regularizer pentru Information Flow</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="margin-bottom: 10px;"><strong>Vrem:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    (∇<sub>h<sup>(t)</sup></sub>L) · (∂h<sup>(t)</sup>/∂h<sup>(t-1)</sup>) ≈ ∇<sub>h<sup>(t)</sup></sub>L
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.50-10.51)</span>
+                                </div>
+                                <p style="margin: 15px 0 10px 0;"><strong>Regularizer:</strong></p>
+                                <div class="formula" style="margin: 8px 0; font-size: 0.9rem;">
+                                    Ω = Σ<sub>t</sub> ( ||(∇<sub>h<sup>(t)</sup></sub>L)·(∂h<sup>(t)</sup>/∂h<sup>(t-1)</sup>)|| / ||∇<sub>h<sup>(t)</sup></sub>L|| - 1 )<sup>2</sup>
+                                    <span style="color: var(--text-secondary); font-size: 0.8rem;"> (10.52)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>10.12 Explicit Memory</h4>
+                <p>Retelele neuronale sunt bune la <strong>cunostinte implicite</strong> (cum sa recunosti o pisica), dar slabe la <strong>fapte explicite</strong> (ce ai mancat ieri). Solutia: adauga o <strong>memorie externa</strong> pe care reteaua o poate citi/scrie!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Implicit vs Explicit Knowledge</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Implicit (in weights):</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>Cum arata o pisica</li>
+                                        <li>Cum sa mergi</li>
+                                        <li>Gramatica limbii</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Explicit (needs memory):</strong>
+                                    <ul style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>"Pisica e un animal"</li>
+                                        <li>"Meeting la 3:00 PM"</li>
+                                        <li>Fapte specifice, adrese</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

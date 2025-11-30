@@ -1,0 +1,201 @@
+<section class="page-section" id="page-455">
+    <div class="page-header">
+        <div class="page-number">455</div>
+        <div class="page-title">
+            <h3>Monitorizare Activari si Exemplul SVHN</h3>
+            <span>Sectiunile 11.5-11.6</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-455.jpg"
+             alt="Pagina 455" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Monitorizarea Histogramelor de Activari si Gradienti</h4>
+                <p>Este adesea util sa vizualizezi <strong>statistici ale activarilor</strong> si <strong>gradientilor</strong> pe parcursul antrenarii. Valorile pre-activare ale unitatilor ascunse ne spun daca se <strong>satureaza</strong>. Pentru ReLU: cat de des sunt off? Pentru tanh: media valorii absolute ne spune cat de saturate sunt. Intr-o retea profunda unde gradientii cresc sau scad rapid, optimizarea poate fi afectata.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Monitorizare Activari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class ActivationMonitor:
+    """
+    Monitorizare activari si gradienti in timpul antrenarii
+    """
+    def __init__(self, model):
+        self.activations = {}
+        self.gradients = {}
+
+        # Inregistreaza hooks pentru fiecare layer
+        for name, module in model.named_modules():
+            if isinstance(module, (nn.Linear, nn.Conv2d)):
+                module.register_forward_hook(
+                    self._get_activation_hook(name)
+                )
+                module.register_backward_hook(
+                    self._get_gradient_hook(name)
+                )
+
+    def _get_activation_hook(self, name):
+        def hook(module, input, output):
+            self.activations[name] = output.detach()
+        return hook
+
+    def _get_gradient_hook(self, name):
+        def hook(module, grad_input, grad_output):
+            self.gradients[name] = grad_output[0].detach()
+        return hook
+
+    def report(self):
+        print("=== ACTIVATION STATISTICS ===")
+        for name, act in self.activations.items():
+            dead_units = (act == 0).float().mean().item()
+            mean_abs = act.abs().mean().item()
+            print(f"{name}:")
+            print(f"  Dead units (ReLU): {dead_units:.1%}")
+            print(f"  Mean |activation|: {mean_abs:.4f}")
+
+        print("\n=== GRADIENT STATISTICS ===")
+        for name, grad in self.gradients.items():
+            mean_grad = grad.abs().mean().item()
+            print(f"{name}: mean |grad| = {mean_grad:.6f}")
+
+# CE SA CAUTI:
+# - Dead units > 50% pentru ReLU = problema!
+# - Gradienti care scad exponential = vanishing
+# - Gradienti care cresc exponential = exploding
+# - Mean activation >> 1 pentru tanh = saturatie
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Regula Bottou pentru Update-uri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Regula Bottou (2015):</strong> Marimea update-urilor de parametri pe un minibatch ar trebui sa fie ~1% din magnitudinea parametrilor. Nu 50% (parametrii se misca prea rapid), nu 0.001% (prea incet). Daca unii parametri se misca bine si altii sunt blocati, poate indica o problema.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Testarea Garantiilor Algoritmilor</h4>
+                <p>Multi algoritmi de deep learning ofera anumite <strong>garantii</strong> care pot fi testate. De exemplu, unii optimizatori garanteaza ca functia obiectiv nu creste niciodata dupa un pas. Gradientul fata de anumiti parametri ar trebui sa fie zero dupa convergenta. Aceste conditii pot fi verificate (cu toleranta pentru erori de rotunjire) ca teste de debugging.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Verificare Garantii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def verify_optimization_guarantees(model, optimizer, data_loader):
+    """
+    Verifica garantiile algoritmului de optimizare
+    """
+    prev_loss = float('inf')
+
+    for batch_idx, (X, y) in enumerate(data_loader):
+        optimizer.zero_grad()
+        output = model(X)
+        loss = criterion(output, y)
+        loss.backward()
+
+        # GARANTIE 1: Loss nu ar trebui sa creasca
+        # (pentru anumiti optimizatori cu line search)
+        if loss.item() > prev_loss * 1.01:  # toleranta 1%
+            print(f"WARNING: Loss increased! {prev_loss:.4f} -> {loss.item():.4f}")
+
+        optimizer.step()
+        prev_loss = loss.item()
+
+    # GARANTIE 2: La convergenta, gradientii ar trebui sa fie ~0
+    final_grad_norm = compute_gradient_norm(model)
+    if final_grad_norm > 1e-3:
+        print(f"WARNING: Gradient norm la convergenta = {final_grad_norm:.6f}")
+        print("Model poate nu a convergat sau exista bug")
+
+# NOTA: Tolerantele sunt importante!
+# Due to rounding errors, conditiile nu tin exact.
+# Foloseste tolerante rezonabile (ex: 1e-5, 1e-6)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>11.6 Exemplu: Recunoasterea Numerelor Multi-Cifra</h4>
+                <p>Pentru a oferi o descriere end-to-end a metodologiei de design, prezentam pe scurt sistemul de <strong>transcriere Street View</strong> din perspectiva componentelor de deep learning. Procesul a inceput cu <strong>colectarea datelor</strong>: masinile au colectat imagini, operatorii umani au furnizat labelele. Inainte de task-ul de transcriere, a fost necesara o curatare semnificativa a datasetului, inclusiv folosirea altor tehnici ML pentru a <strong>detecta</strong> locatia numerelor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Pipeline Street View</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: #4ecdc4; color: #1a1a2e; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                                    <div>
+                                        <div style="color: #4ecdc4; font-weight: bold;">Colectare Date</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Masini Street View + labeluri de la operatori umani</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: #ffd93d; color: #1a1a2e; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+                                    <div>
+                                        <div style="color: #ffd93d; font-weight: bold;">Detectie Numar</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">ML pentru localizarea regiunii cu numarul adresei</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: #ff6b6b; color: #1a1a2e; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+                                    <div>
+                                        <div style="color: #ff6b6b; font-weight: bold;">Transcriere (Deep Learning)</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">CNN pentru citirea cifrelor - focus-ul acestui capitol</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;">
+                                    <div style="background: #4caf50; color: #1a1a2e; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</div>
+                                    <div>
+                                        <div style="color: #4caf50; font-weight: bold;">Integrare Google Maps</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Adaugarea adreselor transcrise in baza de date</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

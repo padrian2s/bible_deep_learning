@@ -1,0 +1,193 @@
+<section class="page-section" id="page-452">
+    <div class="page-header">
+        <div class="page-number">452</div>
+        <div class="page-title">
+            <h3>Tehnici de Debugging ML</h3>
+            <span>Sectiunea 11.5 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-452.jpg"
+             alt="Pagina 452" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Strategii de Debugging pentru Retele Neuronale</h4>
+                <p>Majoritatea strategiilor de debugging pentru retele neuronale sunt concepute pentru a depasi doua dificultati: (1) designam un caz care e suficient de simplu incat comportamentul corect poate fi prezis, sau (2) designam un test care exercita o parte a implementarii in izolare. Cateva teste de debugging importante sunt prezentate mai jos.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Debugging Checklist</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                                <div style="background: linear-gradient(135deg, #1b4d1b, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 10px;">
+                                    <div style="font-size: 1.5em;">👁️</div>
+                                    <div>
+                                        <div style="color: #4caf50; font-weight: bold;">Vizualizeaza Modelul in Actiune</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Vezi ce produce modelul pe exemple reale</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d1b1b, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 10px;">
+                                    <div style="font-size: 1.5em;">❌</div>
+                                    <div>
+                                        <div style="color: #ff6b6b; font-weight: bold;">Vizualizeaza Cele Mai Rele Greseli</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Sorteaza dupa confidence si examineaza</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #4d4d1b, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 10px;">
+                                    <div style="font-size: 1.5em;">📊</div>
+                                    <div>
+                                        <div style="color: #ffd93d; font-weight: bold;">Compara Train vs Test Error</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Detecteaza overfitting vs underfitting vs bug</div>
+                                    </div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #1b3d4d, #1a1a2e); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 10px;">
+                                    <div style="font-size: 1.5em;">🔬</div>
+                                    <div>
+                                        <div style="color: #03dac6; font-weight: bold;">Fit pe Dataset Mic</div>
+                                        <div style="color: #a0a0a0; font-size: 0.85em;">Verifica daca modelul poate memoriza</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Vizualizeaza Modelul in Actiune</h4>
+                <p>Cand antrenezi un model pentru detectia obiectelor, <strong>vizualizeaza imaginile</strong> cu detectiile suprapuse. Cand antrenezi un model generativ de vorbire, <strong>asculta sample-urile</strong> produse. Poate parea evident, dar e usor sa cazi in capcana de a te uita doar la metrici cantitative precum accuracy sau log-likelihood. <strong>Observarea directa</strong> a output-urilor ajuta la determinarea daca performanta cantitativa e rezonabila.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Vizualizare Predictii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import matplotlib.pyplot as plt
+import numpy as np
+
+def visualize_predictions(model, images, labels, n_samples=10):
+    """
+    Vizualizeaza predictiile modelului pe exemple reale
+    """
+    predictions = model.predict(images[:n_samples])
+    pred_classes = np.argmax(predictions, axis=1)
+    confidences = np.max(predictions, axis=1)
+
+    fig, axes = plt.subplots(2, 5, figsize=(15, 6))
+
+    for i, ax in enumerate(axes.flat):
+        ax.imshow(images[i])
+
+        color = 'green' if pred_classes[i] == labels[i] else 'red'
+        ax.set_title(
+            f"Pred: {pred_classes[i]} ({confidences[i]:.1%})\n"
+            f"True: {labels[i]}",
+            color=color
+        )
+        ax.axis('off')
+
+    plt.tight_layout()
+    plt.savefig('predictions_visualization.png')
+
+# PENTRU AUDIO (speech, music):
+# import soundfile as sf
+# sf.write('generated_sample.wav', audio, sample_rate)
+# # Apoi asculta manual!
+
+# PENTRU TEXT (NLP):
+# for sample in generated_texts[:10]:
+#     print(f"Generated: {sample}")
+#     print("---")
+
+# BUG-URILE DE EVALUARE sunt dintre cele mai periculoase!
+# Poti crede ca modelul functioneaza cand nu functioneaza.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Vizualizeaza Cele Mai Rele Greseli</h4>
+                <p>Majoritatea modelelor produc un scor de <strong>confidence</strong> pentru predictii (ex: probabilitatea de la softmax). Examinand exemplele din training set pe care modelul le clasifica gresit <strong>cu cea mai mare confidenta</strong>, poti descoperi probleme cu datele. Exemplu din Street View: sistemul de crop taie prea strans si omite cifre - problema in <strong>preprocesare</strong>, nu in model!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Analiza Worst Mistakes</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def analyze_worst_mistakes(model, X, y_true, top_k=20):
+    """
+    Gaseste si analizeaza cele mai confidente greseli
+    """
+    predictions = model.predict(X)
+    pred_classes = np.argmax(predictions, axis=1)
+    confidences = np.max(predictions, axis=1)
+
+    # Gaseste greseli
+    mistakes_mask = pred_classes != y_true
+    mistake_indices = np.where(mistakes_mask)[0]
+    mistake_confidences = confidences[mistakes_mask]
+
+    # Sorteaza dupa confidence (descrescator)
+    sorted_idx = np.argsort(-mistake_confidences)[:top_k]
+    worst_mistakes = mistake_indices[sorted_idx]
+
+    print("=== TOP 20 CELE MAI CONFIDENTE GRESELI ===\n")
+    for i, idx in enumerate(worst_mistakes):
+        print(f"{i+1}. Index: {idx}")
+        print(f"   Predicted: {pred_classes[idx]} ({confidences[idx]:.1%})")
+        print(f"   True: {y_true[idx]}")
+        # Vizualizeaza sau salveaza imaginea
+        # save_image(X[idx], f"mistake_{i}.png")
+
+    # CE SA CAUTI:
+    # - Labele gresite in dataset?
+    # - Pattern sistematic in greseli?
+    # - Problema in preprocesare?
+    # - Date corupte?
+
+    return worst_mistakes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemplu: Street View Bug</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Caz real din Street View:</strong> Sistemul de detectie a numerelor de adresa taie imaginile prea strans, omitand unele cifre. Reteaua de transcriere atribuia probabilitate mica raspunsului corect. Solutia: crop mai larg - chiar daca reteaua trebuia sa invete sa ignore mai multa variatie, performanta overall a crescut dramatic!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

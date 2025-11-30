@@ -1,0 +1,201 @@
+<section class="page-section" id="page-187">
+    <div class="page-header">
+        <div class="page-number">187</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>6.1 XOR: Model Liniar vs Retea cu Strat Ascuns</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-187.jpg"
+             alt="Pagina 187" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Esecul Modelului Liniar</h4>
+                <p>Sa alegem forma modelului f(x; θ). Presupunem ca alegem un model liniar, cu θ format din w si b. Modelul este f(x; w, b) = xᵀw + b. Minimizand J(θ) in forma inchisa cu ecuatiile normale, obtinem w = 0 si b = 1/2. Modelul liniar pur si simplu returneaza 0.5 peste tot. De ce? Modelul liniar nu poate reprezenta functia XOR.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Demonstratie: De ce esueaza modelul liniar</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([0, 1, 1, 0])
+
+# Model liniar
+model = LinearRegression()
+model.fit(X, y)
+
+print(f"w = {model.coef_}")      # [0. 0.]
+print(f"b = {model.intercept_}") # 0.5
+print(f"Predictii: {model.predict(X)}")  # [0.5, 0.5, 0.5, 0.5]
+
+# Explicatie matematica:
+# Pentru XOR, suma targeturilor = 0+1+1+0 = 2
+# Media = 2/4 = 0.5
+# Modelul liniar minimizeaza MSE returnand media!
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Problema fundamentala:</strong> XOR nu este liniar separabil. Nu exista nicio linie/hiperplan care sa separe clasele (0,0), (1,1) de (0,1), (1,0).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: XOR nu e liniar separabil</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px; text-align: center;">
+                                <svg width="250" height="250" viewBox="0 0 100 100" style="background: var(--bg-dark); border-radius: 8px;">
+                                    <!-- Axes -->
+                                    <line x1="10" y1="90" x2="90" y2="90" stroke="#666" stroke-width="1"/>
+                                    <line x1="10" y1="90" x2="10" y2="10" stroke="#666" stroke-width="1"/>
+                                    <!-- Points -->
+                                    <circle cx="20" cy="80" r="8" fill="#e74c3c"/> <!-- (0,0) = 0 -->
+                                    <circle cx="80" cy="80" r="8" fill="#2ecc71"/> <!-- (1,0) = 1 -->
+                                    <circle cx="20" cy="20" r="8" fill="#2ecc71"/> <!-- (0,1) = 1 -->
+                                    <circle cx="80" cy="20" r="8" fill="#e74c3c"/> <!-- (1,1) = 0 -->
+                                    <!-- Labels -->
+                                    <text x="20" y="95" fill="#888" font-size="8" text-anchor="middle">0</text>
+                                    <text x="80" y="95" fill="#888" font-size="8" text-anchor="middle">1</text>
+                                    <text x="5" y="80" fill="#888" font-size="8">0</text>
+                                    <text x="5" y="20" fill="#888" font-size="8">1</text>
+                                    <!-- Impossible line indication -->
+                                    <text x="50" y="55" fill="var(--warning)" font-size="6" text-anchor="middle">Imposibil de separat</text>
+                                    <text x="50" y="62" fill="var(--warning)" font-size="6" text-anchor="middle">cu o singura linie!</text>
+                                </svg>
+                                <div style="margin-top: 15px; display: flex; justify-content: center; gap: 20px;">
+                                    <span><span style="color: #e74c3c;">●</span> Clasa 0</span>
+                                    <span><span style="color: #2ecc71;">●</span> Clasa 1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Solutia: Retea cu Strat Ascuns</h4>
+                <p>Introducem o retea feedforward simpla cu un strat ascuns continand doua unitati ascunse. h = f⁽¹⁾(x; W, c) computa caracteristicile ascunse, si y = f⁽²⁾(h; w, b) ofera output-ul retelei. Modelul complet este f(x; W, c, w, b) = f⁽²⁾(f⁽¹⁾(x)). Descriem exact caracteristicile h pe care le va invata aceasta retea.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Arhitectura Retelei XOR</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+class XORNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # Strat 1: f⁽¹⁾(x; W, c)
+        # Input: 2 neuroni, Hidden: 2 neuroni
+        self.W = nn.Linear(2, 2)  # W: 2x2, c: 2
+
+        # Strat 2: f⁽²⁾(h; w, b)
+        # Hidden: 2 neuroni, Output: 1 neuron
+        self.w = nn.Linear(2, 1)  # w: 2x1, b: 1
+
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        # h = ReLU(xW + c)
+        h = self.relu(self.W(x))
+        # y = hw + b
+        y = self.w(h)
+        return y
+
+# Lantul de functii:
+# f(x) = f⁽²⁾(f⁽¹⁾(x))
+# y = w·ReLU(Wx + c) + b
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Avem Nevoie de Neliniaritate?</h4>
+                <p>Ce functie ar trebui sa calculeze f⁽¹⁾? Modelele liniare ne-au servit bine pana acum. Din pacate, daca f⁽¹⁾ ar fi liniar, atunci reteaua feedforward in ansamblu ar ramane o functie liniara a input-ului. wᵀWᵀx = x'w' - compunerea a doua functii liniare ramane liniara. Trebuie sa folosim o functie neliniara pentru a descrie caracteristicile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Demonstratie: Compunere Liniara</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="text-align: center; padding: 20px; background: var(--bg-lighter); border-radius: 8px;">
+                                <p style="margin-bottom: 10px;">Daca f⁽¹⁾(x) = W₁x + b₁ si f⁽²⁾(h) = W₂h + b₂</p>
+                                <p style="margin-bottom: 10px;">Atunci f(x) = W₂(W₁x + b₁) + b₂</p>
+                                <p style="margin-bottom: 10px;">= W₂W₁x + W₂b₁ + b₂</p>
+                                <p style="color: var(--warning);">= <strong>W'x + b'</strong> (tot o functie liniara!)</p>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <strong>Concluzie:</strong> Fara neliniaritati, adaugarea mai multor straturi este inutila - reteaua ramane echivalenta cu un singur strat liniar. Functiile de activare neliniare (ReLU, sigmoid, etc.) sunt esentiale pentru puterea deep learning-ului!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Functia ReLU</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# ReLU: Rectified Linear Unit
+def relu(x):
+    return np.maximum(0, x)
+
+# Exemple
+print(relu(-5))   # 0
+print(relu(0))    # 0
+print(relu(3.5))  # 3.5
+
+# ReLU e default-ul modern pentru hidden layers
+# - Simplu si rapid de calculat
+# - Evita vanishing gradient (pentru valori pozitive)
+# - Sparse activations (multi neuroni outputeaza 0)
+
+# g(z) = max(0, z)
+# Derivata: 1 daca z > 0, 0 daca z < 0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

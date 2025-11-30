@@ -1,0 +1,134 @@
+        <section class="page-section" id="page-20">
+            <div class="page-header">
+                <div class="page-number">20</div>
+                <div class="page-title">
+                    <h3>Factori de Variatie si Reprezentari</h3>
+                    <span>Cum invatam sa extragem informatii utile</span>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-020.jpg"
+                     alt="Pagina 20" class="page-image" onclick="zoomImage(this)">
+            </div>
+            <div class="explanation-content">
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Ce sunt Factorii de Variatie?</h4>
+                        <p><strong>Factorii de variatie</strong> sunt diferitele surse de influenta care afecteaza datele observate. Ei pot fi obiecte neobservate sau forte din lumea fizica. Exemplu pentru vorbire: varsta, sex, accent, cuvintele rostite. Pentru o imagine: pozitia obiectului, culoarea, unghiul luminii.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Factori pentru o imagine de masina</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="key-concept">
+                                        <h5>🚗 Factorii unei imagini cu masina</h5>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Pozitie</strong><br>
+                                                <span style="color: var(--text-secondary);">Unde este masina in cadru?</span>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Culoare</strong><br>
+                                                <span style="color: var(--text-secondary);">Rosie, albastra, argintie?</span>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Lumina</strong><br>
+                                                <span style="color: var(--text-secondary);">Zi, noapte, umbra?</span>
+                                            </div>
+                                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                                <strong style="color: var(--accent);">Unghi</strong><br>
+                                                <span style="color: var(--text-secondary);">Fata, spate, profil?</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Problema Disentanglement</h4>
+                        <p>O masina rosie noaptea poate arata foarte similar cu una neagra ziua (pixeli aproape identici). Aplicatiile trebuie sa <strong>disentangle</strong> (sa desfaca, sa separe) factorii de variatie si sa-i pastreze doar pe cei relevanti.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon animation">✨</div>
+                                <span>Animatie: Separarea factorilor</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body animation-demo">
+                                    <p>Imaginati-va ca desfaceti un ghem de fire colorate:</p>
+                                    <div style="font-size: 3rem; margin: 20px 0;">
+                                        🧶 → 🔴🔵🟢🟡
+                                    </div>
+                                    <p style="color: var(--text-secondary);">Din date amestecate → Factori separati si identificabili</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Deep Learning rezolva problema</h4>
+                        <p><strong>Deep Learning</strong> rezolva aceasta problema centrala introducand reprezentari exprimate in termeni de alte reprezentari mai simple. Permite calculatorului sa construiasca concepte complexe din concepte mai simple.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon simulation">🎮</div>
+                                <span>Simulare: Retea neurala profunda</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="simulation-container">
+                                        <canvas id="sim-deep-20" class="simulation-canvas" data-sim-type="neural"></canvas>
+                                    </div>
+                                    <p style="margin-top: 15px; color: var(--text-secondary);">
+                                        Activarile neuronilor reprezinta transformari succesive ale datelor de intrare.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-paragraph">
+                    <div class="paragraph-main" onclick="toggleParagraph(this)">
+                        <h4>Multilayer Perceptron (MLP)</h4>
+                        <p>Exemplul clasic de deep learning este <strong>Multilayer Perceptron (MLP)</strong> - o retea feed-forward. Este o functie matematica care mapeaza valori de intrare la valori de iesire prin compunerea mai multor functii simple.</p>
+                    </div>
+                    <div class="expandable-sections">
+                        <div class="section-tab">
+                            <div class="section-header" onclick="toggleSection(this)">
+                                <div class="section-icon reference">📚</div>
+                                <span>Formula MLP</span>
+                                <span class="arrow">▶</span>
+                            </div>
+                            <div class="section-content">
+                                <div class="section-body">
+                                    <div class="formula">
+                                        y = f₃(f₂(f₁(x)))
+                                    </div>
+                                    <p style="color: var(--text-secondary);">
+                                        Fiecare f reprezinta un strat care transforma datele. Cu cat avem mai multe straturi, cu atat reteaua este mai "adanca".
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>

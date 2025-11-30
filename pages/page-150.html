@@ -1,0 +1,82 @@
+<section class="page-section" id="page-150">
+    <div class="page-header">
+        <div class="page-number">150</div>
+        <div class="page-title">
+            <h3>Eficienta Statistica si Bayesian Statistics</h3>
+            <span>Capitolul 5 - Sectiunea 5.6</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-150.jpg"
+             alt="Pagina 150" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Eficienta Statistica si Cramer-Rao Bound</h4>
+                <p>Estimatorii consistenti pot diferi in <strong>eficienta statistica</strong>: unul poate obtine generalization error mai mica pentru un numar fix de esantioane m, sau poate necesita mai putine exemple pentru o eroare fixa. Eficienta statistica se studiaza in cazul parametric - masuram cat de aproape suntem de parametrul adevarat. <strong>Cramer-Rao lower bound</strong> (Rao 1945, Cramer 1946) arata ca niciun estimator consistent nu are mean squared error mai mic decat MLE.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>MLE este Optimal</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Din aceste motive (consistenta si eficienta), MLE este adesea considerat estimatorul preferat pentru ML. Cand numarul de exemple e mic si overfitting-ul e o problema, se folosesc strategii de regularizare (care introduc bias pentru a reduce varianta).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.6 Bayesian Statistics</h4>
+                <p>Pana acum am discutat <strong>statistica frequentist</strong>: estimam o singura valoare a lui θ si facem toate predictiile bazate pe acel estimat. O abordare alternativa este sa consideram toate valorile posibile ale lui θ cand facem o predictie. Aceasta este domeniul <strong>statisticii Bayesiene</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Frequentist vs Bayesian</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <strong>Frequentist</strong>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px; margin-top: 10px;">
+                                        <li>θ este FIX dar necunoscut</li>
+                                        <li>Datele sunt ALEATORII</li>
+                                        <li>Estimam UN SINGUR θ̂</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <strong>Bayesian</strong>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px; margin-top: 10px;">
+                                        <li>θ este ALEATORIU (incertitudine)</li>
+                                        <li>Datele sunt FIXE (observate)</li>
+                                        <li>Mentinem o DISTRIBUTIE peste θ</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Prior Distribution</h4>
+                <p>Inainte de a observa date, reprezentam cunostintele noastre despre θ folosind <strong>distributia prior</strong> p(θ). De obicei, ML practicienii aleg un prior destul de larg (high entropy) pentru a reflecta un grad mare de incertitudine. Multi priori exprima o preferinta pentru solutii "mai simple" - cum ar fi coeficienti mai mici sau functii mai apropiate de constanta.</p>
+            </div>
+        </div>
+    </div>
+</section>

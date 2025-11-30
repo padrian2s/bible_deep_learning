@@ -1,0 +1,156 @@
+<section class="page-section" id="page-120">
+    <div class="page-header">
+        <div class="page-number">120</div>
+        <div class="page-title">
+            <h3>Experienta: Unsupervised vs Supervised Learning</h3>
+            <span>Capitolul 5 - Sectiunea 5.1.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-120.jpg"
+             alt="Pagina 120" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.1.3 Experienta, E</h4>
+                <p>Algoritmii ML pot fi categorizati in <strong>unsupervised</strong> sau <strong>supervised</strong> in functie de ce tip de experienta au in timpul invatarii. Majoritatea algoritmilor din aceasta carte experimenteaza un intreg <strong>dataset</strong> - o colectie de exemple, numite si <strong>data points</strong>. Unul dintre cele mai vechi dataset-uri studiate este <strong>Iris dataset</strong> (Fisher, 1936) - 150 de masuratori ale plantelor de iris cu 4 features fiecare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Iris Dataset</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.datasets import load_iris
+import numpy as np
+
+# Incarcam legendarul Iris dataset
+iris = load_iris()
+
+print("IRIS DATASET (Fisher, 1936)")
+print("=" * 40)
+print(f"Numar de exemple: {len(iris.data)}")
+print(f"Numar de features: {iris.data.shape[1]}")
+print(f"\nFeatures: {iris.feature_names}")
+print(f"Specii: {list(iris.target_names)}")
+
+print("\nPrimele 3 exemple:")
+for i in range(3):
+    print(f"  {iris.data[i]} -> {iris.target_names[iris.target[i]]}")
+
+print(f"\nReprezentare ca matrice X ∈ R^(150×4)")
+print(f"Shape: {iris.data.shape}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Unsupervised Learning</h4>
+                <p>Algoritmii <strong>unsupervised learning</strong> experimenteaza un dataset cu multe features si invata proprietati utile ale structurii acestuia. In deep learning, vrem de obicei sa invatam intreaga distributie de probabilitate care a generat dataset-ul (explicit pentru estimare de densitate, implicit pentru sinteza sau denoising). Alte task-uri unsupervised includ <strong>clustering</strong> - impartirea dataset-ului in clustere de exemple similare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Unsupervised Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; padding: 20px; background: var(--bg-dark); border-radius: 8px;">
+                                <p style="font-size: 1.2rem;">Unsupervised: Invata p(x)</p>
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 20px 0;">
+                                    <div style="background: var(--primary); padding: 15px 25px; border-radius: 8px;">
+                                        <strong>Input: x</strong>
+                                    </div>
+                                    <span style="font-size: 2rem;">→</span>
+                                    <div style="background: var(--secondary); padding: 15px 25px; border-radius: 8px;">
+                                        <strong>Model</strong>
+                                    </div>
+                                    <span style="font-size: 2rem;">→</span>
+                                    <div style="background: var(--accent); padding: 15px 25px; border-radius: 8px;">
+                                        <strong>Structura</strong>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary);">Fara etichete! Doar date.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Supervised Learning</h4>
+                <p>Algoritmii <strong>supervised learning</strong> experimenteaza un dataset cu features, dar fiecare exemplu are si un <strong>label</strong> sau <strong>target</strong> asociat. Iris dataset poate fi studiat supervised - invatam sa clasificam plantele in trei specii bazat pe masuratori. Informal: unsupervised observa exemple de x si invata p(x), pe cand supervised observa perechi (x, y) si invata p(y | x). Termenul "supervised" vine de la ideea ca un instructor furnizeaza target-ul y.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Supervised vs Unsupervised</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+from sklearn.cluster import KMeans
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_iris
+
+iris = load_iris()
+X, y = iris.data, iris.target
+
+# UNSUPERVISED: Nu folosim etichetele!
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+clusters = kmeans.fit_predict(X)
+print("UNSUPERVISED (KMeans clustering):")
+print(f"  Input: X (features only)")
+print(f"  Output: cluster assignments {np.unique(clusters)}")
+
+# SUPERVISED: Folosim si etichetele
+clf = LogisticRegression(max_iter=200)
+clf.fit(X, y)
+print("\nSUPERVISED (Logistic Regression):")
+print(f"  Input: X, y (features + labels)")
+print(f"  Output: p(y|x) - probabilitati per clasa")
+
+# Diferenta fundamentala
+print("\n" + "="*40)
+print("Unsupervised: invata p(x) - structura datelor")
+print("Supervised:   invata p(y|x) - relatie input->output")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Conectia Matematica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                <p>Distributia comuna se poate descompune:</p>
+                                <p style="font-size: 1.3rem; margin: 15px 0;">p(x) = ∏ᵢ p(xᵢ | x₁, ..., xᵢ₋₁)</p>
+                                <p style="color: var(--text-secondary);">(Ecuatia 5.1)</p>
+                            </div>
+                            <p style="margin-top: 15px;">Aceasta descompunere arata ca putem rezolva problema "unsupervised" p(x) prin n probleme "supervised" mai mici!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

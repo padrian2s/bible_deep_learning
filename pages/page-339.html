@@ -1,0 +1,104 @@
+<section class="page-section" id="page-339">
+    <div class="page-header">
+        <div class="page-number">339</div>
+        <div class="page-title">
+            <h3>Figura 8.7: Greedy Supervised Pretraining</h3>
+            <span>Ilustratie Vizuala</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-339.jpg"
+             alt="Pagina 339" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 8.7 Explicata</h4>
+                <p>Aceasta figura ilustreaza procesul de greedy supervised pretraining pas cu pas, aratand cum se construieste o retea deep prin adaugarea progresiva de layere.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Pasii din Figura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong style="color: var(--primary);">(a) Etapa 1: Antrenam MLP shallow</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">x → W⁽¹⁾ → h⁽¹⁾ → U⁽¹⁾ → y</p>
+                                    <p style="color: var(--text-secondary);">Un singur hidden layer, antrenat pe task-ul final</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(124, 58, 237, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);">
+                                    <strong style="color: var(--secondary);">(b) Pastram input-to-hidden</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">Aruncam U⁽¹⁾ (hidden-to-output)</p>
+                                    <p style="color: var(--text-secondary);">Pastram doar transformarea x → h⁽¹⁾</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(6, 182, 212, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);">
+                                    <strong style="color: var(--accent);">(c) Etapa 2: Adaugam al doilea layer</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">h⁽¹⁾ → W⁽²⁾ → h⁽²⁾ → U⁽²⁾ → y</p>
+                                    <p style="color: var(--text-secondary);">Input-ul e output-ul primului layer pretrenat</p>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.25) 0%, var(--bg-lighter) 20%); padding: 15px; border-radius: 8px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);">
+                                    <strong style="color: var(--success);">(d) Reteaua finala</strong>
+                                    <p style="color: var(--text-secondary); margin-top: 5px;">x → h⁽¹⁾ → h⁽²⁾ → y (feedforward complet)</p>
+                                    <p style="color: var(--text-secondary);">Se poate face fine-tuning pe tot modelul</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretare Alternativa</h4>
+                <p>O alta optiune (Yu et al., 2010): folosim <strong>output-urile</strong> modelelor pretrained ca features aditionale pentru fiecare etapa, nu doar ca input pentru layer-ul urmator.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod Conceptual</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Greedy Supervised Pretraining
+class GreedyPretraining:
+    def __init__(self):
+        self.layers = []
+
+    def add_layer(self, hidden_size):
+        # Etapa 1: Antrenam MLP cu 1 hidden layer
+        if len(self.layers) == 0:
+            input_size = self.input_dim
+        else:
+            # Input = output layer anterior
+            input_size = self.layers[-1].hidden_size
+
+        # Antrenam pe task-ul final
+        mlp = train_shallow_mlp(input_size, hidden_size,
+                                self.output_dim)
+
+        # Pastram doar input→hidden
+        self.layers.append(mlp.hidden_layer)
+
+    def fine_tune(self):
+        # Joint training pe toata reteaua
+        full_network = stack_layers(self.layers)
+        train_end_to_end(full_network)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

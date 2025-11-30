@@ -1,0 +1,163 @@
+<section class="page-section" id="page-228">
+    <div class="page-header">
+        <div class="page-number">228</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Algoritmul 6.4: Backward Computation</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-228.jpg"
+             alt="Pagina 228" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 6.4: Backward Computation pentru DNN</h4>
+                <p>Calculul backward pentru reteaua neurala profunda din Algoritmul 6.3. Acest calcul produce gradientii pe activarile a⁽ᵏ⁾ pentru fiecare strat k, incepand de la stratul de output si mergand inapoi la primul strat ascuns. Din acesti gradienti, care pot fi interpretati ca indicatii despre cum ar trebui sa se schimbe outputul fiecarui strat pentru a reduce eroarea, putem obtine gradientul pe parametrii fiecarui strat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritmul 6.4 Complet</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def backward_propagation_mlp(y_hat, y, h, a, weights,
+                             l, loss_fn, regularizer, lambda_reg):
+    """
+    Backward pass pentru MLP cu l straturi.
+    h, a = activari si pre-activari din forward pass
+    """
+    grads_W = {}
+    grads_b = {}
+
+    # Pas 1: Gradient pe output layer
+    # g <- ∇_ŷ J = ∇_ŷ L(ŷ, y)
+    g = loss_fn.gradient(y_hat, y)  # ex: (y_hat - y) pentru MSE
+
+    # Pas 2: Itereaza de la l la 1 (backward)
+    for k in range(l, 0, -1):
+        # Converteste gradientul pe output in gradient pe pre-activare
+        # g <- ∇_{a^(k)} J = g ⊙ f'(a^(k))
+        g = g * activation_derivative(a[k])  # element-wise
+
+        # Gradient pe bias (include regularizare)
+        # ∇_{b^(k)} J = g + λ * ∇_{b^(k)} Ω(θ)
+        grads_b[k] = g + lambda_reg * regularizer.grad_b(k)
+
+        # Gradient pe weights
+        # ∇_{W^(k)} J = g * h^(k-1)^T + λ * ∇_{W^(k)} Ω(θ)
+        grads_W[k] = np.outer(g, h[k-1]) + lambda_reg * regularizer.grad_W(k)
+
+        # Propaga gradientul la stratul anterior
+        # g <- ∇_{h^(k-1)} J = W^(k)^T * g
+        g = weights[k].T @ g
+
+    return grads_W, grads_b
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Pasii Cheie ai Backward Pass</h4>
+                <p>Gradientii pe weights si biases pot fi folositi imediat ca parte a unei actualizari stochastic gradient (efectuand actualizarea imediat dupa ce gradientii au fost calculati) sau folositi cu alte metode de optimizare bazate pe gradient.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Fluxul Backward</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 12px;">
+                                <div style="display: flex; flex-direction: column; gap: 15px;">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="background: var(--warning); padding: 10px 15px; border-radius: 8px; color: white; font-size: 0.9rem;">∇L</div>
+                                        <span>→</span>
+                                        <div style="font-size: 0.85rem; color: var(--text-secondary);">gradient loss</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="background: var(--accent); padding: 10px 15px; border-radius: 8px; font-size: 0.9rem;">⊙ f'(a⁽ˡ⁾)</div>
+                                        <span>→</span>
+                                        <div style="font-size: 0.85rem; color: var(--text-secondary);">inmultire cu derivata activarii</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="background: var(--success); padding: 10px 15px; border-radius: 8px; font-size: 0.9rem;">∇W⁽ˡ⁾, ∇b⁽ˡ⁾</div>
+                                        <span>→</span>
+                                        <div style="font-size: 0.85rem; color: var(--text-secondary);">calculeaza gradientii parametrilor</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="background: var(--primary); padding: 10px 15px; border-radius: 8px; color: white; font-size: 0.9rem;">W⁽ˡ⁾ᵀ g</div>
+                                        <span>→</span>
+                                        <div style="font-size: 0.85rem; color: var(--text-secondary);">propaga la stratul anterior</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Formulele Cheie pentru Gradienti</h4>
+                <p>Pentru fiecare strat k, calculam trei gradienti importanti: gradientul pe pre-activare (g ⊙ f'(a⁽ᵏ⁾)), gradientul pe bias (∇b⁽ᵏ⁾J = g), si gradientul pe weights (∇W⁽ᵏ⁾J = g h⁽ᵏ⁻¹⁾ᵀ). Apoi propagam gradientul la stratul anterior prin inmultire cu W⁽ᵏ⁾ᵀ.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Formulele in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# PyTorch face toate acestea automat!
+model = nn.Sequential(
+    nn.Linear(100, 50),
+    nn.ReLU(),
+    nn.Linear(50, 10)
+)
+
+x = torch.randn(32, 100)  # batch de 32
+y = torch.randint(0, 10, (32,))
+
+# Forward
+logits = model(x)
+loss = nn.CrossEntropyLoss()(logits, y)
+
+# Backward - calculeaza toti gradientii automat
+loss.backward()
+
+# Acum avem:
+for name, param in model.named_parameters():
+    print(f"{name}: {param.grad.shape}")
+    # 0.weight: torch.Size([50, 100])
+    # 0.bias: torch.Size([50])
+    # 2.weight: torch.Size([10, 50])
+    # 2.bias: torch.Size([10])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

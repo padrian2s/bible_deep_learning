@@ -1,0 +1,110 @@
+<section class="page-section" id="page-325">
+    <div class="page-header">
+        <div class="page-number">325</div>
+        <div class="page-title">
+            <h3>8.6 Metode Aproximative de Ordin Doi</h3>
+            <span>8.6.1 Newton's Method</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-325.jpg"
+             alt="Pagina 325" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 8.6: RMSProp cu Nesterov Momentum</h4>
+                <p>Putem combina RMSProp cu <strong>Nesterov momentum</strong>! Evaluam gradientul la pozitia "look-ahead" θ + αv, apoi aplicam update-ul RMSProp. Aceasta combinatie ofera beneficiile ambelor tehnici.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Pseudo-cod Combinat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 8.6: RMSProp + Nesterov
+r = 0
+v = 0
+
+while not converged:
+    θ_interim = θ + α * v      # Look-ahead
+    g = gradient_at(θ_interim)
+    r = ρ * r + (1-ρ) * g ⊙ g  # RMSProp scaling
+    v = α * v - ε/√r ⊙ g       # Nesterov velocity
+    θ = θ + v
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.6 Metode de Ordin Doi</h4>
+                <p>Pana acum am discutat metode de <strong>ordin 1</strong> (folosesc doar gradientul). Exista si metode de <strong>ordin 2</strong> care folosesc si derivatele secunde (matricea Hessiana H). Sunt mai puternice teoretic, dar mult mai costisitoare computational.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ordin 1 vs Ordin 2</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Ordin 1 (SGD, Adam):</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                        <li>Foloseste g = ∇J</li>
+                                        <li>O(n) per iteratie</li>
+                                        <li>Simplu de implementat</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Ordin 2 (Newton):</strong>
+                                    <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                        <li>Foloseste H = ∇²J</li>
+                                        <li>O(n³) per iteratie</li>
+                                        <li>Convergenta mai rapida</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.6.1 Metoda lui Newton</h4>
+                <p>Newton's method foloseste o <strong>aproximare Taylor de ordin 2</strong> a functiei de cost si sare direct la minimul acelei aproximari. Pentru functii quadratice, converge in un singur pas!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula Newton</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula">
+                                θ* = θ₀ - H⁻¹∇J(θ₀)
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 15px;">In loc de pas ε·g, facem pas H⁻¹g. Hessianul H "rescaleaza" gradientul pentru a tine cont de curbura in fiecare directie.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

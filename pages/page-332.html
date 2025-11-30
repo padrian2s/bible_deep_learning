@@ -1,0 +1,68 @@
+<section class="page-section" id="page-332">
+    <div class="page-header">
+        <div class="page-number">332</div>
+        <div class="page-title">
+            <h3>L-BFGS: Limited Memory BFGS</h3>
+            <span>8.7 Strategii de Optimizare si Meta-Algoritmi</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-332.jpg"
+             alt="Pagina 332" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema BFGS: Memorie O(n²)</h4>
+                <p>BFGS trebuie sa stocheze matricea M de dimensiune n×n. Pentru retele cu milioane de parametri, aceasta e <strong>impracticabil</strong>. Solutia: <strong>L-BFGS</strong> (Limited-memory BFGS) - nu stocheaza M explicit!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Ideea L-BFGS</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);">L-BFGS presupune ca M<sub>0</sub> = I si stocheaza doar ultimele m update-uri (tipic m=10-20). Poate reconstrui produsul M·g din aceste vectori, fara a stoca M explicit.</p>
+                                <p style="color: var(--success); margin-top: 10px;"><strong>Memorie:</strong> O(m·n) in loc de O(n²)!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>8.7 Strategii de Optimizare si Meta-Algoritmi</h4>
+                <p>Multe tehnici de optimizare nu sunt "algoritmi" completi, ci <strong>strategii generale</strong> sau <strong>sub-rutine</strong> care pot fi incorporate in diversi algoritmi. Aceasta sectiune prezinta cateva din cele mai importante.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce Vom Acoperi</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="color: var(--text-secondary); line-height: 2;">
+                                <li><strong>8.7.1</strong> Batch Normalization</li>
+                                <li><strong>8.7.2</strong> Coordinate Descent</li>
+                                <li><strong>8.7.3</strong> Polyak Averaging</li>
+                                <li><strong>8.7.4</strong> Supervised Pretraining</li>
+                                <li><strong>8.7.5</strong> Designing Models for Optimization</li>
+                                <li><strong>8.7.6</strong> Continuation Methods / Curriculum Learning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,157 @@
+<section class="page-section" id="page-369">
+    <div class="page-header">
+        <div class="page-number">369</div>
+        <div class="page-title">
+            <h3>Figura 9.15: Group Convolution</h3>
+            <span>Conectivitate Partiala intre Canale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-369.jpg"
+             alt="Pagina 369" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Group Convolution - Restrictia Canalelor</h4>
+                <p>Figura 9.15 arata o varianta unde nu toate canalele de output sunt conectate la toate canalele de input. In exemplu, primele 2 canale output vad doar primele 2 canale input, iar ultimele 2 canale output vad doar ultimele 2 canale input. Aceasta tehnica se numeste <strong>group convolution</strong> si reduce semnificativ numarul de parametri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Groups = 2</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Conv Standard</strong>
+                                    <div style="margin-top: 10px; text-align: center;">
+                                        <div style="display: inline-grid; grid-template-columns: repeat(4, 30px); gap: 3px;">
+                                            <div style="background: var(--primary); padding: 8px; border-radius: 4px; font-size: 0.8rem;">O1</div>
+                                            <div style="background: var(--primary); padding: 8px; border-radius: 4px; font-size: 0.8rem;">O2</div>
+                                            <div style="background: var(--accent); padding: 8px; border-radius: 4px; font-size: 0.8rem;">O3</div>
+                                            <div style="background: var(--accent); padding: 8px; border-radius: 4px; font-size: 0.8rem;">O4</div>
+                                        </div>
+                                        <div style="margin: 10px 0; font-size: 0.8rem;">↑ toate conectate la toate ↑</div>
+                                        <div style="display: inline-grid; grid-template-columns: repeat(4, 30px); gap: 3px;">
+                                            <div style="background: var(--success); padding: 8px; border-radius: 4px; font-size: 0.8rem;">I1</div>
+                                            <div style="background: var(--success); padding: 8px; border-radius: 4px; font-size: 0.8rem;">I2</div>
+                                            <div style="background: var(--success); padding: 8px; border-radius: 4px; font-size: 0.8rem;">I3</div>
+                                            <div style="background: var(--success); padding: 8px; border-radius: 4px; font-size: 0.8rem;">I4</div>
+                                        </div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 10px; text-align: center;">Parametri: C_out × C_in × K × K</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Group Conv (g=2)</strong>
+                                    <div style="margin-top: 10px; text-align: center;">
+                                        <div style="display: inline-grid; grid-template-columns: repeat(4, 30px); gap: 3px;">
+                                            <div style="background: var(--primary); padding: 8px; border-radius: 4px; font-size: 0.8rem;">O1</div>
+                                            <div style="background: var(--primary); padding: 8px; border-radius: 4px; font-size: 0.8rem;">O2</div>
+                                            <div style="background: var(--accent); padding: 8px; border-radius: 4px; font-size: 0.8rem;">O3</div>
+                                            <div style="background: var(--accent); padding: 8px; border-radius: 4px; font-size: 0.8rem;">O4</div>
+                                        </div>
+                                        <div style="margin: 10px 0; font-size: 0.7rem;">↑grup1↑ &nbsp; ↑grup2↑</div>
+                                        <div style="display: inline-grid; grid-template-columns: repeat(4, 30px); gap: 3px;">
+                                            <div style="background: var(--primary); padding: 8px; border-radius: 4px; font-size: 0.8rem;">I1</div>
+                                            <div style="background: var(--primary); padding: 8px; border-radius: 4px; font-size: 0.8rem;">I2</div>
+                                            <div style="background: var(--accent); padding: 8px; border-radius: 4px; font-size: 0.8rem;">I3</div>
+                                            <div style="background: var(--accent); padding: 8px; border-radius: 4px; font-size: 0.8rem;">I4</div>
+                                        </div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 10px; text-align: center;">Parametri: C_out × (C_in/g) × K × K</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Group Convolution in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Conv standard: 64 in -> 128 out, kernel 3x3
+conv_standard = nn.Conv2d(64, 128, 3, padding=1)
+print(f"Standard params: {conv_standard.weight.numel():,}")
+# 64 * 128 * 3 * 3 = 73,728
+
+# Group conv: 64 in -> 128 out, groups=2
+# Fiecare grup: 32 in -> 64 out
+conv_groups = nn.Conv2d(64, 128, 3, padding=1, groups=2)
+print(f"Groups=2 params: {conv_groups.weight.numel():,}")
+# 32 * 64 * 3 * 3 * 2 = 36,864 (jumatate!)
+
+# Groups=4 (si mai putini parametri)
+conv_g4 = nn.Conv2d(64, 128, 3, padding=1, groups=4)
+print(f"Groups=4 params: {conv_g4.weight.numel():,}")
+# 16 * 32 * 3 * 3 * 4 = 18,432
+
+# Depthwise: groups = C_in (extrem)
+conv_dw = nn.Conv2d(64, 64, 3, padding=1, groups=64)
+print(f"Depthwise params: {conv_dw.weight.numel():,}")
+# 1 * 1 * 3 * 3 * 64 = 576!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aplicatii: Depthwise Separable Convolution</h4>
+                <p>Cazul extrem (groups = num_channels) se numeste <strong>depthwise convolution</strong>. Combinat cu o convolutie 1x1 (pointwise), formeaza <strong>depthwise separable convolution</strong> - tehnica folosita in MobileNet, EfficientNet. Reduce parametrii de ~8-9x mentinand performanta!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Depthwise Separable in Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+class DepthwiseSeparable(nn.Module):
+    """
+    Inlocuieste Conv2d standard cu:
+    1. Depthwise conv (spatial, per-canal)
+    2. Pointwise conv (1x1, mix channels)
+    """
+    def __init__(self, in_ch, out_ch, kernel_size=3):
+        super().__init__()
+        # Depthwise: filtreaza spatial, separat per canal
+        self.depthwise = nn.Conv2d(
+            in_ch, in_ch, kernel_size,
+            padding=kernel_size//2,
+            groups=in_ch  # key!
+        )
+        # Pointwise: combina canalele
+        self.pointwise = nn.Conv2d(in_ch, out_ch, 1)
+
+    def forward(self, x):
+        return self.pointwise(self.depthwise(x))
+
+# Comparatie parametri (64 -> 128, k=3)
+standard = 64 * 128 * 3 * 3  # 73,728
+separable = 64 * 3 * 3 + 64 * 128  # 8,768 (~8x mai putin!)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

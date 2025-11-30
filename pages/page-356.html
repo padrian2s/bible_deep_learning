@@ -1,0 +1,146 @@
+<section class="page-section" id="page-356">
+    <div class="page-header">
+        <div class="page-number">356</div>
+        <div class="page-title">
+            <h3>Figura 9.7: Componentele unui Layer CNN</h3>
+            <span>Terminologie si Structura</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-356.jpg"
+             alt="Pagina 356" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Doua Moduri de a Vedea un CNN</h4>
+                <p>Figura 9.7 prezinta doua conventii de terminologie pentru descrierea CNN-urilor. In terminologia "complexa" (stanga), un singur layer CNN are mai multe "etape" interne: convolutie, detector (neliniaritate), pooling. In terminologia "simpla" (dreapta), fiecare etapa este considerata un layer separat. Cartea foloseste terminologia complexa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cele Doua Terminologii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Terminologie Complexa</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 15px;">Un "layer" = mai multe etape</p>
+                                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Next Layer</div>
+                                        <div style="text-align: center;">↑</div>
+                                        <div style="background: var(--primary); padding: 10px; border-radius: 4px; border: 2px solid var(--accent);">
+                                            <div style="background: var(--bg-dark); padding: 5px; margin: 3px; border-radius: 2px; font-size: 0.8rem;">Pooling Stage</div>
+                                            <div style="background: var(--bg-dark); padding: 5px; margin: 3px; border-radius: 2px; font-size: 0.8rem;">Detector Stage (ReLU)</div>
+                                            <div style="background: var(--bg-dark); padding: 5px; margin: 3px; border-radius: 2px; font-size: 0.8rem;">Convolution Stage</div>
+                                        </div>
+                                        <div style="text-align: center;">↑</div>
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Input</div>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Terminologie Simpla</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 15px;">Fiecare etapa = un "layer"</p>
+                                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Next Layer</div>
+                                        <div style="text-align: center;">↑</div>
+                                        <div style="background: var(--success); padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">Pooling Layer</div>
+                                        <div style="text-align: center;">↑</div>
+                                        <div style="background: var(--accent); padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">Detector Layer (ReLU)</div>
+                                        <div style="text-align: center;">↑</div>
+                                        <div style="background: var(--warning); padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">Convolution Layer</div>
+                                        <div style="text-align: center;">↑</div>
+                                        <div style="background: var(--bg-dark); padding: 10px; border-radius: 4px; text-align: center;">Input</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>In Practica: PyTorch/TensorFlow</h4>
+                <p>Bibliotecile moderne folosesc terminologia simpla. Un "Conv2d" face doar convolutia, trebuie sa adaugi separat activarea (ReLU) si pooling-ul. Avantajul: flexibilitate maxima - poti folosi alte activari, poti sari pooling-ul, poti adauga BatchNorm intre etape, etc.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Un Block CNN in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+class CNNBlock(nn.Module):
+    """Un 'layer complex' in terminologia cartii"""
+    def __init__(self, in_ch, out_ch):
+        super().__init__()
+        # Etapa 1: Convolutie (transformare afina)
+        self.conv = nn.Conv2d(in_ch, out_ch, kernel_size=3, padding=1)
+
+        # Optional: Batch Normalization
+        self.bn = nn.BatchNorm2d(out_ch)
+
+        # Etapa 2: Detector (neliniaritate)
+        self.relu = nn.ReLU()
+
+        # Etapa 3: Pooling
+        self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
+
+    def forward(self, x):
+        x = self.conv(x)      # Conv
+        x = self.bn(x)        # BatchNorm (optional)
+        x = self.relu(x)      # ReLU
+        x = self.pool(x)      # MaxPool
+        return x
+
+# Utilizare
+block = CNNBlock(3, 64)  # RGB -> 64 filtre
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce Layer-uri au Parametri?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <span><strong>Conv2d</strong></span>
+                                    <span style="color: var(--success);">DA - kernel weights + bias</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <span><strong>BatchNorm</strong></span>
+                                    <span style="color: var(--success);">DA - gamma, beta</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <span><strong>ReLU</strong></span>
+                                    <span style="color: var(--warning);">NU - functie fixa</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <span><strong>MaxPool</strong></span>
+                                    <span style="color: var(--warning);">NU - operatie fixa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,76 @@
+<section class="page-section" id="page-423">
+    <div class="page-header">
+        <div class="page-number">423</div>
+        <div class="page-title">
+            <h3>10.9.3 Removing Connections & 10.10 LSTM</h3>
+            <span>Introducere in Gated RNNs</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-423.jpg"
+             alt="Pagina 423" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>10.9.3 Removing Connections</h4>
+                <p>O alta strategie: <strong>elimina</strong> conexiunile fine-grained si pastreaza doar cele coarse. Astfel fortam unele unitati sa opereze pe scale temporale lungi. El Hihi & Bengio (1996) si Koutnik et al. (2014) au aratat ca aceasta functioneaza bine.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Idee: Grupuri cu Frecvente Diferite</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Clockwork RNN (Koutnik et al., 2014)</h5>
+                                <p>Diferite grupuri de unitati se actualizeaza la frecvente diferite. Unele la fiecare pas, altele la fiecare 2, 4, 8... pasi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>10.10 Long Short-Term Memory (LSTM)</h4>
+                <p>Cele mai eficiente modele pentru secvente sunt <strong>gated RNNs</strong>: LSTM si GRU. Ideea: in loc de constante de timp fixe (leaky units), facem <strong>greutatile invatable si dependente de context</strong>!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>De la Leaky la Gated</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Leaky Unit</strong>
+                                    <div class="formula" style="margin: 10px 0; font-size: 0.9rem;">
+                                        μ = α·μ + (1-α)·v
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">α este constant/fixat</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Gated Unit (LSTM)</strong>
+                                    <div class="formula" style="margin: 10px 0; font-size: 0.9rem;">
+                                        s = f·s + g·input
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">f, g sunt <strong>invate</strong> si depind de input!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

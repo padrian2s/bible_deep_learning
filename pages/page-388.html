@@ -1,0 +1,134 @@
+<section class="page-section" id="page-388">
+    <div class="page-header">
+        <div class="page-number">388</div>
+        <div class="page-title">
+            <h3>Capitolul 10: Modelarea Secventelor</h3>
+            <span>Retele Neuronale Recurente si Recursive</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-388.jpg"
+             alt="Pagina 388" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce sunt Retelele Neuronale Recurente (RNN)?</h4>
+                <p>RNN-urile sunt o familie de retele neuronale specializate pentru procesarea datelor secventiale. Asa cum retelele convolutionale (CNN) sunt optimizate pentru grile de valori (imagini), RNN-urile sunt optimizate pentru secvente de valori x<sup>(1)</sup>, ..., x<sup>(τ)</sup>. Pot procesa secvente de lungime variabila, ceea ce le face perfecte pentru text, audio, sau serii temporale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: CNN vs RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">CNN (Convolutionale)</strong>
+                                    <div style="margin: 10px 0; font-family: monospace; font-size: 0.9rem;">
+                                        Input: Grid 2D (imagine)<br>
+                                        [■ ■ ■]<br>
+                                        [■ ■ ■] → Filtru → Feature Map<br>
+                                        [■ ■ ■]
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Proceseaza spatiul - pixeli vecini</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">RNN (Recurente)</strong>
+                                    <div style="margin: 10px 0; font-family: monospace; font-size: 0.9rem;">
+                                        Input: Secventa 1D<br>
+                                        x₁ → x₂ → x₃ → ... → xₜ<br>
+                                        ↓    ↓    ↓         ↓<br>
+                                        h₁ → h₂ → h₃ → ... → hₜ
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Proceseaza timpul - elemente succesive</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>🗣️</span><div><strong>Speech Recognition</strong> - Transcrierea audio in text</div></li>
+                                <li class="reference-item"><span>🌐</span><div><strong>Machine Translation</strong> - Google Translate, DeepL</div></li>
+                                <li class="reference-item"><span>📝</span><div><strong>Text Generation</strong> - GPT foloseste variante de RNN (Transformers)</div></li>
+                                <li class="reference-item"><span>📈</span><div><strong>Time Series</strong> - Predictia pietelor financiare</div></li>
+                                <li class="reference-item"><span>🎵</span><div><strong>Music Generation</strong> - Compunere muzicala AI</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Parameter Sharing - Cheia RNN-urilor</h4>
+                <p>Ideea revolutionara din anii 1980: in loc sa ai parametri separati pentru fiecare pozitie din secventa, <strong>imparti aceiasi parametri</strong> pe toate pozitiile. Astfel, modelul poate generaliza la secvente de orice lungime si poate recunoaste pattern-uri indiferent unde apar in secventa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: De ce conteaza</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="margin-bottom: 15px;">Exemplu: "Am fost in Nepal in 2009" vs "In 2009, am fost in Nepal"</p>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p><strong style="color: var(--warning);">Fara parameter sharing:</strong></p>
+                                <p style="color: var(--text-secondary);">Modelul ar trebui sa invete separat ca "2009" este un an la pozitia 6 SI la pozitia 2. Imposibil de scalat!</p>
+                            </div>
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                                <p><strong style="color: var(--success);">Cu parameter sharing:</strong></p>
+                                <p style="color: var(--text-secondary);">Acelasi "detector de an" functioneaza la ORICE pozitie. Invata o data, aplica oriunde!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Simplu RNN in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+                                <pre>import torch.nn as nn
+
+# RNN simplu - aceiasi W pentru toate timesteps
+rnn = nn.RNN(
+    input_size=10,    # dimensiune input
+    hidden_size=20,   # dimensiune stare ascunsa
+    num_layers=1      # un singur layer
+)
+
+# Secventa de lungime 5, batch 3
+x = torch.randn(5, 3, 10)  # (seq_len, batch, input)
+h0 = torch.zeros(1, 3, 20) # stare initiala
+
+output, hn = rnn(x, h0)
+# output: (5, 3, 20) - output la fiecare pas
+# hn: (1, 3, 20) - starea finala</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

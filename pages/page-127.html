@@ -1,0 +1,135 @@
+<section class="page-section" id="page-127">
+    <div class="page-header">
+        <div class="page-number">127</div>
+        <div class="page-title">
+            <h3>Capacity si Hypothesis Space</h3>
+            <span>Capitolul 5 - Controlul Complexitatii</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-127.jpg"
+             alt="Pagina 127" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Capacity - Controlul Complexitatii</h4>
+                <p>Putem controla daca un model e mai predispus la underfit sau overfit prin modificarea <strong>capacity</strong>-ului sau. Informal, capacity este abilitatea modelului de a potrivi o varietate larga de functii. Modele cu capacity scazut pot avea dificultati sa potriveasca training set. Modele cu capacity ridicat pot overfit memorand proprietati ale training set-ului care nu sunt utile pentru test.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Capacity Spectrum</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <span>Low Capacity</span>
+                                    <span>High Capacity</span>
+                                </div>
+                                <div style="height: 20px; background: linear-gradient(to right, #4a90d9, var(--success), #d94a4a); border-radius: 10px;"></div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.9rem;">
+                                    <span>Underfit</span>
+                                    <span style="color: var(--success);">Optimal</span>
+                                    <span>Overfit</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Hypothesis Space</h4>
+                <p>Un mod de a controla capacity este prin alegerea <strong>hypothesis space</strong> - setul de functii pe care algoritmul are voie sa le selecteze ca solutie. De exemplu, regresia liniara are ca hypothesis space setul tuturor functiilor liniare. Putem generaliza la <strong>regresie polinomiala</strong> - adaugam puteri ale lui x ca features suplimentare:</p>
+                <div class="formula" style="text-align: center; margin: 15px 0;">
+                    <p>Grad 1 (liniar): ŷ = b + wx</p>
+                    <p>Grad 2 (quadratic): ŷ = b + w₁x + w₂x²</p>
+                    <p>Grad 9: ŷ = b + Σᵢ wᵢxⁱ</p>
+                </div>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Polynomial Regression</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+
+# Date generate de o functie quadratica + zgomot
+np.random.seed(42)
+X = np.linspace(-3, 3, 20).reshape(-1, 1)
+y_true = 0.5 * X.flatten()**2  # Functia reala
+y = y_true + np.random.randn(20) * 0.5
+
+# Comparam modele cu diferite grade
+for degree in [1, 2, 9]:
+    poly = PolynomialFeatures(degree)
+    X_poly = poly.fit_transform(X)
+
+    model = LinearRegression()
+    model.fit(X_poly, y)
+
+    y_pred = model.predict(X_poly)
+    mse = np.mean((y_pred - y)**2)
+
+    print(f"Grad {degree}: MSE_train = {mse:.4f}, "
+          f"#parametri = {X_poly.shape[1]}")
+
+print("\n⚠️ Grad 9 are MSE mic pe train, dar poate overfit!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 5.2: Capacity in Actiune</h4>
+                <p>ML algorithms performeaza cel mai bine cand capacity este potrivita pentru complexitatea task-ului si cantitatea de date de antrenament. Modele cu capacity insuficienta nu pot rezolva task-uri complexe. Modele cu capacity prea mare pot rezolva task-uri complexe dar pot overfit cand capacity depaseste ce e necesar. Figura 5.2 compara un predictor liniar, quadratic si de grad 9 pe o problema unde functia adevarata este quadratica.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Interpretare Figura 5.2</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div style="background: #4a90d9; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong>Liniar (grad 1)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Nu poate captura curbura</p>
+                                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">UNDERFIT</p>
+                                </div>
+                                <div style="background: var(--success); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong>Quadratic (grad 2)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Potrivire perfecta!</p>
+                                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">OPTIM</p>
+                                </div>
+                                <div style="background: #d94a4a; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong>Grad 9</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Trece prin toate punctele dar oscileaza</p>
+                                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">OVERFIT</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,113 @@
+<section class="page-section" id="page-301">
+    <div class="page-header">
+        <div class="page-number">301</div>
+        <div class="page-title">
+            <h3>Saddle Points: Teorie si Practica</h3>
+            <span>Cercetari pe Retele Neurale</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-301.jpg"
+             alt="Pagina 301" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce Spun Cercetarile Despre Retele Neurale?</h4>
+                <p>Rezultatele teoretice pentru functii aleatoare se aplica si retelelor neurale? <strong>Baldi si Hornik (1989)</strong> au aratat ca autoencoderele liniare (fara nonlinearitati) au doar minime globale si saddle points - fara minime locale suboptimale! Acest rezultat se extinde si la retele mai deep fara nonlinearitati.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Studii Cheie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Saxe et al. (2013)</strong> - Solutii exacte pentru retele liniare; learning-ul capteaza comportamente observate si in retele nonliniare</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Dauphin et al. (2014)</strong> - Experimental: retelele reale au multe saddle points cu cost ridicat</div>
+                                </li>
+                                <li class="reference-item">
+                                    <span>📖</span>
+                                    <div><strong>Choromanska et al. (2014)</strong> - Argumente teoretice ca functii aleatoare de dimensiuni mari se comporta similar</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gradient Descent vs Saddle Points</h4>
+                <p>Ce se intampla cand gradient descent ajunge langa un saddle point? Situatia e neclara. Gradientul poate deveni foarte mic langa un saddle point, dar empiric, gradient descent pare sa <strong>scape</strong> de saddle points in multe cazuri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Trajectoria SGD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                <p style="color: var(--text-secondary);"><strong>Goodfellow et al. (2015)</strong> au vizualizat traiectorii de antrenare pentru retele state-of-the-art:</p>
+                                <ul style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                    <li>Suprafata costului arata aplatizata langa saddle point</li>
+                                    <li>Dar traiectoria SGD scapa rapid din aceasta regiune!</li>
+                                    <li>Pot fi si argumente analitice ca gradient descent continuu e "respins" de saddle points</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>SGD Discret vs Continuu</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept concept-warning">
+                                <p>Argumentele teoretice sunt pentru gradient descent continuu. In practica folosim SGD discret cu learning rate finit - comportamentul poate fi diferit. Dar empiric, nu pare sa fie o problema majora.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Newton's Method: Atras de Saddle Points!</h4>
+                <p>Spre deosebire de gradient descent, metoda Newton e <strong>proiectata</strong> sa gaseasca puncte cu gradient zero - inclusiv saddle points! Fara modificari, Newton sare direct la saddle points in loc sa le evite. Asta explica partial de ce metodele de ordin 2 nu au inlocuit SGD pentru retele neurale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Saddle-Free Newton Method</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);"><strong>Dauphin et al. (2014)</strong> au introdus o varianta "saddle-free" a metodei Newton care imbunatateste semnificativ performanta. Dar metodele de ordin 2 raman dificil de scalat la retele mari.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

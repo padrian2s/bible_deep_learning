@@ -1,0 +1,84 @@
+<section class="page-section" id="page-135">
+    <div class="page-header">
+        <div class="page-number">135</div>
+        <div class="page-title">
+            <h3>Definitia Regularizarii si Hiperparametri</h3>
+            <span>Capitolul 5 - Sectiunea 5.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-135.jpg"
+             alt="Pagina 135" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Regularizare - Definitia Formala</h4>
+                <p>Mai general, putem regulariza un model care invata f(x; θ) adaugand un <strong>regularizer</strong> (penalizare) la functia de cost. In cazul weight decay, regularizer-ul este Ω(w) = w<sup>T</sup>w. Excluderea unei functii din hypothesis space poate fi vazuta ca o preferinta infinit de puternica impotriva acelei functii. Capitolul 7 va arata multe alte regularizari posibile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Definitia Oficiala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Regularization</h5>
+                                <p><em>"Orice modificare adusa unui algoritm de invatare care este menita sa reduca eroarea de generalizare dar nu neaparat eroarea de antrenament."</em></p>
+                                <p style="margin-top: 15px;">Regularizarea este una din preocuparile centrale ale ML, rivalata ca importanta doar de optimizare.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Filosofia Deep Learning si Regularizare</h4>
+                <p>No Free Lunch a aratat ca nu exista o forma de regularizare universal optima. Filozofia deep learning este ca o gama foarte larga de task-uri (inclusiv toate task-urile intelectuale pe care oamenii le pot face) pot fi rezolvate efectiv folosind forme foarte <strong>general-purpose</strong> de regularizare. Aceasta carte va explora aceste forme de regularizare universal aplicabile.</p>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>5.3 Hyperparameters and Validation Sets</h4>
+                <p>Majoritatea algoritmilor ML au setari care pot fi folosite pentru a controla comportamentul algoritmului. Aceste setari se numesc <strong>hiperparametri</strong>. Valorile hiperparametrilor NU sunt adaptate de algoritmul de invatare in sine (desi putem proiecta un algoritm extern care invata hiperparametrii pentru altul). In exemplul regresiei polinomiale, gradul polinomului este un hiperparameter de <strong>capacity</strong>. λ din weight decay este alt exemplu de hiperparameter.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Parametri vs Hiperparametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.2) 0%, var(--bg-dark) 20%); padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);">
+                                    <strong>Parametri (θ, w)</strong>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px; margin-top: 10px;">
+                                        <li>Invatati din date</li>
+                                        <li>Optimizati de algoritm</li>
+                                        <li>Ex: weights, biases</li>
+                                    </ul>
+                                </div>
+                                <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.2) 0%, var(--bg-dark) 20%); padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);">
+                                    <strong>Hiperparametri</strong>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px; margin-top: 10px;">
+                                        <li>Setati manual/extern</li>
+                                        <li>Controleaza algoritmul</li>
+                                        <li>Ex: λ, learning rate, grad</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

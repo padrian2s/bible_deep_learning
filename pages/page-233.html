@@ -1,0 +1,147 @@
+<section class="page-section" id="page-233">
+    <div class="page-header">
+        <div class="page-number">233</div>
+        <div class="page-title">
+            <h3>Capitolul 6: Deep Feedforward Networks</h3>
+            <span>Algoritmul 6.6: build_grad Subroutine</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-233.jpg"
+             alt="Pagina 233" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algoritmul 6.6: Subrutina build_grad</h4>
+                <p>Bucla interioara a subrutinei build_grad(V, G, G', grad_table) din algoritmul de back-propagation. Aceasta este apelata de algoritmul 6.5. Primeste V (variabila al carei gradient trebuie adaugat la G si grad_table), G (graful de modificat), G' (restrictia lui G la nodurile care participa in gradient), si grad_table (structura de date care mapeaza noduri la gradientii lor).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritmul 6.6 in Cod</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def build_grad(V, G, G_prime, grad_table):
+    """
+    Algoritmul 6.6: Construieste gradientul pentru V recursiv.
+
+    Foloseste MEMOIZARE pentru a evita recalcularea!
+    """
+    # Pas 1: Verifica daca deja calculat (memoizare)
+    if V in grad_table:
+        return grad_table[V]
+
+    # Pas 2: Initializare
+    i = 1
+    G_list = []
+
+    # Pas 3: Pentru fiecare consumator C al lui V
+    for C in get_consumers(V, G_prime):
+        # Obtine operatia care produce C
+        op = get_operation(C)
+
+        # Calculeaza recursiv gradientul pentru C
+        D = build_grad(C, G, G_prime, grad_table)
+
+        # Aplica regula bprop
+        # G^(i) = op.bprop(inputs, V, D)
+        inputs = get_inputs(C, G_prime)
+        G_i = op.bprop(inputs, V, D)
+        G_list.append(G_i)
+        i += 1
+
+    # Pas 4: Sumeaza gradientii din toate caile
+    G_total = sum(G_list)
+
+    # Pas 5: Stocheaza in grad_table (memoizare)
+    grad_table[V] = G_total
+
+    # Pas 6: Adauga G si operatiile la graf
+    insert_into_graph(G_total, G)
+
+    return G_total
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce este necesara Memoizarea?</h4>
+                <p>Numarul de cai de la nodul j la nodul n poate creste exponential in lungimea acestor cai. Numarul de astfel de cai poate creste exponential cu adancimea grafului de forward propagation. Acest cost mare ar fi suportat pentru ca aceeasi computatie pentru ∂u⁽ⁱ⁾/∂u⁽ʲ⁾ ar fi refacuta de multe ori. Pentru a evita aceasta recalculare, putem sa ne gandim la backprop ca un algoritm table-filling.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Ecuatia 6.55: Explozia Cailor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <strong>Formula caii (Ecuatia 6.55):</strong>
+                                <div class="formula" style="margin-top: 15px; font-size: 1.1rem; text-align: center;">
+                                    ∂u⁽ⁿ⁾/∂u⁽ʲ⁾ = Σ<sub>paths</sub> Π<sub>k=2</sub><sup>t</sup> ∂u⁽πₖ⁾/∂u⁽πₖ₋₁⁾
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">Suma peste TOATE caile de la j la n. Numarul de cai poate fi EXPONENTIAL!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Dynamic Programming</h4>
+                <p>Back-propagation evita repetarea multor subexpresii comune. Aceasta strategie de table-filling se numeste uneori dynamic programming. Fiecare nod din graf are un slot corespunzator intr-o tabela pentru a stoca gradientul pentru acel nod. Umplind intrarile tabelei in ordine, backprop evita sa refaca aceleasi calcule de multiple ori.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Analogie: Fibonacci</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# FARA memoizare: O(2^n)
+def fib_naive(n):
+    if n <= 1:
+        return n
+    return fib_naive(n-1) + fib_naive(n-2)  # Recalculeaza!
+
+# CU memoizare: O(n)
+def fib_memo(n, cache={}):
+    if n in cache:
+        return cache[n]
+    if n <= 1:
+        return n
+    cache[n] = fib_memo(n-1, cache) + fib_memo(n-2, cache)
+    return cache[n]
+
+# Backprop foloseste aceeasi idee:
+# grad_table[V] este cache-ul pentru gradientul lui V
+# Fara grad_table: O(2^depth) calcule
+# Cu grad_table: O(nodes) calcule
+
+# De aceea backprop este atat de eficient!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

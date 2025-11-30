@@ -1,0 +1,88 @@
+<section class="page-section" id="page-328">
+    <div class="page-header">
+        <div class="page-number">328</div>
+        <div class="page-title">
+            <h3>8.6.2 Conjugate Gradients</h3>
+            <span>Evitarea Inversarii Hessianului</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-328.jpg"
+             alt="Pagina 328" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conjugate Gradients: Ideia Principala</h4>
+                <p><strong>Conjugate gradients</strong> evita calculul si inversarea explicita a Hessianului. In loc sa inversam H, alegem directii de cautare <strong>conjugate</strong> intre ele - directii care nu "desfac" progresul din iteratii anterioare.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Problema cu Steepest Descent</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">In steepest descent cu line search:</p>
+                            <ol style="color: var(--text-secondary); margin-top: 10px; line-height: 1.8;">
+                                <li>Mergem in directia gradientului d<sub>t</sub> = -g</li>
+                                <li>Facem line search: gasim pasul optim in acea directie</li>
+                                <li>La finalul line search, gradientul e <strong>ortogonal</strong> pe d<sub>t</sub></li>
+                            </ol>
+                            <p style="color: var(--warning); margin-top: 10px;"><strong>Problema:</strong> Directia urmatoare d<sub>t+1</sub> nu pastreaza progresul pe d<sub>t</sub>! Rezulta zig-zag ineficient.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce Inseamna "Conjugate"?</h4>
+                <p>Doua directii d<sub>i</sub> si d<sub>j</sub> sunt <strong>conjugate</strong> (relativ la H) daca d<sub>i</sub>ᵀ H d<sub>j</sub> = 0. Aceasta garanteaza ca minimizarea pe d<sub>j</sub> nu strica minimul gasit pe d<sub>i</sub>!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Intuitie: Axe Principale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Directiile conjugate sunt ca <strong>axele principale</strong> ale elipsei de contur. Minimizand pe fiecare axa conjugata, nu mai trebuie sa ne intoarcem niciodata - fiecare directie e "rezolvata" definitiv!</p>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Pentru o functie quadratica cu n parametri, conjugate gradients converge in exact n iteratii - fara a calcula H explicit!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 8.6: Steepest Descent vs Conjugate</h4>
+                <p>Figura 8.6 (pe pagina urmatoare) ilustreaza diferenta: steepest descent face zig-zag prin vale, in timp ce conjugate gradients merge direct pe axele principale si converge in n pasi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicabilitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p style="color: var(--text-secondary);">Conjugate gradients e popular pentru sisteme liniare si optimizare convexa. Pentru deep learning (non-convex), e mai putin folosit, dar ideile sunt utile pentru a intelege alte metode.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

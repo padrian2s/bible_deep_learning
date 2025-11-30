@@ -1,0 +1,116 @@
+<section class="page-section" id="page-360">
+    <div class="page-header">
+        <div class="page-number">360</div>
+        <div class="page-title">
+            <h3>9.4 Convolutia ca Prior Infinit de Puternic</h3>
+            <span>Perspectiva Bayesiana</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-360.jpg"
+             alt="Pagina 360" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Pooling Dinamic si Invatare de Structura</h4>
+                <p>Exista variante avansate de pooling: pooling dinamic (unde regiunile sunt determinate de un algoritm de clustering pentru fiecare imagine), si pooling cu structura invatata (unde reteaua invata ce regiuni sa grupeze). Aceste tehnici pot imbunatati performanta pentru anumite sarcini.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Variante Avansate de Pooling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Spatial Pyramid Pooling (SPP)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Pooling la multiple scari, combinat - permite inputuri de dimensiuni variabile</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">ROI Pooling</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Pooling adaptat regiunilor de interes - folosit in detectia de obiecte (Faster R-CNN)</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Stochastic Pooling</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Selecteaza aleator bazat pe probabilitati - regularizare implicita</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Convolutia ca Prior Bayesian</h4>
+                <p>O perspectiva utila: putem vedea CNN-ul ca o retea fully connected cu un <strong>prior infinit de puternic</strong> asupra ponderilor. Un prior puternic in statistica bayesiana forteaza parametrii sa ia anumite valori, indiferent de date. Prior-ul CNN-ului spune: (1) Ponderile unui neuron trebuie sa fie identice cu ale vecinului (dar deplasate spatial), (2) Ponderile trebuie sa fie zero in afara unei regiuni mici (receptive field).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Prior Slab vs Puternic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Prior Slab (FC)</strong>
+                                    <p style="font-size: 0.85rem; margin: 10px 0;">"Orice valoare e ok pentru ponderi"</p>
+                                    <div style="height: 60px; background: linear-gradient(90deg, var(--warning) 0%, var(--warning) 100%); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                        <span style="font-size: 0.8rem;">Distributie larga (flexibila)</span>
+                                    </div>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Prior Puternic (CNN)</strong>
+                                    <p style="font-size: 0.85rem; margin: 10px 0;">"Ponderile TREBUIE sa fie partajate"</p>
+                                    <div style="height: 60px; background: var(--bg-dark); border-radius: 4px; display: flex; align-items: center; justify-content: center; position: relative;">
+                                        <div style="position: absolute; width: 10px; height: 50px; background: var(--success); border-radius: 2px;"></div>
+                                        <span style="font-size: 0.8rem; margin-left: 30px;">Spike (constrangere stricta)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Ce "zice" Prior-ul CNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Prior-ul CNN "spune":
+
+# 1. SPARSE CONNECTIVITY
+# P(w_ij) = 0 daca |i - j| > receptive_field_size
+# Adica: neuronii indepartati NU au conexiuni
+
+# 2. PARAMETER SHARING
+# P(w) forteaza: w_pos1 == w_pos2 == ... == w_posN
+# Adica: acelasi kernel in toate pozitiile
+
+# Aceste constrangeri sunt INFINIT de puternice:
+# - Nu exista niciun training data care sa le schimbe
+# - Sunt "hard-coded" in arhitectura
+
+# Echivalent cu L2 regularization cu lambda -> infinity
+# pentru ponderile care "trebuie" sa fie 0 sau egale
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

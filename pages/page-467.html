@@ -1,0 +1,118 @@
+<section class="page-section" id="page-467">
+    <div class="page-header">
+        <div class="page-number">467</div>
+        <div class="page-title">
+            <h3>Capitolul 12: Aplicatii</h3>
+            <span>Hardware Specializat (continuare) si 12.2 Computer Vision</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="../book_page_jpg/Ian Goodfellow, Yoshua Bengio, Aaron Courville - Deep Learning (2017, MIT)-page-467.jpg"
+             alt="Pagina 467" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Hardware Specializat?</h4>
+                <p>Construirea hardware-ului specializat este o modalitate de a impinge limita performantei intr-o era in care noile designuri hardware pentru retele neurale (care ar putea dura 2 ani de la conceptie la disponibilitate) nu pot tine pasul cu progresul rapid al CPU/GPU-urilor generale. Azi, rata de progres a core-urilor individuale a incetinit.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Evolutia Hardware</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-lighter); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                                    <div style="text-align: center; flex: 1; min-width: 120px;">
+                                        <div style="font-size: 1.2rem; color: var(--warning);">1990s</div>
+                                        <p style="color: var(--text-secondary); font-size: 0.8rem;">GPU custom > CPU</p>
+                                        <p style="color: var(--text-secondary); font-size: 0.7rem;">Dar CPU evolua rapid</p>
+                                    </div>
+                                    <div style="color: var(--accent);">→</div>
+                                    <div style="text-align: center; flex: 1; min-width: 120px;">
+                                        <div style="font-size: 1.2rem; color: var(--accent);">2010s</div>
+                                        <p style="color: var(--text-secondary); font-size: 0.8rem;">Progres single-core incetinit</p>
+                                        <p style="color: var(--text-secondary); font-size: 0.7rem;">Paralelizare over cores</p>
+                                    </div>
+                                    <div style="color: var(--success);">→</div>
+                                    <div style="text-align: center; flex: 1; min-width: 120px;">
+                                        <div style="font-size: 1.2rem; color: var(--success);">Viitor</div>
+                                        <p style="color: var(--text-secondary); font-size: 0.8rem;">Hardware specializat</p>
+                                        <p style="color: var(--text-secondary); font-size: 0.7rem;">TPU, NPU, ASICs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Hardware specializat devine viabil pentru dispozitive low-power (telefoane) si aplicatii publice (speech, computer vision, NLP).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>12.2 Computer Vision</h4>
+                <p>Computer vision a fost traditional una dintre cele mai active arii de cercetare pentru deep learning. Vederea este o sarcina care este <strong>usoara pentru oameni</strong> si multe animale, dar <strong>provocatoare pentru computere</strong>. Multe task-uri standard de benchmark in deep learning sunt forme de recunoastere a obiectelor sau caracterelor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Task-uri de Computer Vision</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">🖼️</div>
+                                    <strong style="color: var(--accent);">Object Recognition</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Ce obiect e in imagine?</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">🔤</div>
+                                    <strong style="color: var(--success);">OCR</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Recunoastere caractere optice</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">👤</div>
+                                    <strong style="color: var(--warning);">Face Recognition</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Identificare persoane</p>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 2rem;">🔊</div>
+                                    <strong style="color: var(--primary);">Novel Tasks</strong>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 5px;">Ex: Sunet din vibratii video</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Computer Vision cu DL</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul class="reference-list">
+                                <li class="reference-item"><span>📄</span><div><strong>Ballard et al. (1983)</strong> - Computer vision traditional</div></li>
+                                <li class="reference-item"><span>📄</span><div><strong>Davis et al. (2014)</strong> - Recunoasterea sunetului din vibratii vizibile in video - o noua categorie de abilitati vizuale!</div></li>
+                            </ul>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                Computer vision cuprinde o diversitate uimitoare de aplicatii - de la reproducerea abilitatilor vizuale umane (recunoasterea fetelor) la crearea de abilitati complet noi (extragerea audio din video).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
