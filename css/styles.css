@@ -452,13 +452,15 @@ body {
 }
 
 .section-tab.open .section-content {
-    max-height: 1000px;
+    max-height: 2000px;
+    overflow-y: auto;
 }
 
 .section-body {
     padding: 20px;
     background: var(--bg-card);
     border-top: 1px solid var(--border);
+    overflow-x: auto;
 }
 
 /* Simulation Canvas */
@@ -776,6 +778,26 @@ body {
 
     .progress-container {
         left: 0;
+    }
+
+    /* Scrollable sections on mobile */
+    .section-tab.open .section-content {
+        max-height: 70vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .section-body {
+        padding: 15px;
+    }
+
+    /* Make grids stack on mobile */
+    .section-body [style*="grid-template-columns"] {
+        display: block !important;
+    }
+
+    .section-body [style*="grid-template-columns"] > div {
+        margin-bottom: 10px;
     }
 }
 
