@@ -123,7 +123,7 @@ print(f"Compresie: {784/32:.1f}x")
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Autoencodere Moderne si Stocastice</h4>
-                <p>Autoencoderele moderne au generalizat ideea de la functii deterministe la <strong>mapari stocastice</strong>: p_encoder(h|x) si p_decoder(x|h). Istoric, autoencoderele au fost folosite pentru reducerea dimensionalitatii si invatarea caracteristicilor. Recent, conexiunile teoretice cu modelele cu variabile latente le-au adus in prim-planul <strong>modelarii generative</strong>. Pot fi antrenate cu gradient descent si backpropagation, sau cu <strong>recirculation</strong> - un algoritm bazat pe compararea activarilor pe input original vs. reconstruit.</p>
+                <p>Autoencoderele moderne au generalizat ideea de la functii deterministe la <strong>mapari stocastice</strong>: p<sub>encoder</sub>(h|x) si p<sub>decoder</sub>(x|h). Istoric, autoencoderele au fost folosite pentru reducerea dimensionalitatii si invatarea caracteristicilor. Recent, conexiunile teoretice cu modelele cu variabile latente le-au adus in prim-planul <strong>modelarii generative</strong>. Pot fi antrenate cu gradient descent si backpropagation, sau cu <strong>recirculation</strong> - un algoritm bazat pe compararea activarilor pe input original vs. reconstruit.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
@@ -143,6 +143,75 @@ print(f"Compresie: {784/32:.1f}x")
                                 <div>Hinton & Zemel - autoencodere pentru features</div>
                                 <div style="background: var(--secondary); padding: 8px 12px; border-radius: 4px;">2006+</div>
                                 <div>Deep autoencodere, VAE, modele generative</div>
+                                <div style="background: var(--accent); padding: 8px 12px; border-radius: 4px;">2020+</div>
+                                <div>VQ-VAE, diffusion models, autoencodere in LLMs</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Recirculation vs Backprop</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Comparatie conceptuala: Backprop vs Recirculation
+
+# BACKPROPAGATION (standard)
+# - Calculeaza gradient prin lant de derivate
+# - Necesita diferentiabilitate end-to-end
+def backprop_update(model, x, optimizer):
+    h = model.encoder(x)
+    r = model.decoder(h)
+    loss = mse(x, r)
+    loss.backward()  # Gradient prin tot graful
+    optimizer.step()
+
+# RECIRCULATION (biologic plauzibil)
+# - Compara activari pe input original vs reconstruit
+# - Nu necesita propagare inversa explicita
+def recirculation_update(model, x, lr=0.01):
+    # Faza 1: activari pe input original
+    h_orig = model.encoder(x)
+
+    # Faza 2: reconstruieste si re-encodeaza
+    r = model.decoder(h_orig)
+    h_recon = model.encoder(r)
+
+    # Update: minimizeaza diferenta activarilor
+    # Delta_W proportional cu (h_orig - h_recon)
+    # Mai plauzibil biologic decat backprop!
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p><strong>De ce conteaza?</strong> Recirculation este considerat mai plauzibil biologic decat backpropagation, dar backprop ramane dominant in practica datorita eficientei.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Context Modern: Autoencodere in 2024</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: linear-gradient(135deg, var(--primary), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Stable Diffusion / DALL-E</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Folosesc VAE pentru a comprima imagini in spatiu latent unde opereaza diffusion model</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--secondary), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>VQ-VAE / VQ-GAN</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Autoencodere cu coduri discrete - baza pentru generarea de imagini de inalta calitate</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--accent), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Masked Autoencoders (MAE)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Pre-training pentru Vision Transformers - mascheaza patch-uri si reconstruieste</p>
+                                </div>
                             </div>
                         </div>
                     </div>

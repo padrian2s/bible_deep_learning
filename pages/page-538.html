@@ -78,6 +78,27 @@ def psd_training_step(x, encoder, decoder, h, lambda_sparse, gamma):
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Tied Weights & Deep CAE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Problema Scalarii</h5>
+                                <p>Fara constrangeri, CAE poate "trapeze": encoder scaleaza cu ε, decoder cu 1/ε → Jacobian → 0 fara a invata nimic!</p>
+                                <p style="margin-top: 10px;"><strong>Solutie:</strong> Tied weights - decoder W' = W<sup>T</sup></p>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Deep CAE</h5>
+                                <p>Penalizarea Jacobianului este O(hidden × input²) - costisitoare pentru deep networks!</p>
+                                <p style="margin-top: 10px;"><strong>Solutie (Rifai et al.):</strong> Antreneaza CAE single-layer in cascada, apoi compune pentru deep CAE.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

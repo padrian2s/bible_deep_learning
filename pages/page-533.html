@@ -46,6 +46,67 @@
                 <h4>Invatare Non-Parametrica vs Parametrica</h4>
                 <p>Cercetarea initiala in manifold learning s-a concentrat pe metode <strong>non-parametrice</strong> bazate pe <strong>graful nearest-neighbor</strong>. Acestea asociaza fiecare punct de antrenament cu un vector de coordonate (embedding). Metodele parametrice precum autoencoderele invata o <strong>functie encoder</strong> care poate mapa orice punct, nu doar cele de antrenament.</p>
             </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>DAE/CAE: Derivata Mica la Date</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# DAE si CAE forteaza derivata r(x) sa fie mica IN JURUL datelor
+# dar poate fi mare INTRE punctele de date
+
+import torch
+
+def reconstruction_derivative(model, x, eps=0.01):
+    """
+    Calculeaza derivata reconstructiei in jurul lui x
+    """
+    x.requires_grad = True
+    r = model(x)
+    # Derivata r in raport cu x
+    dr_dx = torch.autograd.grad(r.sum(), x)[0]
+    return dr_dx.norm()
+
+# La punctele de date: dr/dx ≈ 0 (plat)
+# Intre manifold-uri: dr/dx mare (proiecteaza pe manifold)
+
+# DAE: forteaza implicit derivata mica prin antrenare pe zgomot
+# CAE: forteaza explicit ||∇_x h||² mic prin penalizare
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Reconstructie Step</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="text-align: center; margin-bottom: 15px;">Functia de reconstructie optimala:</p>
+                                <div style="height: 100px; position: relative; margin: 20px 0;">
+                                    <div style="position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: var(--text-secondary); opacity: 0.3;"></div>
+                                    <div style="position: absolute; left: 0; right: 0; bottom: 0; top: 0; background: linear-gradient(to right, transparent 10%, var(--success) 10%, var(--success) 20%, transparent 20%, transparent 40%, var(--success) 40%, var(--success) 60%, transparent 60%, transparent 80%, var(--success) 80%, var(--success) 90%, transparent 90%); opacity: 0.3;"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-around; font-size: 0.9rem;">
+                                    <span style="color: var(--success);">x₀ (data)</span>
+                                    <span style="color: var(--text-secondary);">gap</span>
+                                    <span style="color: var(--success);">x₁ (data)</span>
+                                    <span style="color: var(--text-secondary);">gap</span>
+                                    <span style="color: var(--success);">x₂ (data)</span>
+                                </div>
+                                <p style="text-align: center; margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">r(x) = constant in jurul datelor, tranzitii rapide intre</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

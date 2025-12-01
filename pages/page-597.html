@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">597</div>
         <div class="page-title">
-            <h3>Gibbs Sampling pentru MRF</h3>
-            <span>Capitolul 16 - Sectiunea 16.3 (continuare)</span>
+            <h3>Gibbs Sampling si Avantajele Modelarii Structurate</h3>
+            <span>Capitolul 16 - Sectiunile 16.3-16.4</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,40 +13,151 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Sampling din Modele Nedirectionate</h4>
-                <p>Pentru MRF-uri, sampling-ul direct nu este posibil din cauza partition function-ului intractabil. Folosim metode <strong>MCMC</strong> (Markov Chain Monte Carlo), in special <strong>Gibbs sampling</strong>: iteram prin variabile si re-sample-uim fiecare din distributia conditionala date toate celelalte.</p>
+                <h4>Gibbs Sampling pentru Modele Nedirectionate</h4>
+                <p>Pentru MRF-uri (Markov Random Fields) si modele nedirectionate, sampling-ul direct nu este posibil din cauza <strong>partition function</strong>-ului intractabil Z. Folosim metode <strong>MCMC</strong> (Markov Chain Monte Carlo), in special <strong>Gibbs sampling</strong>: iteram prin variabile si re-sample-uim fiecare din distributia conditionala P(xi | x-i).</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Gibbs Sampling</span>
+                        <span>Simulare: Gibbs Sampling pentru Ising Model</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-def gibbs_sampling(mrf, num_samples, burn_in=1000):
+import torch
+import numpy as np
+
+class IsingModelGibbs:
     """
-    Gibbs sampling pentru MRF
+    Gibbs sampling pentru modelul Ising 2D
+    E(x) = -J * sum_{i,j vecini} x_i * x_j - h * sum_i x_i
     """
-    # Initializare aleatoare
-    state = random_init(mrf.variables)
-    samples = []
+    def __init__(self, size, J=1.0, h=0.0, beta=1.0):
+        self.size = size
+        self.J = J
+        self.h = h
+        self.beta = beta
+        self.state = np.random.choice([-1, 1], size=(size, size))
 
-    for t in range(burn_in + num_samples):
-        # Iteram prin variabile
-        for var in mrf.variables:
-            # P(var | toate celelalte)
-            neighbors = mrf.markov_blanket(var)
-            state[var] = sample_conditional(
-                var, state, neighbors
-            )
+    def get_neighbors(self, i, j):
+        neighbors = []
+        for di, dj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            ni, nj = (i + di) % self.size, (j + dj) % self.size
+            neighbors.append(self.state[ni, nj])
+        return neighbors
 
-        if t >= burn_in:
-            samples.append(state.copy())
+    def gibbs_step(self):
+        """Un pas complet de Gibbs (toate variabilele)"""
+        for i in range(self.size):
+            for j in range(self.size):
+                neighbors = self.get_neighbors(i, j)
+                neighbor_sum = sum(neighbors)
 
-    return samples
+                delta_E_flip = 2 * self.state[i, j] * (self.J * neighbor_sum + self.h)
+
+                p_flip = 1.0 / (1.0 + np.exp(self.beta * delta_E_flip))
+
+                if np.random.random() < p_flip:
+                    self.state[i, j] *= -1
+
+        return self.state.copy()
+
+    def sample(self, n_samples, burn_in=1000):
+        for _ in range(burn_in):
+            self.gibbs_step()
+
+        samples = []
+        for _ in range(n_samples):
+            samples.append(self.gibbs_step())
+        return samples
+
+    def magnetization(self):
+        return np.mean(self.state)
+
+ising = IsingModelGibbs(size=20, J=1.0, beta=0.5)
+samples = ising.sample(100, burn_in=500)
+print(f"Magnetizare medie: {np.mean([np.mean(s) for s in samples]):.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tranzitie de Faza Ising</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">T mare (dezordonat)</strong>
+                                    <div style="margin: 10px 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; width: fit-content; margin: 10px auto;">
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                    </div>
+                                    <p style="font-size: 0.8rem;">M ~ 0</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--secondary);">T = Tc (critic)</strong>
+                                    <div style="margin: 10px 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; width: fit-content; margin: 10px auto;">
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                    </div>
+                                    <p style="font-size: 0.8rem;">Clustere</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">T mic (ordonat)</strong>
+                                    <div style="margin: 10px 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; width: fit-content; margin: 10px auto;">
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: white;"></div>
+                                        <div style="width: 12px; height: 12px; background: black;"></div>
+                                    </div>
+                                    <p style="font-size: 0.8rem;">M ~ +1 sau -1</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,14 +165,87 @@ def gibbs_sampling(mrf, num_samples, burn_in=1000):
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>MCMC vs Exact</span>
+                        <span>De Ce Functioneaza Gibbs?</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <p><strong>Avantaj:</strong> Nu necesita calculul lui Z</p>
-                                <p><strong>Dezavantaj:</strong> Sample-urile sunt corelate, necesita burn-in, convergenta poate fi lenta</p>
+                                <p><strong>Proprietatea Markov:</strong> In MRF, P(xi | x-i) = P(xi | neighbors(xi))</p>
+                                <p style="margin-top: 10px;">Nu avem nevoie de Z pentru a calcula conditionala:</p>
+                                <div class="formula" style="background: var(--bg-dark); padding: 10px; border-radius: 5px; margin: 10px 0;">
+                                    P(xi | x-i) = exp(-E(..., xi, ...)) / [exp(-E(..., xi=0, ...)) + exp(-E(..., xi=1, ...))]
+                                </div>
+                                <p style="color: var(--success);">Z se anuleaza in normalizare!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>16.4 Advantages of Structured Modeling</h4>
+                <p>Avantajul principal al modelelor probabilistice structurate este reducerea dramatica a <strong>costului reprezentarii</strong>. O distributie peste n variabile binare necesita 2^n parametri pentru reprezentare completa. Cu structura (independente conditionate), putem reduce la O(n) sau O(n^2) parametri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie Complexitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                                    <tr style="border-bottom: 1px solid var(--text-secondary);">
+                                        <th style="padding: 10px;">Model</th>
+                                        <th style="padding: 10px;">Parametri</th>
+                                        <th style="padding: 10px;">n=100</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px;">Tabel complet</td>
+                                        <td style="padding: 10px;">2^n</td>
+                                        <td style="padding: 10px; color: var(--warning);">10^30</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px;">Fully connected MRF</td>
+                                        <td style="padding: 10px;">O(n^2)</td>
+                                        <td style="padding: 10px; color: var(--secondary);">10,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px;">Chain (HMM)</td>
+                                        <td style="padding: 10px;">O(n)</td>
+                                        <td style="padding: 10px; color: var(--success);">100</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px;">Tree</td>
+                                        <td style="padding: 10px;">O(n)</td>
+                                        <td style="padding: 10px; color: var(--success);">99</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Separarea Cunoasterii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Modularitate:</strong> Putem separa reprezentarea cunoasterii (structura grafului) de algoritmii de inferenta si invatare.</p>
+                                <p style="margin-top: 10px;">Aceeasi structura de graf poate fi folosita cu:</p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Diferite algoritmi de inferenta (BP, variational, MCMC)</li>
+                                    <li>Diferiti parametri (invatati din date diferite)</li>
+                                    <li>Diferite interogari (marginals, MAP, conditionale)</li>
+                                </ul>
                             </div>
                         </div>
                     </div>

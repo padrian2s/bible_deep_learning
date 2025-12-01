@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">595</div>
         <div class="page-title">
-            <h3>Factor Graphs - Exemple</h3>
-            <span>Capitolul 16 - Figura 16.13</span>
+            <h3>Factor Graphs si Sampling din Modele Grafice</h3>
+            <span>Capitolul 16 - Sectiunile 16.2.6-16.3</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,30 +13,152 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Figura 16.13: Ambiguitate Rezolvata cu Factor Graphs</h4>
-                <p>Un graf nedirectionat cu clique {a,b,c} poate corespunde mai multor factorizari: un singur factor f(a,b,c) sau factori separati f₁(a,b), f₂(b,c), f₃(a,c). Factor graph-ul elimina aceasta ambiguitate reprezentand explicit fiecare factor ca nod separat.</p>
+                <h4>Factor Graphs: Rezolvarea Ambiguitatii</h4>
+                <p>Un graf nedirectionat cu o clica {a,b,c} poate corespunde mai multor factorizari diferite: un singur factor f(a,b,c), sau factori separati f1(a,b), f2(b,c), f3(a,c). <strong>Factor graphs</strong> elimina aceasta ambiguitate reprezentand explicit fiecare factor ca un nod separat (patrat), conectat la variabilele (cercuri) de care depinde.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>Trei Reprezentari</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Factor Graph in PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; text-align: center;">
-                                    <strong style="color: var(--primary);">Un factor</strong>
-                                    <p style="font-size: 0.85rem; margin-top: 5px;">f(a,b,c)</p>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class FactorGraph:
+    """
+    Factor Graph representation pentru modele probabilistice
+    """
+    def __init__(self):
+        self.variables = {}
+        self.factors = {}
+        self.edges = []
+
+    def add_variable(self, name, dim):
+        self.variables[name] = {'dim': dim, 'value': None}
+
+    def add_factor(self, name, variables, potential_fn):
+        """
+        potential_fn: functia phi(x_1, ..., x_k) nenormalizata
+        """
+        self.factors[name] = {
+            'variables': variables,
+            'potential': potential_fn
+        }
+        for var in variables:
+            self.edges.append((name, var))
+
+    def compute_unnormalized_prob(self, assignment):
+        """
+        Calculeaza produsul factorilor pentru o asignare
+        """
+        log_prob = 0.0
+        for fname, factor in self.factors.items():
+            var_values = [assignment[v] for v in factor['variables']]
+            log_prob += torch.log(factor['potential'](*var_values))
+        return torch.exp(log_prob)
+
+fg = FactorGraph()
+fg.add_variable('a', 2)
+fg.add_variable('b', 2)
+fg.add_variable('c', 2)
+
+phi_abc = lambda a, b, c: torch.exp(-((a-b)**2 + (b-c)**2 + (a-c)**2))
+fg.add_factor('f_abc', ['a', 'b', 'c'], phi_abc)
+
+assignment = {'a': torch.tensor(1.0), 'b': torch.tensor(1.0), 'c': torch.tensor(1.0)}
+print(f"Unnormalized P(a=1,b=1,c=1) = {fg.compute_unnormalized_prob(assignment):.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Trei Reprezentari Echivalente</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">Undirected Graph</strong>
+                                    <div style="margin: 15px 0; display: flex; justify-content: center;">
+                                        <svg width="100" height="80">
+                                            <circle cx="50" cy="15" r="12" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="50" y="19" text-anchor="middle" fill="var(--text)" font-size="12">a</text>
+                                            <circle cx="20" cy="65" r="12" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="20" y="69" text-anchor="middle" fill="var(--text)" font-size="12">b</text>
+                                            <circle cx="80" cy="65" r="12" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="80" y="69" text-anchor="middle" fill="var(--text)" font-size="12">c</text>
+                                            <line x1="50" y1="27" x2="20" y2="53" stroke="var(--text-secondary)" stroke-width="1"/>
+                                            <line x1="50" y1="27" x2="80" y2="53" stroke="var(--text-secondary)" stroke-width="1"/>
+                                            <line x1="32" y1="65" x2="68" y2="65" stroke="var(--text-secondary)" stroke-width="1"/>
+                                        </svg>
+                                    </div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Clica {a,b,c} - ambigua!</p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; text-align: center;">
-                                    <strong style="color: var(--secondary);">Trei factori</strong>
-                                    <p style="font-size: 0.85rem; margin-top: 5px;">f₁·f₂·f₃</p>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--secondary);">Factor Graph (1 factor)</strong>
+                                    <div style="margin: 15px 0; display: flex; justify-content: center;">
+                                        <svg width="100" height="80">
+                                            <rect x="40" y="25" width="20" height="20" fill="var(--secondary)" rx="2"/>
+                                            <text x="50" y="39" text-anchor="middle" fill="white" font-size="10">f</text>
+                                            <circle cx="20" cy="10" r="10" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="20" y="14" text-anchor="middle" fill="var(--text)" font-size="10">a</text>
+                                            <circle cx="80" cy="10" r="10" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="80" y="14" text-anchor="middle" fill="var(--text)" font-size="10">b</text>
+                                            <circle cx="50" cy="70" r="10" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="50" y="74" text-anchor="middle" fill="var(--text)" font-size="10">c</text>
+                                            <line x1="40" y1="30" x2="28" y2="18" stroke="var(--text-secondary)" stroke-width="1"/>
+                                            <line x1="60" y1="30" x2="72" y2="18" stroke="var(--text-secondary)" stroke-width="1"/>
+                                            <line x1="50" y1="45" x2="50" y2="60" stroke="var(--text-secondary)" stroke-width="1"/>
+                                        </svg>
+                                    </div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">f(a,b,c) explicit</p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; text-align: center;">
-                                    <strong style="color: var(--accent);">Mixt</strong>
-                                    <p style="font-size: 0.85rem; margin-top: 5px;">f₁(a,b,c)·f₂(b)</p>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">Factor Graph (3 factori)</strong>
+                                    <div style="margin: 15px 0; display: flex; justify-content: center;">
+                                        <svg width="100" height="80">
+                                            <rect x="30" y="5" width="15" height="15" fill="var(--accent)" rx="2"/>
+                                            <rect x="55" y="5" width="15" height="15" fill="var(--accent)" rx="2"/>
+                                            <rect x="42" y="55" width="15" height="15" fill="var(--accent)" rx="2"/>
+                                            <circle cx="10" cy="40" r="10" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="10" y="44" text-anchor="middle" fill="var(--text)" font-size="10">a</text>
+                                            <circle cx="50" cy="40" r="10" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="50" y="44" text-anchor="middle" fill="var(--text)" font-size="10">b</text>
+                                            <circle cx="90" cy="40" r="10" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                                            <text x="90" y="44" text-anchor="middle" fill="var(--text)" font-size="10">c</text>
+                                        </svg>
+                                    </div>
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary);">f1(a,b), f2(b,c), f3(a,c)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context Modern: Probabilistic Graphical Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <strong>pgmpy</strong> - biblioteca Python pentru modele grafice probabilistice
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Pyro/NumPyro</strong> - probabilistic programming cu factor graphs
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Message Passing Neural Networks</strong> - GNNs care opereaza pe factor graphs
                                 </div>
                             </div>
                         </div>
@@ -48,7 +170,133 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>16.3 Sampling from Graphical Models</h4>
-                <p>Modelele grafice faciliteaza si task-ul de <strong>sampling</strong> - generarea de exemple din distributie. In modele directionate, <strong>ancestral sampling</strong> este simplu si eficient: sortam variabilele topologic si le sample-uim in ordine, conditionand pe valorile deja generate.</p>
+                <p>Modelele grafice faciliteaza si task-ul de <strong>sampling</strong> - generarea de exemple din distributia modelata. Pentru modele <strong>directionate</strong>, <strong>ancestral sampling</strong> este o procedura simpla si eficienta: sortam variabilele in ordine topologica si sample-uim fiecare din distributia sa conditionala.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Ancestral Sampling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.distributions as dist
+
+class BayesianNetwork:
+    """
+    Bayesian Network cu ancestral sampling
+    """
+    def __init__(self):
+        self.nodes = []
+        self.parents = {}
+        self.conditionals = {}
+
+    def add_node(self, name, parents, conditional_fn):
+        """
+        conditional_fn: functie care returneaza distributia P(node | parents)
+        """
+        self.nodes.append(name)
+        self.parents[name] = parents
+        self.conditionals[name] = conditional_fn
+
+    def topological_sort(self):
+        visited = set()
+        order = []
+
+        def dfs(node):
+            if node in visited:
+                return
+            visited.add(node)
+            for parent in self.parents[node]:
+                dfs(parent)
+            order.append(node)
+
+        for node in self.nodes:
+            dfs(node)
+        return order
+
+    def ancestral_sample(self, n_samples=1):
+        """
+        Genereaza samples prin ancestral sampling
+        """
+        order = self.topological_sort()
+        samples = {node: [] for node in self.nodes}
+
+        for _ in range(n_samples):
+            current = {}
+            for node in order:
+                parent_vals = {p: current[p] for p in self.parents[node]}
+                distribution = self.conditionals[node](parent_vals)
+                current[node] = distribution.sample()
+
+            for node in self.nodes:
+                samples[node].append(current[node])
+
+        return {k: torch.stack(v) for k, v in samples.items()}
+
+bn = BayesianNetwork()
+bn.add_node('rain', [], lambda _: dist.Bernoulli(0.2))
+bn.add_node('sprinkler', ['rain'],
+            lambda p: dist.Bernoulli(0.01 if p['rain'] > 0.5 else 0.4))
+bn.add_node('wet_grass', ['rain', 'sprinkler'],
+            lambda p: dist.Bernoulli(0.99 if p['rain'] > 0.5 or p['sprinkler'] > 0.5 else 0.0))
+
+samples = bn.ancestral_sample(1000)
+print(f"P(rain) empiric = {samples['rain'].mean():.3f}")
+print(f"P(wet_grass) empiric = {samples['wet_grass'].mean():.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Ordinea Topologica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 30px;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">x1</div>
+                                        <p style="font-size: 0.8rem; margin-top: 5px;">Sample first</p>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--text-secondary);">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--secondary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">x2</div>
+                                        <p style="font-size: 0.8rem; margin-top: 5px;">P(x2|x1)</p>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--text-secondary);">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">x3</div>
+                                        <p style="font-size: 0.8rem; margin-top: 5px;">P(x3|x1,x2)</p>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; color: var(--success);">Complexitate: O(n) pentru n variabile!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Moderne</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Autoregressive Models</strong> (GPT, PixelCNN) sunt exact ancestral sampling!</p>
+                                <p style="margin-top: 10px;">P(x1, x2, ..., xn) = P(x1)P(x2|x1)P(x3|x1,x2)...P(xn|x1,...,xn-1)</p>
+                                <p style="margin-top: 10px; color: var(--accent);">Transformers genereaza token cu token = ancestral sampling din DAG cu structura de lant.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

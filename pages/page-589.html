@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">589</div>
         <div class="page-title">
-            <h3>Algoritm D-Separation</h3>
+            <h3>Algoritmul D-Separation</h3>
             <span>Capitolul 16 - Figura 16.8</span>
         </div>
     </div>
@@ -13,35 +13,163 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Figura 16.8: Exemple D-Separation</h4>
-                <p>Pentru a verifica daca A ⊥ B | C (A independent de B dat C), verificam toate caile intre A si B. O cale este blocata de C daca: (1) contine un chain sau fork cu nodul mijlociu in C, sau (2) contine un collider unde nici coliderul nici descendentii sai nu sunt in C.</p>
+                <h4>Figura 16.8: Algoritmul D-Separation</h4>
+                <p>Pentru a verifica daca A _|_ B | C (A independent de B dat C), verificam toate caile intre A si B. O cale este blocata de C daca: (1) contine un chain sau fork cu nodul mijlociu in C, sau (2) contine un collider unde nici collider-ul nici descendentii sai nu sunt in C. Daca TOATE caile sunt blocate, atunci A si B sunt d-separate.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Algoritm D-Sep</span>
+                        <span>Simulare: Algoritm D-Separation Complet</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-def is_d_separated(A, B, C, graph):
+from collections import deque
+
+def d_separated(graph, start, end, observed):
     """
-    Verifica daca A si B sunt d-separate dat C
+    Verifica d-separation folosind BFS pe cai active.
+    graph: dict {node: {'parents': [...], 'children': [...]}}
+    observed: set de noduri observate
     """
-    # Pentru fiecare cale intre A si B
-    for path in all_paths(A, B, graph):
-        blocked = False
-        for triple in consecutive_triples(path):
-            if is_blocked(triple, C):
-                blocked = True
-                break
-        if not blocked:
-            # Exista cale activa => nu sunt d-sep
+    ancestors_of_observed = set()
+    queue = deque(observed)
+    while queue:
+        node = queue.popleft()
+        if node not in ancestors_of_observed:
+            ancestors_of_observed.add(node)
+            for parent in graph.get(node, {}).get('parents', []):
+                queue.append(parent)
+
+    visited = set()
+    active = deque([(start, 'up')])
+
+    while active:
+        node, direction = active.popleft()
+        if (node, direction) in visited:
+            continue
+        visited.add((node, direction))
+
+        if node == end:
             return False
-    # Toate caile blocate => d-separated
+
+        if direction == 'up':
+            if node not in observed:
+                for parent in graph.get(node, {}).get('parents', []):
+                    active.append((parent, 'up'))
+                for child in graph.get(node, {}).get('children', []):
+                    active.append((child, 'down'))
+            if node in ancestors_of_observed:
+                for parent in graph.get(node, {}).get('parents', []):
+                    active.append((parent, 'up'))
+        else:
+            if node not in observed:
+                for child in graph.get(node, {}).get('children', []):
+                    active.append((child, 'down'))
+            if node in ancestors_of_observed:
+                for parent in graph.get(node, {}).get('parents', []):
+                    active.append((parent, 'up'))
+
     return True
+
+graph = {
+    'a': {'parents': [], 'children': ['c']},
+    'b': {'parents': [], 'children': ['c']},
+    'c': {'parents': ['a', 'b'], 'children': ['d', 'e']},
+    'd': {'parents': ['c'], 'children': []},
+    'e': {'parents': ['c'], 'children': []},
+}
+
+print("Graf: a->c<-b, c->d, c->e")
+print()
+tests = [
+    ('a', 'b', set()),
+    ('a', 'b', {'c'}),
+    ('a', 'd', set()),
+    ('a', 'd', {'c'}),
+    ('d', 'e', set()),
+    ('d', 'e', {'c'}),
+]
+for start, end, obs in tests:
+    result = d_separated(graph, start, end, obs)
+    symbol = "_|_" if result else "NOT _|_"
+    print(f"{start} {symbol} {end} | {obs if obs else '{}'}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cai Active vs Blocate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Reguli pentru Cai Active/Blocate</h5>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                    <tr style="background: var(--bg-lighter);">
+                                        <th style="padding: 12px; border: 1px solid var(--bg-dark);">Structura</th>
+                                        <th style="padding: 12px; border: 1px solid var(--bg-dark);">Nod mijlociu neobservat</th>
+                                        <th style="padding: 12px; border: 1px solid var(--bg-dark);">Nod mijlociu observat</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter);">Chain: A -> B -> C</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--warning);">ACTIVA</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--success);">BLOCATA</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter);">Fork: A <- B -> C</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--warning);">ACTIVA</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--success);">BLOCATA</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter);">Collider: A -> B <- C</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--success);">BLOCATA</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--warning);">ACTIVA*</td>
+                                    </tr>
+                                </table>
+                                <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">
+                                    * Collider-ul activeaza calea si daca un DESCENDENT al collider-ului este observat!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Practice: Feature Selection si Causal Discovery</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>D-Separation in Machine Learning</h5>
+                                <p style="margin-top: 10px;">D-separation nu este doar teorie - are aplicatii practice importante in ML.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Feature Selection</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Daca X _|_ Y | S, atunci X nu aduce informatie noua despre Y daca stim S. Putem elimina X din model.
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong style="color: var(--secondary);">Causal Discovery</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Algoritmi ca PC, FCI folosesc teste de independenta conditionata pentru a descoperi structura cauzala din date.
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong style="color: var(--accent);">Attention in Transformers</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Masked attention in GPT creeaza un DAG implicit - token-ul curent depinde doar de cele anterioare (cauzalitate in timp).
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

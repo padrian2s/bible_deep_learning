@@ -86,6 +86,90 @@
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Comparatie Regularizari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Diverse tipuri de regularizare pentru autoencodere
+
+def sparse_loss(h, target_sparsity=0.05):
+    """L1 sparsity: penalizeaza activari non-zero"""
+    return torch.mean(torch.abs(h))
+
+def kl_sparsity(h, target=0.05):
+    """KL divergence sparsity (mai smooth)"""
+    rho_hat = torch.mean(h, dim=0)  # Activare medie per unitate
+    rho = torch.tensor(target)
+    kl = rho * torch.log(rho/rho_hat) + (1-rho) * torch.log((1-rho)/(1-rho_hat))
+    return torch.sum(kl)
+
+def contractive_loss(model, x, h):
+    """Penalizeaza norma Jacobianului encoderului"""
+    h.backward(torch.ones_like(h), retain_graph=True)
+    jacobian_norm = torch.sum(x.grad ** 2)
+    return jacobian_norm
+
+def denoising_corruption(x, noise_factor=0.3):
+    """Corupere pentru denoising AE"""
+    noise = torch.randn_like(x) * noise_factor
+    return x + noise
+
+# Loss total pentru regularized AE:
+# L_total = L_reconstruction + lambda * L_regularization
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conexiunea cu Modelele Generative</h4>
+                <p>Orice model generativ cu variabile latente si o procedura de inferenta poate fi vazut ca o forma de autoencoder. Doua abordari importante sunt descendentii <strong>Helmholtz machine</strong> (Hinton et al., 1995b), precum VAE, si <strong>generative stochastic networks</strong> (GSN). Aceste modele invata encodari overcomplete utile deoarece sunt antrenate sa aproximeze maximizeze probabilitatea datelor, nu doar sa copieze inputul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Helmholtz Machine → VAE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--primary); padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                            <strong>Recognition Network</strong><br>
+                                            <span style="font-size: 0.8rem;">q(h|x) - Encoder</span>
+                                        </div>
+                                        <div style="font-size: 2rem;">↑</div>
+                                        <div style="background: var(--accent); padding: 10px 20px; border-radius: 8px;">x (date)</div>
+                                    </div>
+                                    <div style="font-size: 2rem;">⟷</div>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                            <strong>Generative Network</strong><br>
+                                            <span style="font-size: 0.8rem;">p(x|h) - Decoder</span>
+                                        </div>
+                                        <div style="font-size: 2rem;">↓</div>
+                                        <div style="background: var(--success); padding: 10px 20px; border-radius: 8px;">x' (generat)</div>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; color: var(--text-secondary);">VAE optimizeaza ELBO = reconstructie - KL(q||prior)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

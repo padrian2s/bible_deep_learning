@@ -71,6 +71,47 @@
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Coordonate Locale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Cum autoencoderul invata coordonate locale pe manifold
+
+import torch
+import torch.nn as nn
+
+class ManifoldEncoder(nn.Module):
+    """
+    Encoder care invata coordonate pe manifold
+    """
+    def __init__(self, input_dim=784, manifold_dim=10):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, manifold_dim)
+        )
+
+    def forward(self, x):
+        # h = f(x) sunt "coordonate" pe manifold
+        h = self.encoder(x)
+        return h
+
+# Proprietati invatate:
+# 1. h se schimba cand x se misca PE manifold
+# 2. h ramane constant cand x se misca ORTOGONAL pe manifold
+# 3. h captureaza doar variatiile "semnificative" din date
+
+# Aceasta este esenta representarii pe manifold!
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

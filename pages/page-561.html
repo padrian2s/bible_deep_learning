@@ -56,6 +56,36 @@ print(f"Distribuit (20 features): {2**20:,} regiuni!")  # 1,048,576!
                 <h4>Exemple de Reprezentari Non-Distribuite</h4>
                 <p>Algoritmi care folosesc reprezentari <strong>non-distribuite</strong>: k-means (un cluster per input), k-nearest neighbors (templates discrete), decision trees (o frunza per regiune), Gaussian mixtures, n-gram language models. Aceste metode imparte spatiul in regiuni separate cu <strong>parametri independenti</strong> per regiune - nu partajeaza informatie intre regiuni vecine!</p>
             </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Modern: Word Embeddings & Transformers</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Reprezentari Distribuite in NLP</h5>
+                                <p>Revolutia in NLP a fost trecerea de la one-hot la distributed:</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                                    <div style="background: var(--warning); padding: 12px; border-radius: 8px; color: #000;">
+                                        <strong>One-hot (vechi)</strong>
+                                        <p style="font-size: 0.85rem;">"cat" = [0,0,1,0,0,...,0]</p>
+                                        <p style="font-size: 0.85rem;">50K dim, sparse, fara semantica</p>
+                                    </div>
+                                    <div style="background: var(--success); padding: 12px; border-radius: 8px; color: #000;">
+                                        <strong>Distributed (Word2Vec+)</strong>
+                                        <p style="font-size: 0.85rem;">"cat" = [0.2, -0.5, 0.8, ...]</p>
+                                        <p style="font-size: 0.85rem;">300 dim, dense, capteaza semantica</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--accent);">Transformers: fiecare token = 768-4096 features distribuite!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

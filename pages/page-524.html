@@ -63,7 +63,7 @@ class StackedAutoencoder:
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>14.4 Encodere si Decodere Stocastice</h4>
-                <p>Autoencoderele sunt retele feedforward si folosesc aceleasi functii de cost si unitati de output. Pentru designul unitatilor de output, definim o <strong>distributie de output</strong> p(y|x) si minimizam <strong>-log p(y|x)</strong>. Pentru autoencodere, x este si target. Decoderul produce parametrii distributiei p_decoder(x|h): unitati liniare pentru Gaussian (MSE), sigmoid pentru Bernoulli (binary cross-entropy), softmax pentru categorii discrete.</p>
+                <p>Autoencoderele sunt retele feedforward si folosesc aceleasi functii de cost si unitati de output. Pentru designul unitatilor de output, definim o <strong>distributie de output</strong> p(y|x) si minimizam <strong>-log p(y|x)</strong>. Pentru autoencodere, x este si target. Decoderul produce parametrii distributiei p<sub>decoder</sub>(x|h): unitati liniare pentru Gaussian (MSE), sigmoid pentru Bernoulli (binary cross-entropy), softmax pentru categorii discrete.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
@@ -78,15 +78,66 @@ class StackedAutoencoder:
                                 <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
                                     <strong>Date continue (imagini RGB):</strong>
                                     <p style="margin: 5px 0;">Output liniar + Gaussian → MSE loss</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">-log p(x|h) = ||x - μ(h)||² / 2σ²</p>
                                 </div>
                                 <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
                                     <strong>Date binare (imagini B/W):</strong>
                                     <p style="margin: 5px 0;">Sigmoid + Bernoulli → Binary CE loss</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">-log p(x|h) = -Σ[x log σ(h) + (1-x) log(1-σ(h))]</p>
                                 </div>
                                 <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
                                     <strong>Date categorice:</strong>
                                     <p style="margin: 5px 0;">Softmax + Multinomial → CE loss</p>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Diferite Output Distributions</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class FlexibleDecoder(nn.Module):
+    """
+    Decoder cu diferite distributii de output
+    """
+    def __init__(self, code_dim, output_dim, distribution='gaussian'):
+        super().__init__()
+        self.distribution = distribution
+        self.fc = nn.Linear(code_dim, 256)
+
+        if distribution == 'gaussian':
+            self.out_mu = nn.Linear(256, output_dim)
+            self.out_logvar = nn.Linear(256, output_dim)
+        elif distribution == 'bernoulli':
+            self.out = nn.Linear(256, output_dim)
+        elif distribution == 'categorical':
+            self.out = nn.Linear(256, output_dim)
+
+    def forward(self, h):
+        feat = F.relu(self.fc(h))
+        if self.distribution == 'gaussian':
+            mu = self.out_mu(feat)
+            logvar = self.out_logvar(feat)
+            return mu, logvar  # Permite sampling
+        elif self.distribution == 'bernoulli':
+            return torch.sigmoid(self.out(feat))
+        else:
+            return F.softmax(self.out(feat), dim=-1)
+
+# Loss corespunzatoare:
+# gaussian: MSE sau NLL Gaussian
+# bernoulli: F.binary_cross_entropy
+# categorical: F.cross_entropy
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">624</div>
         <div class="page-title">
-            <h3>CD vs SML/PCD</h3>
+            <h3>Persistent Contrastive Divergence (PCD)</h3>
             <span>Capitolul 18 - Sectiunea 18.2 (continuare)</span>
         </div>
     </div>
@@ -13,36 +13,342 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Persistent Contrastive Divergence (PCD)</h4>
-                <p><strong>PCD</strong> (sau Stochastic Maximum Likelihood - SML) mentine chain-uri MCMC <strong>persistente</strong> intre update-uri. In loc sa reinitializam de la date, continuam de unde am ramas. Aceasta permite chain-urilor sa mixeze mai bine si ofera un gradient mai bun.</p>
+                <h4>Persistent Contrastive Divergence / Stochastic Maximum Likelihood</h4>
+                <p><strong>PCD</strong> (Tieleman, 2008) sau echivalent <strong>SML</strong> (Younes, 1998) rezolva o problema a CD: in loc sa reinitializam chain-ul de la date la fiecare pas, mentinem chain-uri <strong>persistente</strong> intre update-uri. Acestea pot explora mai bine spatiul si ofera un gradient mai putin biased.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon reference">📚</div>
-                        <span>Comparatie CD vs PCD</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritm 18.3: PCD/SML</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--primary);">CD-k</strong>
-                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
-                                        <li>Init chain de la data</li>
-                                        <li>Bias catre data</li>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class PersistentContrastiveDivergence:
+    """
+    PCD/SML: Chain-uri persistente intre gradient steps
+
+    Avantaj: chain-urile au timp sa exploreze spatiul
+    Dezavantaj: daca modelul se schimba rapid, chain-urile devin "stale"
+    """
+    def __init__(self, rbm, n_chains, k=1):
+        self.rbm = rbm
+        self.k = k
+
+        self.persistent_chains = torch.bernoulli(
+            torch.rand(n_chains, rbm.W.shape[0])
+        )
+
+    def train_step(self, v_data):
+        batch_size = v_data.shape[0]
+
+        h_prob_pos, _ = self.rbm.sample_h_given_v(v_data)
+
+        v_neg = self.persistent_chains.clone()
+        for _ in range(self.k):
+            h_prob, h_sample = self.rbm.sample_h_given_v(v_neg)
+            v_prob, v_neg = self.rbm.sample_v_given_h(h_sample)
+
+        self.persistent_chains = v_neg.detach()
+
+        h_prob_neg, _ = self.rbm.sample_h_given_v(v_neg)
+
+        grad_W = (torch.einsum('bi,bj->ij', v_data, h_prob_pos) / batch_size -
+                  torch.einsum('bi,bj->ij', v_neg, h_prob_neg) / v_neg.shape[0])
+        grad_vb = v_data.mean(0) - v_neg.mean(0)
+        grad_hb = h_prob_pos.mean(0) - h_prob_neg.mean(0)
+
+        return {'W': grad_W, 'v_bias': grad_vb, 'h_bias': grad_hb}
+
+    def get_fantasy_particles(self):
+        """Returneaza chain-urile curente pentru vizualizare"""
+        return self.persistent_chains
+
+pcd = PersistentContrastiveDivergence(rbm, n_chains=100, k=1)
+grads = pcd.train_step(v_data)
+print(f"PCD: {pcd.persistent_chains.shape[0]} chain-uri persistente")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Comparatie: CD vs PCD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <h5 style="color: var(--primary); margin-bottom: 15px;">CD-k</h5>
+                                    <ul style="margin-left: 15px; line-height: 1.8;">
+                                        <li>Init chain de la <strong>date</strong></li>
+                                        <li>k pasi Gibbs</li>
+                                        <li>Bias catre date</li>
+                                        <li>Variance scazuta</li>
                                         <li>k=1 adesea suficient</li>
                                         <li>Simplu de implementat</li>
                                     </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong>Caz de utilizare:</strong> Training rapid, modele mici-medii
+                                    </div>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--secondary);">PCD/SML</strong>
-                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
-                                        <li>Chain-uri persistente</li>
-                                        <li>Gradient mai precis</li>
-                                        <li>Mixing mai bun</li>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <h5 style="color: var(--secondary); margin-bottom: 15px;">PCD/SML</h5>
+                                    <ul style="margin-left: 15px; line-height: 1.8;">
+                                        <li>Chain-uri <strong>persistente</strong></li>
+                                        <li>k pasi per update</li>
+                                        <li>Mai putin biased</li>
+                                        <li>Variance mai mare</li>
                                         <li>Necesita mai multi pasi</li>
+                                        <li>Risk: chains stale</li>
                                     </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong>Caz de utilizare:</strong> Calitate maxima, deep models
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Bias vs Variance</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Bias-Variance Trade-off in Gradient Estimation</h5>
+                                <p style="margin-top: 10px;"><strong>Berglund & Raiko (2013)</strong> au analizat experimental:</p>
+                                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                                    <li><strong>CD:</strong> Low variance, high bias - subestimeaza modul</li>
+                                    <li><strong>PCD:</strong> Higher variance, lower bias - mai corect asimptotic</li>
+                                    <li>Bias-ul CD vine din initializarea aproape de date</li>
+                                    <li>Variance PCD vine din chain-uri care wander independent</li>
+                                </ul>
+                            </div>
+                            <div style="margin-top: 20px; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                <p><strong>Carreira-Perpinan & Hinton (2005):</strong> CD converge la solutii diferite de ML exact, dar aceste solutii sunt adesea comparabile ca performanta pe task-uri downstream.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 18.1: Positive vs Negative Phase Vizualizata</h4>
+                <p>Figura ilustreaza cele doua forte in actiune. <strong>Stanga (positive):</strong> sample-am din date si "impingem in jos" energia acolo. <strong>Dreapta (negative):</strong> sample-am din model si "impingem in sus" energia acolo. Cand cele doua distributii se suprapun, fortele se echilibreaza.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Diagrama: Positive vs Negative Phase</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="text-align: center; font-weight: bold; color: var(--success); margin-bottom: 15px;">Positive Phase</div>
+                                    <div style="height: 120px; position: relative; background: linear-gradient(to bottom, var(--bg-lighter), var(--bg-dark)); border-radius: 8px; margin-bottom: 10px;">
+                                        <div style="position: absolute; bottom: 20%; left: 30%; width: 40%; height: 50%; background: rgba(46, 204, 113, 0.3); border-radius: 50%; border: 2px solid var(--success);"></div>
+                                        <div style="position: absolute; bottom: 25%; left: 35%; font-size: 0.8rem; color: var(--success);">p_data</div>
+                                        <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 1.5rem;">↓</div>
+                                        <div style="position: absolute; bottom: 10%; left: 35%; width: 8px; height: 8px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="position: absolute; bottom: 15%; left: 55%; width: 8px; height: 8px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="position: absolute; bottom: 20%; left: 45%; width: 8px; height: 8px; background: var(--success); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="font-size: 0.85rem; text-align: center;">Push down pe punctele din date</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="text-align: center; font-weight: bold; color: var(--warning); margin-bottom: 15px;">Negative Phase</div>
+                                    <div style="height: 120px; position: relative; background: linear-gradient(to bottom, var(--bg-lighter), var(--bg-dark)); border-radius: 8px; margin-bottom: 10px;">
+                                        <div style="position: absolute; bottom: 30%; left: 25%; width: 50%; height: 40%; background: rgba(52, 152, 219, 0.3); border-radius: 50%; border: 2px dashed var(--primary);"></div>
+                                        <div style="position: absolute; bottom: 35%; left: 30%; font-size: 0.8rem; color: var(--primary);">p_model</div>
+                                        <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 1.5rem;">↑</div>
+                                        <div style="position: absolute; bottom: 25%; left: 30%; width: 8px; height: 8px; background: var(--warning); border-radius: 50%;"></div>
+                                        <div style="position: absolute; bottom: 35%; left: 60%; width: 8px; height: 8px; background: var(--warning); border-radius: 50%;"></div>
+                                        <div style="position: absolute; bottom: 30%; left: 45%; width: 8px; height: 8px; background: var(--warning); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="font-size: 0.85rem; text-align: center;">Push up pe samples din model</p>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 20px;">
+                                <p><strong>Echilibru:</strong> Cand p_data = p_model, push-down-ul si push-up-ul se anuleaza perfect, gradientul devine 0, si training-ul s-a terminat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Vizualizare Training Dynamics</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import matplotlib.pyplot as plt
+import numpy as np
+
+def visualize_positive_negative_phase(rbm, v_data, pcd, n_steps=1000):
+    """
+    Vizualizeaza dinamica positive/negative phase in timpul training-ului
+    """
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+    pos_energies = []
+    neg_energies = []
+    recon_errors = []
+
+    for step in range(n_steps):
+        grads = pcd.train_step(v_data)
+
+        with torch.no_grad():
+            rbm.W += 0.01 * grads['W']
+            rbm.v_bias += 0.01 * grads['v_bias']
+            rbm.h_bias += 0.01 * grads['h_bias']
+
+        E_data = rbm.free_energy(v_data).mean().item()
+        E_model = rbm.free_energy(pcd.persistent_chains).mean().item()
+        pos_energies.append(E_data)
+        neg_energies.append(E_model)
+
+        h, _ = rbm.sample_h_given_v(v_data)
+        v_recon, _ = rbm.sample_v_given_h(h)
+        recon_errors.append(((v_data - v_recon)**2).mean().item())
+
+    axes[0, 0].plot(pos_energies, label='E(data)', color='green')
+    axes[0, 0].plot(neg_energies, label='E(model)', color='red')
+    axes[0, 0].set_xlabel('Training step')
+    axes[0, 0].set_ylabel('Free Energy')
+    axes[0, 0].legend()
+    axes[0, 0].set_title('Energy: Data vs Model')
+
+    gap = np.array(pos_energies) - np.array(neg_energies)
+    axes[0, 1].plot(gap, color='purple')
+    axes[0, 1].axhline(y=0, color='gray', linestyle='--')
+    axes[0, 1].set_xlabel('Training step')
+    axes[0, 1].set_ylabel('E(data) - E(model)')
+    axes[0, 1].set_title('Energy Gap (target: 0)')
+
+    axes[1, 0].plot(recon_errors, color='blue')
+    axes[1, 0].set_xlabel('Training step')
+    axes[1, 0].set_ylabel('MSE')
+    axes[1, 0].set_title('Reconstruction Error')
+
+    fantasy = pcd.persistent_chains[:16].view(16, 28, 28).detach().numpy()
+    for i in range(16):
+        ax = axes[1, 1].inset_axes([i%4*0.25, i//4*0.25, 0.24, 0.24])
+        ax.imshow(fantasy[i], cmap='gray')
+        ax.axis('off')
+    axes[1, 1].set_title('Fantasy Particles (Persistent Chains)')
+    axes[1, 1].axis('off')
+
+    plt.tight_layout()
+    return fig
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conexiune Moderna: Contrastive Learning</h4>
+                <p>Ideea de positive/negative phase reapare in <strong>contrastive learning</strong> modern (SimCLR, MoCo, CLIP). Acolo, "positive phase" inseamna sa aducem reprezentarile augmentarilor aceleiasi imagini aproape, iar "negative phase" inseamna sa departam reprezentarile imaginilor diferite.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: InfoNCE ca EBM Training</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+class InfoNCEasEBM:
+    """
+    InfoNCE loss poate fi vazut ca training EBM!
+
+    Energy: E(x, y) = -similarity(f(x), g(y))
+    Positive pairs: (x, augment(x)) - low energy desired
+    Negative pairs: (x, other_x) - high energy desired
+    """
+    def __init__(self, encoder, temperature=0.07):
+        self.encoder = encoder
+        self.temperature = temperature
+
+    def energy(self, x1, x2):
+        """Energia = negative similarity"""
+        z1 = F.normalize(self.encoder(x1), dim=-1)
+        z2 = F.normalize(self.encoder(x2), dim=-1)
+        return -torch.sum(z1 * z2, dim=-1) / self.temperature
+
+    def infonce_loss(self, x1, x2):
+        """
+        InfoNCE = Contrastive Divergence pentru aceasta energie!
+
+        x1, x2: doua augmentari ale aceluiasi batch
+        """
+        batch_size = x1.shape[0]
+
+        z1 = F.normalize(self.encoder(x1), dim=-1)
+        z2 = F.normalize(self.encoder(x2), dim=-1)
+
+        pos_sim = torch.sum(z1 * z2, dim=-1) / self.temperature
+
+        neg_sim = torch.mm(z1, z2.T) / self.temperature
+
+        labels = torch.arange(batch_size, device=x1.device)
+        loss = F.cross_entropy(neg_sim, labels)
+
+        return loss
+
+print("InfoNCE = Forma de Contrastive Divergence pentru EBM pe embedding space!")
+print("Positive phase: augmentari ale aceleiasi imagini")
+print("Negative phase: imagini diferite din batch")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: De la RBM la Transformers</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">SimCLR (Chen et al., 2020)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Contrastive learning cu augmentari - positive/negative pairs pe imagini</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">CLIP (Radford et al., 2021)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Contrastive image-text - energia intre imagini si descrieri</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--success);">Conexiunea fundamentala:</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Toate aceste metode sunt forme de training EBM! Diferenta e in ce definim ca "energie" si cum obtinem samples negative.</p>
                                 </div>
                             </div>
                         </div>

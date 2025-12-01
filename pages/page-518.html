@@ -119,6 +119,82 @@ loss_fn = nn.MSELoss()
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Compresie vs Calitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="text-align: center; margin-bottom: 15px;"><strong>Trade-off: Dimensiune Cod vs Reconstructie</strong></p>
+                                <div style="display: flex; align-items: end; justify-content: space-around; height: 150px; padding: 0 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--success); width: 40px; height: 140px; border-radius: 4px 4px 0 0;"></div>
+                                        <span style="font-size: 0.8rem;">784→32</span>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--primary); width: 40px; height: 100px; border-radius: 4px 4px 0 0;"></div>
+                                        <span style="font-size: 0.8rem;">784→16</span>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--secondary); width: 40px; height: 60px; border-radius: 4px 4px 0 0;"></div>
+                                        <span style="font-size: 0.8rem;">784→8</span>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--warning); width: 40px; height: 30px; border-radius: 4px 4px 0 0;"></div>
+                                        <span style="font-size: 0.8rem;">784→2</span>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Inaltime = calitate reconstructie. Cod mai mic = mai multa compresie, dar pierdere de informatie.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Capacitatii Excesive</h4>
+                <p>Daca encoderul si decoderul au <strong>prea multa capacitate</strong>, autoencoderul poate invata sa copieze inputul fara a extrage informatii utile. Un encoder neliniar foarte puternic ar putea asocia fiecare exemplu x<sup>(i)</sup> cu un cod unic i, iar decoderul ar mapa inapoi i la x<sup>(i)</sup>. Aceasta nu este o problema in practica, dar ilustreaza de ce trebuie <strong>constrans</strong> autoencoderul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Demonstratie: Memorare vs Generalizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Problema: Encoder prea puternic poate memora
+
+import torch
+import torch.nn as nn
+
+class OverpoweredEncoder(nn.Module):
+    """Encoder care poate memora perfect"""
+    def __init__(self, n_samples):
+        super().__init__()
+        # Un lookup table - fiecare sample primeste cod unic
+        self.lookup = nn.Embedding(n_samples, 1)
+        self.sample_to_idx = {}  # Memoreaza maparea
+
+    def forward(self, x, idx):
+        # Returneaza cod unic per sample (nu invata nimic util!)
+        return self.lookup(idx)
+
+# Solutie: Constrangem capacitatea
+# 1. Bottleneck (undercomplete)
+# 2. Regularizare (sparse, denoising, contractive)
+# 3. Noise injection
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

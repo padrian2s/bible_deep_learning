@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">623</div>
         <div class="page-title">
-            <h3>Contrastive Divergence</h3>
+            <h3>Stochastic Maximum Likelihood & Contrastive Divergence</h3>
             <span>Capitolul 18 - Sectiunea 18.2</span>
         </div>
     </div>
@@ -13,36 +13,287 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>18.2 Stochastic Maximum Likelihood and Contrastive Divergence</h4>
-                <p><strong>Contrastive Divergence (CD)</strong> este o aproximare populara pentru antrenarea EBM-urilor. In loc sa rulam MCMC pana la convergenta, pornim chain-ul de la datele de training si rulam doar <strong>k pasi</strong> (de obicei k=1). Aceasta ofera un gradient biased dar functional.</p>
+                <h4>18.2 Stochastic Maximum Likelihood si Contrastive Divergence</h4>
+                <p>Metoda naiva pentru negative phase: rulam MCMC pana la convergenta la fiecare pas de gradient. Problema: <strong>burn-in</strong> este extrem de costisitor! <strong>Contrastive Divergence (CD)</strong> ofera o alternativa practica: initializam chain-ul de la date si rulam doar <strong>k pasi</strong> (de obicei k=1). Rezultatul: gradient biased dar functional.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Algoritm CD-k</span>
+                        <span>Algoritm 18.1: MCMC Naiv</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept" style="margin-bottom: 15px;">
+                                <h5>Algorithm 18.1 - MCMC Naiv pentru ML</h5>
+                                <p style="margin-top: 10px; color: var(--warning);">Costisitor dar corect - punctul de plecare pentru intelegerea aproximarilor</p>
+                            </div>
+                            <div class="code-block">
+import torch
+import torch.nn.functional as F
+
+def naive_mcmc_ml_training(rbm, data_loader, lr=0.01, n_gibbs=100, epochs=10):
+    """
+    Algorithm 18.1: Antrenare ML naiva cu MCMC complet
+
+    Problema: n_gibbs=100+ pasi la FIECARE gradient step!
+    Pentru MNIST cu 784 dim, aceasta e MULT prea lent.
+    """
+    optimizer = torch.optim.SGD(rbm.parameters(), lr=lr)
+
+    for epoch in range(epochs):
+        for v_data in data_loader:
+            optimizer.zero_grad()
+
+            h_prob_data, _ = rbm.sample_h_given_v(v_data)
+            positive_phase = torch.einsum('bi,bj->ij', v_data, h_prob_data) / v_data.shape[0]
+
+            v_model = torch.bernoulli(torch.rand_like(v_data))
+            for _ in range(n_gibbs):
+                h_prob, h_sample = rbm.sample_h_given_v(v_model)
+                v_prob, v_model = rbm.sample_v_given_h(h_sample)
+
+            h_prob_model, _ = rbm.sample_h_given_v(v_model)
+            negative_phase = torch.einsum('bi,bj->ij', v_model, h_prob_model) / v_model.shape[0]
+
+            rbm.W.grad = -(positive_phase - negative_phase)
+            rbm.v_bias.grad = -(v_data.mean(0) - v_model.mean(0))
+            rbm.h_bias.grad = -(h_prob_data.mean(0) - h_prob_model.mean(0))
+
+            optimizer.step()
+
+    return rbm
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Contrastive Divergence (CD-k)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <p><strong>Ideea CD (Hinton, 2002):</strong></p>
+                                <p style="margin: 15px 0;">In loc sa sample-am din p_model de la zero:</p>
+                                <ol style="margin-left: 20px; line-height: 1.8;">
+                                    <li>Pornim chain-ul de la <strong>datele de training</strong> x_data</li>
+                                    <li>Rulam doar <strong>k pasi</strong> de Gibbs sampling (k=1 adesea suficient!)</li>
+                                    <li>Folosim rezultatul ca "negative sample"</li>
+                                </ol>
+                            </div>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class ContrastiveDivergence:
+    """
+    CD-k: Contrastive Divergence cu k pasi Gibbs
+
+    Revolutionar pentru antrenarea RBM-urilor!
+    Hinton (2002): "Training Products of Experts by Minimizing CD"
+    """
+    def __init__(self, rbm, k=1):
+        self.rbm = rbm
+        self.k = k
+
+    def train_step(self, v_data):
+        batch_size = v_data.shape[0]
+
+        h_prob_pos, h_sample = self.rbm.sample_h_given_v(v_data)
+
+        v_neg = v_data.clone()
+        for step in range(self.k):
+            h_prob, h_sample = self.rbm.sample_h_given_v(v_neg)
+            v_prob, v_neg = self.rbm.sample_v_given_h(h_sample)
+
+        h_prob_neg, _ = self.rbm.sample_h_given_v(v_neg)
+
+        grad_W = (torch.einsum('bi,bj->ij', v_data, h_prob_pos) -
+                  torch.einsum('bi,bj->ij', v_neg, h_prob_neg)) / batch_size
+        grad_vb = (v_data - v_neg).mean(0)
+        grad_hb = (h_prob_pos - h_prob_neg).mean(0)
+
+        return {
+            'W': grad_W,
+            'v_bias': grad_vb,
+            'h_bias': grad_hb,
+            'reconstruction': v_neg
+        }
+
+    def reconstruction_error(self, v_data):
+        """Metrica pentru monitorizare (nu e loss-ul real!)"""
+        _, h = self.rbm.sample_h_given_v(v_data)
+        v_recon, _ = self.rbm.sample_v_given_h(h)
+        return ((v_data - v_recon) ** 2).mean()
+
+cd = ContrastiveDivergence(rbm, k=1)
+grads = cd.train_step(v_data)
+print(f"CD-1 gradient W shape: {grads['W'].shape}")
+print(f"Reconstruction error: {cd.reconstruction_error(v_data):.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Diagrama: CD vs MCMC Complet</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="margin-bottom: 25px;">
+                                    <div style="font-weight: bold; color: var(--warning); margin-bottom: 10px;">MCMC Naiv (Algorithm 18.1):</div>
+                                    <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
+                                        <div style="padding: 8px 12px; background: var(--bg-lighter); border-radius: 4px;">random</div>
+                                        <span>→</span>
+                                        <div style="padding: 8px 12px; background: var(--bg-lighter); border-radius: 4px; opacity: 0.7;">step 1</div>
+                                        <span>→</span>
+                                        <div style="padding: 8px 12px; background: var(--bg-lighter); border-radius: 4px; opacity: 0.7;">...</div>
+                                        <span>→</span>
+                                        <div style="padding: 8px 12px; background: var(--bg-lighter); border-radius: 4px; opacity: 0.8;">step 99</div>
+                                        <span>→</span>
+                                        <div style="padding: 8px 12px; background: var(--warning); border-radius: 4px; color: var(--bg-dark);">step 100</div>
+                                    </div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">100+ pasi pentru burn-in - LENT!</p>
+                                </div>
+                                <div>
+                                    <div style="font-weight: bold; color: var(--success); margin-bottom: 10px;">CD-k (k=1):</div>
+                                    <div style="display: flex; align-items: center; gap: 5px;">
+                                        <div style="padding: 8px 12px; background: var(--primary); border-radius: 4px; color: var(--bg-dark);">v_data</div>
+                                        <span>→</span>
+                                        <div style="padding: 8px 12px; background: var(--success); border-radius: 4px; color: var(--bg-dark);">1 pas Gibbs</div>
+                                        <span>=</span>
+                                        <div style="padding: 8px 12px; background: var(--warning); border-radius: 4px; color: var(--bg-dark);">v_neg</div>
+                                    </div>
+                                    <p style="font-size: 0.85rem; color: var(--success); margin-top: 8px;">Un singur pas! Biased dar RAPID si functional.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Impactul CD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item" style="padding: 15px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Hinton (2002)</strong>
+                                    <p style="margin-top: 8px;">"Training Products of Experts by Minimizing Contrastive Divergence"</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Paper-ul original care a facut RBM-urile practice</p>
+                                </div>
+                                <div class="reference-item" style="padding: 15px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Hinton & Salakhutdinov (2006)</strong>
+                                    <p style="margin-top: 8px;">"Reducing the Dimensionality of Data with Neural Networks"</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Deep Belief Networks - stacking RBMs, precursor al deep learning modern</p>
+                                </div>
+                                <div class="reference-item" style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--success);">Impact istoric:</strong>
+                                    <p style="margin-top: 8px;">CD a permis antrenarea eficienta a RBM-urilor, care au fost folosite pentru pretraining-ul retelelor neurale profunde (2006-2012), inainte ca BatchNorm si ReLU sa faca direct training-ul posibil.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce Functioneaza CD?</h4>
+                <p>CD nu minimizeaza exact log-likelihood-ul, ci o aproximare. Dar functioneaza pentru ca: (1) la inceput, modelul e departe de date, deci chiar si un pas de la date ne duce catre regiuni unde modelul pune masa; (2) pe masura ce modelul se imbunatateste, datele sunt deja aproape de distributia modelului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Training Complet cu CD</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-def CD_k(data, model, k=1):
-    """
-    Contrastive Divergence cu k pasi Gibbs
-    """
-    # Positive phase: start from data
-    v_pos = data
-    h_pos = sample_h_given_v(v_pos, model)
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
 
-    # Negative phase: k pasi de Gibbs
-    v_neg = v_pos
-    for _ in range(k):
-        h_neg = sample_h_given_v(v_neg, model)
-        v_neg = sample_v_given_h(h_neg, model)
+def train_rbm_with_cd(n_visible=784, n_hidden=500, k=1, lr=0.1,
+                      momentum=0.5, weight_decay=0.0001, epochs=10):
+    """
+    Training complet RBM cu CD-k pe MNIST
+    """
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        lambda x: (x > 0.5).float().view(-1)
+    ])
+    train_data = datasets.MNIST('./data', train=True, download=True, transform=transform)
+    train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
 
-    # Gradient aproximat
-    grad_W = outer(v_pos, h_pos) - outer(v_neg, h_neg)
-    return grad_W
+    rbm = RBM(n_visible, n_hidden)
+    cd = ContrastiveDivergence(rbm, k=k)
+
+    v_W = torch.zeros_like(rbm.W)
+    v_vb = torch.zeros_like(rbm.v_bias)
+    v_hb = torch.zeros_like(rbm.h_bias)
+
+    for epoch in range(epochs):
+        total_recon_error = 0
+        n_batches = 0
+
+        for v_data, _ in train_loader:
+            grads = cd.train_step(v_data)
+
+            v_W = momentum * v_W + lr * (grads['W'] - weight_decay * rbm.W)
+            v_vb = momentum * v_vb + lr * grads['v_bias']
+            v_hb = momentum * v_hb + lr * grads['h_bias']
+
+            with torch.no_grad():
+                rbm.W += v_W
+                rbm.v_bias += v_vb
+                rbm.h_bias += v_hb
+
+            total_recon_error += cd.reconstruction_error(v_data).item()
+            n_batches += 1
+
+        print(f"Epoch {epoch+1}: Recon Error = {total_recon_error/n_batches:.4f}")
+
+    return rbm
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretare: Ce Minimizeaza CD?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <p><strong>CD minimizeaza (aproximativ):</strong></p>
+                                <p style="margin: 15px 0; text-align: center; font-family: monospace; font-size: 1.1rem;">
+                                    KL(p_data || p_model) - KL(p_k || p_model)
+                                </p>
+                                <p style="margin-top: 15px;">unde p_k este distributia dupa k pasi de Gibbs pornind de la date.</p>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p><strong>Interpretare:</strong></p>
+                                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                                        <li>Primul termen: vrem sa aducem modelul spre date</li>
+                                        <li>Al doilea termen: "penalizare" pentru cat de mult s-au mutat chain-urile</li>
+                                        <li>La convergenta (p_data = p_model), ambii termeni sunt 0</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

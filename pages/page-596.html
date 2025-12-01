@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">596</div>
         <div class="page-title">
-            <h3>Ancestral Sampling</h3>
+            <h3>Ancestral Sampling si Limitarile Sale</h3>
             <span>Capitolul 16 - Sectiunea 16.3 (continuare)</span>
         </div>
     </div>
@@ -13,38 +13,140 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Ancestral Sampling in DAG</h4>
-                <p>Pentru un DAG, ancestral sampling genereaza sample-uri exacte din distributia comuna. Algoritmul: (1) ordoneaza variabilele topologic, (2) pentru fiecare variabila in ordine, genereaza valoare din P(xᵢ|Parents(xᵢ)). Complexitatea este <strong>liniara</strong> in numarul de variabile!</p>
+                <h4>Ancestral Sampling: Algoritm Complet</h4>
+                <p>Pentru un DAG (Directed Acyclic Graph), ancestral sampling genereaza sample-uri <strong>exacte</strong> din distributia comuna. Algoritmul: (1) sortam variabilele topologic astfel incat parintii sa fie intotdeauna inaintea copiilor, (2) sample-uim fiecare variabila din P(xi | Parents(xi)). Complexitatea este <strong>liniara</strong> in numarul de variabile!</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Algoritm Ancestral Sampling</span>
+                        <span>Simulare: Ancestral Sampling Complet</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-def ancestral_sample(dag, conditionals):
+import torch
+import torch.nn as nn
+
+class AncestralSampler:
     """
-    Genereaza un sample din DAG
-    dag: graful directionat
-    conditionals: P(x_i | parents(x_i))
+    Ancestral sampling pentru retele Bayesiene
     """
-    sample = {}
+    def __init__(self, graph_structure, conditionals):
+        """
+        graph_structure: dict {node: [parents]}
+        conditionals: dict {node: P(node|parents)}
+        """
+        self.graph = graph_structure
+        self.conditionals = conditionals
+        self.order = self._topological_sort()
 
-    # Ordine topologica
-    for node in topological_sort(dag):
-        parents = dag.parents(node)
-        parent_values = {p: sample[p] for p in parents}
+    def _topological_sort(self):
+        in_degree = {n: 0 for n in self.graph}
+        for node in self.graph:
+            for parent in self.graph[node]:
+                in_degree[node] += 1
 
-        # Sample din distributia conditionala
-        sample[node] = conditionals[node].sample(
-            given=parent_values
-        )
+        queue = [n for n in in_degree if in_degree[n] == 0]
+        order = []
 
-    return sample
+        while queue:
+            node = queue.pop(0)
+            order.append(node)
+            for child, parents in self.graph.items():
+                if node in parents:
+                    in_degree[child] -= 1
+                    if in_degree[child] == 0:
+                        queue.append(child)
+        return order
+
+    def sample(self, n_samples=1, evidence=None):
+        """
+        Genereaza samples, optional conditionat pe evidence
+        evidence: dict {variable: value}
+        """
+        evidence = evidence or {}
+        samples = []
+
+        for _ in range(n_samples):
+            state = {}
+            for node in self.order:
+                if node in evidence:
+                    state[node] = evidence[node]
+                else:
+                    parent_values = tuple(state[p] for p in self.graph[node])
+                    state[node] = self.conditionals[node](parent_values)
+            samples.append(state)
+        return samples
+
+    def estimate_probability(self, query, evidence=None, n_samples=10000):
+        """
+        Estimeaza P(query | evidence) prin sampling
+        """
+        samples = self.sample(n_samples, evidence)
+        count = sum(1 for s in samples if all(s[k] == v for k, v in query.items()))
+        return count / n_samples
+
+graph = {
+    'Burglary': [],
+    'Earthquake': [],
+    'Alarm': ['Burglary', 'Earthquake'],
+    'JohnCalls': ['Alarm'],
+    'MaryCalls': ['Alarm']
+}
+
+import random
+conditionals = {
+    'Burglary': lambda _: int(random.random() < 0.001),
+    'Earthquake': lambda _: int(random.random() < 0.002),
+    'Alarm': lambda p: int(random.random() < (0.95 if p==(1,1) else 0.94 if p==(1,0) else 0.29 if p==(0,1) else 0.001)),
+    'JohnCalls': lambda p: int(random.random() < (0.9 if p[0]==1 else 0.05)),
+    'MaryCalls': lambda p: int(random.random() < (0.7 if p[0]==1 else 0.01))
+}
+
+sampler = AncestralSampler(graph, conditionals)
+p_alarm = sampler.estimate_probability({'Alarm': 1})
+print(f"P(Alarm=1) = {p_alarm:.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Alarm Network</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                                    <div style="display: flex; gap: 60px;">
+                                        <div style="text-align: center;">
+                                            <div style="width: 70px; height: 35px; background: var(--primary); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">Burglary</div>
+                                            <p style="font-size: 0.7rem; color: var(--text-secondary);">P=0.001</p>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 80px; height: 35px; background: var(--primary); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">Earthquake</div>
+                                            <p style="font-size: 0.7rem; color: var(--text-secondary);">P=0.002</p>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 1.5rem; color: var(--text-secondary);">↓ ↓</div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 35px; background: var(--secondary); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.9rem;">Alarm</div>
+                                    </div>
+                                    <div style="font-size: 1.5rem; color: var(--text-secondary);">↓ ↓</div>
+                                    <div style="display: flex; gap: 40px;">
+                                        <div style="text-align: center;">
+                                            <div style="width: 70px; height: 35px; background: var(--accent); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">JohnCalls</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="width: 70px; height: 35px; background: var(--accent); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">MaryCalls</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">Ordinea de sampling: Burglary, Earthquake → Alarm → JohnCalls, MaryCalls</p>
                             </div>
                         </div>
                     </div>
@@ -52,16 +154,82 @@ def ancestral_sample(dag, conditionals):
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Proprietati</span>
+                        <span>Proprietati si Limitari</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Exact</strong> - genereaza din distributia corecta</li>
-                                <li><strong>Eficient</strong> - O(n) pentru n variabile</li>
-                                <li><strong>Parallelizabil</strong> - variabile independente simultan</li>
-                            </ul>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-left: 3px solid var(--success);">
+                                    <strong style="color: var(--success);">Avantaje</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px; margin-left: 15px;">
+                                        <li>Sample-uri <strong>exacte</strong> din P(x)</li>
+                                        <li>Complexitate <strong>O(n)</strong></li>
+                                        <li>Paralelizabil pentru variabile independente</li>
+                                        <li>Nu necesita burn-in</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px; border-left: 3px solid var(--warning);">
+                                    <strong style="color: var(--warning);">Limitari</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px; margin-left: 15px;">
+                                        <li>Doar pentru modele <strong>directionate</strong></li>
+                                        <li>Nu suporta sampling conditional eficient</li>
+                                        <li>Necesita acces la distributii conditionale</li>
+                                        <li>Nu functioneaza pentru MRF</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema Sampling-ului Conditional</h4>
+                <p>Ancestral sampling devine ineficient cand dorim sample-uri <strong>conditionate</strong> pe anumite variabile observate. Daca variabilele conditionate sunt "downstream" in graf, trebuie sa folosim <strong>rejection sampling</strong> sau metode mai sofisticate. Pentru modele nedirectionate, ancestral sampling nu functioneaza deloc - avem nevoie de <strong>Gibbs sampling</strong> sau alte metode MCMC.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Rejection Sampling pentru Conditionale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def rejection_sampling_conditional(sampler, evidence, n_samples):
+    """
+    Sampling conditional prin rejection
+    Ineficient cand P(evidence) este mic!
+    """
+    accepted = []
+    total_attempts = 0
+
+    while len(accepted) < n_samples:
+        sample = sampler.sample(1)[0]
+        total_attempts += 1
+
+        if all(sample[k] == v for k, v in evidence.items()):
+            accepted.append(sample)
+
+    efficiency = n_samples / total_attempts
+    print(f"Eficienta rejection: {efficiency:.4f}")
+    print(f"(1 sample acceptat la {1/efficiency:.0f} incercari)")
+    return accepted
+
+samples = rejection_sampling_conditional(
+    sampler,
+    evidence={'Alarm': 1},
+    n_samples=100
+)
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p><strong>Problema:</strong> Daca P(evidence) = 0.001, avem nevoie de ~1000 sample-uri pentru fiecare sample acceptat!</p>
+                                <p style="margin-top: 10px;">Solutie: <strong>Likelihood weighting</strong> sau <strong>Gibbs sampling</strong></p>
+                            </div>
                         </div>
                     </div>
                 </div>

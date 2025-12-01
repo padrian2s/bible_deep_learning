@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">635</div>
         <div class="page-title">
-            <h3>Noise Contrastive Estimation</h3>
+            <h3>Noise Contrastive Estimation (NCE)</h3>
             <span>Capitolul 18 - Sectiunea 18.6</span>
         </div>
     </div>
@@ -14,34 +14,283 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>18.6 Noise Contrastive Estimation (NCE)</h4>
-                <p><strong>NCE</strong> transforma problema density estimation intr-o problema de <strong>clasificare binara</strong>. Antreneaza un clasificator sa distinga intre date reale si noise samples. Cand clasificatorul e optim, modelul a invatat distributia corecta.</p>
+                <p><strong>NCE</strong> (Gutmann & Hyvarinen, 2010) transforma problema de density estimation intr-o problema de <strong>clasificare binara</strong>. Antrenam un clasificator sa distinga intre datele reale si sample-uri din o distributie de noise cunoscuta. La convergenta, clasificatorul optimal reveleaza raportul p_data/p_noise, din care extragem p_data!</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Procedura NCE</span>
+                        <span>Simulare: NCE Complet in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                                <p><strong>Idea NCE (Eq. 18.28):</strong></p>
+                                <p style="margin: 15px 0;">Modelam explicit log Z ca parametru c:</p>
+                                <p style="font-size: 1.2rem; text-align: center; color: var(--accent);">log p_model(x) = log p~(x; theta) + c</p>
+                                <p style="margin-top: 15px;">Antrenam prin clasificare binara: data (y=1) vs noise (y=0)</p>
+                            </div>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class NoiseContrastiveEstimation(nn.Module):
+    """
+    NCE: Transforma density estimation in clasificare binara
+
+    La convergenta: c -> -log Z(theta)
+    """
+    def __init__(self, energy_model, noise_distribution, k=10):
+        super().__init__()
+        self.energy_model = energy_model
+        self.noise_dist = noise_distribution
+        self.k = k
+
+        self.c = nn.Parameter(torch.tensor(0.0))
+
+    def log_p_model(self, x):
+        """log p(x) = log p~(x) + c = -E(x) + c"""
+        return -self.energy_model.energy(x) + self.c
+
+    def compute_loss(self, x_data):
+        """
+        NCE loss: clasificare binara data vs noise
+        """
+        batch_size = x_data.shape[0]
+        n_noise = self.k * batch_size
+
+        x_noise = self.noise_dist.sample((n_noise,))
+
+        log_p_data = self.log_p_model(x_data)
+        log_p_noise_at_data = self.noise_dist.log_prob(x_data)
+
+        log_p_noise_samples = self.log_p_model(x_noise)
+        log_p_noise_at_noise = self.noise_dist.log_prob(x_noise)
+
+        log_odds_data = log_p_data - log_p_noise_at_data - torch.log(torch.tensor(self.k, dtype=torch.float))
+        log_odds_noise = log_p_noise_samples - log_p_noise_at_noise - torch.log(torch.tensor(self.k, dtype=torch.float))
+
+        loss_data = -F.logsigmoid(log_odds_data).mean()
+        loss_noise = -F.logsigmoid(-log_odds_noise).mean()
+
+        return loss_data + loss_noise
+
+    def get_estimated_log_Z(self):
+        """La convergenta, -c estimeaza log Z"""
+        return -self.c.item()
+
+class GaussianNoise:
+    def __init__(self, dim, std=1.0):
+        self.dim = dim
+        self.std = std
+
+    def sample(self, shape):
+        return torch.randn(*shape, self.dim) * self.std
+
+    def log_prob(self, x):
+        return -0.5 * (x ** 2).sum(-1) / (self.std ** 2) - \
+               0.5 * self.dim * torch.log(torch.tensor(2 * 3.14159 * self.std ** 2))
+
+noise = GaussianNoise(dim=784, std=1.0)
+nce = NoiseContrastiveEstimation(energy_model, noise, k=10)
+loss = nce.compute_loss(x_data)
+print(f"NCE Loss: {loss.item():.4f}")
+print(f"Estimated log Z: {nce.get_estimated_log_Z():.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Diagrama: NCE ca Clasificare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="text-align: center; font-weight: bold; margin-bottom: 20px;">NCE: Data vs Noise Classification</div>
+                                <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 100px; height: 100px; background: var(--success); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-weight: bold;">
+                                            DATA<br>y=1
+                                        </div>
+                                        <p style="font-size: 0.85rem;">x ~ p_data</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Samples reale</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 3rem; color: var(--accent);">vs</div>
+                                        <div style="margin-top: 10px; padding: 10px; background: var(--bg-lighter); border-radius: 8px;">
+                                            <strong>Clasificator</strong>
+                                            <p style="font-size: 0.8rem;">P(y=1|x)</p>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 100px; height: 100px; background: var(--warning); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-weight: bold;">
+                                            NOISE<br>y=0
+                                        </div>
+                                        <p style="font-size: 0.85rem;">x ~ p_noise</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Gaussian, uniform, etc.</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p><strong>La optim (Eq. 18.33-18.37):</strong></p>
+                                    <p style="margin-top: 10px; text-align: center; font-family: monospace;">P(y=1|x) = p_model(x) / (p_model(x) + k * p_noise(x))</p>
+                                    <p style="margin-top: 10px; text-align: center; font-family: monospace; color: var(--success);">= sigma(log p_model(x) - log p_noise(x) - log k)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: NCE in Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>NCE: De la Teorie la Word2Vec</h5>
+                                <p style="margin-top: 10px;">NCE a avut un impact ENORM in NLP:</p>
+                                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                                    <li><strong>Word2Vec (2013):</strong> Negative Sampling = NCE simplificat</li>
+                                    <li><strong>GloVe (2014):</strong> Idei similare pentru word embeddings</li>
+                                    <li><strong>Contrastive Learning (2020+):</strong> InfoNCE, SimCLR, CLIP</li>
+                                </ul>
+                            </div>
+                            <div class="reference-list" style="margin-top: 20px;">
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Gutmann & Hyvarinen (2010)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"Noise-Contrastive Estimation" - paper-ul original</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Mikolov et al. (2013)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"Distributed Representations of Words" - Word2Vec cu negative sampling</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--success);">Oord et al. (2018)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"Representation Learning with Contrastive Predictive Coding" - InfoNCE</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantajul Principal: NCE Invata log Z!</h4>
+                <p>Spre deosebire de CD sau pseudolikelihood, NCE poate invata <strong>log Z ca parametru</strong>. La convergenta, parametrul c converge la adevaratul -log Z. Aceasta permite evaluarea log-likelihood-ului pe date noi, nu doar training!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Verificarea Convergentei lui c</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-def nce_objective(model, data, noise_dist, k=1):
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+def train_nce_and_track_c(nce, data_loader, epochs=100, lr=0.001):
     """
-    NCE: clasificare data vs noise
-    k: raportul noise/data
+    Antreneaza NCE si urmareste convergenta lui c catre -log Z
     """
-    # Samples din noise distribution
-    noise_samples = noise_dist.sample(k * len(data))
+    optimizer = optim.Adam(nce.parameters(), lr=lr)
+    c_history = []
+    loss_history = []
 
-    # Clasificare binara
-    # P(Y=1|x) = p_model(x) / (p_model(x) + k*p_noise(x))
+    for epoch in range(epochs):
+        epoch_loss = 0
+        n_batches = 0
 
-    data_logits = model.log_prob(data) - np.log(k) - noise_dist.log_prob(data)
-    noise_logits = model.log_prob(noise_samples) - np.log(k) - noise_dist.log_prob(noise_samples)
+        for x_data, _ in data_loader:
+            optimizer.zero_grad()
+            loss = nce.compute_loss(x_data)
+            loss.backward()
+            optimizer.step()
 
-    loss = -mean(log_sigmoid(data_logits)) - mean(log_sigmoid(-noise_logits))
-    return loss
+            epoch_loss += loss.item()
+            n_batches += 1
+
+        c_history.append(nce.c.item())
+        loss_history.append(epoch_loss / n_batches)
+
+        if epoch % 10 == 0:
+            print(f"Epoch {epoch}: Loss={loss_history[-1]:.4f}, c={c_history[-1]:.4f}")
+
+    return c_history, loss_history
+
+def plot_c_convergence(c_history, true_log_Z=None):
+    """
+    Vizualizeaza convergenta lui c
+    """
+    plt.figure(figsize=(10, 4))
+
+    plt.subplot(1, 2, 1)
+    plt.plot(c_history, label='c (learned)')
+    if true_log_Z is not None:
+        plt.axhline(y=-true_log_Z, color='r', linestyle='--', label=f'-log Z = {-true_log_Z:.2f}')
+    plt.xlabel('Epoch')
+    plt.ylabel('c')
+    plt.title('Convergenta lui c catre -log Z')
+    plt.legend()
+
+    plt.subplot(1, 2, 2)
+    plt.plot([-c for c in c_history], label='Estimated log Z')
+    if true_log_Z is not None:
+        plt.axhline(y=true_log_Z, color='r', linestyle='--', label=f'True log Z = {true_log_Z:.2f}')
+    plt.xlabel('Epoch')
+    plt.ylabel('log Z')
+    plt.title('Estimarea lui log Z')
+    plt.legend()
+
+    plt.tight_layout()
+    return plt.gcf()
+
+print("NCE: Singura metoda care invata log Z ca parte a training-ului!")
+print("CD, PCD, pseudolikelihood: NU pot estima log Z")
+print("Score matching: evita Z dar nu-l estimeaza")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Conexiune: InfoNCE si Contrastive Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <h5 style="margin-bottom: 15px; color: var(--accent);">De la NCE la InfoNCE (CPC, SimCLR, CLIP)</h5>
+                                <p style="margin-bottom: 15px;">InfoNCE este o varianta de NCE unde noise-ul = alte samples din batch:</p>
+                                <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; margin-bottom: 15px;">
+                                    <p style="font-family: monospace; text-align: center;">L_InfoNCE = -log [exp(s(x,x+)) / sum_j exp(s(x, x_j))]</p>
+                                    <p style="margin-top: 10px; font-size: 0.9rem; text-align: center;">x+ = augmentare pozitiva, x_j = alte samples (negative)</p>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--success);">SimCLR</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">Positive = augmentari ale aceleiasi imagini</p>
+                                        <p style="font-size: 0.85rem;">Negative = alte imagini din batch</p>
+                                    </div>
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--primary);">CLIP</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">Positive = (image, caption) perechi corecte</p>
+                                        <p style="font-size: 0.85rem;">Negative = alte (image, caption) din batch</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

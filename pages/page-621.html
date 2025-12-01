@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">621</div>
         <div class="page-title">
-            <h3>Log-Likelihood Gradient</h3>
+            <h3>The Log-Likelihood Gradient</h3>
             <span>Capitolul 18 - Sectiunea 18.1</span>
         </div>
     </div>
@@ -13,24 +13,261 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>18.1 The Log-Likelihood Gradient</h4>
-                <p>Pentru training prin MLE, avem nevoie de gradientul log-likelihood-ului. Gradientul lui log p(x) se descompune in doua parti: <strong>positive phase</strong> (creste probabilitatea datelor) si <strong>negative phase</strong> (scade probabilitatea modelului). Negative phase necesita sampling din model!</p>
+                <h4>18.1 Gradientul Log-Likelihood-ului</h4>
+                <p>Pentru antrenarea prin Maximum Likelihood, calculam gradientul log-likelihood-ului. Acest gradient se descompune elegant in doua parti: <strong>positive phase</strong> (creste probabilitatea datelor observate) si <strong>negative phase</strong> (scade probabilitatea sub model). Provocarea: negative phase necesita sampling din distributia modelului!</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Descompunere Gradient</span>
+                        <span>Simulare: Descompunerea Gradientului</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Gradient log-likelihood:</strong></p>
-                                <p style="font-size: 1rem; text-align: center; margin: 10px 0;">∇_θ log p(x) = ∇_θ log p̃(x) - ∇_θ log Z(θ)</p>
-                                <p style="margin-top: 15px;">Unde:</p>
-                                <p style="color: var(--success);">∇_θ log p̃(x) = Positive phase</p>
-                                <p style="color: var(--warning);">∇_θ log Z = E_p[∇_θ log p̃(x)] = Negative phase</p>
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                                <p><strong>Gradientul log-likelihood (Eq. 18.4):</strong></p>
+                                <p style="font-size: 1.2rem; text-align: center; margin: 15px 0; color: var(--accent);">
+                                    nabla_theta log p(x;theta) = nabla_theta log p~(x;theta) - nabla_theta log Z(theta)
+                                </p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                                    <div style="padding: 15px; background: rgba(46, 204, 113, 0.1); border-left: 4px solid var(--success); border-radius: 4px;">
+                                        <strong style="color: var(--success);">Positive Phase</strong>
+                                        <p style="margin-top: 8px; font-size: 0.95rem;">nabla_theta log p~(x)</p>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Creste prob. datelor reale</p>
+                                    </div>
+                                    <div style="padding: 15px; background: rgba(231, 76, 60, 0.1); border-left: 4px solid var(--warning); border-radius: 4px;">
+                                        <strong style="color: var(--warning);">Negative Phase</strong>
+                                        <p style="margin-top: 8px; font-size: 0.95rem;">nabla_theta log Z = E_p[nabla_theta log p~(x)]</p>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Scade prob. sub model</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class LogLikelihoodGradient:
+    """
+    Descompunerea gradientului log-likelihood in positive si negative phase
+    """
+    def __init__(self, model):
+        self.model = model
+
+    def positive_phase_gradient(self, x_data):
+        """
+        Gradient fata de datele reale - USOR de calculat
+        Creste log p~(x) pentru x din date
+        """
+        x_data.requires_grad_(True)
+        log_p_tilde = self.model.unnormalized_log_prob(x_data)
+        grad_positive = torch.autograd.grad(
+            log_p_tilde.sum(), self.model.parameters(),
+            create_graph=True
+        )
+        return grad_positive
+
+    def negative_phase_gradient(self, x_model):
+        """
+        Gradient fata de samples din model - GREU de obtinut!
+        Scade log p~(x) pentru x ~ p_model
+        """
+        log_p_tilde = self.model.unnormalized_log_prob(x_model)
+        grad_negative = torch.autograd.grad(
+            log_p_tilde.sum(), self.model.parameters(),
+            create_graph=True
+        )
+        return grad_negative
+
+    def full_gradient(self, x_data, x_model):
+        """
+        Gradient complet: positive - negative
+        """
+        grad_pos = self.positive_phase_gradient(x_data)
+        grad_neg = self.negative_phase_gradient(x_model)
+
+        full_grad = []
+        for gp, gn in zip(grad_pos, grad_neg):
+            full_grad.append(gp - gn)
+        return full_grad
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Derivarea Matematica (Eq. 18.5-18.12)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <p style="font-weight: bold; margin-bottom: 15px;">Derivarea gradientului lui log Z:</p>
+                                <div style="font-family: monospace; line-height: 2.2;">
+                                    <p>nabla_theta log Z <span style="color: var(--text-secondary);">(18.5)</span></p>
+                                    <p>= nabla_theta Z / Z <span style="color: var(--text-secondary);">(18.6)</span></p>
+                                    <p>= nabla_theta sum_x p~(x) / Z <span style="color: var(--text-secondary);">(18.7)</span></p>
+                                    <p>= sum_x nabla_theta p~(x) / Z <span style="color: var(--text-secondary);">(18.8)</span></p>
+                                </div>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p style="font-weight: bold; color: var(--accent);">Trucul cheie (pentru p(x) > 0):</p>
+                                    <p style="margin-top: 10px; font-family: monospace;">
+                                        = sum_x p~(x)/Z * nabla_theta log p~(x) <span style="color: var(--text-secondary);">(18.11)</span>
+                                    </p>
+                                    <p style="margin-top: 10px; font-family: monospace; color: var(--success);">
+                                        = E_{x~p(x)} [nabla_theta log p~(x)] <span style="color: var(--text-secondary);">(18.12)</span>
+                                    </p>
+                                </div>
+                                <p style="margin-top: 20px; color: var(--warning);">
+                                    <strong>Problema:</strong> Necesita expected value sub distributia modelului p(x) - trebuie sa sample-am din model!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Conexiuni Moderne</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Aceasta descompunere apare peste tot in ML:</h5>
+                                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                                    <li><strong>Contrastive Learning:</strong> Positive pairs vs. negative pairs</li>
+                                    <li><strong>GANs:</strong> Real samples vs. generated samples</li>
+                                    <li><strong>Diffusion Models:</strong> Score function = nabla_x log p(x)</li>
+                                    <li><strong>RL:</strong> Reward vs. baseline (variance reduction)</li>
+                                </ul>
+                            </div>
+                            <div class="reference-list" style="margin-top: 20px;">
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong>LeCun et al. (2006)</strong> - "A Tutorial on Energy-Based Learning" - fundamentele EBM
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong>Song & Ermon (2019)</strong> - Score-based generative modeling - renasterea score matching
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>RBM: Exemplul Canonic</h4>
+                <p><strong>Restricted Boltzmann Machine</strong> este exemplul clasic unde aceasta descompunere se aplica. RBM are positive phase tractabila (datorita structurii bipartite) dar negative phase necesita MCMC. Aceasta asimetrie a motivat dezvoltarea algoritmilor din acest capitol.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: RBM Gradient Computation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class RBM(nn.Module):
+    """
+    Restricted Boltzmann Machine - exemplul canonic pentru
+    positive/negative phase decomposition
+    """
+    def __init__(self, n_visible, n_hidden):
+        super().__init__()
+        self.W = nn.Parameter(torch.randn(n_visible, n_hidden) * 0.01)
+        self.v_bias = nn.Parameter(torch.zeros(n_visible))
+        self.h_bias = nn.Parameter(torch.zeros(n_hidden))
+
+    def energy(self, v, h):
+        """E(v,h) = -v'Wh - b'v - c'h"""
+        return -torch.einsum('bi,ij,bj->b', v, self.W, h) \
+               - torch.einsum('bi,i->b', v, self.v_bias) \
+               - torch.einsum('bj,j->b', h, self.h_bias)
+
+    def sample_h_given_v(self, v):
+        """P(h|v) - TRACTABIL datorita structurii bipartite"""
+        h_prob = torch.sigmoid(F.linear(v, self.W.T, self.h_bias))
+        h_sample = torch.bernoulli(h_prob)
+        return h_prob, h_sample
+
+    def sample_v_given_h(self, h):
+        """P(v|h) - TRACTABIL"""
+        v_prob = torch.sigmoid(F.linear(h, self.W, self.v_bias))
+        v_sample = torch.bernoulli(v_prob)
+        return v_prob, v_sample
+
+    def positive_phase(self, v_data):
+        """
+        Positive phase: E_data[vh'] - USOR!
+        Putem calcula exact E[h|v] pentru datele observate
+        """
+        h_prob, _ = self.sample_h_given_v(v_data)
+        positive_associations = torch.einsum('bi,bj->ij', v_data, h_prob)
+        return positive_associations / v_data.shape[0]
+
+    def negative_phase_exact(self, all_v, all_h):
+        """
+        Negative phase exacta: E_model[vh'] - IMPOSIBIL pentru modele mari!
+        Ar necesita suma peste toate 2^n_v * 2^n_h configuratii
+        """
+        pass
+
+rbm = RBM(n_visible=784, n_hidden=500)
+v_data = torch.bernoulli(torch.rand(64, 784))
+pos_grad = rbm.positive_phase(v_data)
+print(f"Positive phase gradient shape: {pos_grad.shape}")
+print("Negative phase necesita MCMC (Contrastive Divergence)!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Diagrama: Structura RBM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <div style="text-align: center; font-weight: bold; margin-bottom: 20px;">Restricted Boltzmann Machine</div>
+                                <div style="display: flex; justify-content: center; gap: 60px; align-items: center;">
+                                    <div style="text-align: center;">
+                                        <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 10px;">
+                                            <div style="width: 25px; height: 25px; background: var(--secondary); border-radius: 50%;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--secondary); border-radius: 50%;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--secondary); border-radius: 50%;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--secondary); border-radius: 50%;"></div>
+                                        </div>
+                                        <div style="font-size: 0.85rem; color: var(--secondary);">Hidden h</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-secondary);">P(h|v) tractabil</div>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--accent);">W</div>
+                                    <div style="text-align: center;">
+                                        <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 10px;">
+                                            <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                        </div>
+                                        <div style="font-size: 0.85rem; color: var(--primary);">Visible v</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-secondary);">P(v|h) tractabil</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 25px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p style="text-align: center; font-size: 0.9rem;"><strong>Proprietate cheie:</strong> Nu exista conexiuni h-h sau v-v</p>
+                                    <p style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">=> Conditionalele P(h|v) si P(v|h) sunt factorizabile!</p>
+                                </div>
                             </div>
                         </div>
                     </div>

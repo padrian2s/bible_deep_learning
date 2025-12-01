@@ -45,6 +45,35 @@
                 <h4>Cand esueaza Semi-Supervised?</h4>
                 <p>Semi-supervised learning poate esua daca invatarea p(x) nu ofera informatie despre p(y|x). Exemplu: daca p(x) este <strong>uniform</strong>, atunci observarea x-urilor nu ne spune nimic despre y. Insa daca x provine dintr-o mixtura de componente (fiecare corespunzand unei clase y), atunci modelarea p(x) dezvaluie care componenta e care - deci y!</p>
             </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Modern: Disentanglement & VAE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>beta-VAE si Disentanglement</h5>
+                                <p>Ideea de "disentangling causal factors" a evoluat in cercetarea moderna:</p>
+                                <div style="display: grid; gap: 10px; margin-top: 10px;">
+                                    <div style="background: var(--primary); padding: 12px; border-radius: 8px;">
+                                        <strong>beta-VAE</strong> - Creste beta in KL term pentru disentanglement
+                                    </div>
+                                    <div style="background: var(--secondary); padding: 12px; border-radius: 8px;">
+                                        <strong>FactorVAE</strong> - Total correlation penalty
+                                    </div>
+                                    <div style="background: var(--accent); padding: 12px; border-radius: 8px;">
+                                        <strong>InfoGAN</strong> - Maximizeaza mutual information
+                                    </div>
+                                </div>
+                                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Scopul: fiecare dimensiune latenta = un factor cauzal independent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

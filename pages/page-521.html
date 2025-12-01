@@ -114,5 +114,40 @@ print("  Gaussian → L2: Ω(h) = λΣh_i²")
                 </div>
             </div>
         </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conexiunea cu log Z si Modele Probabilistice</h4>
+                <p>Cercetari timpurii (Ranzato et al., 2007-2008) au explorat conexiunea dintre penalizarea de sparsitate si termenul <strong>log Z</strong> din modelele probabilistice nedirectionate. Ideea: minimizarea log Z previne modelul sa aiba probabilitate mare peste tot, iar impunerea sparsitatii previne eroarea de reconstructie sa fie mica peste tot. Aceasta conexiune este mai mult la nivel de intuitie decat matematica stricta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Intuitie: Sparsitate ca log Z</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="background: var(--primary); padding: 15px; border-radius: 8px;">
+                                        <strong>Modele Probabilistice</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">log p(x) = log p̃(x) - log Z</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">log Z penalizeaza probabilitate mare oriunde</p>
+                                    </div>
+                                    <div style="background: var(--secondary); padding: 15px; border-radius: 8px;">
+                                        <strong>Sparse Autoencoders</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">L = recon + Ω(h)</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Ω(h) penalizeaza reconstructie buna oriunde</p>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; color: var(--accent);">Ambele forteaza modelul sa fie "selectiv"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>

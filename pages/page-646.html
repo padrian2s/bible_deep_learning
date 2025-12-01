@@ -14,13 +14,13 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Capitolul 19: Approximate Inference</h4>
-                <p>Multe modele probabilistice sunt greu de antrenat pentru ca <strong>inferenta exacta</strong> este intractabila. In deep learning avem variabile vizibile <strong>v</strong> si variabile latente <strong>h</strong>. Problema centrala: calcularea <strong>p(h|v)</strong> sau expectatii in raport cu aceasta distributie.</p>
+                <p>Multe modele probabilistice sunt greu de antrenat pentru ca <strong>inferenta exacta</strong> este intractabila. In deep learning avem variabile vizibile <strong>v</strong> si variabile latente <strong>h</strong>. Problema centrala: calcularea <strong>p(h|v)</strong> sau expectatii in raport cu aceasta distributie. Acest capitol introduce tehnicile fundamentale care stau la baza modelelor generative moderne precum VAE.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>De Ce Inference e Dificila</span>
+                        <span>Simulare: De Ce Inferenta e Dificila</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
@@ -34,24 +34,109 @@
                                     <li><strong>Cost:</strong> timp exponential pentru inferenta exacta</li>
                                 </ul>
                             </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn as nn
+import torch.distributions as dist
+
+class LatentVariableModel:
+    """Demonstreaza problema inferentei intractabile"""
+
+    def __init__(self, latent_dim=10, visible_dim=784):
+        self.latent_dim = latent_dim
+        self.visible_dim = visible_dim
+        self.W = torch.randn(visible_dim, latent_dim) * 0.01
+        self.b = torch.zeros(latent_dim)
+
+    def compute_posterior_exact(self, v):
+        """INTRACTABIL pentru modele complexe!
+        Trebuie sa sumam peste 2^latent_dim configuratii"""
+        num_configs = 2 ** self.latent_dim
+        print(f"Numar configuratii: {num_configs:,}")
+        if self.latent_dim > 20:
+            raise RuntimeError("Prea multe configuratii!")
+        return "Inferenta exacta imposibila pentru dim mare"
+
+    def compute_posterior_approximate(self, v, method="mean_field"):
+        """Aproximare tractabila - O(latent_dim)"""
+        if method == "mean_field":
+            q_mean = torch.sigmoid(v @ self.W + self.b)
+            return q_mean
+        elif method == "MAP":
+            h_star = torch.sigmoid(v @ self.W + self.b) > 0.5
+            return h_star.float()
+
+model = LatentVariableModel(latent_dim=100)
+v = torch.randn(784)
+print(f"Latent dim: {model.latent_dim}")
+print(f"Configuratii exacte: 2^{model.latent_dim} = {2**model.latent_dim:.2e}")
+print("Solutie: Approximate inference!")
+q = model.compute_posterior_approximate(v)
+print(f"Shape posterior aproximativ: {q.shape}")
+                                </pre>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Aplicatii</span>
+                        <span>Referinte si Context Modern</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <p>Tehnicile din acest capitol sunt folosite pentru:</p>
-                            <ul style="margin-left: 20px;">
-                                <li>Deep Belief Networks</li>
-                                <li>Deep Boltzmann Machines</li>
-                                <li>Variational Autoencoders (VAE)</li>
-                                <li>Modele generative moderne</li>
-                            </ul>
+                            <p>Tehnicile din acest capitol sunt fundamentale pentru:</p>
+                            <div class="reference-list">
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Variational Autoencoders (VAE)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Kingma & Welling 2014 - Foloseste ELBO si reparametrization trick</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Deep Belief Networks</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Hinton 2006 - Greedy layer-wise pretraining cu approximate inference</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--accent);">Amortized Inference</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">In loc de optimizare per-exemplu, antrenam o retea encoder q(h|v)</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Diffusion Models</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">DDPM, Score Matching - Alternative moderne la ELBO traditional</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Spatiul Latent</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 3rem; margin-bottom: 10px;">v</div>
+                                    <div style="color: var(--primary); font-weight: bold;">Variabile Vizibile</div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Date observate (imagini, text, audio)</p>
+                                    <div style="margin-top: 10px; font-size: 0.9rem;">Dimensiune: n (ex: 784 pentru MNIST)</div>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 3rem; margin-bottom: 10px;">h</div>
+                                    <div style="color: var(--secondary); font-weight: bold;">Variabile Latente</div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Reprezentari ascunse (features, causes)</p>
+                                    <div style="margin-top: 10px; font-size: 0.9rem;">Dimensiune: m (ex: 20-200)</div>
+                                </div>
+                            </div>
+                            <div style="background: linear-gradient(90deg, var(--primary), var(--secondary)); height: 4px; margin: 20px 0; border-radius: 2px;"></div>
+                            <div style="text-align: center; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                <div style="font-size: 1.2rem; color: var(--accent); margin-bottom: 10px;">Problema Centrala</div>
+                                <div class="formula" style="font-size: 1.3rem;">p(h | v) = p(v | h) p(h) / p(v)</div>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Numitorul p(v) = integral/suma peste toate h - INTRACTABIL!</p>
+                            </div>
                         </div>
                     </div>
                 </div>

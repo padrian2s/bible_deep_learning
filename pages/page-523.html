@@ -112,6 +112,53 @@ class ContractiveAutoencoder(nn.Module):
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Deep vs Shallow Compression</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Shallow autoencoder pentru MNIST
+class ShallowAE(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # Un singur strat hidden - are nevoie de MULTE unitati
+        self.encoder = nn.Sequential(
+            nn.Linear(784, 32)  # Direct 784 → 32
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(32, 784)
+        )
+    # Parametri: 784*32 + 32*784 = 50,176
+
+# Deep autoencoder - mult mai eficient
+class DeepAE(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # Reducere graduala - fiecare strat invata abstractii
+        self.encoder = nn.Sequential(
+            nn.Linear(784, 256), nn.ReLU(),
+            nn.Linear(256, 64), nn.ReLU(),
+            nn.Linear(64, 32)  # Final: 32 dim
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(32, 64), nn.ReLU(),
+            nn.Linear(64, 256), nn.ReLU(),
+            nn.Linear(256, 784)
+        )
+    # Parametri: 784*256 + 256*64 + 64*32 + ... = ~250K
+    # DAR: reconstruieste MULT mai bine pentru aceeasi dim cod!
+
+# Hinton & Salakhutdinov (2006): Deep AE >> Shallow AE >> PCA
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

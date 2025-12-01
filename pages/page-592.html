@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">592</div>
         <div class="page-title">
-            <h3>Conversie Directed-Undirected</h3>
-            <span>Capitolul 16 - Sectiunea 16.2.7</span>
+            <h3>Conversie intre Modele Directionate si Nedirectionate</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.8</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,35 +13,110 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>16.2.7 Converting Between Directed and Undirected</h4>
-                <p>Orice model directed poate fi convertit in unul undirected prin procesul de <strong>moralization</strong>: adaugam muchii intre toti parintii fiecarui nod ("casatorim" parintii) si apoi eliminam directiile. Conversia inversa nu este intotdeauna posibila - unele independente nu pot fi reprezentate directed.</p>
+                <h4>16.2.8 Converting Between Directed and Undirected Graphs</h4>
+                <p>Putem converti intre modele directionate si nedirectionate, dar nu fara a pierde informatie. <strong>Moralizare</strong>: DAG -> Undirected prin adaugarea muchiilor intre co-parinti si eliminarea directiilor. <strong>Triangulare</strong>: Undirected -> DAG necesita adaugarea de corduri pentru a evita cicluri lungi fara V-structuri. Distributiile echivalente pot diferi!</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Moralization</span>
+                        <span>Simulare: Moralizare DAG -> MRF</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-def moralize(directed_graph):
+def moralize(dag):
     """
-    Converteste DAG in graf nedirectionat
+    Converteste un DAG intr-un graf nedirectionat (moral graph).
+    1. Adauga muchii intre toti co-parintii (marry the parents)
+    2. Elimina directiile
     """
-    undirected = copy(directed_graph)
+    undirected = {}
 
-    # Pentru fiecare nod
-    for node in directed_graph.nodes:
-        parents = directed_graph.parents(node)
-        # Conectam toti parintii intre ei
-        for p1, p2 in combinations(parents, 2):
-            undirected.add_edge(p1, p2)
+    for node in dag:
+        if node not in undirected:
+            undirected[node] = set()
 
-    # Eliminam directiile
-    undirected.make_undirected()
-    return undirected
+    for node, info in dag.items():
+        parents = info.get('parents', [])
+        children = info.get('children', [])
+
+        for parent in parents:
+            if parent not in undirected:
+                undirected[parent] = set()
+            undirected[parent].add(node)
+            undirected[node].add(parent)
+
+        for child in children:
+            if child not in undirected:
+                undirected[child] = set()
+            undirected[node].add(child)
+            undirected[child].add(node)
+
+        for i, p1 in enumerate(parents):
+            for p2 in parents[i+1:]:
+                undirected[p1].add(p2)
+                undirected[p2].add(p1)
+
+    return {k: list(v) for k, v in undirected.items()}
+
+dag = {
+    'a': {'parents': [], 'children': ['c']},
+    'b': {'parents': [], 'children': ['c']},
+    'c': {'parents': ['a', 'b'], 'children': ['d']},
+    'd': {'parents': ['c'], 'children': []},
+}
+
+moral_graph = moralize(dag)
+
+print("DAG original: a->c<-b, c->d")
+print("Moral graph:", moral_graph)
+print()
+print("Observatie: a-b muchie ADAUGATA (marry parents of c)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Procesul de Moralizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Moralizare: "Marry the Parents"</h5>
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 40px;">
+                                    <div style="text-align: center;">
+                                        <div style="font-weight: bold; margin-bottom: 10px; color: var(--primary);">DAG Original</div>
+                                        <div style="position: relative; width: 120px; height: 100px;">
+                                            <div style="position: absolute; top: 0; left: 10px; width: 35px; height: 35px; border: 2px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">a</div>
+                                            <div style="position: absolute; top: 0; right: 10px; width: 35px; height: 35px; border: 2px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">b</div>
+                                            <div style="position: absolute; bottom: 20px; left: 42px; width: 35px; height: 35px; border: 2px solid var(--warning); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">c</div>
+                                        </div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">a->c<-b (V-structure)</div>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--accent);">===></div>
+                                    <div style="text-align: center;">
+                                        <div style="font-weight: bold; margin-bottom: 10px; color: var(--secondary);">Moral Graph</div>
+                                        <div style="position: relative; width: 120px; height: 100px;">
+                                            <div style="position: absolute; top: 0; left: 10px; width: 35px; height: 35px; border: 2px solid var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">a</div>
+                                            <div style="position: absolute; top: 0; right: 10px; width: 35px; height: 35px; border: 2px solid var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">b</div>
+                                            <div style="position: absolute; bottom: 20px; left: 42px; width: 35px; height: 35px; border: 2px solid var(--warning); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">c</div>
+                                            <div style="position: absolute; top: 17px; left: 45px; width: 30px; height: 2px; background: var(--accent);"></div>
+                                        </div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">a-b-c triangle</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Atentie: Se pierde informatie!</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        In DAG: a _|_ b | {} (independente marginal)<br>
+                                        In moral graph: a si b sunt adiacente - nu putem exprima independenta!
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -49,14 +124,40 @@ def moralize(directed_graph):
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Pierdere Informatie</span>
+                        <span>Aplicatii: Junction Tree Algorithm</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <p>Moralization poate pierde informatii de independenta!</p>
-                                <p style="margin-top: 10px;">V-structure A → C ← B: in modelul directed, A⊥B. Dupa moralizare, A-B conectate direct, deci nu mai sunt independente.</p>
+                                <h5>De ce avem nevoie de conversie?</h5>
+                                <p style="margin-top: 10px;">Algoritmii de inferenta exacta (Junction Tree) opereaza pe grafuri nedirectionate!</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Pasul 1: Moralizare</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Convertim DAG in graf nedirectionat. Legam parintii.
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong style="color: var(--secondary);">Pasul 2: Triangulare</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Adaugam corduri pentru a elimina cicluri de lungime > 3 fara coarda.
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong style="color: var(--accent);">Pasul 3: Constructie Junction Tree</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Identificam clique-uri maximale si le organizam intr-un arbore.
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); border-radius: 8px;">
+                                <strong style="color: var(--success);">Rezultat:</strong>
+                                <p style="font-size: 0.9rem; margin-top: 8px;">
+                                    Inferenta exacta cu complexitate O(n * k^w) unde w = tree-width (marimea celui mai mare clique - 1).
+                                </p>
                             </div>
                         </div>
                     </div>

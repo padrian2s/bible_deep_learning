@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">581</div>
         <div class="page-title">
-            <h3>Constrangeri si Flexibilitate</h3>
+            <h3>Forme Functionale ale Distributiilor Conditionale</h3>
             <span>Capitolul 16 - Sectiunea 16.2.1 (continuare)</span>
         </div>
     </div>
@@ -13,30 +13,160 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Forme Functionale ale Distributiilor Conditionale</h4>
-                <p>Graful specifica <strong>care</strong> variabile interactioneaza, dar nu <strong>cum</strong>. Forma functionala a distributiilor conditionale P(xᵢ|Parents(xᵢ)) poate fi aleasa independent de structura grafului. Putem folosi tabele discrete, gaussiene, retele neurale, etc. Aceasta flexibilitate este esentiala pentru deep learning.</p>
+                <h4>Flexibilitatea Formelor Conditionale</h4>
+                <p>Graful specifica <strong>care</strong> variabile interactioneaza, dar nu <strong>cum</strong>. Forma functionala a distributiilor conditionale P(x_i|Parents(x_i)) poate fi aleasa independent de structura grafului. Putem folosi tabele discrete, gaussiene, retele neurale, etc. Aceasta flexibilitate este esentiala pentru deep learning - parametrizam conditionalele cu retele neurale.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Forme Conditionale</span>
+                        <span>Simulare: Diferite Forme Conditionale in PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; gap: 12px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--primary);">Tabel Discret</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">P(x|pa) = tabel[x, pa] - flexibil dar costisitor</p>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.distributions as dist
+
+class TableCPD(nn.Module):
+    """Conditional probability cu tabel discret"""
+    def __init__(self, parent_dim, child_dim):
+        super().__init__()
+        self.table = nn.Parameter(torch.randn(parent_dim, child_dim))
+
+    def forward(self, parent_idx):
+        return torch.softmax(self.table[parent_idx], dim=-1)
+
+class LinearGaussianCPD(nn.Module):
+    """Conditional probability gaussiana liniara"""
+    def __init__(self, parent_dim, child_dim):
+        super().__init__()
+        self.W = nn.Linear(parent_dim, child_dim)
+        self.log_var = nn.Parameter(torch.zeros(child_dim))
+
+    def forward(self, parent):
+        mean = self.W(parent)
+        std = torch.exp(0.5 * self.log_var)
+        return dist.Normal(mean, std)
+
+class NeuralNetCPD(nn.Module):
+    """Conditional probability cu retea neurala"""
+    def __init__(self, parent_dim, child_dim, hidden_dim=64):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(parent_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, child_dim * 2)
+        )
+        self.child_dim = child_dim
+
+    def forward(self, parent):
+        out = self.net(parent)
+        mean, log_var = out.split(self.child_dim, dim=-1)
+        std = torch.exp(0.5 * log_var)
+        return dist.Normal(mean, std)
+
+parent = torch.randn(32, 10)
+cpd_table = TableCPD(10, 5)
+cpd_gaussian = LinearGaussianCPD(10, 5)
+cpd_neural = NeuralNetCPD(10, 5)
+
+print("Tabel: parametri =", sum(p.numel() for p in cpd_table.parameters()))
+print("Gaussian: parametri =", sum(p.numel() for p in cpd_gaussian.parameters()))
+print("Neural: parametri =", sum(p.numel() for p in cpd_neural.parameters()))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Comparatie Forme Conditionale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong style="color: var(--primary); font-size: 1.1rem;">Tabel Discret</strong>
+                                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-secondary);">P(x|pa) = table[pa, x]</p>
+                                        </div>
+                                        <div style="text-align: right; font-size: 0.85rem;">
+                                            <div style="color: var(--success);">+ Flexibil</div>
+                                            <div style="color: var(--warning);">- O(k^m) parametri</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--secondary);">Linear Gaussian</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">x|pa ~ N(W·pa + b, σ²) - efficient, liniar</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--secondary);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong style="color: var(--secondary); font-size: 1.1rem;">Linear Gaussian</strong>
+                                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-secondary);">x|pa ~ N(W*pa + b, sigma^2)</p>
+                                        </div>
+                                        <div style="text-align: right; font-size: 0.85rem;">
+                                            <div style="color: var(--success);">+ O(k) parametri</div>
+                                            <div style="color: var(--warning);">- Doar relatii liniare</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--accent);">Neural Network</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">P(x|pa) = NN(pa) - flexibil si scalabil</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--accent);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong style="color: var(--accent); font-size: 1.1rem;">Neural Network</strong>
+                                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-secondary);">P(x|pa) = NN(pa)</p>
+                                        </div>
+                                        <div style="text-align: right; font-size: 0.85rem;">
+                                            <div style="color: var(--success);">+ Flexibil + Scalabil</div>
+                                            <div style="color: var(--warning);">- Training mai complex</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii: VAE, Normalizing Flows, Diffusion</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Neural Conditional Distributions in Modern DL</h5>
+                                <p style="margin-top: 10px;">Ideea de a parametriza distributii conditionale cu retele neurale sta la baza multor arhitecturi moderne.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--primary);">VAE (Variational Autoencoder)</strong>
+                                    <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Encoder: q(z|x) = N(mu_phi(x), sigma_phi(x))</li>
+                                        <li>Decoder: p(x|z) = NN_theta(z)</li>
+                                        <li>Conditionalele sunt parametrizate de retele neurale</li>
+                                    </ul>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">Normalizing Flows</strong>
+                                    <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Transformari invertibile: x = f(z), z ~ N(0,1)</li>
+                                        <li>Fiecare transformare este o conditionala parametrizata</li>
+                                        <li>Calculam exact log p(x) folosind change of variables</li>
+                                    </ul>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Diffusion Models</strong>
+                                    <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9rem;">
+                                        <li>p(x_{t-1}|x_t) = N(mu_theta(x_t, t), sigma_t)</li>
+                                        <li>Reteaua neurala prezice media denoising-ului</li>
+                                        <li>Lanturi Markov cu tranzitii parametrizate neural</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

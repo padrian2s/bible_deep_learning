@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">645</div>
         <div class="page-title">
-            <h3>Concluzie Partition Function</h3>
-            <span>Capitolul 18 - Final</span>
+            <h3>Concluzie Capitolul 18</h3>
+            <span>Capitolul 18 - Rezumat Final</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,28 +13,122 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Sumar Capitolul 18</h4>
-                <p>Partition function Z este provocarea centrala pentru modelele nedirectionate. Am vazut tehnici diverse: <strong>CD/PCD</strong> pentru training aproximativ, <strong>pseudolikelihood</strong> si <strong>score matching</strong> care evita Z, <strong>NCE</strong> care transforma problema, si <strong>AIS</strong> pentru estimarea lui Z pentru evaluare.</p>
+                <h4>Rezumatul Capitolului 18: Confronting the Partition Function</h4>
+                <p>Partition function Z este provocarea centrala pentru modelele nedirectionate (EBM, Markov Random Fields, RBM). Am vazut o varietate de tehnici pentru a face fata acestei probleme: <strong>CD/PCD</strong> pentru training aproximativ, <strong>pseudolikelihood</strong> si <strong>score matching</strong> care evita complet Z in obiectivul de training, <strong>NCE</strong> care transforma problema in clasificare, si <strong>AIS</strong> pentru estimarea lui Z cand avem nevoie de evaluare.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon animation">✨</div>
-                        <span>Concepte Cheie</span>
+                        <span>Harta Conceptelor Capitolului</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="key-concept">
-                                <h5>Rezumat Capitol 18</h5>
-                                <ul style="margin-left: 20px;">
-                                    <li><strong>Gradient decomposition</strong> - positive & negative phase</li>
-                                    <li><strong>CD/PCD</strong> - MCMC scurt pentru negative phase</li>
-                                    <li><strong>Pseudolikelihood</strong> - evita Z prin conditionale</li>
-                                    <li><strong>Score matching</strong> - evita Z pentru vars continue</li>
-                                    <li><strong>NCE</strong> - clasificare data vs noise</li>
-                                    <li><strong>AIS</strong> - estimare Z prin bridging</li>
-                                </ul>
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 1.2rem;">Strategii pentru Partition Function</div>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                    <div style="background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), var(--bg-lighter)); padding: 15px; border-radius: 8px; border-left: 4px solid var(--success);">
+                                        <h5 style="color: var(--success); margin-bottom: 10px;">Training Aproximativ</h5>
+                                        <ul style="margin-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                                            <li><strong>CD-k:</strong> MCMC scurt de la date</li>
+                                            <li><strong>PCD/SML:</strong> Chain-uri persistente</li>
+                                            <li>Bias in gradient, dar functional</li>
+                                        </ul>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), var(--bg-lighter)); padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                                        <h5 style="color: var(--primary); margin-bottom: 10px;">Evitare Z in Training</h5>
+                                        <ul style="margin-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                                            <li><strong>Pseudolikelihood:</strong> Produsul conditionalelor</li>
+                                            <li><strong>Score Matching:</strong> Match gradient log-density</li>
+                                            <li><strong>Ratio Matching:</strong> Pentru variabile discrete</li>
+                                        </ul>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), var(--bg-lighter)); padding: 15px; border-radius: 8px; border-left: 4px solid var(--secondary);">
+                                        <h5 style="color: var(--secondary); margin-bottom: 10px;">Clasificare in Loc de Density</h5>
+                                        <ul style="margin-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                                            <li><strong>NCE:</strong> Data vs Noise classification</li>
+                                            <li>Poate invata log Z ca parametru!</li>
+                                            <li>Baza pentru Word2Vec, InfoNCE</li>
+                                        </ul>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, rgba(230, 126, 34, 0.2), var(--bg-lighter)); padding: 15px; border-radius: 8px; border-left: 4px solid var(--warning);">
+                                        <h5 style="color: var(--warning); margin-bottom: 10px;">Estimare Z pentru Evaluare</h5>
+                                        <ul style="margin-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                                            <li><strong>AIS:</strong> Bridging distributions</li>
+                                            <li><strong>Bridge Sampling:</strong> Samples din ambele</li>
+                                            <li>Necesare pentru log-likelihood exact</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Tabel Comparativ: Toate Metodele</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                    <thead>
+                                        <tr style="background: var(--bg-dark);">
+                                            <th style="padding: 12px; border: 1px solid var(--bg-lighter); text-align: left;">Metoda</th>
+                                            <th style="padding: 12px; border: 1px solid var(--bg-lighter);">Calculeaza Z?</th>
+                                            <th style="padding: 12px; border: 1px solid var(--bg-lighter);">Variabile</th>
+                                            <th style="padding: 12px; border: 1px solid var(--bg-lighter);">Bias?</th>
+                                            <th style="padding: 12px; border: 1px solid var(--bg-lighter);">Folosire Moderna</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);"><strong>CD</strong></td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Nu</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Orice</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--warning);">Da</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);">RBM training</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);"><strong>PCD</strong></td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Nu</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Orice</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--success);">Mai putin</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);">Deep EBMs</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);"><strong>Pseudolikelihood</strong></td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Nu</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Orice</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--success);">Nu</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);">MRF, CRF</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);"><strong>Score Matching</strong></td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Nu</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--primary);">Continue</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--success);">Nu</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); color: var(--accent);"><strong>Diffusion Models!</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);"><strong>NCE</strong></td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--success);">Da!</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Orice</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--success);">Nu</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); color: var(--accent);"><strong>Word2Vec, CLIP!</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);"><strong>AIS</strong></td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--success);">Estimeaza</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center;">Orice</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter); text-align: center; color: var(--success);">Nu</td>
+                                            <td style="padding: 10px; border: 1px solid var(--bg-lighter);">Evaluare RBM</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -42,12 +136,107 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Ce Urmeaza</span>
+                        <span>Relevanta Moderna: 2024+</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <p>Capitolul 19 va trata <strong>Approximate Inference</strong> - cum calculam (aproximativ) distributiile posterior p(h|x) pentru modele cu variabile latente.</p>
+                            <div class="key-concept">
+                                <h5>Aceste Tehnici sunt FOARTE Relevante Azi!</h5>
+                                <p style="margin-top: 10px;">Capitolul 18 nu e doar istorie - aceste idei sunt fundamentale pentru deep learning modern:</p>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--accent); margin-bottom: 10px;">Diffusion Models</h5>
+                                    <p style="font-size: 0.9rem;">DALL-E, Stable Diffusion, Midjourney - toate bazate pe <strong>Score Matching</strong>!</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">Denoising = invata score-ul la multiple noise levels</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--primary); margin-bottom: 10px;">Contrastive Learning</h5>
+                                    <p style="font-size: 0.9rem;">SimCLR, CLIP, MoCo - toate bazate pe <strong>NCE/InfoNCE</strong>!</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">Positive/negative pairs = positive/negative phase</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--success); margin-bottom: 10px;">Word Embeddings</h5>
+                                    <p style="font-size: 0.9rem;">Word2Vec, GloVe - <strong>NCE</strong> a facut posibil training pe vocabulare mari!</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">Negative sampling = NCE simplificat</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--warning); margin-bottom: 10px;">Energy-Based Models</h5>
+                                    <p style="font-size: 0.9rem;">Renastere in ultimii ani: EBM pentru clasificare, generare, OOD detection</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">CD si PCD inca relevante!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce Urmeaza: Capitolul 19 - Approximate Inference</h4>
+                <p>Dupa ce am vazut cum sa facem fata lui Z pentru training si evaluare, capitolul urmator trateaza o problema inrudita: cum calculam (aproximativ) distributiile <strong>posterior p(h|x)</strong> pentru modele cu variabile latente. Vom vedea <strong>Variational Inference</strong>, <strong>MCMC</strong>, si cum aceste metode se combina cu training-ul.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Preview: Approximate Inference</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <h5 style="margin-bottom: 15px;">Capitolul 19 va acoperi:</h5>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--primary);">Variational Inference</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 8px;">Aproximam p(h|x) cu o distributie q(h) mai simpla. ELBO, reparameterization trick (VAE!).</p>
+                                    </div>
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--secondary);">MCMC Inference</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 8px;">Samples din posterior via Markov chains. Gibbs, HMC, Langevin dynamics.</p>
+                                    </div>
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--success);">Amortized Inference</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 8px;">Antrenam o retea sa prezica direct q(h|x). Encoder in VAE.</p>
+                                    </div>
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Wake-Sleep & Helmholtz</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 8px;">Algoritmii clasici care au inspirat VAE.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Lectură Suplimentara Recomandata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Score-Based Models (Yang Song's Tutorial)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Conexiunea score matching - diffusion, actualizat pentru 2024</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Understanding Diffusion Models (Lilian Weng)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Blog post excelent care leaga teoria de practica</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--success);">Contrastive Learning Survey (2021)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">NCE si variantele sale in computer vision si NLP</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Energy-Based Models Tutorial (LeCun & Du, 2019)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Perspectiva moderna pe EBM cu aplicatii</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

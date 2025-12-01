@@ -13,35 +13,101 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Figura 16.4: Structura Energy-Based Model</h4>
+                <h4>Figura 16.4: Boltzmann Machines</h4>
                 <p>Distributiile de forma P(x) = exp(-E(x))/Z se numesc <strong>distributii Boltzmann</strong>. Modelele care le folosesc sunt <strong>Boltzmann machines</strong>. Termenul vine din fizica statistica - aceeasi formula descrie distributia starilor in sisteme termodinamice la echilibru. Clique-urile in graful nedirectionat corespund termenilor din energia totala.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Structura Boltzmann Machine</span>
+                        <span>Simulare: Boltzmann Machine in PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-# Energie pentru Boltzmann Machine
-# cu variabile binare
+import torch
+import torch.nn as nn
 
-def energy(x, W, b):
+class BoltzmannMachine(nn.Module):
     """
-    x: vector binar de stari
-    W: matrice de ponderi (simetrica)
-    b: bias-uri
+    Boltzmann Machine clasica pentru variabile binare.
+    E(x) = -x^T W x - b^T x
     """
-    # Termeni pairwise (clique-uri de 2)
-    pairwise = -0.5 * x.T @ W @ x
-    # Termeni unary (clique-uri de 1)
-    unary = -b.T @ x
-    return pairwise + unary
+    def __init__(self, n_visible):
+        super().__init__()
+        self.n_visible = n_visible
+        self.W = nn.Parameter(torch.randn(n_visible, n_visible) * 0.01)
+        self.b = nn.Parameter(torch.zeros(n_visible))
+        with torch.no_grad():
+            self.W.copy_((self.W + self.W.t()) / 2)
+            self.W.fill_diagonal_(0)
 
-# P(x) ∝ exp(-E(x))
+    def energy(self, x):
+        """E(x) = -0.5 * x^T W x - b^T x"""
+        pairwise = -0.5 * torch.einsum('bi,ij,bj->b', x, self.W, x)
+        bias = -torch.einsum('bi,i->b', x, self.b)
+        return pairwise + bias
+
+    def gibbs_step(self, x):
+        """Un pas Gibbs sampling"""
+        x_new = x.clone()
+        for i in range(self.n_visible):
+            h = torch.matmul(x_new, self.W[:, i]) + self.b[i]
+            prob = torch.sigmoid(h)
+            x_new[:, i] = (torch.rand_like(prob) < prob).float()
+        return x_new
+
+    def sample(self, n_samples, n_steps=100):
+        """Genereaza sample-uri prin Gibbs sampling"""
+        x = torch.randint(0, 2, (n_samples, self.n_visible)).float()
+        for _ in range(n_steps):
+            x = self.gibbs_step(x)
+        return x
+
+bm = BoltzmannMachine(n_visible=10)
+samples = bm.sample(n_samples=100, n_steps=50)
+energies = bm.energy(samples)
+
+print(f"Sample shape: {samples.shape}")
+print(f"Energy mean: {energies.mean():.3f}")
+print(f"Energy std: {energies.std():.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura Boltzmann Machine</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Boltzmann Machine - Graf Complet</h5>
+                                <div style="display: flex; justify-content: center; margin: 20px 0;">
+                                    <div style="position: relative; width: 200px; height: 200px;">
+                                        <div style="position: absolute; top: 0; left: 75px; width: 50px; height: 50px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter);">x1</div>
+                                        <div style="position: absolute; top: 60px; left: 0; width: 50px; height: 50px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter);">x2</div>
+                                        <div style="position: absolute; top: 60px; right: 0; width: 50px; height: 50px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter);">x3</div>
+                                        <div style="position: absolute; bottom: 0; left: 30px; width: 50px; height: 50px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter);">x4</div>
+                                        <div style="position: absolute; bottom: 0; right: 30px; width: 50px; height: 50px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter);">x5</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">
+                                    (Toate nodurile sunt conectate intre ele)
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <div style="font-family: monospace; text-align: center; margin-bottom: 10px;">
+                                        E(x) = -Sum_{i<j} w_ij * x_i * x_j - Sum_i b_i * x_i
+                                    </div>
+                                    <ul style="margin: 10px 0 0 20px; font-size: 0.9rem;">
+                                        <li>w_ij = pondere interactiune intre x_i si x_j</li>
+                                        <li>b_i = bias pentru unitatea i</li>
+                                        <li>x_i in {0, 1} - variabile binare</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -49,13 +115,44 @@ def energy(x, W, b):
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Istoric Boltzmann Machines</span>
+                        <span>Istoric si Evolutie: De la BM la RBM la Deep Learning</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <p>Introduse de Hinton & Sejnowski (1986). Initial pentru variabile binare, dar extensii exista pentru variabile continue (Gaussian BM) si cu variabile latente (RBM).</p>
+                                <h5>Evolutia Boltzmann Machines</h5>
+                                <p style="margin-top: 10px;">Boltzmann Machines au fost pionierii deep learning-ului, dar au fost inlocuite de arhitecturi mai eficiente.</p>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <div style="width: 80px; text-align: center; color: var(--primary); font-weight: bold;">1985</div>
+                                    <div style="flex: 1; padding: 12px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                        <strong>Boltzmann Machines</strong> (Hinton & Sejnowski)
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">Primul model generativ bazat pe energie. Training foarte lent.</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <div style="width: 80px; text-align: center; color: var(--secondary); font-weight: bold;">2002</div>
+                                    <div style="flex: 1; padding: 12px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                        <strong>RBM</strong> (Restricted Boltzmann Machine)
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">Structura bipartita: visible-hidden. Training eficient cu CD.</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <div style="width: 80px; text-align: center; color: var(--accent); font-weight: bold;">2006</div>
+                                    <div style="flex: 1; padding: 12px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                        <strong>Deep Belief Networks</strong> (Hinton)
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">Stacking RBM-uri. "Deep Learning" renaste!</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center;">
+                                    <div style="width: 80px; text-align: center; color: var(--success); font-weight: bold;">2012+</div>
+                                    <div style="flex: 1; padding: 12px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--success);">
+                                        <strong>Era Moderna</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">CNN, VAE, GAN, Transformers inlocuiesc BM/RBM. Conceptele EBM raman relevante!</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">618</div>
         <div class="page-title">
-            <h3>Deep Boltzmann Machines</h3>
-            <span>Capitolul 17 - Sectiunea 17.5 (continuare)</span>
+            <h3>Tempering si Tehnici de Imbunatatire Mixing</h3>
+            <span>Capitolul 17 - Sectiunea 17.5.1</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,27 +13,200 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>DBM si Mixing Imbunatatit</h4>
-                <p>In <strong>Deep Boltzmann Machines</strong> (DBM), straturile de variabile latente pot facilita mixing-ul. Schimbari mici in stratul de top pot genera schimbari mari in spatiul datelor. Totusi, DBM-urile sunt dificil de antrenat si mixing-ul ramane o problema fundamentala.</p>
+                <h4>17.5.1 Tempering to Mix between Modes</h4>
+                <p><strong>Tempering</strong> este o tehnica puternica pentru imbunatatirea mixing-ului. Ideea: la temperaturi inalte, distributia devine mai "plata" (barierele scad), permitand chain-ului sa exploreze mai liber. La temperaturi joase, chain-ul se concentreaza pe mode-uri. Combinand informatia de la diferite temperaturi, putem obtine mixing mai bun.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon reference">📚</div>
-                        <span>Comparatie Mixing</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Parallel Tempering</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--primary);">RBM (shallow)</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">Mixing in spatiul datelor - poate fi lent</p>
+                            <div class="code-block">
+import torch
+import numpy as np
+
+class ParallelTempering:
+    """
+    Parallel Tempering (Replica Exchange MCMC)
+    Ruleaza chain-uri la temperaturi diferite si schimba periodic stari
+    """
+    def __init__(self, energy_fn, temperatures, step_size=0.1):
+        self.energy_fn = energy_fn
+        self.temperatures = np.array(temperatures)
+        self.n_chains = len(temperatures)
+        self.step_size = step_size
+
+    def mcmc_step(self, x, beta):
+        """Un pas Metropolis la temperatura 1/beta"""
+        x_proposed = x + np.random.randn(*x.shape) * self.step_size
+        delta_E = self.energy_fn(x_proposed) - self.energy_fn(x)
+        if np.random.random() < np.exp(-beta * delta_E):
+            return x_proposed
+        return x
+
+    def swap_step(self, states, i, j):
+        """Incearca sa schimbe starile intre chain-uri i si j"""
+        beta_i = 1.0 / self.temperatures[i]
+        beta_j = 1.0 / self.temperatures[j]
+        E_i = self.energy_fn(states[i])
+        E_j = self.energy_fn(states[j])
+
+        delta = (beta_i - beta_j) * (E_j - E_i)
+        if np.random.random() < np.exp(delta):
+            states[i], states[j] = states[j].copy(), states[i].copy()
+            return True
+        return False
+
+    def sample(self, x_init, n_samples, swap_freq=10):
+        states = [x_init.copy() for _ in range(self.n_chains)]
+        samples = []
+        swaps_accepted = 0
+        swaps_attempted = 0
+
+        for step in range(n_samples):
+            for i in range(self.n_chains):
+                beta = 1.0 / self.temperatures[i]
+                states[i] = self.mcmc_step(states[i], beta)
+
+            if step % swap_freq == 0:
+                for i in range(self.n_chains - 1):
+                    swaps_attempted += 1
+                    if self.swap_step(states, i, i + 1):
+                        swaps_accepted += 1
+
+            samples.append(states[0].copy())
+
+        swap_rate = swaps_accepted / max(swaps_attempted, 1)
+        return np.array(samples), swap_rate
+
+def double_well(x):
+    return 5.0 * (x[0]**2 - 1)**2 + 0.5 * x[1]**2
+
+temperatures = [1.0, 2.0, 5.0, 10.0]
+pt = ParallelTempering(double_well, temperatures, step_size=0.3)
+
+samples, swap_rate = pt.sample(np.array([1.0, 0.0]), n_samples=5000, swap_freq=10)
+print(f"Swap acceptance rate: {swap_rate:.2%}")
+print(f"Samples in mode +1: {np.sum(samples[:, 0] > 0)}")
+print(f"Samples in mode -1: {np.sum(samples[:, 0] < 0)}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Efectul Temperaturii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 150px; padding: 0 20px;">
+                                    <div style="text-align: center; flex: 1;">
+                                        <div style="height: 120px; background: linear-gradient(to top, var(--primary) 0%, var(--primary) 40%, transparent 40%, transparent 60%, var(--primary) 60%, var(--primary) 100%); border-radius: 5px; margin-bottom: 10px;"></div>
+                                        <p style="font-size: 0.8rem;"><strong>T = 0</strong></p>
+                                        <p style="font-size: 0.7rem; color: var(--text-secondary);">Delta peaks la mode-uri</p>
+                                    </div>
+                                    <div style="text-align: center; flex: 1;">
+                                        <div style="height: 120px; background: linear-gradient(to top, var(--secondary) 0%, var(--secondary) 30%, rgba(var(--secondary-rgb), 0.5) 50%, var(--secondary) 70%, var(--secondary) 100%); border-radius: 5px; margin-bottom: 10px;"></div>
+                                        <p style="font-size: 0.8rem;"><strong>T = 1</strong></p>
+                                        <p style="font-size: 0.7rem; color: var(--text-secondary);">Distributia originala</p>
+                                    </div>
+                                    <div style="text-align: center; flex: 1;">
+                                        <div style="height: 120px; background: linear-gradient(to top, var(--accent) 20%, var(--accent) 40%, rgba(var(--accent-rgb), 0.7) 50%, var(--accent) 60%, var(--accent) 80%); border-radius: 5px; margin-bottom: 10px;"></div>
+                                        <p style="font-size: 0.8rem;"><strong>T = 5</strong></p>
+                                        <p style="font-size: 0.7rem; color: var(--text-secondary);">Bariere reduse</p>
+                                    </div>
+                                    <div style="text-align: center; flex: 1;">
+                                        <div style="height: 120px; background: var(--warning); border-radius: 5px; margin-bottom: 10px;"></div>
+                                        <p style="font-size: 0.8rem;"><strong>T = inf</strong></p>
+                                        <p style="font-size: 0.7rem; color: var(--text-secondary);">Uniform</p>
+                                    </div>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--secondary);">DBM (deep)</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">Mixing in spatiu abstract - potential mai rapid</p>
+                                <div style="margin-top: 20px; text-align: center;">
+                                    <p style="font-size: 0.9rem;">p_T(x) = exp(-E(x)/T) / Z_T</p>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Variante de Tempering</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong>Simulated Annealing</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Scade temperatura in timp. Bun pentru optimizare, nu pentru sampling.</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong>Parallel Tempering (Replica Exchange)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Chain-uri paralele la temperaturi fixe, schimba stari periodic.</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong>Tempered Transitions</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Un singur chain care oscileaza intre temperaturi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aplicatii Moderne ale Tempering</h4>
+                <p>Tempering ramane relevant in deep learning modern. <strong>Contrastive Divergence</strong> pentru RBM-uri foloseste chain-uri scurte (1 pas Gibbs). <strong>Persistent CD</strong> mentine chain-uri care ruleaza continuu. Recent, tempering a fost explorat si pentru <strong>training de diffusion models</strong> si <strong>EBM-uri moderne</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Conexiune cu Diffusion Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Insight cheie:</strong> Diffusion models sunt o forma de tempering!</p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Forward process: x_0 → x_1 → ... → x_T (adauga zgomot = creste "temperatura")</li>
+                                    <li>La t=T: distributie aproape Gaussiana (ca T=inf in tempering)</li>
+                                    <li>Reverse process: x_T → x_{T-1} → ... → x_0 (scade "temperatura")</li>
+                                    <li>Sampling: porneste de la noise (T mare), ajunge la data (T=1)</li>
+                                </ul>
+                                <p style="margin-top: 10px; color: var(--success);">Diffusion = annealing continuu cu score function invatat!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Critical Temperatures</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Problema temperaturilor critice:</strong></p>
+                                <p style="margin-top: 10px;">In unele modele (Ising, Potts), exista temperaturi critice unde:</p>
+                                <ul style="margin-left: 20px; margin-top: 5px;">
+                                    <li>Tranzitii de faza apar (ordine → dezordine)</li>
+                                    <li>Mixing time explodeaza (critical slowing down)</li>
+                                    <li>Swap acceptance rate scade dramatic</li>
+                                </ul>
+                                <p style="margin-top: 10px;">Solutie: Mai multe temperaturi in jurul punctului critic, sau metode speciale (cluster algorithms).</p>
                             </div>
                         </div>
                     </div>

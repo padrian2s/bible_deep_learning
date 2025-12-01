@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">619</div>
         <div class="page-title">
-            <h3>Concluzie Monte Carlo Methods</h3>
-            <span>Capitolul 17 - Final</span>
+            <h3>Concluzie: Monte Carlo Methods</h3>
+            <span>Capitolul 17 - Sumar si Perspective</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,29 +13,101 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Sumar Capitolul 17</h4>
-                <p>Metodele Monte Carlo sunt fundamentale pentru deep learning, permitand aproximarea cantitatilor intractabile. <strong>MCMC</strong> este esential pentru modele nedirectionate, dar sufera de probleme de <strong>mixing</strong>. Intelegerea acestor limite este cruciala pentru designul si training-ul modelelor generative.</p>
+                <h4>Sumar Capitolul 17: Monte Carlo Methods</h4>
+                <p>Metodele Monte Carlo sunt <strong>fundamentale</strong> pentru machine learning modern. Ele permit aproximarea cantitatilor intractabile (integrale, sume, valori asteptate) prin sampling. Pentru modele nedirectionate si energy-based, <strong>MCMC</strong> este esential, dar problema <strong>mixing-ului</strong> ramane o provocare majora in dimensiuni inalte.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon animation">✨</div>
-                        <span>Concepte Cheie</span>
+                        <span>Harta Conceptelor Cheie</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="key-concept">
-                                <h5>Rezumat Capitol 17</h5>
-                                <ul style="margin-left: 20px;">
-                                    <li><strong>Monte Carlo</strong> - estimare prin sampling</li>
-                                    <li><strong>Importance sampling</strong> - schimbare distributie proposal</li>
-                                    <li><strong>MCMC</strong> - sampling via Markov chains</li>
-                                    <li><strong>Gibbs sampling</strong> - update pe variabile individuale</li>
-                                    <li><strong>Mixing</strong> - problema fundamentala in dimensiuni inalte</li>
-                                    <li><strong>Tempering</strong> - tehnica pentru mixing imbunatatit</li>
-                                    <li><strong>Depth</strong> - poate ajuta mixing-ul</li>
-                                </ul>
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div>
+                                        <h5 style="color: var(--primary); margin-bottom: 15px;">Metode de Sampling</h5>
+                                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                                            <div style="padding: 10px; background: var(--bg-lighter); border-radius: 5px; border-left: 3px solid var(--primary);">
+                                                <strong>Direct Sampling</strong>
+                                                <p style="font-size: 0.85rem;">Ancestral (DAG), Transforme</p>
+                                            </div>
+                                            <div style="padding: 10px; background: var(--bg-lighter); border-radius: 5px; border-left: 3px solid var(--secondary);">
+                                                <strong>Importance Sampling</strong>
+                                                <p style="font-size: 0.85rem;">Proposal q(x), weights p/q</p>
+                                            </div>
+                                            <div style="padding: 10px; background: var(--bg-lighter); border-radius: 5px; border-left: 3px solid var(--accent);">
+                                                <strong>MCMC</strong>
+                                                <p style="font-size: 0.85rem;">Metropolis-Hastings, Gibbs, HMC</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 style="color: var(--secondary); margin-bottom: 15px;">Provocari</h5>
+                                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                                            <div style="padding: 10px; background: var(--bg-lighter); border-radius: 5px; border-left: 3px solid var(--warning);">
+                                                <strong>High Variance</strong>
+                                                <p style="font-size: 0.85rem;">Importance weights extreme</p>
+                                            </div>
+                                            <div style="padding: 10px; background: var(--bg-lighter); border-radius: 5px; border-left: 3px solid var(--warning);">
+                                                <strong>Slow Mixing</strong>
+                                                <p style="font-size: 0.85rem;">Mode separation, bariere energie</p>
+                                            </div>
+                                            <div style="padding: 10px; background: var(--bg-lighter); border-radius: 5px; border-left: 3px solid var(--warning);">
+                                                <strong>Burn-in</strong>
+                                                <p style="font-size: 0.85rem;">Convergenta lenta la stationaritate</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cheat Sheet: Alegerea Metodei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+"""
+GHID PENTRU ALEGEREA METODEI DE SAMPLING
+=========================================
+
+1. Poti sample DIRECT din p(x)?
+   - DA: Foloseste direct sampling (cel mai eficient)
+   - NU: Continua la 2
+
+2. Este p(x) un DAG (model directionat)?
+   - DA: Foloseste ANCESTRAL SAMPLING
+   - NU: Continua la 3
+
+3. Cunosti o propunere q(x) buna?
+   - DA, q acopera bine p: IMPORTANCE SAMPLING
+   - NU sau dimensiune inalta: Continua la 4
+
+4. Ai acces la grad log p(x)?
+   - DA: HMC sau LANGEVIN DYNAMICS
+   - NU: Continua la 5
+
+5. Conditionalele P(x_i | x_{-i}) sunt usor de sample-at?
+   - DA: GIBBS SAMPLING
+   - NU: METROPOLIS-HASTINGS generic
+
+6. Mixing lent? Mode-uri separate?
+   - DA: Adauga TEMPERING (parallel tempering, simulated)
+   - Sau: Foloseste PERSISTENT CD, reinitializare periodica
+
+MODERN ML:
+- Diffusion models = annealed Langevin cu score invatat
+- VAE = reparametrization trick pentru sampling diferentiabil
+- GANs = evita sampling explicit prin adversarial training
+"""
                             </div>
                         </div>
                     </div>
@@ -43,12 +115,105 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Ce Urmeaza</span>
+                        <span>Perspective Moderne</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <p>Capitolul 18 va trata <strong>partition function</strong> - cum o calculam sau evitam calculul ei. Aceasta este problema centrala pentru training-ul EBM-urilor.</p>
+                            <div class="key-concept">
+                                <p><strong>Evolutia metodelor Monte Carlo in Deep Learning:</strong></p>
+                                <ul style="margin-left: 20px; margin-top: 15px;">
+                                    <li style="margin-bottom: 10px;">
+                                        <strong style="color: var(--primary);">2006-2012:</strong> RBM-uri si DBM-uri cu Contrastive Divergence. Probleme severe de mixing.
+                                    </li>
+                                    <li style="margin-bottom: 10px;">
+                                        <strong style="color: var(--secondary);">2014:</strong> VAE-uri evita MCMC prin variational inference + reparametrization trick.
+                                    </li>
+                                    <li style="margin-bottom: 10px;">
+                                        <strong style="color: var(--accent);">2014:</strong> GANs evita sampling explicit prin adversarial training.
+                                    </li>
+                                    <li style="margin-bottom: 10px;">
+                                        <strong style="color: var(--success);">2019-2023:</strong> Diffusion models = MCMC cu score function invatat. Revenire triumfala a sampling-ului!
+                                    </li>
+                                    <li style="margin-bottom: 10px;">
+                                        <strong style="color: var(--warning);">2023+:</strong> Flow matching, consistency models - sampling mai rapid.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce Urmeaza: Capitolul 18 - Partition Function</h4>
+                <p>Capitolul urmator se concentreaza pe problema <strong>partition function</strong> Z = sum_x exp(-E(x)). Aceasta constanta de normalizare este cruciala pentru training-ul EBM-urilor dar intractabila de calculat direct. Vom explora metode pentru a o evita sau aproxima: contrastive divergence, score matching, noise contrastive estimation.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Preview: Problema Z</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div class="formula" style="text-align: center; margin-bottom: 15px;">
+                                    <p style="font-size: 1.2rem;">p(x) = exp(-E(x)) / Z</p>
+                                    <p style="font-size: 1.2rem; margin-top: 10px;">Z = sum_x exp(-E(x))</p>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 5px;">
+                                        <strong style="color: var(--warning);">Problema</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Suma peste spatiu exponential mare. Nu se poate calcula exact.</p>
+                                    </div>
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 5px;">
+                                        <strong style="color: var(--success);">Solutii</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">CD, Score matching, NCE - evita sau aproximeaza Z.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exercitii si Proiecte Recomandate</h4>
+                <p>Pentru a intelege profund metodele Monte Carlo, practica este esentiala. Iata cateva proiecte hands-on care demonstreaza conceptele din acest capitol.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Proiecte Practice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong>1. Estimare Pi prin Monte Carlo</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Implementeaza estimarea clasica a lui pi. Vizualizeaza convergenta cu numarul de sample-uri.</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong>2. Gibbs Sampling pentru Ising Model</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Implementeaza Gibbs pentru Ising 2D. Vizualizeaza tranzitia de faza variind temperatura.</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong>3. MCMC pentru RBM</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Implementeaza block Gibbs pentru un RBM simplu pe MNIST binarizat. Genereaza cifre.</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--success);">
+                                    <strong>4. Langevin Dynamics pentru EBM</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Implementeaza Langevin MCMC cu PyTorch autograd. Compara cu Metropolis-Hastings.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

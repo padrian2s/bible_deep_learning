@@ -3,7 +3,7 @@
         <div class="page-number">587</div>
         <div class="page-title">
             <h3>Free Energy si Variabile Latente</h3>
-            <span>Capitolul 16 - Sectiunea 16.2.4</span>
+            <span>Capitolul 16 - Sectiunea 16.2.5</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,24 +13,102 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>16.2.4 Free Energy cu Variabile Latente</h4>
-                <p>Multe modele includ <strong>variabile latente</strong> h (hidden) pe langa variabilele observate x. Energia E(x,h) este definita pe ambele. Pentru a obtine P(x), trebuie sa marginalizam h: P(x) = Σ_h exp(-E(x,h))/Z. Putem defini <strong>free energy</strong>: F(x) = -log Σ_h exp(-E(x,h)) astfel incat P(x) = exp(-F(x))/Z.</p>
+                <h4>16.2.5 Free Energy cu Variabile Latente</h4>
+                <p>Multe modele includ <strong>variabile latente</strong> h (hidden) pe langa variabilele observate x. Energia E(x,h) este definita pe ambele. Pentru a obtine P(x), marginalizam h: P(x) = Sum_h exp(-E(x,h))/Z. Putem defini <strong>free energy</strong>: F(x) = -log Sum_h exp(-E(x,h)) astfel incat P(x) = exp(-F(x))/Z.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Formula Free Energy</span>
+                        <span>Simulare: Free Energy si Marginalizare</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Energie comuna:</strong> E(x, h)</p>
-                                <p style="margin-top: 10px;"><strong>Free energy:</strong></p>
-                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">F(x) = -log Σ_h exp(-E(x,h))</p>
-                                <p style="margin-top: 10px;"><strong>Probabilitate marginala:</strong></p>
-                                <p style="font-size: 1.1rem; text-align: center;">P(x) = exp(-F(x)) / Z</p>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class LatentEnergyModel(nn.Module):
+    """
+    Model cu variabile latente.
+    x = vizibil, h = latent (hidden)
+    E(x, h) defineste energia comuna
+    """
+    def __init__(self, x_dim, h_dim):
+        super().__init__()
+        self.W = nn.Parameter(torch.randn(x_dim, h_dim) * 0.01)
+        self.b_x = nn.Parameter(torch.zeros(x_dim))
+        self.b_h = nn.Parameter(torch.zeros(h_dim))
+
+    def energy(self, x, h):
+        """E(x, h) = -x^T W h - b_x^T x - b_h^T h"""
+        interaction = -torch.einsum('bi,ij,bj->b', x, self.W, h)
+        bias_x = -torch.einsum('bi,i->b', x, self.b_x)
+        bias_h = -torch.einsum('bj,j->b', h, self.b_h)
+        return interaction + bias_x + bias_h
+
+    def free_energy(self, x):
+        """F(x) = -log sum_h exp(-E(x,h))"""
+        pre_sigmoid = torch.matmul(x, self.W) + self.b_h
+        free_energy = -torch.sum(torch.log(1 + torch.exp(pre_sigmoid)), dim=-1)
+        free_energy -= torch.einsum('bi,i->b', x, self.b_x)
+        return free_energy
+
+    def sample_h_given_x(self, x):
+        """P(h|x) pentru RBM este factorizabil!"""
+        prob_h = torch.sigmoid(torch.matmul(x, self.W) + self.b_h)
+        return (torch.rand_like(prob_h) < prob_h).float()
+
+model = LatentEnergyModel(x_dim=784, h_dim=256)
+
+x = torch.randn(32, 784)
+h = model.sample_h_given_x(x)
+
+energy = model.energy(x, h)
+free_energy = model.free_energy(x)
+
+print(f"E(x,h) shape: {energy.shape}, mean: {energy.mean():.3f}")
+print(f"F(x) shape: {free_energy.shape}, mean: {free_energy.mean():.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Relatia intre E, F si P</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Ierarhia: Energie -> Free Energy -> Probabilitate</h5>
+                                <div style="display: flex; flex-direction: column; gap: 15px;">
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                        <strong style="color: var(--primary);">Energia E(x, h)</strong>
+                                        <div style="font-family: monospace; margin: 10px 0;">
+                                            E(x, h) = -x^T W h - b_x^T x - b_h^T h
+                                        </div>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Definita pe variabilele vizibile x SI latente h</p>
+                                    </div>
+                                    <div style="text-align: center; font-size: 1.5rem; color: var(--text-secondary);">|</div>
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                        <strong style="color: var(--secondary);">Free Energy F(x)</strong>
+                                        <div style="font-family: monospace; margin: 10px 0;">
+                                            F(x) = -log Sum_h exp(-E(x, h))
+                                        </div>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Marginalizam h - obtinem energie "efectiva" pe x</p>
+                                    </div>
+                                    <div style="text-align: center; font-size: 1.5rem; color: var(--text-secondary);">|</div>
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                        <strong style="color: var(--accent);">Probabilitate P(x)</strong>
+                                        <div style="font-family: monospace; margin: 10px 0;">
+                                            P(x) = exp(-F(x)) / Z
+                                        </div>
+                                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Distributia pe variabilele vizibile</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -38,16 +116,43 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Rolul Variabilelor Latente</span>
+                        <span>Aplicatii: RBM, VAE si Reprezentari Latente</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Reprezentare</strong> - h codifica structura datelor</li>
-                                <li><strong>Expresivitate</strong> - modeleaza relatii complexe</li>
-                                <li><strong>Flexibilitate</strong> - P(x) poate fi multimodala</li>
-                            </ul>
+                            <div class="key-concept">
+                                <h5>Rolul Variabilelor Latente</h5>
+                                <p style="margin-top: 10px;">Variabilele latente h codifica <strong>structura ascunsa</strong> a datelor - pattern-uri, clase, factori de variatie.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--primary);">RBM (Restricted Boltzmann Machine)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Graf bipartit: visible-hidden. Conditionalele P(h|x) si P(x|h) sunt factorizabile - sampling rapid! Free energy are forma analitica.
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">VAE (Variational Autoencoder)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Encoder q(z|x) aproximeaza posteriorii P(z|x). ELBO = -F(x) + KL. Variabilele latente z captureaza semantica datelor.
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Diffusion Models</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        x_1, x_2, ..., x_T sunt variabile latente la diferite nivele de zgomot. Marginalizarea peste ele da P(x_0).
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); border-radius: 8px;">
+                                <strong style="color: var(--success);">Beneficii ale latentelor:</strong>
+                                <ul style="margin: 10px 0 0 20px; font-size: 0.9rem;">
+                                    <li><strong>Reprezentare</strong> - h codifica features utile</li>
+                                    <li><strong>Expresivitate</strong> - P(x) poate fi multimodala chiar daca E(x,h) e simpla</li>
+                                    <li><strong>Generare</strong> - sample h, apoi sample x|h</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

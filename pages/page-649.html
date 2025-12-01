@@ -14,13 +14,13 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>19.2 Expectation Maximization (EM)</h4>
-                <p>Algoritmul <strong>EM</strong> este o metoda populara pentru modele cu variabile latente. Maximizeaza lower bound-ul L prin alternare intre doi pasi: <strong>E-step</strong> (inferenta) si <strong>M-step</strong> (learning).</p>
+                <p>Algoritmul <strong>EM</strong> este o metoda clasica pentru modele cu variabile latente. Maximizeaza lower bound-ul L prin alternare intre doi pasi: <strong>E-step</strong> (inferenta: calculeaza q) si <strong>M-step</strong> (learning: actualizeaza θ). EM garanteaza cresterea monotona a likelihood-ului.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Algoritmul EM</span>
+                        <span>Simulare: EM pentru GMM</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
@@ -30,15 +30,115 @@
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
                                     <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
                                         <div style="color: var(--primary); font-weight: bold;">E-step (Expectation)</div>
-                                        <p>Seteaza q(h|v) = p(h|v; θ^(0))</p>
+                                        <p>Seteaza q(h|v) = p(h|v; θ^(t))</p>
                                         <p style="font-size: 0.85rem; color: var(--text-secondary);">Foloseste parametrii curenti pentru inferenta</p>
                                     </div>
                                     <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
                                         <div style="color: var(--secondary); font-weight: bold;">M-step (Maximization)</div>
-                                        <p>Maximizeaza Σᵢ L(v⁽ⁱ⁾, θ, q)</p>
+                                        <p>θ^(t+1) = arg max Σᵢ L(v⁽ⁱ⁾, θ, q)</p>
                                         <p style="font-size: 0.85rem; color: var(--text-secondary);">Actualizeaza θ cu q fixat</p>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn as nn
+
+class GaussianMixtureEM:
+    """EM pentru Gaussian Mixture Model"""
+
+    def __init__(self, n_components=3, n_features=2):
+        self.K = n_components
+        self.D = n_features
+        self.pi = torch.ones(n_components) / n_components
+        self.mu = torch.randn(n_components, n_features)
+        self.sigma = torch.stack([torch.eye(n_features)] * n_components)
+
+    def e_step(self, X):
+        """Calculeaza responsibilities (posterior q)"""
+        N = X.shape[0]
+        resp = torch.zeros(N, self.K)
+
+        for k in range(self.K):
+            diff = X - self.mu[k]
+            inv_sigma = torch.inverse(self.sigma[k])
+            det_sigma = torch.det(self.sigma[k])
+            exp_term = -0.5 * torch.sum(diff @ inv_sigma * diff, dim=1)
+            resp[:, k] = self.pi[k] * torch.exp(exp_term) / torch.sqrt(det_sigma)
+
+        resp = resp / resp.sum(dim=1, keepdim=True)
+        return resp
+
+    def m_step(self, X, resp):
+        """Actualizeaza parametrii (maximizeaza ELBO)"""
+        N = X.shape[0]
+        Nk = resp.sum(dim=0)
+
+        self.pi = Nk / N
+
+        for k in range(self.K):
+            self.mu[k] = (resp[:, k:k+1] * X).sum(dim=0) / Nk[k]
+            diff = X - self.mu[k]
+            self.sigma[k] = (resp[:, k:k+1].unsqueeze(2) *
+                            diff.unsqueeze(2) @ diff.unsqueeze(1)).sum(dim=0) / Nk[k]
+
+    def fit(self, X, n_iter=50):
+        for i in range(n_iter):
+            resp = self.e_step(X)
+            self.m_step(X, resp)
+            if i % 10 == 0:
+                print(f"Iteration {i}: pi = {self.pi.numpy()}")
+
+gmm = GaussianMixtureEM(n_components=3)
+X = torch.randn(100, 2)
+gmm.fit(X)
+print(f"\nFinal mixing coefficients: {gmm.pi.numpy()}")
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: EM ca Coordinate Ascent</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div class="formula" style="font-size: 1.2rem;">EM = Coordinate Ascent pe L(v, θ, q)</div>
+                                </div>
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">E</div>
+                                        <p style="margin-top: 10px;">Optimize q</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">θ fixed</p>
+                                    </div>
+                                    <div style="font-size: 2rem;">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 80px; height: 80px; background: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">M</div>
+                                        <p style="margin-top: 10px;">Optimize θ</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">q fixed</p>
+                                    </div>
+                                    <div style="font-size: 2rem;">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 80px; height: 80px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem;">REPEAT</div>
+                                        <p style="margin-top: 10px;">Until converge</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">L ↑ monoton</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Garantii:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>E-step:</strong> q = p(h|v;θ) seteaza KL gap la 0, maximizand L</li>
+                                    <li><strong>M-step:</strong> Cu KL=0, maximizand L = maximizam log p(v)</li>
+                                    <li><strong>Monotonicity:</strong> L(θ^(t+1)) ≥ L(θ^(t)) garantat</li>
+                                    <li><strong>Convergenta:</strong> La un local maximum (nu neaparat global)</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -46,17 +146,29 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>EM ca Coordinate Ascent</span>
+                        <span>Referinte si Variante EM</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <p>EM poate fi vazut ca <strong>coordinate ascent</strong> pe L:</p>
-                            <ul style="margin-left: 20px;">
-                                <li>Un pas maximizeaza L in raport cu q</li>
-                                <li>Alt pas maximizeaza L in raport cu θ</li>
-                                <li>SGD pe latent variable models e un caz special (M-step = un gradient step)</li>
-                            </ul>
+                            <div class="reference-list">
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">SGD pe Latent Variable Models</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">M-step poate fi un singur gradient step in loc de optimizare completa. Aceasta e conexiunea cu VAE training!</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Variational EM</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Cand E-step exact e intractabil, folosim q aproximativ (mean field). Gap-ul KL devine non-zero dar controlabil.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--accent);">Wake-Sleep Algorithm</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Hinton 1995 - Alternativa la EM pentru deep networks, foloseste doua faze de training.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Amortized Inference (VAE)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">In loc de E-step per-exemplu, folosim un encoder neural q_φ(h|v). Economisim calcul la test time!</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

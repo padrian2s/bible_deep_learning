@@ -104,6 +104,26 @@ def corrupt(x, noise_type='gaussian', sigma=0.3):
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Formula: Obiectivul DAE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="text-align: center; margin-bottom: 10px;"><strong>Ecuatia 14.14 - Obiectivul DAE</strong></p>
+                                <p style="text-align: center; font-family: monospace; font-size: 1.1rem;">
+                                    - E<sub>x~p̂<sub>data</sub></sub> E<sub>x̃~C(x̃|x)</sub> log p<sub>decoder</sub>(x | h = f(x̃))
+                                </p>
+                                <p style="text-align: center; margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                    Minimizam NLL mediu peste: 1) date din distributia de training, 2) coruptii posibile
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

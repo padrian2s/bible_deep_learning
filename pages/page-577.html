@@ -20,29 +20,127 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Comparatie Directed vs Undirected</span>
+                        <span>Simulare: Comparatie Directed vs Undirected in PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--primary);">Directed (Bayesian Nets)</strong>
-                                    <ul style="margin: 10px 0 0 15px; font-size: 0.9rem;">
-                                        <li>Arce cu directie (→)</li>
-                                        <li>P(x) = Π P(xᵢ|Pa(xᵢ))</li>
-                                        <li>Natural pentru cauzalitate</li>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class DirectedGraphicalModel(nn.Module):
+    """Model directed (Bayesian Network) pentru 3 variabile"""
+    def __init__(self, dim=10):
+        super().__init__()
+        self.p_a = nn.Parameter(torch.randn(dim))
+        self.p_b_given_a = nn.Parameter(torch.randn(dim, dim))
+        self.p_c_given_b = nn.Parameter(torch.randn(dim, dim))
+
+    def log_prob(self, a, b, c):
+        log_pa = torch.log_softmax(self.p_a, dim=0)[a]
+        log_pb_a = torch.log_softmax(self.p_b_given_a[a], dim=0)[b]
+        log_pc_b = torch.log_softmax(self.p_c_given_b[b], dim=0)[c]
+        return log_pa + log_pb_a + log_pc_b
+
+class UndirectedGraphicalModel(nn.Module):
+    """Model undirected (MRF) pentru 3 variabile"""
+    def __init__(self, dim=10):
+        super().__init__()
+        self.phi_ab = nn.Parameter(torch.randn(dim, dim))
+        self.phi_bc = nn.Parameter(torch.randn(dim, dim))
+
+    def energy(self, a, b, c):
+        return -self.phi_ab[a, b] - self.phi_bc[b, c]
+
+    def unnormalized_prob(self, a, b, c):
+        return torch.exp(-self.energy(a, b, c))
+
+directed = DirectedGraphicalModel()
+undirected = UndirectedGraphicalModel()
+
+print("Directed: P(a,b,c) = P(a)P(b|a)P(c|b)")
+print("Undirected: P(a,b,c) = (1/Z) * phi(a,b) * phi(b,c)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Comparatie Structuri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <strong style="color: var(--primary); font-size: 1.1rem;">Directed (Bayesian Net)</strong>
+                                    <div style="margin: 20px 0; font-family: monospace; font-size: 1.3rem;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                            <span style="display: inline-block; width: 40px; height: 40px; border: 3px solid var(--primary); border-radius: 50%; line-height: 34px;">A</span>
+                                            <span style="color: var(--primary);">--></span>
+                                            <span style="display: inline-block; width: 40px; height: 40px; border: 3px solid var(--primary); border-radius: 50%; line-height: 34px;">B</span>
+                                            <span style="color: var(--primary);">--></span>
+                                            <span style="display: inline-block; width: 40px; height: 40px; border: 3px solid var(--primary); border-radius: 50%; line-height: 34px;">C</span>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 0.95rem; color: var(--text-secondary);">
+                                        P(A,B,C) = P(A) * P(B|A) * P(C|B)
+                                    </div>
+                                    <ul style="text-align: left; margin: 15px 0 0 20px; font-size: 0.9rem;">
+                                        <li>Arce cu directie (cauzalitate)</li>
                                         <li>Sampling usor (ancestral)</li>
+                                        <li>Natural pentru generative models</li>
                                     </ul>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--secondary);">Undirected (MRF)</strong>
-                                    <ul style="margin: 10px 0 0 15px; font-size: 0.9rem;">
-                                        <li>Muchii fara directie (—)</li>
-                                        <li>P(x) = (1/Z) Π φ(clique)</li>
-                                        <li>Natural pentru corelatii</li>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <strong style="color: var(--secondary); font-size: 1.1rem;">Undirected (MRF)</strong>
+                                    <div style="margin: 20px 0; font-family: monospace; font-size: 1.3rem;">
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                            <span style="display: inline-block; width: 40px; height: 40px; border: 3px solid var(--secondary); border-radius: 50%; line-height: 34px;">A</span>
+                                            <span style="color: var(--secondary);">---</span>
+                                            <span style="display: inline-block; width: 40px; height: 40px; border: 3px solid var(--secondary); border-radius: 50%; line-height: 34px;">B</span>
+                                            <span style="color: var(--secondary);">---</span>
+                                            <span style="display: inline-block; width: 40px; height: 40px; border: 3px solid var(--secondary); border-radius: 50%; line-height: 34px;">C</span>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 0.95rem; color: var(--text-secondary);">
+                                        P(A,B,C) = (1/Z) * phi(A,B) * phi(B,C)
+                                    </div>
+                                    <ul style="text-align: left; margin: 15px 0 0 20px; font-size: 0.9rem;">
+                                        <li>Muchii fara directie (corelatii)</li>
                                         <li>Necesita normalizare Z</li>
+                                        <li>Natural pentru CRF, Ising model</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context Modern: Conexiuni cu Transformers si Diffusion</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Modele Grafice in Deep Learning Modern</h5>
+                                <div style="display: grid; gap: 12px; margin-top: 10px;">
+                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; border-left: 3px solid var(--primary);">
+                                        <strong>Transformers ca Graphical Models</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Attention-ul poate fi vazut ca un graf complet unde fiecare token interactioneaza cu toate celelalte. Self-attention defineste implicit potentiale pe clique-uri.</p>
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                        <strong>Diffusion Models</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Score-based diffusion models sunt Energy-Based Models (EBM) unde scorul = -gradient(energie). Training-ul foloseste score matching in loc de Z intractabil.</p>
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; border-left: 3px solid var(--accent);">
+                                        <strong>VAE si Latent Variable Models</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">VAE-urile sunt modele grafice directionate: z -> x, unde z este latent. ELBO aproximeaza log-likelihood-ul marginal.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

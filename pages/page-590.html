@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">590</div>
         <div class="page-title">
-            <h3>Exemple D-Separation</h3>
+            <h3>Exemple Detaliate D-Separation</h3>
             <span>Capitolul 16 - Figura 16.9</span>
         </div>
     </div>
@@ -14,29 +14,117 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Figura 16.9: Exemple de D-Separation</h4>
-                <p>Graful cu noduri a, b, c, d, e ilustreaza multiple proprietati de d-separation. Exemple: a si b sunt d-separate dat setul vid (nu exista cale directa); a si e sunt d-separate dat c; dar a si b <strong>nu</strong> sunt d-separate dat c (collider activ) sau dat d.</p>
+                <p>Graful cu noduri a, b, c, d, e ilustreaza multiple proprietati de d-separation. Exemple: a si b sunt d-separate dat setul vid (nu exista cale directa); a si e sunt d-separate dat c; dar a si b <strong>nu</strong> sunt d-separate dat c (collider activat) sau dat d (descendent al collider-ului).</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>Analiza Graf</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Analiza Interactiva D-Separation</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>D-separated:</strong></p>
-                                <ul style="margin-left: 20px;">
-                                    <li>a ⊥ b | ∅ (setul vid)</li>
-                                    <li>a ⊥ e | c</li>
-                                    <li>d ⊥ e | c</li>
-                                </ul>
-                                <p style="margin-top: 15px;"><strong>Nu sunt d-separated:</strong></p>
-                                <ul style="margin-left: 20px;">
-                                    <li>a ⊥̸ b | c (collider c activat)</li>
-                                    <li>a ⊥̸ b | d (descendent al collider)</li>
-                                </ul>
+                            <div class="code-block">
+import torch
+
+def analyze_dsep_examples():
+    """
+    Graf din figura: a -> c, b -> c, c -> d, c -> e
+    V-structure la c (collider pentru a si b)
+    """
+    examples = [
+        {
+            'query': 'a _|_ b | {}',
+            'result': True,
+            'explanation': 'Collider c neobservat => cale blocata',
+        },
+        {
+            'query': 'a _|_ b | {c}',
+            'result': False,
+            'explanation': 'Collider c observat => cale ACTIVA!',
+        },
+        {
+            'query': 'a _|_ b | {d}',
+            'result': False,
+            'explanation': 'd descendent al collider c => cale ACTIVA!',
+        },
+        {
+            'query': 'a _|_ e | {}',
+            'result': False,
+            'explanation': 'Cale a->c->e activa (chain neobservat)',
+        },
+        {
+            'query': 'a _|_ e | {c}',
+            'result': True,
+            'explanation': 'Chain blocat de c observat',
+        },
+        {
+            'query': 'd _|_ e | {}',
+            'result': False,
+            'explanation': 'Fork d<-c->e activ (c neobservat)',
+        },
+        {
+            'query': 'd _|_ e | {c}',
+            'result': True,
+            'explanation': 'Fork blocat de c observat',
+        },
+    ]
+
+    print("Analiza D-Separation pentru graf: a->c<-b, c->d, c->e")
+    print("=" * 60)
+
+    for ex in examples:
+        status = "DA" if ex['result'] else "NU"
+        color = "verde" if ex['result'] else "rosu"
+        print(f"\n{ex['query']}")
+        print(f"  Raspuns: {status}")
+        print(f"  De ce: {ex['explanation']}")
+
+analyze_dsep_examples()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Graful din Figura 16.9</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                                    <div style="position: relative; width: 300px; height: 180px;">
+                                        <div style="position: absolute; top: 0; left: 50px; width: 45px; height: 45px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter); font-weight: bold;">a</div>
+                                        <div style="position: absolute; top: 0; right: 50px; width: 45px; height: 45px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter); font-weight: bold;">b</div>
+                                        <div style="position: absolute; top: 70px; left: 127px; width: 45px; height: 45px; border: 3px solid var(--warning); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter); font-weight: bold;">c</div>
+                                        <div style="position: absolute; bottom: 0; left: 50px; width: 45px; height: 45px; border: 3px solid var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter); font-weight: bold;">d</div>
+                                        <div style="position: absolute; bottom: 0; right: 50px; width: 45px; height: 45px; border: 3px solid var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-lighter); font-weight: bold;">e</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">
+                                    c este COLLIDER pentru (a,b) si FORK pentru (d,e)
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="padding: 12px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--success);">D-Separated:</strong>
+                                        <ul style="margin: 8px 0 0 15px; font-size: 0.85rem;">
+                                            <li>a _|_ b | {} (collider)</li>
+                                            <li>a _|_ e | {c}</li>
+                                            <li>d _|_ e | {c}</li>
+                                        </ul>
+                                    </div>
+                                    <div style="padding: 12px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--warning);">NOT D-Separated:</strong>
+                                        <ul style="margin: 8px 0 0 15px; font-size: 0.85rem;">
+                                            <li>a NOT _|_ b | {c}</li>
+                                            <li>a NOT _|_ b | {d}</li>
+                                            <li>d NOT _|_ e | {}</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -44,14 +132,32 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Explaining Away</span>
+                        <span>Intuition: De ce Collider Activeaza Calea?</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <p>"<strong>Explaining away</strong>" - observarea collider-ului creaza dependenta intre parinti.</p>
-                                <p style="margin-top: 10px;">Aceasta este o proprietate fundamentala a reasoning-ului probabilistic!</p>
+                                <h5>Intuition pentru Collider</h5>
+                                <p style="margin-top: 10px;">De ce observarea collider-ului creeaza dependenta intre parinti?</p>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                <strong style="color: var(--warning);">Exemplu: Admitere la Universitate</strong>
+                                <div style="margin: 15px 0; font-family: monospace; text-align: center;">
+                                    Inteligenta --> Admis <-- Bogatia parintilor
+                                </div>
+                                <ul style="margin-left: 20px; font-size: 0.9rem;">
+                                    <li><strong>In populatia generala:</strong> Inteligenta si bogatia sunt (aproape) independente</li>
+                                    <li><strong>Printre studentii admisi:</strong> Devin anti-corelate!</li>
+                                    <li>Un student sarac trebuie sa fie foarte inteligent pentru admitere</li>
+                                    <li>Un student bogat poate fi admis chiar daca nu e foarte inteligent</li>
+                                </ul>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); border-radius: 8px;">
+                                <strong style="color: var(--accent);">Aceasta e "Selection Bias"!</strong>
+                                <p style="font-size: 0.9rem; margin-top: 8px;">
+                                    Conditionarea pe o variabila care depinde de doua cauze creeaza corelatie spuria intre cauze. Collider-ul este mecanismul grafic care captureaza acest fenomen.
+                                </p>
                             </div>
                         </div>
                     </div>

@@ -85,6 +85,49 @@
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Algorithm 15.1</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Algorithm 15.1: Greedy Layer-Wise Pretraining
+
+def greedy_layerwise_pretraining(X, num_layers, layer_learner):
+    """
+    X: date de input
+    num_layers: numarul de straturi de preantrenat
+    layer_learner: algoritm de invatare per strat (RBM, AE, etc.)
+    """
+    f = identity  # Encoder-ul initial
+    X_current = X
+
+    for k in range(num_layers):
+        # Antreneaza stratul k pe reprezentarea curenta
+        f_k = layer_learner(X_current)
+
+        # Compune cu encoder-ul anterior
+        f = compose(f_k, f)
+
+        # Transforma datele pentru stratul urmator
+        X_current = f_k(X_current)
+
+    # Optinal: fine-tuning supervizat
+    # f = supervised_finetune(f, X, Y)
+
+    return f
+
+# Exemple de layer_learner:
+# - RBM (Restricted Boltzmann Machine)
+# - Autoencoder (cu sparsitate, denoising, etc.)
+# - Sparse coding
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

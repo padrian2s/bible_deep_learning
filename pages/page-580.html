@@ -13,29 +13,96 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Reducerea Numarului de Parametri</h4>
-                <p>Pentru n variabile discrete cu k valori fiecare, abordarea cu tabel complet necesita O(kⁿ) parametri. Cu un model directed unde fiecare variabila are cel mult m parinti in graf, costul este O(nkᵐ). Atata timp cat m << n, obtinem <strong>economii dramatice</strong>. Structura grafului codifica presupuneri de independenta conditionata.</p>
+                <h4>Complexitatea O(k^m) vs O(k^n)</h4>
+                <p>Pentru n variabile discrete cu k valori fiecare, abordarea cu tabel complet necesita O(k^n) parametri. Cu un model directed unde fiecare variabila are cel mult m parinti in graf, costul este O(n * k^m). Atata timp cat m << n, obtinem <strong>economii dramatice</strong>. Structura grafului codifica presupuneri de independenta conditionata.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Calcul Parametri</span>
+                        <span>Simulare: Graphical Model cu PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-# Comparatie pentru n=100 variabile, k=10 valori
+import torch
+import torch.nn as nn
 
-# Model nestructurat (tabel complet)
-params_full = 10**100  # Imposibil de stocat!
+class SparseGraphicalModel(nn.Module):
+    """
+    Model grafic cu structura sparse.
+    Fiecare variabila depinde doar de parintii sai (max m parinti).
+    """
+    def __init__(self, n_vars, k_values, max_parents=2):
+        super().__init__()
+        self.n_vars = n_vars
+        self.k = k_values
+        self.max_parents = max_parents
 
-# Model directed cu max 2 parinti per nod
-params_directed = 100 * (10**3)  # 100,000 parametri
+        self.cpds = nn.ParameterList()
+        for i in range(n_vars):
+            n_parents = min(i, max_parents)
+            if n_parents == 0:
+                cpd = nn.Parameter(torch.randn(k_values))
+            else:
+                cpd = nn.Parameter(torch.randn(*([k_values] * (n_parents + 1))))
+            self.cpds.append(cpd)
 
-# Reducere: de la 10^100 la 10^5
-# Factor de reducere: ~10^95 !!!
+    def count_parameters(self):
+        return sum(p.numel() for p in self.parameters())
+
+    def log_prob(self, x):
+        """Calculeaza log P(x) = sum_i log P(x_i | parents(x_i))"""
+        total_log_prob = 0
+        for i in range(self.n_vars):
+            n_parents = min(i, self.max_parents)
+            if n_parents == 0:
+                log_p = torch.log_softmax(self.cpds[i], dim=0)[x[i]]
+            else:
+                parent_indices = tuple(x[max(0, i-self.max_parents):i])
+                cpd_slice = self.cpds[i][parent_indices]
+                log_p = torch.log_softmax(cpd_slice, dim=0)[x[i]]
+            total_log_prob += log_p
+        return total_log_prob
+
+n_vars, k = 10, 5
+sparse_model = SparseGraphicalModel(n_vars, k, max_parents=2)
+full_table_params = k ** n_vars
+
+print(f"Variabile: {n_vars}, Valori: {k}")
+print(f"Tabel complet: {full_table_params:,} parametri")
+print(f"Model sparse (m=2): {sparse_model.count_parameters():,} parametri")
+print(f"Reducere: {full_table_params / sparse_model.count_parameters():.0f}x")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Independenta Conditionata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--primary); margin-bottom: 15px;">X_i este independent de non-descendenti dati parintii</h5>
+                                <div style="display: flex; justify-content: center; gap: 40px; margin: 20px 0;">
+                                    <div style="text-align: center;">
+                                        <div style="position: relative; width: 200px; height: 150px;">
+                                            <div style="position: absolute; top: 0; left: 80px; width: 40px; height: 40px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">A</div>
+                                            <div style="position: absolute; top: 60px; left: 30px; width: 40px; height: 40px; border: 3px solid var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">B</div>
+                                            <div style="position: absolute; top: 60px; left: 130px; width: 40px; height: 40px; border: 3px solid var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">C</div>
+                                            <div style="position: absolute; top: 110px; left: 80px; width: 40px; height: 40px; border: 3px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center;">D</div>
+                                        </div>
+                                        <p style="font-size: 0.9rem; margin-top: 10px;">D _|_ A | {B, C}</p>
+                                    </div>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; text-align: center;">
+                                    <strong>Proprietatea Markov locala:</strong><br>
+                                    Fiecare nod este independent de restul grafului, date fiind parintii sai.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -43,14 +110,34 @@ params_directed = 100 * (10**3)  # 100,000 parametri
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Independenta Conditionata</span>
+                        <span>Context: Autoregressive Models in NLP/Vision</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <p>Graful codifica: <strong>fiecare variabila este independenta de non-descendentii sai, date fiind parintii</strong>.</p>
-                                <p style="margin-top: 10px;">Aceasta presupunere trebuie sa fie rezonabila pentru problema data!</p>
+                                <h5>Modele Autoregressive ca Graphical Models</h5>
+                                <p style="margin-top: 10px;">GPT, PixelCNN si alte modele autoregressive sunt de fapt <strong>modele grafice directionate</strong> cu o structura speciala.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--primary);">GPT (Language Model)</strong>
+                                    <div style="font-family: monospace; margin: 10px 0; font-size: 0.9rem;">
+                                        P(w1, w2, ..., wn) = P(w1) * P(w2|w1) * P(w3|w1,w2) * ...
+                                    </div>
+                                    <p style="font-size: 0.9rem;">Fiecare token depinde de toate tokenurile anterioare. Graf: w1 -> w2 -> w3 -> ...</p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">PixelCNN (Image Generation)</strong>
+                                    <div style="font-family: monospace; margin: 10px 0; font-size: 0.9rem;">
+                                        P(img) = Prod_i P(pixel_i | pixels_anteriori)
+                                    </div>
+                                    <p style="font-size: 0.9rem;">Fiecare pixel depinde de pixelii de deasupra si din stanga.</p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Avantaj Key:</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Training-ul este <strong>exact</strong> (nu necesita aproximari) - calculam direct log P(data) si facem gradient descent.</p>
+                                </div>
                             </div>
                         </div>
                     </div>

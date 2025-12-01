@@ -14,37 +14,135 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Directia KL si Variabile Latente Discrete</h4>
-                <p>In variational inference minimizam <strong>D_KL(q||p)</strong>, nu D_KL(p||q). Aceasta directie e importanta: q va avea tendinta sa acopere modurile principale ale lui p, evitand regiunile cu probabilitate mica in p.</p>
+                <p>In variational inference minimizam <strong>D_KL(q||p)</strong>, nu D_KL(p||q). Aceasta alegere nu e arbitrara - are consecinte importante pentru comportamentul lui q. Directia determina daca q "cauta moduri" sau "acopera tot".</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>KL(q||p) vs KL(p||q)</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: KL(q||p) vs KL(p||q)</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <div style="color: var(--primary); font-weight: bold;">D_KL(q||p)</div>
-                                    <p style="font-size: 0.9rem;">- Folosit in variational inference</p>
-                                    <p style="font-size: 0.9rem;">- q evita unde p≈0</p>
-                                    <p style="font-size: 0.9rem;">- "Mode-seeking"</p>
-                                </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <div style="color: var(--secondary); font-weight: bold;">D_KL(p||q)</div>
-                                    <p style="font-size: 0.9rem;">- Folosit in MLE</p>
-                                    <p style="font-size: 0.9rem;">- q acopera tot support-ul lui p</p>
-                                    <p style="font-size: 0.9rem;">- "Mean-seeking"</p>
-                                </div>
+                            <div class="code-block">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import matplotlib.pyplot as plt
+
+def kl_divergence_directions():
+    """Compara cele doua directii ale KL divergence"""
+
+    p_probs = torch.tensor([0.3, 0.7])
+
+    q_range = torch.linspace(0.01, 0.99, 100)
+
+    kl_q_p = []
+    kl_p_q = []
+
+    for q1 in q_range:
+        q = torch.tensor([q1, 1 - q1])
+
+        kl_qp = (q * torch.log(q / p_probs)).sum()
+        kl_q_p.append(kl_qp.item())
+
+        kl_pq = (p_probs * torch.log(p_probs / q)).sum()
+        kl_p_q.append(kl_pq.item())
+
+    min_q_for_kl_qp = q_range[torch.tensor(kl_q_p).argmin()]
+    min_q_for_kl_pq = q_range[torch.tensor(kl_p_q).argmin()]
+
+    print(f"p = [{p_probs[0]:.1f}, {p_probs[1]:.1f}]")
+    print(f"Optimal q pentru min KL(q||p): [{min_q_for_kl_qp:.2f}, {1-min_q_for_kl_qp:.2f}]")
+    print(f"Optimal q pentru min KL(p||q): [{min_q_for_kl_pq:.2f}, {1-min_q_for_kl_pq:.2f}]")
+    print(f"\nObservatie: KL(q||p) = q identic cu p")
+    print(f"           KL(p||q) = q identic cu p")
+    print(f"\nDiferenta apare pentru distributii multimodale!")
+
+def multimodal_example():
+    """Arata diferenta pentru distributii multimodale"""
+    print("\n--- Exemplu cu p bimodal ---")
+
+    p = torch.tensor([0.5, 0.0, 0.5])
+    q_unimodal_left = torch.tensor([0.9, 0.05, 0.05])
+    q_unimodal_right = torch.tensor([0.05, 0.05, 0.9])
+    q_spread = torch.tensor([0.33, 0.34, 0.33])
+
+    def kl(a, b):
+        return (a * torch.log(a / (b + 1e-8) + 1e-8)).sum()
+
+    print(f"p (bimodal): {p.tolist()}")
+    print(f"\nKL(q||p) - 'mode seeking':")
+    print(f"  q_left:   KL = {kl(q_unimodal_left, p):.3f}")
+    print(f"  q_right:  KL = {kl(q_unimodal_right, p):.3f}")
+    print(f"  q_spread: KL = {kl(q_spread, p):.3f} (penalizat pt p=0!)")
+
+    print(f"\nKL(p||q) - 'mean seeking':")
+    print(f"  q_left:   KL = {kl(p, q_unimodal_left):.3f}")
+    print(f"  q_right:  KL = {kl(p, q_unimodal_right):.3f}")
+    print(f"  q_spread: KL = {kl(p, q_spread):.3f} (preferat!)")
+
+kl_divergence_directions()
+multimodal_example()
+                                </pre>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon simulation">🎮</div>
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Mode-seeking vs Mean-seeking</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="font-weight: bold; color: var(--primary); margin-bottom: 15px; text-align: center;">D_KL(q||p)</div>
+                                    <div style="font-size: 0.9rem; margin-bottom: 10px;">Folosit in: <strong>Variational Inference</strong></div>
+                                    <div style="position: relative; height: 80px; background: var(--bg-lighter); border-radius: 8px; margin: 10px 0; overflow: hidden;">
+                                        <div style="position: absolute; bottom: 0; left: 15%; width: 25%; height: 60px; background: var(--text-secondary); border-radius: 50% 50% 0 0; opacity: 0.3;"></div>
+                                        <div style="position: absolute; bottom: 0; left: 60%; width: 25%; height: 60px; background: var(--text-secondary); border-radius: 50% 50% 0 0; opacity: 0.3;"></div>
+                                        <div style="position: absolute; bottom: 0; left: 60%; width: 20%; height: 50px; background: var(--primary); border-radius: 50% 50% 0 0;"></div>
+                                    </div>
+                                    <p style="text-align: center; font-size: 0.85rem;">q (albastru) alege UN mod</p>
+                                    <ul style="font-size: 0.8rem; margin-top: 10px; margin-left: 15px;">
+                                        <li>q evita unde p ≈ 0</li>
+                                        <li><strong>"Mode-seeking"</strong></li>
+                                        <li>Underestimates variance</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="font-weight: bold; color: var(--secondary); margin-bottom: 15px; text-align: center;">D_KL(p||q)</div>
+                                    <div style="font-size: 0.9rem; margin-bottom: 10px;">Folosit in: <strong>MLE, Moment Matching</strong></div>
+                                    <div style="position: relative; height: 80px; background: var(--bg-lighter); border-radius: 8px; margin: 10px 0; overflow: hidden;">
+                                        <div style="position: absolute; bottom: 0; left: 15%; width: 25%; height: 60px; background: var(--text-secondary); border-radius: 50% 50% 0 0; opacity: 0.3;"></div>
+                                        <div style="position: absolute; bottom: 0; left: 60%; width: 25%; height: 60px; background: var(--text-secondary); border-radius: 50% 50% 0 0; opacity: 0.3;"></div>
+                                        <div style="position: absolute; bottom: 0; left: 20%; width: 55%; height: 40px; background: var(--secondary); border-radius: 50% 50% 0 0;"></div>
+                                    </div>
+                                    <p style="text-align: center; font-size: 0.85rem;">q (portocaliu) acopera AMBELE</p>
+                                    <ul style="font-size: 0.8rem; margin-top: 10px; margin-left: 15px;">
+                                        <li>q trebuie sa acopere tot support-ul p</li>
+                                        <li><strong>"Mean-seeking"</strong></li>
+                                        <li>Overestimates variance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>De ce alegem KL(q||p) in VI?</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li>KL(q||p) implica E_q[...] - usor de estimat cu samples din q</li>
+                                    <li>KL(p||q) ar necesita samples din p(h|v) - exact ce vrem sa evitam!</li>
+                                    <li>Trade-off: q poate "rata" unele moduri ale posteriorului</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
                         <span>19.4.1 Discrete Latent Variables</span>
                         <span class="arrow">▶</span>
                     </div>
@@ -52,10 +150,24 @@
                         <div class="section-body">
                             <p>Pentru variabile discrete binare h cu mean field:</p>
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-top: 10px;">
-                                <p>q(hᵢ = 1 | v) = ĥᵢ</p>
-                                <p style="margin-top: 10px;">Parametrizam q cu un vector ĥ de probabilitati.</p>
+                                <p style="text-align: center; margin: 10px 0;">q(h_i = 1 | v) = h_hat_i</p>
+                                <p style="margin-top: 10px;">Parametrizam q cu un vector <strong>h_hat</strong> de probabilitati Bernoulli.</p>
                             </div>
-                            <p style="margin-top: 10px;">Optimizam ĥ iterativ prin fixed point equations.</p>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Optimizarea lui h_hat:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li>Gradient descent pe ELBO fata de h_hat</li>
+                                    <li>Fixed point iterations (mai rapid, garanteaza convergenta)</li>
+                                    <li>Fiecare h_hat_i se actualizeaza tinand cont de celelalte</li>
+                                </ul>
+                            </div>
+                            <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-top: 15px;">
+                                <strong style="color: var(--accent);">Ecuatia Fixed Point:</strong>
+                                <div class="formula" style="margin-top: 10px; text-align: center;">
+                                    ∂L/∂h_hat_i = 0 → h_hat_i = σ(...)
+                                </div>
+                                <p style="font-size: 0.85rem; margin-top: 5px;">Iterativ: actualizam h_hat_i pentru i=1,...,m pana la convergenta.</p>
+                            </div>
                         </div>
                     </div>
                 </div>

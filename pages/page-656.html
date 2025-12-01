@@ -14,31 +14,64 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Figura 19.2: Structura Grafica</h4>
-                <p>Figura arata diferenta intre p(h,v) si p(h|v). In model (stanga), h→v sunt directed. In posterior (dreapta), conditionand pe v, toate h devin conectate - explaining away creaza clique completa.</p>
+                <p>Figura arata diferenta critica intre p(h,v) si p(h|v). In model (stanga), h→v sunt directed si h-urile sunt independente. In posterior (dreapta), conditionand pe v, toate h devin conectate prin <strong>explaining away</strong> - creand o clique completa peste hidden units.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon animation">✨</div>
-                        <span>Vizualizare Structura</span>
+                        <span>Vizualizare: Model vs Posterior</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center;">
-                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
-                                    <div style="color: var(--primary); font-weight: bold; margin-bottom: 10px;">p(h,v)</div>
-                                    <p>h₁ h₂ h₃ h₄</p>
-                                    <p>↓  ↓  ↓  ↓</p>
-                                    <p>v₁ v₂ v₃</p>
-                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Hidden independent, directed to v</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; text-align: center;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="color: var(--primary); font-weight: bold; margin-bottom: 15px;">p(h,v) - Model</div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; justify-items: center; margin-bottom: 15px;">
+                                        <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%;"></div>
+                                    </div>
+                                    <div style="font-size: 1.5rem; margin: 5px 0;">↓ ↓ ↓ ↓</div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; justify-items: center;">
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 15px;">h independente</p>
+                                    <p style="font-size: 0.75rem; color: var(--text-secondary);">Tractabil a priori</p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
-                                    <div style="color: var(--secondary); font-weight: bold; margin-bottom: 10px;">p(h|v)</div>
-                                    <p>h₁ — h₂</p>
-                                    <p>|  ✕  |</p>
-                                    <p>h₃ — h₄</p>
-                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Clique completa peste hidden!</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="color: var(--secondary); font-weight: bold; margin-bottom: 15px;">p(h|v) - Posterior</div>
+                                    <div style="position: relative; width: 100%; height: 80px;">
+                                        <div style="position: absolute; top: 10px; left: 15%; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="position: absolute; top: 10px; left: 40%; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="position: absolute; top: 10px; left: 65%; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="position: absolute; top: 50px; left: 40%; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                                            <line x1="25%" y1="20" x2="50%" y2="20" stroke="var(--warning)" stroke-width="2"/>
+                                            <line x1="50%" y1="20" x2="75%" y2="20" stroke="var(--warning)" stroke-width="2"/>
+                                            <line x1="25%" y1="20" x2="75%" y2="20" stroke="var(--warning)" stroke-width="1" stroke-dasharray="4"/>
+                                            <line x1="25%" y1="20" x2="50%" y2="60" stroke="var(--warning)" stroke-width="2"/>
+                                            <line x1="50%" y1="20" x2="50%" y2="60" stroke="var(--warning)" stroke-width="2"/>
+                                            <line x1="75%" y1="20" x2="50%" y2="60" stroke="var(--warning)" stroke-width="2"/>
+                                        </svg>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 5px; color: var(--warning);">Clique completa!</p>
+                                    <p style="font-size: 0.75rem; color: var(--text-secondary);">Intractabil (2^m)</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="color: var(--accent); font-weight: bold; margin-bottom: 15px;">q(h|v) - Mean Field</div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; justify-items: center; margin-top: 30px;">
+                                        <div style="width: 30px; height: 30px; background: var(--accent); border-radius: 50%;"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--accent); border-radius: 50%;"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--accent); border-radius: 50%;"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--accent); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 30px;">Independente (fortat)</p>
+                                    <p style="font-size: 0.75rem; color: var(--text-secondary);">Tractabil - O(m)</p>
                                 </div>
                             </div>
                         </div>
@@ -47,15 +80,102 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Solutia Mean Field</span>
+                        <span>Simulare: Mean Field Solution</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Aproximare:</strong></p>
-                                <p style="text-align: center; margin: 10px 0;">q(h|v) = ∏ᵢ q(hᵢ|v) = ∏ᵢ Bernoulli(ĥᵢ)</p>
-                                <p style="margin-top: 10px;">Ignoram dependentele, reprezentam fiecare q(hᵢ) ca Bernoulli cu parametru ĥᵢ.</p>
+                                <p><strong>Aproximare Mean Field:</strong></p>
+                                <p style="text-align: center; margin: 15px 0; font-size: 1.1rem;">q(h|v) = ∏ᵢ q(hᵢ|v) = ∏ᵢ Bernoulli(h_hat_i)</p>
+                                <p style="margin-top: 10px;">Ignoram dependentele, reprezentam fiecare q(hᵢ) ca Bernoulli cu parametru h_hat_i ∈ [0,1].</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+
+class MeanFieldBinarySC:
+    """Mean Field Variational Inference pentru Binary Sparse Coding"""
+
+    def __init__(self, n, m, beta=1.0):
+        self.W = torch.randn(n, m) * 0.1
+        self.b = torch.zeros(m) - 2.0
+        self.beta = beta
+
+    def init_q(self, batch_size):
+        """Initializeaza q cu prior"""
+        return torch.sigmoid(self.b).unsqueeze(0).expand(batch_size, -1).clone()
+
+    def compute_elbo(self, v, h_hat):
+        """Calculeaza ELBO cu mean field q"""
+        prior = (h_hat * torch.log(torch.sigmoid(self.b) + 1e-8) +
+                (1-h_hat) * torch.log(torch.sigmoid(-self.b) + 1e-8)).sum(dim=1)
+
+        entropy = -(h_hat * torch.log(h_hat + 1e-8) +
+                   (1-h_hat) * torch.log(1-h_hat + 1e-8)).sum(dim=1)
+
+        recon_mean = h_hat @ self.W.T
+        E_recon_sq = ((v - recon_mean) ** 2).sum(dim=1)
+        for i in range(self.W.shape[1]):
+            E_recon_sq += h_hat[:, i] * (1 - h_hat[:, i]) * (self.W[:, i] ** 2).sum()
+
+        likelihood = -0.5 * self.beta * E_recon_sq
+
+        return (prior + likelihood + entropy).mean()
+
+    def mean_field_update(self, v, h_hat, n_iter=20):
+        """Fixed point iterations"""
+        for _ in range(n_iter):
+            for i in range(h_hat.shape[1]):
+                other = h_hat.clone()
+                other[:, i] = 0
+                residual = v - other @ self.W.T
+                input_i = self.beta * (residual @ self.W[:, i])
+                self_term = -0.5 * self.beta * (self.W[:, i] ** 2).sum()
+                h_hat[:, i] = torch.sigmoid(self.b[i] + input_i + self_term)
+        return h_hat
+
+model = MeanFieldBinarySC(n=64, m=100)
+v = torch.randn(16, 64)
+h_hat = model.init_q(16)
+print(f"Initial ELBO: {model.compute_elbo(v, h_hat):.2f}")
+h_hat = model.mean_field_update(v, h_hat)
+print(f"Final ELBO: {model.compute_elbo(v, h_hat):.2f}")
+print(f"Sparsity: {(h_hat < 0.1).float().mean():.1%}")
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Trade-offs Mean Field</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Avantaje:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li>Tractabil: O(m) in loc de O(2^m)</li>
+                                    <li>Closed-form updates pentru multe modele</li>
+                                    <li>Convergenta garantata pentru ELBO convex in q</li>
+                                    <li>Parallelizabil (updates pot fi simultane)</li>
+                                </ul>
+                            </div>
+                            <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-top: 15px;">
+                                <strong style="color: var(--warning);">Dezavantaje:</strong>
+                                <ul style="font-size: 0.85rem; margin-top: 5px; margin-left: 15px;">
+                                    <li>Nu captureaza corelatii intre h_i</li>
+                                    <li>Underestimates posterior variance</li>
+                                    <li>Poate fi prea simplu pentru posterior complex</li>
+                                    <li>ELBO bound poate fi loose</li>
+                                </ul>
+                            </div>
+                            <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-top: 10px;">
+                                <strong style="color: var(--success);">Alternative mai expresive:</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px;">Structured VI, Normalizing Flows, Importance Weighted Autoencoders (IWAE)</p>
                             </div>
                         </div>
                     </div>

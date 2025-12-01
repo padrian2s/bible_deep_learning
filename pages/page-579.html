@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">579</div>
         <div class="page-title">
-            <h3>Figura Relay Race</h3>
+            <h3>Figura Relay Race - Reducerea Parametrilor</h3>
             <span>Capitolul 16 - Figura 16.2</span>
         </div>
     </div>
@@ -13,48 +13,136 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Figura 16.2: Modelul Directed pentru Relay Race</h4>
-                <p>Exemplul cursei de stafeta ilustreaza cum structura grafului reduce dramatic numarul de parametri. Cu 3 alergatori si k valori discrete pentru timp, modelul nestructurat necesita O(k³) parametri, dar modelul directed cu dependente locale necesita doar O(k²) sau chiar O(k) parametri.</p>
+                <h4>Figura 16.2: Economie de Parametri prin Structura Grafului</h4>
+                <p>Exemplul cursei de stafeta ilustreaza cum structura grafului reduce dramatic numarul de parametri. Cu 3 alergatori si k valori discrete pentru timp, modelul nestructurat necesita O(k^3) parametri, dar modelul directed cu dependente locale necesita doar O(k^2) sau chiar O(k) parametri. Aceasta reducere exponentiala este esentiala pentru scalabilitate.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>Vizualizare Graf</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Comparatie Numar Parametri</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="text-align: center; font-family: monospace; background: var(--bg-dark); padding: 20px; border-radius: 8px;">
-                                <p style="font-size: 1.2rem;">t₀ → t₁ → t₂</p>
-                                <p style="margin-top: 15px; font-size: 0.9rem;">P(t₀,t₁,t₂) = P(t₀) · P(t₁|t₀) · P(t₂|t₁)</p>
+                            <div class="code-block">
+import torch
+import numpy as np
+
+def count_parameters_comparison(n_vars, k_values):
+    """Compara numarul de parametri pentru diferite structuri"""
+    results = []
+
+    for n in n_vars:
+        for k in k_values:
+            full_table = k ** n - 1
+
+            directed_chain = (k - 1) + (n - 1) * k * (k - 1)
+
+            directed_sparse = n * k * (k - 1)
+
+            results.append({
+                'n': n,
+                'k': k,
+                'full_table': full_table,
+                'directed_chain': directed_chain,
+                'reduction_factor': full_table / directed_chain
+            })
+
+    return results
+
+results = count_parameters_comparison([3, 5, 10], [10, 100])
+
+print("Comparatie numar parametri:")
+print("-" * 60)
+for r in results:
+    print(f"n={r['n']}, k={r['k']}")
+    print(f"  Tabel complet: {r['full_table']:,}")
+    print(f"  Directed chain: {r['directed_chain']:,}")
+    print(f"  Factor reducere: {r['reduction_factor']:.1f}x")
+    print()
                             </div>
-                            <p style="margin-top: 15px;">Fiecare variabila depinde doar de parintele sau direct, nu de toti predecesorii.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                <strong style="color: var(--success);">Rezultate pentru k=100, n=3:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Tabel complet: 999,999 parametri</li>
+                                    <li>Directed chain: ~20,000 parametri</li>
+                                    <li>Reducere: ~50x</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Scalare Exponentiala vs Liniara</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="font-weight: bold; color: var(--warning); margin-bottom: 10px;">Tabel Complet O(k^n)</div>
+                                        <div style="height: 150px; display: flex; align-items: flex-end; justify-content: center; gap: 10px;">
+                                            <div style="width: 30px; background: var(--warning); height: 20px; border-radius: 4px 4px 0 0;"></div>
+                                            <div style="width: 30px; background: var(--warning); height: 50px; border-radius: 4px 4px 0 0;"></div>
+                                            <div style="width: 30px; background: var(--warning); height: 150px; border-radius: 4px 4px 0 0;"></div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px; font-size: 0.8rem;">
+                                            <span>n=2</span>
+                                            <span>n=3</span>
+                                            <span>n=5</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-weight: bold; color: var(--success); margin-bottom: 10px;">Directed O(n*k^m)</div>
+                                        <div style="height: 150px; display: flex; align-items: flex-end; justify-content: center; gap: 10px;">
+                                            <div style="width: 30px; background: var(--success); height: 20px; border-radius: 4px 4px 0 0;"></div>
+                                            <div style="width: 30px; background: var(--success); height: 30px; border-radius: 4px 4px 0 0;"></div>
+                                            <div style="width: 30px; background: var(--success); height: 50px; border-radius: 4px 4px 0 0;"></div>
+                                        </div>
+                                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px; font-size: 0.8rem;">
+                                            <span>n=2</span>
+                                            <span>n=3</span>
+                                            <span>n=5</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
+                                    Cu m (nr max parinti) fix si mic, cresterea este <strong>liniara</strong> in n, nu exponentiala!
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Reducere Parametri</span>
+                        <span>Referinte: Curse of Dimensionality si Solutii</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-                                <tr style="background: var(--bg-dark);">
-                                    <th style="padding: 8px; border: 1px solid var(--bg-lighter);">Model</th>
-                                    <th style="padding: 8px; border: 1px solid var(--bg-lighter);">Parametri</th>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; border: 1px solid var(--bg-lighter);">Tabel complet (k=100, n=3)</td>
-                                    <td style="padding: 8px; border: 1px solid var(--bg-lighter);">100³ = 1,000,000</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; border: 1px solid var(--bg-lighter);">Directed cu parinti</td>
-                                    <td style="padding: 8px; border: 1px solid var(--bg-lighter);">100 + 100² + 100² ≈ 20,000</td>
-                                </tr>
-                            </table>
+                            <div class="key-concept">
+                                <h5>Curse of Dimensionality</h5>
+                                <p style="margin-top: 10px;">Problema: Pentru n variabile cu k valori, spatiul de stari are k^n puncte. Reprezentarea completa este imposibila pentru n > 20-30.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 10px;">
+                                <div style="padding: 12px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong>Solutie 1: Structura (Graphical Models)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Presupunem independente conditionate - fiecare variabila depinde doar de cateva altele.</p>
+                                </div>
+                                <div style="padding: 12px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong>Solutie 2: Parameter Sharing (Deep Learning)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Acelasi set de parametri (weights) aplicat repetat - CNN-urile, RNN-urile, Transformers.</p>
+                                </div>
+                                <div style="padding: 12px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong>Solutie 3: Aproximare (Variational Methods)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Aproximam distributii complexe cu familii tractabile - mean field, VAE.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

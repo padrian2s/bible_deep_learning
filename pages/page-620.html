@@ -3,7 +3,7 @@
         <div class="page-number">620</div>
         <div class="page-title">
             <h3>Confronting the Partition Function</h3>
-            <span>Capitolul 18 - Intro</span>
+            <span>Capitolul 18 - Introducere</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,23 +13,96 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Capitolul 18: Confronting the Partition Function</h4>
-                <p>Multe modele probabilistice (MRF, EBM) sunt definite de o distributie nenormalizata p̃(x;θ). Pentru a obtine probabilitati, trebuie sa normalizam cu <strong>partition function</strong> Z(θ) = ∫ p̃(x)dx. Calculul lui Z este adesea <strong>intractabil</strong> - necesita suma/integrala peste toate configuratiile posibile.</p>
+                <h4>Capitolul 18: Confruntarea cu Partition Function</h4>
+                <p>Multe modele probabilistice (Markov Random Fields, Energy-Based Models) sunt definite printr-o distributie <strong>nenormalizata</strong> p~(x;theta). Pentru a obtine probabilitati valide, trebuie sa normalizam cu <strong>partition function</strong> Z(theta). Calculul lui Z este adesea <strong>intractabil</strong> - necesita suma sau integrala peste toate configuratiile posibile, care creste exponential cu dimensiunea.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Formula Partition Function</span>
+                        <span>Simulare: Partition Function</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Probabilitate normalizata:</strong></p>
-                                <p style="font-size: 1.2rem; text-align: center; margin: 10px 0;">p(x;θ) = p̃(x;θ) / Z(θ)</p>
-                                <p style="margin-top: 15px;"><strong>Partition function:</strong></p>
-                                <p style="font-size: 1.1rem; text-align: center;">Z(θ) = ∫ p̃(x;θ) dx sau Σ_x p̃(x;θ)</p>
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <p><strong>Probabilitate normalizata (Eq. 18.1):</strong></p>
+                                <p style="font-size: 1.3rem; text-align: center; margin: 15px 0; color: var(--accent);">p(x;theta) = p~(x;theta) / Z(theta)</p>
+                                <p style="margin-top: 15px;"><strong>Partition function (Eq. 18.2, 18.3):</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center;">Z(theta) = integrate p~(x;theta) dx  (continuu)</p>
+                                <p style="font-size: 1.1rem; text-align: center;">Z(theta) = sum_x p~(x;theta)  (discret)</p>
+                            </div>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class EnergyBasedModel(nn.Module):
+    """
+    Model bazat pe energie cu partition function intractabila
+    """
+    def __init__(self, input_dim, hidden_dim=128):
+        super().__init__()
+        self.energy_net = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, 1)
+        )
+
+    def energy(self, x):
+        return self.energy_net(x).squeeze(-1)
+
+    def unnormalized_log_prob(self, x):
+        return -self.energy(x)
+
+    def partition_function_exact(self, x_all):
+        """
+        Z exact - DOAR pentru exemple mici!
+        Complexitate: O(|X|) unde |X| creste exponential
+        """
+        energies = self.energy(x_all)
+        log_Z = torch.logsumexp(-energies, dim=0)
+        return log_Z.exp()
+
+n_bits = 10
+all_configs = 2 ** n_bits
+print(f"Pentru {n_bits} variabile binare: {all_configs} configuratii")
+print(f"Pentru 100 variabile: 2^100 ≈ 10^30 configuratii - IMPOSIBIL!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: De ce Z e problema</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px;">
+                                <div style="background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 10px;">10</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary);">variabile binare</div>
+                                    <div style="font-size: 1.2rem; color: var(--success); margin-top: 10px;">2^10 = 1,024</div>
+                                    <div style="font-size: 0.8rem; color: var(--success);">Tractabil</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 10px;">30</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary);">variabile binare</div>
+                                    <div style="font-size: 1.2rem; color: var(--warning); margin-top: 10px;">2^30 ≈ 10^9</div>
+                                    <div style="font-size: 0.8rem; color: var(--warning);">Dificil</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 10px;">784</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary);">pixeli MNIST</div>
+                                    <div style="font-size: 1.2rem; color: var(--accent); margin-top: 10px;">2^784</div>
+                                    <div style="font-size: 0.8rem; color: var(--accent);">IMPOSIBIL!</div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p><strong>Problema fundamentala:</strong> Numarul de configuratii creste <em>exponential</em> cu dimensiunea. Pentru imagini sau secvente, calculul exact al lui Z este complet imposibil.</p>
                             </div>
                         </div>
                     </div>
@@ -37,17 +110,131 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Strategii</span>
+                        <span>Referinte: Strategii Moderne</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <p>Acest capitol prezinta tehnici pentru a trata Z:</p>
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Evitare</strong> - modele cu Z tractabil sau fara Z</li>
-                                <li><strong>Aproximare</strong> - estimare stochastica a lui Z</li>
-                                <li><strong>Contrastive methods</strong> - antrenare fara Z explicit</li>
-                            </ul>
+                            <p>Acest capitol prezinta tehnici fundamentale care au influentat profund deep learning-ul modern:</p>
+                            <div class="reference-list">
+                                <div class="reference-item" style="margin: 10px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Evitare totala:</strong> Modele cu Z tractabil (VAE, Flow models) sau care nu necesita Z (GANs)
+                                </div>
+                                <div class="reference-item" style="margin: 10px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">Aproximare gradient:</strong> Contrastive Divergence, PCD - baza pentru RBM training
+                                </div>
+                                <div class="reference-item" style="margin: 10px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--success);">Evitare Z in obiectiv:</strong> Score matching (diffusion models!), NCE (Word2Vec)
+                                </div>
+                                <div class="reference-item" style="margin: 10px 0; padding: 10px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--warning);">Estimare Z pentru evaluare:</strong> AIS - standard pentru evaluarea RBM
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Aceste tehnici sunt relevante si azi: Score matching sta la baza <strong>diffusion models</strong> (DALL-E, Stable Diffusion), iar NCE a revolutionat <strong>word embeddings</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Energy-Based Models: Perspectiva Moderna</h4>
+                <p>EBM-urile au revenit in atentie datorita conexiunilor cu <strong>contrastive learning</strong> si <strong>diffusion models</strong>. Ideea centrala: definim un <strong>energy landscape</strong> E(x) unde punctele de date au energie scazuta, iar restul spatiului are energie ridicata. Probabilitatea e proportionala cu exp(-E(x)).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: EBM Modern cu PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class ModernEBM(nn.Module):
+    """
+    Energy-Based Model modern - arhitectura similara cu cea
+    folosita in contrastive learning si diffusion models
+    """
+    def __init__(self, input_dim, hidden_dims=[256, 256, 128]):
+        super().__init__()
+        layers = []
+        prev_dim = input_dim
+        for h_dim in hidden_dims:
+            layers.extend([
+                nn.Linear(prev_dim, h_dim),
+                nn.LayerNorm(h_dim),
+                nn.SiLU(),
+            ])
+            prev_dim = h_dim
+        layers.append(nn.Linear(prev_dim, 1))
+        self.net = nn.Sequential(*layers)
+
+    def energy(self, x):
+        return self.net(x).squeeze(-1)
+
+    def forward(self, x):
+        return -self.energy(x)
+
+class ContrastiveLearningObjective:
+    """
+    Conexiunea EBM <-> Contrastive Learning
+    InfoNCE loss este un caz special de NCE pentru EBM
+    """
+    def __init__(self, temperature=0.07):
+        self.temperature = temperature
+
+    def __call__(self, anchor, positive, negatives):
+        pos_energy = -torch.sum(anchor * positive, dim=-1) / self.temperature
+        neg_energies = -torch.mm(anchor, negatives.T) / self.temperature
+
+        logits = torch.cat([pos_energy.unsqueeze(1), neg_energies], dim=1)
+        labels = torch.zeros(len(anchor), dtype=torch.long, device=anchor.device)
+
+        return F.cross_entropy(logits, labels)
+
+model = ModernEBM(input_dim=784)
+x = torch.randn(32, 784)
+energies = model.energy(x)
+print(f"Energii pentru batch de 32: shape {energies.shape}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Diagrama: Energy Landscape</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="text-align: center; margin-bottom: 15px; font-weight: bold;">Energy Landscape pentru Date 2D</div>
+                                <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 150px; border-bottom: 2px solid var(--text-secondary); margin-bottom: 10px;">
+                                    <div style="width: 20%; height: 80%; background: linear-gradient(to top, var(--success), var(--bg-lighter)); border-radius: 8px 8px 0 0; position: relative;">
+                                        <div style="position: absolute; bottom: -25px; width: 100%; text-align: center; font-size: 0.8rem;">date</div>
+                                        <div style="position: absolute; top: 5px; width: 100%; text-align: center; font-size: 0.7rem; color: var(--bg-dark);">E mic</div>
+                                    </div>
+                                    <div style="width: 15%; height: 30%; background: linear-gradient(to top, var(--warning), var(--bg-lighter)); border-radius: 8px 8px 0 0;"></div>
+                                    <div style="width: 20%; height: 90%; background: linear-gradient(to top, var(--success), var(--bg-lighter)); border-radius: 8px 8px 0 0; position: relative;">
+                                        <div style="position: absolute; bottom: -25px; width: 100%; text-align: center; font-size: 0.8rem;">date</div>
+                                    </div>
+                                    <div style="width: 15%; height: 20%; background: linear-gradient(to top, var(--accent), var(--bg-lighter)); border-radius: 8px 8px 0 0; position: relative;">
+                                        <div style="position: absolute; top: -20px; width: 100%; text-align: center; font-size: 0.7rem; color: var(--accent);">E mare</div>
+                                    </div>
+                                    <div style="width: 15%; height: 25%; background: linear-gradient(to top, var(--warning), var(--bg-lighter)); border-radius: 8px 8px 0 0;"></div>
+                                </div>
+                                <div style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-top: 30px;">
+                                    x (spatiul datelor) →
+                                </div>
+                                <p style="margin-top: 15px; text-align: center; font-size: 0.9rem;">p(x) = exp(-E(x)) / Z - probabilitate inalta unde E e scazuta</p>
+                            </div>
                         </div>
                     </div>
                 </div>

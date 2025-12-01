@@ -46,6 +46,67 @@
                 <h4>14.6 Invatarea Manifold-urilor cu Autoencodere</h4>
                 <p>Ca multe alte algoritme de ML, autoencoderele exploateaza ideea ca datele se concentreaza pe un <strong>manifold de dimensiune mica</strong> sau pe o multime de astfel de manifold-uri. Unele algoritme invata doar functii care se comporta corect PE manifold, dar pot avea comportament neobisnuit in afara lui. Autoencoderele merg mai departe si invata <strong>structura manifold-ului insusi</strong>.</p>
             </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Manifold Hypothesis</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="margin-bottom: 15px; text-align: center;"><strong>Ipoteza Manifold-ului</strong></p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--primary); padding: 40px 20px; border-radius: 8px; margin-bottom: 10px;">
+                                            <span style="font-size: 0.9rem;">Spatiul original</span><br>
+                                            <strong style="font-size: 1.5rem;">R<sup>784</sup></strong>
+                                        </div>
+                                        <span style="font-size: 0.8rem; color: var(--text-secondary);">784 pixeli (MNIST)</span>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="background: var(--success); padding: 40px 20px; border-radius: 8px; margin-bottom: 10px;">
+                                            <span style="font-size: 0.9rem;">Manifold real</span><br>
+                                            <strong style="font-size: 1.5rem;">~10-20D</strong>
+                                        </div>
+                                        <span style="font-size: 0.8rem; color: var(--text-secondary);">Variatii semnificative</span>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center; color: var(--accent);">Datele reale ocupa un sub-spatiu minuscul din R<sup>n</sup>!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>AE vs Clasificatori</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Ce invata fiecare?</h5>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--warning);">Clasificator</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Invata granite intre clase</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Se comporta corect PE manifold</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Comportament imprevizibil in afara</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <strong style="color: var(--success);">Autoencoder</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">Invata structura manifold-ului</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Proiecteaza puncte PE manifold</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Comportament definit si in afara</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

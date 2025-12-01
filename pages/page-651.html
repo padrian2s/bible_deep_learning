@@ -14,24 +14,122 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>MAP ca Forma de Approximate Inference</h4>
-                <p>Desi MAP nu returneaza distributia completa, poate fi vazut ca o forma de <strong>approximate inference</strong> folosind distributia Dirac. Aceasta conexiune permite derivarea unui algoritm de training similar cu EM.</p>
+                <p>Desi MAP nu returneaza distributia completa, poate fi vazut ca o forma de <strong>approximate inference</strong> folosind distributia Dirac. Aceasta perspectiva unifica MAP cu framework-ul variational si permite derivarea unui algoritm de training similar cu EM pentru sparse coding.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Derivare MAP din ELBO</span>
+                        <span>Simulare: MAP-based Training</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Pas 1:</strong> Restrictionam q la Dirac</p>
-                                <p style="text-align: center; margin: 10px 0;">q(h | v) = δ(h - μ)</p>
-                                <p><strong>Pas 2:</strong> ELBO devine</p>
-                                <p style="text-align: center; margin: 10px 0;">L = E_q[log p(h,v)] + H(q)</p>
-                                <p><strong>Pas 3:</strong> H(Dirac) nu depinde de μ, deci</p>
-                                <p style="text-align: center; margin: 10px 0;">μ* = arg max log p(h=μ, v)</p>
+                                <p><strong>Derivare MAP din ELBO:</strong></p>
+                                <p style="margin: 10px 0;"><strong>Pas 1:</strong> Restrictionam q la Dirac: q(h|v) = δ(h - μ)</p>
+                                <p style="margin: 10px 0;"><strong>Pas 2:</strong> ELBO devine L = E_q[log p(h,v)] + H(q)</p>
+                                <p style="margin: 10px 0;"><strong>Pas 3:</strong> H(Dirac) = -∞ dar nu depinde de μ</p>
+                                <p style="margin: 10px 0;"><strong>Rezultat:</strong> μ* = arg max log p(h=μ, v)</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+class MAPBasedTraining:
+    """Training cu MAP inference (similar cu EM dar folosind punct estimate)"""
+
+    def __init__(self, visible_dim=784, latent_dim=100):
+        self.W = nn.Parameter(torch.randn(visible_dim, latent_dim) * 0.01)
+        self.beta = 1.0
+        self.lambda_sparse = 0.1
+
+    def infer_h_star(self, v, n_iter=50):
+        """MAP inference: gaseste h* pentru v fixat"""
+        h = torch.zeros(v.shape[0], self.W.shape[1], requires_grad=True)
+        opt = optim.LBFGS([h], lr=1.0)
+
+        def closure():
+            opt.zero_grad()
+            recon = h @ self.W.t()
+            recon_loss = 0.5 * self.beta * ((v - recon) ** 2).sum()
+            sparse_loss = self.lambda_sparse * h.abs().sum()
+            loss = recon_loss + sparse_loss
+            loss.backward()
+            return loss
+
+        for _ in range(n_iter):
+            opt.step(closure)
+
+        return h.detach()
+
+    def update_W(self, v, h_star, lr=0.01):
+        """M-step: actualizeaza W cu h_star fixat"""
+        with torch.no_grad():
+            grad_W = -self.beta * (v - h_star @ self.W.t()).t() @ h_star
+            self.W -= lr * grad_W / v.shape[0]
+            self.W /= self.W.norm(dim=0, keepdim=True).clamp(min=1)
+
+    def train_step(self, v):
+        h_star = self.infer_h_star(v)
+        self.update_W(v, h_star)
+        recon = h_star @ self.W.t()
+        loss = ((v - recon) ** 2).mean()
+        sparsity = (h_star.abs() < 0.01).float().mean()
+        return loss.item(), sparsity.item()
+
+model = MAPBasedTraining()
+v_batch = torch.randn(32, 784)
+for epoch in range(5):
+    loss, sparsity = model.train_step(v_batch)
+    print(f"Epoch {epoch}: recon_loss={loss:.4f}, sparsity={sparsity:.1%}")
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Training cu MAP</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div class="formula" style="font-size: 1.1rem;">Training = Alternare Inferenta + Learning</div>
+                                </div>
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+                                    <div style="text-align: center; padding: 15px; background: var(--primary); border-radius: 8px; min-width: 120px;">
+                                        <div style="font-weight: bold; font-size: 1.1rem;">Inferenta</div>
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">h* = argmax p(h|v)</p>
+                                        <p style="font-size: 0.75rem; opacity: 0.8;">W fixat</p>
+                                    </div>
+                                    <div style="font-size: 2rem;">→</div>
+                                    <div style="text-align: center; padding: 15px; background: var(--secondary); border-radius: 8px; min-width: 120px;">
+                                        <div style="font-weight: bold; font-size: 1.1rem;">Learning</div>
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">θ = argmax log p(h*,v)</p>
+                                        <p style="font-size: 0.75rem; opacity: 0.8;">h* fixat</p>
+                                    </div>
+                                    <div style="font-size: 2rem;">→</div>
+                                    <div style="text-align: center; padding: 15px; background: var(--accent); border-radius: 8px; min-width: 120px;">
+                                        <div style="font-weight: bold; font-size: 1.1rem;">Repeat</div>
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">Until converge</p>
+                                        <p style="font-size: 0.75rem; opacity: 0.8;">Coordinate ascent</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Comparatie cu EM:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>EM:</strong> E-step calculeaza q = p(h|v) complet</li>
+                                    <li><strong>MAP:</strong> "E-step" calculeaza doar modul h*</li>
+                                    <li><strong>Ambele:</strong> M-step maximizeaza expected log-likelihood</li>
+                                    <li><strong>Trade-off:</strong> MAP e mai rapid dar pierde incertitudinea</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -39,19 +137,31 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Training cu MAP</span>
+                        <span>Justificare Teoretica</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <h5>Procedura:</h5>
-                                <ol style="margin-left: 20px;">
-                                    <li>Inferenta: Gaseste h* = arg max p(h|v)</li>
-                                    <li>Learning: Actualizeaza θ pentru a creste log p(h*, v)</li>
-                                    <li>Repeta pana la convergenta</li>
-                                </ol>
-                                <p style="margin-top: 10px; color: var(--text-secondary);">Similar cu EM, dar cu distributie punctuala in loc de completa.</p>
+                                <h5>Cand e MAP o aproximare buna?</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li>Posterior unimodal si concentrat (low variance)</li>
+                                    <li>Latent dim mic relativ la data dim</li>
+                                    <li>Prior sparse (Laplace) - multi h_i aproape de 0</li>
+                                </ul>
+                            </div>
+                            <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-top: 15px;">
+                                <strong style="color: var(--warning);">Limitari MAP:</strong>
+                                <ul style="font-size: 0.85rem; margin-top: 5px; margin-left: 15px;">
+                                    <li>Bound pe log p(v) e "vacuous" (infinit loose)</li>
+                                    <li>Nu captureaza incertitudinea in h</li>
+                                    <li>Poate overfit la moduri specifice</li>
+                                    <li>Nu permite model selection via marginal likelihood</li>
+                                </ul>
+                            </div>
+                            <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-top: 10px;">
+                                <strong style="color: var(--success);">Solutie:</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px;">Adaugam noise la μ pentru a face bound-ul meaningful. Aceasta e ideea din Denoising Autoencoders!</p>
                             </div>
                         </div>
                     </div>

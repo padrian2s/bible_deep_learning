@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">593</div>
         <div class="page-title">
-            <h3>Moralizare si Perfect Maps</h3>
+            <h3>Perfect Maps si Limitari ale Grafurilor</h3>
             <span>Capitolul 16 - Figura 16.10-16.11</span>
         </div>
     </div>
@@ -13,26 +13,135 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Perfect Maps si Limitari</h4>
-                <p>Un graf este un <strong>perfect map</strong> pentru o distributie daca captureaza exact toate independentele conditionate. Nu toate distributiile au perfect map in ambele forme (directed si undirected). Unele independente pot fi reprezentate doar directed, altele doar undirected, si unele nu pot fi reprezentate perfect de niciun graf.</p>
+                <h4>Perfect Maps si Limitarile Reprezentarilor Grafice</h4>
+                <p>Un graf este un <strong>perfect map</strong> pentru o distributie daca captureaza exact toate independentele conditionate. Nu toate distributiile au perfect map in ambele forme (directed si undirected). Unele independente pot fi reprezentate doar directed, altele doar undirected, si exista chiar distributii care nu au perfect map in niciun format!</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>Exemple Imposibile</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Verificare Perfect Map</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; gap: 12px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--primary);">V-structure (doar directed)</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">A⊥B dar A⊥̸B|C nu poate fi reprezentata undirected</p>
+                            <div class="code-block">
+def check_independencies(graph_type, independence_statements):
+    """
+    Verifica daca un tip de graf poate reprezenta toate independentele.
+    """
+    for statement in independence_statements:
+        A, B, C = statement['A'], statement['B'], statement['C']
+        print(f"{A} _|_ {B} | {C}")
+
+        if graph_type == 'directed':
+            if statement.get('needs_v_structure'):
+                print("  -> Directed: DA (V-structure posibila)")
+            else:
+                print("  -> Directed: Depinde de structura")
+        elif graph_type == 'undirected':
+            if statement.get('explaining_away'):
+                print("  -> Undirected: NU POATE (explaining away)")
+            else:
+                print("  -> Undirected: Depinde de structura")
+
+vstructure_example = {
+    'name': 'V-Structure',
+    'statements': [
+        {'A': 'a', 'B': 'b', 'C': '{}', 'value': True,
+         'explanation': 'a _|_ b marginal'},
+        {'A': 'a', 'B': 'b', 'C': '{c}', 'value': False,
+         'explaining_away': True,
+         'explanation': 'a NOT _|_ b | c (explaining away)'},
+    ]
+}
+
+print("Exemplu: V-Structure (a -> c <- b)")
+print("=" * 50)
+print()
+print("Independente in distributie:")
+print("  a _|_ b | {}     (DA)")
+print("  a NOT _|_ b | c  (explaining away)")
+print()
+print("Poate fi reprezentat de:")
+print("  - Directed: DA (a -> c <- b captureaza exact)")
+print("  - Undirected: NU (a-c-b implica a _|_ b | c)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Exemple Imposibile</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                                    <strong style="color: var(--primary); font-size: 1.1rem;">V-Structure (doar Directed)</strong>
+                                    <div style="display: flex; justify-content: center; margin: 15px 0;">
+                                        <div style="font-family: monospace; font-size: 1.1rem;">a --> c <-- b</div>
+                                    </div>
+                                    <p style="font-size: 0.9rem;">
+                                        Proprietate: a _|_ b marginal, dar a NOT _|_ b | c<br>
+                                        <strong>Nu poate fi reprezentat undirected</strong> - in MRF, a-c-b implica a _|_ b | c (opusul!)
+                                    </p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--secondary);">4-cycle (doar undirected)</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">A-B-C-D-A cu A⊥C|{B,D} si B⊥D|{A,C} nu poate fi directed</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--secondary);">
+                                    <strong style="color: var(--secondary); font-size: 1.1rem;">4-Cycle (doar Undirected)</strong>
+                                    <div style="display: flex; justify-content: center; margin: 15px 0;">
+                                        <div style="font-family: monospace; font-size: 1.1rem;">a - b - c - d - a</div>
+                                    </div>
+                                    <p style="font-size: 0.9rem;">
+                                        Proprietate: a _|_ c | {b,d} si b _|_ d | {a,c}<br>
+                                        <strong>Nu poate fi reprezentat directed</strong> - necesita V-structures care creeaza alte dependente
+                                    </p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--warning);">
+                                    <strong style="color: var(--warning); font-size: 1.1rem;">Unele distributii nu au Perfect Map!</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">
+                                        Exista distributii ale caror independente nu pot fi captate perfect de niciun graf (directed sau undirected). Acestea necesita representari mai generale.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>I-Maps, D-Maps si Perfect Maps</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Ierarhia Mapelor</h5>
+                                <p style="margin-top: 10px;">Relatia intre independentele grafului si ale distributiei:</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong style="color: var(--primary);">I-Map (Independence Map)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Toate independentele implicate de graf sunt adevarate in P.<br>
+                                        <span style="font-family: monospace;">I(G) subset I(P)</span>
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong style="color: var(--secondary);">D-Map (Dependency Map)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Toate independentele adevarate in P sunt implicate de graf.<br>
+                                        <span style="font-family: monospace;">I(P) subset I(G)</span>
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong style="color: var(--accent);">Perfect Map</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Atat I-map cat si D-map. Independentele coincid exact.<br>
+                                        <span style="font-family: monospace;">I(G) = I(P)</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>

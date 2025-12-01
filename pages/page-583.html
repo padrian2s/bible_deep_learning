@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">583</div>
         <div class="page-title">
-            <h3>Exemplu Graf Nedirectionat</h3>
+            <h3>Clique Potentials si Partition Function</h3>
             <span>Capitolul 16 - Figura 16.3</span>
         </div>
     </div>
@@ -13,26 +13,97 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Figura 16.3: Graf Nedirectionat</h4>
-                <p>Un graf nedirectionat simplu cu variabile a, b, c, d, e ilustreaza conceptul de clique-uri. Clique-urile maximale determina factorizarea distributiei. Muchiile indica care variabile interactioneaza direct - variabile fara muchie intre ele sunt <strong>conditonat independente</strong> date fiind vecinii.</p>
+                <h4>Figura 16.3: Unnormalized Probability Distribution</h4>
+                <p>Potentialele de clique phi(C) masoara "afinitatea" sau "compatibilitatea" variabilelor dintr-un clique. Sunt constransi sa fie <strong>non-negativi</strong>. Produsul tuturor potentialelor da distributia <strong>nenormalizata</strong>: p_tilde(x) = Prod_C phi(x_C). Pentru a obtine o probabilitate valida, impartim la Z = sum_x p_tilde(x).</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>Identificare Clique-uri</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Clique Potentials si Tabelul de Afinitate</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="text-align: center; background: var(--bg-dark); padding: 20px; border-radius: 8px;">
-                                <p>Pentru graf cu noduri: a-b-c-d-e</p>
-                                <p style="margin-top: 10px;">Clique-uri maximale posibile:</p>
-                                <ul style="text-align: left; margin: 10px 0 0 40px;">
-                                    <li>{a, b} - daca a si b sunt conectate</li>
-                                    <li>{b, c, d} - daca formeaza triunghi</li>
-                                    <li>{d, e} - daca d si e sunt conectate</li>
-                                </ul>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class CliquePotentialTable:
+    """
+    Exemplu: modelul bolii din carte.
+    h_y = your health, h_c = colleague health
+    Stare 0 = sanatos, Stare 1 = bolnav
+    """
+    def __init__(self):
+        self.affinity_table = torch.tensor([
+            [2.0, 1.0],
+            [1.0, 10.0]
+        ])
+
+    def phi(self, h_y, h_c):
+        return self.affinity_table[h_y, h_c]
+
+    def interpret(self):
+        print("Tabel de afinitate phi(h_y, h_c):")
+        print("-" * 40)
+        print("            h_c=0(san) h_c=1(bolnav)")
+        print(f"h_y=0(san)     {self.affinity_table[0,0]:.1f}        {self.affinity_table[0,1]:.1f}")
+        print(f"h_y=1(bolnav)  {self.affinity_table[1,0]:.1f}        {self.affinity_table[1,1]:.1f}")
+        print()
+        print("Interpretare:")
+        print("- Amandoi sanatosi (2): stare comuna")
+        print("- Unul bolnav, altul nu (1): rara - cum s-a transmis?")
+        print("- Amandoi bolnavi (10): foarte probabil daca unul e bolnav")
+
+clique = CliquePotentialTable()
+clique.interpret()
+
+total = sum(clique.phi(i, j) for i in [0,1] for j in [0,1])
+print(f"\nZ (partition function) = {total:.1f}")
+for i in [0, 1]:
+    for j in [0, 1]:
+        prob = clique.phi(i, j) / total
+        print(f"P(h_y={i}, h_c={j}) = {prob:.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Tabel de Afinitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Tabel phi(h_y, h_c) - Afinitate Stari</h5>
+                                <table style="width: 100%; border-collapse: collapse; text-align: center;">
+                                    <tr>
+                                        <th style="padding: 12px; border: 1px solid var(--bg-lighter);"></th>
+                                        <th style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--success);">h_c = 0 (sanatos)</th>
+                                        <th style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--warning);">h_c = 1 (bolnav)</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--success);">h_y = 0</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); background: rgba(0,255,0,0.1);">2</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); background: rgba(255,255,0,0.05);">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); color: var(--warning);">h_y = 1</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); background: rgba(255,255,0,0.05);">1</td>
+                                        <td style="padding: 12px; border: 1px solid var(--bg-lighter); background: rgba(255,0,0,0.2);">10</td>
+                                    </tr>
+                                </table>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p><strong>Interpretare:</strong></p>
+                                    <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Afinitate mare (10) cand ambii sunt bolnavi - boala se transmite</li>
+                                        <li>Afinitate medie (2) cand ambii sunt sanatosi - stare comuna</li>
+                                        <li>Afinitate mica (1) pentru stari mixte - rare, asimetrice</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -40,14 +111,28 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Markov Blanket</span>
+                        <span>Markov Blanket si Independenta Locala</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <p>In MRF, <strong>Markov blanket</strong> al unui nod = vecinii sai directi.</p>
-                                <p style="margin-top: 10px;">Proprietate: Un nod este independent de toate celelalte, date fiind nodurile din Markov blanket.</p>
+                                <h5>Markov Blanket in MRF</h5>
+                                <p style="margin-top: 10px;">In MRF, <strong>Markov blanket</strong> al unui nod = vecinii sai directi in graf.</p>
+                                <p style="margin-top: 10px;"><strong>Proprietate fundamentala:</strong> Un nod este independent de toate celelalte noduri, date fiind nodurile din Markov blanket-ul sau.</p>
+                            </div>
+                            <div style="margin-top: 20px; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                <h5 style="color: var(--accent);">Comparatie cu Directed Models</h5>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                    <div style="padding: 12px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--primary);">Directed (BN)</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 8px;">Markov blanket = parinti + copii + co-parinti ai copiilor</p>
+                                    </div>
+                                    <div style="padding: 12px; background: var(--bg-lighter); border-radius: 8px;">
+                                        <strong style="color: var(--secondary);">Undirected (MRF)</strong>
+                                        <p style="font-size: 0.85rem; margin-top: 8px;">Markov blanket = vecinii directi (mai simplu!)</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

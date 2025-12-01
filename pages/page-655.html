@@ -14,27 +14,131 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Exemplu: Binary Sparse Coding</h4>
-                <p>Pentru a demonstra variational inference concret, aplicam tehnica pe modelul <strong>binary sparse coding</strong>. Acest model are unitati binare h care genereaza v prin combinatie liniara plus zgomot Gaussian.</p>
+                <p>Pentru a demonstra variational inference concret, aplicam tehnica pe modelul <strong>binary sparse coding</strong>. Acest model are unitati binare h (on/off) care genereaza v prin combinatie liniara plus zgomot Gaussian. E un exemplu excelent pentru a vedea mean field in actiune.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Modelul</span>
+                        <span>Simulare: Modelul Complet</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Prior:</strong></p>
-                                <p style="text-align: center; margin: 10px 0;">p(hᵢ = 1) = σ(bᵢ)</p>
-                                <p><strong>Likelihood:</strong></p>
-                                <p style="text-align: center; margin: 10px 0;">p(v | h) = N(v; Wh, β⁻¹)</p>
-                                <p style="margin-top: 15px;">Unde:</p>
+                                <p><strong>Prior pe unitati binare:</strong></p>
+                                <p style="text-align: center; margin: 10px 0;">p(h_i = 1) = σ(b_i)</p>
+                                <p><strong>Likelihood (Gaussian):</strong></p>
+                                <p style="text-align: center; margin: 10px 0;">p(v | h) = N(v; Wh, β⁻¹I)</p>
+                                <p style="margin-top: 15px;"><strong>Parametri:</strong></p>
                                 <ul style="margin-left: 20px;">
-                                    <li>h ∈ {0,1}^m - unitati binare</li>
-                                    <li>v ∈ ℝⁿ - input continuu</li>
-                                    <li>W - weight matrix, β - precizie</li>
+                                    <li>h ∈ {0,1}^m - unitati binare (features active/inactive)</li>
+                                    <li>v ∈ R^n - input continuu (ex: patch de imagine)</li>
+                                    <li>W ∈ R^(n x m) - dictionary de features</li>
+                                    <li>β - precizia zgomotului (1/varianta)</li>
+                                </ul>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn as nn
+
+class BinarySparseCoding:
+    """Binary Sparse Coding cu Mean Field VI"""
+
+    def __init__(self, visible_dim=64, latent_dim=128, beta=1.0):
+        self.n = visible_dim
+        self.m = latent_dim
+        self.beta = beta
+        self.W = torch.randn(visible_dim, latent_dim) * 0.1
+        self.b = torch.zeros(latent_dim) - 2.0
+
+    def sample_prior(self, batch_size):
+        probs = torch.sigmoid(self.b)
+        h = torch.bernoulli(probs.unsqueeze(0).expand(batch_size, -1))
+        return h
+
+    def generate(self, h):
+        mean = h @ self.W.T
+        noise = torch.randn_like(mean) / torch.sqrt(torch.tensor(self.beta))
+        v = mean + noise
+        return v
+
+    def log_joint(self, v, h):
+        log_prior = (h * torch.log(torch.sigmoid(self.b) + 1e-8) +
+                    (1-h) * torch.log(torch.sigmoid(-self.b) + 1e-8)).sum(dim=1)
+        recon = h @ self.W.T
+        log_likelihood = -0.5 * self.beta * ((v - recon) ** 2).sum(dim=1)
+        return log_prior + log_likelihood
+
+    def exact_posterior_cost(self):
+        """Demonstreaza intractabilitatea"""
+        print(f"Latent dim: {self.m}")
+        print(f"Numar configuratii h: 2^{self.m} = {2**self.m:.2e}")
+        if self.m > 30:
+            print("INTRACTABIL - prea multe configuratii!")
+            print("Solutie: Mean Field Variational Inference")
+
+model = BinarySparseCoding(visible_dim=64, latent_dim=100)
+model.exact_posterior_cost()
+
+h_sample = model.sample_prior(10)
+v_sample = model.generate(h_sample)
+print(f"\nGenerat v: {v_sample.shape}")
+print(f"Sparsity in h: {h_sample.mean().item():.1%}")
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: De Ce e Intractabil</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div class="formula" style="font-size: 1.2rem; color: var(--warning);">Explaining Away creaza dependente!</div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="font-weight: bold; color: var(--primary); margin-bottom: 10px;">Modelul p(h,v)</div>
+                                        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                                            <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">h1</div>
+                                            <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">h2</div>
+                                            <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">h3</div>
+                                        </div>
+                                        <div style="font-size: 1.2rem;">↓  ↓  ↓</div>
+                                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                                            <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                        </div>
+                                        <p style="font-size: 0.8rem; margin-top: 10px;">h-uri independente a priori</p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="font-weight: bold; color: var(--secondary); margin-bottom: 10px;">Posterior p(h|v)</div>
+                                        <div style="position: relative; width: 100px; height: 60px; margin: 0 auto;">
+                                            <div style="position: absolute; top: 0; left: 10px; width: 25px; height: 25px; background: var(--secondary); border-radius: 50%;"></div>
+                                            <div style="position: absolute; top: 0; left: 40px; width: 25px; height: 25px; background: var(--secondary); border-radius: 50%;"></div>
+                                            <div style="position: absolute; top: 0; left: 70px; width: 25px; height: 25px; background: var(--secondary); border-radius: 50%;"></div>
+                                            <div style="position: absolute; top: 12px; left: 22px; width: 30px; height: 2px; background: var(--warning);"></div>
+                                            <div style="position: absolute; top: 12px; left: 52px; width: 30px; height: 2px; background: var(--warning);"></div>
+                                            <div style="position: absolute; top: 25px; left: 35px; width: 40px; height: 2px; background: var(--warning); transform: rotate(-20deg);"></div>
+                                        </div>
+                                        <p style="font-size: 0.8rem; margin-top: 20px; color: var(--warning);">Toate h devin dependente!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Cauza Intractabilitatii:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li>Toate h_i si h_j sunt <strong>co-parinti</strong> ai fiecarui v_k</li>
+                                    <li>Observand v, toate hidden units devin dependente</li>
+                                    <li><strong>Explaining away:</strong> daca h_i explica v, h_j devine mai putin probabil</li>
+                                    <li>Posterior e o <strong>clique completa</strong> - 2^m configuratii!</li>
                                 </ul>
                             </div>
                         </div>
@@ -43,17 +147,29 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>De Ce e Intractabil</span>
+                        <span>Conexiune cu Modele Moderne</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <p>p(h|v) e intractabil pentru ca:</p>
-                            <ul style="margin-left: 20px;">
-                                <li>Toate h_i si h_j sunt co-parinti ai fiecarui v_k</li>
-                                <li>Observand v, toate hidden units devin dependente</li>
-                                <li>Explaining away: daca h_i explica v, h_j devine mai putin probabil</li>
-                            </ul>
+                            <div class="reference-list">
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">VQ-VAE (Discrete VAE)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Foloseste coduri discrete (vector quantization) in loc de continue. Similar spirit cu binary sparse coding.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Spike-and-Slab Prior</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Combina un Bernoulli (spike) cu un Gaussian (slab) - modelul nostru binar e versiunea simplificata.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--accent);">Concrete/Gumbel-Softmax</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Relaxare continua pentru variabile discrete - permite backprop prin sampling discret.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Sparse Transformers</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Atentia sparse in transformers e conceptual similara - activezi doar subset-ul relevant.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

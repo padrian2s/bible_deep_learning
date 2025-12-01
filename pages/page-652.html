@@ -14,22 +14,86 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Sparse Coding cu MAP Inference</h4>
-                <p><strong>Sparse coding</strong> este aplicatia principala a MAP inference in deep learning. Modelul foloseste un prior Laplace pentru a obtine reprezentari rare, iar MAP inference gaseste codul h pentru fiecare input v.</p>
+                <p><strong>Sparse coding</strong> este aplicatia principala a MAP inference in deep learning. Modelul foloseste un prior Laplace pentru a obtine reprezentari rare. Intractabilitatea apare din co-parinti: fiecare h_i si h_j afecteaza acelasi v_k, creand dependente in posterior.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Modelul Sparse Coding</span>
+                        <span>Simulare: Sparse Coding Complet</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Prior (Laplace):</strong></p>
-                                <p style="text-align: center; margin: 10px 0;">p(hᵢ) = (λ/2) exp(-λ|hᵢ|)</p>
-                                <p><strong>Likelihood:</strong></p>
-                                <p style="text-align: center; margin: 10px 0;">p(x | h) = N(x; Wh + b, β⁻¹I)</p>
+                                <p><strong>Modelul Sparse Coding:</strong></p>
+                                <p style="text-align: center; margin: 10px 0;"><strong>Prior (Laplace):</strong> p(h_i) = (λ/2) exp(-λ|h_i|)</p>
+                                <p style="text-align: center; margin: 10px 0;"><strong>Likelihood:</strong> p(x|h) = N(x; Wh + b, β⁻¹I)</p>
+                                <p style="text-align: center; margin: 10px 0; color: var(--accent);"><strong>Obiectiv:</strong> J(H,W) = Σ|H_ij| + Σ(V - HW^T)²_ij</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+class SparseCoding:
+    """Sparse Coding cu MAP inference si dictionary learning"""
+
+    def __init__(self, n_features, n_components, lambda_sparse=0.1):
+        self.n_features = n_features
+        self.n_components = n_components
+        self.lambda_sparse = lambda_sparse
+        self.W = torch.randn(n_features, n_components) * 0.01
+        self.W = self.W / self.W.norm(dim=0, keepdim=True)
+
+    def encode(self, X, n_iter=100, lr=0.1):
+        """MAP inference: gaseste codul sparse H pentru datele X"""
+        batch_size = X.shape[0]
+        H = torch.zeros(batch_size, self.n_components, requires_grad=True)
+        optimizer = optim.Adam([H], lr=lr)
+
+        for i in range(n_iter):
+            optimizer.zero_grad()
+            recon = H @ self.W.T
+            recon_loss = 0.5 * ((X - recon) ** 2).sum()
+            sparse_loss = self.lambda_sparse * H.abs().sum()
+            loss = recon_loss + sparse_loss
+            loss.backward()
+            optimizer.step()
+
+        return H.detach()
+
+    def update_dictionary(self, X, H, lr=0.01):
+        """Dictionary learning: actualizeaza W cu H fixat"""
+        grad_W = -(X - H @ self.W.T).T @ H
+        self.W = self.W - lr * grad_W / X.shape[0]
+        self.W = self.W / self.W.norm(dim=0, keepdim=True).clamp(min=1e-8)
+
+    def fit(self, X, n_epochs=100, batch_size=64):
+        n_samples = X.shape[0]
+        for epoch in range(n_epochs):
+            indices = torch.randperm(n_samples)[:batch_size]
+            X_batch = X[indices]
+
+            H = self.encode(X_batch)
+            self.update_dictionary(X_batch, H)
+
+            if epoch % 20 == 0:
+                recon = H @ self.W.T
+                recon_error = ((X_batch - recon) ** 2).mean().item()
+                sparsity = (H.abs() < 0.01).float().mean().item()
+                print(f"Epoch {epoch}: recon={recon_error:.4f}, sparsity={sparsity:.1%}")
+
+        return self
+
+X = torch.randn(500, 64)
+sc = SparseCoding(n_features=64, n_components=128, lambda_sparse=0.5)
+sc.fit(X, n_epochs=100)
+H_test = sc.encode(X[:10])
+print(f"\nCoduri sparse shape: {H_test.shape}")
+print(f"Sparsitate finala: {(H_test.abs() < 0.01).float().mean():.1%}")
+                                </pre>
                             </div>
                         </div>
                     </div>
@@ -37,19 +101,64 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon animation">✨</div>
-                        <span>Obiectivul de Minimizat</span>
+                        <span>Vizualizare: Obiectivul Sparse Coding</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Sparse Coding Loss:</strong></p>
-                                <p style="text-align: center; margin: 15px 0;">J(H,W) = Σᵢⱼ|Hᵢⱼ| + Σᵢⱼ(V - HW^T)²ᵢⱼ</p>
-                                <p style="margin-top: 10px;">Alternare:</p>
-                                <ul style="margin-left: 20px;">
-                                    <li>Minimizeaza H (cu W fixat) - inferenta</li>
-                                    <li>Minimizeaza W (cu H fixat) - linear regression</li>
-                                </ul>
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                <div class="formula" style="font-size: 1.2rem; margin-bottom: 20px;">
+                                    J(H,W) = <span style="color: var(--primary);">||V - HW^T||²</span> + <span style="color: var(--secondary);">λ||H||₁</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                                    <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                        <div style="color: var(--primary); font-weight: bold; font-size: 1.1rem;">Reconstruction</div>
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">||V - HW^T||²</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Fit datele cat mai bine</p>
+                                    </div>
+                                    <div style="background: var(--bg-lighter); padding: 15px; border-radius: 8px;">
+                                        <div style="color: var(--secondary); font-weight: bold; font-size: 1.1rem;">Sparsity</div>
+                                        <p style="font-size: 0.85rem; margin-top: 5px;">λ||H||₁</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Forteaza H sa fie rar</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Algoritmul de Alternare:</h5>
+                                <ol style="margin-left: 20px;">
+                                    <li><strong>Fix W, minimize H:</strong> Problema convexa (LASSO-like)</li>
+                                    <li><strong>Fix H, minimize W:</strong> Linear regression simpla</li>
+                                    <li><strong>Joint:</strong> Non-convex! Dar alternarea functioneaza bine</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte si Aplicatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="reference-list">
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Olshausen & Field (1996)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Sparse coding pe imagini naturale produce filtre similare cu V1 cortex (edge detectors, Gabor-like)</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Feature-Sign Search (Lee et al. 2007)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Algoritm eficient pentru minimizarea H - exploateaza structura L1</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--accent);">LISTA (Gregor & LeCun 2010)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Learned ISTA - unfold iteratiile intr-o retea pentru inferenta rapida (amortized!)</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Aplicatii Moderne</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Image super-resolution, compressive sensing, denoising, feature learning</p>
+                                </div>
                             </div>
                         </div>
                     </div>

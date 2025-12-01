@@ -82,6 +82,55 @@ def compute_jacobian_norm(encoder, x):
                 <h4>De ce "Contractive"?</h4>
                 <p>Numele vine din modul in care CAE <strong>contracta spatiul</strong>. Daca f este antrenat sa reziste la perturbatii locale, mapeaza o vecinatate de input intr-o vecinatate <strong>mai mica</strong> de output. Putem gandi Jacobianul J la un punct x ca aproximand local f(x) cu un operator liniar. Un operator "contractive" are toate valorile singulare < 1. CAE incurajeaza sigmoizii sa satureze (output 0 sau 1), producand un cod binar-like care acopera hipercubul.</p>
             </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Contraction</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="text-align: center; margin-bottom: 15px;">Efect CAE pe spatiu local:</p>
+                                <div style="display: flex; justify-content: space-around; align-items: center;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 100px; height: 100px; background: var(--primary); border-radius: 50%; opacity: 0.6;"></div>
+                                        <p style="margin-top: 10px; font-size: 0.9rem;">Input: vecinatate mare</p>
+                                    </div>
+                                    <div style="font-size: 2rem;">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 40px; height: 40px; background: var(--success); border-radius: 50%; opacity: 0.8; margin: 30px;"></div>
+                                        <p style="margin-top: 10px; font-size: 0.9rem;">Output: vecinatate mica</p>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">||J|| < 1 → spatiul se "strange"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Conexiune Score Matching</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>CAE si Score Matching</h5>
+                                <p>Penalizarea contractiva pe f(x) are conexiuni stranse cu score matching (Sectiunea 14.5.1):</p>
+                                <ul style="margin: 10px 0 0 20px; font-size: 0.9rem;">
+                                    <li>Ambele incurajeaza insensibilitatea la perturbatii locale</li>
+                                    <li>CAE pe encoder → features stabile pentru clasificare</li>
+                                    <li>DAE pe reconstructie → score estimation pentru generare</li>
+                                    <li>In limita, sunt echivalente (Alain & Bengio, 2013)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -14,21 +14,131 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>19.4 Variational Inference and Learning</h4>
-                <p>In loc sa restrictionam q la o singura valoare (MAP), putem maximiza ELBO peste o <strong>familie restrictionata</strong> de distributii q. Aceasta abordare se numeste <strong>variational inference</strong>.</p>
+                <p>In loc sa restrictionam q la o singura valoare (MAP), putem maximiza ELBO peste o <strong>familie restrictionata</strong> de distributii q. Aceasta abordare se numeste <strong>variational inference</strong> si sta la baza VAE-urilor moderne. Numele vine din "calculus of variations" - optimizam peste un spatiu de functii.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Mean Field Approximation</span>
+                        <span>Simulare: Mean Field in PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Mean Field:</strong></p>
+                                <p><strong>Mean Field Approximation:</strong></p>
                                 <p style="font-size: 1.1rem; text-align: center; margin: 15px 0;">q(h | v) = ∏ᵢ q(hᵢ | v)</p>
-                                <p style="margin-top: 10px;">Presupunem ca variabilele latente sunt <strong>independente</strong> in q, chiar daca in realitate nu sunt.</p>
+                                <p style="margin-top: 10px;">Presupunem ca variabilele latente sunt <strong>independente</strong> in q, chiar daca in realitate nu sunt in p(h|v).</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn as nn
+
+class MeanFieldVI:
+    """Mean Field Variational Inference pentru model binar"""
+
+    def __init__(self, visible_dim=100, latent_dim=20):
+        self.W = torch.randn(visible_dim, latent_dim) * 0.1
+        self.b = torch.zeros(latent_dim)
+        self.beta = 1.0
+
+    def compute_elbo(self, v, q_probs):
+        """Calculeaza ELBO cu mean field q"""
+        E_h = q_probs
+        E_hh = q_probs * q_probs
+
+        recon = E_h @ self.W.T
+        E_recon_sq = (v ** 2).sum(dim=1)
+        E_recon_sq -= 2 * (v * recon).sum(dim=1)
+        E_recon_sq += (E_hh @ (self.W ** 2).sum(dim=0))
+        for i in range(self.W.shape[1]):
+            for j in range(i+1, self.W.shape[1]):
+                E_recon_sq += 2 * E_h[:, i] * E_h[:, j] * (self.W[:, i] * self.W[:, j]).sum()
+
+        log_likelihood = -0.5 * self.beta * E_recon_sq
+
+        prior_term = (E_h * torch.log(torch.sigmoid(self.b) + 1e-8) +
+                     (1 - E_h) * torch.log(torch.sigmoid(-self.b) + 1e-8)).sum(dim=1)
+
+        entropy = -(q_probs * torch.log(q_probs + 1e-8) +
+                   (1 - q_probs) * torch.log(1 - q_probs + 1e-8)).sum(dim=1)
+
+        elbo = log_likelihood + prior_term + entropy
+        return elbo.mean()
+
+    def mean_field_update(self, v, q_probs, n_iter=10):
+        """Fixed point iterations pentru mean field"""
+        for _ in range(n_iter):
+            for i in range(q_probs.shape[1]):
+                other_contrib = q_probs @ self.W.T @ self.W[:, i]
+                other_contrib -= q_probs[:, i] * (self.W[:, i] ** 2).sum()
+                input_term = self.beta * (v @ self.W[:, i] - other_contrib)
+                self_term = -0.5 * self.beta * (self.W[:, i] ** 2).sum()
+                q_probs[:, i] = torch.sigmoid(self.b[i] + input_term + self_term)
+        return q_probs
+
+    def infer(self, v, n_iter=20):
+        q_probs = torch.sigmoid(self.b).unsqueeze(0).expand(v.shape[0], -1).clone()
+        q_probs = self.mean_field_update(v, q_probs, n_iter)
+        return q_probs
+
+model = MeanFieldVI()
+v = torch.randn(32, 100)
+q = model.infer(v)
+elbo = model.compute_elbo(v, q)
+print(f"ELBO: {elbo.item():.2f}")
+print(f"Mean activation: {q.mean().item():.3f}")
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Familii de Aproximari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="font-weight: bold; color: var(--primary); margin-bottom: 15px; text-align: center;">Mean Field</div>
+                                    <div class="formula" style="text-align: center; margin: 10px 0;">q(h|v) = ∏ᵢ q(hᵢ|v)</div>
+                                    <div style="display: flex; justify-content: center; gap: 10px; margin: 15px 0;">
+                                        <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--primary); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">Variabile independente</p>
+                                    <ul style="font-size: 0.8rem; margin-top: 10px; margin-left: 15px;">
+                                        <li>Simplu, scalabil</li>
+                                        <li>Poate fi prea restrictiv</li>
+                                        <li>Nu captureaza corelatii</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="font-weight: bold; color: var(--secondary); margin-bottom: 15px; text-align: center;">Structured VI</div>
+                                    <div class="formula" style="text-align: center; margin: 10px 0;">q cu structura grafica</div>
+                                    <div style="display: flex; justify-content: center; gap: 5px; margin: 15px 0;">
+                                        <div style="width: 30px; height: 30px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="width: 2px; height: 30px; background: var(--text-secondary);"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="width: 2px; height: 30px; background: var(--text-secondary);"></div>
+                                        <div style="width: 30px; height: 30px; background: var(--secondary); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">Dependente partiale</p>
+                                    <ul style="font-size: 0.8rem; margin-top: 10px; margin-left: 15px;">
+                                        <li>Mai expresiv</li>
+                                        <li>Mai costisitor</li>
+                                        <li>Captureaza unele corelatii</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Originea numelui "Variational":</h5>
+                                <p><strong>Calculus of Variations</strong> - optimizam peste un spatiu de <em>functii</em> (distributii q), nu doar parametri. Similar cu gasirea geodezicelor sau solutiilor ecuatiilor Euler-Lagrange.</p>
                             </div>
                         </div>
                     </div>
@@ -36,18 +146,29 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Structured Variational Inference</span>
+                        <span>Context Modern: VAE</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <p>Putem alege orice structura pentru q:</p>
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Mean field:</strong> q factorizeaza complet</li>
-                                <li><strong>Structured:</strong> q are structura grafica proprie</li>
-                                <li>Trade-off: q mai expresiv = mai precis dar mai costisitor</li>
-                            </ul>
-                            <p style="margin-top: 10px; color: var(--text-secondary);">Originea numelui "variational" vine din calcul of variations.</p>
+                            <div class="reference-list">
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Variational Autoencoders (Kingma 2014)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Combina variational inference cu neural networks. q_φ(z|x) e un encoder, p_θ(x|z) e un decoder.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Amortized Inference</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">In loc de optimizare per-exemplu, antrenam un encoder neural care produce direct parametrii lui q pentru orice input.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--accent);">Normalizing Flows</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Fac q mai expresiv prin transformari invertibile succesive, pastrandu-l tractabil.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Hierarchical VAE</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Multiple niveluri de variabile latente pentru a captura structura ierarhica (ex: NVAE, VD-VAE).</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

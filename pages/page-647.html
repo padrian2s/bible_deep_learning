@@ -14,30 +14,126 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Figura 19.1: Surse de Intractabilitate</h4>
-                <p>Intractabilitatea in deep learning apare din <strong>interactiunile intre variabilele latente</strong>. Poate fi din conexiuni directe (modele nedirectionate) sau din "explaining away" (modele directionate cu co-parinti).</p>
+                <p>Intractabilitatea in deep learning apare din <strong>interactiunile intre variabilele latente</strong>. Poate fi din conexiuni directe (modele nedirectionate) sau din "explaining away" (modele directionate cu co-parinti). Figura prezinta trei arhitecturi fundamentale care ilustreaza aceste probleme.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon animation">✨</div>
-                        <span>Trei Arhitecturi</span>
+                        <span>Vizualizare: Trei Arhitecturi</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <div style="font-weight: bold; color: var(--primary);">Semi-restricted BM</div>
-                                    <p style="font-size: 0.85rem;">Conexiuni intre hidden units → cliques mari → intractabil</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="font-weight: bold; color: var(--primary); margin-bottom: 15px;">Semi-restricted BM</div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; justify-items: center; margin-bottom: 10px;">
+                                        <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--primary); border-radius: 50%;"></div>
+                                    </div>
+                                    <div style="border-top: 2px dashed var(--text-secondary); padding-top: 8px; font-size: 0.75rem; color: var(--warning);">conexiuni intra-layer</div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; justify-items: center; margin-top: 10px;">
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">Cliques mari de variabile latente</p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <div style="font-weight: bold; color: var(--secondary);">Deep BM</div>
-                                    <p style="font-size: 0.85rem;">Fara intra-layer, dar conexiuni inter-layer → intractabil</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="font-weight: bold; color: var(--secondary); margin-bottom: 15px;">Deep Boltzmann Machine</div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; justify-items: center;">
+                                        <div style="width: 20px; height: 20px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--secondary); border-radius: 50%;"></div>
+                                    </div>
+                                    <div style="height: 15px; border-left: 2px solid var(--text-secondary); margin: 5px auto; width: 2px;"></div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; justify-items: center;">
+                                        <div style="width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; opacity: 0.7;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; opacity: 0.7;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; opacity: 0.7;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; opacity: 0.7;"></div>
+                                    </div>
+                                    <div style="height: 15px; border-left: 2px solid var(--text-secondary); margin: 5px auto; width: 2px;"></div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; justify-items: center;">
+                                        <div style="width: 20px; height: 20px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 20px; height: 20px; background: var(--success); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">Inter-layer connections</p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <div style="font-weight: bold; color: var(--accent);">Directed (co-parents)</div>
-                                    <p style="font-size: 0.85rem;">Observarea copilului → interactii intre parinti</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                    <div style="font-weight: bold; color: var(--accent); margin-bottom: 15px;">Directed (co-parents)</div>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; justify-items: center;">
+                                        <div style="width: 25px; height: 25px; background: var(--accent); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--accent); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--accent); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--accent); border-radius: 50%;"></div>
+                                    </div>
+                                    <div style="text-align: center; font-size: 1.2rem; margin: 5px 0;">↓ ↓ ↓ ↓</div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; justify-items: center;">
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                        <div style="width: 25px; height: 25px; background: var(--success); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--warning);">Explaining away!</p>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Explaining Away</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Ce este Explaining Away?</h5>
+                                <p>Cand observam un efect (v), cauzele posibile (h) devin <strong>anti-corelate</strong>: daca o cauza explica observatia, celelalte devin mai putin probabile.</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn.functional as F
+
+def explaining_away_demo():
+    """Demonstreaza fenomenul explaining away"""
+
+    h1_prior = 0.3
+    h2_prior = 0.3
+
+    p_v_given_h1_only = 0.8
+    p_v_given_h2_only = 0.8
+    p_v_given_both = 0.95
+    p_v_given_none = 0.1
+
+    p_v = (h1_prior * h2_prior * p_v_given_both +
+           h1_prior * (1-h2_prior) * p_v_given_h1_only +
+           (1-h1_prior) * h2_prior * p_v_given_h2_only +
+           (1-h1_prior) * (1-h2_prior) * p_v_given_none)
+
+    p_h1_given_v = (h1_prior * (h2_prior * p_v_given_both +
+                    (1-h2_prior) * p_v_given_h1_only)) / p_v
+
+    p_h1_given_v_and_h2 = (h1_prior * p_v_given_both) / (
+        h1_prior * p_v_given_both + (1-h1_prior) * p_v_given_h2_only)
+
+    print(f"Prior p(h1): {h1_prior:.2f}")
+    print(f"Posterior p(h1|v): {p_h1_given_v:.2f}")
+    print(f"Posterior p(h1|v,h2=1): {p_h1_given_v_and_h2:.2f}")
+    print(f"\nExplaining away: p(h1|v,h2=1) < p(h1|v)")
+    print(f"Diferenta: {p_h1_given_v - p_h1_given_v_and_h2:.2f}")
+
+explaining_away_demo()
+                                </pre>
                             </div>
                         </div>
                     </div>
@@ -51,10 +147,20 @@
                     <div class="section-content">
                         <div class="section-body">
                             <p>Unele modele cu aceste structuri raman tractabile datorita <strong>distributiilor conditionale speciale</strong>:</p>
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Probabilistic PCA:</strong> Linear-Gaussian cu baze ortogonale → inferenta simpla</li>
-                                <li>Alegerea inteligenta a distributiilor poate evita intractabilitatea</li>
-                            </ul>
+                            <div class="reference-list" style="margin-top: 15px;">
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Probabilistic PCA (PPCA)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Linear-Gaussian cu baze ortogonale permite inferenta analitica exacta</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Restricted Boltzmann Machines (RBM)</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Fara conexiuni intra-layer: p(h|v) factorizeaza complet!</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Linear Factor Models</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Factor Analysis, ICA cu prior special - closed-form posterior</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

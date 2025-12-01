@@ -132,6 +132,110 @@ def train_step(model, x, optimizer):
                                 <p style="font-size: 1.2rem; margin: 10px 0;">max log p(θ|x) = max [log p(x|θ) + log p(θ)]</p>
                                 <p style="color: var(--text-secondary);">log p(x|θ) = likelihood, log p(θ) = prior (regularizare)</p>
                             </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <p><strong>Diferenta critica:</strong> Weight decay penalizeaza parametrii θ (independent de date), dar sparsity penalizeaza activarile h = f(x; θ) care depind de input!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Framework: Sparse Coding Aproximat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="margin-bottom: 15px;">Sparse autoencoder poate fi vazut ca <strong>aproximare</strong> a sparse coding clasic:</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                    <div style="background: var(--primary); padding: 15px; border-radius: 8px;">
+                                        <strong>Sparse Coding Clasic</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">min ||x - Dh||² + λ||h||₁</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Optimizare iterativa pentru fiecare x</p>
+                                    </div>
+                                    <div style="background: var(--secondary); padding: 15px; border-radius: 8px;">
+                                        <strong>Sparse Autoencoder</strong>
+                                        <p style="font-size: 0.9rem; margin-top: 5px;">h = f(x; θ) direct</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Encoder invata sa aproximeze solutia</p>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center; color: var(--accent);">Encoder-ul "amortizeaza" costul optimizarii!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Utilizari Practice ale Sparse AE</h4>
+                <p>Sparse autoencoderele sunt folosite pentru a invata <strong>features pentru clasificare</strong>. Un autoencoder antrenat cu sparsitate trebuie sa raspunda la caracteristici statistice unice ale datasetului, nu doar sa actioneze ca o functie identitate. Features-urile sparse sunt mai <strong>interpretabile</strong> si mai usor de folosit pentru downstream tasks precum clasificarea sau detectia anomaliilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Aplicatie: Feature Learning pentru Clasificare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class SparseFeatureExtractor(nn.Module):
+    """
+    Pipeline: Sparse AE pentru features + Classifier
+    1. Antrenam AE unsupervised cu sparsity
+    2. Folosim encoder ca feature extractor
+    3. Antrenam classifier pe features
+    """
+    def __init__(self, input_dim, feature_dim, num_classes):
+        super().__init__()
+        # Pre-trained sparse encoder
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 512),
+            nn.ReLU(),
+            nn.Linear(512, feature_dim),
+            nn.ReLU()  # Sparse activations
+        )
+        # Classifier head
+        self.classifier = nn.Linear(feature_dim, num_classes)
+
+    def extract_features(self, x):
+        return self.encoder(x)
+
+    def classify(self, x):
+        features = self.encoder(x)
+        return self.classifier(features)
+
+# Avantaj: features sparse sunt mai interpretabile
+# Fiecare unitate corespunde unui "concept" distinct
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context Modern: Mechanistic Interpretability</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Sparse Autoencoders in 2024</h5>
+                                <p>Cercetatorii de la Anthropic si OpenAI folosesc sparse autoencoders pentru <strong>mechanistic interpretability</strong> - intelegerea reprezentarilor interne ale LLM-urilor!</p>
+                                <ul style="margin: 10px 0 0 20px; font-size: 0.9rem;">
+                                    <li>Antrenam SAE pe activarile unui layer din GPT/Claude</li>
+                                    <li>Fiecare feature sparse corespunde unui "concept"</li>
+                                    <li>Putem identifica ce "stie" modelul</li>
+                                    <li>Aplicatii: safety, alignment, debugging</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">605</div>
         <div class="page-title">
-            <h3>Introducere Monte Carlo Methods</h3>
-            <span>Capitolul 17 - Intro</span>
+            <h3>Capitolul 17: Monte Carlo Methods</h3>
+            <span>Introducere in Metodele Monte Carlo</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,27 +13,121 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Capitolul 17: Monte Carlo Methods</h4>
-                <p>Algoritmii randomizati se impart in doua categorii: <strong>Las Vegas</strong> (returneaza intotdeauna raspunsul corect, dar cu timp variabil) si <strong>Monte Carlo</strong> (returneaza raspunsuri aproximative, cu eroare ce poate fi redusa). In ML, multe probleme sunt prea dificile pentru solutii exacte, asa ca metodele Monte Carlo sunt esentiale.</p>
+                <h4>Las Vegas vs Monte Carlo Algorithms</h4>
+                <p>Algoritmii randomizati se impart in doua mari categorii: <strong>Las Vegas</strong> (returneaza intotdeauna raspunsul corect, dar cu timp de executie variabil) si <strong>Monte Carlo</strong> (returneaza raspunsuri aproximative cu eroare controlabila). In machine learning, multe probleme sunt prea dificile pentru solutii exacte, facand metodele Monte Carlo esentiale.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon reference">📚</div>
-                        <span>Las Vegas vs Monte Carlo</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Comparatie Las Vegas vs Monte Carlo</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--primary);">Las Vegas</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">Raspuns corect garantat, timp aleator. Ex: Quicksort randomizat</p>
+                            <div class="code-block">
+import torch
+import time
+import random
+
+def las_vegas_quicksort(arr):
+    """
+    Las Vegas: Quicksort randomizat
+    Intotdeauna corect, timp variabil O(n log n) expected
+    """
+    if len(arr) <= 1:
+        return arr
+
+    pivot = random.choice(arr)
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+
+    return las_vegas_quicksort(left) + middle + las_vegas_quicksort(right)
+
+def monte_carlo_median(arr, n_samples=100):
+    """
+    Monte Carlo: Estimare mediana prin sampling
+    Aproximativ, eroare scade cu sqrt(n_samples)
+    """
+    estimates = []
+    for _ in range(n_samples):
+        sample = random.choices(arr, k=len(arr))
+        estimates.append(sorted(sample)[len(sample)//2])
+    return sum(estimates) / len(estimates)
+
+arr = list(range(1000))
+random.shuffle(arr)
+
+start = time.time()
+sorted_arr = las_vegas_quicksort(arr.copy())
+las_vegas_time = time.time() - start
+print(f"Las Vegas: sorted correctly = {sorted_arr == list(range(1000))}, time = {las_vegas_time:.4f}s")
+
+start = time.time()
+median_estimate = monte_carlo_median(arr, n_samples=50)
+monte_carlo_time = time.time() - start
+true_median = 499.5
+print(f"Monte Carlo: median estimate = {median_estimate:.1f} (true: {true_median}), time = {monte_carlo_time:.4f}s")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Trade-off Corectitudine vs Timp</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); padding: 20px; border-radius: 10px; color: white;">
+                                    <h5 style="margin-bottom: 15px;">Las Vegas</h5>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                        <span style="font-size: 1.5rem;">100%</span>
+                                        <span>Corectitudine</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span style="font-size: 1.5rem;">???</span>
+                                        <span>Timp (variabil)</span>
+                                    </div>
+                                    <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Exemple: Quicksort randomizat, Primality testing (Miller-Rabin cu suficienti pasi)</p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--secondary);">Monte Carlo</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">Raspuns aproximativ, eroare controlabila. Ex: Estimare integrala</p>
+                                <div style="background: linear-gradient(135deg, var(--accent) 0%, var(--warning) 100%); padding: 20px; border-radius: 10px; color: white;">
+                                    <h5 style="margin-bottom: 15px;">Monte Carlo</h5>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                        <span style="font-size: 1.5rem;">~95%</span>
+                                        <span>Corectitudine (controlabila)</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span style="font-size: 1.5rem;">fix</span>
+                                        <span>Timp (determinat)</span>
+                                    </div>
+                                    <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Exemple: Estimare integrala, MCMC sampling, SGD training</p>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Istoric si Aplicatii Moderne</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Origini:</strong> Metodele Monte Carlo au fost dezvoltate in anii 1940 la Los Alamos (Ulam, von Neumann, Metropolis) pentru simulari nucleare.</p>
+                                <p style="margin-top: 10px;"><strong>Aplicatii moderne in ML:</strong></p>
+                                <ul style="margin-left: 20px; margin-top: 5px;">
+                                    <li><strong>Training</strong> - SGD, dropout ca Monte Carlo approximation</li>
+                                    <li><strong>Bayesian DL</strong> - MC Dropout pentru uncertainty estimation</li>
+                                    <li><strong>Generative models</strong> - MCMC pentru sampling din EBMs</li>
+                                    <li><strong>RL</strong> - Monte Carlo Tree Search (AlphaGo)</li>
+                                    <li><strong>Diffusion models</strong> - sampling iterativ</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -44,7 +138,82 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>17.1 Sampling and Monte Carlo Methods</h4>
-                <p>Multe tehnici importante in ML se bazeaza pe <strong>sampling</strong> din distributii de probabilitate si folosirea sample-urilor pentru estimari Monte Carlo. Sampling ofera o modalitate flexibila de aproximare a sumelor si integralelor intractabile.</p>
+                <p>Multe tehnici importante in machine learning se bazeaza pe <strong>sampling</strong> din distributii de probabilitate si folosirea acestor sample-uri pentru estimari Monte Carlo. Sampling ofera o modalitate flexibila de aproximare a sumelor si integralelor care altfel ar fi intractabile.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De Ce Avem Nevoie de Sampling?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+
+def exact_expectation_exponential(n_vars):
+    """
+    Calculeaza exact E[f(x)] pentru x in {0,1}^n
+    Complexitate: O(2^n) - intractabil pentru n mare!
+    """
+    total = 0.0
+    for i in range(2**n_vars):
+        x = [(i >> j) & 1 for j in range(n_vars)]
+        p_x = 0.5**n_vars
+        f_x = sum(x)
+        total += p_x * f_x
+    return total
+
+def mc_expectation(n_vars, n_samples):
+    """
+    Estimeaza E[f(x)] prin Monte Carlo
+    Complexitate: O(n_samples) - independent de n!
+    """
+    samples = torch.randint(0, 2, (n_samples, n_vars)).float()
+    f_samples = samples.sum(dim=1)
+    return f_samples.mean().item()
+
+n = 10
+print(f"Exact (n={n}): {exact_expectation_exponential(n):.4f}")
+print(f"MC (n={n}, 1000 samples): {mc_expectation(n, 1000):.4f}")
+
+n = 100
+print(f"MC (n={n}, 1000 samples): {mc_expectation(n, 1000):.4f}")
+print(f"(Exact pentru n=100 ar necesita 2^100 ~ 10^30 operatii!)")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii in Deep Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong>Minibatch SGD</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Gradient pe subset random ~ gradient pe tot dataset-ul</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong>Variational Autoencoders</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Reparametrization trick pentru sampling diferentiabil</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong>Dropout</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Aproximare Monte Carlo a unui ensemble de modele</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; border-left: 3px solid var(--success);">
+                                    <strong>REINFORCE / Policy Gradient</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Estimare gradient prin sampling de traiectorii</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

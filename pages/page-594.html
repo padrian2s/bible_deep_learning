@@ -3,7 +3,7 @@
         <div class="page-number">594</div>
         <div class="page-title">
             <h3>Factor Graphs</h3>
-            <span>Capitolul 16 - Sectiunea 16.2.8</span>
+            <span>Capitolul 16 - Sectiunea 16.2.9</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,23 +13,108 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>16.2.8 Factor Graphs</h4>
-                <p>Factor graphs sunt o reprezentare alternativa care rezolva ambiguitati ale grafurilor nedirectionate. Un factor graph este un graf <strong>bipartit</strong> cu doua tipuri de noduri: variabile (cercuri) si factori (patrate). Fiecare factor se conecteaza la variabilele pe care le implica. Aceasta face explicit care variabile participa in fiecare factor.</p>
+                <h4>16.2.9 Factor Graphs</h4>
+                <p>Factor graphs sunt o reprezentare alternativa care rezolva ambiguitati ale grafurilor nedirectionate. Un factor graph este un graf <strong>bipartit</strong> cu doua tipuri de noduri: variabile (cercuri) si factori (patrate). Fiecare factor se conecteaza la variabilele pe care le implica. Aceasta reprezentare face <strong>explicit</strong> care variabile participa in fiecare factor.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>Structura Factor Graph</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Factor Graph in PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="text-align: center; background: var(--bg-dark); padding: 20px; border-radius: 8px; font-family: monospace;">
-                                <p>○ = variabila</p>
-                                <p>□ = factor</p>
-                                <p style="margin-top: 15px;">Exemplu: P(a,b,c) = f₁(a,b) · f₂(b,c)</p>
-                                <p style="margin-top: 10px;">a○ — □f₁ — ○b — □f₂ — ○c</p>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class Factor:
+    """Reprezinta un factor in factor graph"""
+    def __init__(self, name, variables, potential):
+        self.name = name
+        self.variables = variables
+        self.potential = potential
+
+    def evaluate(self, assignment):
+        """Evalueaza factorul pentru o asignare de valori"""
+        indices = tuple(assignment[v] for v in self.variables)
+        return self.potential[indices]
+
+class FactorGraph:
+    """Factor graph simplu"""
+    def __init__(self):
+        self.variables = []
+        self.factors = []
+
+    def add_variable(self, name, domain_size):
+        self.variables.append({'name': name, 'domain': domain_size})
+
+    def add_factor(self, name, variables, potential):
+        self.factors.append(Factor(name, variables, potential))
+
+    def unnormalized_prob(self, assignment):
+        """Calculeaza produsul tuturor factorilor"""
+        prob = 1.0
+        for factor in self.factors:
+            prob *= factor.evaluate(assignment)
+        return prob
+
+fg = FactorGraph()
+fg.add_variable('a', 2)
+fg.add_variable('b', 2)
+fg.add_variable('c', 2)
+
+phi_ab = torch.tensor([[2.0, 1.0], [1.0, 3.0]])
+phi_bc = torch.tensor([[1.5, 2.0], [2.5, 1.0]])
+
+fg.add_factor('f_ab', ['a', 'b'], phi_ab)
+fg.add_factor('f_bc', ['b', 'c'], phi_bc)
+
+print("Factor Graph: a -- [f_ab] -- b -- [f_bc] -- c")
+print()
+print("Probabilitati nenormalizate:")
+for a in [0, 1]:
+    for b in [0, 1]:
+        for c in [0, 1]:
+            assignment = {'a': a, 'b': b, 'c': c}
+            prob = fg.unnormalized_prob(assignment)
+            print(f"  P(a={a}, b={b}, c={c}) proportional cu {prob:.2f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Structura Factor Graph</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Factor Graph: P(a,b,c) = f_ab(a,b) * f_bc(b,c)</h5>
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 30px 0;">
+                                    <div style="width: 50px; height: 50px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; background: var(--bg-lighter);">a</div>
+                                    <div style="width: 40px; height: 3px; background: var(--text-secondary);"></div>
+                                    <div style="width: 40px; height: 40px; border: 3px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; background: var(--bg-lighter);">f_ab</div>
+                                    <div style="width: 40px; height: 3px; background: var(--text-secondary);"></div>
+                                    <div style="width: 50px; height: 50px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; background: var(--bg-lighter);">b</div>
+                                    <div style="width: 40px; height: 3px; background: var(--text-secondary);"></div>
+                                    <div style="width: 40px; height: 40px; border: 3px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; background: var(--bg-lighter);">f_bc</div>
+                                    <div style="width: 40px; height: 3px; background: var(--text-secondary);"></div>
+                                    <div style="width: 50px; height: 50px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; background: var(--bg-lighter);">c</div>
+                                </div>
+                                <div style="display: flex; justify-content: center; gap: 40px; margin-top: 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 30px; height: 30px; border: 2px solid var(--primary); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;"></div>
+                                        <span style="margin-left: 8px; font-size: 0.9rem;">Variabila</span>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 28px; height: 28px; border: 2px solid var(--accent); display: inline-flex; align-items: center; justify-content: center;"></div>
+                                        <span style="margin-left: 8px; font-size: 0.9rem;">Factor</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -37,16 +122,43 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Avantaje Factor Graphs</span>
+                        <span>Avantaje si Aplicatii: Belief Propagation</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Explicit</strong> - arata exact care variabile sunt in fiecare factor</li>
-                                <li><strong>Unic</strong> - nu exista ambiguitate despre factorizare</li>
-                                <li><strong>Algoritmi</strong> - belief propagation se defineste natural</li>
-                            </ul>
+                            <div class="key-concept">
+                                <h5>De ce Factor Graphs?</h5>
+                                <p style="margin-top: 10px;">Factor graphs rezolva ambiguitati si faciliteaza algoritmi de inferenta.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Rezolva Ambiguitati</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Graf undirected a-b-c poate fi f(a,b,c) sau f(a,b)*f(b,c). Factor graph le distinge explicit!
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong style="color: var(--secondary);">Belief Propagation</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Mesajele variable->factor si factor->variable sunt definite natural. Exact pe arbori, aproximativ pe grafuri cu cicluri.
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong style="color: var(--accent);">Aplicatii Moderne</strong>
+                                    <ul style="margin: 8px 0 0 20px; font-size: 0.9rem;">
+                                        <li><strong>Error Correcting Codes</strong> - LDPC, Turbo codes</li>
+                                        <li><strong>Constraint Satisfaction</strong> - SAT solving</li>
+                                        <li><strong>Neural Network as Factor Graphs</strong> - conexiuni explicite</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); border-radius: 8px;">
+                                <strong style="color: var(--success);">Conexiune cu Deep Learning:</strong>
+                                <p style="font-size: 0.9rem; margin-top: 8px;">
+                                    Graph Neural Networks (GNN) pot fi vazute ca message passing pe factor graphs. Nodurile trimit mesaje vecinilor, similar cu belief propagation!
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

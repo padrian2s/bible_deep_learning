@@ -13,28 +13,217 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Interpretarea Fazelor</h4>
-                <p><strong>Positive phase:</strong> Push-down pe energia datelor reale - face ca datele sa fie mai probabile. <strong>Negative phase:</strong> Push-up pe energia sample-urilor din model - face ca falsele sa fie mai putin probabile. Echilibrul produce un model care pune masa pe datele reale.</p>
+                <h4>Interpretarea Fizica: Energy Landscape</h4>
+                <p>Gandim in termeni de <strong>energie</strong>: log p~(x) = -E(x). <strong>Positive phase</strong> "coboara" energia la punctele de date reale (le face mai probabile). <strong>Negative phase</strong> "ridica" energia la punctele sample-ate din model (face "halucinatiile" mai putin probabile). La echilibru, modelul pune masa de probabilitate pe datele reale.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon animation">✨</div>
-                        <span>Vizualizare Energy Landscape</span>
+                        <span>Vizualizare: Push-Down si Push-Up</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
-                                    <strong style="color: var(--success);">Positive Phase</strong>
-                                    <p style="font-size: 2rem; margin: 10px 0;">↓</p>
-                                    <p style="font-size: 0.9rem;">Coboara energia la x_data</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <strong style="color: var(--success); font-size: 1.1rem;">Positive Phase</strong>
+                                    <div style="margin: 20px 0;">
+                                        <div style="font-size: 3rem;">↓</div>
+                                        <div style="width: 60px; height: 60px; background: var(--success); border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-weight: bold;">x_data</div>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Coboara energia la datele reale</p>
+                                    <p style="font-size: 0.85rem; margin-top: 10px;">nabla_theta log p~(x_data)</p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
-                                    <strong style="color: var(--warning);">Negative Phase</strong>
-                                    <p style="font-size: 2rem; margin: 10px 0;">↑</p>
-                                    <p style="font-size: 0.9rem;">Ridica energia la x_model</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <strong style="color: var(--warning); font-size: 1.1rem;">Negative Phase</strong>
+                                    <div style="margin: 20px 0;">
+                                        <div style="font-size: 3rem;">↑</div>
+                                        <div style="width: 60px; height: 60px; background: var(--warning); border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-weight: bold;">x_model</div>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Ridica energia la samples model</p>
+                                    <p style="font-size: 0.85rem; margin-top: 10px;">-E_p[nabla_theta log p~(x)]</p>
+                                </div>
+                            </div>
+                            <div class="key-concept">
+                                <p><strong>Echilibru:</strong> Cand distributia modelului = distributia datelor, cele doua forte se anuleaza si gradientul = 0. Modelul a convergat!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Dinamica Antrenarii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import matplotlib.pyplot as plt
+
+class EBMTrainingDynamics:
+    """
+    Vizualizeaza dinamica positive/negative phase in timpul training-ului
+    """
+    def __init__(self, energy_model, sampler):
+        self.model = energy_model
+        self.sampler = sampler
+        self.history = {'pos_energy': [], 'neg_energy': [], 'gap': []}
+
+    def training_step(self, x_data, n_mcmc_steps=100):
+        x_model = self.sampler.sample(self.model, n_steps=n_mcmc_steps)
+
+        E_data = self.model.energy(x_data).mean()
+        E_model = self.model.energy(x_model).mean()
+
+        self.history['pos_energy'].append(E_data.item())
+        self.history['neg_energy'].append(E_model.item())
+        self.history['gap'].append((E_data - E_model).item())
+
+        loss = E_data - E_model
+
+        return loss
+
+    def visualize_training(self):
+        """
+        La convergenta, E_data si E_model ar trebui sa fie egale
+        """
+        fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+
+        axes[0].plot(self.history['pos_energy'], label='E(x_data)', color='green')
+        axes[0].plot(self.history['neg_energy'], label='E(x_model)', color='red')
+        axes[0].set_xlabel('Training step')
+        axes[0].set_ylabel('Energy')
+        axes[0].legend()
+        axes[0].set_title('Positive vs Negative Phase Energy')
+
+        axes[1].plot(self.history['gap'], color='purple')
+        axes[1].axhline(y=0, color='gray', linestyle='--')
+        axes[1].set_xlabel('Training step')
+        axes[1].set_ylabel('E_data - E_model')
+        axes[1].set_title('Energy Gap (trebuie sa -> 0)')
+
+        plt.tight_layout()
+        return fig
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Fantasy Particles</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>"Fantasy Particles" si Conexiunea cu Neurostiinta</h5>
+                                <p style="margin-top: 10px;">Sample-urile din model sunt numite uneori <strong>"fantasy particles"</strong> sau <strong>"hallucinations"</strong>. Interesant, aceasta dinamica seamana cu o teorie despre functia somnului REM:</p>
+                                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                                    <li><strong>Stare de veghe (positive phase):</strong> Creierul invata din experienta reala</li>
+                                    <li><strong>Somn REM (negative phase):</strong> Creierul "uita" pattern-uri false prin sampling intern</li>
+                                </ul>
+                                <p style="margin-top: 15px; font-style: italic; color: var(--text-secondary);">Crick & Mitchison (1983) - "The function of dream sleep"</p>
+                            </div>
+                            <div style="margin-top: 20px; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                <p><strong>Conexiune moderna:</strong> Aceasta idee reapare in <strong>diffusion models</strong> unde "denoising" poate fi vazut ca o forma de negative phase - modelul invata sa "corecteze" sample-uri zgomotoase.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Identitatea Monte Carlo (Eq. 18.15)</h4>
+                <p>Formula fundamentala care sta la baza tuturor metodelor MCMC pentru EBM: gradientul lui log Z poate fi scris ca o <strong>expected value</strong> sub distributia modelului. Aceasta permite aproximare prin sampling!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula si Implementare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                                <p><strong>Identitatea Monte Carlo (Eq. 18.15):</strong></p>
+                                <p style="font-size: 1.2rem; text-align: center; margin: 15px 0; color: var(--accent);">
+                                    nabla_theta log Z = E_{x~p(x)} [nabla_theta log p~(x)]
+                                </p>
+                                <p style="margin-top: 15px;"><strong>Aproximare Monte Carlo:</strong></p>
+                                <p style="font-size: 1rem; text-align: center; margin: 10px 0;">
+                                    nabla_theta log Z ≈ (1/M) sum_{i=1}^{M} nabla_theta log p~(x^(i))
+                                </p>
+                                <p style="text-align: center; color: var(--text-secondary);">unde x^(i) ~ p(x) prin MCMC</p>
+                            </div>
+                            <div class="code-block">
+import torch
+
+def monte_carlo_gradient_estimate(model, x_samples):
+    """
+    Estimeaza gradientul lui log Z folosind samples MCMC
+
+    Args:
+        model: EBM cu metoda unnormalized_log_prob
+        x_samples: samples din p_model obtinute prin MCMC
+
+    Returns:
+        grad_log_Z: estimatul gradientului (lista de tensori)
+    """
+    log_p_tilde = model.unnormalized_log_prob(x_samples)
+    mean_log_p = log_p_tilde.mean()
+
+    grad_log_Z = torch.autograd.grad(
+        mean_log_p,
+        model.parameters(),
+        create_graph=False
+    )
+
+    return grad_log_Z
+
+def full_ml_gradient(model, x_data, x_model_samples):
+    """
+    Gradient complet pentru Maximum Likelihood:
+    grad = positive_phase - negative_phase
+    """
+    log_p_data = model.unnormalized_log_prob(x_data).mean()
+    log_p_model = model.unnormalized_log_prob(x_model_samples).mean()
+
+    grad_positive = torch.autograd.grad(log_p_data, model.parameters(), retain_graph=True)
+    grad_negative = torch.autograd.grad(log_p_model, model.parameters())
+
+    full_grad = [gp - gn for gp, gn in zip(grad_positive, grad_negative)]
+
+    return full_grad
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Conditii de Regularitate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <p style="font-weight: bold; margin-bottom: 15px;">Conditii pentru validitatea identitatii (Eq. 18.14):</p>
+                                <ol style="margin-left: 20px; line-height: 2;">
+                                    <li><strong>p~(x)</strong> trebuie sa fie Lebesgue-integrabila pentru toti theta</li>
+                                    <li><strong>nabla_theta p~(x)</strong> trebuie sa existe pentru toti theta si aproape toti x</li>
+                                    <li>Trebuie sa existe o functie <strong>R(x)</strong> integrabila care margineste |d/d_theta_i p~(x)|</li>
+                                </ol>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p style="color: var(--success);"><strong>Vestea buna:</strong> Majoritatea modelelor ML de interes satisfac aceste conditii!</p>
+                                    <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Exceptii: modele cu discontinuitati sau cu support variabil in functie de parametri</p>
                                 </div>
                             </div>
                         </div>

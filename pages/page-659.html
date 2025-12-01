@@ -3,7 +3,7 @@
         <div class="page-number">659</div>
         <div class="page-title">
             <h3>Conexiunea cu Retele Recurente</h3>
-            <span>Capitolul 19 - Final</span>
+            <span>Capitolul 19 - Sectiunea 19.4.1 (final)</span>
         </div>
     </div>
     <div class="image-container">
@@ -14,24 +14,131 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>Conexiunea cu Recurrent Neural Networks</h4>
-                <p>Mean field fixed point equations definesc o <strong>retea neuronala recurenta</strong>! Fiecare iteratie e un pas de recurrence. Hidden units "comunica" si se inhiba reciproc - modeland <strong>explaining away</strong> prin competitie.</p>
+                <p>O observatie profunda: mean field fixed point equations definesc o <strong>retea neuronala recurenta</strong>! Fiecare iteratie e un pas de recurrence unde hidden units "comunica" si se inhiba reciproc - modeland <strong>explaining away</strong> prin competitie laterala. Aceasta conexiune unifica inferenta probabilistica cu neural networks.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>Interpretare RNN</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Mean Field ca RNN</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
                                 <p><strong>Update Rule (forma RNN):</strong></p>
-                                <p style="text-align: center; margin: 15px 0;">ĥᵢ = σ(bᵢ + (v - Σⱼ≠ᵢ W·ⱼĥⱼ)ᵀ βW·ᵢ - (1/2)W·ᵢᵀβW·ᵢ)</p>
-                                <p style="margin-top: 10px;">Fiecare unit primeste:</p>
+                                <p style="text-align: center; margin: 15px 0; font-size: 0.95rem;">h_hat_i^(t+1) = σ(b_i + β(v - Σ_{j≠i} W_j h_hat_j^(t))^T W_i - β/2 ||W_i||²)</p>
+                                <p style="margin-top: 15px;">Fiecare unit primeste:</p>
                                 <ul style="margin-left: 20px;">
-                                    <li>Input fix de la v</li>
-                                    <li>Inhibitie laterala de la alte unitati ĥⱼ</li>
+                                    <li><strong>Input extern:</strong> β v^T W_i (de la observatii)</li>
+                                    <li><strong>Inhibitie laterala:</strong> -β Σ_{j≠i} (W_j h_hat_j)^T W_i (de la alte unitati)</li>
+                                    <li><strong>Self-inhibition:</strong> -β/2 ||W_i||² (previne saturarea)</li>
+                                </ul>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn as nn
+
+class MeanFieldRNN(nn.Module):
+    """Mean Field Inference ca Recurrent Neural Network"""
+
+    def __init__(self, n_visible, n_hidden, beta=1.0, n_iterations=20):
+        super().__init__()
+        self.n_iter = n_iterations
+        self.beta = beta
+        self.W = nn.Parameter(torch.randn(n_visible, n_hidden) * 0.1)
+        self.b = nn.Parameter(torch.zeros(n_hidden) - 2.0)
+
+        self.W_lateral = None
+
+    def forward(self, v):
+        """Forward pass = fixed point iterations"""
+        batch_size = v.shape[0]
+        h = torch.sigmoid(self.b).unsqueeze(0).expand(batch_size, -1)
+
+        WtW = self.W.T @ self.W
+
+        for t in range(self.n_iter):
+            input_from_v = self.beta * (v @ self.W)
+            lateral_inhibition = -self.beta * (h @ WtW - h * WtW.diag())
+            self_inhibition = -0.5 * self.beta * WtW.diag()
+            h = torch.sigmoid(self.b + input_from_v + lateral_inhibition + self_inhibition)
+
+        return h
+
+    def explain_away_strength(self):
+        """Masoara cat de puternic e explaining away"""
+        WtW = (self.W.T @ self.W).abs()
+        WtW.fill_diagonal_(0)
+        return WtW.mean().item()
+
+model = MeanFieldRNN(n_visible=64, n_hidden=100, n_iterations=30)
+v = torch.randn(16, 64)
+h = model(v)
+print(f"Output shape: {h.shape}")
+print(f"Sparsity: {(h < 0.1).float().mean():.1%}")
+print(f"Explaining away strength: {model.explain_away_strength():.4f}")
+
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+for epoch in range(5):
+    h = model(v)
+    loss = ((v - h @ model.W.T) ** 2).mean()
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    print(f"Epoch {epoch}: recon loss = {loss.item():.4f}")
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Arhitectura RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="text-align: center; margin-bottom: 15px;">
+                                    <div class="formula" style="font-size: 1.1rem; color: var(--accent);">Mean Field = RNN cu Weight Sharing</div>
+                                </div>
+                                <div style="display: flex; justify-content: center; align-items: flex-start; gap: 30px; flex-wrap: wrap;">
+                                    <div style="text-align: center;">
+                                        <div style="font-weight: bold; color: var(--primary); margin-bottom: 10px;">Input Layer</div>
+                                        <div style="display: flex; gap: 5px; justify-content: center;">
+                                            <div style="width: 25px; height: 25px; background: var(--success); border-radius: 4px;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--success); border-radius: 4px;"></div>
+                                            <div style="width: 25px; height: 25px; background: var(--success); border-radius: 4px;"></div>
+                                        </div>
+                                        <p style="font-size: 0.75rem; margin-top: 5px;">v (observatii)</p>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                                        <div style="font-weight: bold; color: var(--secondary); margin-bottom: 5px;">Hidden (recurrent)</div>
+                                        <div style="position: relative;">
+                                            <div style="display: flex; gap: 8px; justify-content: center;">
+                                                <div style="width: 30px; height: 30px; background: var(--secondary); border-radius: 50%;"></div>
+                                                <div style="width: 30px; height: 30px; background: var(--secondary); border-radius: 50%;"></div>
+                                                <div style="width: 30px; height: 30px; background: var(--secondary); border-radius: 50%;"></div>
+                                            </div>
+                                            <svg style="position: absolute; top: -5px; left: -5px; width: 120px; height: 50px;">
+                                                <path d="M15,40 Q60,-10 105,40" stroke="var(--warning)" fill="none" stroke-width="2" stroke-dasharray="4"/>
+                                            </svg>
+                                        </div>
+                                        <p style="font-size: 0.75rem; color: var(--warning);">Lateral inhibition</p>
+                                        <p style="font-size: 0.7rem; color: var(--text-secondary);">(explaining away)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Interpretare Neurostiintifica:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Input:</strong> Feed-forward de la v la h (bottom-up)</li>
+                                    <li><strong>Lateral:</strong> Conexiuni intre hidden units (competitie)</li>
+                                    <li><strong>Explaining away:</strong> "Winner-take-all" soft</li>
+                                    <li>Similar cu <strong>cortical circuits</strong> in visual cortex!</li>
                                 </ul>
                             </div>
                         </div>
@@ -46,15 +153,39 @@
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <h5>Concepte Cheie:</h5>
-                                <ul style="margin-left: 20px;">
-                                    <li><strong>ELBO:</strong> Lower bound pe log-likelihood, tractabil</li>
-                                    <li><strong>EM:</strong> Alterneaza E-step (inferenta) si M-step (learning)</li>
-                                    <li><strong>MAP:</strong> Inferenta punctuala, folosita in sparse coding</li>
-                                    <li><strong>Mean Field:</strong> q factorizeaza, fixed point iterations</li>
-                                    <li><strong>Conexiune RNN:</strong> Variational inference = retea recurenta</li>
+                                <h5>Concepte Cheie din Capitolul 19:</h5>
+                                <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <div style="width: 10px; height: 10px; background: var(--primary); border-radius: 50%;"></div>
+                                        <div><strong>ELBO:</strong> Lower bound pe log-likelihood, tractabil pentru optimizare</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <div style="width: 10px; height: 10px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div><strong>EM:</strong> Alterneaza E-step (inferenta q) si M-step (learning θ)</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <div style="width: 10px; height: 10px; background: var(--accent); border-radius: 50%;"></div>
+                                        <div><strong>MAP:</strong> Inferenta punctuala - gaseste doar modul posteriorului</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <div style="width: 10px; height: 10px; background: var(--warning); border-radius: 50%;"></div>
+                                        <div><strong>Mean Field:</strong> q factorizeaza complet, fixed point iterations</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-dark); padding: 10px; border-radius: 8px;">
+                                        <div style="width: 10px; height: 10px; background: var(--success); border-radius: 50%;"></div>
+                                        <div><strong>RNN Connection:</strong> Variational inference = retea neuronala recurenta</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reference-item" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                                <strong style="color: var(--accent);">Continuare in Capitolul 20:</strong>
+                                <p style="font-size: 0.9rem; margin-top: 10px;">Capitolul 20 va aplica aceste tehnici pentru <strong>Deep Generative Models</strong>:</p>
+                                <ul style="font-size: 0.85rem; margin-left: 15px; margin-top: 5px;">
+                                    <li>Boltzmann Machines</li>
+                                    <li>Deep Belief Networks</li>
+                                    <li>Variational Autoencoders (VAE)</li>
+                                    <li>Generative Adversarial Networks (GAN)</li>
                                 </ul>
-                                <p style="margin-top: 15px;">Capitolul 20 va aplica aceste tehnici pentru deep generative models.</p>
                             </div>
                         </div>
                     </div>

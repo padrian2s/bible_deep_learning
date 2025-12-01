@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">610</div>
         <div class="page-title">
-            <h3>Markov Chain Monte Carlo</h3>
+            <h3>Markov Chain Monte Carlo (MCMC)</h3>
             <span>Capitolul 17 - Sectiunea 17.3</span>
         </div>
     </div>
@@ -14,39 +14,111 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>17.3 Markov Chain Monte Carlo Methods</h4>
-                <p>Cand nu putem sample direct din p(x) sau folosi importance sampling eficient, apelam la <strong>MCMC</strong>. Construim un <strong>Markov chain</strong> a carui distributie stationara este p(x). Dupa suficienti pasi, starea chain-ului este aproximativ un sample din p.</p>
+                <p>Cand nu putem sample direct din distributia tinta p(x), si nici importance sampling nu functioneaza bine, apelam la <strong>MCMC</strong>. Construim un <strong>Markov chain</strong> a carui distributie stationara este exact p(x). Dupa suficienti pasi, starea chain-ului devine aproximativ un sample din p.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Idea MCMC</span>
+                        <span>Simulare: Metropolis-Hastings Algorithm</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-# MCMC conceptual
-def mcmc_sample(target_p, transition, n_samples, burn_in):
+import torch
+import numpy as np
+
+class MetropolisHastings:
     """
-    target_p: distributia tinta p(x)
-    transition: T(x'|x) - propunere de tranzitie
+    Metropolis-Hastings MCMC pentru sampling din distributii arbitrare
     """
-    x = random_init()  # Start aleator
-    samples = []
+    def __init__(self, target_log_prob, proposal_std=1.0):
+        """
+        target_log_prob: functie care calculeaza log p(x) pana la constanta
+        proposal_std: deviatie standard pentru propunere Gaussiana
+        """
+        self.target_log_prob = target_log_prob
+        self.proposal_std = proposal_std
 
-    for t in range(burn_in + n_samples):
-        # Propune tranzitie
-        x_new = transition(x)
+    def proposal(self, x):
+        return x + np.random.randn(*x.shape) * self.proposal_std
 
-        # Accept/reject (Metropolis-Hastings)
-        if accept(x, x_new, target_p):
-            x = x_new
+    def acceptance_ratio(self, x_current, x_proposed):
+        log_ratio = self.target_log_prob(x_proposed) - self.target_log_prob(x_current)
+        return min(1.0, np.exp(log_ratio))
 
-        if t >= burn_in:
-            samples.append(x)
+    def sample(self, x_init, n_samples, burn_in=1000):
+        x = x_init.copy()
+        samples = []
+        accepted = 0
 
-    return samples
+        for i in range(burn_in + n_samples):
+            x_proposed = self.proposal(x)
+
+            alpha = self.acceptance_ratio(x, x_proposed)
+
+            if np.random.random() < alpha:
+                x = x_proposed
+                if i >= burn_in:
+                    accepted += 1
+
+            if i >= burn_in:
+                samples.append(x.copy())
+
+        acceptance_rate = accepted / n_samples
+        return np.array(samples), acceptance_rate
+
+def bimodal_log_prob(x):
+    """Log prob pentru amestec de doua Gaussiene"""
+    log_p1 = -0.5 * ((x[0] - 2)**2 + (x[1] - 2)**2)
+    log_p2 = -0.5 * ((x[0] + 2)**2 + (x[1] + 2)**2)
+    return np.logaddexp(log_p1, log_p2)
+
+mh = MetropolisHastings(bimodal_log_prob, proposal_std=0.5)
+samples, acc_rate = mh.sample(np.array([0.0, 0.0]), n_samples=5000, burn_in=1000)
+
+print(f"Acceptance rate: {acc_rate:.2%}")
+print(f"Sample mean: [{samples[:, 0].mean():.2f}, {samples[:, 1].mean():.2f}]")
+print(f"Samples near mode 1 (+2,+2): {np.sum((samples[:, 0] > 0) & (samples[:, 1] > 0))}")
+print(f"Samples near mode 2 (-2,-2): {np.sum((samples[:, 0] < 0) & (samples[:, 1] < 0))}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Markov Chain Convergenta</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-around; align-items: center;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 80px; height: 80px; background: var(--warning); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">t=0</div>
+                                        <p style="font-size: 0.8rem; margin-top: 5px;">Random init</p>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--text-secondary);">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 80px; height: 80px; background: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">burn-in</div>
+                                        <p style="font-size: 0.8rem; margin-top: 5px;">Convergenta</p>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--text-secondary);">→</div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 80px; height: 80px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">t=T</div>
+                                        <p style="font-size: 0.8rem; margin-top: 5px;">x ~ p(x)</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 5px;">
+                                    <p><strong>Proprietati cheie:</strong></p>
+                                    <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9rem;">
+                                        <li><strong>Ergodic:</strong> Chain-ul poate ajunge in orice stare din orice alta stare</li>
+                                        <li><strong>Detailed balance:</strong> p(x)T(x'|x) = p(x')T(x|x') garanteaza stationaritatea</li>
+                                        <li><strong>Aperiodic:</strong> Nu exista cicluri deterministe</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,17 +126,97 @@ def mcmc_sample(target_p, transition, n_samples, burn_in):
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Proprietati MCMC</span>
+                        <span>MCMC Modern: HMC si NUTS</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Nu necesita Z</strong> - doar rapoarte de probabilitati</li>
-                                <li><strong>Convergenta garantata</strong> - sub conditii mild</li>
-                                <li><strong>Samples corelate</strong> - nu sunt i.i.d.</li>
-                                <li><strong>Burn-in necesar</strong> - ignora primele samples</li>
-                            </ul>
+                            <div class="key-concept">
+                                <p><strong>Hamiltonian Monte Carlo (HMC):</strong> Foloseste gradientul lui log p(x) pentru a propune pasi mai "inteligenti". Simuleaza dinamica Hamiltoniana pentru a explora eficient spatiul.</p>
+                                <p style="margin-top: 10px;"><strong>No-U-Turn Sampler (NUTS):</strong> Varianta adaptiva de HMC care ajusteaza automat numarul de pasi de integrare. Folosit in Stan, PyMC3, NumPyro.</p>
+                                <p style="margin-top: 10px; color: var(--accent);"><strong>Aplicatii moderne:</strong> Bayesian neural networks, uncertainty quantification, probabilistic programming.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>MCMC pentru Energy-Based Models</h4>
+                <p>In deep learning, MCMC este esential pentru sampling din <strong>energy-based models</strong> (EBM) unde p(x) = exp(-E(x))/Z. Avantajul major: <strong>nu avem nevoie de Z</strong> pentru MCMC! In criteriul de acceptare Metropolis, Z se anuleaza. Chain-ul exploreaza regiuni de energie joasa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: MCMC pentru EBM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class EnergyBasedModel(nn.Module):
+    """
+    Un EBM simplu cu retea neurala pentru energie
+    """
+    def __init__(self, input_dim, hidden_dim=64):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, 1)
+        )
+
+    def energy(self, x):
+        return self.net(x).squeeze()
+
+    def langevin_sample(self, n_samples, n_steps=100, step_size=0.01):
+        """
+        Langevin dynamics MCMC (gradient-based)
+        """
+        x = torch.randn(n_samples, 2, requires_grad=True)
+
+        for _ in range(n_steps):
+            energy = self.energy(x)
+            grad = torch.autograd.grad(energy.sum(), x)[0]
+
+            noise = torch.randn_like(x) * np.sqrt(2 * step_size)
+            x = x - step_size * grad + noise
+            x = x.detach().requires_grad_(True)
+
+        return x.detach()
+
+ebm = EnergyBasedModel(input_dim=2)
+samples = ebm.langevin_sample(1000, n_steps=100, step_size=0.1)
+print(f"Generated {len(samples)} samples via Langevin MCMC")
+print(f"Sample mean: [{samples[:, 0].mean():.3f}, {samples[:, 1].mean():.3f}]")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Conexiune cu Diffusion Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Score Matching:</strong> Diffusion models invata scorul score(x) = grad log p(x).</p>
+                                <p style="margin-top: 10px;"><strong>Sampling:</strong> Procesul de denoising este de fapt Langevin dynamics cu scorul invatat!</p>
+                                <div style="background: var(--bg-dark); padding: 10px; border-radius: 5px; margin-top: 10px; font-family: monospace;">
+                                    x_{t+1} = x_t + step * score(x_t) + noise
+                                </div>
+                                <p style="margin-top: 10px; color: var(--success);">Diffusion models = MCMC cu score function invatat din date!</p>
+                            </div>
                         </div>
                     </div>
                 </div>

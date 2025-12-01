@@ -14,33 +14,115 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>17.4 Gibbs Sampling</h4>
-                <p><strong>Gibbs sampling</strong> este o varianta populara de MCMC. In loc de a propune o noua stare complet diferita, actualizam cate o variabila pe rand, sample-uind din distributia <strong>conditionala completa</strong>: P(xᵢ | x₋ᵢ). Aceasta evita reject-uri si este eficienta cand conditionalele sunt usor de sample-at.</p>
+                <p><strong>Gibbs sampling</strong> este o varianta speciala si foarte populara de MCMC. In loc de a propune o stare complet noua si de a o accepta/respinge, Gibbs sampling actualizeaza cate <strong>o variabila pe rand</strong>, sample-uind din distributia conditionala completa P(xi | x-i). Aceasta garanteaza <strong>100% acceptance</strong> pentru fiecare update!</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Algoritm Gibbs</span>
+                        <span>Simulare: Gibbs Sampling pentru Gaussiana Bivariata</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-def gibbs_sampling(p_conditional, n_vars, n_samples):
+import torch
+import numpy as np
+
+class GibbsSamplerBivariateGaussian:
     """
-    p_conditional[i](x_i | x_rest): distributie conditionala
+    Gibbs sampling pentru distributie Gaussiana bivariata
+    Demonstreaza conceptul pe un exemplu simplu
     """
-    x = random_init(n_vars)
-    samples = []
+    def __init__(self, mu, cov):
+        self.mu = np.array(mu)
+        self.cov = np.array(cov)
 
-    for _ in range(n_samples):
-        for i in range(n_vars):
-            # Sample x_i din P(x_i | x_{-i})
-            x[i] = p_conditional[i](x)
+        self.sigma_1 = np.sqrt(cov[0, 0])
+        self.sigma_2 = np.sqrt(cov[1, 1])
+        self.rho = cov[0, 1] / (self.sigma_1 * self.sigma_2)
 
-        samples.append(x.copy())
+    def conditional_x1_given_x2(self, x2):
+        """P(x1 | x2) - o Gaussiana conditionata"""
+        mu_cond = self.mu[0] + self.rho * self.sigma_1 / self.sigma_2 * (x2 - self.mu[1])
+        sigma_cond = self.sigma_1 * np.sqrt(1 - self.rho**2)
+        return mu_cond, sigma_cond
 
-    return samples
+    def conditional_x2_given_x1(self, x1):
+        """P(x2 | x1) - o Gaussiana conditionata"""
+        mu_cond = self.mu[1] + self.rho * self.sigma_2 / self.sigma_1 * (x1 - self.mu[0])
+        sigma_cond = self.sigma_2 * np.sqrt(1 - self.rho**2)
+        return mu_cond, sigma_cond
+
+    def sample(self, n_samples, x_init=None, burn_in=100):
+        x = x_init if x_init is not None else np.zeros(2)
+        samples = []
+
+        for i in range(burn_in + n_samples):
+            mu_1, sigma_1 = self.conditional_x1_given_x2(x[1])
+            x[0] = np.random.normal(mu_1, sigma_1)
+
+            mu_2, sigma_2 = self.conditional_x2_given_x1(x[0])
+            x[1] = np.random.normal(mu_2, sigma_2)
+
+            if i >= burn_in:
+                samples.append(x.copy())
+
+        return np.array(samples)
+
+mu = [0, 0]
+cov = [[1.0, 0.8], [0.8, 1.0]]
+
+gibbs = GibbsSamplerBivariateGaussian(mu, cov)
+samples = gibbs.sample(5000, burn_in=500)
+
+print(f"Sample mean: [{samples[:, 0].mean():.3f}, {samples[:, 1].mean():.3f}]")
+print(f"True mean: {mu}")
+print(f"Sample correlation: {np.corrcoef(samples.T)[0, 1]:.3f}")
+print(f"True correlation: {cov[0][1]:.3f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Traiectoria Gibbs</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                                    <div style="width: 200px; height: 200px; border: 2px solid var(--text-secondary); position: relative; background: radial-gradient(ellipse at center, rgba(var(--primary-rgb), 0.3), transparent);">
+                                        <div style="position: absolute; left: 30px; top: 150px; width: 8px; height: 8px; background: var(--warning); border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 30px; top: 100px; width: 8px; height: 8px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 80px; top: 100px; width: 8px; height: 8px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 80px; top: 60px; width: 8px; height: 8px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 120px; top: 60px; width: 8px; height: 8px; background: var(--secondary); border-radius: 50%;"></div>
+                                        <div style="position: absolute; left: 120px; top: 80px; width: 8px; height: 8px; background: var(--success); border-radius: 50%;"></div>
+
+                                        <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                                            <line x1="34" y1="154" x2="34" y2="104" stroke="var(--text-secondary)" stroke-width="1" stroke-dasharray="4"/>
+                                            <line x1="34" y1="104" x2="84" y2="104" stroke="var(--text-secondary)" stroke-width="1" stroke-dasharray="4"/>
+                                            <line x1="84" y1="104" x2="84" y2="64" stroke="var(--text-secondary)" stroke-width="1" stroke-dasharray="4"/>
+                                            <line x1="84" y1="64" x2="124" y2="64" stroke="var(--text-secondary)" stroke-width="1" stroke-dasharray="4"/>
+                                            <line x1="124" y1="64" x2="124" y2="84" stroke="var(--text-secondary)" stroke-width="1" stroke-dasharray="4"/>
+                                        </svg>
+
+                                        <p style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.8rem;">x1</p>
+                                        <p style="position: absolute; left: -25px; top: 50%; transform: translateY(-50%) rotate(-90deg); font-size: 0.8rem;">x2</p>
+                                    </div>
+                                    <div style="font-size: 0.9rem;">
+                                        <p style="margin-bottom: 10px;"><strong>Gibbs path:</strong></p>
+                                        <p style="color: var(--warning);">1. Start (x1, x2)</p>
+                                        <p>2. Update x1 ~ P(x1|x2)</p>
+                                        <p>3. Update x2 ~ P(x2|x1)</p>
+                                        <p>4. Repeat...</p>
+                                        <p style="color: var(--success); margin-top: 10px;">Convergenta la p(x1,x2)</p>
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-secondary);">Pasii orizontali: update x1 | Pasii verticali: update x2</p>
                             </div>
                         </div>
                     </div>
@@ -48,16 +130,102 @@ def gibbs_sampling(p_conditional, n_vars, n_samples):
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Avantaje Gibbs</span>
+                        <span>De Ce Functioneaza Gibbs?</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <ul style="margin-left: 20px;">
-                                <li><strong>No rejection</strong> - fiecare pas accepta</li>
-                                <li><strong>Natural pentru MRF</strong> - conditionalele depind doar de Markov blanket</li>
-                                <li><strong>Ideal pentru RBM</strong> - h|v si v|h factorizeaza</li>
-                            </ul>
+                            <div class="key-concept">
+                                <p><strong>Proprietati cheie:</strong></p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><strong>No rejection:</strong> Fiecare pas accepta - sample-uim exact din conditionala</li>
+                                    <li><strong>Detailed balance:</strong> Satisface automat pentru distributia tinta</li>
+                                    <li><strong>Convergenta:</strong> Sub conditii mild (irreducibilitate), converge la p(x)</li>
+                                </ul>
+                                <div class="formula" style="background: var(--bg-dark); padding: 10px; border-radius: 5px; margin-top: 15px;">
+                                    <p>p(x) * T(x→x') = p(x) * P(x'_i | x_{-i}) = p(x') * P(x_i | x'_{-i}) = p(x') * T(x'→x)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Gibbs Sampling pentru Modele Grafice</h4>
+                <p>Gibbs este deosebit de eficient pentru <strong>modele grafice</strong> datorita proprietatii Markov locale. Conditionala P(xi | x-i) depinde doar de <strong>Markov blanket</strong> - vecinii directi in graf. Pentru modele cu structura sparse, calculul conditionalelor este foarte rapid.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Gibbs pentru MRF (Ising)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def gibbs_ising_2d(size, J=1.0, beta=1.0, n_sweeps=1000):
+    """
+    Gibbs sampling pentru modelul Ising 2D
+    Un "sweep" = update toate variabilele o data
+    """
+    state = np.random.choice([-1, 1], size=(size, size))
+    magnetizations = []
+
+    for sweep in range(n_sweeps):
+        for i in range(size):
+            for j in range(size):
+                neighbors_sum = (
+                    state[(i-1) % size, j] +
+                    state[(i+1) % size, j] +
+                    state[i, (j-1) % size] +
+                    state[i, (j+1) % size]
+                )
+
+                h_local = J * neighbors_sum
+
+                p_up = 1.0 / (1.0 + np.exp(-2 * beta * h_local))
+
+                state[i, j] = 1 if np.random.random() < p_up else -1
+
+        magnetizations.append(np.mean(state))
+
+    return state, magnetizations
+
+final_state, mags = gibbs_ising_2d(size=20, beta=0.5, n_sweeps=500)
+print(f"Final magnetization: {mags[-1]:.3f}")
+print(f"Magnetization stability (last 100): std = {np.std(mags[-100:]):.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Variante: Systematic vs Random Scan</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Systematic Scan</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Update variabilele in ordine fixa (1, 2, 3, ..., n, 1, 2, ...)</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Pro: deterministic, usor de implementat</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Con: poate introduce bias subtil</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">Random Scan</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Alege random variabila de updatat la fiecare pas</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Pro: unbiased, parallelizable</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Con: randomness overhead</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

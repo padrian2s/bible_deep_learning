@@ -3,7 +3,7 @@
         <div class="page-number">591</div>
         <div class="page-title">
             <h3>Separare in Modele Nedirectionate</h3>
-            <span>Capitolul 16 - Sectiunea 16.2.6</span>
+            <span>Capitolul 16 - Sectiunea 16.2.7</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,35 +13,151 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>16.2.6 Separation in Undirected Models</h4>
-                <p>In modele nedirectionate, criteriul de separare este mai simplu decat d-separation. Doua seturi A si B sunt <strong>separate</strong> date fiind C daca <strong>toate caile</strong> intre ele trec prin C. Nu exista complicatia collider-ului. Aceasta este proprietatea <strong>Markov globala</strong>.</p>
+                <h4>16.2.7 Separation in Undirected Models</h4>
+                <p>In modele nedirectionate, criteriul de separare este mult mai simplu decat d-separation. Doua seturi A si B sunt <strong>separate</strong> date fiind C daca <strong>toate caile</strong> intre ele trec prin C. Nu exista complicatia collider-ului - orice nod observat pe o cale o blocheaza. Aceasta este proprietatea <strong>Markov globala</strong> a MRF-urilor.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Comparatie Separare</span>
+                        <span>Simulare: Comparatie Separare Directed vs Undirected</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--primary);">Directed (d-sep)</strong>
-                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
-                                        <li>Chains & forks: blocate daca mijloc observat</li>
-                                        <li>Colliders: blocate daca mijloc NEobservat</li>
-                                        <li>Mai complex de verificat</li>
+                            <div class="code-block">
+def undirected_separated(graph, A, B, C):
+    """
+    Verifica separare in graf nedirectionat.
+    MULT mai simplu decat d-separation!
+    """
+    from collections import deque
+
+    remaining_nodes = set(graph.keys()) - C
+    visited = set()
+    queue = deque([A])
+
+    while queue:
+        node = queue.popleft()
+        if node == B:
+            return False
+
+        if node not in visited:
+            visited.add(node)
+            for neighbor in graph.get(node, []):
+                if neighbor in remaining_nodes and neighbor not in visited:
+                    queue.append(neighbor)
+
+    return True
+
+undirected_graph = {
+    'a': ['b', 'c'],
+    'b': ['a', 'c', 'd'],
+    'c': ['a', 'b', 'e'],
+    'd': ['b', 'e'],
+    'e': ['c', 'd'],
+}
+
+print("Graf nedirectionat: a-b-c-a, b-d-e-c")
+print()
+
+tests = [
+    ('a', 'd', set()),
+    ('a', 'd', {'b'}),
+    ('a', 'd', {'b', 'c'}),
+    ('a', 'e', {'c'}),
+    ('a', 'e', {'b', 'c'}),
+]
+
+for A, B, C in tests:
+    result = undirected_separated(undirected_graph, A, B, C)
+    symbol = "_|_" if result else "NOT _|_"
+    print(f"{A} {symbol} {B} | {C if C else '{}'}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Comparatie Separare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-top: 3px solid var(--primary);">
+                                    <h5 style="color: var(--primary); margin-bottom: 15px;">Directed (D-Separation)</h5>
+                                    <ul style="margin-left: 15px; font-size: 0.9rem;">
+                                        <li style="margin-bottom: 10px;"><strong>Chains:</strong> A->B->C<br>Blocata daca B observat</li>
+                                        <li style="margin-bottom: 10px;"><strong>Forks:</strong> A<-B->C<br>Blocata daca B observat</li>
+                                        <li style="margin-bottom: 10px;"><strong>Colliders:</strong> A->B<-C<br>Blocata daca B <em>neobservat</em>!</li>
                                     </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background: var(--bg-lighter); border-radius: 8px; font-size: 0.85rem;">
+                                        Reguli diferite pentru structuri diferite
+                                    </div>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--secondary);">Undirected (sep)</strong>
-                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
-                                        <li>Orice nod pe cale blocheaza daca observat</li>
-                                        <li>Nu exista colliders</li>
-                                        <li>Mai simplu de verificat</li>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-top: 3px solid var(--secondary);">
+                                    <h5 style="color: var(--secondary); margin-bottom: 15px;">Undirected (Separare)</h5>
+                                    <ul style="margin-left: 15px; font-size: 0.9rem;">
+                                        <li style="margin-bottom: 10px;"><strong>Orice cale:</strong> A-B-C<br>Blocata daca B observat</li>
+                                        <li style="margin-bottom: 10px;"><strong>Fara exceptii:</strong><br>Regula uniforma pentru toate structurile</li>
+                                        <li style="margin-bottom: 10px;"><strong>Criteriu simplu:</strong><br>C "taie" toate caile intre A si B?</li>
                                     </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background: var(--bg-lighter); border-radius: 8px; font-size: 0.85rem;">
+                                        O singura regula simpla!
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Proprietati Markov: Local, Pairwise, Global</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Trei Proprietati Markov Echivalente</h5>
+                                <p style="margin-top: 10px;">Pentru distributii pozitive, urmatoarele sunt echivalente:</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Markov Local</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Fiecare nod este independent de restul, date fiind vecinii (Markov blanket).
+                                    </p>
+                                    <div style="font-family: monospace; margin-top: 8px; font-size: 0.85rem;">
+                                        X _|_ (V \ {X} \ N(X)) | N(X)
+                                    </div>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong style="color: var(--secondary);">Markov Pairwise</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Noduri neadiacente sunt independente date toate celelalte.
+                                    </p>
+                                    <div style="font-family: monospace; margin-top: 8px; font-size: 0.85rem;">
+                                        X _|_ Y | V \ {X, Y} daca nu exista muchie X-Y
+                                    </div>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong style="color: var(--accent);">Markov Global</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Daca C separa A de B (graf connectivity), atunci A _|_ B | C.
+                                    </p>
+                                    <div style="font-family: monospace; margin-top: 8px; font-size: 0.85rem;">
+                                        Sep(A, B | C) => A _|_ B | C
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); border-radius: 8px;">
+                                <strong style="color: var(--success);">Teorema Hammersley-Clifford:</strong>
+                                <p style="font-size: 0.9rem; margin-top: 8px;">
+                                    O distributie pozitiva satisface proprietatile Markov pentru un graf daca si numai daca factorizeaza peste clique-urile grafului.
+                                </p>
                             </div>
                         </div>
                     </div>

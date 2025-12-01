@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">584</div>
         <div class="page-title">
-            <h3>Energy-Based Models</h3>
-            <span>Capitolul 16 - Sectiunea 16.2.3</span>
+            <h3>Energy-Based Models (EBM)</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.4</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,25 +13,100 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>16.2.3 Energy-Based Models (EBM)</h4>
-                <p>O modalitate convenabila de a defini clique potentials este prin <strong>functii de energie</strong>. In loc de φ(x) > 0, definim E(x) ∈ ℝ si obtinem φ(x) = exp(-E(x)). Energia joaca rol similar cu energia in fizica: configuratii cu energie mica sunt mai probabile. Aceasta parametrizare evita constrangerea de pozitivitate.</p>
+                <h4>16.2.4 Energy-Based Models</h4>
+                <p>O modalitate convenabila de a defini clique potentials este prin <strong>functii de energie</strong>. In loc de phi(x) > 0, definim E(x) in R si obtinem phi(x) = exp(-E(x)). Energia joaca rol similar cu energia in fizica: configuratii cu energie mica sunt mai probabile. Aceasta parametrizare evita constrangerea de pozitivitate si este fundamentala pentru deep learning modern.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Distributia Boltzmann</span>
+                        <span>Simulare: Energy-Based Model in PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p style="font-size: 1.2rem; text-align: center;">P(x) = exp(-E(x)) / Z</p>
-                                <p style="margin-top: 15px;">Unde:</p>
-                                <ul style="margin-left: 20px;">
-                                    <li>E(x) = Σ E_c(x_c) - suma energiilor pe clique-uri</li>
-                                    <li>Z = Σ_x exp(-E(x)) - partition function</li>
-                                </ul>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class EnergyBasedModel(nn.Module):
+    """
+    Energy-Based Model simplu.
+    P(x) = exp(-E(x)) / Z
+    """
+    def __init__(self, input_dim, hidden_dim=64):
+        super().__init__()
+        self.energy_net = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, 1)
+        )
+
+    def energy(self, x):
+        """E(x) - poate fi orice valoare reala"""
+        return self.energy_net(x).squeeze(-1)
+
+    def unnormalized_log_prob(self, x):
+        """log p_tilde(x) = -E(x)"""
+        return -self.energy(x)
+
+    def contrastive_divergence_loss(self, x_pos, x_neg):
+        """
+        CD Loss: E(x_data) - E(x_model)
+        x_pos = sample-uri din date (energie mica dorita)
+        x_neg = sample-uri din model (energie mare dorita)
+        """
+        return self.energy(x_pos).mean() - self.energy(x_neg).mean()
+
+ebm = EnergyBasedModel(input_dim=784)
+x = torch.randn(32, 784)
+
+energy = ebm.energy(x)
+print(f"Energy shape: {energy.shape}")
+print(f"Energy range: [{energy.min():.2f}, {energy.max():.2f}]")
+
+x_pos = torch.randn(32, 784)
+x_neg = torch.randn(32, 784) * 2
+
+loss = ebm.contrastive_divergence_loss(x_pos, x_neg)
+print(f"CD Loss: {loss.item():.4f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Energia ca Landscape</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Energy Landscape</h5>
+                                <div style="display: flex; justify-content: center; margin: 20px 0;">
+                                    <div style="width: 300px; height: 150px; background: linear-gradient(to bottom, var(--warning) 0%, var(--bg-lighter) 30%, var(--success) 50%, var(--bg-lighter) 70%, var(--warning) 100%); border-radius: 8px; position: relative;">
+                                        <div style="position: absolute; bottom: 45%; left: 45%; width: 20px; height: 20px; background: var(--accent); border-radius: 50%;"></div>
+                                        <div style="position: absolute; top: 10px; right: 10px; font-size: 0.8rem; color: white;">E mare</div>
+                                        <div style="position: absolute; bottom: 45%; right: 10px; font-size: 0.8rem; color: white;">E mica</div>
+                                        <div style="position: absolute; bottom: 10px; right: 10px; font-size: 0.8rem; color: white;">E mare</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; font-size: 0.9rem; color: var(--text-secondary);">
+                                    Sample-urile "cad" spre minime de energie (regiuni de probabilitate mare)
+                                </div>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <div style="font-family: monospace; text-align: center; font-size: 1.1rem;">
+                                        P(x) = exp(-E(x)) / Z
+                                    </div>
+                                    <ul style="margin: 15px 0 0 20px; font-size: 0.9rem;">
+                                        <li>E(x) mic => P(x) mare (configuratii probabile)</li>
+                                        <li>E(x) mare => P(x) mic (configuratii improbabile)</li>
+                                        <li>Sampling = cautare de minime locale</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -39,17 +114,42 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Avantaje EBM</span>
+                        <span>Context Modern: Score-Based si Diffusion Models</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Parametrizare libera</strong> - E(x) poate fi orice functie</li>
-                                <li><strong>Modularitate</strong> - energiile se aduna</li>
-                                <li><strong>Interpretare fizica</strong> - analogie cu mecanica statistica</li>
-                                <li><strong>Flexibilitate</strong> - E poate fi retea neurala</li>
-                            </ul>
+                            <div class="key-concept">
+                                <h5>EBM-uri in Deep Learning Modern</h5>
+                                <p style="margin-top: 10px;">Energy-Based Models sunt fundamentul teoretic pentru multe tehnici moderne de generare.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Score-Based Models</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Score = grad_x log p(x) = -grad_x E(x)<br>
+                                        Antrenam reteaua sa prezica scorul, evitand calculul lui Z!
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong style="color: var(--secondary);">Diffusion Models (DDPM, Stable Diffusion)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Sunt EBM-uri implicite! Denoising score matching antreneaza modelul sa estimeze scorul la diferite nivele de zgomot.
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong style="color: var(--accent);">Contrastive Learning</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        SimCLR, CLIP folosesc energie implicita: E(x, y) = -similarity(f(x), g(y)). Training-ul maximizeaza similaritatea pentru perechi pozitive.
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); border-radius: 8px;">
+                                <strong style="color: var(--success);">Avantaj EBM:</strong>
+                                <p style="font-size: 0.9rem; margin-top: 8px;">
+                                    E(x) poate fi <strong>orice functie</strong> - nu trebuie sa fie normalizata! Aceasta flexibilitate permite folosirea oricarei arhitecturi neurale (CNN, Transformer, etc.).
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

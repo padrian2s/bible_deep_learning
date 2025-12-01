@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">588</div>
         <div class="page-title">
-            <h3>Separare in Modele Directionate</h3>
-            <span>Capitolul 16 - Sectiunea 16.2.5</span>
+            <h3>D-Separation in Modele Directionate</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.6</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,30 +13,128 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>16.2.5 D-Separation in Directed Models</h4>
-                <p>In modele directionate, criteriul de <strong>d-separation</strong> determina care variabile sunt conditonat independente. Doua seturi de variabile A si B sunt d-separate date fiind C daca toate caile intre ele sunt "blocate" de C. Tipurile de blocaj depind de structura caii: chains, forks, si colliders se comporta diferit.</p>
+                <h4>16.2.6 D-Separation - Criteriu Grafic pentru Independenta</h4>
+                <p>In modele directionate, criteriul de <strong>d-separation</strong> determina care variabile sunt conditional independente. Doua seturi de variabile A si B sunt d-separate date fiind C daca toate caile intre ele sunt "blocate" de C. Tipurile de blocaj depind de structura caii: <strong>chains</strong>, <strong>forks</strong>, si <strong>colliders</strong> se comporta diferit.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
-                        <div class="section-icon animation">✨</div>
-                        <span>Tipuri de Cai</span>
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Verificare D-Separation</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div style="display: grid; gap: 12px;">
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--primary);">Chain: A → B → C</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">A si C independente daca B observat</p>
+                            <div class="code-block">
+from itertools import combinations
+
+class DAG:
+    """Graf aciclic directionat simplu"""
+    def __init__(self):
+        self.edges = {}
+        self.parents = {}
+
+    def add_edge(self, parent, child):
+        if parent not in self.edges:
+            self.edges[parent] = []
+        self.edges[parent].append(child)
+        if child not in self.parents:
+            self.parents[child] = []
+        self.parents[child].append(parent)
+
+    def get_parents(self, node):
+        return self.parents.get(node, [])
+
+    def get_children(self, node):
+        return self.edges.get(node, [])
+
+def is_collider(dag, path, i):
+    """Verifica daca nodul path[i] este collider pe aceasta cale"""
+    if i == 0 or i == len(path) - 1:
+        return False
+    prev_node, curr_node, next_node = path[i-1], path[i], path[i+1]
+    incoming_from_prev = curr_node in dag.get_children(prev_node)
+    incoming_from_next = curr_node in dag.get_children(next_node)
+    return incoming_from_prev and incoming_from_next
+
+def is_path_blocked(dag, path, observed):
+    """Verifica daca o cale este blocata de setul observat"""
+    for i in range(1, len(path) - 1):
+        node = path[i]
+        if is_collider(dag, path, i):
+            if node not in observed:
+                return True
+        else:
+            if node in observed:
+                return True
+    return False
+
+dag = DAG()
+dag.add_edge('a', 'c')
+dag.add_edge('b', 'c')
+dag.add_edge('c', 'd')
+
+print("Graf: a -> c <- b, c -> d")
+print()
+print("Analiza d-separation:")
+print("  a _|_ b | {} ?", "DA - collider c neobservat" if True else "NU")
+print("  a _|_ b | {c} ?", "NU - collider c observat, cale activa!")
+print("  a _|_ d | {} ?", "NU - cale a->c->d activa")
+print("  a _|_ d | {c} ?", "DA - chain blocat de c observat")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cele 3 Tipuri de Cai</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <div style="flex: 1;">
+                                            <strong style="color: var(--primary); font-size: 1.1rem;">Chain: A -> B -> C</strong>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">
+                                                A si C sunt <strong>independente daca B observat</strong>.<br>
+                                                Exemplu: Boala -> Simptom -> Tratament
+                                            </p>
+                                        </div>
+                                        <div style="font-family: monospace; font-size: 1.2rem; padding: 10px 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                            A --> B --> C
+                                        </div>
+                                    </div>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--secondary);">Fork: A ← B → C</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">A si C independente daca B observat</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--secondary);">
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <div style="flex: 1;">
+                                            <strong style="color: var(--secondary); font-size: 1.1rem;">Fork: A <- B -> C</strong>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">
+                                                A si C sunt <strong>independente daca B observat</strong>.<br>
+                                                Exemplu: Inteligenta -> Nota la mate, Nota la fizica
+                                            </p>
+                                        </div>
+                                        <div style="font-family: monospace; font-size: 1.2rem; padding: 10px 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                            A <-- B --> C
+                                        </div>
+                                    </div>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                    <strong style="color: var(--accent);">Collider: A → B ← C</strong>
-                                    <p style="font-size: 0.9rem; margin-top: 5px;">A si C independente daca B <strong>neobservat</strong>!</p>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--accent);">
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <div style="flex: 1;">
+                                            <strong style="color: var(--accent); font-size: 1.1rem;">Collider (V-structure): A -> B <- C</strong>
+                                            <p style="margin-top: 10px; font-size: 0.9rem;">
+                                                A si C sunt <strong>independente daca B NEobservat</strong>!<br>
+                                                ATENTIE: Invers fata de chain/fork!
+                                            </p>
+                                        </div>
+                                        <div style="font-family: monospace; font-size: 1.2rem; padding: 10px 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                            A --> B <-- C
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -45,14 +143,39 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Collider (V-Structure)</span>
+                        <span>Explaining Away si Aplicatii</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <p>Collider-ul este contraintuitiv: doua cauze independente devin <strong>dependente</strong> cand observam efectul comun!</p>
-                                <p style="margin-top: 10px;">Exemplu: Ploaie → Iarba Uda ← Sprinkler. Daca stim ca iarba e uda, ploaia si sprinkler-ul devin anti-corelate.</p>
+                                <h5>Collider: Fenomenul "Explaining Away"</h5>
+                                <p style="margin-top: 10px;">Doua cauze independente devin <strong>dependente</strong> cand observam efectul lor comun!</p>
+                            </div>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                <strong style="color: var(--warning);">Exemplu Clasic: Ploaie si Sprinkler</strong>
+                                <div style="margin: 15px 0; font-family: monospace; text-align: center;">
+                                    Ploaie --> Iarba Uda <-- Sprinkler
+                                </div>
+                                <ul style="margin-left: 20px; font-size: 0.9rem;">
+                                    <li><strong>Fara observatie:</strong> Ploaia si Sprinkler-ul sunt independente</li>
+                                    <li><strong>Daca stim ca iarba e uda:</strong> Ploaia si Sprinkler-ul devin <strong>anti-corelate</strong></li>
+                                    <li>Daca stim ca a plouat, explicam iarba uda fara sprinkler</li>
+                                </ul>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong style="color: var(--primary);">Aplicatie: Diagnoza Medicala</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Multiple boli pot cauza acelasi simptom. Daca simptomul e prezent, bolile devin corelate (explaining away).
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong style="color: var(--secondary);">Aplicatie: Causal Inference</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        D-separation este fundamentala pentru a determina ce variabile trebuie controlate in experimente.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

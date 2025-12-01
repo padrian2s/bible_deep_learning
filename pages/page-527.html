@@ -57,6 +57,35 @@
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Interpretare: Centrul de Masa</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>g(f(x̃)) ca Medie Conditionata</h5>
+                                <p>Reconstructia g(f(x̃)) estimeaza <strong>E[x | x̃]</strong> - media tuturor punctelor x care ar fi putut genera x̃:</p>
+                                <div class="code-block" style="margin-top: 10px;">
+# g(f(x̃)) estimeaza "centrul de masa" al punctelor x
+# care ar fi putut produce coruptia x̃
+
+# Formal:
+# g(f(x̃)) ≈ E_{x ~ p(x|x̃)}[x]
+#          = ∫ x · p(x|x̃) dx
+#          = centrul de masa al posteriorului
+
+# Din Bayes:
+# p(x|x̃) ∝ p(x̃|x) · p(x)
+#         = C(x̃|x) · p_data(x)
+                                </div>
+                                <p style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">Aceasta medie conditionata indica aproximativ spre manifold!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

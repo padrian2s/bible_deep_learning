@@ -47,6 +47,71 @@
                 <h4>Limitarile Abordarii Non-Parametrice</h4>
                 <p>O problema fundamentala cu abordarile non-parametrice locale: daca manifold-urile nu sunt foarte netede (au multe varfuri, vai si rasuciri), avem nevoie de <strong>foarte multe exemple</strong> pentru a acoperi fiecare variatie. Complexitatea manifold-urilor pentru imagini este foarte mare (fiecare translatie a imaginii schimba traiectoria in spatiul de pixeli). Aceasta motiveaza folosirea <strong>reprezentarilor distribuite</strong> si deep learning.</p>
             </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Complexitatea Translatiei</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Complexitatea manifold-ului pentru simpla translatie
+
+# Imagine 28x28 cu un singur pixel alb
+# Translatam vertical - manifold 1D
+
+# In spatiul de pixeli (784D):
+# - Fiecare pozitie = un punct in R^784
+# - Fiecare linie din imagine creeaza un "bump" in traiectorie
+# - Pattern-uri complexe -> manifold foarte neregulat
+
+# Pentru a acoperi cu patch-uri locale:
+# - Avem nevoie de un patch pentru fiecare "rasucire"
+# - Numarul de patch-uri creste EXPONENTIAL cu complexitatea pattern-ului
+
+# Solutia: Deep Learning
+# - Invata transformari compozitionale
+# - Poate generaliza la translatii nevazute
+# - Reprezentari distribuite: 2^n regiuni cu n unitati
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Deep Learning vs Non-Parametric</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Avantajele Deep Learning pentru Manifolds</h5>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                                    <div style="background: var(--warning); padding: 15px; border-radius: 8px; color: #000;">
+                                        <strong>Non-Parametric</strong>
+                                        <ul style="font-size: 0.85rem; margin: 5px 0 0 15px;">
+                                            <li>Interpoleaza local</li>
+                                            <li>Nu generalizeaza</li>
+                                            <li>O(n) memorie</li>
+                                        </ul>
+                                    </div>
+                                    <div style="background: var(--success); padding: 15px; border-radius: 8px; color: #000;">
+                                        <strong>Deep Autoencoders</strong>
+                                        <ul style="font-size: 0.85rem; margin: 5px 0 0 15px;">
+                                            <li>Invata transformari</li>
+                                            <li>Generalizeaza</li>
+                                            <li>O(parameters)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -58,6 +58,32 @@
                         </div>
                     </div>
                 </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Modern: VAE si Diffusion ca Grafuri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Modele Generative Moderne = Graphical Models</h5>
+                                <div style="display: grid; gap: 10px; margin-top: 10px;">
+                                    <div style="background: var(--primary); padding: 12px; border-radius: 8px;">
+                                        <strong>VAE</strong>: z → x (latent → observed, directed)
+                                    </div>
+                                    <div style="background: var(--secondary); padding: 12px; border-radius: 8px;">
+                                        <strong>Diffusion</strong>: x₀ ← x₁ ← ... ← xₜ (chain of latents)
+                                    </div>
+                                    <div style="background: var(--accent); padding: 12px; border-radius: 8px;">
+                                        <strong>Autoregressive</strong>: p(x) = Π p(xᵢ|x₁...xᵢ₋₁) (GPT!)
+                                    </div>
+                                </div>
+                                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Toate modelele generative moderne pot fi vazute ca graphical models!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -118,7 +118,85 @@ class DenoisingAutoencoder(nn.Module):
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>ReLU pentru Sparsitate Reala</h4>
-                <p>O metoda pentru a obtine <strong>zerouri reale</strong> in reprezentare (nu doar valori mici) este folosirea unitatilor <strong>ReLU</strong> in stratul de cod, impreuna cu un prior care impinge valorile spre zero. Cu ReLU si penalizare L1, valorile sunt efectiv zero pentru multi neuroni, nu doar aproape de zero. Aceasta produce reprezentari cu adevarat sparse.</p>
+                <p>O metoda pentru a obtine <strong>zerouri reale</strong> in reprezentare (nu doar valori mici) este folosirea unitatilor <strong>ReLU</strong> in stratul de cod (Glorot et al., 2011b). Cu un prior care impinge valorile spre zero (precum L1), valorile sunt efectiv zero pentru multi neuroni. Aceasta produce reprezentari cu adevarat sparse si controleaza indirect numarul mediu de zerouri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: ReLU Sparsity</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class ReLUSparseAutoencoder(nn.Module):
+    """
+    ReLU + L1 penalty = zerouri EXACTE (nu aproximative)
+    """
+    def __init__(self, input_dim, code_dim):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 512),
+            nn.ReLU(),
+            nn.Linear(512, code_dim),
+            nn.ReLU()  # ReLU in codul final!
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(code_dim, 512),
+            nn.ReLU(),
+            nn.Linear(512, input_dim)
+        )
+
+    def forward(self, x):
+        h = self.encoder(x)
+        r = self.decoder(h)
+        return r, h
+
+# Cu L1 penalty pe h:
+# - Multe unitati au activare EXACT 0 (nu 0.0001)
+# - Sparsitate "reala", nu aproximativa
+# - Eficient computational (skip zerouri)
+
+def count_zeros(h):
+    return (h == 0).sum().item() / h.numel()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>DAE si Structura Datelor</h4>
+                <p>Antrenamentul denoising forteaza f si g sa invete implicit <strong>structura distributiei datelor</strong> p<sub>data</sub>(x). Alain si Bengio (2013, 2013c) au demonstrat ca DAE invata sa estimeze <strong>score-ul</strong> distributiei datelor - directia in care creste cel mai rapid probabilitatea. Aceasta conexiune leaga DAE de score matching si modele generative moderne.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Context: DAE → Diffusion Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De la DAE la Stable Diffusion</h5>
+                                <p>Ideile din DAE au evoluat in modelele diffusion moderne:</p>
+                                <ul style="margin: 10px 0 0 20px; font-size: 0.9rem;">
+                                    <li><strong>DAE (2008):</strong> Invata sa curete zgomot → invata structura datelor</li>
+                                    <li><strong>Score Matching (2011):</strong> Estimeaza ∇log p(x)</li>
+                                    <li><strong>Diffusion (2020+):</strong> Multiplele nivele de zgomot, denoising iterativ</li>
+                                    <li><strong>Stable Diffusion:</strong> DAE in spatiul latent al VAE</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

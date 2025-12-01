@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">640</div>
         <div class="page-title">
-            <h3>Annealed Importance Sampling</h3>
+            <h3>Annealed Importance Sampling (AIS)</h3>
             <span>Capitolul 18 - Sectiunea 18.7.1</span>
         </div>
     </div>
@@ -14,45 +14,333 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>18.7.1 Annealed Importance Sampling (AIS)</h4>
-                <p><strong>AIS</strong> rezolva problema introducand o secventa de distributii intermediare care "bridge" intre p₀ (simpla, cu Z cunoscut) si p₁ (modelul nostru). Produsul rapoartelor succesive da estimatul lui Z₁/Z₀.</p>
+                <p><strong>AIS</strong> (Neal, 2001) rezolva problema estimarii lui Z prin introducerea unei secvente de distributii <strong>intermediare</strong> care "bridge" intre o distributie simpla p_0 (cu Z_0 cunoscut) si distributia tinta p_1 (modelul nostru). Produsul rapoartelor succesive da un estimator <strong>unbiased</strong> pentru Z_1/Z_0.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Algoritmul AIS</span>
+                        <span>Simulare: AIS Complet in PyTorch</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                                <p><strong>Secventa de distributii intermediare (Eq. 18.45):</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 15px 0; color: var(--accent);">
+                                    p_beta(x) propto p_0(x)^(1-beta) * p_1(x)^beta
+                                </p>
+                                <p style="margin-top: 10px; text-align: center;">beta = 0 → p_0 (simpla) ... beta = 1 → p_1 (target)</p>
+                                <p style="margin-top: 20px;"><strong>Estimator AIS (Eq. 18.52):</strong></p>
+                                <p style="font-size: 1rem; text-align: center; margin: 10px 0;">
+                                    Z_1/Z_0 = E[ prod_k (p_{beta_{k+1}}(x_k) / p_{beta_k}(x_k)) ]
+                                </p>
+                            </div>
+                            <div class="code-block">
+import torch
+import numpy as np
+from scipy.special import logsumexp
+
+class AnnealedImportanceSampling:
+    """
+    AIS: Estimare unbiased a raportului Z_1/Z_0
+
+    Metoda standard pentru evaluarea log-likelihood in RBM!
+    """
+    def __init__(self, model_0, model_1, n_intermediate=1000, n_samples=100):
+        self.p0 = model_0
+        self.p1 = model_1
+        self.n_intermediate = n_intermediate
+        self.n_samples = n_samples
+
+        self.betas = np.linspace(0, 1, n_intermediate + 2)
+
+    def log_prob_intermediate(self, x, beta):
+        """
+        log p_beta(x) propto (1-beta)*log p_0(x) + beta*log p_1(x)
+        """
+        log_p0 = self.p0.unnormalized_log_prob(x)
+        log_p1 = self.p1.unnormalized_log_prob(x)
+        return (1 - beta) * log_p0 + beta * log_p1
+
+    def transition_kernel(self, x, beta, n_steps=1):
+        """
+        Tranzitie MCMC care lasa p_beta invarianta
+        Pentru RBM: Gibbs sampling cu weights scalate
+        """
+        for _ in range(n_steps):
+            x = self.gibbs_step_at_beta(x, beta)
+        return x
+
+    def estimate_log_Z_ratio(self):
+        """
+        Ruleaza AIS si returneaza log(Z_1/Z_0)
+        """
+        log_weights = []
+
+        for _ in range(self.n_samples):
+            x = self.p0.sample()
+            log_w = 0.0
+
+            for k in range(len(self.betas) - 1):
+                beta_curr = self.betas[k]
+                beta_next = self.betas[k + 1]
+
+                log_p_next = self.log_prob_intermediate(x, beta_next)
+                log_p_curr = self.log_prob_intermediate(x, beta_curr)
+                log_w += (log_p_next - log_p_curr).item()
+
+                if k < len(self.betas) - 2:
+                    x = self.transition_kernel(x, beta_next, n_steps=1)
+
+            log_weights.append(log_w)
+
+        log_Z_ratio = logsumexp(log_weights) - np.log(self.n_samples)
+
+        log_weights_arr = np.array(log_weights)
+        log_Z_std = np.std(log_weights_arr) / np.sqrt(self.n_samples)
+
+        return log_Z_ratio, log_Z_std
+
+ais = AnnealedImportanceSampling(p0, rbm_trained, n_intermediate=10000)
+log_Z_ratio, std = ais.estimate_log_Z_ratio()
+print(f"log(Z_model/Z_0) = {log_Z_ratio:.2f} +/- {std:.2f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Diagrama: Bridging prin Distributii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="text-align: center; font-weight: bold; margin-bottom: 20px;">AIS: Bridge intre p_0 si p_1</div>
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                                    <div style="width: 80px; height: 80px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-weight: bold; font-size: 0.8rem;">
+                                        p_0<br>Z_0 known
+                                    </div>
+                                    <div style="flex-grow: 1; height: 4px; background: linear-gradient(to right, var(--success), var(--warning), var(--accent)); margin: 0 10px;"></div>
+                                    <div style="width: 80px; height: 80px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-weight: bold; font-size: 0.8rem;">
+                                        p_1<br>Z_1 = ?
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0 50px;">
+                                    <span style="font-size: 0.8rem;">beta=0</span>
+                                    <span style="font-size: 0.8rem;">beta=0.25</span>
+                                    <span style="font-size: 0.8rem;">beta=0.5</span>
+                                    <span style="font-size: 0.8rem;">beta=0.75</span>
+                                    <span style="font-size: 0.8rem;">beta=1</span>
+                                </div>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p><strong>Cheia succesului:</strong> Distributiile intermediare sunt suficient de "close" astfel incat importance weights au variance controlata.</p>
+                                    <p style="margin-top: 10px; font-size: 0.9rem;">Mai multi pasi intermediari → estimate mai precise, dar mai costisitor.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: AIS in Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>AIS: Metoda Standard pentru Evaluarea RBM</h5>
+                                <p style="margin-top: 10px;">AIS este metoda de evaluare pentru modelele generative cu partition function intractabila:</p>
+                                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                                    <li><strong>RBM benchmark:</strong> Salakhutdinov & Murray (2008) - standard pentru MNIST</li>
+                                    <li><strong>DBN/DBM:</strong> Evaluare prin AIS pe modelul joint</li>
+                                    <li><strong>Modern EBMs:</strong> Inca relevant pentru evaluare</li>
+                                </ul>
+                            </div>
+                            <div class="reference-list" style="margin-top: 20px;">
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Neal (2001)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"Annealed Importance Sampling" - paper-ul original</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Salakhutdinov & Murray (2008)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"On the Quantitative Analysis of Deep Belief Networks" - AIS pentru RBM</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--success);">Grosse et al. (2015)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"Sandwiching the marginal likelihood" - bounds tighter pentru Z</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>AIS pentru RBM: Implementare Practica</h4>
+                <p>Pentru RBM, distributia de baza p_0 este un model cu <strong>weights = 0</strong> (unitati independente). Z_0 se calculeaza trivial. Interpolare: W_beta = beta * W_trained. Aceasta permite evaluarea log-likelihood-ului pe test set!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: AIS pentru Evaluare RBM pe MNIST</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-def AIS(p0, p1, n_intermediate, n_samples):
+import torch
+import numpy as np
+from scipy.special import logsumexp
+
+class RBM_AIS:
     """
-    Annealed Importance Sampling
-    p0: distributie simpla cu Z0 cunoscut
-    p1: modelul target
+    AIS specific pentru RBM
+    p_0: RBM cu W=0 (unitati independente)
+    p_1: RBM antrenat
     """
-    # Secventa de temperaturi: 0 = β0 < β1 < ... < βn = 1
-    betas = np.linspace(0, 1, n_intermediate + 1)
+    def __init__(self, rbm_trained, n_intermediate=10000, n_samples=100):
+        self.rbm = rbm_trained
+        self.n_visible = rbm_trained.W.shape[0]
+        self.n_hidden = rbm_trained.W.shape[1]
+        self.n_intermediate = n_intermediate
+        self.n_samples = n_samples
 
-    weights = []
-    for _ in range(n_samples):
-        # Start de la p0
-        x = p0.sample()
-        log_w = 0
+        self.betas = np.linspace(0, 1, n_intermediate + 1)
 
-        for i in range(len(betas) - 1):
-            # Distributie intermediara: p_β ∝ p0^(1-β) * p1^β
-            # Weight update
-            log_w += (betas[i+1] - betas[i]) * (p1.log_prob(x) - p0.log_prob(x))
-            # Tranzitie MCMC catre p_{β_{i+1}}
-            x = mcmc_step(x, betas[i+1])
+    def log_Z_base(self):
+        """
+        Z_0 pentru RBM cu W=0: Z_0 = 2^n_v * 2^n_h
+        (produsul normalizarilor pentru fiecare unitate)
+        """
+        log_Z_v = self.n_visible * np.log(2)
+        log_Z_h = self.n_hidden * np.log(2)
 
-        weights.append(log_w)
+        with torch.no_grad():
+            v_bias_term = torch.log(1 + torch.exp(self.rbm.v_bias)).sum()
+            h_bias_term = torch.log(1 + torch.exp(self.rbm.h_bias)).sum()
 
-    # Estimatul lui Z1/Z0
-    log_Z_ratio = logsumexp(weights) - np.log(n_samples)
-    return log_Z_ratio
+        return (v_bias_term + h_bias_term).item()
+
+    def free_energy_at_beta(self, v, beta):
+        """
+        Free energy pentru distributie intermediara
+        W_beta = beta * W, biases raman la valorile antrenate
+        """
+        W_beta = beta * self.rbm.W
+
+        v_term = torch.mv(v, self.rbm.v_bias)
+        h_input = torch.mm(v, W_beta) + self.rbm.h_bias
+        h_term = torch.log(1 + torch.exp(h_input)).sum(dim=1)
+
+        return -v_term - h_term
+
+    def gibbs_at_beta(self, v, beta):
+        """Gibbs sampling cu weights scalate"""
+        W_beta = beta * self.rbm.W
+
+        h_prob = torch.sigmoid(torch.mm(v, W_beta) + self.rbm.h_bias)
+        h = torch.bernoulli(h_prob)
+
+        v_prob = torch.sigmoid(torch.mm(h, W_beta.T) + self.rbm.v_bias)
+        v = torch.bernoulli(v_prob)
+
+        return v
+
+    def estimate_log_Z(self):
+        """Ruleaza AIS si returneaza log Z"""
+        log_weights = []
+
+        for _ in range(self.n_samples):
+            v = torch.bernoulli(torch.sigmoid(self.rbm.v_bias).unsqueeze(0))
+            log_w = 0.0
+
+            for k in range(len(self.betas) - 1):
+                beta_curr = self.betas[k]
+                beta_next = self.betas[k + 1]
+
+                log_w -= self.free_energy_at_beta(v, beta_next).item()
+                log_w += self.free_energy_at_beta(v, beta_curr).item()
+
+                if k < len(self.betas) - 2:
+                    v = self.gibbs_at_beta(v, beta_next)
+
+            log_weights.append(log_w)
+
+        log_Z_ratio = logsumexp(log_weights) - np.log(self.n_samples)
+        log_Z = log_Z_ratio + self.log_Z_base()
+
+        return log_Z
+
+    def compute_log_likelihood(self, test_data):
+        """
+        Calculeaza average log-likelihood pe test data
+        log p(v) = -F(v) - log Z
+        """
+        log_Z = self.estimate_log_Z()
+
+        with torch.no_grad():
+            F = -torch.mv(test_data, self.rbm.v_bias) - \
+                torch.log(1 + torch.exp(torch.mm(test_data, self.rbm.W) + self.rbm.h_bias)).sum(dim=1)
+            log_prob = -F - log_Z
+
+        return log_prob.mean().item()
+
+ais_eval = RBM_AIS(rbm_trained, n_intermediate=10000, n_samples=100)
+ll = ais_eval.compute_log_likelihood(test_data)
+print(f"Test Log-Likelihood: {ll:.2f} nats/sample")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Sfaturi Practice pentru AIS</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--success); margin-bottom: 10px;">Schedule-ul Betas</h5>
+                                    <ul style="margin-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                                        <li><strong>Liniar:</strong> simplu, ok pentru multe cazuri</li>
+                                        <li><strong>Geometric:</strong> mai multi pasi la beta mic</li>
+                                        <li><strong>Sigmoid:</strong> focuseaza pe tranzitii critice</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--warning); margin-bottom: 10px;">Numarul de Pasi</h5>
+                                    <ul style="margin-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                                        <li><strong>1000-10000:</strong> RBM pe MNIST</li>
+                                        <li><strong>Mai multi:</strong> modele complexe</li>
+                                        <li><strong>Trade-off:</strong> precizie vs compute</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--primary); margin-bottom: 10px;">Verificare</h5>
+                                    <ul style="margin-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                                        <li>Ruleaza AIS in <strong>ambele directii</strong></li>
+                                        <li>Forward: p_0 → p_1</li>
+                                        <li>Reverse: p_1 → p_0</li>
+                                        <li>Compara: ar trebui sa fie ~egale</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--accent); margin-bottom: 10px;">Diagnostice</h5>
+                                    <ul style="margin-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                                        <li>Variance mare → mai multi pasi intermediari</li>
+                                        <li>Effective sample size (ESS)</li>
+                                        <li>Histograma log weights</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

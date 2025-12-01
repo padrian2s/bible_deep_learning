@@ -14,22 +14,242 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>18.4 Score Matching</h4>
-                <p><strong>Score matching</strong> antrenează modelul sa aiba acelasi <strong>score</strong> (gradient log-density) ca datele. Score-ul ∇_x log p(x) nu depinde de Z! Aceasta permite training fara partition function pentru modele cu variabile continue.</p>
+                <p><strong>Score matching</strong> (Hyvarinen, 2005) antreneaza modelul sa aiba acelasi <strong>score</strong> (gradientul log-densitatii fata de input) ca datele. Observatia cheie: score-ul <strong>nabla_x log p(x)</strong> NU depinde de Z! Aceasta permite training fara partition function pentru modele cu variabile <strong>continue</strong>. Aceasta idee sta la baza <strong>diffusion models</strong> (DALL-E, Stable Diffusion)!</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Formula Score</span>
+                        <span>Simulare: Score Function in PyTorch</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p><strong>Score function:</strong></p>
-                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">s(x) = ∇_x log p(x) = ∇_x log p̃(x)</p>
-                                <p style="color: var(--success); margin-top: 10px;">Z dispare! (nu depinde de x)</p>
-                                <p style="margin-top: 15px;"><strong>Obiectiv:</strong> minimizeaza E_data[||s_model(x) - s_data(x)||²]</p>
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                                <p><strong>Score function (Eq. 18.20):</strong></p>
+                                <p style="font-size: 1.3rem; text-align: center; margin: 15px 0; color: var(--accent);">
+                                    s(x) = nabla_x log p(x) = nabla_x log p~(x)
+                                </p>
+                                <p style="text-align: center; color: var(--success); margin-top: 10px; font-size: 1.1rem;">Z dispare! (nu depinde de x)</p>
+                                <p style="margin-top: 20px;"><strong>Obiectiv Score Matching:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">
+                                    J = E_data[||s_model(x) - s_data(x)||^2]
+                                </p>
+                            </div>
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+import torch.autograd as autograd
+
+class ScoreNetwork(nn.Module):
+    """
+    Retea care modeleaza direct score-ul (gradient log density)
+    Aceasta este arhitectura folosita in diffusion models!
+    """
+    def __init__(self, input_dim, hidden_dims=[256, 256, 256]):
+        super().__init__()
+        layers = []
+        prev_dim = input_dim
+        for h_dim in hidden_dims:
+            layers.extend([
+                nn.Linear(prev_dim, h_dim),
+                nn.LayerNorm(h_dim),
+                nn.SiLU(),
+            ])
+            prev_dim = h_dim
+        layers.append(nn.Linear(prev_dim, input_dim))
+        self.net = nn.Sequential(*layers)
+
+    def forward(self, x):
+        """Returneaza score-ul s(x) = nabla_x log p(x)"""
+        return self.net(x)
+
+def compute_score_from_energy(energy_model, x):
+    """
+    Calculeaza score-ul din modelul de energie
+    s(x) = -nabla_x E(x) = nabla_x log p~(x)
+    """
+    x = x.requires_grad_(True)
+    energy = energy_model.energy(x)
+    score = -autograd.grad(
+        energy.sum(), x,
+        create_graph=True
+    )[0]
+    return score
+
+score_net = ScoreNetwork(input_dim=784)
+x = torch.randn(32, 784)
+predicted_score = score_net(x)
+print(f"Score shape: {predicted_score.shape}")
+print("Score are aceeasi dimensiune cu input-ul!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Diagrama: De ce Z dispare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="font-family: monospace; line-height: 2.2; font-size: 1.1rem;">
+                                    <p>log p(x) = log p~(x) - log Z(theta)</p>
+                                    <p style="margin-top: 15px;">nabla_x log p(x) = nabla_x log p~(x) - nabla_x log Z(theta)</p>
+                                    <p style="margin-top: 15px; padding-left: 100px;">= nabla_x log p~(x) - <span style="color: var(--success); font-weight: bold;">0</span></p>
+                                    <p style="margin-top: 15px; text-align: center; color: var(--accent); font-size: 1.3rem;">= nabla_x log p~(x)</p>
+                                </div>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p><strong>Explicatie:</strong> Z(theta) nu depinde de x (e doar o constanta de normalizare). Cand derivam fata de x, termenul log Z dispare!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Referinte: Score Matching -> Diffusion Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De la Score Matching la Diffusion Models</h5>
+                                <p style="margin-top: 10px;">Score matching a ramas in umbra pana in 2019-2020, cand a devenit fundamentul pentru:</p>
+                                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                                    <li><strong>NCSN (2019):</strong> Noise Conditional Score Networks - Song & Ermon</li>
+                                    <li><strong>Score-based SDE (2021):</strong> Unificarea diffusion si score matching</li>
+                                    <li><strong>DDPM (2020):</strong> Denoising Diffusion = varianta de score matching</li>
+                                    <li><strong>Stable Diffusion, DALL-E 2:</strong> Aplicatii la scara larga</li>
+                                </ul>
+                            </div>
+                            <div class="reference-list" style="margin-top: 20px;">
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Hyvarinen (2005)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"Estimation of Non-Normalized Statistical Models" - paper-ul original</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Song & Ermon (2019)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"Generative Modeling by Estimating Gradients of the Data Distribution"</p>
+                                </div>
+                                <div class="reference-item" style="padding: 12px; background: var(--bg-dark); border-radius: 8px;">
+                                    <strong style="color: var(--success);">Ho et al. (2020)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">"Denoising Diffusion Probabilistic Models" - DDPM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Problema: Nu Stim Score-ul Datelor!</h4>
+                <p>Obiectivul original J = E[||s_model - s_data||^2] are o problema: nu stim s_data(x) = nabla_x log p_data(x)! Solutia: prin <strong>integrare pe parti</strong>, obiectivul poate fi rescris FARA s_data - depinde doar de derivatele modelului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Cod: Obiectivul Tractabil (Hyvarinen)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <p><strong>Score Matching Tractabil (Eq. 18.22):</strong></p>
+                                <p style="font-size: 0.95rem; text-align: center; margin: 15px 0; color: var(--accent);">
+                                    J = E_data[ sum_i (d^2 log p~/dx_i^2) + 1/2 (d log p~/dx_i)^2 ]
+                                </p>
+                                <p style="margin-top: 10px; font-size: 0.9rem; text-align: center;">Depinde DOAR de model, nu de score-ul datelor sau Z!</p>
+                            </div>
+                            <div class="code-block">
+import torch
+import torch.autograd as autograd
+
+def score_matching_loss_explicit(energy_model, x):
+    """
+    Score matching loss - varianta cu Hessian explicit
+    Hyvarinen (2005) formula
+
+    Costisitor: necesita derivate de ordin 2!
+    """
+    x = x.requires_grad_(True)
+
+    energy = energy_model.energy(x)
+    score = -autograd.grad(energy.sum(), x, create_graph=True)[0]
+
+    loss = 0
+    for i in range(x.shape[1]):
+        score_i = score[:, i]
+
+        grad_score_i = autograd.grad(
+            score_i.sum(), x, create_graph=True
+        )[0][:, i]
+
+        loss = loss + grad_score_i + 0.5 * score_i ** 2
+
+    return loss.mean()
+
+def score_matching_loss_sliced(score_model, x, n_projections=1):
+    """
+    Sliced Score Matching (Song et al., 2019)
+    Evita calculul Hessian-ului complet folosind proiectii random
+    """
+    x = x.requires_grad_(True)
+    score = score_model(x)
+
+    loss = 0
+    for _ in range(n_projections):
+        v = torch.randn_like(x)
+        v = v / v.norm(dim=-1, keepdim=True)
+
+        Sv = (score * v).sum()
+        grad_Sv = autograd.grad(Sv, x, create_graph=True)[0]
+        vTHv = (grad_Sv * v).sum(dim=-1)
+
+        loss = loss + vTHv + 0.5 * (score * v).sum(dim=-1) ** 2
+
+    return loss.mean() / n_projections
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Conexiune: Score Matching -> Diffusion</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <h5 style="margin-bottom: 15px; color: var(--accent);">Diffusion Models = Score Matching Multi-Scale</h5>
+                                <p style="margin-bottom: 15px;">In diffusion models, antrenam un score network la <strong>multiple niveluri de noise</strong>:</p>
+                                <div class="code-block" style="margin-bottom: 15px;">
+def diffusion_score_matching_loss(score_model, x, t, noise):
+    """
+    Diffusion training = score matching conditionat de t
+    x_t = sqrt(alpha_t) * x + sqrt(1-alpha_t) * noise
+    """
+    alpha_t = get_alpha(t)
+    x_noisy = torch.sqrt(alpha_t) * x + torch.sqrt(1 - alpha_t) * noise
+
+    predicted_score = score_model(x_noisy, t)
+
+    target_score = -noise / torch.sqrt(1 - alpha_t)
+
+    loss = ((predicted_score - target_score) ** 2).mean()
+    return loss
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    <p><strong>Insight cheie:</strong> DDPM's epsilon prediction = score prediction!</p>
+                                    <p style="margin-top: 10px; font-family: monospace;">epsilon = -sqrt(1-alpha) * score</p>
+                                </div>
                             </div>
                         </div>
                     </div>

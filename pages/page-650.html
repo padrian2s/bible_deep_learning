@@ -14,26 +14,109 @@
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
                 <h4>19.3 MAP Inference and Sparse Coding</h4>
-                <p>In loc sa calculam intreaga distributie p(h|v), putem calcula doar <strong>modul</strong> (valoarea cea mai probabila). Aceasta se numeste <strong>Maximum A Posteriori (MAP) inference</strong>.</p>
+                <p>In loc sa calculam intreaga distributie p(h|v), putem calcula doar <strong>modul</strong> (valoarea cea mai probabila). Aceasta se numeste <strong>Maximum A Posteriori (MAP) inference</strong>: h* = argmax p(h|v). E mai simplu decat inferenta completa si foarte util pentru sparse coding.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>MAP Inference</span>
+                        <span>Simulare: MAP Inference</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
                                 <p><strong>MAP Estimate:</strong></p>
-                                <p style="font-size: 1.1rem; text-align: center; margin: 15px 0;">h* = arg max_h p(h | v)</p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 15px 0;">h* = arg max_h p(h | v) = arg max_h [log p(v|h) + log p(h)]</p>
                                 <p style="margin-top: 10px;">Gasim doar punctul de maxim, nu intreaga distributie.</p>
+                            </div>
+                            <div class="code-block" style="margin-top: 15px;">
+                                <pre style="color: var(--text-secondary); font-size: 0.85rem;">
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+class MAPInference:
+    """Demonstreaza MAP inference pentru un model latent"""
+
+    def __init__(self, visible_dim=100, latent_dim=20):
+        self.W = torch.randn(visible_dim, latent_dim) * 0.1
+        self.b = torch.zeros(latent_dim)
+        self.noise_std = 0.5
+
+    def log_prior(self, h, prior_type="gaussian"):
+        if prior_type == "gaussian":
+            return -0.5 * torch.sum(h ** 2)
+        elif prior_type == "laplace":
+            return -torch.sum(torch.abs(h))
+
+    def log_likelihood(self, v, h):
+        recon = h @ self.W.T
+        return -0.5 * torch.sum((v - recon) ** 2) / (self.noise_std ** 2)
+
+    def map_inference(self, v, prior_type="laplace", n_iter=100, lr=0.1):
+        h = torch.zeros(v.shape[0], self.W.shape[1], requires_grad=True)
+        optimizer = optim.Adam([h], lr=lr)
+
+        for i in range(n_iter):
+            optimizer.zero_grad()
+            log_posterior = self.log_likelihood(v, h) + self.log_prior(h, prior_type)
+            loss = -log_posterior
+            loss.backward()
+            optimizer.step()
+
+            if i % 20 == 0:
+                sparsity = (h.abs() < 0.1).float().mean()
+                print(f"Iter {i}: loss={loss.item():.2f}, sparsity={sparsity.item():.2%}")
+
+        return h.detach()
+
+model = MAPInference(visible_dim=100, latent_dim=50)
+v = torch.randn(1, 100)
+h_star = model.map_inference(v, prior_type="laplace")
+print(f"\nMAP estimate shape: {h_star.shape}")
+print(f"Non-zero elements: {(h_star.abs() > 0.1).sum().item()}")
+print(f"Sparsity achieved: {(h_star.abs() < 0.1).float().mean().item():.1%}")
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: MAP vs Full Posterior</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-weight: bold; color: var(--primary); margin-bottom: 15px;">Full Posterior p(h|v)</div>
+                                    <div style="position: relative; height: 100px; margin: 10px 0;">
+                                        <div style="position: absolute; bottom: 0; left: 10%; width: 80%; height: 60px; background: linear-gradient(to top, var(--primary), transparent); border-radius: 50% 50% 0 0; opacity: 0.5;"></div>
+                                        <div style="position: absolute; bottom: 0; left: 30%; width: 40%; height: 80px; background: linear-gradient(to top, var(--primary), transparent); border-radius: 50% 50% 0 0; opacity: 0.7;"></div>
+                                    </div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Intreaga distributie - costly!</p>
+                                    <p style="font-size: 0.8rem;">Permite incertitudine, averaging</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-weight: bold; color: var(--secondary); margin-bottom: 15px;">MAP Estimate h*</div>
+                                    <div style="position: relative; height: 100px; margin: 10px 0;">
+                                        <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 80px; background: var(--secondary);"></div>
+                                        <div style="position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 12px; height: 12px; background: var(--secondary); border-radius: 50%;"></div>
+                                    </div>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Doar maximul - fast!</p>
+                                    <p style="font-size: 0.8rem;">Punct estimate, no uncertainty</p>
+                                </div>
                             </div>
                             <div class="key-concept" style="margin-top: 15px;">
                                 <h5>Legatura cu ELBO:</h5>
-                                <p>MAP = restrictionam q la distributii Dirac: q(h|v) = δ(h - μ)</p>
-                                <p>Rezulta: μ* = arg max_μ log p(h=μ, v)</p>
+                                <p>MAP = ELBO cu q restrictionat la distributii <strong>Dirac</strong>: q(h|v) = δ(h - μ)</p>
+                                <div class="formula" style="background: var(--bg-lighter); padding: 10px; border-radius: 8px; margin-top: 10px;">
+                                    <p style="text-align: center;">H(δ) = 0 → L = E_δ[log p(h,v)] = log p(h=μ, v)</p>
+                                    <p style="text-align: center; margin-top: 5px;">μ* = arg max L = arg max log p(h,v) = MAP!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -41,17 +124,29 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Avantaje MAP</span>
+                        <span>Aplicatii si Avantaje MAP</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <ul style="margin-left: 20px;">
-                                <li>Mai simplu decat inferenta completa</li>
-                                <li>Poate fi folosit ca feature extractor</li>
-                                <li>Popular pentru sparse coding</li>
-                                <li>Permite invatare similar cu EM</li>
-                            </ul>
+                            <div class="reference-list">
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--primary);">Sparse Coding</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Aplicatia principala: gaseste reprezentari rare ale datelor. Prior Laplace induce sparsitate in h*.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--secondary);">Feature Extraction</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">h* poate fi folosit ca reprezentare pentru clasificare sau alte task-uri downstream.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <strong style="color: var(--accent);">Denoising</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Reconstruct v_clean = W @ h* din v_noisy. Prior sparse ajuta la filtrare.</p>
+                                </div>
+                                <div class="reference-item" style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">Computational Efficiency</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">Nu trebuie sampling sau integrare - doar optimizare. Poate fi paralelizat eficient.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

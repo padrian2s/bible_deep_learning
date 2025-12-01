@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="page-number">614</div>
         <div class="page-title">
-            <h3>Problema Mixing-ului</h3>
+            <h3>Problema Mixing-ului in MCMC</h3>
             <span>Capitolul 17 - Sectiunea 17.5</span>
         </div>
     </div>
@@ -13,26 +13,212 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>17.5 The Challenge of Mixing</h4>
-                <p>Principala dificultate a MCMC este <strong>mixing-ul</strong> - cat de repede exploreaza chain-ul intreaga distributie? In dimensiuni inalte, sample-urile devin <strong>foarte corelate</strong>. Chain-ul poate ramane blocat in "mode-uri" locale, neexplorând alte regiuni de probabilitate mare.</p>
+                <h4>17.5 The Challenge of Mixing between Separated Modes</h4>
+                <p>Principala dificultate a metodelor MCMC este <strong>mixing-ul</strong> - capacitatea chain-ului de a explora eficient intreaga distributie. In dimensiuni inalte, sample-urile consecutive devin <strong>foarte corelate</strong>. Chain-ul poate ramane "blocat" in mode-uri locale, neexplorând alte regiuni de probabilitate mare pentru timp foarte lung.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Demonstratie Slow Mixing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import numpy as np
+import matplotlib.pyplot as plt
+
+def double_well_energy(x, barrier_height=5.0):
+    """
+    E(x) = (x^2 - 1)^2 * barrier_height
+    Doua minime la x = -1 si x = +1
+    Bariera la x = 0
+    """
+    return barrier_height * (x**2 - 1)**2
+
+def mcmc_double_well(n_steps, step_size=0.1, barrier_height=5.0, beta=1.0):
+    """
+    MCMC pentru double well - demonstreaza slow mixing
+    """
+    x = np.random.randn()
+    trajectory = [x]
+    mode_switches = 0
+    current_mode = 1 if x > 0 else -1
+
+    for _ in range(n_steps):
+        x_proposed = x + np.random.randn() * step_size
+
+        delta_E = double_well_energy(x_proposed, barrier_height) - double_well_energy(x, barrier_height)
+        accept_prob = min(1.0, np.exp(-beta * delta_E))
+
+        if np.random.random() < accept_prob:
+            x = x_proposed
+
+            new_mode = 1 if x > 0 else -1
+            if new_mode != current_mode:
+                mode_switches += 1
+                current_mode = new_mode
+
+        trajectory.append(x)
+
+    return np.array(trajectory), mode_switches
+
+trajectory_low, switches_low = mcmc_double_well(10000, barrier_height=2.0)
+trajectory_high, switches_high = mcmc_double_well(10000, barrier_height=10.0)
+
+print(f"Bariera mica (h=2): {switches_low} mode switches in 10000 steps")
+print(f"Bariera mare (h=10): {switches_high} mode switches in 10000 steps")
+print(f"\nRatio: bariera mare mixeaza {switches_low/max(switches_high,1):.1f}x mai lent!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon animation">✨</div>
-                        <span>Slow Mixing</span>
+                        <span>Vizualizare: Energy Landscape si Mixing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div>
+                                        <h5 style="color: var(--success); margin-bottom: 10px;">Bariera Mica - Mixing Bun</h5>
+                                        <div style="height: 100px; background: linear-gradient(to bottom, var(--bg-lighter) 0%, var(--bg-lighter) 30%, var(--success) 50%, var(--bg-lighter) 70%, var(--bg-lighter) 100%); border-radius: 8px; position: relative;">
+                                            <div style="position: absolute; bottom: 10px; left: 20%; width: 20px; height: 20px; background: var(--primary); border-radius: 50%;"></div>
+                                            <div style="position: absolute; bottom: 10px; right: 20%; width: 20px; height: 20px; background: var(--primary); border-radius: 50%;"></div>
+                                            <div style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 0.8rem;">bariera</div>
+                                        </div>
+                                        <p style="font-size: 0.8rem; margin-top: 10px; text-align: center;">Chain trece frecvent intre mode-uri</p>
+                                    </div>
+                                    <div>
+                                        <h5 style="color: var(--warning); margin-bottom: 10px;">Bariera Mare - Mixing Lent</h5>
+                                        <div style="height: 100px; background: linear-gradient(to bottom, var(--bg-lighter) 0%, var(--bg-lighter) 10%, var(--warning) 50%, var(--bg-lighter) 90%, var(--bg-lighter) 100%); border-radius: 8px; position: relative;">
+                                            <div style="position: absolute; bottom: 10px; left: 20%; width: 20px; height: 20px; background: var(--primary); border-radius: 50%;"></div>
+                                            <div style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 0.8rem; font-weight: bold;">BARIERA</div>
+                                        </div>
+                                        <p style="font-size: 0.8rem; margin-top: 10px; text-align: center;">Chain blocat in mode local</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px; padding: 15px; background: var(--bg-lighter); border-radius: 5px;">
+                                    <p style="font-size: 0.9rem;"><strong>Probabilitatea de traversare:</strong> P(traversare) = exp(-beta * bariera)</p>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Pentru bariera = 10 si beta = 1: P = exp(-10) = 0.000045 = 1 din 22000 pasi!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cauze si Consecinte ale Slow Mixing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--warning);">
+                                    <strong>Cauze principale:</strong>
+                                    <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9rem;">
+                                        <li><strong>Bariere de energie</strong> - regiuni de probabilitate foarte mica intre mode-uri</li>
+                                        <li><strong>Dimensiune inalta</strong> - "curse of dimensionality" pentru random walks</li>
+                                        <li><strong>Pasi mici</strong> - necesari pentru acceptance rate decent</li>
+                                        <li><strong>Distributii multimodale</strong> - comune in modele complexe</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong>Consecinte practice:</strong>
+                                    <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9rem;">
+                                        <li>Sample-uri puternic <strong>corelate</strong> - effective sample size mic</li>
+                                        <li>Estimari <strong>biased</strong> catre mode-ul initial</li>
+                                        <li>Burn-in foarte lung necesar (uneori impractical)</li>
+                                        <li>Training EBM-urilor devine foarte costisitor</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Mixing Time si Autocorrelation</h4>
+                <p><strong>Mixing time</strong> este numarul de pasi necesari pentru ca chain-ul sa "uite" starea initiala si sa exploreze distributia tinta. Poate fi estimat prin <strong>autocorrelation</strong> - cat de corelate sunt sample-urile consecutive. Autocorrelation mare = mixing lent.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Estimare Effective Sample Size</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+def autocorrelation(samples, max_lag=100):
+    """Calculeaza autocorrelation pentru diferite lag-uri"""
+    n = len(samples)
+    mean = np.mean(samples)
+    var = np.var(samples)
+
+    acf = []
+    for lag in range(max_lag):
+        if lag == 0:
+            acf.append(1.0)
+        else:
+            cov = np.mean((samples[:-lag] - mean) * (samples[lag:] - mean))
+            acf.append(cov / var)
+    return np.array(acf)
+
+def effective_sample_size(samples):
+    """
+    ESS = N / (1 + 2 * sum_k rho_k)
+    unde rho_k este autocorrelation la lag k
+    """
+    acf = autocorrelation(samples)
+
+    cutoff = np.where(acf < 0.05)[0]
+    if len(cutoff) > 0:
+        acf = acf[:cutoff[0]]
+
+    tau = 1 + 2 * np.sum(acf[1:])
+    return len(samples) / tau
+
+n_samples = 10000
+good_mixing = np.random.randn(n_samples)
+poor_mixing = np.cumsum(np.random.randn(n_samples) * 0.1)
+
+print(f"IID samples: ESS = {effective_sample_size(good_mixing):.0f} / {n_samples}")
+print(f"Correlated samples: ESS = {effective_sample_size(poor_mixing):.0f} / {n_samples}")
+print(f"\nPoor mixing: {n_samples / effective_sample_size(poor_mixing):.0f}x mai multe samples necesare!")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Diagnostice Practice</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <h5>Cauze ale Mixing-ului Lent</h5>
-                                <ul style="margin-left: 20px;">
-                                    <li><strong>Bariere de energie</strong> - tranzitii improbabile</li>
-                                    <li><strong>Mode-uri separate</strong> - regiuni izolate de probabilitate</li>
-                                    <li><strong>Dimensiune inalta</strong> - spatiu imens de explorat</li>
-                                    <li><strong>Pasi mici</strong> - progres lent</li>
+                                <p><strong>Diagnostice pentru detectarea problemelor de mixing:</strong></p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><strong>Trace plots</strong> - vizualizarea sample-urilor in timp</li>
+                                    <li><strong>Gelman-Rubin R-hat</strong> - comparatie intre chain-uri multiple</li>
+                                    <li><strong>Effective Sample Size (ESS)</strong> - cate sample-uri independente avem efectiv</li>
+                                    <li><strong>Autocorrelation plots</strong> - cat de rapid scade corelatia</li>
                                 </ul>
+                                <p style="margin-top: 10px; color: var(--warning);">Regula: R-hat < 1.1 si ESS > 400 pentru inferenta de incredere</p>
                             </div>
                         </div>
                     </div>

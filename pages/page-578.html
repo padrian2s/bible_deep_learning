@@ -13,33 +13,95 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>16.2.1 Directed Models</h4>
-                <p>Modelele grafice directionate (Bayesian networks) folosesc un graf aciclic directionat. Distributia se factorizeaza ca produs de probabilitati conditionale: <strong>P(x) = Π P(xᵢ | Parents(xᵢ))</strong>. Aceasta factorizare este intotdeauna valida - reprezinta chain rule of probability - dar structura grafului indica care conditionalitati sunt <strong>simplificate</strong>.</p>
+                <h4>16.2.1 Directed Models (Bayesian Networks)</h4>
+                <p>Modelele grafice directionate (Bayesian networks) folosesc un graf aciclic directionat. Distributia se factorizeaza ca produs de probabilitati conditionale: <strong>P(x) = Prod P(x_i | Parents(x_i))</strong>. Aceasta factorizare este intotdeauna valida - reprezinta chain rule of probability - dar structura grafului indica care conditionalitati sunt <strong>simplificate</strong>.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Exemplu: Relay Race</span>
+                        <span>Simulare: Bayesian Network cu Ancestral Sampling</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="code-block">
-# Cursa de stafeta cu 3 alergatori
-# t₀ = timpul primului
-# t₁ = timpul al doilea (poate depinde de t₀)
-# t₂ = timpul total
+import torch
+import torch.distributions as dist
 
-# Model naiv: P(t₀,t₁,t₂) - tabel O(k³)
+class BayesianNetwork:
+    """Retea Bayesiana pentru Relay Race: t0 -> t1 -> t2"""
+    def __init__(self):
+        self.mu_t0 = 10.0
+        self.sigma_t0 = 2.0
+        self.sigma_noise = 1.0
 
-# Model directed:
-# t₀ → t₁ → t₂
-# P(t₀,t₁,t₂) = P(t₀)P(t₁|t₀)P(t₂|t₁)
-# Doar O(k²) parametri!
+    def sample_t0(self, n_samples=1000):
+        """P(t0) - timpul primului alergator"""
+        return dist.Normal(self.mu_t0, self.sigma_t0).sample((n_samples,))
 
-# Presupunerea: t₂ depinde doar de t₁
-# (finishul depinde doar de cand a inceput)
+    def sample_t1_given_t0(self, t0):
+        """P(t1|t0) - timpul cumulat dupa al doilea"""
+        mu_t1 = t0 + 10.0
+        return dist.Normal(mu_t1, self.sigma_noise).sample()
+
+    def sample_t2_given_t1(self, t1):
+        """P(t2|t1) - timpul total final"""
+        mu_t2 = t1 + 10.0
+        return dist.Normal(mu_t2, self.sigma_noise).sample()
+
+    def ancestral_sampling(self, n_samples=1000):
+        """Sampling in ordine topologica"""
+        t0 = self.sample_t0(n_samples)
+        t1 = self.sample_t1_given_t0(t0)
+        t2 = self.sample_t2_given_t1(t1)
+        return t0, t1, t2
+
+    def joint_log_prob(self, t0, t1, t2):
+        """log P(t0, t1, t2) = log P(t0) + log P(t1|t0) + log P(t2|t1)"""
+        log_p_t0 = dist.Normal(self.mu_t0, self.sigma_t0).log_prob(t0)
+        log_p_t1 = dist.Normal(t0 + 10.0, self.sigma_noise).log_prob(t1)
+        log_p_t2 = dist.Normal(t1 + 10.0, self.sigma_noise).log_prob(t2)
+        return log_p_t0 + log_p_t1 + log_p_t2
+
+bn = BayesianNetwork()
+t0, t1, t2 = bn.ancestral_sampling(1000)
+print(f"t0 mean: {t0.mean():.2f}, t2 mean: {t2.mean():.2f}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Relay Race DAG</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; background: var(--bg-lighter);">t0</div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px; color: var(--text-secondary);">Alice</div>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--primary);">--></div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border: 3px solid var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; background: var(--bg-lighter);">t1</div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px; color: var(--text-secondary);">Bob</div>
+                                    </div>
+                                    <div style="font-size: 2rem; color: var(--secondary);">--></div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border: 3px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; background: var(--bg-lighter);">t2</div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px; color: var(--text-secondary);">Carol</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; font-family: monospace; padding: 15px; background: var(--bg-lighter); border-radius: 8px;">
+                                    P(t0, t1, t2) = P(t0) * P(t1|t0) * P(t2|t1)
+                                </div>
+                                <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">
+                                    Observatie: t2 depinde <strong>indirect</strong> de t0 prin t1. Aceasta dependenta indirecta este <strong>implicita</strong>, nu trebuie modelata separat.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -47,17 +109,27 @@
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Proprietati DAG</span>
+                        <span>Proprietati DAG si Aplicatii Moderne</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
                             <div class="key-concept">
-                                <ul style="margin-left: 20px;">
-                                    <li><strong>Aciclic</strong> - nu exista cicluri (esential!)</li>
-                                    <li><strong>Ordonare topologica</strong> - nodurile pot fi ordonate</li>
-                                    <li><strong>Ancestral sampling</strong> - sampling in ordine topologica</li>
-                                    <li><strong>d-separation</strong> - criteriu pentru independenta conditionata</li>
+                                <h5>Proprietati Fundamentale</h5>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><strong>Aciclic</strong> - nu exista cicluri (esential pentru factorizare valida)</li>
+                                    <li><strong>Ordonare topologica</strong> - nodurile pot fi ordonate astfel incat parintii preced copiii</li>
+                                    <li><strong>Ancestral sampling</strong> - sampling in ordine topologica garanteaza sample-uri corecte</li>
+                                    <li><strong>d-separation</strong> - criteriu grafic pentru independenta conditionata</li>
+                                </ul>
+                            </div>
+                            <div style="margin-top: 20px; padding: 15px; background: var(--bg-dark); border-radius: 8px;">
+                                <h5 style="color: var(--accent);">Aplicatii in Deep Learning</h5>
+                                <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9rem;">
+                                    <li><strong>Autoregressive Models</strong> (GPT, PixelCNN) - fiecare token/pixel depinde de cele anterioare</li>
+                                    <li><strong>Normalizing Flows</strong> - transformari invertibile in structura DAG</li>
+                                    <li><strong>Causal Inference</strong> - DAG-uri pentru modelare cauzala (do-calculus)</li>
+                                    <li><strong>Variational Autoencoders</strong> - z -> x ca model generativ</li>
                                 </ul>
                             </div>
                         </div>

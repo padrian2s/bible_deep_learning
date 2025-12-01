@@ -87,6 +87,58 @@ class SemanticHashingEncoder(nn.Module):
                 <h4>Concluzie Capitolul 14</h4>
                 <p>Autoencoderele sunt instrumente versatile pentru <strong>invatare nesupervizata</strong>: reducerea dimensionalitatii, invatarea caracteristicilor, denoising, generare. Variantele regularizate (sparse, denoising, contractive) previn invatarea identitatii si forteaza captarea structurii datelor. Conexiunile cu modelele probabilistice (VAE, RBM) le plaseaza in centrul cercetarii moderne in deep learning generativ.</p>
             </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Autoencodere in 2024</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: linear-gradient(135deg, var(--primary), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Stable Diffusion / DALL-E</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">VAE pentru compresie imagini + diffusion in spatiu latent</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--secondary), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Masked Autoencoders (MAE)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Pre-training pentru Vision Transformers (ViT)</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--accent), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Sparse Autoencoders pentru Interpretability</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Intelegerea reprezentarilor din LLMs (Anthropic, OpenAI)</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--success), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>VQ-VAE / VQ-GAN</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Coduri discrete pentru generare de inalta calitate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Rezumat Concepte Cheie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Undercomplete:</strong> Bottleneck forteaza compresie</li>
+                                    <li><strong>Sparse:</strong> Penalizare L1 pe activari</li>
+                                    <li><strong>Denoising:</strong> Reconstructie din input corupt → score</li>
+                                    <li><strong>Contractive:</strong> Jacobian mic → features stabile</li>
+                                    <li><strong>VAE:</strong> Spatiu latent regularizat probabilistic</li>
+                                    <li><strong>PSD:</strong> Encoder prezice inferenta iterativa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

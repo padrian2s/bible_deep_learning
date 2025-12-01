@@ -2,8 +2,8 @@
     <div class="page-header">
         <div class="page-number">586</div>
         <div class="page-title">
-            <h3>Partition Function si Normalizare</h3>
-            <span>Capitolul 16 - Sectiunea 16.2.3 (continuare)</span>
+            <h3>Partition Function - Problema Intractabilitatii</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.4 (continuare)</span>
         </div>
     </div>
     <div class="image-container">
@@ -13,46 +13,146 @@
     <div class="explanation-content">
         <div class="interactive-paragraph">
             <div class="paragraph-main" onclick="toggleParagraph(this)">
-                <h4>Partition Function Z</h4>
-                <p>Constanta de normalizare <strong>Z = Σ_x exp(-E(x))</strong> este numita <strong>partition function</strong> (din fizica statistica). Calculul exact al lui Z necesita suma peste toate configuratiile posibile - <strong>intractabil</strong> pentru modele mari. Aceasta este principala dificultate a modelelor nedirectionate.</p>
+                <h4>Partition Function Z - Constanta de Normalizare</h4>
+                <p>Constanta de normalizare <strong>Z = Sum_x exp(-E(x))</strong> este numita <strong>partition function</strong> (din fizica statistica). Calculul exact al lui Z necesita suma peste toate configuratiile posibile - <strong>intractabil</strong> pentru modele mari. Aceasta este principala dificultate a modelelor nedirectionate si a EBM-urilor in general.</p>
             </div>
             <div class="expandable-sections">
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon simulation">🎮</div>
-                        <span>Problema Tractabilitatii</span>
+                        <span>Simulare: Explozia Combinatoriala a lui Z</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
-                                <p>Pentru n variabile binare:</p>
-                                <p style="font-size: 1.2rem; text-align: center; margin: 10px 0;">Z = Σ_{x∈{0,1}ⁿ} exp(-E(x))</p>
-                                <p style="color: var(--warning);">Necesita 2ⁿ termeni - exponential!</p>
+                            <div class="code-block">
+import torch
+import time
+
+def compute_Z_exact(n_vars, energy_fn):
+    """Calculeaza Z exact - doar pentru n mic!"""
+    Z = 0.0
+    n_configs = 2 ** n_vars
+    for i in range(n_configs):
+        x = torch.tensor([(i >> j) & 1 for j in range(n_vars)]).float()
+        Z += torch.exp(-energy_fn(x))
+    return Z, n_configs
+
+def simple_energy(x):
+    return -x.sum()
+
+print("Complexitatea calculului exact al lui Z:")
+print("-" * 50)
+
+for n in [5, 10, 15, 20, 25]:
+    n_configs = 2 ** n
+    if n <= 15:
+        start = time.time()
+        Z, _ = compute_Z_exact(n, simple_energy)
+        elapsed = time.time() - start
+        print(f"n={n:2d}: {n_configs:>12,} configuratii, Z={Z:.2e}, timp={elapsed:.4f}s")
+    else:
+        print(f"n={n:2d}: {n_configs:>12,} configuratii - INTRACTABIL!")
+
+print()
+print("Pentru MNIST (784 pixeli binari):")
+print(f"  Configuratii: 2^784 = ~10^236")
+print(f"  Mai multe decat atomi in univers (~10^80)!")
                             </div>
-                            <p style="margin-top: 15px;">Aceasta face ca:</p>
-                            <ul style="margin-left: 20px;">
-                                <li>Evaluarea P(x) exacta e intractabila</li>
-                                <li>Training-ul necesita metode aproximative</li>
-                                <li>Sampling-ul necesita MCMC</li>
-                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cresterea Exponentiala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
+                                <h5 style="text-align: center; color: var(--warning); margin-bottom: 20px;">Cresterea Exponentiala a Spatiului de Configuratii</h5>
+                                <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 200px; margin: 20px 0; padding: 0 20px;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 40px; background: var(--success); height: 10px; border-radius: 4px 4px 0 0;"></div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">n=5</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">32</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 40px; background: var(--success); height: 30px; border-radius: 4px 4px 0 0;"></div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">n=10</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">1K</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 40px; background: var(--primary); height: 60px; border-radius: 4px 4px 0 0;"></div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">n=15</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">33K</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 40px; background: var(--secondary); height: 100px; border-radius: 4px 4px 0 0;"></div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">n=20</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">1M</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 40px; background: var(--warning); height: 150px; border-radius: 4px 4px 0 0;"></div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">n=25</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">33M</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 40px; background: var(--warning); height: 200px; border-radius: 4px 4px 0 0;"></div>
+                                        <div style="font-size: 0.8rem; margin-top: 5px;">n=30</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">1B</div>
+                                    </div>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--warning);">Problema:</strong> Pentru imagini 28x28 (MNIST), n = 784, deci 2^784 configuratii!
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="section-tab">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-icon reference">📚</div>
-                        <span>Solutii Aproximative</span>
+                        <span>Metode de Evitare a lui Z</span>
                         <span class="arrow">▶</span>
                     </div>
                     <div class="section-content">
                         <div class="section-body">
-                            <ul style="margin-left: 20px;">
-                                <li><strong>Contrastive Divergence</strong> - aproximare gradient</li>
-                                <li><strong>Importance Sampling</strong> - estimare Z</li>
-                                <li><strong>Variational methods</strong> - bound pe log Z</li>
-                                <li><strong>MCMC</strong> - sampling aproximativ</li>
-                            </ul>
+                            <div class="key-concept">
+                                <h5>Cum evitam calculul lui Z?</h5>
+                                <p style="margin-top: 10px;">Cercetatorii au dezvoltat multiple strategii pentru a lucra cu EBM-uri fara a calcula Z explicit.</p>
+                            </div>
+                            <div style="margin-top: 15px; display: grid; gap: 12px;">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <strong style="color: var(--primary);">1. Contrastive Divergence (CD)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Gradientul lui log P(x) = -grad E(x) + E_model[grad E(x)].<br>
+                                        Aproximam termenul 2 cu cateva pasi MCMC. Nu calculam Z!
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <strong style="color: var(--secondary);">2. Score Matching</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Antrenam modelul sa potriveasca grad_x log p(x).<br>
+                                        Scorul nu depinde de Z! (Z e constanta, gradientul sau e 0)
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <strong style="color: var(--accent);">3. Noise Contrastive Estimation (NCE)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Transformam estimarea densitatii in clasificare binara.<br>
+                                        Invatam sa distingem date de zgomot. Z devine parametru invatat!
+                                    </p>
+                                </div>
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--success);">
+                                    <strong style="color: var(--success);">4. Denoising Score Matching (Diffusion)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 8px;">
+                                        Adaugam zgomot la date si invatam sa il prezican.<br>
+                                        Echivalent cu score matching. Fundamentul DDPM, Stable Diffusion!
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -73,5 +73,43 @@ print("Score < 0: densitatea creste spre stanga")
                 </div>
             </div>
         </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Consistenta si Nivelul de Zgomot</h4>
+                <p>Cu un nivel de zgomot fix, score matching regularizat nu este un estimator consistent - recupereaza o versiune <strong>blurata</strong> a distributiei. Insa daca nivelul de zgomot tinde spre 0 pe masura ce numarul de exemple tinde la infinit, atunci consistenta este recuperata. Aceasta observatie sta la baza <strong>denoising score matching</strong> modern (Kingma & LeCun, 2010).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Context Modern: Diffusion Models</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <h5 style="color: var(--accent); margin-bottom: 15px;">De la DAE Score la Diffusion</h5>
+                                <div style="display: grid; gap: 10px;">
+                                    <div style="background: var(--primary); padding: 12px; border-radius: 6px;">
+                                        <strong>1. DAE (2008)</strong>: Invata g(f(x̃)) - x̃ ≈ ∇log p(x)
+                                    </div>
+                                    <div style="background: var(--secondary); padding: 12px; border-radius: 6px;">
+                                        <strong>2. Score Matching (2011)</strong>: Antrenare explicita pentru scor
+                                    </div>
+                                    <div style="background: var(--accent); padding: 12px; border-radius: 6px;">
+                                        <strong>3. Diffusion (2020)</strong>: Mult nivele de zgomot σ₁ > σ₂ > ... > σₙ
+                                    </div>
+                                    <div style="background: var(--success); padding: 12px; border-radius: 6px;">
+                                        <strong>4. DDPM/Score SDE</strong>: Generare prin denoising iterativ
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; text-align: center; font-size: 0.9rem; color: var(--text-secondary);">Stable Diffusion = DAE score matching la scara!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
