@@ -1,0 +1,63 @@
+<section class="page-section" id="page-655">
+    <div class="page-header">
+        <div class="page-number">655</div>
+        <div class="page-title">
+            <h3>Binary Sparse Coding Model</h3>
+            <span>Capitolul 19 - Sectiunea 19.4.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-655.jpg"
+             alt="Pagina 655" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemplu: Binary Sparse Coding</h4>
+                <p>Pentru a demonstra variational inference concret, aplicam tehnica pe modelul <strong>binary sparse coding</strong>. Acest model are unitati binare h care genereaza v prin combinatie liniara plus zgomot Gaussian.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Modelul</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Prior:</strong></p>
+                                <p style="text-align: center; margin: 10px 0;">p(hᵢ = 1) = σ(bᵢ)</p>
+                                <p><strong>Likelihood:</strong></p>
+                                <p style="text-align: center; margin: 10px 0;">p(v | h) = N(v; Wh, β⁻¹)</p>
+                                <p style="margin-top: 15px;">Unde:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>h ∈ {0,1}^m - unitati binare</li>
+                                    <li>v ∈ ℝⁿ - input continuu</li>
+                                    <li>W - weight matrix, β - precizie</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De Ce e Intractabil</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>p(h|v) e intractabil pentru ca:</p>
+                            <ul style="margin-left: 20px;">
+                                <li>Toate h_i si h_j sunt co-parinti ai fiecarui v_k</li>
+                                <li>Observand v, toate hidden units devin dependente</li>
+                                <li>Explaining away: daca h_i explica v, h_j devine mai putin probabil</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

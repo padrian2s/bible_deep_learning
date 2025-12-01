@@ -1,0 +1,72 @@
+<section class="page-section" id="page-597">
+    <div class="page-header">
+        <div class="page-number">597</div>
+        <div class="page-title">
+            <h3>Gibbs Sampling pentru MRF</h3>
+            <span>Capitolul 16 - Sectiunea 16.3 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-597.jpg"
+             alt="Pagina 597" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sampling din Modele Nedirectionate</h4>
+                <p>Pentru MRF-uri, sampling-ul direct nu este posibil din cauza partition function-ului intractabil. Folosim metode <strong>MCMC</strong> (Markov Chain Monte Carlo), in special <strong>Gibbs sampling</strong>: iteram prin variabile si re-sample-uim fiecare din distributia conditionala date toate celelalte.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Gibbs Sampling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def gibbs_sampling(mrf, num_samples, burn_in=1000):
+    """
+    Gibbs sampling pentru MRF
+    """
+    # Initializare aleatoare
+    state = random_init(mrf.variables)
+    samples = []
+
+    for t in range(burn_in + num_samples):
+        # Iteram prin variabile
+        for var in mrf.variables:
+            # P(var | toate celelalte)
+            neighbors = mrf.markov_blanket(var)
+            state[var] = sample_conditional(
+                var, state, neighbors
+            )
+
+        if t >= burn_in:
+            samples.append(state.copy())
+
+    return samples
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>MCMC vs Exact</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p><strong>Avantaj:</strong> Nu necesita calculul lui Z</p>
+                                <p><strong>Dezavantaj:</strong> Sample-urile sunt corelate, necesita burn-in, convergenta poate fi lenta</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

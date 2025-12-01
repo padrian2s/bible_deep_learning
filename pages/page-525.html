@@ -1,0 +1,106 @@
+<section class="page-section" id="page-525">
+    <div class="page-header">
+        <div class="page-number">525</div>
+        <div class="page-title">
+            <h3>Autoencodere Stocastice</h3>
+            <span>Capitolul 14 - Figura 14.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-525.jpg"
+             alt="Pagina 525" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 14.2: Structura Autoencoder Stocastic</h4>
+                <p>Encoderul si decoderul nu sunt functii simple, ci implica <strong>injectie de zgomot</strong> - outputul lor poate fi vazut ca esantioane dintr-o distributie. Encoderul produce <strong>p_encoder(h|x)</strong>, decoderul produce <strong>p_decoder(x|h)</strong>. Orice model cu variabile latente p_model(h,x) defineste implicit un encoder stocastic prin posteriorul p_model(h|x) si un decoder stocastic prin p_model(x|h).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Stocastic vs Deterministic</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--primary);">Deterministic</h5>
+                                    <p style="margin: 10px 0;">h = f(x)</p>
+                                    <p style="margin: 10px 0;">r = g(h)</p>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Acelasi x → acelasi h mereu</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--accent);">Stocastic</h5>
+                                    <p style="margin: 10px 0;">h ~ p_enc(h|x)</p>
+                                    <p style="margin: 10px 0;">r ~ p_dec(x|h)</p>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Acelasi x → h diferite (sampling)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: VAE (Exemplu)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class VAE(nn.Module):
+    """Variational Autoencoder - encoder stocastic"""
+    def __init__(self, input_dim, latent_dim):
+        super().__init__()
+        # Encoder produce PARAMETRII distributiei, nu h direct
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.ReLU()
+        )
+        self.fc_mu = nn.Linear(256, latent_dim)     # media
+        self.fc_var = nn.Linear(256, latent_dim)    # log-varianta
+
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, input_dim),
+            nn.Sigmoid()
+        )
+
+    def encode(self, x):
+        h = self.encoder(x)
+        mu = self.fc_mu(h)
+        log_var = self.fc_var(h)
+        return mu, log_var
+
+    def reparameterize(self, mu, log_var):
+        # h ~ N(mu, var) folosind reparameterization trick
+        std = torch.exp(0.5 * log_var)
+        eps = torch.randn_like(std)
+        return mu + eps * std  # z = mu + sigma * epsilon
+
+    def forward(self, x):
+        mu, log_var = self.encode(x)
+        z = self.reparameterize(mu, log_var)  # SAMPLING!
+        return self.decoder(z), mu, log_var
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.5 Denoising Autoencoders (Introducere)</h4>
+                <p>Un <strong>denoising autoencoder</strong> (DAE) primeste un punct de date <strong>corupt</strong> ca input si este antrenat sa prezica punctul <strong>original, necorrupt</strong>. Procedura de antrenare implica un proces de coruptie C(x̃|x) care genereaza versiuni corrumpte x̃ din datele originale x. DAE invata apoi distributia de reconstructie p_reconstruct(x|x̃).</p>
+            </div>
+        </div>
+    </div>
+</section>

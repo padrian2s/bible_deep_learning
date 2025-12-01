@@ -1,0 +1,71 @@
+<section class="page-section" id="page-596">
+    <div class="page-header">
+        <div class="page-number">596</div>
+        <div class="page-title">
+            <h3>Ancestral Sampling</h3>
+            <span>Capitolul 16 - Sectiunea 16.3 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-596.jpg"
+             alt="Pagina 596" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ancestral Sampling in DAG</h4>
+                <p>Pentru un DAG, ancestral sampling genereaza sample-uri exacte din distributia comuna. Algoritmul: (1) ordoneaza variabilele topologic, (2) pentru fiecare variabila in ordine, genereaza valoare din P(xᵢ|Parents(xᵢ)). Complexitatea este <strong>liniara</strong> in numarul de variabile!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritm Ancestral Sampling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def ancestral_sample(dag, conditionals):
+    """
+    Genereaza un sample din DAG
+    dag: graful directionat
+    conditionals: P(x_i | parents(x_i))
+    """
+    sample = {}
+
+    # Ordine topologica
+    for node in topological_sort(dag):
+        parents = dag.parents(node)
+        parent_values = {p: sample[p] for p in parents}
+
+        # Sample din distributia conditionala
+        sample[node] = conditionals[node].sample(
+            given=parent_values
+        )
+
+    return sample
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Proprietati</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="margin-left: 20px;">
+                                <li><strong>Exact</strong> - genereaza din distributia corecta</li>
+                                <li><strong>Eficient</strong> - O(n) pentru n variabile</li>
+                                <li><strong>Parallelizabil</strong> - variabile independente simultan</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

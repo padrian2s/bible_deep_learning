@@ -1,0 +1,110 @@
+<section class="page-section" id="page-526">
+    <div class="page-header">
+        <div class="page-number">526</div>
+        <div class="page-title">
+            <h3>Antrenarea DAE</h3>
+            <span>Capitolul 14 - Sectiunea 14.5 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-526.jpg"
+             alt="Pagina 526" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 14.3: Graful Computational DAE</h4>
+                <p>Figura ilustreaza antrenarea unui DAE: pornind de la x original, generam x̃ corupt prin procesul C(x̃|x), apoi encoderul produce h = f(x̃), iar decoderul produce reconstructia. Loss-ul L compara reconstructia cu x <strong>original</strong> (nu cu x̃!). Minimizam: <strong>L = -log p_decoder(x | h = f(x̃))</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Fluxul DAE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                                    <div style="background: var(--success); padding: 15px 30px; border-radius: 8px;">
+                                        <strong>x</strong> (date originale)
+                                    </div>
+                                    <div>↓ <span style="color: var(--warning);">C(x̃|x) coruptie</span></div>
+                                    <div style="background: var(--warning); padding: 15px 30px; border-radius: 8px;">
+                                        <strong>x̃</strong> (corupt)
+                                    </div>
+                                    <div>↓ <span style="color: var(--text-secondary);">f (encoder)</span></div>
+                                    <div style="background: var(--accent); padding: 10px 20px; border-radius: 50%;">
+                                        <strong>h</strong>
+                                    </div>
+                                    <div>↓ <span style="color: var(--text-secondary);">g (decoder)</span></div>
+                                    <div style="background: var(--primary); padding: 15px 30px; border-radius: 8px;">
+                                        <strong>r</strong> (reconstructie)
+                                    </div>
+                                    <div style="margin-top: 10px;">
+                                        <span style="color: var(--accent);">Loss L: compara r cu x (NU cu x̃!)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Procedura de Antrenare DAE</h4>
+                <p>Antrenarea decurge in 3 pasi: <strong>1)</strong> Esantioneaza x din datele de antrenament. <strong>2)</strong> Esantioneaza x̃ corupt din C(x̃|x = x). <strong>3)</strong> Foloseste (x, x̃) ca exemplu de antrenare pentru a estima distributia de reconstructie p_reconstruct(x|x̃) = p_decoder(x|h) cu h = f(x̃). DAE este o retea feedforward si poate fi antrenat cu minibatch gradient descent standard pe negative log-likelihood.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Training Loop</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def train_dae(model, dataloader, optimizer, epochs=10):
+    for epoch in range(epochs):
+        for x in dataloader:
+            # Pasul 1: x din date
+            # Pasul 2: corupe x
+            x_noisy = corrupt(x, noise_type='gaussian', sigma=0.3)
+
+            # Pasul 3: forward pass
+            reconstruction = model(x_noisy)
+
+            # Loss: compara cu x ORIGINAL
+            loss = nn.MSELoss()(reconstruction, x)
+
+            # Backprop
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+        print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
+
+def corrupt(x, noise_type='gaussian', sigma=0.3):
+    if noise_type == 'gaussian':
+        return x + sigma * torch.randn_like(x)
+    elif noise_type == 'masking':
+        mask = torch.rand_like(x) > 0.3  # 30% masked
+        return x * mask
+    elif noise_type == 'salt_pepper':
+        noise = torch.rand_like(x)
+        x_noisy = x.clone()
+        x_noisy[noise < 0.1] = 0  # 10% -> 0
+        x_noisy[noise > 0.9] = 1  # 10% -> 1
+        return x_noisy
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

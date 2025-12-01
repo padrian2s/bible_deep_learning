@@ -1,0 +1,61 @@
+<section class="page-section" id="page-646">
+    <div class="page-header">
+        <div class="page-number">646</div>
+        <div class="page-title">
+            <h3>Approximate Inference</h3>
+            <span>Capitolul 19 - Introducere</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-646.jpg"
+             alt="Pagina 646" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Capitolul 19: Approximate Inference</h4>
+                <p>Multe modele probabilistice sunt greu de antrenat pentru ca <strong>inferenta exacta</strong> este intractabila. In deep learning avem variabile vizibile <strong>v</strong> si variabile latente <strong>h</strong>. Problema centrala: calcularea <strong>p(h|v)</strong> sau expectatii in raport cu aceasta distributie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>De Ce Inference e Dificila</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Problema Inferentei</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Modele simple</strong> (RBM, probabilistic PCA) - inferenta e usoara</li>
+                                    <li><strong>Modele cu multiple layers</strong> - posterior intractabil</li>
+                                    <li><strong>Sparse coding</strong> - chiar si un singur layer poate fi intractabil</li>
+                                    <li><strong>Cost:</strong> timp exponential pentru inferenta exacta</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Tehnicile din acest capitol sunt folosite pentru:</p>
+                            <ul style="margin-left: 20px;">
+                                <li>Deep Belief Networks</li>
+                                <li>Deep Boltzmann Machines</li>
+                                <li>Variational Autoencoders (VAE)</li>
+                                <li>Modele generative moderne</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

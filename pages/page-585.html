@@ -1,0 +1,66 @@
+<section class="page-section" id="page-585">
+    <div class="page-header">
+        <div class="page-number">585</div>
+        <div class="page-title">
+            <h3>Boltzmann Machines</h3>
+            <span>Capitolul 16 - Figura 16.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-585.jpg"
+             alt="Pagina 585" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 16.4: Structura Energy-Based Model</h4>
+                <p>Distributiile de forma P(x) = exp(-E(x))/Z se numesc <strong>distributii Boltzmann</strong>. Modelele care le folosesc sunt <strong>Boltzmann machines</strong>. Termenul vine din fizica statistica - aceeasi formula descrie distributia starilor in sisteme termodinamice la echilibru. Clique-urile in graful nedirectionat corespund termenilor din energia totala.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Structura Boltzmann Machine</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Energie pentru Boltzmann Machine
+# cu variabile binare
+
+def energy(x, W, b):
+    """
+    x: vector binar de stari
+    W: matrice de ponderi (simetrica)
+    b: bias-uri
+    """
+    # Termeni pairwise (clique-uri de 2)
+    pairwise = -0.5 * x.T @ W @ x
+    # Termeni unary (clique-uri de 1)
+    unary = -b.T @ x
+    return pairwise + unary
+
+# P(x) ∝ exp(-E(x))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Istoric Boltzmann Machines</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Introduse de Hinton & Sejnowski (1986). Initial pentru variabile binare, dar extensii exista pentru variabile continue (Gaussian BM) si cu variabile latente (RBM).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

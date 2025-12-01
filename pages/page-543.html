@@ -1,0 +1,91 @@
+<section class="page-section" id="page-543">
+    <div class="page-header">
+        <div class="page-number">543</div>
+        <div class="page-title">
+            <h3>Greedy Layer-Wise Pretraining</h3>
+            <span>Capitolul 15 - Sectiunea 15.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-543.jpg"
+             alt="Pagina 543" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>15.1 Greedy Layer-Wise Unsupervised Pretraining</h4>
+                <p>Invatarea nesupervizata a jucat un rol <strong>istoric cheie</strong> in renasterea retelelor neurale adanci, permitand cercetatorilor sa antreneze pentru prima data retele adanci <strong>fara convolutii sau recurenta</strong>. Aceasta procedura se numeste <strong>unsupervised pretraining</strong> sau mai precis <strong>greedy layer-wise unsupervised pretraining</strong>. Este un exemplu canonic de cum o reprezentare invatata pentru un task (nesupervizat) poate fi utila pentru alt task (supervizat).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Pretraining</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px;">
+                                <p style="text-align: center; margin-bottom: 15px;"><strong>Layer-wise Pretraining</strong></p>
+                                <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                                    <div style="text-align: center;">
+                                        <p>Pasul 1</p>
+                                        <div style="background: var(--primary); padding: 10px; border-radius: 8px; margin: 5px 0;">Layer 1</div>
+                                        <div style="background: #333; padding: 10px; border-radius: 8px; margin: 5px 0; opacity: 0.5;">Layer 2</div>
+                                        <div style="background: #333; padding: 10px; border-radius: 8px; margin: 5px 0; opacity: 0.5;">Layer 3</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p>Pasul 2</p>
+                                        <div style="background: var(--success); padding: 10px; border-radius: 8px; margin: 5px 0;">Layer 1 ✓</div>
+                                        <div style="background: var(--primary); padding: 10px; border-radius: 8px; margin: 5px 0;">Layer 2</div>
+                                        <div style="background: #333; padding: 10px; border-radius: 8px; margin: 5px 0; opacity: 0.5;">Layer 3</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p>Pasul 3</p>
+                                        <div style="background: var(--success); padding: 10px; border-radius: 8px; margin: 5px 0;">Layer 1 ✓</div>
+                                        <div style="background: var(--success); padding: 10px; border-radius: 8px; margin: 5px 0;">Layer 2 ✓</div>
+                                        <div style="background: var(--primary); padding: 10px; border-radius: 8px; margin: 5px 0;">Layer 3</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Renasterea Deep Learning (2006)</h4>
+                <p>Procedura layer-wise de antrenare bazata pe criterii nesupervizate a fost folosita pentru a evita antrenarea comuna a tuturor straturilor (foarte dificila inainte de 2006). Descoperirea din 2006 a fost ca aceasta abordare poate gasi o <strong>initializare buna</strong> pentru antrenarea comuna ulterioara. Inainte de aceasta descoperire, doar CNN-urile si RNN-urile puteau fi antrenate la adancime mare. Astazi stim ca pretraining-ul nu e necesar, dar a fost <strong>prima metoda care a functionat</strong> pentru retele fully connected adanci!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Istoria 2006</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Hinton et al., 2006</strong> - Deep Belief Networks cu RBM
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Hinton & Salakhutdinov, 2006</strong> - Deep Autoencoders
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Bengio et al., 2007</strong> - Greedy layer-wise training
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Ranzato et al., 2007</strong> - Sparse coding pretraining
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

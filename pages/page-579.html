@@ -1,0 +1,64 @@
+<section class="page-section" id="page-579">
+    <div class="page-header">
+        <div class="page-number">579</div>
+        <div class="page-title">
+            <h3>Figura Relay Race</h3>
+            <span>Capitolul 16 - Figura 16.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-579.jpg"
+             alt="Pagina 579" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 16.2: Modelul Directed pentru Relay Race</h4>
+                <p>Exemplul cursei de stafeta ilustreaza cum structura grafului reduce dramatic numarul de parametri. Cu 3 alergatori si k valori discrete pentru timp, modelul nestructurat necesita O(k³) parametri, dar modelul directed cu dependente locale necesita doar O(k²) sau chiar O(k) parametri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare Graf</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; font-family: monospace; background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="font-size: 1.2rem;">t₀ → t₁ → t₂</p>
+                                <p style="margin-top: 15px; font-size: 0.9rem;">P(t₀,t₁,t₂) = P(t₀) · P(t₁|t₀) · P(t₂|t₁)</p>
+                            </div>
+                            <p style="margin-top: 15px;">Fiecare variabila depinde doar de parintele sau direct, nu de toti predecesorii.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Reducere Parametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                <tr style="background: var(--bg-dark);">
+                                    <th style="padding: 8px; border: 1px solid var(--bg-lighter);">Model</th>
+                                    <th style="padding: 8px; border: 1px solid var(--bg-lighter);">Parametri</th>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid var(--bg-lighter);">Tabel complet (k=100, n=3)</td>
+                                    <td style="padding: 8px; border: 1px solid var(--bg-lighter);">100³ = 1,000,000</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid var(--bg-lighter);">Directed cu parinti</td>
+                                    <td style="padding: 8px; border: 1px solid var(--bg-lighter);">100 + 100² + 100² ≈ 20,000</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

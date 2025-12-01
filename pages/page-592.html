@@ -1,0 +1,67 @@
+<section class="page-section" id="page-592">
+    <div class="page-header">
+        <div class="page-number">592</div>
+        <div class="page-title">
+            <h3>Conversie Directed-Undirected</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.7</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-592.jpg"
+             alt="Pagina 592" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>16.2.7 Converting Between Directed and Undirected</h4>
+                <p>Orice model directed poate fi convertit in unul undirected prin procesul de <strong>moralization</strong>: adaugam muchii intre toti parintii fiecarui nod ("casatorim" parintii) si apoi eliminam directiile. Conversia inversa nu este intotdeauna posibila - unele independente nu pot fi reprezentate directed.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Moralization</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def moralize(directed_graph):
+    """
+    Converteste DAG in graf nedirectionat
+    """
+    undirected = copy(directed_graph)
+
+    # Pentru fiecare nod
+    for node in directed_graph.nodes:
+        parents = directed_graph.parents(node)
+        # Conectam toti parintii intre ei
+        for p1, p2 in combinations(parents, 2):
+            undirected.add_edge(p1, p2)
+
+    # Eliminam directiile
+    undirected.make_undirected()
+    return undirected
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Pierdere Informatie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Moralization poate pierde informatii de independenta!</p>
+                                <p style="margin-top: 10px;">V-structure A → C ← B: in modelul directed, A⊥B. Dupa moralizare, A-B conectate direct, deci nu mai sunt independente.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

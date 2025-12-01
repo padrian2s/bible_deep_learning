@@ -1,0 +1,55 @@
+<section class="page-section" id="page-595">
+    <div class="page-header">
+        <div class="page-number">595</div>
+        <div class="page-title">
+            <h3>Factor Graphs - Exemple</h3>
+            <span>Capitolul 16 - Figura 16.13</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-595.jpg"
+             alt="Pagina 595" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 16.13: Ambiguitate Rezolvata cu Factor Graphs</h4>
+                <p>Un graf nedirectionat cu clique {a,b,c} poate corespunde mai multor factorizari: un singur factor f(a,b,c) sau factori separati f₁(a,b), f₂(b,c), f₃(a,c). Factor graph-ul elimina aceasta ambiguitate reprezentand explicit fiecare factor ca nod separat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Trei Reprezentari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--primary);">Un factor</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">f(a,b,c)</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--secondary);">Trei factori</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">f₁·f₂·f₃</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; text-align: center;">
+                                    <strong style="color: var(--accent);">Mixt</strong>
+                                    <p style="font-size: 0.85rem; margin-top: 5px;">f₁(a,b,c)·f₂(b)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>16.3 Sampling from Graphical Models</h4>
+                <p>Modelele grafice faciliteaza si task-ul de <strong>sampling</strong> - generarea de exemple din distributie. In modele directionate, <strong>ancestral sampling</strong> este simplu si eficient: sortam variabilele topologic si le sample-uim in ordine, conditionand pe valorile deja generate.</p>
+            </div>
+        </div>
+    </div>
+</section>

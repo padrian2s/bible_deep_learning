@@ -1,0 +1,52 @@
+<section class="page-section" id="page-570">
+    <div class="page-header">
+        <div class="page-number">570</div>
+        <div class="page-title">
+            <h3>Strategii de Regularizare</h3>
+            <span>Capitolul 15 - Sectiunea 15.6 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-570.jpg"
+             alt="Pagina 570" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Lista Strategiilor de Regularizare Generice</h4>
+                <p>Prezentam o lista de strategii care pot incuraja algoritmii sa descopere features corespunzand factorilor subiacenti. Lista (din Bengio et al., 2013) nu e exhaustiva dar ofera exemple concrete:</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Primele 4 Strategii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">1. Smoothness</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">f(x + εd) ≈ f(x) pentru perturbatii mici. Permite generalizare locala, dar nu e suficient pentru dimensionalitate inalta.</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">2. Linearity</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Relatii liniare intre variabile. Permite predictii departe de date, dar functiile cu weights mari nu sunt smooth.</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">3. Multiple Explanatory Factors</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Datele sunt generate de multi factori subiacenti. Motiveaza semi-supervised learning.</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--success);">4. Causal Factors</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">h sunt cauzele lui x, nu invers. Face modelul robust la schimbari in distributia cauzelor.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,63 @@
+<section class="page-section" id="page-547">
+    <div class="page-header">
+        <div class="page-number">547</div>
+        <div class="page-title">
+            <h3>Word Embeddings si Pretraining</h3>
+            <span>Capitolul 15 - Sectiunea 15.1.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-547.jpg"
+             alt="Pagina 547" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand e Eficient Pretraining-ul?</h4>
+                <p>Ca invatare a reprezentarii, pretraining-ul e mai eficient cand <strong>reprezentarea initiala este slaba</strong>. Exemplu cheie: <strong>word embeddings</strong>. Vectorii one-hot pentru cuvinte nu sunt informativi - fiecare doua cuvinte sunt la aceeasi distanta L². Word embeddings invatate codifica <strong>similaritatea semantica</strong> prin distanta in spatiul vectorial. Pretraining-ul e mai putin util pentru imagini unde pixelii deja ofera o metrica de similaritate decenta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: One-hot vs Embeddings</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# One-hot: toate cuvintele la aceeasi distanta
+cat_onehot = [1, 0, 0, 0]   # "cat"
+dog_onehot = [0, 1, 0, 0]   # "dog"
+car_onehot = [0, 0, 1, 0]   # "car"
+
+# Distanta L2: toate perechi = sqrt(2)
+print("One-hot distances:")
+print(f"  cat-dog: {np.linalg.norm(np.array(cat_onehot) - np.array(dog_onehot)):.2f}")
+print(f"  cat-car: {np.linalg.norm(np.array(cat_onehot) - np.array(car_onehot)):.2f}")
+
+# Word embeddings: similaritate semantica
+cat_embed = [0.8, 0.2, -0.1]  # animal
+dog_embed = [0.7, 0.3, -0.2]  # animal (similar cu cat!)
+car_embed = [-0.5, 0.1, 0.9]  # vehicul
+
+print("\nEmbedding distances:")
+print(f"  cat-dog: {np.linalg.norm(np.array(cat_embed) - np.array(dog_embed)):.2f}")  # Mic!
+print(f"  cat-car: {np.linalg.norm(np.array(cat_embed) - np.array(car_embed)):.2f}")  # Mare!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Pretraining ca Regularizator</h4>
+                <p>Ca regularizator, pretraining-ul e cel mai util cand avem <strong>putine exemple labelled</strong> si <strong>multe exemple unlabelled</strong>. Competitiile de transfer learning din 2011 au aratat clar acest avantaj: pretraining-ul nesupervizat a castigat cand numarul de exemple per clasa era mic (de la cateva la cateva zeci). Efectele au fost confirmate in experimente controlate de Paine et al. (2014).</p>
+            </div>
+        </div>
+    </div>
+</section>

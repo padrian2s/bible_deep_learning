@@ -1,0 +1,41 @@
+<section class="page-section" id="page-621">
+    <div class="page-header">
+        <div class="page-number">621</div>
+        <div class="page-title">
+            <h3>Log-Likelihood Gradient</h3>
+            <span>Capitolul 18 - Sectiunea 18.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-621.jpg"
+             alt="Pagina 621" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>18.1 The Log-Likelihood Gradient</h4>
+                <p>Pentru training prin MLE, avem nevoie de gradientul log-likelihood-ului. Gradientul lui log p(x) se descompune in doua parti: <strong>positive phase</strong> (creste probabilitatea datelor) si <strong>negative phase</strong> (scade probabilitatea modelului). Negative phase necesita sampling din model!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Descompunere Gradient</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Gradient log-likelihood:</strong></p>
+                                <p style="font-size: 1rem; text-align: center; margin: 10px 0;">∇_θ log p(x) = ∇_θ log p̃(x) - ∇_θ log Z(θ)</p>
+                                <p style="margin-top: 15px;">Unde:</p>
+                                <p style="color: var(--success);">∇_θ log p̃(x) = Positive phase</p>
+                                <p style="color: var(--warning);">∇_θ log Z = E_p[∇_θ log p̃(x)] = Negative phase</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

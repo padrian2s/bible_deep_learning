@@ -1,0 +1,42 @@
+<section class="page-section" id="page-625">
+    <div class="page-header">
+        <div class="page-number">625</div>
+        <div class="page-title">
+            <h3>Stale Samples si Fast Weights</h3>
+            <span>Capitolul 18 - Sectiunea 18.2 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-625.jpg"
+             alt="Pagina 625" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Probleme cu PCD si Solutii</h4>
+                <p>In PCD, daca modelul se schimba rapid, chain-urile persistente pot deveni <strong>stale</strong> - nu mai reprezinta distributia curenta. Tehnici precum <strong>fast weights</strong> folosesc doua seturi de parametri: slow weights pentru model si fast weights adaptate la chain-urile curente.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Fast Weights</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Ideea: mentinem doua seturi de parametri:</p>
+                                <ul style="margin: 10px 0 0 20px;">
+                                    <li><strong>Slow weights θ</strong> - parametrii principali</li>
+                                    <li><strong>Fast weights θ_fast</strong> - adaptati la chain-uri</li>
+                                </ul>
+                                <p style="margin-top: 10px;">Fast weights ajuta chain-urile sa urmareasca distributia curenta.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,84 @@
+<section class="page-section" id="page-538">
+    <div class="page-header">
+        <div class="page-number">538</div>
+        <div class="page-title">
+            <h3>PSD si Vectori Tangenti</h3>
+            <span>Capitolul 14 - Figura 14.10 & Sectiunea 14.8</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-538.jpg"
+             alt="Pagina 538" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 14.10: Vectori Tangenti Invatati</h4>
+                <p>Comparatie intre vectorii tangenti estimati de <strong>PCA local</strong> si <strong>CAE</strong> pentru o imagine de caine din CIFAR-10. Vectorii tangenti sunt vectorii singulari principali ai Jacobianului ∂h/∂x. Desi ambele metode captureaza tangente locale, CAE formeaza <strong>estimari mai precise</strong> exploatand impartirea parametrilor intre locatii diferite. Directiile tangente corespund miscarii/schimbarii partilor obiectului (cap, picioare).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Local PCA vs CAE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5>Local PCA</h5>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Nu imparte parametri intre regiuni diferite</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--success);">CAE</h5>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Imparte parametri → estimari mai bune din date limitate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.8 Predictive Sparse Decomposition (PSD)</h4>
+                <p><strong>PSD</strong> este un hibrid intre sparse coding si autoencodere parametrice. Un encoder parametric f(x) este antrenat sa prezica outputul inferentei iterative din sparse coding. Functia de cost: <strong>||x - g(h)||² + λ|h|₁ + γ||h - f(x)||²</strong>. La antrenare se alterneaza intre optimizarea h si parametrii modelului. La deployment, doar encoderul f(x) este folosit - evaluarea lui e mult mai rapida decat inferenta iterativa!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: PSD Training</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Predictive Sparse Decomposition
+# Loss: ||x - g(h)||² + λ|h|₁ + γ||h - f(x)||²
+
+def psd_training_step(x, encoder, decoder, h, lambda_sparse, gamma):
+    # Pas 1: Optimizeaza h (sparse coding)
+    recon_loss = ((x - decoder(h)) ** 2).sum()
+    sparse_loss = lambda_sparse * torch.abs(h).sum()
+    predict_loss = gamma * ((h - encoder(x)) ** 2).sum()
+
+    total_loss = recon_loss + sparse_loss + predict_loss
+
+    # h se optimizeaza iterativ (gradient descent)
+    # encoder/decoder se optimizeaza cu backprop
+
+    return total_loss
+
+# La inference (deployment):
+# h = encoder(x)  # RAPID! fara iteratii
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

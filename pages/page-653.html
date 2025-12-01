@@ -1,0 +1,57 @@
+<section class="page-section" id="page-653">
+    <div class="page-header">
+        <div class="page-number">653</div>
+        <div class="page-title">
+            <h3>Variational Inference and Learning</h3>
+            <span>Capitolul 19 - Sectiunea 19.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-653.jpg"
+             alt="Pagina 653" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>19.4 Variational Inference and Learning</h4>
+                <p>In loc sa restrictionam q la o singura valoare (MAP), putem maximiza ELBO peste o <strong>familie restrictionata</strong> de distributii q. Aceasta abordare se numeste <strong>variational inference</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Mean Field Approximation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Mean Field:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 15px 0;">q(h | v) = ∏ᵢ q(hᵢ | v)</p>
+                                <p style="margin-top: 10px;">Presupunem ca variabilele latente sunt <strong>independente</strong> in q, chiar daca in realitate nu sunt.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Structured Variational Inference</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Putem alege orice structura pentru q:</p>
+                            <ul style="margin-left: 20px;">
+                                <li><strong>Mean field:</strong> q factorizeaza complet</li>
+                                <li><strong>Structured:</strong> q are structura grafica proprie</li>
+                                <li>Trade-off: q mai expresiv = mai precis dar mai costisitor</li>
+                            </ul>
+                            <p style="margin-top: 10px; color: var(--text-secondary);">Originea numelui "variational" vine din calcul of variations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,65 @@
+<section class="page-section" id="page-553">
+    <div class="page-header">
+        <div class="page-number">553</div>
+        <div class="page-title">
+            <h3>One-Shot si Zero-Shot Learning</h3>
+            <span>Capitolul 15 - Sectiunea 15.2 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-553.jpg"
+             alt="Pagina 553" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>One-Shot si Zero-Shot Learning</h4>
+                <p>Doua forme extreme de transfer learning: <strong>one-shot learning</strong> (un singur exemplu labelled pentru task-ul nou) si <strong>zero-shot learning</strong> (zero exemple labelled). One-shot e posibil cand reprezentarea separa clar factorii de variatie - un singur exemplu e suficient pentru a identifica clusterul corespunzator. Zero-shot e posibil cand avem informatie aditionala (ex: descriere textuala a clasei).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: One-Shot</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# One-shot learning cu reprezentari bune
+# Ideea: reprezentarea separa factorii de variatie
+
+def one_shot_classify(encoder, support_example, support_label, query):
+    """
+    Clasificare one-shot folosind similaritate in spatiul de reprezentare
+    """
+    # Encodeaza exemplul de suport si query
+    support_repr = encoder(support_example)
+    query_repr = encoder(query)
+
+    # Calculeaza similaritatea (ex: cosinus)
+    similarity = cosine_similarity(support_repr, query_repr)
+
+    # Daca similaritatea e mare => aceeasi clasa
+    if similarity > threshold:
+        return support_label
+    else:
+        return "unknown"
+
+# Functioneaza pentru ca encoder-ul a invatat sa grupeze
+# exemplele din aceeasi clasa aproape in spatiul de reprezentare
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Competitiile de Transfer Learning</h4>
+                <p>Competitiile de ML din 2011 au aratat puterea reprezentarilor adanci pentru transfer: participantii primesc date din P₁ pentru a invata reprezentari, apoi un clasificator liniar este antrenat pe foarte putine exemple din P₂. Rezultat surprinzator: reprezentarile mai <strong>adanci</strong> invatate nesupervizat produc curbe de invatare mult mai bune pe task-ul de transfer. Cu reprezentari bune, sunt necesare <strong>mult mai putine exemple</strong>!</p>
+            </div>
+        </div>
+    </div>
+</section>

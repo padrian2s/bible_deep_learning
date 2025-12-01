@@ -1,0 +1,48 @@
+<section class="page-section" id="page-601">
+    <div class="page-header">
+        <div class="page-number">601</div>
+        <div class="page-title">
+            <h3>Variabile Latente in Deep Learning</h3>
+            <span>Capitolul 16 - Sectiunea 16.7 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-601.jpg"
+             alt="Pagina 601" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Rolul Variabilelor Latente</h4>
+                <p>Deep learning foloseste masiv variabile latente. In modelele traditionale, variabilele latente sunt putine si interpretabile (topic in LDA, clasa in mixture model). In deep learning, avem <strong>mii de unitati latente</strong> care inva reprezentari distribuite complexe. Semantica lor nu este predefinita - emerge din training.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemple Variabile Latente</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">VAE (Variational Autoencoder)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">z ~ N(0,I), x|z ~ Decoder(z)</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">RBM (Restricted Boltzmann Machine)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">h = hidden units, x = visible units</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">GAN (Generative Adversarial Net)</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">z ~ Noise, x = Generator(z)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

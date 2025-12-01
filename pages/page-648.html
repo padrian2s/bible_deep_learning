@@ -1,0 +1,63 @@
+<section class="page-section" id="page-648">
+    <div class="page-header">
+        <div class="page-number">648</div>
+        <div class="page-title">
+            <h3>Inference as Optimization</h3>
+            <span>Capitolul 19 - Sectiunea 19.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-648.jpg"
+             alt="Pagina 648" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>19.1 Inference as Optimization</h4>
+                <p>Inferenta exacta poate fi reformulata ca <strong>problema de optimizare</strong>. In loc sa calculam direct log p(v;θ), calculam un <strong>lower bound</strong> numit <strong>ELBO</strong> (Evidence Lower BOund) sau <strong>variational free energy</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>ELBO Definition</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Evidence Lower Bound:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 15px 0;">L(v, θ, q) = log p(v;θ) - D_KL(q(h|v) || p(h|v;θ))</p>
+                                <p style="margin-top: 10px;">Unde q este o distributie <strong>aproximativa</strong> arbitrara peste h.</p>
+                            </div>
+                            <div class="key-concept" style="margin-top: 15px;">
+                                <h5>Proprietati Cheie:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li>KL divergence ≥ 0, deci L ≤ log p(v)</li>
+                                    <li>Cand q = p(h|v), atunci L = log p(v) exact</li>
+                                    <li>Putem maximiza L in loc de log p(v)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Forma Alternativa ELBO</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>ELBO rescris:</strong></p>
+                                <p style="text-align: center; margin: 10px 0;">L(v, θ, q) = E_{h~q}[log p(h,v)] + H(q)</p>
+                                <p style="margin-top: 10px;">Aceasta forma e mai usor de calculat pentru anumite familii q.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

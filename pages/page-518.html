@@ -1,0 +1,125 @@
+<section class="page-section" id="page-518">
+    <div class="page-header">
+        <div class="page-number">518</div>
+        <div class="page-title">
+            <h3>Autoencodere Undercomplete</h3>
+            <span>Capitolul 14 - Sectiunea 14.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-518.jpg"
+             alt="Pagina 518" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 14.1: Structura Generala</h4>
+                <p>Diagrama arata structura unui autoencoder: inputul <strong>x</strong> este mapat la reprezentarea interna <strong>h</strong> (codul) prin encoder f, apoi h este mapat la reconstructia <strong>r</strong> prin decoder g. Encoderul comprima informatia, decoderul o decomprimala. Codul h este "bottleneck-ul" care forteaza reteaua sa invete ce este esential in date.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Fluxul Datelor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; padding: 20px;">
+                                <div style="display: inline-block; background: var(--bg-dark); padding: 30px; border-radius: 12px;">
+                                    <div style="font-size: 1.2rem; margin-bottom: 20px;">
+                                        <span style="background: var(--primary); padding: 10px 20px; border-radius: 8px;">x (input)</span>
+                                    </div>
+                                    <div style="font-size: 1.5rem; margin: 10px 0;">↓ <span style="font-size: 0.9rem;">f (encoder)</span></div>
+                                    <div style="font-size: 1.2rem; margin: 20px 0;">
+                                        <span style="background: var(--accent); padding: 8px 15px; border-radius: 50%;">h</span>
+                                    </div>
+                                    <div style="font-size: 1.5rem; margin: 10px 0;">↓ <span style="font-size: 0.9rem;">g (decoder)</span></div>
+                                    <div style="font-size: 1.2rem; margin-top: 20px;">
+                                        <span style="background: var(--success); padding: 10px 20px; border-radius: 8px;">r (reconstructie)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.1 Autoencodere Undercomplete</h4>
+                <p>Copierea inputului la output pare inutila, dar scopul real este ca <strong>h</strong> sa captureze proprietati utile. O metoda este sa constrangem h sa aiba <strong>dimensiune mai mica decat x</strong> - aceasta se numeste autoencoder <strong>undercomplete</strong>. Forteaza modelul sa captureze cele mai importante caracteristici ale datelor de antrenament. Procesul de invatare minimizeaza functia de cost: <strong>L(x, g(f(x)))</strong>, de exemplu eroarea medie patratica.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Undercomplete AE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+# Autoencoder undercomplete pentru MNIST
+class UndercompleteAE(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # 784 -> 256 -> 64 -> 32 (bottleneck)
+        self.encoder = nn.Sequential(
+            nn.Linear(784, 256),
+            nn.ReLU(),
+            nn.Linear(256, 64),
+            nn.ReLU(),
+            nn.Linear(64, 32)  # Cod: doar 32 dimensiuni!
+        )
+        # 32 -> 64 -> 256 -> 784
+        self.decoder = nn.Sequential(
+            nn.Linear(32, 64),
+            nn.ReLU(),
+            nn.Linear(64, 256),
+            nn.ReLU(),
+            nn.Linear(256, 784),
+            nn.Sigmoid()
+        )
+
+    def forward(self, x):
+        code = self.encoder(x)
+        recon = self.decoder(code)
+        return recon
+
+# Loss: Mean Squared Error
+loss_fn = nn.MSELoss()
+# loss = L(x, g(f(x))) = ||x - recon||^2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Conexiunea cu PCA</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Autoencoder Liniar = PCA</h5>
+                                <p>Cand encoderul si decoderul sunt <strong>liniare</strong> si functia de cost este <strong>MSE</strong>, autoencoderul undercomplete invata acelasi <strong>subspatiu principal</strong> ca PCA!</p>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                                    <p>Encoder liniar: h = Wx</p>
+                                    <p>Decoder liniar: r = W'h</p>
+                                    <p>Rezultat: W si W' span acelasi spatiu ca primele k componente principale</p>
+                                </div>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Autoencoderele neliniare insa pot invata o generalizare mult mai puternica a PCA!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

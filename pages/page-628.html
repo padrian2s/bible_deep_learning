@@ -1,0 +1,57 @@
+<section class="page-section" id="page-628">
+    <div class="page-header">
+        <div class="page-number">628</div>
+        <div class="page-title">
+            <h3>Pseudolikelihood</h3>
+            <span>Capitolul 18 - Sectiunea 18.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-628.jpg"
+             alt="Pagina 628" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>18.3 Pseudolikelihood</h4>
+                <p><strong>Pseudolikelihood</strong> evita complet partition function prin observatia ca raporturile de probabilitati se pot calcula fara Z. Antrenam modelul sa prezica fiecare variabila conditionat pe toate celelalte. Z se anuleaza in fractia P(xᵢ|x₋ᵢ)!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula Pseudolikelihood</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Conditonala (Z se anuleaza):</strong></p>
+                                <p style="font-size: 1rem; text-align: center; margin: 10px 0;">P(xᵢ|x₋ᵢ) = p̃(x) / Σ_{x'ᵢ} p̃(x'ᵢ, x₋ᵢ)</p>
+                                <p style="margin-top: 15px;"><strong>Pseudolikelihood:</strong></p>
+                                <p style="font-size: 1rem; text-align: center;">log PL(x) = Σᵢ log P(xᵢ|x₋ᵢ)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Pro/Contra</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="margin-left: 20px;">
+                                <li><strong>Pro:</strong> Nu necesita sampling, rapid</li>
+                                <li><strong>Pro:</strong> Consistent asimptotic</li>
+                                <li><strong>Contra:</strong> Nu e MLE real</li>
+                                <li><strong>Contra:</strong> Nu poate genera samples</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

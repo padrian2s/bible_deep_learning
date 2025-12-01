@@ -1,0 +1,63 @@
+<section class="page-section" id="page-615">
+    <div class="page-header">
+        <div class="page-number">615</div>
+        <div class="page-title">
+            <h3>Bariere de Energie</h3>
+            <span>Capitolul 17 - Sectiunea 17.5 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-615.jpg"
+             alt="Pagina 615" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Energy Barriers si Mode Separation</h4>
+                <p>Chain-ul tinde sa faca pasi mici, coborand gradual energia. Cand exista mode-uri separate de <strong>bariere de energie inalta</strong>, probabilitatea de a traversa bariera este <strong>exponential mica</strong> in inaltimea barierei. Chain-ul ramane blocat in mode-ul curent timp indelungat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Distributie Bimodala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Exemplu: doua mode cu bariera
+# E(x) = x⁴ - 4x² (double well)
+
+# Mode-uri la x ≈ -√2 si x ≈ +√2
+# Bariera la x = 0
+
+# Probabilitate traversare:
+# P(traversare) ∝ exp(-ΔE)
+# Cu w mare: exp(-wab) → 0
+
+# Chain poate sta 10^6 pasi in mode stang
+# inainte sa ajunga in mode drept!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Implicatii Practice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>In practica, MCMC pentru modele complexe poate necesita <strong>milioane</strong> de pasi pentru mixing adecvat.</p>
+                                <p style="margin-top: 10px;">Aceasta face training-ul EBM-urilor foarte costisitor!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

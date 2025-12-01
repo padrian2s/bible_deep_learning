@@ -1,0 +1,66 @@
+<section class="page-section" id="page-657">
+    <div class="page-header">
+        <div class="page-number">657</div>
+        <div class="page-title">
+            <h3>Derivare ELBO pentru Binary Sparse Coding</h3>
+            <span>Capitolul 19 - Sectiunea 19.4.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-657.jpg"
+             alt="Pagina 657" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>ELBO pentru Binary Sparse Coding</h4>
+                <p>Derivam explicit ELBO pentru modelul binary sparse coding. Desi formulele arata complex, rezultatul final este <strong>tractabil</strong> - poate fi calculat in timp liniar in numarul de unitati.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Descompunerea ELBO</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>ELBO = E_q[log p(h)] + E_q[log p(v|h)] - E_q[log q(h)]</strong></p>
+                                <div style="margin-top: 15px;">
+                                    <p><strong>Termen 1 (prior):</strong></p>
+                                    <p style="font-size: 0.9rem;">Σᵢ [ĥᵢ log σ(bᵢ) + (1-ĥᵢ) log σ(-bᵢ)]</p>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <p><strong>Termen 2 (likelihood):</strong></p>
+                                    <p style="font-size: 0.9rem;">Implica E_q[||v - Wh||²]</p>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <p><strong>Termen 3 (entropy):</strong></p>
+                                    <p style="font-size: 0.9rem;">-Σᵢ [ĥᵢ log ĥᵢ + (1-ĥᵢ) log(1-ĥᵢ)]</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De Ce e Tractabil</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="margin-left: 20px;">
+                                <li>Mean field factorizeaza q → expectatiile se descompun</li>
+                                <li>E_q[hᵢ] = ĥᵢ (probabilitatea ca hᵢ=1)</li>
+                                <li>E_q[hᵢhⱼ] = ĥᵢĥⱼ pentru i≠j (independenta)</li>
+                                <li>Fiecare termen calculabil in O(nm)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

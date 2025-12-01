@@ -1,0 +1,50 @@
+<section class="page-section" id="page-556">
+    <div class="page-header">
+        <div class="page-number">556</div>
+        <div class="page-title">
+            <h3>Disentangling Causal Factors</h3>
+            <span>Capitolul 15 - Sectiunea 15.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-556.jpg"
+             alt="Pagina 556" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>15.3 Semi-Supervised Disentangling of Causal Factors</h4>
+                <p>O intrebare importanta: "ce face o reprezentare mai buna decat alta?" O ipoteza: reprezentarea <strong>ideala</strong> este una in care features corespund <strong>cauzelor subiacente</strong> ale datelor observate, cu directii separate pentru cauze diferite. Aceasta "disentangleaza" factorii de variatie. Daca <strong>y</strong> este printre cauzele principale ale lui x, atunci o astfel de reprezentare face usor de calculat p(y|x).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ipoteza Cauzala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce functioneaza Semi-Supervised?</h5>
+                                <p>Daca reprezentarea h captureaza cauzele lui x, si y este una din aceste cauze, atunci:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>Invatarea p(x) nesupervizat dezvaluie cauzele</li>
+                                    <li>Un singur exemplu labelled per cauza e suficient</li>
+                                    <li>p(y|x) si p(x) sunt "legate" prin structura cauzala comuna</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Cand esueaza Semi-Supervised?</h4>
+                <p>Semi-supervised learning poate esua daca invatarea p(x) nu ofera informatie despre p(y|x). Exemplu: daca p(x) este <strong>uniform</strong>, atunci observarea x-urilor nu ne spune nimic despre y. Insa daca x provine dintr-o mixtura de componente (fiecare corespunzand unei clase y), atunci modelarea p(x) dezvaluie care componenta e care - deci y!</p>
+            </div>
+        </div>
+    </div>
+</section>

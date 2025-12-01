@@ -1,0 +1,69 @@
+<section class="page-section" id="page-578">
+    <div class="page-header">
+        <div class="page-number">578</div>
+        <div class="page-title">
+            <h3>Modele Grafice Directionate</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-578.jpg"
+             alt="Pagina 578" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>16.2.1 Directed Models</h4>
+                <p>Modelele grafice directionate (Bayesian networks) folosesc un graf aciclic directionat. Distributia se factorizeaza ca produs de probabilitati conditionale: <strong>P(x) = Π P(xᵢ | Parents(xᵢ))</strong>. Aceasta factorizare este intotdeauna valida - reprezinta chain rule of probability - dar structura grafului indica care conditionalitati sunt <strong>simplificate</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu: Relay Race</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Cursa de stafeta cu 3 alergatori
+# t₀ = timpul primului
+# t₁ = timpul al doilea (poate depinde de t₀)
+# t₂ = timpul total
+
+# Model naiv: P(t₀,t₁,t₂) - tabel O(k³)
+
+# Model directed:
+# t₀ → t₁ → t₂
+# P(t₀,t₁,t₂) = P(t₀)P(t₁|t₀)P(t₂|t₁)
+# Doar O(k²) parametri!
+
+# Presupunerea: t₂ depinde doar de t₁
+# (finishul depinde doar de cand a inceput)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Proprietati DAG</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Aciclic</strong> - nu exista cicluri (esential!)</li>
+                                    <li><strong>Ordonare topologica</strong> - nodurile pot fi ordonate</li>
+                                    <li><strong>Ancestral sampling</strong> - sampling in ordine topologica</li>
+                                    <li><strong>d-separation</strong> - criteriu pentru independenta conditionata</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

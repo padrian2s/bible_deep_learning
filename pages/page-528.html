@@ -1,0 +1,77 @@
+<section class="page-section" id="page-528">
+    <div class="page-header">
+        <div class="page-number">528</div>
+        <div class="page-title">
+            <h3>Estimarea Score-ului</h3>
+            <span>Capitolul 14 - Sectiunea 14.5.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-528.jpg"
+             alt="Pagina 528" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.5.1 Estimarea Score-ului</h4>
+                <p><strong>Score matching</strong> este o alternativa la maximum likelihood pentru estimarea distributiilor. "Scorul" este gradientul log-densitatii: <strong>∇_x log p(x)</strong>. Invatand campul gradientului log p_data, putem invata structura distributiei. O proprietate importanta a DAE-urilor este ca antrenarea lor (cu Gaussian condiționat p(x|h)) face autoencodul sa invete un camp vectorial care <strong>estimeaza scorul</strong> distributiei de date!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Score Function</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+
+# Score = gradient of log density
+# Pentru Gaussian: p(x) = exp(-x²/2σ²) / Z
+# log p(x) = -x²/2σ² - log(Z)
+# Score = ∇log p(x) = -x/σ²
+
+def gaussian_score(x, sigma=1.0):
+    """Score pentru distributie Gaussiana"""
+    return -x / (sigma**2)
+
+# DAE invata sa estimeze acest score!
+# g(f(x̃)) - x̃ ≈ σ² · score(x)
+
+x = np.array([1.0, 2.0, -1.5])
+sigma = 1.0
+
+true_score = gaussian_score(x, sigma)
+print(f"Score la x={x}: {true_score}")
+print("Scorul indica directia de crestere a densitatii")
+print("Score > 0: densitatea creste spre dreapta")
+print("Score < 0: densitatea creste spre stanga")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>DAE si RBM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Exista conexiuni interesante intre DAE si <strong>Restricted Boltzmann Machines</strong>:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>DAE cu sigmoidal hidden + MSE ≈ RBM cu Gaussian visible</li>
+                                    <li>RBM antrenat cu <strong>denoising score matching</strong> = echivalent cu DAE</li>
+                                    <li>Gradientul autoencoder-ului aproximeaza contrastive divergence pentru RBM</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

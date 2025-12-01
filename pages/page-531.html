@@ -1,0 +1,77 @@
+<section class="page-section" id="page-531">
+    <div class="page-header">
+        <div class="page-number">531</div>
+        <div class="page-title">
+            <h3>Planurile Tangente si Manifold</h3>
+            <span>Capitolul 14 - Sectiunea 14.6 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-531.jpg"
+             alt="Pagina 531" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Caracterizarea Manifold-urilor: Planuri Tangente</h4>
+                <p>O caracterizare importanta a unui manifold este setul de <strong>planuri tangente</strong>. La un punct x pe un manifold d-dimensional, planul tangent este dat de d vectori de baza care spaneaza directiile locale de variatie permise PE manifold. Acesti vectori specifica cum se poate schimba x infinitezimal ramanand pe manifold. Autoencoderele invata implicit aceste planuri tangente!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Plan Tangent</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                <p>Manifold 2D in spatiu 3D:</p>
+                                <div style="margin: 20px 0; font-size: 0.9rem;">
+                                    <p>Punct x pe suprafata curba</p>
+                                    <p style="color: var(--accent);">↓</p>
+                                    <p>Plan tangent = toate directiile "locale" pe suprafata</p>
+                                    <p style="color: var(--success);">→ v₁, v₂ (vectori tangenti)</p>
+                                </div>
+                                <p style="color: var(--text-secondary);">Directii perpendiculare pe plan = "afara" de manifold</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Compromisul Reconstructie-Constrangere</h4>
+                <p>Antrenarea autoencoderelor implica un compromis intre doua forte: <strong>1)</strong> Invatarea reprezentarii h astfel incat x sa poata fi recuperat aproximativ din h prin decoder (x e din distributia de antrenament). <strong>2)</strong> Satisfacerea constrangerilor sau regularizarii (capacitate limitata, sparsitate, derivata mica). Impreuna, cele doua forte fac autoencoderul sa reprezinte doar variatiile necesare pentru <strong>reconstructia datelor de antrenament</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Sensibilitate pe Manifold</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Encoderul invata o mapare de la spatiul de input la spatiul de reprezentare care este:</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                                    <div style="background: var(--success); padding: 15px; border-radius: 8px; color: #000;">
+                                        <strong>Sensibil</strong>
+                                        <p style="font-size: 0.9rem;">la schimbari de-a lungul manifold-ului (directii tangente)</p>
+                                    </div>
+                                    <div style="background: var(--warning); padding: 15px; border-radius: 8px; color: #000;">
+                                        <strong>Insensibil</strong>
+                                        <p style="font-size: 0.9rem;">la schimbari ortogonale pe manifold</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

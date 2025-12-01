@@ -1,0 +1,52 @@
+<section class="page-section" id="page-589">
+    <div class="page-header">
+        <div class="page-number">589</div>
+        <div class="page-title">
+            <h3>Algoritm D-Separation</h3>
+            <span>Capitolul 16 - Figura 16.8</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-589.jpg"
+             alt="Pagina 589" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 16.8: Exemple D-Separation</h4>
+                <p>Pentru a verifica daca A ⊥ B | C (A independent de B dat C), verificam toate caile intre A si B. O cale este blocata de C daca: (1) contine un chain sau fork cu nodul mijlociu in C, sau (2) contine un collider unde nici coliderul nici descendentii sai nu sunt in C.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritm D-Sep</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def is_d_separated(A, B, C, graph):
+    """
+    Verifica daca A si B sunt d-separate dat C
+    """
+    # Pentru fiecare cale intre A si B
+    for path in all_paths(A, B, graph):
+        blocked = False
+        for triple in consecutive_triples(path):
+            if is_blocked(triple, C):
+                blocked = True
+                break
+        if not blocked:
+            # Exista cale activa => nu sunt d-sep
+            return False
+    # Toate caile blocate => d-separated
+    return True
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,63 @@
+<section class="page-section" id="page-527">
+    <div class="page-header">
+        <div class="page-number">527</div>
+        <div class="page-title">
+            <h3>DAE si Manifold</h3>
+            <span>Capitolul 14 - Figura 14.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-527.jpg"
+             alt="Pagina 527" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 14.4: DAE si Invatarea Manifold-ului</h4>
+                <p>Un DAE este antrenat sa mapeze punctul corupt x̃ inapoi la originalul x. Datele de antrenament (cruciulite rosii) stau pe un <strong>manifold de dimensiune mica</strong> (linia neagra groasa). Procesul de coruptie C(x̃|x) genereaza versiuni perturbate in cercul gri. Vectorul <strong>g(f(x̃)) - x̃</strong> (sagetile verzi) indica aproximativ spre cel mai apropiat punct de pe manifold. Autoencoderul invata astfel un <strong>camp vectorial</strong> care estimeaza <strong>∇_x log p_data(x)</strong> - scorul distributiei de date!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Vectori spre Manifold</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                <p style="margin-bottom: 15px;">Campul vectorial invatat de DAE:</p>
+                                <div style="position: relative; height: 150px; margin: 20px 0;">
+                                    <div style="position: absolute; left: 10%; right: 10%; top: 50%; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                                    <div style="position: absolute; left: 30%; top: 20%; color: var(--success);">↓ spre manifold</div>
+                                    <div style="position: absolute; left: 60%; top: 70%; color: var(--success);">↑ spre manifold</div>
+                                    <div style="position: absolute; left: 45%; top: 50%; transform: translate(-50%, -50%); background: var(--accent); padding: 5px 10px; border-radius: 4px;">Manifold (date)</div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">g(f(x̃)) - x̃ ≈ ∇log p(x) (scorul)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Conexiunea cu Score Matching</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>DAE estimeaza Scorul</h5>
+                                <p>Campul vectorial invatat de DAE (reconstructie - input corupt) estimeaza gradientul log-densitatii datelor:</p>
+                                <div class="formula" style="background: var(--bg-dark); padding: 15px; margin: 10px 0; border-radius: 8px; text-align: center;">
+                                    g(f(x̃)) - x̃ ≈ σ² · ∇_x log p_data(x)
+                                </div>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">Acest lucru este valabil cand coruptia este zgomot Gaussian cu varianta σ²</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

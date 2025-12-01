@@ -1,0 +1,48 @@
+<section class="page-section" id="page-581">
+    <div class="page-header">
+        <div class="page-number">581</div>
+        <div class="page-title">
+            <h3>Constrangeri si Flexibilitate</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-581.jpg"
+             alt="Pagina 581" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Forme Functionale ale Distributiilor Conditionale</h4>
+                <p>Graful specifica <strong>care</strong> variabile interactioneaza, dar nu <strong>cum</strong>. Forma functionala a distributiilor conditionale P(xᵢ|Parents(xᵢ)) poate fi aleasa independent de structura grafului. Putem folosi tabele discrete, gaussiene, retele neurale, etc. Aceasta flexibilitate este esentiala pentru deep learning.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Forme Conditionale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Tabel Discret</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">P(x|pa) = tabel[x, pa] - flexibil dar costisitor</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">Linear Gaussian</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">x|pa ~ N(W·pa + b, σ²) - efficient, liniar</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Neural Network</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">P(x|pa) = NN(pa) - flexibil si scalabil</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

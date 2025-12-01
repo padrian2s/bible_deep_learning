@@ -1,0 +1,141 @@
+<section class="page-section" id="page-520">
+    <div class="page-header">
+        <div class="page-number">520</div>
+        <div class="page-title">
+            <h3>Autoencodere Sparse</h3>
+            <span>Capitolul 14 - Sectiunea 14.2.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-520.jpg"
+             alt="Pagina 520" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.2.1 Sparse Autoencoders</h4>
+                <p>Un <strong>sparse autoencoder</strong> adauga o penalizare de sparsitate <strong>Ω(h)</strong> pe codul h, pe langa eroarea de reconstructie. Functia de cost devine: <strong>L(x, g(f(x))) + Ω(h)</strong>. Aceasta forteaza majoritatea unitatilor din h sa fie inactive (aproape de zero) pentru orice input dat. Sparsitatea este utila pentru clasificare si alte task-uri deoarece forteaza modelul sa invete caracteristici distinctive.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Sparse Autoencoder</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class SparseAutoencoder(nn.Module):
+    def __init__(self, input_dim, code_dim, sparsity_weight=0.1):
+        super().__init__()
+        self.sparsity_weight = sparsity_weight
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, code_dim),
+            nn.Sigmoid()  # Activari intre 0 si 1
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(code_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, input_dim)
+        )
+
+    def forward(self, x):
+        h = self.encoder(x)
+        r = self.decoder(h)
+        return r, h
+
+    def sparsity_loss(self, h):
+        # L1 penalty: suma valorilor absolute
+        return self.sparsity_weight * torch.mean(torch.abs(h))
+
+# Antrenare
+def train_step(model, x, optimizer):
+    r, h = model(x)
+    recon_loss = nn.MSELoss()(r, x)
+    sparse_loss = model.sparsity_loss(h)
+    total_loss = recon_loss + sparse_loss  # L(x,g(f(x))) + Ω(h)
+
+    optimizer.zero_grad()
+    total_loss.backward()
+    optimizer.step()
+    return total_loss.item()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Cod Sparse</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5>Cod Dens (normal)</h5>
+                                    <div style="display: flex; gap: 3px; flex-wrap: wrap; margin-top: 10px;">
+                                        <span style="background: var(--primary); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--primary); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--secondary); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--primary); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--secondary); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--primary); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--secondary); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--primary); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">Majoritatea unitatilor active</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5>Cod Sparse</h5>
+                                    <div style="display: flex; gap: 3px; flex-wrap: wrap; margin-top: 10px;">
+                                        <span style="background: #333; width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--accent); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: #333; width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: #333; width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: #333; width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: var(--accent); width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: #333; width: 20px; height: 20px; border-radius: 3px;"></span>
+                                        <span style="background: #333; width: 20px; height: 20px; border-radius: 3px;"></span>
+                                    </div>
+                                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">Putine unitati active (sparse)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Interpretarea Bayesiana</h4>
+                <p>Putem interpreta penalizarea Ω(h) ca un <strong>regularizator</strong> adaugat la o retea feedforward pentru task-ul de copiere (nesupervizat), posibil combinat cu un task supervizat. Spre deosebire de weight decay care are interpretare Bayesiana clara (prior pe parametri), regularizarea de sparsitate nu are o interpretare simpla deoarece depinde de <strong>date</strong>, nu doar de model. Totusi, putem gandi la aceste penalizari ca exprimand implicit preferinte asupra functiilor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>MAP vs Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                <p>Regularized Maximum Likelihood:</p>
+                                <p style="font-size: 1.2rem; margin: 10px 0;">max log p(θ|x) = max [log p(x|θ) + log p(θ)]</p>
+                                <p style="color: var(--text-secondary);">log p(x|θ) = likelihood, log p(θ) = prior (regularizare)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

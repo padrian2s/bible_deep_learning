@@ -1,0 +1,63 @@
+<section class="page-section" id="page-640">
+    <div class="page-header">
+        <div class="page-number">640</div>
+        <div class="page-title">
+            <h3>Annealed Importance Sampling</h3>
+            <span>Capitolul 18 - Sectiunea 18.7.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-640.jpg"
+             alt="Pagina 640" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>18.7.1 Annealed Importance Sampling (AIS)</h4>
+                <p><strong>AIS</strong> rezolva problema introducand o secventa de distributii intermediare care "bridge" intre p₀ (simpla, cu Z cunoscut) si p₁ (modelul nostru). Produsul rapoartelor succesive da estimatul lui Z₁/Z₀.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritmul AIS</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def AIS(p0, p1, n_intermediate, n_samples):
+    """
+    Annealed Importance Sampling
+    p0: distributie simpla cu Z0 cunoscut
+    p1: modelul target
+    """
+    # Secventa de temperaturi: 0 = β0 < β1 < ... < βn = 1
+    betas = np.linspace(0, 1, n_intermediate + 1)
+
+    weights = []
+    for _ in range(n_samples):
+        # Start de la p0
+        x = p0.sample()
+        log_w = 0
+
+        for i in range(len(betas) - 1):
+            # Distributie intermediara: p_β ∝ p0^(1-β) * p1^β
+            # Weight update
+            log_w += (betas[i+1] - betas[i]) * (p1.log_prob(x) - p0.log_prob(x))
+            # Tranzitie MCMC catre p_{β_{i+1}}
+            x = mcmc_step(x, betas[i+1])
+
+        weights.append(log_w)
+
+    # Estimatul lui Z1/Z0
+    log_Z_ratio = logsumexp(weights) - np.log(n_samples)
+    return log_Z_ratio
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

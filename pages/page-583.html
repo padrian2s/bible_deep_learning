@@ -1,0 +1,58 @@
+<section class="page-section" id="page-583">
+    <div class="page-header">
+        <div class="page-number">583</div>
+        <div class="page-title">
+            <h3>Exemplu Graf Nedirectionat</h3>
+            <span>Capitolul 16 - Figura 16.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-583.jpg"
+             alt="Pagina 583" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 16.3: Graf Nedirectionat</h4>
+                <p>Un graf nedirectionat simplu cu variabile a, b, c, d, e ilustreaza conceptul de clique-uri. Clique-urile maximale determina factorizarea distributiei. Muchiile indica care variabile interactioneaza direct - variabile fara muchie intre ele sunt <strong>conditonat independente</strong> date fiind vecinii.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Identificare Clique-uri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p>Pentru graf cu noduri: a-b-c-d-e</p>
+                                <p style="margin-top: 10px;">Clique-uri maximale posibile:</p>
+                                <ul style="text-align: left; margin: 10px 0 0 40px;">
+                                    <li>{a, b} - daca a si b sunt conectate</li>
+                                    <li>{b, c, d} - daca formeaza triunghi</li>
+                                    <li>{d, e} - daca d si e sunt conectate</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Markov Blanket</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>In MRF, <strong>Markov blanket</strong> al unui nod = vecinii sai directi.</p>
+                                <p style="margin-top: 10px;">Proprietate: Un nod este independent de toate celelalte, date fiind nodurile din Markov blanket.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

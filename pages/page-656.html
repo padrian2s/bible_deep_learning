@@ -1,0 +1,66 @@
+<section class="page-section" id="page-656">
+    <div class="page-header">
+        <div class="page-number">656</div>
+        <div class="page-title">
+            <h3>Mean Field pentru Binary Sparse Coding</h3>
+            <span>Capitolul 19 - Sectiunea 19.4.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-656.jpg"
+             alt="Pagina 656" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 19.2: Structura Grafica</h4>
+                <p>Figura arata diferenta intre p(h,v) si p(h|v). In model (stanga), h→v sunt directed. In posterior (dreapta), conditionand pe v, toate h devin conectate - explaining away creaza clique completa.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare Structura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <div style="color: var(--primary); font-weight: bold; margin-bottom: 10px;">p(h,v)</div>
+                                    <p>h₁ h₂ h₃ h₄</p>
+                                    <p>↓  ↓  ↓  ↓</p>
+                                    <p>v₁ v₂ v₃</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Hidden independent, directed to v</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                    <div style="color: var(--secondary); font-weight: bold; margin-bottom: 10px;">p(h|v)</div>
+                                    <p>h₁ — h₂</p>
+                                    <p>|  ✕  |</p>
+                                    <p>h₃ — h₄</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px;">Clique completa peste hidden!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Solutia Mean Field</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Aproximare:</strong></p>
+                                <p style="text-align: center; margin: 10px 0;">q(h|v) = ∏ᵢ q(hᵢ|v) = ∏ᵢ Bernoulli(ĥᵢ)</p>
+                                <p style="margin-top: 10px;">Ignoram dependentele, reprezentam fiecare q(hᵢ) ca Bernoulli cu parametru ĥᵢ.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

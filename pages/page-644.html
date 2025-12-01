@@ -1,0 +1,40 @@
+<section class="page-section" id="page-644">
+    <div class="page-header">
+        <div class="page-number">644</div>
+        <div class="page-title">
+            <h3>Estimare Z in Practica</h3>
+            <span>Capitolul 18 - Sectiunea 18.7 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-644.jpg"
+             alt="Pagina 644" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Consideratii Practice pentru Estimarea lui Z</h4>
+                <p>In practica, AIS este metoda preferata pentru EBM-uri. Parametri importanti: numarul de distributii intermediare, numarul de pasi MCMC la fiecare pas, si numarul de chains paralele. Mai multi pasi → estimate mai bune dar mai costisitor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Sfaturi Practice</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="margin-left: 20px;">
+                                <li><strong>Schedule betas:</strong> geometric spacing adesea mai bun decat liniar</li>
+                                <li><strong>Numar intermediare:</strong> 1000-10000 pentru RBM tipic</li>
+                                <li><strong>MCMC steps:</strong> 1-10 per temperatura</li>
+                                <li><strong>Verification:</strong> ruleaza AIS in ambele directii, compara</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

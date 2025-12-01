@@ -1,0 +1,59 @@
+<section class="page-section" id="page-529">
+    <div class="page-header">
+        <div class="page-number">529</div>
+        <div class="page-title">
+            <h3>Campul Vectorial Invatat</h3>
+            <span>Capitolul 14 - Figura 14.5</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-529.jpg"
+             alt="Pagina 529" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 14.5: Camp Vectorial pe Manifold Curbat</h4>
+                <p>Figura ilustreaza campul vectorial invatat de un DAE pentru date concentrate pe un manifold 1D curbat (spirala) intr-un spatiu 2D. Fiecare sageata este proportionala cu <strong>reconstructie - input</strong> si indica spre regiuni de probabilitate mai mare. Pe manifold (unde datele au densitate maxima), sagetile sunt foarte mici. Departe de manifold, sagetile sunt lungi si indica spre manifold. Aceasta este exact structura <strong>score-ului ∇log p(x)</strong>!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretare: Minimele Locale</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Proprietatile Campului Vectorial</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Pe manifold:</strong> Sageti mici (deja la maxim local de densitate)</li>
+                                    <li><strong>Departe de manifold:</strong> Sageti lungi spre manifold</li>
+                                    <li><strong>Intre "brate" ale spiralei:</strong> Minime locale ale densitatii</li>
+                                    <li><strong>Norma sagetii:</strong> Indica cat de departe suntem de datele reale</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Generalizare Score Estimation</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Cu coruptie Gaussiana si reconstructie MSE:</p>
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; margin: 10px 0; border-radius: 8px;">
+                                <p style="text-align: center;">||g(f(x̃)) - x||² cu C(x̃|x) = N(x̃; x, σ²I)</p>
+                            </div>
+                            <p>Rezultatul: orice arhitectura encoder-decoder poate fi folosita pentru a estima scorul, nu doar cele specifice!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,55 @@
+<section class="page-section" id="page-616">
+    <div class="page-header">
+        <div class="page-number">616</div>
+        <div class="page-title">
+            <h3>Tempering si Mixing</h3>
+            <span>Capitolul 17 - Sectiunea 17.5 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-616.jpg"
+             alt="Pagina 616" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Solutii pentru Mixing Lent</h4>
+                <p>Exista tehnici pentru a imbunatati mixing-ul. <strong>Tempering</strong> ruleaza chain-uri la "temperaturi" diferite: temperaturi inalte aplaneaza distributia (mixing usor), iar temperaturi joase se concentreaza pe mode-uri. <strong>Parallel tempering</strong> schimba periodic stari intre temperaturi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulated Tempering</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Distributie la temperatura T:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">P_T(x) ∝ exp(-E(x)/T)</p>
+                                <ul style="margin-top: 15px;">
+                                    <li>T → ∞: distributie uniforma (mixing rapid)</li>
+                                    <li>T = 1: distributia originala</li>
+                                    <li>T → 0: concentrat pe minimum global</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Parallel Tempering</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Ruleaza K chain-uri la temperaturi T₁ < T₂ < ... < T_K simultan. Periodic, schimba stari intre chain-uri adiacente. Chain-urile "calde" exploreaza, cele "reci" rafineaza.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

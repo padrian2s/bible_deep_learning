@@ -1,0 +1,55 @@
+<section class="page-section" id="page-562">
+    <div class="page-header">
+        <div class="page-number">562</div>
+        <div class="page-title">
+            <h3>Half-Spaces si Regiuni</h3>
+            <span>Capitolul 15 - Figura 15.7</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-562.jpg"
+             alt="Pagina 562" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 15.7: Reprezentare Distribuita cu Features Binare</h4>
+                <p>Ilustratie a modului in care un algoritm de invatare distribuit imparte spatiul de input. Avem 3 features binare h₁, h₂, h₃, fiecare definit prin thresholding-ul unei transformari liniare. Fiecare feature imparte R² in doua <strong>half-spaces</strong>. Reprezentarea ca intreg ia o valoare unica la fiecare intersectie a acestor half-spaces. Exemplu: h = [1,1,1]ᵀ corespunde regiunii h₁⁺ ∩ h₂⁺ ∩ h₃⁺.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Intersectii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                <p>3 features binare → 2³ = 8 regiuni posibile</p>
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0;">
+                                    <div style="background: var(--primary); padding: 8px; border-radius: 4px;">[0,0,0]</div>
+                                    <div style="background: var(--primary); padding: 8px; border-radius: 4px;">[0,0,1]</div>
+                                    <div style="background: var(--primary); padding: 8px; border-radius: 4px;">[0,1,0]</div>
+                                    <div style="background: var(--primary); padding: 8px; border-radius: 4px;">[0,1,1]</div>
+                                    <div style="background: var(--secondary); padding: 8px; border-radius: 4px;">[1,0,0]</div>
+                                    <div style="background: var(--secondary); padding: 8px; border-radius: 4px;">[1,0,1]</div>
+                                    <div style="background: var(--secondary); padding: 8px; border-radius: 4px;">[1,1,0]</div>
+                                    <div style="background: var(--accent); padding: 8px; border-radius: 4px;">[1,1,1]</div>
+                                </div>
+                                <p style="color: var(--text-secondary);">n hyperplane-uri → O(n^d) regiuni in d dimensiuni</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantajul Exponential</h4>
+                <p>Reprezentarea distribuita imparte spatiul prin <strong>intersectia half-spaces</strong>, nu prin atribuirea de regiuni disjuncte. Cu n features in d dimensiuni, putem distinge <strong>O(n^d)</strong> regiuni! Nearest neighbors cu n exemple distinge doar n regiuni. Reprezentarea distribuita poate astfel distinge exponential mai multe regiuni - baza puterii retelelor neurale adanci.</p>
+            </div>
+        </div>
+    </div>
+</section>

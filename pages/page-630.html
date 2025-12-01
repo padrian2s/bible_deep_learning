@@ -1,0 +1,52 @@
+<section class="page-section" id="page-630">
+    <div class="page-header">
+        <div class="page-number">630</div>
+        <div class="page-title">
+            <h3>Pseudolikelihood pentru MRF</h3>
+            <span>Capitolul 18 - Sectiunea 18.3 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-630.jpg"
+             alt="Pagina 630" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Aplicatii Pseudolikelihood</h4>
+                <p>Pseudolikelihood este special utila pentru <strong>MRF-uri</strong> unde conditionalele depind doar de Markov blanket. Aceasta face calculul tractabil chiar si pentru modele cu mii de variabile. Besag (1975) a introdus metoda initial pentru modele spatiale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Exemplu MRF Grid</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# MRF pe grid 2D (ex: Ising model)
+# P(x_ij | rest) depinde doar de 4 vecini
+
+def pseudolikelihood_grid(x, W, b):
+    """
+    PL pentru MRF pe grid
+    """
+    log_pl = 0
+    for i in range(H):
+        for j in range(W):
+            neighbors = get_neighbors(i, j)
+            # P(x_ij | neighbors)
+            energy_0 = compute_local_energy(0, neighbors, W, b)
+            energy_1 = compute_local_energy(1, neighbors, W, b)
+            log_pl += x[i,j] * energy_1 - logsumexp([energy_0, energy_1])
+    return log_pl
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

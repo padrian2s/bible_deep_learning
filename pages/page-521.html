@@ -1,0 +1,118 @@
+<section class="page-section" id="page-521">
+    <div class="page-header">
+        <div class="page-number">521</div>
+        <div class="page-title">
+            <h3>Sparsitate ca Model Generativ</h3>
+            <span>Capitolul 14 - Sectiunea 14.2.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-521.jpg"
+             alt="Pagina 521" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Perspectiva Maximum Likelihood</h4>
+                <p>In loc sa gandim sparsitatea ca regularizator pentru copiere, putem privi antrenarea autoencoder-ului sparse ca <strong>aproximarea antrenarii unui model generativ</strong>. Avem variabile vizibile x si variabile latente h, cu distributia p(x,h) = p(h)p(x|h). Log-likelihood-ul se descompune in: <strong>log p(x) = log Σ_h p(h,x)</strong>. Autoencoderul aproximeaza aceasta suma cu un singur h foarte probabil - cel produs de encoder.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Descompunerea</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p style="text-align: center; margin-bottom: 15px;">Descompunerea log-likelihood:</p>
+                                <div style="font-family: monospace; font-size: 1.1rem; line-height: 2;">
+                                    <p>log p_model(x) = log Σ_h p_model(h, x)</p>
+                                    <p style="color: var(--accent);">≈ log p_model(h*, x)  unde h* = f(x)</p>
+                                    <p>= log p_model(h*) + log p_model(x | h*)</p>
+                                </div>
+                                <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <div style="background: var(--primary); padding: 10px; border-radius: 8px; text-align: center;">
+                                        <strong>log p(h)</strong><br>
+                                        <span style="font-size: 0.9rem;">→ sparsitate</span>
+                                    </div>
+                                    <div style="background: var(--secondary); padding: 10px; border-radius: 8px; text-align: center;">
+                                        <strong>log p(x|h)</strong><br>
+                                        <span style="font-size: 0.9rem;">→ reconstructie</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Prior Laplace pentru Sparsitate</h4>
+                <p>Daca priorul pe h este distributia <strong>Laplace</strong>: p(h_i) = (λ/2)exp(-λ|h_i|), atunci log-priorul devine: <strong>Ω(h) = λΣ|h_i|</strong> - exact penalizarea L1! Termenul constant nu afecteaza optimizarea. Alte priori precum <strong>Student-t</strong> pot induce de asemenea sparsitate. Aceasta perspectiva ofera o motivatie diferita: antrenam aproximativ un model generativ, nu doar adaugam regularizare arbitrara.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Distributia Laplace</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Comparam Gaussian vs Laplace
+x = np.linspace(-5, 5, 1000)
+
+# Gaussian (L2 penalty)
+gaussian = np.exp(-x**2 / 2) / np.sqrt(2*np.pi)
+
+# Laplace (L1 penalty, sparsitate)
+laplace = 0.5 * np.exp(-np.abs(x))
+
+print("Laplace vs Gaussian:")
+print("- Laplace: varful ascutit la 0 = incurajeaza h=0")
+print("- Laplace: cozi groase = permite valori mari ocazional")
+print("- Gaussian: forma rotunda = nu incurajeaza h=0")
+
+# Log-prior:
+# Laplace: log p(h) = -λ|h| + const  → L1 penalty
+# Gaussian: log p(h) = -h²/2σ² + const → L2 penalty
+
+print("\nLog-prior penalizari:")
+print("  Laplace → L1: Ω(h) = λΣ|h_i|")
+print("  Gaussian → L2: Ω(h) = λΣh_i²")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce Sparsitate?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Avantajele Reprezentarilor Sparse</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Interpretabilitate:</strong> Fiecare unitate activa corespunde unei caracteristici specifice</li>
+                                    <li><strong>Disentanglement:</strong> Factorii de variatie sunt separati</li>
+                                    <li><strong>Eficienta:</strong> Putine calcule pentru coduri cu multe zerouri</li>
+                                    <li><strong>Generalizare:</strong> Mai putin overfitting prin constrangere</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

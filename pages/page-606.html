@@ -1,0 +1,58 @@
+<section class="page-section" id="page-606">
+    <div class="page-header">
+        <div class="page-number">606</div>
+        <div class="page-title">
+            <h3>De Ce Sampling?</h3>
+            <span>Capitolul 17 - Sectiunea 17.1.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-606.jpg"
+             alt="Pagina 606" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>17.1.1 Why Sampling?</h4>
+                <p>Sampling permite aproximarea multor cantitati de interes: sume, integrale, valori asteptate. Cand avem o suma cu exponential de multi termeni (ex: marginalizare peste variabile latente), sampling ofera o alternativa tractabila. Estimatorul Monte Carlo este <strong>unbiased</strong> si eroarea scade cu √n sample-uri.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Estimator Monte Carlo</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Integrala de estimat:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">s = Σ_x p(x)f(x) = E_p[f(x)]</p>
+                                <p><strong>Estimator MC:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">ŝ = (1/n) Σᵢ f(x⁽ⁱ⁾), x⁽ⁱ⁾ ~ p</p>
+                                <p style="color: var(--success);">E[ŝ] = s (unbiased!)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="margin-left: 20px;">
+                                <li><strong>Training</strong> - stochastic gradient descent</li>
+                                <li><strong>Inference</strong> - marginalizare aproximativa</li>
+                                <li><strong>Generare</strong> - sample-uri din model</li>
+                                <li><strong>Evaluare</strong> - estimare likelihood</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

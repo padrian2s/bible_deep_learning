@@ -1,0 +1,52 @@
+<section class="page-section" id="page-633">
+    <div class="page-header">
+        <div class="page-number">633</div>
+        <div class="page-title">
+            <h3>Denoising Score Matching</h3>
+            <span>Capitolul 18 - Sectiunea 18.4 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-633.jpg"
+             alt="Pagina 633" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Denoising Score Matching</h4>
+                <p>O varianta mai stabila: <strong>denoising score matching</strong>. Corupem datele cu noise, apoi antrenam modelul sa prezica directia catre datele curate. Aceasta evita calculul Hessian-ului si este echivalenta cu score matching standard.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Procedura DSM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def denoising_score_matching(model, data, sigma):
+    """
+    DSM: invata score-ul prin denoising
+    """
+    # Corupem datele
+    noise = np.random.randn(*data.shape) * sigma
+    corrupted = data + noise
+
+    # Target: directia catre data curata
+    target_score = -noise / (sigma**2)
+
+    # Model trebuie sa prezica score-ul
+    predicted_score = model.score(corrupted)
+
+    loss = mean_squared_error(predicted_score, target_score)
+    return loss
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

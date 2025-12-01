@@ -1,0 +1,39 @@
+<section class="page-section" id="page-632">
+    <div class="page-header">
+        <div class="page-number">632</div>
+        <div class="page-title">
+            <h3>Score Matching Derivation</h3>
+            <span>Capitolul 18 - Sectiunea 18.4 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-632.jpg"
+             alt="Pagina 632" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Derivarea Obiectivului Score Matching</h4>
+                <p>Obiectivul original necesita score-ul datelor (necunoscut!). Prin integrare pe parti, se poate rescrie doar in functie de <strong>derivatele modelului</strong>. Rezultatul depinde doar de Hessian-ul si score-ul modelului, evaluate la punctele de date.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Forma Tractabila</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Score matching objective (tractabil):</strong></p>
+                                <p style="font-size: 0.95rem; text-align: center; margin: 10px 0;">J = E_data[ Σᵢ (∂²log p̃/∂xᵢ²) + ½(∂log p̃/∂xᵢ)² ]</p>
+                                <p style="margin-top: 10px; font-size: 0.9rem;">Depinde doar de model, nu de Z sau score-ul datelor!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

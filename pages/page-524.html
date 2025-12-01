@@ -1,0 +1,97 @@
+<section class="page-section" id="page-524">
+    <div class="page-header">
+        <div class="page-number">524</div>
+        <div class="page-title">
+            <h3>Encodere si Decodere Stocastice</h3>
+            <span>Capitolul 14 - Sectiunea 14.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-524.jpg"
+             alt="Pagina 524" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Avantajele Adancimii</h4>
+                <p>Experimental, autoencoderele <strong>adanci</strong> produc compresie mult mai buna decat cele shallow sau liniare. O strategie comuna pentru antrenarea autoencoderelor adanci este <strong>greedy layer-wise pretraining</strong>: antrenam mai intai autoencodere shallow stiva pe stiva, apoi fine-tunam intreaga arhitectura. Fiecare componenta (encoder si decoder) beneficiaza individual de adancime.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Stacked AE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch.nn as nn
+
+# Greedy layer-wise pretraining
+class StackedAutoencoder:
+    def __init__(self, dims=[784, 500, 200, 50]):
+        self.autoencoders = []
+        for i in range(len(dims)-1):
+            ae = SimpleAE(dims[i], dims[i+1])
+            self.autoencoders.append(ae)
+
+    def pretrain(self, data):
+        current_data = data
+        for i, ae in enumerate(self.autoencoders):
+            print(f"Pretraining layer {i+1}...")
+            train_autoencoder(ae, current_data)
+            # Urmatorul strat primeste output-ul curent
+            current_data = ae.encode(current_data)
+
+    def build_deep_ae(self):
+        # Combina toate straturile intr-un AE adanc
+        encoder_layers = []
+        decoder_layers = []
+        for ae in self.autoencoders:
+            encoder_layers.extend(ae.encoder)
+        for ae in reversed(self.autoencoders):
+            decoder_layers.extend(ae.decoder)
+        return DeepAE(encoder_layers, decoder_layers)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.4 Encodere si Decodere Stocastice</h4>
+                <p>Autoencoderele sunt retele feedforward si folosesc aceleasi functii de cost si unitati de output. Pentru designul unitatilor de output, definim o <strong>distributie de output</strong> p(y|x) si minimizam <strong>-log p(y|x)</strong>. Pentru autoencodere, x este si target. Decoderul produce parametrii distributiei p_decoder(x|h): unitati liniare pentru Gaussian (MSE), sigmoid pentru Bernoulli (binary cross-entropy), softmax pentru categorii discrete.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Output Units & Loss</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Date continue (imagini RGB):</strong>
+                                    <p style="margin: 5px 0;">Output liniar + Gaussian → MSE loss</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Date binare (imagini B/W):</strong>
+                                    <p style="margin: 5px 0;">Sigmoid + Bernoulli → Binary CE loss</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong>Date categorice:</strong>
+                                    <p style="margin: 5px 0;">Softmax + Multinomial → CE loss</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

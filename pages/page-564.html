@@ -1,0 +1,54 @@
+<section class="page-section" id="page-564">
+    <div class="page-header">
+        <div class="page-number">564</div>
+        <div class="page-title">
+            <h3>Non-Distributed vs Distributed</h3>
+            <span>Capitolul 15 - Figura 15.8</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-564.jpg"
+             alt="Pagina 564" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 15.8: Nearest Neighbor (Non-Distributed)</h4>
+                <p>Ilustratie a modului in care nearest neighbor imparte spatiul de input in regiuni. Fiecare punct de antrenament (cerc rosu) defineste o regiune Voronoi - toate punctele mai apropiate de el decat de orice alt punct. Algoritmii non-distribuiti imparte spatiul in regiuni cu <strong>parametri separati</strong> per regiune. Avantaj: pot fita orice cu suficiente regiuni. Dezavantaj: generalizeaza doar <strong>local</strong> prin smoothness prior.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Comparatie</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--warning);">Non-Distributed (k-NN)</h5>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px;">
+                                        <li>n exemple → n regiuni</li>
+                                        <li>Parametri independenti per regiune</li>
+                                        <li>Generalizare doar locala</li>
+                                        <li>Necesita O(n^d) exemple pentru functii complexe</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--success);">Distributed (Neural Net)</h5>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px;">
+                                        <li>n features → O(n^d) regiuni</li>
+                                        <li>Parametri partajati (weights)</li>
+                                        <li>Generalizare non-locala</li>
+                                        <li>Necesita mai putine exemple</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

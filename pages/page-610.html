@@ -1,0 +1,74 @@
+<section class="page-section" id="page-610">
+    <div class="page-header">
+        <div class="page-number">610</div>
+        <div class="page-title">
+            <h3>Markov Chain Monte Carlo</h3>
+            <span>Capitolul 17 - Sectiunea 17.3</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-610.jpg"
+             alt="Pagina 610" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>17.3 Markov Chain Monte Carlo Methods</h4>
+                <p>Cand nu putem sample direct din p(x) sau folosi importance sampling eficient, apelam la <strong>MCMC</strong>. Construim un <strong>Markov chain</strong> a carui distributie stationara este p(x). Dupa suficienti pasi, starea chain-ului este aproximativ un sample din p.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Idea MCMC</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# MCMC conceptual
+def mcmc_sample(target_p, transition, n_samples, burn_in):
+    """
+    target_p: distributia tinta p(x)
+    transition: T(x'|x) - propunere de tranzitie
+    """
+    x = random_init()  # Start aleator
+    samples = []
+
+    for t in range(burn_in + n_samples):
+        # Propune tranzitie
+        x_new = transition(x)
+
+        # Accept/reject (Metropolis-Hastings)
+        if accept(x, x_new, target_p):
+            x = x_new
+
+        if t >= burn_in:
+            samples.append(x)
+
+    return samples
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Proprietati MCMC</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="margin-left: 20px;">
+                                <li><strong>Nu necesita Z</strong> - doar rapoarte de probabilitati</li>
+                                <li><strong>Convergenta garantata</strong> - sub conditii mild</li>
+                                <li><strong>Samples corelate</strong> - nu sunt i.i.d.</li>
+                                <li><strong>Burn-in necesar</strong> - ignora primele samples</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

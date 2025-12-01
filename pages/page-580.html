@@ -1,0 +1,61 @@
+<section class="page-section" id="page-580">
+    <div class="page-header">
+        <div class="page-number">580</div>
+        <div class="page-title">
+            <h3>Economie de Parametri in Modele Directionate</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-580.jpg"
+             alt="Pagina 580" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Reducerea Numarului de Parametri</h4>
+                <p>Pentru n variabile discrete cu k valori fiecare, abordarea cu tabel complet necesita O(kⁿ) parametri. Cu un model directed unde fiecare variabila are cel mult m parinti in graf, costul este O(nkᵐ). Atata timp cat m << n, obtinem <strong>economii dramatice</strong>. Structura grafului codifica presupuneri de independenta conditionata.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Calcul Parametri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Comparatie pentru n=100 variabile, k=10 valori
+
+# Model nestructurat (tabel complet)
+params_full = 10**100  # Imposibil de stocat!
+
+# Model directed cu max 2 parinti per nod
+params_directed = 100 * (10**3)  # 100,000 parametri
+
+# Reducere: de la 10^100 la 10^5
+# Factor de reducere: ~10^95 !!!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Independenta Conditionata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Graful codifica: <strong>fiecare variabila este independenta de non-descendentii sai, date fiind parintii</strong>.</p>
+                                <p style="margin-top: 10px;">Aceasta presupunere trebuie sa fie rezonabila pentru problema data!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

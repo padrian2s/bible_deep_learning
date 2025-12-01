@@ -1,0 +1,51 @@
+<section class="page-section" id="page-568">
+    <div class="page-header">
+        <div class="page-number">568</div>
+        <div class="page-title">
+            <h3>Castiguri Exponentiale din Adancime</h3>
+            <span>Capitolul 15 - Sectiunea 15.5</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-568.jpg"
+             alt="Pagina 568" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>15.5 Exponential Gains from Depth</h4>
+                <p>Am vazut ca MLP-urile sunt aproximatori universali si ca unele functii pot fi reprezentate de retele adanci <strong>exponential mai mici</strong> decat cele shallow. Aceasta scadere a dimensiunii duce la <strong>eficienta statistica imbunatatita</strong>. Modelele generative care au invatat factorii pentru fete (gen, ochelari) nu ar fi reusit cu o retea shallow - relatia intre factorii abstracti si pixeli e <strong>foarte neliniara</strong>.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>De ce Adancimea?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Reprezentari Adanci</h5>
+                                <p>Factorii explicativi de nivel inalt (gen, ochelari) sunt:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Aproape independenti</strong> unul de altul</li>
+                                    <li>Legati de pixeli prin transformari <strong>foarte neliniare</strong></li>
+                                    <li>Cel mai bine captati prin <strong>compunerea multor neliniaritati</strong></li>
+                                </ul>
+                                <p style="margin-top: 10px;">O retea shallow ar necesita exponential mai multe unitati pentru a reprezenta aceleasi functii!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Universalitate si Adancime</h4>
+                <p>Multe tipuri de retele (cu sigmoid, Boolean gates, RBF) sunt <strong>aproximatori universali</strong> cu un singur strat ascuns. Insa numarul de unitati necesare poate fi foarte mare. Rezultate teoretice arata ca exista familii de functii care pot fi reprezentate eficient de arhitecturi adanci dar ar necesita <strong>exponential mai multe unitati</strong> cu adancime insuficienta.</p>
+            </div>
+        </div>
+    </div>
+</section>

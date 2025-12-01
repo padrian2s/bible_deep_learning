@@ -1,0 +1,87 @@
+<section class="page-section" id="page-536">
+    <div class="page-header">
+        <div class="page-number">536</div>
+        <div class="page-title">
+            <h3>Contractive Autoencoders</h3>
+            <span>Capitolul 14 - Sectiunea 14.7</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-536.jpg"
+             alt="Pagina 536" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.7 Contractive Autoencoders (CAE)</h4>
+                <p>CAE introduce un <strong>regularizator explicit</strong> pe cod h = f(x), incurajand derivatele lui f sa fie cat mai mici posibil: <strong>Ω(h) = λ||∂f(x)/∂x||²_F</strong>. Aceasta este norma Frobenius patratica a matricei <strong>Jacobian</strong> a derivatelor partiale. Exista o conexiune intre DAE si CAE: in limita zgomotului Gaussian mic, eroarea de denoising este echivalenta cu penalizarea contractiva pe functia de reconstructie r = g(f(x)).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Jacobian Norm</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+def compute_jacobian_norm(encoder, x):
+    """Calculeaza ||∂f/∂x||²_F"""
+    x.requires_grad_(True)
+    h = encoder(x)
+
+    # Calculam Jacobianul pentru fiecare output
+    jacobian_norm = 0
+    for i in range(h.shape[1]):
+        grad = torch.autograd.grad(
+            h[:, i].sum(), x,
+            create_graph=True
+        )[0]
+        jacobian_norm += (grad ** 2).sum()
+
+    return jacobian_norm
+
+# In practica, pentru eficienta se foloseste:
+# Ω(h) = λ * Σ_j (h_j * (1 - h_j))² * ||W_j||²
+# pentru encoder cu sigmoid si un strat
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>DAE vs CAE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--primary);">DAE</h5>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Functia de <strong>reconstructie</strong> rezista la perturbatii mici</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <h5 style="color: var(--accent);">CAE</h5>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Functia de <strong>feature extraction</strong> rezista la perturbatii infinitezimale</p>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Pentru clasificare, penalizarea pe f(x) (CAE) functioneaza mai bine decat pe g(f(x))</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce "Contractive"?</h4>
+                <p>Numele vine din modul in care CAE <strong>contracta spatiul</strong>. Daca f este antrenat sa reziste la perturbatii locale, mapeaza o vecinatate de input intr-o vecinatate <strong>mai mica</strong> de output. Putem gandi Jacobianul J la un punct x ca aproximand local f(x) cu un operator liniar. Un operator "contractive" are toate valorile singulare < 1. CAE incurajeaza sigmoizii sa satureze (output 0 sau 1), producand un cod binar-like care acopera hipercubul.</p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,66 @@
+<section class="page-section" id="page-575">
+    <div class="page-header">
+        <div class="page-number">575</div>
+        <div class="page-title">
+            <h3>Structura in Distributii de Probabilitate</h3>
+            <span>Capitolul 16 - Sectiunea 16.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-575.jpg"
+             alt="Pagina 575" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Factorizare si Structura</h4>
+                <p>Un model probabilistic structurat descrie distributia folosind un <strong>graf</strong>. Fiecare nod reprezinta o variabila aleatoare, iar muchiile indica care variabile interactioneaza direct. Structura grafului permite <strong>factorizarea</strong> distributiei in produse de functii locale.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Exemplu Factorizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Distributie nefactorizata (exponential params)
+# P(a,b,c) - necesita 2³-1 = 7 parametri
+
+# Distributie factorizata (liniar params)
+# P(a,b,c) = P(a)P(b|a)P(c|b)
+# Necesita doar: 1 + 2 + 2 = 5 parametri
+
+# Pentru n variabile in lant:
+# Nefactorizat: O(2ⁿ)
+# Factorizat: O(n)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Beneficii Structura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Avantaje</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Reducere parametri</strong> - de la exponential la polynomial</li>
+                                    <li><strong>Generalizare</strong> - mai putine date necesare</li>
+                                    <li><strong>Inferenta tractabila</strong> - algoritmi eficienti</li>
+                                    <li><strong>Interpretabilitate</strong> - structura vizibila</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

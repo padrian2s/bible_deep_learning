@@ -1,0 +1,46 @@
+<section class="page-section" id="page-565">
+    <div class="page-header">
+        <div class="page-number">565</div>
+        <div class="page-title">
+            <h3>Complexitatea Reprezentarilor</h3>
+            <span>Capitolul 15 - Sectiunea 15.4 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-565.jpg"
+             alt="Pagina 565" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Argumentul Geometric</h4>
+                <p>Cu O(nd) parametri pentru n features de threshold liniar, putem distinge <strong>O(n^d)</strong> regiuni in spatiul de input. Fara reprezentare distribuita, am avea nevoie de O(n^d) exemple si parametri pentru a specifica output diferit in fiecare regiune. Reprezentarile distribuite permit specificarea <strong>exponential mai multor regiuni</strong> cu numar liniar de parametri!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula: Numar de Regiuni</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                <p>Numarul de regiuni pentru n hyperplane-uri in d dimensiuni:</p>
+                                <p style="font-size: 1.3rem; margin: 15px 0;">Σⱼ₌₀ᵈ C(n,j) = O(n^d)</p>
+                                <p style="color: var(--text-secondary);">Crestere exponentiala in dimensiunea inputului, polinomiala in numarul de unitati ascunse!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Capacitate vs Generalizare</h4>
+                <p>Desi reprezentarile distribuite pot <strong>distinge</strong> exponential mai multe regiuni, capacitatea modelului ramane limitata. Dimensiunea VC a unei retele cu w weights este doar O(w log w). Nu putem invata functii arbitrare din reprezentare la output - clasificatorul liniar de deasupra nu poate atribui clase arbitrare fiecarei regiuni. Aceasta este de fapt o <strong>regularizare implicita</strong> puternica!</p>
+            </div>
+        </div>
+    </div>
+</section>

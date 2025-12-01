@@ -1,0 +1,54 @@
+<section class="page-section" id="page-624">
+    <div class="page-header">
+        <div class="page-number">624</div>
+        <div class="page-title">
+            <h3>CD vs SML/PCD</h3>
+            <span>Capitolul 18 - Sectiunea 18.2 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-624.jpg"
+             alt="Pagina 624" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Persistent Contrastive Divergence (PCD)</h4>
+                <p><strong>PCD</strong> (sau Stochastic Maximum Likelihood - SML) mentine chain-uri MCMC <strong>persistente</strong> intre update-uri. In loc sa reinitializam de la date, continuam de unde am ramas. Aceasta permite chain-urilor sa mixeze mai bine si ofera un gradient mai bun.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Comparatie CD vs PCD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">CD-k</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Init chain de la data</li>
+                                        <li>Bias catre data</li>
+                                        <li>k=1 adesea suficient</li>
+                                        <li>Simplu de implementat</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">PCD/SML</strong>
+                                    <ul style="font-size: 0.9rem; margin-top: 10px;">
+                                        <li>Chain-uri persistente</li>
+                                        <li>Gradient mai precis</li>
+                                        <li>Mixing mai bun</li>
+                                        <li>Necesita mai multi pasi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

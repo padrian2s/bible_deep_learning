@@ -1,0 +1,51 @@
+<section class="page-section" id="page-637">
+    <div class="page-header">
+        <div class="page-number">637</div>
+        <div class="page-title">
+            <h3>NCE si Word Embeddings</h3>
+            <span>Capitolul 18 - Sectiunea 18.6 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-637.jpg"
+             alt="Pagina 637" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>NCE pentru Word2Vec</h4>
+                <p><strong>Word2Vec</strong> cu negative sampling este o forma de NCE! In loc sa normalizam peste tot vocabularul (costisitor), clasificam cuvantul corect vs k cuvinte "negative" sample-ate aleator. Aceasta face training-ul <strong>liniar</strong> in k, nu in |V|.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Negative Sampling</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Word2Vec Skip-gram cu negative sampling
+def skip_gram_nce(center, context, negatives, embeddings):
+    """
+    center: cuvantul central
+    context: cuvantul din context (pozitiv)
+    negatives: k cuvinte negative
+    """
+    # Pozitiv: creste similaritatea center-context
+    pos_score = dot(embeddings[center], embeddings[context])
+
+    # Negative: scade similaritatea center-negatives
+    neg_scores = [dot(embeddings[center], embeddings[n]) for n in negatives]
+
+    loss = -log_sigmoid(pos_score) - sum(log_sigmoid(-s) for s in neg_scores)
+    return loss
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

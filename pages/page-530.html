@@ -1,0 +1,51 @@
+<section class="page-section" id="page-530">
+    <div class="page-header">
+        <div class="page-number">530</div>
+        <div class="page-title">
+            <h3>Perspectiva Istorica DAE</h3>
+            <span>Capitolul 14 - Sectiunea 14.5.1.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-530.jpg"
+             alt="Pagina 530" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.5.1.1 Perspectiva Istorica</h4>
+                <p>Ideea folosirii MLP-urilor pentru denoising dateaza din lucrarile lui LeCun (1987) si Gallinari et al. (1987). Behnke (2001) a folosit retele recurente pentru denoising. Numele "denoising autoencoder" se refera la un model care nu doar elimina zgomotul, ci invata o <strong>reprezentare interna buna</strong> ca efect secundar. Vincent et al. (2008, 2010) au introdus DAE modern, demonstrand ca poate fi folosit pentru <strong>pretraining</strong> nesupervizat al retelelor adanci.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Motivatia DAE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce DAE functioneaza?</h5>
+                                <p>Motivatia pentru DAE este aceeasi ca pentru alte autoencodere regularizate:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>Permite encodere de <strong>capacitate mare</strong></li>
+                                    <li>Previne invatarea functiei identitate triviale</li>
+                                    <li>Forteaza captarea <strong>structurii datelor</strong></li>
+                                    <li>Reprezentarea invatata poate fi folosita pentru alte task-uri</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.6 Invatarea Manifold-urilor cu Autoencodere</h4>
+                <p>Ca multe alte algoritme de ML, autoencoderele exploateaza ideea ca datele se concentreaza pe un <strong>manifold de dimensiune mica</strong> sau pe o multime de astfel de manifold-uri. Unele algoritme invata doar functii care se comporta corect PE manifold, dar pot avea comportament neobisnuit in afara lui. Autoencoderele merg mai departe si invata <strong>structura manifold-ului insusi</strong>.</p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,91 @@
+<section class="page-section" id="page-542">
+    <div class="page-header">
+        <div class="page-number">542</div>
+        <div class="page-title">
+            <h3>Reprezentari Bune pentru ML</h3>
+            <span>Capitolul 15 - Introducere (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-542.jpg"
+             alt="Pagina 542" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce face o reprezentare "buna"?</h4>
+                <p>In contextul ML, o reprezentare buna este una care face task-ul de invatare ulterior <strong>mai usor</strong>. Retelele feedforward supervizate pot fi vazute ca facand representation learning: straturile ascunse invata o reprezentare astfel incat ultimul strat (clasificator liniar/softmax) sa poata rezolva task-ul. Clasele care nu erau liniar separabile in input devin liniar separabile in reprezentarea din ultimul hidden layer!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Separabilitate Liniara</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# O retea feedforward invata reprezentari
+# care fac clasele liniar separabile
+
+import torch.nn as nn
+
+class RepresentationLearner(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # Straturile ascunse = representation learning
+        self.features = nn.Sequential(
+            nn.Linear(784, 256),
+            nn.ReLU(),
+            nn.Linear(256, 64),  # Reprezentare 64D
+            nn.ReLU()
+        )
+        # Clasificator liniar pe reprezentare
+        self.classifier = nn.Linear(64, 10)
+
+    def forward(self, x):
+        # Reprezentare invatata
+        h = self.features(x)
+        # Clasificare liniara pe reprezentare
+        return self.classifier(h)
+
+# In input: clasele NU sunt liniar separabile
+# In h (reprezentare): clasele DEVIN liniar separabile!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tradeoff-ul Reprezentarilor</h4>
+                <p>Majoritatea problemelor de representation learning implica un <strong>tradeoff</strong> intre a pastra cat mai multa informatie despre input si a obtine proprietati "frumoase" (precum <strong>independenta</strong> statistica). Representation learning este interesant pentru ca permite <strong>invatare semi-supervizata</strong>: avem multe date nelabeled si putine labeled. Antrenarea supervizata doar pe datele labelled duce la overfitting; invatam reprezentari din datele unlabeled, apoi le folosim pentru task-ul supervizat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Semi-Supervised Learning</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>De ce Semi-Supervised?</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Date unlabeled:</strong> Foarte multe, usor de obtinut</li>
+                                    <li><strong>Date labeled:</strong> Putine, scumpe (necesita experti)</li>
+                                    <li><strong>Solutia:</strong> Invata reprezentari din unlabeled, apoi fine-tune pe labeled</li>
+                                </ul>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Oamenii si animalele invata din foarte putine exemple labelled - probabil folosesc reprezentari invatate nesupervizat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

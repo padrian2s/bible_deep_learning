@@ -1,0 +1,61 @@
+<section class="page-section" id="page-658">
+    <div class="page-header">
+        <div class="page-number">658</div>
+        <div class="page-title">
+            <h3>Fixed Point Equations</h3>
+            <span>Capitolul 19 - Sectiunea 19.4.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-658.jpg"
+             alt="Pagina 658" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Fixed Point Equations pentru Mean Field</h4>
+                <p>In loc de gradient descent, folosim <strong>fixed point iterations</strong> pentru a gasi optimal ĥ. Setam ∂L/∂ĥᵢ = 0 pentru fiecare i si rezolvam iterativ.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Derivare Fixed Point</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Conditia de optimalitate:</strong></p>
+                                <p style="text-align: center; margin: 15px 0;">∂L/∂ĥᵢ = 0</p>
+                                <p><strong>Rezolvand pentru ĥᵢ:</strong></p>
+                                <p style="text-align: center; margin: 15px 0;">ĥᵢ = σ(bᵢ + f(v, ĥ₋ᵢ, W, β))</p>
+                                <p style="margin-top: 10px; font-size: 0.9rem;">Unde f depinde de toti ceilalti parametri variationali ĥⱼ pentru j≠i.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Algoritmul Iterativ</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Mean Field Iterations:</h5>
+                                <ol style="margin-left: 20px;">
+                                    <li>Initializeaza ĥ (ex: ĥᵢ = σ(bᵢ))</li>
+                                    <li>Pentru fiecare i: actualizeaza ĥᵢ = σ(...)</li>
+                                    <li>Repeta pasul 2 pana converge</li>
+                                </ol>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Convergenta garantata pentru ELBO (creste monoton).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

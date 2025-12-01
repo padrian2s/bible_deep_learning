@@ -1,0 +1,51 @@
+<section class="page-section" id="page-537">
+    <div class="page-header">
+        <div class="page-number">537</div>
+        <div class="page-title">
+            <h3>CAE si Tangent Vectors</h3>
+            <span>Capitolul 14 - Sectiunea 14.7 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-537.jpg"
+             alt="Pagina 537" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Invatarea Structurii Manifold-ului</h4>
+                <p>CAE balanceaza doua forte opuse: eroarea de reconstructie (ar incuraja invatarea identitatii) si penalizarea contractiva Ω(h) (ar incuraja features constante). Compromisul produce un autoencoder ale carui derivate <strong>∂f(x)/∂x</strong> sunt mici in majoritatea directiilor, dar <strong>mari</strong> in cateva directii importante - cele care corespund <strong>planurilor tangente</strong> ale manifold-ului de date!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Valori Singulare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Jacobianul si Directiile Tangente</h5>
+                                <p>Experimentele arata ca antrenarea CAE face:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>Majoritatea valorilor singulare ale J < 1 (contractive)</li>
+                                    <li>Cateva valori singulare > 1 (directii importante)</li>
+                                    <li>Directiile cu valori mari ≈ planuri tangente ale manifold-ului</li>
+                                </ul>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Pentru imagini, aceste directii corespund miscarii/schimbarii partilor obiectului (cap, picioare, etc.)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Antrenarea CAE Adanc</h4>
+                <p>O problema practica: penalizarea Jacobianului este ieftina pentru un singur strat, dar devine costisitoare pentru autoencodere adanci. Strategia lui Rifai et al. (2011): antrenam separat o serie de CAE shallow, fiecare reconstructand hidden layer-ul anterior. Compunerea lor formeaza un autoencoder adanc. Rezultatul nu e identic cu antrenarea comuna cu penalizare pe Jacobianul total, dar captureaza multe caracteristici importante.</p>
+            </div>
+        </div>
+    </div>
+</section>

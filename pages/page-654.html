@@ -1,0 +1,65 @@
+<section class="page-section" id="page-654">
+    <div class="page-header">
+        <div class="page-number">654</div>
+        <div class="page-title">
+            <h3>Directia KL Divergence</h3>
+            <span>Capitolul 19 - Sectiunea 19.4.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-654.jpg"
+             alt="Pagina 654" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Directia KL si Variabile Latente Discrete</h4>
+                <p>In variational inference minimizam <strong>D_KL(q||p)</strong>, nu D_KL(p||q). Aceasta directie e importanta: q va avea tendinta sa acopere modurile principale ale lui p, evitand regiunile cu probabilitate mica in p.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>KL(q||p) vs KL(p||q)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <div style="color: var(--primary); font-weight: bold;">D_KL(q||p)</div>
+                                    <p style="font-size: 0.9rem;">- Folosit in variational inference</p>
+                                    <p style="font-size: 0.9rem;">- q evita unde p≈0</p>
+                                    <p style="font-size: 0.9rem;">- "Mode-seeking"</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <div style="color: var(--secondary); font-weight: bold;">D_KL(p||q)</div>
+                                    <p style="font-size: 0.9rem;">- Folosit in MLE</p>
+                                    <p style="font-size: 0.9rem;">- q acopera tot support-ul lui p</p>
+                                    <p style="font-size: 0.9rem;">- "Mean-seeking"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>19.4.1 Discrete Latent Variables</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Pentru variabile discrete binare h cu mean field:</p>
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                                <p>q(hᵢ = 1 | v) = ĥᵢ</p>
+                                <p style="margin-top: 10px;">Parametrizam q cu un vector ĥ de probabilitati.</p>
+                            </div>
+                            <p style="margin-top: 10px;">Optimizam ĥ iterativ prin fixed point equations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,40 @@
+<section class="page-section" id="page-611">
+    <div class="page-header">
+        <div class="page-number">611</div>
+        <div class="page-title">
+            <h3>Energy-Based Models si MCMC</h3>
+            <span>Capitolul 17 - Sectiunea 17.3 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-611.jpg"
+             alt="Pagina 611" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>MCMC pentru Energy-Based Models</h4>
+                <p>In contextul deep learning, MCMC este esential pentru sampling din <strong>energy-based models</strong> (EBM). Pentru p(x) ∝ exp(-E(x)), nu cunoastem Z, dar MCMC functioneaza doar cu diferentele de energie. Chain-ul tinde sa exploreze regiuni de <strong>energie joasa</strong> (probabilitate mare).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Sampling din EBM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Acceptare Metropolis:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">A(x→x') = min(1, exp(-E(x') + E(x)))</p>
+                                <p style="margin-top: 10px;">Observatie: Z se anuleaza in raport!</p>
+                                <p style="margin-top: 5px;">Acceptam intotdeauna daca E(x') < E(x)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

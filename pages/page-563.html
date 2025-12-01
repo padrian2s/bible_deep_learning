@@ -1,0 +1,61 @@
+<section class="page-section" id="page-563">
+    <div class="page-header">
+        <div class="page-number">563</div>
+        <div class="page-title">
+            <h3>Generalizare prin Atribute Partajate</h3>
+            <span>Capitolul 15 - Sectiunea 15.4 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-563.jpg"
+             alt="Pagina 563" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Generalizarea prin Atribute Partajate</h4>
+                <p>Ce distinge reprezentarile distribuite de cele simbolice este ca <strong>generalizarea apare din atribute partajate</strong>. Ca simboluri pure, "cat" si "dog" sunt la aceeasi distanta ca orice alte doua simboluri. Dar cu o reprezentare distribuita, pot avea atribute comune: "has_fur", "number_of_legs=4". Ceea ce invatam despre pisici poate <strong>generaliza la caini</strong> prin aceste atribute partajate!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Atribute Partajate</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Reprezentari simbolice vs distribuite pentru animale
+
+# ONE-HOT: nu partajeaza nimic
+cat_onehot = [1, 0, 0, 0]
+dog_onehot = [0, 1, 0, 0]
+car_onehot = [0, 0, 1, 0]
+# Toate perechi sunt la distanta sqrt(2) - nu e generalizare!
+
+# DISTRIBUTED: atribute partajate
+#             [fur, 4_legs, pet, vehicle]
+cat_dist = [1, 1, 1, 0]  # blana, 4 picioare, animal de companie
+dog_dist = [1, 1, 1, 0]  # IDENTIC cu cat pe aceste atribute!
+car_dist = [0, 0, 0, 1]  # total diferit
+
+# Generalizare: ce invatam pentru cat (are blana -> caldura)
+# se aplica automat la dog (are si el blana!)
+print("Cat-Dog distance:", sum((a-b)**2 for a,b in zip(cat_dist, dog_dist)))  # 0!
+print("Cat-Car distance:", sum((a-b)**2 for a,b in zip(cat_dist, car_dist)))  # 4
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Spatiul de Similaritate</h4>
+                <p>Reprezentarile distribuite induc un <strong>spatiu de similaritate bogat</strong> in care concepte semantic apropiate sunt aproape in distanta. Aceasta proprietate e absenta din reprezentarile simbolice. Word embeddings (Word2Vec, GloVe) functioneaza exact pe acest principiu - cuvinte similare au vectori apropiati, permitand generalizarea la cuvinte nevazute in anumite contexte.</p>
+            </div>
+        </div>
+    </div>
+</section>

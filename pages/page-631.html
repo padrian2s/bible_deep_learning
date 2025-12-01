@@ -1,0 +1,40 @@
+<section class="page-section" id="page-631">
+    <div class="page-header">
+        <div class="page-number">631</div>
+        <div class="page-title">
+            <h3>Score Matching</h3>
+            <span>Capitolul 18 - Sectiunea 18.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-631.jpg"
+             alt="Pagina 631" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>18.4 Score Matching</h4>
+                <p><strong>Score matching</strong> antrenează modelul sa aiba acelasi <strong>score</strong> (gradient log-density) ca datele. Score-ul ∇_x log p(x) nu depinde de Z! Aceasta permite training fara partition function pentru modele cu variabile continue.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula Score</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Score function:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">s(x) = ∇_x log p(x) = ∇_x log p̃(x)</p>
+                                <p style="color: var(--success); margin-top: 10px;">Z dispare! (nu depinde de x)</p>
+                                <p style="margin-top: 15px;"><strong>Obiectiv:</strong> minimizeaza E_data[||s_model(x) - s_data(x)||²]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

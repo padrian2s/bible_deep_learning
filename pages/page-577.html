@@ -1,0 +1,54 @@
+<section class="page-section" id="page-577">
+    <div class="page-header">
+        <div class="page-number">577</div>
+        <div class="page-title">
+            <h3>Grafuri Directionate si Nedirectionate</h3>
+            <span>Capitolul 16 - Sectiunea 16.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-577.jpg"
+             alt="Pagina 577" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>16.2 Using Graphs to Describe Model Structure</h4>
+                <p>Modelele grafice folosesc doua tipuri principale de grafuri: <strong>directed</strong> (grafuri aciclice directionate - DAG) si <strong>undirected</strong> (Markov random fields). Fiecare tip are avantaje si dezavantaje. Modelele directionate sunt naturale pentru relatii cauzale, iar cele nedirectionate pentru corelatii simetrice.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Comparatie Directed vs Undirected</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Directed (Bayesian Nets)</strong>
+                                    <ul style="margin: 10px 0 0 15px; font-size: 0.9rem;">
+                                        <li>Arce cu directie (→)</li>
+                                        <li>P(x) = Π P(xᵢ|Pa(xᵢ))</li>
+                                        <li>Natural pentru cauzalitate</li>
+                                        <li>Sampling usor (ancestral)</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">Undirected (MRF)</strong>
+                                    <ul style="margin: 10px 0 0 15px; font-size: 0.9rem;">
+                                        <li>Muchii fara directie (—)</li>
+                                        <li>P(x) = (1/Z) Π φ(clique)</li>
+                                        <li>Natural pentru corelatii</li>
+                                        <li>Necesita normalizare Z</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,65 @@
+<section class="page-section" id="page-659">
+    <div class="page-header">
+        <div class="page-number">659</div>
+        <div class="page-title">
+            <h3>Conexiunea cu Retele Recurente</h3>
+            <span>Capitolul 19 - Final</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-659.jpg"
+             alt="Pagina 659" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Conexiunea cu Recurrent Neural Networks</h4>
+                <p>Mean field fixed point equations definesc o <strong>retea neuronala recurenta</strong>! Fiecare iteratie e un pas de recurrence. Hidden units "comunica" si se inhiba reciproc - modeland <strong>explaining away</strong> prin competitie.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Interpretare RNN</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Update Rule (forma RNN):</strong></p>
+                                <p style="text-align: center; margin: 15px 0;">ĥᵢ = σ(bᵢ + (v - Σⱼ≠ᵢ W·ⱼĥⱼ)ᵀ βW·ᵢ - (1/2)W·ᵢᵀβW·ᵢ)</p>
+                                <p style="margin-top: 10px;">Fiecare unit primeste:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>Input fix de la v</li>
+                                    <li>Inhibitie laterala de la alte unitati ĥⱼ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Rezumat Capitolul 19</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Concepte Cheie:</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>ELBO:</strong> Lower bound pe log-likelihood, tractabil</li>
+                                    <li><strong>EM:</strong> Alterneaza E-step (inferenta) si M-step (learning)</li>
+                                    <li><strong>MAP:</strong> Inferenta punctuala, folosita in sparse coding</li>
+                                    <li><strong>Mean Field:</strong> q factorizeaza, fixed point iterations</li>
+                                    <li><strong>Conexiune RNN:</strong> Variational inference = retea recurenta</li>
+                                </ul>
+                                <p style="margin-top: 15px;">Capitolul 20 va aplica aceste tehnici pentru deep generative models.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

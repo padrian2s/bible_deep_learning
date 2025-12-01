@@ -1,0 +1,66 @@
+<section class="page-section" id="page-649">
+    <div class="page-header">
+        <div class="page-number">649</div>
+        <div class="page-title">
+            <h3>Expectation Maximization</h3>
+            <span>Capitolul 19 - Sectiunea 19.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-649.jpg"
+             alt="Pagina 649" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>19.2 Expectation Maximization (EM)</h4>
+                <p>Algoritmul <strong>EM</strong> este o metoda populara pentru modele cu variabile latente. Maximizeaza lower bound-ul L prin alternare intre doi pasi: <strong>E-step</strong> (inferenta) si <strong>M-step</strong> (learning).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritmul EM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Cei Doi Pasi:</h5>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <div style="color: var(--primary); font-weight: bold;">E-step (Expectation)</div>
+                                        <p>Seteaza q(h|v) = p(h|v; θ^(0))</p>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Foloseste parametrii curenti pentru inferenta</p>
+                                    </div>
+                                    <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                        <div style="color: var(--secondary); font-weight: bold;">M-step (Maximization)</div>
+                                        <p>Maximizeaza Σᵢ L(v⁽ⁱ⁾, θ, q)</p>
+                                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Actualizeaza θ cu q fixat</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>EM ca Coordinate Ascent</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>EM poate fi vazut ca <strong>coordinate ascent</strong> pe L:</p>
+                            <ul style="margin-left: 20px;">
+                                <li>Un pas maximizeaza L in raport cu q</li>
+                                <li>Alt pas maximizeaza L in raport cu θ</li>
+                                <li>SGD pe latent variable models e un caz special (M-step = un gradient step)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

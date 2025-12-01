@@ -1,0 +1,61 @@
+<section class="page-section" id="page-561">
+    <div class="page-header">
+        <div class="page-number">561</div>
+        <div class="page-title">
+            <h3>Reprezentari Distribuite</h3>
+            <span>Capitolul 15 - Sectiunea 15.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-561.jpg"
+             alt="Pagina 561" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>15.4 Distributed Representation</h4>
+                <p><strong>Reprezentarile distribuite</strong> - compuse din multe elemente care pot fi setate independent - sunt unul dintre cele mai importante instrumente pentru representation learning. Cu n features si k valori posibile, putem descrie <strong>k^n configuratii diferite</strong>! Compara cu reprezentarile <strong>simbolice</strong> (one-hot) unde n simboluri pot descrie doar n configuratii. Reprezentarile distribuite sunt exponential mai expresive.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Puterea Exponentiala</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Reprezentari simbolice vs distribuite
+
+# ONE-HOT (simbolic): n simboluri = n regiuni
+n_symbols = 1000  # vocabular de 1000 cuvinte
+regions_symbolic = n_symbols  # poate distinge 1000 concepte
+
+# DISTRIBUTED: n features binare = 2^n regiuni
+n_features = 10  # doar 10 features!
+regions_distributed = 2 ** n_features  # 1024 configuratii!
+
+print(f"Simbolic (1000 dim one-hot): {regions_symbolic} regiuni")
+print(f"Distribuit (10 features binare): {regions_distributed} regiuni")
+
+# Cu 20 features binare:
+print(f"Distribuit (20 features): {2**20:,} regiuni!")  # 1,048,576!
+
+# Concluzie: reprezentarile distribuite sunt EXPONENTIAL
+# mai expresive decat cele simbolice!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Exemple de Reprezentari Non-Distribuite</h4>
+                <p>Algoritmi care folosesc reprezentari <strong>non-distribuite</strong>: k-means (un cluster per input), k-nearest neighbors (templates discrete), decision trees (o frunza per regiune), Gaussian mixtures, n-gram language models. Aceste metode imparte spatiul in regiuni separate cu <strong>parametri independenti</strong> per regiune - nu partajeaza informatie intre regiuni vecine!</p>
+            </div>
+        </div>
+    </div>
+</section>

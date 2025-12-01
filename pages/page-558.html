@@ -1,0 +1,52 @@
+<section class="page-section" id="page-558">
+    <div class="page-header">
+        <div class="page-number">558</div>
+        <div class="page-title">
+            <h3>Problema Multitudinii de Cauze</h3>
+            <span>Capitolul 15 - Sectiunea 15.3 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-558.jpg"
+             alt="Pagina 558" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Multe Cauze Subiacente</h4>
+                <p>O problema importanta: majoritatea observatiilor sunt formate de un numar <strong>extrem de mare</strong> de cauze subiacente. Daca y = h_i pentru un h_i specific, dar learner-ul nesupervizat nu stie care, solutia "brute force" ar fi sa invete o reprezentare care captureaza <strong>toti</strong> factorii h_j si ii dezintricate. Dar in practica nu e fezabil - ar trebui reprezentari enorme!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Strategii Curente</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>1. Signal supervizat simultan:</strong> Adauga loss supervizat pentru a ghida ce cauze sa captureze
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>2. Reprezentari foarte mari:</strong> Pur nesupervizat, dar cu mult mai multi neuroni
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>3. Invatare selectiva:</strong> Modificam definitia "salienta" pentru a captura cauzele relevante
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce inseamna "Salient"?</h4>
+                <p>Istoric, autoencoderele si modelele generative au fost antrenate cu criterii fixe (MSE). MSE considera o cauza "salienta" doar daca schimba <strong>semnificativ luminozitatea</strong> multor pixeli. Problema: obiecte mici dar importante (mingea de ping-pong pentru robotica) pot fi ignorate. O strategie emergenta: <strong>invatam</strong> ce e salient, nu fixam criteriul aprioric.</p>
+            </div>
+        </div>
+    </div>
+</section>

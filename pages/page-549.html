@@ -1,0 +1,49 @@
+<section class="page-section" id="page-549">
+    <div class="page-header">
+        <div class="page-number">549</div>
+        <div class="page-title">
+            <h3>Pretraining si Regularizare</h3>
+            <span>Capitolul 15 - Sectiunea 15.1.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-549.jpg"
+             alt="Pagina 549" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Experimentele lui Erhan (2010)</h4>
+                <p>Erhan et al. au aratat ca pretraining-ul reduce atat <strong>media</strong> cat si <strong>varianta</strong> erorii de test, mai ales pentru retele <strong>mai adanci</strong>. Efectul e mai pronuntat cu mai multe straturi. Pretraining-ul initializeaza parametrii intr-o regiune din care <strong>nu evadeaza</strong> - rezultatele sunt mai consistente si mai putin probabil sa fie foarte proaste.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Pretraining vs Alte Regularizari</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Pretraining-ul difera de regularizari clasice (weight decay):</p>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Weight decay:</strong> Biaseaza spre functii simple</li>
+                                    <li><strong>Pretraining:</strong> Biaseaza spre features utile pentru task-ul nesupervizat</li>
+                                </ul>
+                                <p style="margin-top: 10px;">Daca functia adevarata e complicata dar legata de regularitati ale distributiei de input, pretraining-ul poate fi un regularizator mai bun!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ipoteza Cauzala</h4>
+                <p>O intrebare importanta: cum actioneaza pretraining-ul ca regularizator? O ipoteza: pretraining-ul incurajeaza invatarea de features care se refera la <strong>cauzele subiacente</strong> ale datelor observate. Aceasta idee motiveaza multe alte abordari si este discutata in sectiunea 15.3.</p>
+            </div>
+        </div>
+    </div>
+</section>

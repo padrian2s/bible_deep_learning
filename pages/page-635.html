@@ -1,0 +1,52 @@
+<section class="page-section" id="page-635">
+    <div class="page-header">
+        <div class="page-number">635</div>
+        <div class="page-title">
+            <h3>Noise Contrastive Estimation</h3>
+            <span>Capitolul 18 - Sectiunea 18.6</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-635.jpg"
+             alt="Pagina 635" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>18.6 Noise Contrastive Estimation (NCE)</h4>
+                <p><strong>NCE</strong> transforma problema density estimation intr-o problema de <strong>clasificare binara</strong>. Antreneaza un clasificator sa distinga intre date reale si noise samples. Cand clasificatorul e optim, modelul a invatat distributia corecta.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Procedura NCE</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def nce_objective(model, data, noise_dist, k=1):
+    """
+    NCE: clasificare data vs noise
+    k: raportul noise/data
+    """
+    # Samples din noise distribution
+    noise_samples = noise_dist.sample(k * len(data))
+
+    # Clasificare binara
+    # P(Y=1|x) = p_model(x) / (p_model(x) + k*p_noise(x))
+
+    data_logits = model.log_prob(data) - np.log(k) - noise_dist.log_prob(data)
+    noise_logits = model.log_prob(noise_samples) - np.log(k) - noise_dist.log_prob(noise_samples)
+
+    loss = -mean(log_sigmoid(data_logits)) - mean(log_sigmoid(-noise_logits))
+    return loss
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

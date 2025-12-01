@@ -1,0 +1,62 @@
+<section class="page-section" id="page-590">
+    <div class="page-header">
+        <div class="page-number">590</div>
+        <div class="page-title">
+            <h3>Exemple D-Separation</h3>
+            <span>Capitolul 16 - Figura 16.9</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-590.jpg"
+             alt="Pagina 590" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 16.9: Exemple de D-Separation</h4>
+                <p>Graful cu noduri a, b, c, d, e ilustreaza multiple proprietati de d-separation. Exemple: a si b sunt d-separate dat setul vid (nu exista cale directa); a si e sunt d-separate dat c; dar a si b <strong>nu</strong> sunt d-separate dat c (collider activ) sau dat d.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Analiza Graf</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>D-separated:</strong></p>
+                                <ul style="margin-left: 20px;">
+                                    <li>a ⊥ b | ∅ (setul vid)</li>
+                                    <li>a ⊥ e | c</li>
+                                    <li>d ⊥ e | c</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Nu sunt d-separated:</strong></p>
+                                <ul style="margin-left: 20px;">
+                                    <li>a ⊥̸ b | c (collider c activat)</li>
+                                    <li>a ⊥̸ b | d (descendent al collider)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Explaining Away</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>"<strong>Explaining away</strong>" - observarea collider-ului creaza dependenta intre parinti.</p>
+                                <p style="margin-top: 10px;">Aceasta este o proprietate fundamentala a reasoning-ului probabilistic!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

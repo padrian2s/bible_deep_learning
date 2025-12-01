@@ -1,0 +1,43 @@
+<section class="page-section" id="page-639">
+    <div class="page-header">
+        <div class="page-number">639</div>
+        <div class="page-title">
+            <h3>Simple Importance Sampling pentru Z</h3>
+            <span>Capitolul 18 - Sectiunea 18.7 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-639.jpg"
+             alt="Pagina 639" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De Ce Simple IS Esueaza</h4>
+                <p>Estimatorul IS simplu: Ẑ = (Z₀/n) Σ (p̃₁(x)/p₀(x)) cu x~p₀. Problema: daca p₀ si p₁ sunt diferite in dimensiuni inalte, weights-urile au varianta enorma. Majoritatea samples au weight ~0, iar cateva au weights enorme.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Problema Dimensionalitatii</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>In dimensiuni inalte (d >> 1):</p>
+                                <ul style="margin: 10px 0 0 20px;">
+                                    <li>"Typical set" al lui p₀ ≠ typical set al lui p₁</li>
+                                    <li>Sample-uri din p₀ cad unde p₁ e ~0</li>
+                                    <li>Variance ~ exp(d) - explodeaza!</li>
+                                </ul>
+                                <p style="margin-top: 10px; color: var(--warning);">Necesitam o secventa de distributii intermediare.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

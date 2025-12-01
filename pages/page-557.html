@@ -1,0 +1,68 @@
+<section class="page-section" id="page-557">
+    <div class="page-header">
+        <div class="page-number">557</div>
+        <div class="page-title">
+            <h3>Mixturi si Factori Cauzali</h3>
+            <span>Capitolul 15 - Figura 15.4</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-557.jpg"
+             alt="Pagina 557" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 15.4: Mixturi si Factori</h4>
+                <p>Exemplu de densitate p(x) care este o <strong>mixtura de 3 componente</strong>. Identitatea componentei este un factor explicativ subiacent y. Deoarece componentele sunt <strong>statistic saliente</strong> (bine separate), simpla modelare a p(x) nesupervizat dezvaluie y fara niciun exemplu labelled! Aceasta este baza matematica a semi-supervised learning.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Mixtura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                                <p>p(x) = mixtura de 3 Gaussiene</p>
+                                <div style="display: flex; justify-content: center; gap: 30px; margin: 20px 0;">
+                                    <div style="background: var(--primary); padding: 30px 20px; border-radius: 50%; opacity: 0.8;">y=1</div>
+                                    <div style="background: var(--secondary); padding: 30px 20px; border-radius: 50%; opacity: 0.8;">y=2</div>
+                                    <div style="background: var(--accent); padding: 30px 20px; border-radius: 50%; opacity: 0.8;">y=3</div>
+                                </div>
+                                <p style="color: var(--text-secondary);">Componentele sunt bine separate → y se poate inferi din clustering!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Modelul Generativ Cauzal</h4>
+                <p>Presupunem ca y este unul din factorii cauzali ai lui x, si h reprezinta toti factorii. Procesul generativ adevarat este: <strong>p(h,x) = p(x|h)p(h)</strong>. Ca rezultat, marginala datelor este: <strong>p(x) = E_h[p(x|h)]</strong>. Cel mai bun model de p(x) este cel care descopera structura "adevarata" cu h ca variabile latente. Distributia conditionala p(y|x) este legata de componentele mixturii prin Bayes!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Formula: Legatura Bayes</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                <p>Regula Bayes leaga p(y|x) de p(x):</p>
+                                <p style="font-size: 1.3rem; margin: 15px 0;">p(y|x) = p(x|y)p(y) / p(x)</p>
+                                <p style="color: var(--text-secondary);">Cunoasterea p(x) si p(x|y) permite calculul p(y|x)!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

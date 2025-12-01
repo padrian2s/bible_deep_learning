@@ -1,0 +1,153 @@
+<section class="page-section" id="page-517">
+    <div class="page-header">
+        <div class="page-number">517</div>
+        <div class="page-title">
+            <h3>Introducere in Autoencodere</h3>
+            <span>Capitolul 14 - Autoencoders</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-517.jpg"
+             alt="Pagina 517" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Ce este un Autoencoder?</h4>
+                <p>Un <strong>autoencoder</strong> este o retea neurala antrenata sa copieze inputul la output. Intern, are un strat ascuns <strong>h</strong> care descrie un <strong>cod</strong> reprezentand inputul. Reteaua are doua parti: o functie encoder <strong>h = f(x)</strong> si un decoder care produce reconstructia <strong>r = g(h)</strong>. Daca autoencoderul ar invata perfect g(f(x)) = x, nu ar fi util. In schimb, autoencoderele sunt constransi sa copieze doar aproximativ, fortand modelul sa invete proprietati utile ale datelor.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Autoencoder Simplu</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class SimpleAutoencoder(nn.Module):
+    def __init__(self, input_dim, code_dim):
+        super().__init__()
+        # Encoder: comprima inputul in cod
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, code_dim)
+        )
+        # Decoder: reconstruieste din cod
+        self.decoder = nn.Sequential(
+            nn.Linear(code_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, input_dim)
+        )
+
+    def forward(self, x):
+        h = self.encoder(x)  # cod/reprezentare
+        r = self.decoder(h)  # reconstructie
+        return r, h
+
+# Exemplu: comprima 784 dim (MNIST) in 32 dim
+ae = SimpleAutoencoder(784, 32)
+print(f"Input: 784 -> Cod: 32 -> Output: 784")
+print(f"Compresie: {784/32:.1f}x")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Autoencodere</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Utilizari Practice</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Reducerea dimensionalitatii:</strong> Compresia datelor similar cu PCA</li>
+                                    <li><strong>Invatarea caracteristicilor:</strong> Extragerea automata de features</li>
+                                    <li><strong>Denoising:</strong> Curatarea imaginilor de zgomot</li>
+                                    <li><strong>Generare:</strong> VAE-urile genereaza date noi</li>
+                                    <li><strong>Detectia anomaliilor:</strong> Eroare mare = anomalie</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Arhitectura</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 20px; padding: 20px;">
+                                <div style="background: var(--primary); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong>x</strong><br>
+                                    <span style="font-size: 0.8rem;">Input</span>
+                                </div>
+                                <div style="font-size: 2rem;">→</div>
+                                <div style="background: var(--secondary); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong>f</strong><br>
+                                    <span style="font-size: 0.8rem;">Encoder</span>
+                                </div>
+                                <div style="font-size: 2rem;">→</div>
+                                <div style="background: var(--accent); padding: 20px; border-radius: 50%; text-align: center; min-width: 60px;">
+                                    <strong>h</strong><br>
+                                    <span style="font-size: 0.7rem;">Cod</span>
+                                </div>
+                                <div style="font-size: 2rem;">→</div>
+                                <div style="background: var(--secondary); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <strong>g</strong><br>
+                                    <span style="font-size: 0.8rem;">Decoder</span>
+                                </div>
+                                <div style="font-size: 2rem;">→</div>
+                                <div style="background: var(--success); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <strong>r</strong><br>
+                                    <span style="font-size: 0.8rem;">Reconstructie</span>
+                                </div>
+                            </div>
+                            <p style="text-align: center; color: var(--text-secondary);">Scopul: r ≈ x, dar h captureaza esenta datelor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Autoencodere Moderne si Stocastice</h4>
+                <p>Autoencoderele moderne au generalizat ideea de la functii deterministe la <strong>mapari stocastice</strong>: p_encoder(h|x) si p_decoder(x|h). Istoric, autoencoderele au fost folosite pentru reducerea dimensionalitatii si invatarea caracteristicilor. Recent, conexiunile teoretice cu modelele cu variabile latente le-au adus in prim-planul <strong>modelarii generative</strong>. Pot fi antrenate cu gradient descent si backpropagation, sau cu <strong>recirculation</strong> - un algoritm bazat pe compararea activarilor pe input original vs. reconstruit.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Istoria Autoencoderelor</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start;">
+                                <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">1987</div>
+                                <div>LeCun - primele autoencodere</div>
+                                <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">1988</div>
+                                <div>Bourlard & Kamp - conexiunea cu PCA</div>
+                                <div style="background: var(--primary); padding: 8px 12px; border-radius: 4px;">1994</div>
+                                <div>Hinton & Zemel - autoencodere pentru features</div>
+                                <div style="background: var(--secondary); padding: 8px 12px; border-radius: 4px;">2006+</div>
+                                <div>Deep autoencodere, VAE, modele generative</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

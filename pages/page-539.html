@@ -1,0 +1,77 @@
+<section class="page-section" id="page-539">
+    <div class="page-header">
+        <div class="page-number">539</div>
+        <div class="page-title">
+            <h3>Aplicatii ale Autoencoderelor</h3>
+            <span>Capitolul 14 - Sectiunea 14.9</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-539.jpg"
+             alt="Pagina 539" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>PSD ca Inferenta Aproximativa Invatata</h4>
+                <p>PSD poate fi interpretat ca un exemplu de <strong>learned approximate inference</strong>. Encoderul f(x) invata sa aproximeze rapid rezultatul optimizarii iterative din sparse coding. Aceasta idee este dezvoltata in capitolul 19. PSD poate fi vazut si ca antrenarea unui <strong>model probabilistic directionat</strong> de sparse coding, maximizand o limita inferioara pe log-likelihood. Modelele PSD pot fi stivuite pentru a forma retele adanci.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii PSD</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Recunoastere obiecte</strong> - imagini si video
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Procesare audio</strong> - speech recognition
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>NLP</strong> - word embeddings, text features
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.9 Aplicatii ale Autoencoderelor</h4>
+                <p>Autoencoderele au fost aplicate cu succes la <strong>reducerea dimensionalitatii</strong> si <strong>information retrieval</strong>. Hinton & Salakhutdinov (2006) au antrenat un deep autoencoder folosind RBM-uri stivuite, obtinand reprezentari in 30D cu eroare de reconstructie mai mica decat PCA si clustere bine separate corespunzand categoriilor. Reprezentarile de dimensiune mica pot imbunatati performanta la clasificare, consuma mai putina memorie si sunt mai rapide.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Deep AE vs PCA</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <h5>PCA (30D)</h5>
+                                    <p style="font-size: 0.9rem; margin: 10px 0;">Clustere amestecate</p>
+                                    <p style="color: var(--warning);">Reconstructie slaba</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <h5 style="color: var(--success);">Deep AE (30D)</h5>
+                                    <p style="font-size: 0.9rem; margin: 10px 0;">Clustere bine separate</p>
+                                    <p style="color: var(--success);">Reconstructie excelenta</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

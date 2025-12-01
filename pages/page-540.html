@@ -1,0 +1,92 @@
+<section class="page-section" id="page-540">
+    <div class="page-header">
+        <div class="page-number">540</div>
+        <div class="page-title">
+            <h3>Semantic Hashing</h3>
+            <span>Capitolul 14 - Sectiunea 14.9 (final)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-540.jpg"
+             alt="Pagina 540" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Semantic Hashing pentru Information Retrieval</h4>
+                <p>O aplicatie importanta a reducerii dimensionalitatii este <strong>information retrieval</strong> - gasirea intrarilor dintr-o baza de date similare cu un query. Daca antrenam un autoencoder sa produca un cod <strong>binar si de dimensiune mica</strong>, putem stoca toate intrarile intr-un <strong>hash table</strong>. Cautarea devine extrem de rapida: returnam toate intrarile cu acelasi cod binar, sau cautam intrari cu coduri care difera prin putini biti.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Semantic Hashing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+import torch
+import torch.nn as nn
+
+class SemanticHashingEncoder(nn.Module):
+    def __init__(self, input_dim, hash_bits=32):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Linear(128, hash_bits),
+            nn.Sigmoid()  # Output in [0, 1]
+        )
+
+    def forward(self, x, training=True):
+        h = self.encoder(x)
+        if training:
+            # Adauga zgomot pentru a forta saturarea
+            noise = torch.randn_like(h) * 0.1
+            h = h + noise
+        # La inference: binarizeaza
+        return (h > 0.5).float()
+
+# Cautare:
+# hash_code = encoder(query)
+# similar_docs = hash_table[hash_code]
+# Timp: O(1) in loc de O(N)!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Aplicatii Semantic Hashing</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Utilizari Practice</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Cautare documente:</strong> Gasirea documentelor similare semantic</li>
+                                    <li><strong>Image retrieval:</strong> Gasirea imaginilor similare</li>
+                                    <li><strong>Near-duplicate detection:</strong> Detectarea copiilor</li>
+                                    <li><strong>Recommendation systems:</strong> Produse similare</li>
+                                </ul>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Trucul pentru coduri binare: zgomot aditiv inainte de sigmoid la antrenare forteaza saturarea (0 sau 1)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Concluzie Capitolul 14</h4>
+                <p>Autoencoderele sunt instrumente versatile pentru <strong>invatare nesupervizata</strong>: reducerea dimensionalitatii, invatarea caracteristicilor, denoising, generare. Variantele regularizate (sparse, denoising, contractive) previn invatarea identitatii si forteaza captarea structurii datelor. Conexiunile cu modelele probabilistice (VAE, RBM) le plaseaza in centrul cercetarii moderne in deep learning generativ.</p>
+            </div>
+        </div>
+    </div>
+</section>

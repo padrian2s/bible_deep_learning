@@ -1,0 +1,109 @@
+<section class="page-section" id="page-545">
+    <div class="page-header">
+        <div class="page-number">545</div>
+        <div class="page-title">
+            <h3>Algoritmul de Pretraining</h3>
+            <span>Capitolul 15 - Algorithm 15.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-545.jpg"
+             alt="Pagina 545" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Algorithm 15.1: Protocolul de Pretraining</h4>
+                <p>Algoritmul formal: dat un algoritm de feature learning L si functia initiala f=identitate, pentru fiecare strat k=1,...,m: antreneaza f^(k) = L(X̃) pe reprezentarea curenta, compune f ← f^(k) ∘ f, apoi transforma datele X̃ ← f^(k)(X̃). Daca se face fine-tuning, aplica algoritmul T pe (f, X, Y). Returneaza f. Algoritmul produce o compunere de transformari invatate layer-by-layer.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Algorithm 15.1</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def greedy_layerwise_pretraining(X, Y, L, T, m, do_finetune=True):
+    """
+    Algorithm 15.1 - Greedy layer-wise unsupervised pretraining
+
+    Args:
+        X: date input (o linie per exemplu)
+        Y: targets (pentru fine-tuning)
+        L: algoritm de feature learning nesupervizat
+        T: algoritm de fine-tuning supervizat
+        m: numar de straturi
+        do_finetune: daca sa faca fine-tuning
+
+    Returns:
+        f: functia encoder compusa
+    """
+    f = identity_function
+    X_tilde = X.copy()
+
+    for k in range(1, m + 1):
+        # Antreneaza stratul k pe reprezentarea curenta
+        f_k = L(X_tilde)
+
+        # Compune transformarile
+        f = compose(f_k, f)
+
+        # Transforma datele pentru stratul urmator
+        X_tilde = f_k(X_tilde)
+
+    # Fine-tuning optional
+    if do_finetune:
+        f = T(f, X, Y)
+
+    return f
+
+# Dupa pretraining: f = f^(m) ∘ f^(m-1) ∘ ... ∘ f^(1)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>15.1.1 Cand si De Ce Functioneaza Pretraining-ul?</h4>
+                <p>Pe multe task-uri, pretraining-ul greedy layer-wise nesupervizat poate produce imbunatatiri substantiale ale erorii de test. Aceasta observatie a fost responsabila pentru reinnnoirea interesului in retelele neurale adanci incepand cu 2006. Pe multe alte task-uri insa, pretraining-ul nu aduce beneficii sau chiar dauneaza. Este important sa intelegem <strong>cand si de ce</strong> functioneaza pentru a sti daca e aplicabil unui task particular.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Cand functioneaza?</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div style="background: var(--success); padding: 15px; border-radius: 8px; color: #000;">
+                                    <h5>Functioneaza bine:</h5>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px;">
+                                        <li>Putine date labelled</li>
+                                        <li>Multe date unlabelled</li>
+                                        <li>Task-uri complexe</li>
+                                    </ul>
+                                </div>
+                                <div style="background: var(--warning); padding: 15px; border-radius: 8px; color: #000;">
+                                    <h5>Nu e necesar:</h5>
+                                    <ul style="font-size: 0.9rem; margin-left: 15px;">
+                                        <li>Multe date labelled</li>
+                                        <li>BatchNorm, ReLU, Dropout</li>
+                                        <li>Task-uri simple</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

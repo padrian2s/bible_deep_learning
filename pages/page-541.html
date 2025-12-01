@@ -1,0 +1,80 @@
+<section class="page-section" id="page-541">
+    <div class="page-header">
+        <div class="page-number">541</div>
+        <div class="page-title">
+            <h3>Introducere in Representation Learning</h3>
+            <span>Capitolul 15 - Representation Learning</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-541.jpg"
+             alt="Pagina 541" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Capitolul 15: Representation Learning</h4>
+                <p>Acest capitol discuta ce inseamna sa <strong>invatam reprezentari</strong> si cum aceasta notiune poate fi folosita pentru a proiecta arhitecturi adanci. Vom vedea cum algoritmii de invatare pot <strong>imparti putere statistica</strong> intre task-uri diferite, folosind informatii din task-uri nesupervizate pentru cele supervizate. Reprezentarile partajate sunt utile pentru a gestiona multiple modalitati/domenii sau pentru a transfera cunostinte la task-uri cu putine exemple.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Ce vom invata</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 10px;">
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Reprezentari distribuite</strong> - avantaje teoretice
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Reprezentari adanci</strong> - de ce adancimea ajuta
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Transfer learning</strong> - reutilizarea reprezentarilor
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px;">
+                                    <strong>Cauzele datelor</strong> - ipoteze despre procesul generativ
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>De ce conteaza Reprezentarea?</h4>
+                <p>Multe sarcini de procesare a informatiei pot fi <strong>foarte usoare sau foarte dificile</strong> in functie de cum este reprezentata informatia. Exemplu clasic: impartirea 210/6 este simpla cu numere arabe, dar extrem de dificila cu numere romane (CCX / VI). Putem cuantifica complexitatea asimptotica: inserarea intr-o lista sortata este O(n) pentru lista inlantuita, dar O(log n) pentru arbore rosu-negru. <strong>Reprezentarea corecta face diferenta!</strong></p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Impact Reprezentare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <h5 style="color: var(--warning);">Reprezentare Proasta</h5>
+                                    <p style="font-size: 1.5rem; margin: 10px 0;">CCX ÷ VI = ?</p>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Foarte dificil!</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px; text-align: center;">
+                                    <h5 style="color: var(--success);">Reprezentare Buna</h5>
+                                    <p style="font-size: 1.5rem; margin: 10px 0;">210 ÷ 6 = 35</p>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Simplu!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

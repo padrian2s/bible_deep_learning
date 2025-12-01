@@ -1,0 +1,101 @@
+<section class="page-section" id="page-544">
+    <div class="page-header">
+        <div class="page-number">544</div>
+        <div class="page-title">
+            <h3>Terminologie Pretraining</h3>
+            <span>Capitolul 15 - Sectiunea 15.1 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-544.jpg"
+             alt="Pagina 544" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Terminologia Pretraining-ului</h4>
+                <p>Procedura se numeste <strong>greedy</strong> pentru ca optimizeaza fiecare parte independent, nu simultan. <strong>Layer-wise</strong> pentru ca antreneaza un strat pe rand, fixand straturile anterioare. <strong>Unsupervised</strong> pentru ca fiecare strat e antrenat cu un algoritm nesupervizat. <strong>Pretraining</strong> pentru ca e doar primul pas inainte de fine-tuning-ul comun. Termenul "pretraining" se refera adesea la intregul protocol in doua faze: pretrain nesupervizat, apoi fine-tune supervizat.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Protocol Doua Faze</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center;">
+                                <div style="background: var(--primary); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <h5>Faza 1: Pretraining</h5>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Nesupervizat, layer-by-layer</p>
+                                    <p style="font-size: 0.9rem;">RBM / Autoencoder / Sparse Coding</p>
+                                </div>
+                                <div style="font-size: 2rem;">→</div>
+                                <div style="background: var(--secondary); padding: 20px; border-radius: 12px; text-align: center;">
+                                    <h5>Faza 2: Fine-tuning</h5>
+                                    <p style="font-size: 0.9rem; margin-top: 10px;">Supervizat, toate straturile</p>
+                                    <p style="font-size: 0.9rem;">Backpropagation end-to-end</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Pretraining ca Initializare si Regularizare</h4>
+                <p>Pretraining-ul poate fi vazut ca <strong>regularizare</strong> (in unele experimente scade eroarea de test fara a scadea eroarea de antrenament) si ca o forma de <strong>initializare a parametrilor</strong>. Pretraining-ul nesupervizat poate fi folosit si pentru alte modele precum deep autoencoders, deep Boltzmann machines, si modele probabilistice cu multe straturi de variabile latente (DBN-uri). Poate fi si <strong>supervizat</strong> greedy layer-wise (mai usor de antrenat decat reteaua adanca completa).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Simulare: Pretraining Workflow</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+# Greedy layer-wise unsupervised pretraining
+
+def pretrain_network(X_unlabeled, layer_dims):
+    """
+    Pasul 1: Pretraining nesupervizat layer-by-layer
+    """
+    pretrained_weights = []
+    current_input = X_unlabeled
+
+    for i, (in_dim, out_dim) in enumerate(zip(layer_dims[:-1], layer_dims[1:])):
+        print(f"Pretraining layer {i+1}: {in_dim} -> {out_dim}")
+
+        # Antreneaza un autoencoder/RBM pentru acest strat
+        ae = Autoencoder(in_dim, out_dim)
+        ae.train(current_input)
+
+        pretrained_weights.append(ae.encoder_weights)
+        current_input = ae.encode(current_input)
+
+    return pretrained_weights
+
+def finetune_network(pretrained_weights, X_labeled, Y_labeled):
+    """
+    Pasul 2: Fine-tuning supervizat end-to-end
+    """
+    # Initializeaza reteaua cu weights pretrained
+    model = DeepNetwork(pretrained_weights)
+
+    # Fine-tune cu backprop supervizat
+    model.train_supervised(X_labeled, Y_labeled)
+
+    return model
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

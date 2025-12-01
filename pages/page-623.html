@@ -1,0 +1,53 @@
+<section class="page-section" id="page-623">
+    <div class="page-header">
+        <div class="page-number">623</div>
+        <div class="page-title">
+            <h3>Contrastive Divergence</h3>
+            <span>Capitolul 18 - Sectiunea 18.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-623.jpg"
+             alt="Pagina 623" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>18.2 Stochastic Maximum Likelihood and Contrastive Divergence</h4>
+                <p><strong>Contrastive Divergence (CD)</strong> este o aproximare populara pentru antrenarea EBM-urilor. In loc sa rulam MCMC pana la convergenta, pornim chain-ul de la datele de training si rulam doar <strong>k pasi</strong> (de obicei k=1). Aceasta ofera un gradient biased dar functional.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Algoritm CD-k</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def CD_k(data, model, k=1):
+    """
+    Contrastive Divergence cu k pasi Gibbs
+    """
+    # Positive phase: start from data
+    v_pos = data
+    h_pos = sample_h_given_v(v_pos, model)
+
+    # Negative phase: k pasi de Gibbs
+    v_neg = v_pos
+    for _ in range(k):
+        h_neg = sample_h_given_v(v_neg, model)
+        v_neg = sample_v_given_h(h_neg, model)
+
+    # Gradient aproximat
+    grad_W = outer(v_pos, h_pos) - outer(v_neg, h_neg)
+    return grad_W
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

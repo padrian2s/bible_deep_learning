@@ -1,0 +1,63 @@
+<section class="page-section" id="page-588">
+    <div class="page-header">
+        <div class="page-number">588</div>
+        <div class="page-title">
+            <h3>Separare in Modele Directionate</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.5</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-588.jpg"
+             alt="Pagina 588" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>16.2.5 D-Separation in Directed Models</h4>
+                <p>In modele directionate, criteriul de <strong>d-separation</strong> determina care variabile sunt conditonat independente. Doua seturi de variabile A si B sunt d-separate date fiind C daca toate caile intre ele sunt "blocate" de C. Tipurile de blocaj depind de structura caii: chains, forks, si colliders se comporta diferit.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Tipuri de Cai</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--primary);">Chain: A → B → C</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">A si C independente daca B observat</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--secondary);">Fork: A ← B → C</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">A si C independente daca B observat</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                    <strong style="color: var(--accent);">Collider: A → B ← C</strong>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">A si C independente daca B <strong>neobservat</strong>!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Collider (V-Structure)</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <p>Collider-ul este contraintuitiv: doua cauze independente devin <strong>dependente</strong> cand observam efectul comun!</p>
+                                <p style="margin-top: 10px;">Exemplu: Ploaie → Iarba Uda ← Sprinkler. Daca stim ca iarba e uda, ploaia si sprinkler-ul devin anti-corelate.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

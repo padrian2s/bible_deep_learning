@@ -1,0 +1,57 @@
+<section class="page-section" id="page-603">
+    <div class="page-header">
+        <div class="page-number">603</div>
+        <div class="page-title">
+            <h3>Restricted Boltzmann Machines</h3>
+            <span>Capitolul 16 - Sectiunea 16.7 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-603.jpg"
+             alt="Pagina 603" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>RBM: Exemplu Canonic</h4>
+                <p>Restricted Boltzmann Machine (RBM) este un exemplu canonic de model grafic in deep learning. Este un MRF bipartit cu unitati <strong>vizibile</strong> v si <strong>ascunse</strong> h. Restrictia "restricted" inseamna ca nu exista conexiuni intre unitati de acelasi tip - doar intre v si h. Aceasta face inferenta P(h|v) tractabila!</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Structura RBM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Energie:</strong></p>
+                                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">E(v,h) = -b'v - c'h - v'Wh</p>
+                                <p style="margin-top: 10px;"><strong>Proprietate cheie:</strong></p>
+                                <p>P(h|v) = Π P(hⱼ|v) - factorizare!</p>
+                                <p>P(v|h) = Π P(vᵢ|h) - factorizare!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Training RBM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <ul style="margin-left: 20px;">
+                                <li><strong>Contrastive Divergence (CD)</strong> - aproximare gradient</li>
+                                <li><strong>Persistent CD</strong> - chains MCMC persistente</li>
+                                <li><strong>Stacking</strong> - RBM-uri stivuite formeaza DBN</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

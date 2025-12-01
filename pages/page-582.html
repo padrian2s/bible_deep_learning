@@ -1,0 +1,59 @@
+<section class="page-section" id="page-582">
+    <div class="page-header">
+        <div class="page-number">582</div>
+        <div class="page-title">
+            <h3>Modele Grafice Nedirectionate</h3>
+            <span>Capitolul 16 - Sectiunea 16.2.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-582.jpg"
+             alt="Pagina 582" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>16.2.2 Undirected Models</h4>
+                <p>Modelele nedirectionate (Markov Random Fields sau MRF) folosesc grafuri cu muchii fara directie. Sunt potrivite pentru corelatii <strong>simetrice</strong> intre variabile. Distributia se exprima prin <strong>clique potentials</strong> - functii definite pe grupuri de noduri complet conectate (clique-uri).</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Factorizare MRF</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p style="font-size: 1.1rem; text-align: center;">P(x) = (1/Z) · Π φ_c(x_c)</p>
+                                <p style="margin-top: 10px; font-size: 0.9rem;">Unde:</p>
+                                <ul style="margin-left: 20px; font-size: 0.9rem;">
+                                    <li>φ_c = clique potential (functie pozitiva)</li>
+                                    <li>x_c = variabilele din clique-ul c</li>
+                                    <li>Z = constanta de normalizare (partition function)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Clique-uri</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Ce este un Clique?</h5>
+                                <p>Un clique este un subset de noduri unde <strong>fiecare nod este conectat cu toate celelalte</strong> din subset.</p>
+                                <p style="margin-top: 10px;">Clique maximal = nu poate fi extins cu niciun alt nod adiacent tuturor.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

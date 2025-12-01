@@ -1,0 +1,67 @@
+<section class="page-section" id="page-613">
+    <div class="page-header">
+        <div class="page-number">613</div>
+        <div class="page-title">
+            <h3>Block Gibbs pentru RBM</h3>
+            <span>Capitolul 17 - Sectiunea 17.4 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-613.jpg"
+             alt="Pagina 613" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Block Gibbs Sampling in RBM</h4>
+                <p>In <strong>Restricted Boltzmann Machines</strong>, structura bipartita permite <strong>block Gibbs</strong>: toate unitatile hidden h pot fi sample-ate simultan dat v (si invers). Aceasta este mult mai eficienta decat Gibbs pe variabile individuale si permite paralelizare pe GPU.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>RBM Gibbs</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="code-block">
+def rbm_gibbs_step(v, W, b, c):
+    """
+    Un pas de Gibbs in RBM
+    v: visible units
+    W: weights, b: visible bias, c: hidden bias
+    """
+    # P(h|v) = sigmoid(c + W'v) - factorizeaza!
+    h_prob = sigmoid(c + W.T @ v)
+    h = (np.random.random(h_prob.shape) < h_prob)
+
+    # P(v|h) = sigmoid(b + Wh) - factorizeaza!
+    v_prob = sigmoid(b + W @ h)
+    v_new = (np.random.random(v_prob.shape) < v_prob)
+
+    return v_new, h
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare Gibbs RBM</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="text-align: center; background: var(--bg-dark); padding: 20px; border-radius: 8px;">
+                                <p>v⁰ → h⁰ → v¹ → h¹ → v² → ...</p>
+                                <p style="margin-top: 15px; font-size: 0.9rem;">Fiecare → este un block update paralel</p>
+                                <p style="margin-top: 10px; font-size: 0.9rem;">Dupa k pasi: (v^k, h^k) ~ P(v,h)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

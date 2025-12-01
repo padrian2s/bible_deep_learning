@@ -1,0 +1,51 @@
+<section class="page-section" id="page-551">
+    <div class="page-header">
+        <div class="page-number">551</div>
+        <div class="page-title">
+            <h3>Transfer Learning si Domain Adaptation</h3>
+            <span>Capitolul 15 - Sectiunea 15.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-551.jpg"
+             alt="Pagina 551" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>15.2 Transfer Learning si Domain Adaptation</h4>
+                <p><strong>Transfer learning</strong> si <strong>domain adaptation</strong> se refera la situatia in care ceea ce a fost invatat intr-un setting (distributia P₁) este exploatat pentru a imbunatati generalizarea in alt setting (distributia P₂). In transfer learning, presupunem ca multi factori care explica variatiile in P₁ sunt relevanti si pentru P₂. Exemplu: inveti despre pisici si caini, apoi transferi la furnici si viespi.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Transfer Learning in Practica</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Exemplu: ImageNet Pretraining</h5>
+                                <p>Retele convolutionale antrenate pe ImageNet (milioane de imagini) sunt folosite ca punct de start pentru task-uri cu putine date:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>Detectie obiecte</li>
+                                    <li>Segmentare semantica</li>
+                                    <li>Imagini medicale</li>
+                                    <li>Recunoastere fete</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Straturi Partajate vs Task-Specific</h4>
+                <p>Multe categorii vizuale <strong>impart notiuni low-level</strong>: margini, forme, efecte geometrice, iluminare. Transfer learning si domain adaptation pot fi realizate cand exista features utile pentru mai multe task-uri. Arhitectura tipica: <strong>straturi inferioare partajate</strong> (features generice) si <strong>straturi superioare task-specific</strong>. Uneori invers: output partajat, input task-specific (ex: speech recognition - foneme diferite per vorbitor, dar aceeasi gramatica).</p>
+            </div>
+        </div>
+    </div>
+</section>

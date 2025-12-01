@@ -1,0 +1,60 @@
+<section class="page-section" id="page-576">
+    <div class="page-header">
+        <div class="page-number">576</div>
+        <div class="page-title">
+            <h3>Modelarea Probabilistica a Imaginilor</h3>
+            <span>Capitolul 16 - Figura 16.1</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-576.jpg"
+             alt="Pagina 576" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Figura 16.1: Generare de Imagini CIFAR-10</h4>
+                <p>Aceasta figura demonstreaza puterea modelelor probabilistice structurate. <strong>Sus:</strong> imagini reale din CIFAR-10 (32x32 pixeli color). <strong>Jos:</strong> sample-uri generate de un model probabilistic. Fiecare sample generat apare in aceeasi pozitie ca cel mai apropiat exemplu de training - demonstrand ca modelul <strong>sintetizeaza</strong> imagini noi, nu memorizeaza.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Despre CIFAR-10</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="key-concept">
+                                <h5>Dataset CIFAR-10</h5>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>60,000</strong> imagini color 32x32</li>
+                                    <li><strong>10 clase:</strong> avion, automobil, pasare, pisica, cerb, caine, broasca, cal, nava, camion</li>
+                                    <li>Imaginile sunt <strong>naturale</strong> (fotografii reale)</li>
+                                    <li>Benchmark standard pentru generative models</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Evaluare Generativa</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <p>Compararea sample-urilor cu nearest neighbor din training set demonstreaza:</p>
+                            <ul style="margin-left: 20px;">
+                                <li>Modelul nu memorizeaza training data</li>
+                                <li>Genereaza <strong>combinatii noi</strong> de features</li>
+                                <li>Capteaza distributia reala P(x)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

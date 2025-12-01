@@ -1,0 +1,92 @@
+<section class="page-section" id="page-519">
+    <div class="page-header">
+        <div class="page-number">519</div>
+        <div class="page-title">
+            <h3>Autoencodere Regularizate</h3>
+            <span>Capitolul 14 - Sectiunea 14.2</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-519.jpg"
+             alt="Pagina 519" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>14.2 Autoencodere Regularizate</h4>
+                <p>Autoencoderele undercomplete cu cod mai mic decat inputul pot invata caracteristici utile. Dar ce se intampla daca codul are dimensiune <strong>egala sau mai mare</strong> decat inputul (<strong>overcomplete</strong>)? In acest caz, un encoder/decoder liniar poate invata sa copieze perfect fara sa invete nimic util. <strong>Autoencoderele regularizate</strong> rezolva aceasta problema adaugand constrangeri suplimentare pe langa copierea inputului.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Vizualizare: Under vs Over</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <h5 style="color: var(--success);">Undercomplete</h5>
+                                    <div style="margin: 15px 0;">
+                                        <div style="background: var(--primary); height: 60px; width: 80%; margin: 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center;">x (784)</div>
+                                        <div style="font-size: 1.5rem;">↓</div>
+                                        <div style="background: var(--accent); height: 30px; width: 30%; margin: 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center;">h (32)</div>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Bottleneck forteaza compresie</p>
+                                </div>
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 8px; text-align: center;">
+                                    <h5 style="color: var(--warning);">Overcomplete</h5>
+                                    <div style="margin: 15px 0;">
+                                        <div style="background: var(--primary); height: 40px; width: 50%; margin: 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center;">x (784)</div>
+                                        <div style="font-size: 1.5rem;">↓</div>
+                                        <div style="background: var(--warning); height: 60px; width: 90%; margin: 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center;">h (1000+)</div>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Necesita regularizare!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Tipuri de Regularizare</h4>
+                <p>Autoencoderele regularizate folosesc functii de cost care incurajeaza alte proprietati pe langa copierea inputului: <strong>sparsitatea</strong> reprezentarii, <strong>derivata mica</strong> a reprezentarii, sau <strong>robustetea</strong> la zgomot si inputuri lipsa. Pot fi neliniare si overcomplete, invatand totusi informatii utile daca capacitatea este controlata. Conexiunea cu modelele generative (Helmholtz machine, VAE, GSN) aduce autoencoderele in centrul cercetarii moderne.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon reference">📚</div>
+                        <span>Metode de Regularizare</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: linear-gradient(135deg, var(--primary), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Sparse Autoencoder</strong>
+                                    <p style="margin: 5px 0; font-size: 0.9rem;">Penalizare pe activarile codului → majoritatea unitatilor inactive</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--secondary), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Denoising Autoencoder</strong>
+                                    <p style="margin: 5px 0; font-size: 0.9rem;">Invata sa reconstruiasca din input corupt</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--accent), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Contractive Autoencoder</strong>
+                                    <p style="margin: 5px 0; font-size: 0.9rem;">Penalizare pe derivata encoderului (Jacobian)</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, var(--success), transparent); padding: 15px; border-radius: 8px;">
+                                    <strong>Variational Autoencoder (VAE)</strong>
+                                    <p style="margin: 5px 0; font-size: 0.9rem;">Regularizare probabilistica, cod cu distributie impusa</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

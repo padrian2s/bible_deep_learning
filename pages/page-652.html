@@ -1,0 +1,60 @@
+<section class="page-section" id="page-652">
+    <div class="page-header">
+        <div class="page-number">652</div>
+        <div class="page-title">
+            <h3>Sparse Coding cu MAP</h3>
+            <span>Capitolul 19 - Sectiunea 19.3 (continuare)</span>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="book_page_jpg/page-652.jpg"
+             alt="Pagina 652" class="page-image" onclick="zoomImage(this)">
+    </div>
+    <div class="explanation-content">
+        <div class="interactive-paragraph">
+            <div class="paragraph-main" onclick="toggleParagraph(this)">
+                <h4>Sparse Coding cu MAP Inference</h4>
+                <p><strong>Sparse coding</strong> este aplicatia principala a MAP inference in deep learning. Modelul foloseste un prior Laplace pentru a obtine reprezentari rare, iar MAP inference gaseste codul h pentru fiecare input v.</p>
+            </div>
+            <div class="expandable-sections">
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon simulation">🎮</div>
+                        <span>Modelul Sparse Coding</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Prior (Laplace):</strong></p>
+                                <p style="text-align: center; margin: 10px 0;">p(hᵢ) = (λ/2) exp(-λ|hᵢ|)</p>
+                                <p><strong>Likelihood:</strong></p>
+                                <p style="text-align: center; margin: 10px 0;">p(x | h) = N(x; Wh + b, β⁻¹I)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-tab">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-icon animation">✨</div>
+                        <span>Obiectivul de Minimizat</span>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="section-body">
+                            <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
+                                <p><strong>Sparse Coding Loss:</strong></p>
+                                <p style="text-align: center; margin: 15px 0;">J(H,W) = Σᵢⱼ|Hᵢⱼ| + Σᵢⱼ(V - HW^T)²ᵢⱼ</p>
+                                <p style="margin-top: 10px;">Alternare:</p>
+                                <ul style="margin-left: 20px;">
+                                    <li>Minimizeaza H (cu W fixat) - inferenta</li>
+                                    <li>Minimizeaza W (cu H fixat) - linear regression</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
