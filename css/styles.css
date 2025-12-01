@@ -756,8 +756,20 @@ body {
 
     .main-content {
         margin-left: 0;
-        padding: 20px;
-        padding-top: 70px;
+        padding: 8px;
+        padding-top: 60px;
+    }
+
+    .main-content > h1 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        padding: 0 5px;
+    }
+
+    .main-content > p {
+        font-size: 0.95rem;
+        padding: 0 5px;
+        margin-bottom: 20px;
     }
 
     .menu-toggle {
@@ -780,6 +792,81 @@ body {
         left: 0;
     }
 
+    /* Page sections - full width on mobile */
+    .page-section {
+        border-radius: 12px;
+        margin-bottom: 15px;
+    }
+
+    .page-header {
+        padding: 12px 15px;
+        gap: 10px;
+    }
+
+    .page-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        border-radius: 10px;
+    }
+
+    .page-title h3 {
+        font-size: 1.1rem;
+    }
+
+    .page-title span {
+        font-size: 0.75rem;
+    }
+
+    /* Image container */
+    .image-container {
+        padding: 10px;
+    }
+
+    .page-image {
+        max-height: 300px;
+    }
+
+    /* Explanation content */
+    .explanation-content {
+        padding: 10px;
+    }
+
+    /* Interactive paragraphs */
+    .interactive-paragraph {
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .paragraph-main {
+        padding: 15px;
+    }
+
+    .paragraph-main h4 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+    .paragraph-main p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* Section tabs */
+    .section-header {
+        padding: 12px 15px;
+    }
+
+    .section-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 0.9rem;
+    }
+
+    .section-header span {
+        font-size: 0.9rem;
+    }
+
     /* Scrollable sections on mobile */
     .section-tab.open .section-content {
         max-height: 70vh;
@@ -788,7 +875,7 @@ body {
     }
 
     .section-body {
-        padding: 15px;
+        padding: 12px;
     }
 
     /* Make grids stack on mobile */
@@ -798,6 +885,24 @@ body {
 
     .section-body [style*="grid-template-columns"] > div {
         margin-bottom: 10px;
+    }
+
+    /* Code blocks */
+    .code-block {
+        padding: 12px;
+        font-size: 0.8rem;
+    }
+
+    /* Formulas */
+    .formula {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+
+    /* Key concepts */
+    .key-concept {
+        padding: 15px;
+        border-radius: 10px;
     }
 }
 
