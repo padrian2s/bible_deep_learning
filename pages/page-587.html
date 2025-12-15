@@ -85,7 +85,7 @@ print(f"F(x) shape: {free_energy.shape}, mean: {free_energy.mean():.3f}")
                             <div style="background: var(--bg-dark); padding: 25px; border-radius: 12px;">
                                 <h5 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Ierarhia: Energie -> Free Energy -> Probabilitate</h5>
                                 <div style="display: flex; flex-direction: column; gap: 15px;">
-                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; ">
                                         <strong style="color: var(--primary);">Energia E(x, h)</strong>
                                         <div style="font-family: monospace; margin: 10px 0;">
                                             E(x, h) = -x^T W h - b_x^T x - b_h^T h
@@ -93,7 +93,7 @@ print(f"F(x) shape: {free_energy.shape}, mean: {free_energy.mean():.3f}")
                                         <p style="font-size: 0.9rem; color: var(--text-secondary);">Definita pe variabilele vizibile x SI latente h</p>
                                     </div>
                                     <div style="text-align: center; font-size: 1.5rem; color: var(--text-secondary);">|</div>
-                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; ">
                                         <strong style="color: var(--secondary);">Free Energy F(x)</strong>
                                         <div style="font-family: monospace; margin: 10px 0;">
                                             F(x) = -log Sum_h exp(-E(x, h))
@@ -101,7 +101,7 @@ print(f"F(x) shape: {free_energy.shape}, mean: {free_energy.mean():.3f}")
                                         <p style="font-size: 0.9rem; color: var(--text-secondary);">Marginalizam h - obtinem energie "efectiva" pe x</p>
                                     </div>
                                     <div style="text-align: center; font-size: 1.5rem; color: var(--text-secondary);">|</div>
-                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                    <div style="padding: 15px; background: var(--bg-lighter); border-radius: 8px; ">
                                         <strong style="color: var(--accent);">Probabilitate P(x)</strong>
                                         <div style="font-family: monospace; margin: 10px 0;">
                                             P(x) = exp(-F(x)) / Z

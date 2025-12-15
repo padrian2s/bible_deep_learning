@@ -134,19 +134,19 @@ print("Observatie: a-b muchie ADAUGATA (marry parents of c)")
                                 <p style="margin-top: 10px;">Algoritmii de inferenta exacta (Junction Tree) opereaza pe grafuri nedirectionate!</p>
                             </div>
                             <div style="margin-top: 15px; display: grid; gap: 12px;">
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--primary);">Pasul 1: Moralizare</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Convertim DAG in graf nedirectionat. Legam parintii.
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--secondary);">Pasul 2: Triangulare</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Adaugam corduri pentru a elimina cicluri de lungime > 3 fara coarda.
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--accent);">Pasul 3: Constructie Junction Tree</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Identificam clique-uri maximale si le organizam intr-un arbore.

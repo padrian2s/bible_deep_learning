@@ -124,28 +124,28 @@ print(f"  Mai multe decat atomi in univers (~10^80)!")
                                 <p style="margin-top: 10px;">Cercetatorii au dezvoltat multiple strategii pentru a lucra cu EBM-uri fara a calcula Z explicit.</p>
                             </div>
                             <div style="margin-top: 15px; display: grid; gap: 12px;">
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--primary);">1. Contrastive Divergence (CD)</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Gradientul lui log P(x) = -grad E(x) + E_model[grad E(x)].<br>
                                         Aproximam termenul 2 cu cateva pasi MCMC. Nu calculam Z!
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--secondary);">2. Score Matching</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Antrenam modelul sa potriveasca grad_x log p(x).<br>
                                         Scorul nu depinde de Z! (Z e constanta, gradientul sau e 0)
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--accent);">3. Noise Contrastive Estimation (NCE)</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Transformam estimarea densitatii in clasificare binara.<br>
                                         Invatam sa distingem date de zgomot. Z devine parametru invatat!
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--success);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--success);">4. Denoising Score Matching (Diffusion)</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Adaugam zgomot la date si invatam sa il prezican.<br>

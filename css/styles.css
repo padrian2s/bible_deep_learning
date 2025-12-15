@@ -756,20 +756,25 @@ body {
 
     .main-content {
         margin-left: 0;
-        padding: 8px;
+        padding: 4px;
         padding-top: 60px;
+    }
+
+    /* Remove left borders on mobile to save space */
+    [style*="border-left"] {
+        border-left: none !important;
     }
 
     .main-content > h1 {
         font-size: 1.4rem;
-        margin-bottom: 15px;
-        padding: 0 5px;
+        margin-bottom: 10px;
+        padding: 0 2px;
     }
 
     .main-content > p {
         font-size: 0.95rem;
-        padding: 0 5px;
-        margin-bottom: 20px;
+        padding: 0 2px;
+        margin-bottom: 15px;
     }
 
     .menu-toggle {
@@ -794,13 +799,14 @@ body {
 
     /* Page sections - full width on mobile */
     .page-section {
-        border-radius: 12px;
-        margin-bottom: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        border: none;
     }
 
     .page-header {
-        padding: 12px 15px;
-        gap: 10px;
+        padding: 8px 10px;
+        gap: 8px;
     }
 
     .page-number {
@@ -820,7 +826,7 @@ body {
 
     /* Image container */
     .image-container {
-        padding: 10px;
+        padding: 6px;
     }
 
     .page-image {
@@ -829,17 +835,18 @@ body {
 
     /* Explanation content */
     .explanation-content {
-        padding: 10px;
+        padding: 6px;
     }
 
     /* Interactive paragraphs */
     .interactive-paragraph {
-        border-radius: 10px;
-        margin-bottom: 10px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        border: none;
     }
 
     .paragraph-main {
-        padding: 15px;
+        padding: 10px;
     }
 
     .paragraph-main h4 {
@@ -854,17 +861,17 @@ body {
 
     /* Section tabs */
     .section-header {
-        padding: 12px 15px;
+        padding: 8px 10px;
     }
 
     .section-icon {
-        width: 26px;
-        height: 26px;
-        font-size: 0.9rem;
+        width: 24px;
+        height: 24px;
+        font-size: 0.85rem;
     }
 
     .section-header span {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     /* Scrollable sections on mobile */
@@ -875,7 +882,7 @@ body {
     }
 
     .section-body {
-        padding: 12px;
+        padding: 8px;
     }
 
     /* Make grids stack on mobile */
@@ -889,20 +896,28 @@ body {
 
     /* Code blocks */
     .code-block {
-        padding: 12px;
+        padding: 8px;
         font-size: 0.8rem;
     }
 
     /* Formulas */
     .formula {
-        padding: 12px 15px;
+        padding: 8px 10px;
         font-size: 1rem;
     }
 
     /* Key concepts */
     .key-concept {
-        padding: 15px;
-        border-radius: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+    }
+
+    /* Override inline padding on mobile */
+    [style*="padding: 15px"],
+    [style*="padding: 20px"],
+    [style*="padding: 12px"] {
+        padding: 8px !important;
     }
 }
 

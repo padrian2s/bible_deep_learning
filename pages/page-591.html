@@ -125,7 +125,7 @@ for A, B, C in tests:
                                 <p style="margin-top: 10px;">Pentru distributii pozitive, urmatoarele sunt echivalente:</p>
                             </div>
                             <div style="margin-top: 15px; display: grid; gap: 12px;">
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--primary);">Markov Local</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Fiecare nod este independent de restul, date fiind vecinii (Markov blanket).
@@ -134,7 +134,7 @@ for A, B, C in tests:
                                         X _|_ (V \ {X} \ N(X)) | N(X)
                                     </div>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--secondary);">Markov Pairwise</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Noduri neadiacente sunt independente date toate celelalte.
@@ -143,7 +143,7 @@ for A, B, C in tests:
                                         X _|_ Y | V \ {X, Y} daca nu exista muchie X-Y
                                     </div>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--accent);">Markov Global</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Daca C separa A de B (graf connectivity), atunci A _|_ B | C.

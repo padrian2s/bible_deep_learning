@@ -28,16 +28,16 @@
                             <div class="formula" style="background: var(--bg-dark); padding: 15px; border-radius: 8px;">
                                 <p style="text-align: center; font-size: 1.1rem; margin-bottom: 15px;"><strong>L = E_q[log p(h)] + E_q[log p(v|h)] + H(q)</strong></p>
                                 <div style="display: grid; gap: 15px; margin-top: 15px;">
-                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; ">
                                         <p><strong style="color: var(--primary);">Termen 1 - Prior:</strong></p>
                                         <p style="font-size: 0.9rem; margin-top: 5px;">E_q[log p(h)] = Σᵢ [h_hat_i log σ(bᵢ) + (1-h_hat_i) log σ(-bᵢ)]</p>
                                     </div>
-                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; border-left: 4px solid var(--secondary);">
+                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; ">
                                         <p><strong style="color: var(--secondary);">Termen 2 - Likelihood:</strong></p>
                                         <p style="font-size: 0.9rem; margin-top: 5px;">E_q[log p(v|h)] = -β/2 E_q[||v - Wh||²] + const</p>
                                         <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">Necesita E_q[h] si E_q[hh^T]</p>
                                     </div>
-                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; border-left: 4px solid var(--accent);">
+                                    <div style="background: var(--bg-lighter); padding: 12px; border-radius: 8px; ">
                                         <p><strong style="color: var(--accent);">Termen 3 - Entropy:</strong></p>
                                         <p style="font-size: 0.9rem; margin-top: 5px;">H(q) = -Σᵢ [h_hat_i log h_hat_i + (1-h_hat_i) log(1-h_hat_i)]</p>
                                     </div>

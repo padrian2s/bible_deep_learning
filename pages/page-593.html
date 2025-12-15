@@ -79,7 +79,7 @@ print("  - Undirected: NU (a-c-b implica a _|_ b | c)")
                     <div class="section-content">
                         <div class="section-body">
                             <div style="display: grid; gap: 20px;">
-                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; ">
                                     <strong style="color: var(--primary); font-size: 1.1rem;">V-Structure (doar Directed)</strong>
                                     <div style="display: flex; justify-content: center; margin: 15px 0;">
                                         <div style="font-family: monospace; font-size: 1.1rem;">a --> c <-- b</div>
@@ -89,7 +89,7 @@ print("  - Undirected: NU (a-c-b implica a _|_ b | c)")
                                         <strong>Nu poate fi reprezentat undirected</strong> - in MRF, a-c-b implica a _|_ b | c (opusul!)
                                     </p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--secondary);">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; ">
                                     <strong style="color: var(--secondary); font-size: 1.1rem;">4-Cycle (doar Undirected)</strong>
                                     <div style="display: flex; justify-content: center; margin: 15px 0;">
                                         <div style="font-family: monospace; font-size: 1.1rem;">a - b - c - d - a</div>
@@ -99,7 +99,7 @@ print("  - Undirected: NU (a-c-b implica a _|_ b | c)")
                                         <strong>Nu poate fi reprezentat directed</strong> - necesita V-structures care creeaza alte dependente
                                     </p>
                                 </div>
-                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 4px solid var(--warning);">
+                                <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; ">
                                     <strong style="color: var(--warning); font-size: 1.1rem;">Unele distributii nu au Perfect Map!</strong>
                                     <p style="font-size: 0.9rem; margin-top: 10px;">
                                         Exista distributii ale caror independente nu pot fi captate perfect de niciun graf (directed sau undirected). Acestea necesita representari mai generale.
@@ -122,21 +122,21 @@ print("  - Undirected: NU (a-c-b implica a _|_ b | c)")
                                 <p style="margin-top: 10px;">Relatia intre independentele grafului si ale distributiei:</p>
                             </div>
                             <div style="margin-top: 15px; display: grid; gap: 12px;">
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--primary);">I-Map (Independence Map)</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Toate independentele implicate de graf sunt adevarate in P.<br>
                                         <span style="font-family: monospace;">I(G) subset I(P)</span>
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--secondary);">D-Map (Dependency Map)</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Toate independentele adevarate in P sunt implicate de graf.<br>
                                         <span style="font-family: monospace;">I(P) subset I(G)</span>
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--accent);">Perfect Map</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Atat I-map cat si D-map. Independentele coincid exact.<br>

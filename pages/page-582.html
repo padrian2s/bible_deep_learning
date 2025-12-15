@@ -141,7 +141,7 @@ print("P(1,1,1):", torch.exp(mrf.log_prob(1, 1, 1)).item())
                                     <p style="font-size: 0.9rem; margin-top: 8px;">MRF pe grid de pixeli - fiecare pixel interactioneaza cu vecinii sai. Potentialele incurajeaza pixelii vecini sa aiba aceeasi eticheta.</p>
                                 </div>
                             </div>
-                            <div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); border-radius: 8px; border-left: 3px solid var(--warning);">
+                            <div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, var(--bg-dark), var(--bg-lighter)); border-radius: 8px; ">
                                 <strong style="color: var(--warning);">Atentie: Problema lui Z</strong>
                                 <p style="font-size: 0.9rem; margin-top: 8px;">
                                     Spre deosebire de modelele directionate, MRF-urile necesita calculul constantei de normalizare Z = sum_x exp(-E(x)). Aceasta suma este de obicei <strong>intractabila</strong> (exponentiala in numarul de variabile), necesitand metode aproximative precum MCMC sau variational inference.

@@ -124,20 +124,20 @@ print(f"CD Loss: {loss.item():.4f}")
                                 <p style="margin-top: 10px;">Energy-Based Models sunt fundamentul teoretic pentru multe tehnici moderne de generare.</p>
                             </div>
                             <div style="margin-top: 15px; display: grid; gap: 12px;">
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--primary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--primary);">Score-Based Models</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Score = grad_x log p(x) = -grad_x E(x)<br>
                                         Antrenam reteaua sa prezica scorul, evitand calculul lui Z!
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--secondary);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--secondary);">Diffusion Models (DDPM, Stable Diffusion)</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         Sunt EBM-uri implicite! Denoising score matching antreneaza modelul sa estimeze scorul la diferite nivele de zgomot.
                                     </p>
                                 </div>
-                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; border-left: 3px solid var(--accent);">
+                                <div style="padding: 15px; background: var(--bg-dark); border-radius: 8px; ">
                                     <strong style="color: var(--accent);">Contrastive Learning</strong>
                                     <p style="font-size: 0.9rem; margin-top: 8px;">
                                         SimCLR, CLIP folosesc energie implicita: E(x, y) = -similarity(f(x), g(y)). Training-ul maximizeaza similaritatea pentru perechi pozitive.
